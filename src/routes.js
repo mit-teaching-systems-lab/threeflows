@@ -1,0 +1,49 @@
+/*
+Navigation functions
+*/
+export * from 'react-mini-router';
+export function newTab(url) {
+  window.open(url, '_blank');
+}
+
+
+/*
+Routing
+*/
+export const rules = {
+  '/': 'home',
+  '/challenge/:id': 'challenge'
+};
+
+
+/*
+Path definitions
+*/
+export const Home = '/';
+export function challengePath(id) {
+  return `/challenge/${id}`;
+}
+
+export function chatRoom(room) {
+  return `https://mittsl.slack.com/messages/${room}/`;
+}
+
+export function chatMessage(user) {
+  return `https://mittsl.slack.com/messages/@${user}/`;
+}
+
+export function videoFor(challengeName) {
+  return `https://appear.in/${encodeURIComponent(challengeName)}`;
+}
+
+export function embeddedDriveList(driveFolderId) {
+  return `https://drive.google.com/embeddedfolderview?id=${driveFolderId}#list`;
+}
+
+export function driveFolder(driveFolderId) {
+  return `https://drive.google.com/drive/folders/${driveFolderId}`;
+}
+
+export function googleCalendar() {
+  return 'https://calendar.google.com/';
+}
