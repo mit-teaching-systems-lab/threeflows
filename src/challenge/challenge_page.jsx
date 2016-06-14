@@ -47,7 +47,6 @@ export default React.createClass({
   },
 
   renderScenario() {
-    console.log(this.props);
     const {driveFolderId} = this.props.user;
     return (
       <Card
@@ -97,7 +96,8 @@ export default React.createClass({
           <FlatButton
             label="Message PopUp"
             secondary={true}
-            onTouchTap={Routes.newTab.bind(Routes, 'https://docs.google.com/document/d/1y-F6SdaCLCSMw3GV5pR96MZHcZT2U4aWXXPTnRTd7ts/edit#heading=h.xtca7ch1ebmt')} />
+            linkButton={true}
+            href={Routes.messagePopupPath()} />
         </CardActions>
       </Card>
     );
