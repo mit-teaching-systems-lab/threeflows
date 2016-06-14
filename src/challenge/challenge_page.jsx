@@ -25,16 +25,17 @@ export default React.createClass({
   },
 
   render() {
+    const {challenge, user} = this.props;
     return (
       <div style={styles.page}>
         <div style={styles.menu}>
           <SideMenu
             chatUrl={Routes.chatRoom('demo-academy')}
-            videoUrl={Routes.videoFor(this.props.challenge.name)}
-            driveUrl={Routes.driveFolder(this.props.user.driveFolderId)} />
+            videoUrl={Routes.videoFor(challenge.name)}
+            driveUrl={Routes.driveFolder(user.driveFolderId)} />
         </div>
         <div style={styles.content}>
-          <a style={styles.challengeTitle} href={Routes.challengePath(this.props.id)}>{this.props.name} Challenge</a>
+          <a style={styles.challengeTitle} href={Routes.challengePath(challenge.id)}>{challenge.name} Challenge</a>
           <div style={styles.section}>{this.renderScenario()}</div>
           <div style={styles.section}>{this.renderSolution()}</div>
           <div style={styles.section}>{this.renderLearningObjectives()}</div>
@@ -46,6 +47,7 @@ export default React.createClass({
   },
 
   renderScenario() {
+    console.log(this.props);
     const {driveFolderId} = this.props.user;
     return (
       <Card
@@ -82,7 +84,7 @@ export default React.createClass({
         initiallyExpanded={true}>
         <CardHeader
           title="Solution"
-          subtitle="When you're ready, show what you've learned."
+          subtitle="When you're ready, show what you've learned"
           titleStyle={styles.cardTitleHeader}
           actAsExpander={true}
           showExpandableButton={true} />
@@ -125,7 +127,7 @@ export default React.createClass({
         <CardHeader
           title="Learning Plan"
           titleStyle={styles.cardTitleHeader}
-          subtitle="Make your own plan and get feedback"
+          subtitle="Make your plan and get feedback"
           actAsExpander={true}
           showExpandableButton={true}
         />
@@ -144,6 +146,7 @@ export default React.createClass({
         expandable={false}>
         <CardHeader
           title="Learning Experiences"
+          subtitle="Learn, practice and reflect"
           titleStyle={styles.cardTitleHeader}
           actAsExpander={false}
           showExpandableButton={false}
@@ -174,9 +177,8 @@ const styles = {
   },
   challengeTitle: {
     display: 'block',
-    fontSize: 32,
-    color: 'white',
-    fontWeight: 'bold'
+    fontSize: 36,
+    color: 'white'
   },
   section: {
     marginTop: 20,

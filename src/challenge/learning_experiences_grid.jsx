@@ -18,8 +18,8 @@ export default React.createClass({
     const {learningExperiences} = this.props;
     return (
       <GridList
-        cellHeight={200}
-        cols={4}>
+        cellHeight={300}
+        cols={3}>
         {learningExperiences.map((tile, index) => {
           const key = `${tile.img}-${index}`;
           return (

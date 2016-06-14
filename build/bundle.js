@@ -59980,6 +59980,10 @@ exports.default = _react2.default.createClass({
   },
 
   render: function render() {
+    var _props = this.props;
+    var challenge = _props.challenge;
+    var user = _props.user;
+
     return _react2.default.createElement(
       'div',
       { style: styles.page },
@@ -59988,16 +59992,16 @@ exports.default = _react2.default.createClass({
         { style: styles.menu },
         _react2.default.createElement(_side_menu2.default, {
           chatUrl: Routes.chatRoom('demo-academy'),
-          videoUrl: Routes.videoFor(this.props.challenge.name),
-          driveUrl: Routes.driveFolder(this.props.user.driveFolderId) })
+          videoUrl: Routes.videoFor(challenge.name),
+          driveUrl: Routes.driveFolder(user.driveFolderId) })
       ),
       _react2.default.createElement(
         'div',
         { style: styles.content },
         _react2.default.createElement(
           'a',
-          { style: styles.challengeTitle, href: Routes.challengePath(this.props.id) },
-          this.props.name,
+          { style: styles.challengeTitle, href: Routes.challengePath(challenge.id) },
+          challenge.name,
           ' Challenge'
         ),
         _react2.default.createElement(
@@ -60029,6 +60033,7 @@ exports.default = _react2.default.createClass({
     );
   },
   renderScenario: function renderScenario() {
+    console.log(this.props);
     var driveFolderId = this.props.user.driveFolderId;
 
     return _react2.default.createElement(
@@ -60076,7 +60081,7 @@ exports.default = _react2.default.createClass({
         initiallyExpanded: true },
       _react2.default.createElement(_Card.CardHeader, {
         title: 'Solution',
-        subtitle: 'When you\'re ready, show what you\'ve learned.',
+        subtitle: 'When you\'re ready, show what you\'ve learned',
         titleStyle: styles.cardTitleHeader,
         actAsExpander: true,
         showExpandableButton: true }),
@@ -60122,7 +60127,7 @@ exports.default = _react2.default.createClass({
       _react2.default.createElement(_Card.CardHeader, {
         title: 'Learning Plan',
         titleStyle: styles.cardTitleHeader,
-        subtitle: 'Make your own plan and get feedback',
+        subtitle: 'Make your plan and get feedback',
         actAsExpander: true,
         showExpandableButton: true
       }),
@@ -60143,6 +60148,7 @@ exports.default = _react2.default.createClass({
         expandable: false },
       _react2.default.createElement(_Card.CardHeader, {
         title: 'Learning Experiences',
+        subtitle: 'Learn, practice and reflect',
         titleStyle: styles.cardTitleHeader,
         actAsExpander: false,
         showExpandableButton: false
@@ -60174,9 +60180,8 @@ var styles = {
   },
   challengeTitle: {
     display: 'block',
-    fontSize: 32,
-    color: 'white',
-    fontWeight: 'bold'
+    fontSize: 36,
+    color: 'white'
   },
   section: {
     marginTop: 20,
@@ -60238,8 +60243,8 @@ exports.default = _react2.default.createClass({
     return _react2.default.createElement(
       _GridList.GridList,
       {
-        cellHeight: 200,
-        cols: 4 },
+        cellHeight: 300,
+        cols: 3 },
       learningExperiences.map(function (tile, index) {
         var key = tile.img + '-' + index;
         return _react2.default.createElement(
