@@ -29,6 +29,29 @@ You need to also keep in mind that Margaret, who is both a colleague and your de
     { id: 'BIO-P-2B', competencyGroup: 'Biology Pedagogical Knowledge', text: 'Use the most effective instructional strategies including representations, analogies, examples, demonstrations, models, and simulations of biology concepts in lessons to support student learning.' },
     { id: 'BIO-C-2', competencyGroup: 'Biology Content Knowledge', text: 'Demonstrate knowledge of required biology standards in the following core ideas: From Molecules to Organisms: Structures and Processes, Ecosystems: Interactions, Energy, and Dynamics, Heredity: Inheritance and Variation of Traits, Biological Evolution: Unity and Diversity' },
     { id: 'BIO-P-2E', competencyGroup: 'Biology Pedagogical Knowledge', text: 'Use a variety of instructional approaches/methods (e.g. inquiry, project-based learning) in lessons to engage students in asking and answering questions about biology.' }
+  ],
+  learningExperiences: [{
+      img: 'http://www.ballermindframe.com/pop-culture-spin/wp-content/uploads/sites/7/2015/04/sharktank.jpg',
+      href: 'https://rnplay.org/apps/KJBRnQ',
+      title: 'Cognitive Science Shark Tank',
+    },
+    {
+      img: 'http://i-cdn.phonearena.com/images/article/41632-image/Google-Babel-references-appear-in-strings-of-code-pop-up-message.jpg',
+      title: 'Message PopUp',
+    },
+    {
+      img: 'http://cdn.rainbowresource.netdna-cdn.com/products/046383.jpg',
+      title: 'Inquiry Kit',
+    },
+    {
+      img: 'http://ecx.images-amazon.com/images/I/41vC9AUIoSL._AC_UL320_SR256,320_.jpg',
+      title: 'Slate',
+    },
+    {
+      img: 'https://www.mursion.com/wp-content/uploads/2015/11/Teacher-Preparation-And-Professional-Development.png',
+      href: 'https://www.mursion.com/',
+      title: 'Mursion',
+    },
   ]
 }];
 
