@@ -60093,7 +60093,7 @@ exports.default = _react2.default.createClass({
   }
 });
 
-},{"./challenge/challenge_page.jsx":400,"./home/home_page.jsx":402,"./routes":405,"lodash":40,"material-ui/styles/MuiThemeProvider":172,"material-ui/styles/getMuiTheme":175,"react":398,"react-mini-router":214,"react-tap-event-plugin":229}],400:[function(require,module,exports){
+},{"./challenge/challenge_page.jsx":400,"./home/home_page.jsx":403,"./routes":406,"lodash":40,"material-ui/styles/MuiThemeProvider":172,"material-ui/styles/getMuiTheme":175,"react":398,"react-mini-router":214,"react-tap-event-plugin":229}],400:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -60115,6 +60115,10 @@ var Routes = _interopRequireWildcard(_routes);
 var _prop_types = require('../prop_types.js');
 
 var PropTypes = _interopRequireWildcard(_prop_types);
+
+var _learning_objectives_table = require('./learning_objectives_table.jsx');
+
+var _learning_objectives_table2 = _interopRequireDefault(_learning_objectives_table);
 
 var _RaisedButton = require('material-ui/RaisedButton');
 
@@ -60218,17 +60222,14 @@ var _FontIcon = require('material-ui/FontIcon');
 
 var _FontIcon2 = _interopRequireDefault(_FontIcon);
 
-var _Table = require('material-ui/Table');
-
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//menu
-// https://design.google.com/icons/
+//stepper
 
 
-//buttons and cards
+//gridlist
 
 
 var styles = {
@@ -60278,13 +60279,11 @@ var styles = {
   }
 };
 
-//table
+//menu
+// https://design.google.com/icons/
 
 
-//stepper
-
-
-//gridlist
+//buttons and cards
 
 
 exports.default = _react2.default.createClass({
@@ -60483,21 +60482,6 @@ exports.default = _react2.default.createClass({
   renderLearningObjectives: function renderLearningObjectives() {
     var learningObjectives = this.props.challenge.learningObjectives;
 
-    var sortedLearningObjectives = _.sortBy(learningObjectives, function (objective) {
-      if (objective.id.indexOf('PP') === 0) return [10, objective.id];
-      if (objective.id.indexOf('IN') === 0) return [20, objective.id];
-      if (objective.id.indexOf('BIO') === 0) return [30, objective.id];
-      return [40, objective.id];
-    });
-    var collapsedLearningObjectives = _.map(_.groupBy(sortedLearningObjectives, 'competencyGroup'), function (objectives, competencyGroup) {
-      return {
-        competencyGroup: competencyGroup,
-        text: _.map(objectives, function (objective) {
-          return objective.text + '  ' + objective.id;
-        }).join("\n\n")
-        // id: _.map(objectives, 'id').join(', ')
-      };
-    });
     return _react2.default.createElement(
       _Card.Card,
       { initiallyExpanded: false },
@@ -60510,39 +60494,7 @@ exports.default = _react2.default.createClass({
       _react2.default.createElement(
         _Card.CardText,
         { expandable: true },
-        _react2.default.createElement(
-          _Table.Table,
-          null,
-          _react2.default.createElement(
-            _Table.TableBody,
-            { displayRowCheckbox: false },
-            collapsedLearningObjectives.map(function (learningObjective) {
-              return _react2.default.createElement(
-                _Table.TableRow,
-                { key: learningObjective.competencyGroup, style: { height: 'auto' } },
-                _react2.default.createElement(
-                  _Table.TableRowColumn,
-                  { style: { verticalAlign: 'top', whiteSpace: 'pre-wrap', paddingTop: 10, paddingBottom: 10, width: '30%' } },
-                  _react2.default.createElement(
-                    'div',
-                    { style: { fontSize: 18 } },
-                    learningObjective.competencyGroup
-                  ),
-                  _react2.default.createElement(
-                    'div',
-                    { style: { fontSize: 10 } },
-                    learningObjective.id
-                  )
-                ),
-                _react2.default.createElement(
-                  _Table.TableRowColumn,
-                  { style: { verticalAlign: 'top', whiteSpace: 'pre-wrap', paddingTop: 10, paddingBottom: 10 } },
-                  learningObjective.text
-                )
-              );
-            })
-          )
-        )
+        _react2.default.createElement(_learning_objectives_table2.default, { learningObjectives: learningObjectives })
       )
     );
   },
@@ -60757,7 +60709,89 @@ exports.default = _react2.default.createClass({
   }
 });
 
-},{"../prop_types.js":404,"../routes":405,"material-ui/Card":56,"material-ui/Divider":60,"material-ui/FlatButton":63,"material-ui/FontIcon":65,"material-ui/GridList":68,"material-ui/IconButton":70,"material-ui/Menu":75,"material-ui/MenuItem":77,"material-ui/Paper":79,"material-ui/RaisedButton":83,"material-ui/Stepper":90,"material-ui/Subheader":92,"material-ui/Table":102,"material-ui/svg-icons/action/delete":181,"material-ui/svg-icons/action/home":182,"material-ui/svg-icons/action/schedule":183,"material-ui/svg-icons/action/search":184,"material-ui/svg-icons/action/settings":185,"material-ui/svg-icons/av/video-call":186,"material-ui/svg-icons/communication/chat":187,"material-ui/svg-icons/content/content-copy":188,"material-ui/svg-icons/content/link":189,"material-ui/svg-icons/file/file-download":190,"material-ui/svg-icons/file/folder-shared":191,"material-ui/svg-icons/image/remove-red-eye":194,"material-ui/svg-icons/social/people":198,"material-ui/svg-icons/social/person-add":199,"material-ui/svg-icons/toggle/star-border":202,"react":398,"react-dom":213}],401:[function(require,module,exports){
+},{"../prop_types.js":405,"../routes":406,"./learning_objectives_table.jsx":401,"material-ui/Card":56,"material-ui/Divider":60,"material-ui/FlatButton":63,"material-ui/FontIcon":65,"material-ui/GridList":68,"material-ui/IconButton":70,"material-ui/Menu":75,"material-ui/MenuItem":77,"material-ui/Paper":79,"material-ui/RaisedButton":83,"material-ui/Stepper":90,"material-ui/Subheader":92,"material-ui/svg-icons/action/delete":181,"material-ui/svg-icons/action/home":182,"material-ui/svg-icons/action/schedule":183,"material-ui/svg-icons/action/search":184,"material-ui/svg-icons/action/settings":185,"material-ui/svg-icons/av/video-call":186,"material-ui/svg-icons/communication/chat":187,"material-ui/svg-icons/content/content-copy":188,"material-ui/svg-icons/content/link":189,"material-ui/svg-icons/file/file-download":190,"material-ui/svg-icons/file/folder-shared":191,"material-ui/svg-icons/image/remove-red-eye":194,"material-ui/svg-icons/social/people":198,"material-ui/svg-icons/social/person-add":199,"material-ui/svg-icons/toggle/star-border":202,"react":398,"react-dom":213}],401:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _prop_types = require('../prop_types.js');
+
+var PropTypes = _interopRequireWildcard(_prop_types);
+
+var _Table = require('material-ui/Table');
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = _react2.default.createClass({
+  displayName: 'LearningObjectivesTable',
+
+  propTypes: {
+    learningObjectives: _react2.default.PropTypes.arrayOf(PropTypes.LearningObjective).isRequired
+  },
+
+  collapseLearningObjectives: function collapseLearningObjectives(learningObjectives) {
+    var sortedLearningObjectives = _.sortBy(learningObjectives, function (objective) {
+      if (objective.id.indexOf('PP') === 0) return [10, objective.id];
+      if (objective.id.indexOf('IN') === 0) return [20, objective.id];
+      if (objective.id.indexOf('BIO') === 0) return [30, objective.id];
+      return [40, objective.id];
+    });
+    return _.map(_.groupBy(sortedLearningObjectives, 'competencyGroup'), function (objectives, competencyGroup) {
+      return {
+        competencyGroup: competencyGroup,
+        text: _.map(objectives, function (objective) {
+          return objective.text + '  ' + objective.id;
+        }).join("\n\n")
+      };
+    });
+  },
+  render: function render() {
+    var collapsedLearningObjectives = this.collapseLearningObjectives(this.props.learningObjectives);
+    return _react2.default.createElement(
+      _Table.Table,
+      null,
+      _react2.default.createElement(
+        _Table.TableBody,
+        { displayRowCheckbox: false },
+        collapsedLearningObjectives.map(function (learningObjective) {
+          return _react2.default.createElement(
+            _Table.TableRow,
+            { key: learningObjective.competencyGroup, style: { height: 'auto' } },
+            _react2.default.createElement(
+              _Table.TableRowColumn,
+              { style: { verticalAlign: 'top', whiteSpace: 'pre-wrap', paddingTop: 10, paddingBottom: 10, width: '30%' } },
+              _react2.default.createElement(
+                'div',
+                { style: { fontSize: 18 } },
+                learningObjective.competencyGroup
+              ),
+              _react2.default.createElement(
+                'div',
+                { style: { fontSize: 10 } },
+                learningObjective.id
+              )
+            ),
+            _react2.default.createElement(
+              _Table.TableRowColumn,
+              { style: { verticalAlign: 'top', whiteSpace: 'pre-wrap', paddingTop: 10, paddingBottom: 10 } },
+              learningObjective.text
+            )
+          );
+        })
+      )
+    );
+  }
+});
+
+},{"../prop_types.js":405,"material-ui/Table":102,"react":398}],402:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -60802,7 +60836,7 @@ exports.default = _react2.default.createClass({
   }
 });
 
-},{"../routes":405,"react":398,"react-dom":213}],402:[function(require,module,exports){
+},{"../routes":406,"react":398,"react-dom":213}],403:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -60852,7 +60886,7 @@ exports.default = _react2.default.createClass({
   }
 });
 
-},{"../prop_types.js":404,"../routes":405,"./challenge_card.jsx":401,"react":398}],403:[function(require,module,exports){
+},{"../prop_types.js":405,"../routes":406,"./challenge_card.jsx":402,"react":398}],404:[function(require,module,exports){
 'use strict';
 
 var _app = require('./app.jsx');
@@ -60873,13 +60907,13 @@ document.addEventListener('DOMContentLoaded', function () {
   _reactDom2.default.render(_react2.default.createElement(_app2.default, { history: true }), document.getElementById('app-main'));
 });
 
-},{"./app.jsx":399,"react":398,"react-dom":213}],404:[function(require,module,exports){
+},{"./app.jsx":399,"react":398,"react-dom":213}],405:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.User = exports.Challenge = undefined;
+exports.User = exports.Challenge = exports.LearningObjective = undefined;
 
 var _react = require('react');
 
@@ -60890,22 +60924,24 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /*
 Defines common shapes of data.  Can moves this to Flow annotations over time.
 */
+var LearningObjective = exports.LearningObjective = _react2.default.PropTypes.shape({
+  id: _react2.default.PropTypes.string.isRequired,
+  competencyGroup: _react2.default.PropTypes.string.isRequired,
+  text: _react2.default.PropTypes.string.isRequired
+});
+
 var Challenge = exports.Challenge = _react2.default.PropTypes.shape({
   id: _react2.default.PropTypes.number.isRequired,
   name: _react2.default.PropTypes.string.isRequired,
   scenario: _react2.default.PropTypes.string.isRequired,
-  learningObjectives: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.shape({
-    id: _react2.default.PropTypes.string.isRequired,
-    competencyGroup: _react2.default.PropTypes.string.isRequired,
-    text: _react2.default.PropTypes.string.isRequired
-  }))
+  learningObjectives: _react2.default.PropTypes.arrayOf(LearningObjective).isRequired
 });
 
 var User = exports.User = _react2.default.PropTypes.shape({
   driveFolderId: _react2.default.PropTypes.string.isRequired
 });
 
-},{"react":398}],405:[function(require,module,exports){
+},{"react":398}],406:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -60978,4 +61014,4 @@ function googleCalendar() {
   return 'https://calendar.google.com/';
 }
 
-},{"react-mini-router":214}]},{},[403]);
+},{"react-mini-router":214}]},{},[404]);

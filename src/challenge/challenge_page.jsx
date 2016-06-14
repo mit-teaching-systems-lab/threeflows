@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as Routes from '../routes';
 import * as PropTypes from '../prop_types.js';
+import LearningObjectiveTable from './learning_objectives_table.jsx';
 
 //buttons and cards
 import RaisedButton from 'material-ui/RaisedButton';
@@ -44,9 +45,6 @@ import Download from 'material-ui/svg-icons/file/file-download';
 import Delete from 'material-ui/svg-icons/action/delete';
 import FontIcon from 'material-ui/FontIcon';
 
-
-//table
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 
 
 const styles = {
@@ -229,19 +227,6 @@ export default React.createClass({
 
   renderLearningObjectives() {
     const {learningObjectives} = this.props.challenge;
-    const sortedLearningObjectives = _.sortBy(learningObjectives, (objective) => {
-      if (objective.id.indexOf('PP') === 0) return [10, objective.id];
-      if (objective.id.indexOf('IN') === 0) return [20, objective.id];
-      if (objective.id.indexOf('BIO') === 0) return [30, objective.id];
-      return [40, objective.id];
-    });
-    const collapsedLearningObjectives = _.map(_.groupBy(sortedLearningObjectives, 'competencyGroup'), (objectives, competencyGroup) => {
-      return {
-        competencyGroup,
-        text: _.map(objectives, objective => `${objective.text}  ${objective.id}`).join("\n\n")
-        // id: _.map(objectives, 'id').join(', ')
-      };
-    });
     return (
       <Card initiallyExpanded={false}>
         <CardHeader
@@ -251,21 +236,7 @@ export default React.createClass({
           actAsExpander={true}
           showExpandableButton={true} />
         <CardText expandable={true}>
-          <Table>
-            <TableBody displayRowCheckbox={false}>
-              {collapsedLearningObjectives.map(function(learningObjective) {
-               return (
-                  <TableRow key={learningObjective.competencyGroup} style={{height: 'auto'}}>
-                    <TableRowColumn style={{verticalAlign: 'top', whiteSpace: 'pre-wrap', paddingTop: 10, paddingBottom: 10, width: '30%'}}>
-                      <div style={{fontSize: 18}}>{learningObjective.competencyGroup}</div>
-                      <div style={{fontSize: 10}}>{learningObjective.id}</div>
-                    </TableRowColumn>
-                    <TableRowColumn style={{verticalAlign: 'top', whiteSpace: 'pre-wrap', paddingTop: 10, paddingBottom: 10}}>{learningObjective.text}</TableRowColumn>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
+          <LearningObjectiveTable learningObjectives={learningObjectives} />
         </CardText>
       </Card>
     );
