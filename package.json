@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mit-teaching-systems-lab/ReactHelloWorld.git"
+    "url": "git+https://github.com/mit-teaching-systems-lab/threeflows.git"
   },
-  "author": "",
+  "author": "krob@mit.edu",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mit-teaching-systems-lab/ReactHelloWorld/issues"
+    "url": "https://github.com/mit-teaching-systems-lab/threeflows/issues"
   },
-  "homepage": "https://github.com/mit-teaching-systems-lab/ReactHelloWorld#readme",
+  "homepage": "https://github.com/mit-teaching-systems-lab/threeflows#readme",
   "dependencies": {
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.5.0",
@@ -28,8 +28,6 @@
     "react-dom": "^15.1.0",
     "react-mini-router": "^2.0.0",
     "react-tap-event-plugin": "^1.0.0",
-    "velocity-animate": "^1.2.3",
-    "velocity-react": "^1.1.5",
     "watchify": "3.7.0"
   }
 }
