@@ -57,7 +57,7 @@ export default React.createClass({
           actAsExpander={true}
           showExpandableButton={true} />
         <CardText expandable={true}>
-          <div style={styles.scenario}>{this.props.scenario}</div>
+          <div style={styles.scenario}>{this.props.challenge.scenario}</div>
         </CardText>
         <CardActions expandable={true}>
           <FlatButton

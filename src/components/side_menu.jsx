@@ -1,25 +1,20 @@
 import React from 'react';
 import * as Routes from '../routes';
-// https://design.google.com/icons/
+
 import Paper from 'material-ui/Paper';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
+// https://design.google.com/icons/
 import People from 'material-ui/svg-icons/social/people';
-import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
 import Home from 'material-ui/svg-icons/action/home';
+import Help from 'material-ui/svg-icons/action/help';
 import VideoCall from 'material-ui/svg-icons/av/video-call';
 import Chat from 'material-ui/svg-icons/communication/chat';
 import Schedule from 'material-ui/svg-icons/action/schedule';
 import Folder from 'material-ui/svg-icons/file/folder-shared';
 import Settings from 'material-ui/svg-icons/action/settings';
 import Search from 'material-ui/svg-icons/action/search';
-import PersonAdd from 'material-ui/svg-icons/social/person-add';
-import ContentLink from 'material-ui/svg-icons/content/link';
 import Divider from 'material-ui/Divider';
-import ContentCopy from 'material-ui/svg-icons/content/content-copy';
-import Download from 'material-ui/svg-icons/file/file-download';
-import Delete from 'material-ui/svg-icons/action/delete';
-import FontIcon from 'material-ui/FontIcon';
 
 /*
 The SideMenu used on each page.
@@ -77,7 +72,7 @@ export default React.createClass({
             <MenuItem
               primaryText="Help"
               onTouchTap={() => Routes.newTab(Routes.chatMessage('kevin'))}
-              leftIcon={<Delete />} />
+              leftIcon={<Help />} />
           </Menu>
         </Paper>
         <Paper style={styles.paper}>
@@ -86,7 +81,9 @@ export default React.createClass({
               primaryText="Calendar"
               onTouchTap={() => Routes.newTab(Routes.googleCalendar())}
               leftIcon={<Schedule />} />
-            <iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showNav=0&amp;showDate=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;mode=AGENDA&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=9fbucpr2tm6b5vmkm5bkb57ffs%40group.calendar.google.com&amp;color=%23B1440E&amp;ctz=America%2FNew_York" style={{border: 0}} width="168" height="600" frameborder="0" scrolling="no"></iframe>
+            <div style={styles.calendarContainer}>
+              <iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showNav=0&amp;showDate=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;mode=AGENDA&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;src=9fbucpr2tm6b5vmkm5bkb57ffs%40group.calendar.google.com&amp;color=%23B1440E&amp;ctz=America%2FNew_York" style={{border: 0}} width="100%" height="100%" frameborder="0" scrolling="no"></iframe>
+            </div>
           </Menu>
         </Paper>
       </div>
@@ -101,6 +98,10 @@ const styles = {
   },
   rightIcon: {
     textAlign: 'center',
-    lineHeight: '24px',
+    lineHeight: 24,
+  },
+  calendarContainer: {
+    width: 168,
+    height: 400
   }
 };
