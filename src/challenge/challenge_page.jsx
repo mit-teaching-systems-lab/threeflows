@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as Routes from '../routes';
 import * as PropTypes from '../prop_types.js';
+import LearningPlan from './learning_plan.jsx';
 import LearningObjectiveTable from './learning_objectives_table.jsx';
 
 //buttons and cards
@@ -14,14 +15,6 @@ import {GridList, GridTile} from 'material-ui/GridList';
 import IconButton from 'material-ui/IconButton';
 import Subheader from 'material-ui/Subheader';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
-
-//stepper
-import {
-  Step,
-  Stepper,
-  StepLabel,
-  StepContent,
-} from 'material-ui/Stepper';
 
 //menu
 // https://design.google.com/icons/
@@ -100,6 +93,10 @@ export default React.createClass({
   propTypes: {
     user: PropTypes.User.isRequired,
     challenge: PropTypes.Challenge.isRequired
+  },
+
+  getInitialState: function() {
+    return {};
   },
 
   render() {
@@ -254,84 +251,9 @@ export default React.createClass({
           showExpandableButton={true}
         />
         <CardActions expandable={true}>
-          {this.renderStepper()}
+          <LearningPlan />
         </CardActions>
       </Card>
-    );
-  },
-
-  getInitialState: function() {
-    return {
-      areLearningObjectivesExpanded: false,
-      stepIndex: 0
-    };
-  },
-
-  handleNext: function() {
-    this.setState({ stepIndex: this.state.stepIndex + 1 });
-  },
-  handlePrev: function() {
-    this.setState({ stepIndex: this.state.stepIndex - 1 });
-  },
-
-  renderStepper() {
-    const stepIndex = this.state.stepIndex;
-    return (
-      <div style={{width: 380, height: 450}}>
-        <Stepper activeStep={stepIndex} orientation="vertical">
-          <Step>
-            <StepLabel>Understand the challenge</StepLabel>
-            <StepContent>
-              <p>First, review the challenge scenario and the challenge solution.</p>
-              {this.renderStepActions(0)}
-            </StepContent>
-          </Step>
-          <Step>
-            <StepLabel>Review the learning objectives</StepLabel>
-            <StepContent>
-              <p>Reflect on what prior knowledge you might have.</p>
-              {this.renderStepActions(1)}
-            </StepContent>
-          </Step>
-          <Step>
-            <StepLabel>Make your plan</StepLabel>
-            <StepContent>
-              <p>Write up a few paragraphs about how you'll tackel this challenge.</p>
-              {this.renderStepActions(2)}
-            </StepContent>
-          </Step>
-          <Step>
-            <StepLabel>Get feedback</StepLabel>
-            <StepContent>
-              <p>Check in with your coach to get feedback on your plan.</p>
-              {this.renderStepActions(3)}
-            </StepContent>
-          </Step>
-        </Stepper>
-      </div>
-    );
-  },
-
-  renderStepActions(step) {
-    const {stepIndex} = this.state;
-    const lastStepIndex = 3;
-
-    return (
-      <div style={{margin: '12px 0'}}>
-        <RaisedButton
-          label={stepIndex === lastStepIndex ? 'Finish' : 'Next'}
-          primary={true}
-          onClick={this.handleNext}
-          style={{marginRight: 12}}
-        />
-        {step > 0 && (
-          <FlatButton
-            label="Back"
-            disabled={stepIndex === 0}
-            onClick={this.handlePrev}
-          />
-        )}
-      </div>
     );
   },
 

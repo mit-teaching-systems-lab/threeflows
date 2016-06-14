@@ -60093,7 +60093,7 @@ exports.default = _react2.default.createClass({
   }
 });
 
-},{"./challenge/challenge_page.jsx":400,"./home/home_page.jsx":403,"./routes":406,"lodash":40,"material-ui/styles/MuiThemeProvider":172,"material-ui/styles/getMuiTheme":175,"react":398,"react-mini-router":214,"react-tap-event-plugin":229}],400:[function(require,module,exports){
+},{"./challenge/challenge_page.jsx":400,"./home/home_page.jsx":404,"./routes":407,"lodash":40,"material-ui/styles/MuiThemeProvider":172,"material-ui/styles/getMuiTheme":175,"react":398,"react-mini-router":214,"react-tap-event-plugin":229}],400:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -60115,6 +60115,10 @@ var Routes = _interopRequireWildcard(_routes);
 var _prop_types = require('../prop_types.js');
 
 var PropTypes = _interopRequireWildcard(_prop_types);
+
+var _learning_plan = require('./learning_plan.jsx');
+
+var _learning_plan2 = _interopRequireDefault(_learning_plan);
 
 var _learning_objectives_table = require('./learning_objectives_table.jsx');
 
@@ -60143,8 +60147,6 @@ var _Subheader2 = _interopRequireDefault(_Subheader);
 var _starBorder = require('material-ui/svg-icons/toggle/star-border');
 
 var _starBorder2 = _interopRequireDefault(_starBorder);
-
-var _Stepper = require('material-ui/Stepper');
 
 var _Paper = require('material-ui/Paper');
 
@@ -60226,10 +60228,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-//stepper
-
-
-//gridlist
+//buttons and cards
 
 
 var styles = {
@@ -60283,7 +60282,7 @@ var styles = {
 // https://design.google.com/icons/
 
 
-//buttons and cards
+//gridlist
 
 
 exports.default = _react2.default.createClass({
@@ -60292,6 +60291,10 @@ exports.default = _react2.default.createClass({
   propTypes: {
     user: PropTypes.User.isRequired,
     challenge: PropTypes.Challenge.isRequired
+  },
+
+  getInitialState: function getInitialState() {
+    return {};
   },
 
   render: function render() {
@@ -60513,132 +60516,8 @@ exports.default = _react2.default.createClass({
       _react2.default.createElement(
         _Card.CardActions,
         { expandable: true },
-        this.renderStepper()
+        _react2.default.createElement(_learning_plan2.default, null)
       )
-    );
-  },
-
-
-  getInitialState: function getInitialState() {
-    return {
-      areLearningObjectivesExpanded: false,
-      stepIndex: 0
-    };
-  },
-
-  handleNext: function handleNext() {
-    this.setState({ stepIndex: this.state.stepIndex + 1 });
-  },
-  handlePrev: function handlePrev() {
-    this.setState({ stepIndex: this.state.stepIndex - 1 });
-  },
-
-  renderStepper: function renderStepper() {
-    var stepIndex = this.state.stepIndex;
-    return _react2.default.createElement(
-      'div',
-      { style: { width: 380, height: 450 } },
-      _react2.default.createElement(
-        _Stepper.Stepper,
-        { activeStep: stepIndex, orientation: 'vertical' },
-        _react2.default.createElement(
-          _Stepper.Step,
-          null,
-          _react2.default.createElement(
-            _Stepper.StepLabel,
-            null,
-            'Understand the challenge'
-          ),
-          _react2.default.createElement(
-            _Stepper.StepContent,
-            null,
-            _react2.default.createElement(
-              'p',
-              null,
-              'First, review the challenge scenario and the challenge solution.'
-            ),
-            this.renderStepActions(0)
-          )
-        ),
-        _react2.default.createElement(
-          _Stepper.Step,
-          null,
-          _react2.default.createElement(
-            _Stepper.StepLabel,
-            null,
-            'Review the learning objectives'
-          ),
-          _react2.default.createElement(
-            _Stepper.StepContent,
-            null,
-            _react2.default.createElement(
-              'p',
-              null,
-              'Reflect on what prior knowledge you might have.'
-            ),
-            this.renderStepActions(1)
-          )
-        ),
-        _react2.default.createElement(
-          _Stepper.Step,
-          null,
-          _react2.default.createElement(
-            _Stepper.StepLabel,
-            null,
-            'Make your plan'
-          ),
-          _react2.default.createElement(
-            _Stepper.StepContent,
-            null,
-            _react2.default.createElement(
-              'p',
-              null,
-              'Write up a few paragraphs about how you\'ll tackel this challenge.'
-            ),
-            this.renderStepActions(2)
-          )
-        ),
-        _react2.default.createElement(
-          _Stepper.Step,
-          null,
-          _react2.default.createElement(
-            _Stepper.StepLabel,
-            null,
-            'Get feedback'
-          ),
-          _react2.default.createElement(
-            _Stepper.StepContent,
-            null,
-            _react2.default.createElement(
-              'p',
-              null,
-              'Check in with your coach to get feedback on your plan.'
-            ),
-            this.renderStepActions(3)
-          )
-        )
-      )
-    );
-  },
-  renderStepActions: function renderStepActions(step) {
-    var stepIndex = this.state.stepIndex;
-
-    var lastStepIndex = 3;
-
-    return _react2.default.createElement(
-      'div',
-      { style: { margin: '12px 0' } },
-      _react2.default.createElement(_RaisedButton2.default, {
-        label: stepIndex === lastStepIndex ? 'Finish' : 'Next',
-        primary: true,
-        onClick: this.handleNext,
-        style: { marginRight: 12 }
-      }),
-      step > 0 && _react2.default.createElement(_FlatButton2.default, {
-        label: 'Back',
-        disabled: stepIndex === 0,
-        onClick: this.handlePrev
-      })
     );
   },
   renderActivities: function renderActivities() {
@@ -60709,7 +60588,7 @@ exports.default = _react2.default.createClass({
   }
 });
 
-},{"../prop_types.js":405,"../routes":406,"./learning_objectives_table.jsx":401,"material-ui/Card":56,"material-ui/Divider":60,"material-ui/FlatButton":63,"material-ui/FontIcon":65,"material-ui/GridList":68,"material-ui/IconButton":70,"material-ui/Menu":75,"material-ui/MenuItem":77,"material-ui/Paper":79,"material-ui/RaisedButton":83,"material-ui/Stepper":90,"material-ui/Subheader":92,"material-ui/svg-icons/action/delete":181,"material-ui/svg-icons/action/home":182,"material-ui/svg-icons/action/schedule":183,"material-ui/svg-icons/action/search":184,"material-ui/svg-icons/action/settings":185,"material-ui/svg-icons/av/video-call":186,"material-ui/svg-icons/communication/chat":187,"material-ui/svg-icons/content/content-copy":188,"material-ui/svg-icons/content/link":189,"material-ui/svg-icons/file/file-download":190,"material-ui/svg-icons/file/folder-shared":191,"material-ui/svg-icons/image/remove-red-eye":194,"material-ui/svg-icons/social/people":198,"material-ui/svg-icons/social/person-add":199,"material-ui/svg-icons/toggle/star-border":202,"react":398,"react-dom":213}],401:[function(require,module,exports){
+},{"../prop_types.js":406,"../routes":407,"./learning_objectives_table.jsx":401,"./learning_plan.jsx":402,"material-ui/Card":56,"material-ui/Divider":60,"material-ui/FlatButton":63,"material-ui/FontIcon":65,"material-ui/GridList":68,"material-ui/IconButton":70,"material-ui/Menu":75,"material-ui/MenuItem":77,"material-ui/Paper":79,"material-ui/RaisedButton":83,"material-ui/Subheader":92,"material-ui/svg-icons/action/delete":181,"material-ui/svg-icons/action/home":182,"material-ui/svg-icons/action/schedule":183,"material-ui/svg-icons/action/search":184,"material-ui/svg-icons/action/settings":185,"material-ui/svg-icons/av/video-call":186,"material-ui/svg-icons/communication/chat":187,"material-ui/svg-icons/content/content-copy":188,"material-ui/svg-icons/content/link":189,"material-ui/svg-icons/file/file-download":190,"material-ui/svg-icons/file/folder-shared":191,"material-ui/svg-icons/image/remove-red-eye":194,"material-ui/svg-icons/social/people":198,"material-ui/svg-icons/social/person-add":199,"material-ui/svg-icons/toggle/star-border":202,"react":398,"react-dom":213}],401:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -60791,7 +60670,160 @@ exports.default = _react2.default.createClass({
   }
 });
 
-},{"../prop_types.js":405,"material-ui/Table":102,"react":398}],402:[function(require,module,exports){
+},{"../prop_types.js":406,"material-ui/Table":102,"react":398}],402:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _RaisedButton = require('material-ui/RaisedButton');
+
+var _RaisedButton2 = _interopRequireDefault(_RaisedButton);
+
+var _FlatButton = require('material-ui/FlatButton');
+
+var _FlatButton2 = _interopRequireDefault(_FlatButton);
+
+var _Stepper = require('material-ui/Stepper');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+Walks through the process of making a learning plan.
+Has a fixed size.
+*/
+exports.default = _react2.default.createClass({
+  displayName: 'LearningPlan',
+
+  getInitialState: function getInitialState() {
+    return {
+      stepIndex: 0
+    };
+  },
+
+  onNextClicked: function onNextClicked() {
+    this.setState({ stepIndex: this.state.stepIndex + 1 });
+  },
+  onPreviousClicked: function onPreviousClicked() {
+    this.setState({ stepIndex: this.state.stepIndex - 1 });
+  },
+
+  render: function render() {
+    var stepIndex = this.state.stepIndex;
+    return _react2.default.createElement(
+      'div',
+      { style: { width: 380, height: 450 } },
+      _react2.default.createElement(
+        _Stepper.Stepper,
+        { activeStep: stepIndex, orientation: 'vertical' },
+        _react2.default.createElement(
+          _Stepper.Step,
+          null,
+          _react2.default.createElement(
+            _Stepper.StepLabel,
+            null,
+            'Understand the challenge'
+          ),
+          _react2.default.createElement(
+            _Stepper.StepContent,
+            null,
+            _react2.default.createElement(
+              'p',
+              null,
+              'First, review the challenge scenario and the challenge solution.'
+            ),
+            this.renderStepActions(0)
+          )
+        ),
+        _react2.default.createElement(
+          _Stepper.Step,
+          null,
+          _react2.default.createElement(
+            _Stepper.StepLabel,
+            null,
+            'Review the learning objectives'
+          ),
+          _react2.default.createElement(
+            _Stepper.StepContent,
+            null,
+            _react2.default.createElement(
+              'p',
+              null,
+              'Reflect on what prior knowledge you might have.'
+            ),
+            this.renderStepActions(1)
+          )
+        ),
+        _react2.default.createElement(
+          _Stepper.Step,
+          null,
+          _react2.default.createElement(
+            _Stepper.StepLabel,
+            null,
+            'Make your plan'
+          ),
+          _react2.default.createElement(
+            _Stepper.StepContent,
+            null,
+            _react2.default.createElement(
+              'p',
+              null,
+              'Write up a few paragraphs about how you\'ll tackle this challenge.'
+            ),
+            this.renderStepActions(2)
+          )
+        ),
+        _react2.default.createElement(
+          _Stepper.Step,
+          null,
+          _react2.default.createElement(
+            _Stepper.StepLabel,
+            null,
+            'Get feedback'
+          ),
+          _react2.default.createElement(
+            _Stepper.StepContent,
+            null,
+            _react2.default.createElement(
+              'p',
+              null,
+              'Check in with your coach to get feedback on your plan.'
+            ),
+            this.renderStepActions(3)
+          )
+        )
+      )
+    );
+  },
+  renderStepActions: function renderStepActions(step) {
+    var stepIndex = this.state.stepIndex;
+
+    var lastStepIndex = 3;
+
+    return _react2.default.createElement(
+      'div',
+      { style: { margin: '12px 0' } },
+      _react2.default.createElement(_RaisedButton2.default, {
+        label: stepIndex === lastStepIndex ? 'Finish' : 'Next',
+        primary: true,
+        onTouchTap: this.onNextClicked,
+        style: { marginRight: 12 }
+      }),
+      step > 0 && _react2.default.createElement(_FlatButton2.default, {
+        label: 'Back',
+        disabled: stepIndex === 0,
+        onTouchTap: this.onPreviousClicked
+      })
+    );
+  }
+});
+
+},{"material-ui/FlatButton":63,"material-ui/RaisedButton":83,"material-ui/Stepper":90,"react":398}],403:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -60836,7 +60868,7 @@ exports.default = _react2.default.createClass({
   }
 });
 
-},{"../routes":406,"react":398,"react-dom":213}],403:[function(require,module,exports){
+},{"../routes":407,"react":398,"react-dom":213}],404:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -60886,7 +60918,7 @@ exports.default = _react2.default.createClass({
   }
 });
 
-},{"../prop_types.js":405,"../routes":406,"./challenge_card.jsx":402,"react":398}],404:[function(require,module,exports){
+},{"../prop_types.js":406,"../routes":407,"./challenge_card.jsx":403,"react":398}],405:[function(require,module,exports){
 'use strict';
 
 var _app = require('./app.jsx');
@@ -60907,7 +60939,7 @@ document.addEventListener('DOMContentLoaded', function () {
   _reactDom2.default.render(_react2.default.createElement(_app2.default, { history: true }), document.getElementById('app-main'));
 });
 
-},{"./app.jsx":399,"react":398,"react-dom":213}],405:[function(require,module,exports){
+},{"./app.jsx":399,"react":398,"react-dom":213}],406:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -60941,7 +60973,7 @@ var User = exports.User = _react2.default.PropTypes.shape({
   driveFolderId: _react2.default.PropTypes.string.isRequired
 });
 
-},{"react":398}],406:[function(require,module,exports){
+},{"react":398}],407:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -61014,4 +61046,4 @@ function googleCalendar() {
   return 'https://calendar.google.com/';
 }
 
-},{"react-mini-router":214}]},{},[404]);
+},{"react-mini-router":214}]},{},[405]);
