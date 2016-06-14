@@ -8,15 +8,6 @@ export function newTab(url) {
 
 
 /*
-Routing
-*/
-export const rules = {
-  '/': 'home',
-  '/challenge/:id': 'challenge'
-};
-
-
-/*
 Path definitions
 */
 export const Home = '/';
@@ -24,6 +15,11 @@ export function challengePath(id) {
   return `/challenge/${id}`;
 }
 
+export function messagePopupPath() {
+  return `/message_popup`;
+}
+
+/* External links */
 export function chatRoom(room) {
   return `https://mittsl.slack.com/messages/${room}/`;
 }

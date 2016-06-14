@@ -4,6 +4,7 @@ import {RouterMixin} from 'react-mini-router';
 import {rules} from './routes';
 import ChallengePage from './challenge/challenge_page.jsx';
 import HomePage from './home/home_page.jsx';
+import MessagePopupPage from './message_popup/message_popup_page.jsx'
 
 // material-ui
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -61,7 +62,11 @@ export default React.createClass({
   displayName: 'App',
 
   mixins: [RouterMixin],
-  routes: rules,
+  routes: {
+    '/': 'home',
+    '/challenge/:id': 'challenge',
+    '/message_popup': 'messagePopup'
+  },
 
   getInitialState: function() {
     return {
@@ -84,6 +89,10 @@ export default React.createClass({
     );
   },
 
+  notFound(path, query = {}) {
+    return <div>404</div>;
+  },
+
   home(query = {}) {
     return <HomePage challenges={challenges} />;
   },
@@ -91,5 +100,9 @@ export default React.createClass({
   challenge(id, query = {}) {
     const challenge = _.find(challenges, (challenge) => challenge.id === _.toInteger(id));
     return <ChallengePage challenge={challenge} user={this.state.user} />;
+  },
+
+  messagePopup() {
+    return <MessagePopupPage />;
   }
 });
