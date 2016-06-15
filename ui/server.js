@@ -1,7 +1,6 @@
 const http = require('http');
 const url = require('url');
 const fs = require('fs');
-const PORT = 8080;
 
 // Tiny static server for development
 var server = http.createServer(function(request, response){
@@ -14,6 +13,6 @@ var server = http.createServer(function(request, response){
   return response.end(fs.readFileSync('index.html'));
 });
 
-server.listen(PORT, function(){
-  console.log("Server listening on port %s", PORT);
+server.listen(process.env.PORT || 8080, function(){
+  console.log("Cool server listening on port %s", PORT);
 });
