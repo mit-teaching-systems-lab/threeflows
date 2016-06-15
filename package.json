@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "body-parser": "^1.15.1",
-    "ejs": "2.4.1",
     "express": "4.13.3",
+    "lodash": "^4.13.1",
     "pg": "^5.1.0"
   },
   "keywords": [],
