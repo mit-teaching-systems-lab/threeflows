@@ -50,6 +50,10 @@ app.get('/server/message_popup', function(request, response) {
   var query = urlParts.query;
   const values = [JSON.stringify(query)];
   queryDatabase('INSERT INTO message_popup_responses(json) VALUES ($1)', values, function(err, result) {
+    if (err) {
+      console.log({ error: err });
+      return response.code(500);
+    }
     console.log(JSON.stringify(result));
     response.json({result});  
   });
@@ -57,6 +61,10 @@ app.get('/server/message_popup', function(request, response) {
 
 app.get('/server/dump', function(request, response) {
   queryDatabase('SELECT * FROM message_popup_responses', [], function(err, result) {
+    if (err) {
+      console.log({ error: err });
+      return response.code(500);
+    }
     console.log(JSON.stringify(result));
     response.json({result});  
   });
