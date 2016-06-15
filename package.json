@@ -8,7 +8,7 @@
   "scripts": {
     "start": "node server/index.js",
     "watch": "cd ui && npm run watch && cd ..",
-    "heroku-postbuild": "cd ui && mkdir build && npm run build && cd .."
+    "heroku-postbuild": "cd ui && mkdir build && npm install && npm run build && cd .."
   },
   "dependencies": {
     "body-parser": "^1.15.1",
