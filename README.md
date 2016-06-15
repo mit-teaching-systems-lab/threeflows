@@ -45,6 +45,11 @@ or
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
+## Other services
+[Travis](https://travis-ci.org/mit-teaching-systems-lab/threeflows) is setup for CI.  It will run on pull requests and on commits to master.
+
+On merging to master, Travis will trigger a build.  If that build passes, Heroku will deploy the app on its own.
+
 ## Documentation
 
 For more information about using Node.js on Heroku, see these Dev Center articles:
