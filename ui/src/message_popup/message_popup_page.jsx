@@ -29,8 +29,9 @@ function logLocalStorage(record) {
 
 function logDatabase(record) {
   request
-    .get('/server/message_popup')
-    .query(record)
+    .post('/server/message_popup')
+    .set('Content-Type', 'application/json')
+    .send(record)
     .end(function(err, res) {
       if (err) console.log({err});
     });
@@ -59,7 +60,7 @@ export default React.createClass({
   onResponse({question, elapsedMs, responseText}) {
     const logFn = (window.location.host.indexOf('localhost') === 0)
       ? logLocalStorage : logDatabase;
-    logFn({
+    logDatabase({
       question,
       elapsedMs,
       responseText,

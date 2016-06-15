@@ -27,11 +27,8 @@ function queryDatabase(text, values, cb) {
   });
 };
 
-app.get('/server/message_popup', function(request, response) {
-  // const values = [JSON.stringify(request.body)];
-  var urlParts = url.parse(request.url, true);
-  var query = urlParts.query;
-  const values = [JSON.stringify(query)];
+app.post('/server/message_popup', function(request, response) {
+  const values = [JSON.stringify(request.body)];
   queryDatabase('INSERT INTO message_popup_responses(json) VALUES ($1)', values, function(err, result) {
     if (err) {
       console.log({ error: err });
