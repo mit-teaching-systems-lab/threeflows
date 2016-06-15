@@ -114,7 +114,7 @@ export default React.createClass({
         <div style={styles.title}>Message Popup</div>
         <p style={styles.paragraph}>Clear 10 minutes.  Your work is timed, so being able to focus is important.</p>
         <p style={styles.paragraph}>You may be asked to write, sketch or say your responses aloud.</p>
-        <p style={styles.paragraph}>Each question is timed to simulate responding in the moment in the classroom.</p>
+        <p style={styles.paragraph}>Each question is timed to simulate responding in the moment in the classroom.  You'll have 60 seconds to respond to each question.</p>
         <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center'}}>
           <TextField
             underlineShow={false}
