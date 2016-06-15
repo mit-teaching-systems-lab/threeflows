@@ -2,8 +2,6 @@
 A barebones Express server and React webapp for doing design sketches of flows through a challenge and pieces of the challenge experience.
 
 ## Server
-Make sure you have [Node.js](http://nodejs.org/) and the [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.  To run remote Postgres commands you'll also need to [install Postgres locally](https://devcenter.heroku.com/articles/heroku-postgresql).
-
 ```
 $ npm install
 $ npm start
@@ -16,6 +14,23 @@ $ npm run watch
 ```
 
 This builds artifacts and places them in the `ui/build` folder.
+
+## Initial Heroku setup
+Make sure you have [Node.js](http://nodejs.org/) and the [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.  To run remote Postgres commands you'll also need to [install Postgres locally](https://devcenter.heroku.com/articles/heroku-postgresql).
+
+Create the database:
+```
+$ heroku addons:create heroku-postgresql:hobby-dev
+```
+
+Seed the database:
+```
+$ heroku pg:psql
+threeflows:DATABASE=> CREATE TABLE message_popup_responses (
+  id serial primary key,
+  json jsonb
+);
+```
 
 ## Deploying to Heroku
 
