@@ -2,6 +2,7 @@ var express = require('express');
 var url = require('url');
 var _ = require('lodash')
 var fs = require('fs');
+var path = require('path');
 var bodyParser = require('body-parser')
 
 // create and configure server
@@ -16,7 +17,9 @@ app.use(bodyParser.urlencoded({    // to support URL-encoded bodies
 // serve static HTML
 function readFile(filename) {
   return function(request, response) {
-    const string = fs.readFileSync(__dirname + '/../ui/build/' + filename);
+    const absolutePath = path.join(__dirname, '..', 'ui', 'build', filename);
+    console.log(absolutePath);
+    const string = fs.readFileSync(absolutePath);
     response.end(string);
   }
 }
