@@ -3,6 +3,8 @@ import * as Routes from '../routes';
 import * as PropTypes from '../prop_types.js';
 import RaisedButton from 'material-ui/RaisedButton';
 import PopupQuestion from './popup_question.jsx';
+import TextField from 'material-ui/TextField';
+import request from 'superagent';
 
 
 const allQuestions = [
@@ -12,6 +14,30 @@ const allQuestions = [
 ];
 
 /*
+[{"elapsedMs":1000,"responseText":"ok","name":"Kevin","timestamp":1466011218718}
+ {"elapsedMs":6000,"responseText":"wat","name":"Kevin","timestamp":1466011224811}
+ {"elapsedMs":2000,"responseText":"i dunno","name":"Kevin","timestamp":1466011227651}]
+*/
+function logLocalStorage(record) {
+  const KEY = 'messagePopupResponses';
+  const string = window.localStorage.getItem(KEY);
+  const records = string ? JSON.parse(string) : [];
+  const updatedRecords = records.concat(record);
+  const updatedString = JSON.stringify(updatedRecords);
+  window.localStorage.setItem(KEY, updatedString);
+}
+
+function logDatabase(record) {
+  request
+    .post('/server/message_popup')
+    .set('Content-Type', 'application/json')
+    .send(record)
+    .end(function(err, res) {
+      if (err) console.log({err});
+    });
+}
+
+/*
 Shows the MessagePopup game
 */
 export default React.createClass({
@@ -19,6 +45,7 @@ export default React.createClass({
 
   getInitialState: function() {
     return {
+      name: '',
       hasStarted: false,
       totalQuestions: Math.min(10, allQuestions.length),
       questionsAnswered: 0,
@@ -30,13 +57,25 @@ export default React.createClass({
     this.setState({ hasStarted: true });
   },
 
-  onResponse(responseText) {
-    // TODO(kr) record the response
+  onResponse({question, elapsedMs, responseText}) {
+    const logFn = (window.location.host.indexOf('localhost') === 0)
+      ? logLocalStorage : logDatabase;
+    logDatabase({
+      question,
+      elapsedMs,
+      responseText,
+      name: this.state.name,
+      timestamp: new Date().getTime()
+    });
     this.setState({ questionsAnswered: this.state.questionsAnswered + 1 });
   },
 
   onDonePressed() {
     Routes.navigate(Routes.Home);
+  },
+
+  onTextChanged(e) {
+    this.setState({ name: e.target.value });
   },
 
   render() {
@@ -73,14 +112,23 @@ export default React.createClass({
     return (
       <div style={styles.container}>
         <div style={styles.title}>Message Popup</div>
-        <p style={styles.paragraph}>Clear 30 minutes.  Your work is timed, so being able to focus is important.</p>
+        <p style={styles.paragraph}>Clear 10 minutes.  Your work is timed, so being able to focus is important.</p>
         <p style={styles.paragraph}>You may be asked to write, sketch or say your responses aloud.</p>
-        <p style={styles.paragraph}>Each question is timed to simulate responding in the moment in the classroom.</p>
-        <RaisedButton
-          onTouchTap={this.onStartPressed}
-          style={styles.button}
-          primary={true}
-          label="Start" />
+        <p style={styles.paragraph}>Each question is timed to simulate responding in the moment in the classroom.  You'll have 60 seconds to respond to each question.</p>
+        <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center'}}>
+          <TextField
+            underlineShow={false}
+            floatingLabelText="What's your name?"
+            onChange={this.onTextChanged}
+            multiLine={true}
+            rows={2}/>
+          <RaisedButton
+            disabled={this.state.name === ''}
+            onTouchTap={this.onStartPressed}
+            style={styles.button}
+            primary={true}
+            label="Start" />
+          </div>
       </div>
     );
   }

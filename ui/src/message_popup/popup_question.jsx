@@ -38,11 +38,13 @@ export default React.createClass({
   },
 
   onTextChanged(e) {
-    this.setState({ responseText: e.value })
+    this.setState({ responseText: e.target.value })
   },
 
   onSendPressed() {
-    this.props.onResponse(this.state.responseText);
+    const {elapsedMs, responseText} = this.state;
+    const {question} = this.props.question;
+    this.props.onResponse({question, elapsedMs, responseText});
   },
 
   render() {
