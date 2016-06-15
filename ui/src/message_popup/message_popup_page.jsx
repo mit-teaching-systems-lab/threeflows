@@ -29,12 +29,11 @@ function logLocalStorage(record) {
 
 function logDatabase(record) {
   request
-   .get('/server/message_popup')
-   .query(record)
-   .end(function(err, res){
-    if (err) console.log(err);
-    if (res) console.log(res);
-   });
+    .get('/server/message_popup')
+    .query(record)
+    .end(function(err, res) {
+      if (err) console.log({err});
+    });
 }
 
 /*
