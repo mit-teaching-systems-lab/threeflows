@@ -1,4 +1,6 @@
 # threeflows
+[![Build Status](https://travis-ci.org/mit-teaching-systems-lab/threeflows.svg?branch=master)](https://travis-ci.org/mit-teaching-systems-lab/threeflows)
+
 A barebones Express server and React webapp for doing design sketches of flows through a challenge and pieces of the challenge experience.
 
 ## Server
