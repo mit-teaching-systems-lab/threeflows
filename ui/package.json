@@ -4,8 +4,7 @@
   "main": "bundle.js",
   "scripts": {
     "build": "cp index.html build/index.html && browserify -t [babelify] src/main.jsx -o build/bundle.js",
-    "watch": "npm run build && watchify -t [babelify] src/main.jsx -o build/bundle.js",
-    "start": "node server.js"
+    "watch": "npm run build && watchify -t [babelify] src/main.jsx -o build/bundle.js"
   },
   "repository": {
     "type": "git",
