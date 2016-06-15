@@ -14,23 +14,6 @@ app.use(bodyParser.urlencoded({    // to support URL-encoded bodies
 
 
 
-// serve static HTML
-function readFile(filename) {
-  return function(request, response) {
-    const absolutePath = path.join(__dirname, '..', 'ui', 'build', filename);
-    console.log(absolutePath);
-    const string = fs.readFileSync(absolutePath);
-    response.end(string);
-  }
-}
-const html = 'index.html';
-const bundle = 'bundle.js';
-app.get('/', readFile(html));
-app.get('/bundle.js', readFile(bundle));
-app.get('/challenge/:id', readFile(html));
-app.get('/message_popup', readFile(html));
-
-
 
 // api routes
 // helper for db connection pooling
@@ -69,6 +52,19 @@ app.get('/server/dump', function(request, response) {
     response.json({result});  
   });
 });
+
+
+// serve static HTML
+function readFile(filename) {
+  return function(request, response) {
+    const absolutePath = path.join(__dirname, '..', 'ui', 'build', filename);
+    console.log(absolutePath);
+    const string = fs.readFileSync(absolutePath);
+    response.end(string);
+  }
+}
+app.get('/bundle.js', readFile('bundle.js'));
+app.get('*', readFile('index.html'));
 
 
 // start server

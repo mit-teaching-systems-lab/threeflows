@@ -1,8 +1,7 @@
 # threeflows
 A barebones Express server and React webapp for doing design sketches of flows through a challenge and pieces of the challenge experience.
 
-## Running Locally
-#### Server
+## Server
 Make sure you have [Node.js](http://nodejs.org/) and the [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.  To run remote Postgres commands you'll also need to [install Postgres locally](https://devcenter.heroku.com/articles/heroku-postgresql).
 
 ```
@@ -10,11 +9,13 @@ $ npm install
 $ npm start
 ```
 
-#### UI build process
+## UI
 In another terminal, start a watch process to build the project:
 ```
 $ npm run watch
 ```
+
+This builds artifacts and places them in the `ui/build` folder.
 
 ## Deploying to Heroku
 
