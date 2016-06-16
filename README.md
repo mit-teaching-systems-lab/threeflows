@@ -10,12 +10,24 @@ $ npm start
 ```
 
 ## UI
+#### Build
 In another terminal, start a watch process to build the project:
 ```
-$ npm run watch
+ui $ npm run watch
 ```
-
 This builds artifacts and places them in the `ui/build` folder.
+
+### Type check with Flow
+This starts a Flow server in the background, and then runs a typecheck once.  There's no watch command right now.
+```
+ui $ npm run flow
+``
+
+### Run all tests
+This is used in CI, and runs any and all tests in the project.
+```
+ui $ npm run test
+```
 
 ## Initial Heroku setup
 Make sure you have [Node.js](http://nodejs.org/) and the [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.  To run remote Postgres commands you'll also need to [install Postgres locally](https://devcenter.heroku.com/articles/heroku-postgresql).

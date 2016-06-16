@@ -5,7 +5,8 @@
   "scripts": {
     "build": "cp index.html build/index.html && browserify -t [babelify] src/main.jsx -o build/bundle.js",
     "watch": "npm run build && watchify -t [babelify] -p livereactload src/main.jsx -o build/bundle.js",
-    "flow": "flow; test $? -eq 0 -o $? -eq 2"
+    "flow": "flow; test $? -eq 0 -o $? -eq 2",
+    "test": "flow check"
   },
   "repository": {
     "type": "git",

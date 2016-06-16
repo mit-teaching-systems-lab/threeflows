@@ -9,7 +9,7 @@
     "start": "node server/index.js",
     "watch": "cd ui && npm run watch && cd ..",
     "heroku-postbuild": "cd ui && mkdir build && npm install && npm run build && cd ..",
-    "test": "echo tests!; exit 0"
+    "test": "cd ui && npm run test"
   },
   "dependencies": {
     "body-parser": "^1.15.1",
