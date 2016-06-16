@@ -67,7 +67,7 @@ export default React.createClass({
       elapsedMs,
       responseText,
       name: this.state.name,
-      timestamp: new Date().getTime()
+      clientTimestampMs: new Date().getTime()
     });
     this.setState({ questionsAnswered: this.state.questionsAnswered + 1 });
   },
