@@ -5,6 +5,7 @@ import * as Routes from '../routes';
 import * as PropTypes from '../prop_types.js';
 import RaisedButton from 'material-ui/RaisedButton';
 import PopupQuestion from './popup_question.jsx';
+import type {Response} from './popup_question.jsx';
 import TextField from 'material-ui/TextField';
 import request from 'superagent';
 import TextChangeEvent from '../types/dom_types.js';
@@ -30,7 +31,6 @@ function logLocalStorage(record) {
   window.localStorage.setItem(KEY, updatedString);
 }
 
-type Question = {text:string};
 function logDatabase(record) {
   request
     .post(Routes.evidencePath({
@@ -63,7 +63,7 @@ export default React.createClass({
     this.setState({ hasStarted: true });
   },
 
-  onResponse({question, elapsedMs, responseText}:{question:Question,elapsedMs:number,responseText:string}) {
+  onResponse({question, elapsedMs, responseText}:Response) {
     const logFn = (window.location.host.indexOf('localhost') === 0)
       ? logLocalStorage : logDatabase;
     logFn({

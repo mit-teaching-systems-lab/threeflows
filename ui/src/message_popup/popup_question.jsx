@@ -10,7 +10,8 @@ const ONE_SECOND = 1000;
 /*
 Shows a single question.
 */
-
+type Question = {text:string};
+export type Response = {question:Question,elapsedMs:number,responseText:string};
 export default React.createClass({
   displayName: 'PopupQuestion',
   mixins: [SetIntervalMixin],
@@ -46,7 +47,8 @@ export default React.createClass({
   onSendPressed() {
     const {elapsedMs, responseText} = this.state;
     const {question} = this.props;
-    this.props.onResponse({question, elapsedMs, responseText});
+    const response:Response = {question, elapsedMs, responseText};
+    this.props.onResponse(response);
   },
 
   render() {
