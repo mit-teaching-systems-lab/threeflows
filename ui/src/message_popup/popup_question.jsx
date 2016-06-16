@@ -5,6 +5,7 @@ import * as PropTypes from '../prop_types.js';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import TextChangeEvent from '../types/dom_types.js';
+import StudentCard from './student_card.jsx';
 const ONE_SECOND = 1000;
 
 /*
@@ -19,7 +20,10 @@ export default React.createClass({
   propTypes: {
     limitMs: React.PropTypes.number.isRequired,
     question: React.PropTypes.shape({
-      text: React.PropTypes.string.isRequired
+      text: React.PropTypes.string.isRequired,
+      student: React.PropTypes.shape({
+        name: React.PropTypes.string.isRequired
+      }).isRequired
     }).isRequired,
     onResponse: React.PropTypes.func.isRequired
   },
@@ -54,12 +58,13 @@ export default React.createClass({
   render() {
     const {elapsedMs} = this.state;
     const {limitMs} = this.props;
-    const {text} = this.props.question;
+    const {text, student} = this.props.question;
 
     return (
       <div>
         <div style={styles.question}>{text}</div>
-        <div>
+        <div style={styles.studentCard}><StudentCard {...student} /></div>
+        <div style={styles.textAreaContainer}>
           <TextField
             style={styles.textField}
             textareaStyle={styles.textareaInner}
@@ -69,7 +74,7 @@ export default React.createClass({
             multiLine={true}
             rows={2}/>
         </div>
-        <div>
+        <div style={styles.buttonRow}>
           <RaisedButton
             onTouchTap={this.onSendPressed}
             style={styles.button}
@@ -79,12 +84,48 @@ export default React.createClass({
         </div>
       </div>
     );
+  },
+
+  renderStudentCard(student) {
+    const {
+      name,
+      grade,
+      gender,
+      race,
+      behavior,
+      learningDisabilities,
+      interests,
+      familyBackground,
+      ses
+    } = student;
+
+    return (
+      <div>
+        <div>{name}</div>
+        <div>{`${grade} ${gender}, ${race}`}</div>
+        {behavior && <div>{behavior}</div>}
+        {learningDisabilities && <div>{learningDisabilities}</div>}
+        {interests && <div>{interests}</div>}
+        {familyBackground && <div>{familyBackground}</div>}
+        {ses && <div>{ses}</div>}
+      </div>
+    );
   }
 });
 
+
 const styles = {
+  studentCard: {
+    backgroundColor: '#F1C889',
+    marginTop: 5,
+    padding: 10
+  },
   question: {
     whiteSpace: 'pre-wrap',
+    padding: 20
+  },
+  textAreaContainer: {
+    margin: 20,
     marginBottom: 10
   },
   textField: {
@@ -92,7 +133,11 @@ const styles = {
   },
   textareaInner: {
     border: '1px solid #eee',
-    marginBottom: 10
+    marginBottom: 0
+  },
+  buttonRow: {
+    margin: 20,
+    marginTop: 10
   },
   button: {
     display: 'inline-block',
