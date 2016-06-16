@@ -8,7 +8,8 @@
   "scripts": {
     "start": "node server/index.js",
     "watch": "cd ui && npm run watch && cd ..",
-    "heroku-postbuild": "cd ui && mkdir build && npm install && npm run build && cd ..",
+    "heroku-prebuild": "cd ui && mkdir build && npm install",
+    "heroku-postbuild": "cd ui && npm run build",
     "test": "cd ui && npm run test"
   },
   "dependencies": {
