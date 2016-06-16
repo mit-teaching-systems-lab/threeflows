@@ -35,7 +35,7 @@ app.post('/server/evidence/:app/:type/:version', function(request, response) {
   const timestamp = new Date().getTime();
   const {app, type, version} = request.params;
   const payload = JSON.stringify(request.body);
-  const values = [app, type, version, payload, timestamp];
+  const values = [app, type, version, timestamp, payload];
 
   const sql = `
     INSERT INTO evidence(app, type, version, timestamp, json)

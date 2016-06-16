@@ -36,9 +36,7 @@ function logDatabase(record) {
     }))
     .set('Content-Type', 'application/json')
     .send(record)
-    .end(function(err, res) {
-      if (err) console.log({err});
-    });
+    .end(function(err, res) { if (err) console.log({err}); });
 }
 
 /*
