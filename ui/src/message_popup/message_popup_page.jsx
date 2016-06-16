@@ -9,31 +9,7 @@ import type {Response} from './popup_question.jsx';
 import TextField from 'material-ui/TextField';
 import request from 'superagent';
 import TextChangeEvent from '../types/dom_types.js';
-
-
-const allStudents = [
-  { id: 4, name: 'Hayin' },
-  { id: 5, name: 'Sasha' },
-  {
-    id: 6,
-    name: 'Floyd',
-    grade: '7th grade',
-    gender: 'male',
-    race: 'Caucasian',
-    behavior: 'Attendance issues',
-    learningDisabilities: 'ADHD',
-    interests: 'Wants to be a firefighter',
-    familyBackground: 'Divorced parents, younger brother',
-    ses: 'Free and reduced lunch'
-  }
-];
-
-const allQuestions = [
-  { studentId: 6, text: 'At the conclusion of your lesson plan for this challenge, you seed a group discussion by asking "What are you curious about related to photosynthesis?"  Hayin says "Why are plants green?"  What do you do?' },
-  { studentId: 6, text: `Imagine a new student, Sasha, joins your classroom during the lesson plan you developed for this challenge.  As part of helping her feel comfortable, you pull her aside and give her a quick overview of what's happening at the beginning of the class.  She interrupts and asks, "I do better with visuals, can you draw me a picture of photosynthesis?"  What could you quickly sketch to directly answer to her question?` },
-  { studentId: 6, text: 'In the context of the lesson plan you developed for this challenge, Floyd says "why are we even doing this?"  Respond in way that engages his natural curiosity and tendency towards asking questions' }
-];
-
+import { allStudents, allQuestions } from './data_lists.jsx'
 
 function randomizedQuestionsWithStudents() {
   return _.shuffle(allQuestions).map((question) => {
@@ -130,7 +106,7 @@ export default React.createClass({
 
   renderDone() {
     return (
-      <div style={styles.container}>
+      <div style={_.merge(styles.done, styles.container)}>
         <div>You finished!</div>
         <RaisedButton
           onTouchTap={this.onDonePressed}
@@ -168,6 +144,9 @@ export default React.createClass({
 });
 
 const styles = {
+  done: {
+    padding: 20
+  },
   instructions: {
     padding: 20
   },
