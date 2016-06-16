@@ -1,8 +1,10 @@
+// @flow
 import React from 'react';
 import SetIntervalMixin from '../helpers/set_interval_mixin.js';
 import * as PropTypes from '../prop_types.js';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import TextChangeEvent from '../types/dom_types.js';
 const ONE_SECOND = 1000;
 
 /*
@@ -29,7 +31,7 @@ export default React.createClass({
     };
   },
 
-  componentDidMount(props, state) {
+  componentDidMount() {
     this.setInterval(this.updateTimer, ONE_SECOND);
   },
 
@@ -37,8 +39,8 @@ export default React.createClass({
     this.setState({ elapsedMs: this.state.elapsedMs + ONE_SECOND });
   },
 
-  onTextChanged(e) {
-    this.setState({ responseText: e.target.value })
+  onTextChanged({target:{value}}:TextChangeEvent) {
+    this.setState({ responseText: value })
   },
 
   onSendPressed() {
@@ -53,7 +55,7 @@ export default React.createClass({
     const {text} = this.props.question;
 
     return (
-      <div style={styles.container}>
+      <div>
         <div style={styles.question}>{text}</div>
         <div>
           <TextField
