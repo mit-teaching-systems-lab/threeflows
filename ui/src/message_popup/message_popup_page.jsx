@@ -62,7 +62,7 @@ export default React.createClass({
   onResponse({question, elapsedMs, responseText}) {
     const logFn = (window.location.host.indexOf('localhost') === 0)
       ? logLocalStorage : logDatabase;
-    logDatabase({
+    logFn({
       question,
       elapsedMs,
       responseText,
