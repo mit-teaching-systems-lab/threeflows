@@ -1,13 +1,17 @@
 # threeflows
 [![Build Status](https://travis-ci.org/mit-teaching-systems-lab/threeflows.svg?branch=master)](https://travis-ci.org/mit-teaching-systems-lab/threeflows)
 
-A barebones Express server and React webapp for doing design sketches of flows through a challenge and pieces of the challenge experience.
+A barebones [Express](http://expressjs.com/) server and [React](https://facebook.github.io/react/) webapp for doing design sketches of flows through a challenge and pieces of the challenge experience.
 
 ## Server
+#### Run locally
 ```
 $ npm install
 $ npm start
 ```
+
+#### Database
+It's expecting [Postgres](https://devcenter.heroku.com/articles/heroku-postgresql) in production, and doesn't use anything locally.
 
 ## UI
 #### Build
@@ -18,13 +22,13 @@ ui $ npm run watch
 This builds artifacts and places them in the `ui/build` folder.
 
 ### Type check with Flow
-This starts a Flow server in the background, and then runs a typecheck once.  There's no watch command right now.
+This starts a [Flow](https://flowtype.org/) server in the background, and then runs a typecheck once.  There's no watch command right now.
 ```
 ui $ npm run flow
 ``
 
 ### Run all tests
-This is used in CI, and runs any and all tests in the project.
+This is used in CI, and runs any and all tests in the project including typechecks.
 ```
 ui $ npm run test
 ```
