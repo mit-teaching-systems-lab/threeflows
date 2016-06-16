@@ -1,7 +1,7 @@
 # threeflows
 [![Build Status](https://travis-ci.org/mit-teaching-systems-lab/threeflows.svg?branch=master)](https://travis-ci.org/mit-teaching-systems-lab/threeflows)
 
-A barebones [Express](http://expressjs.com/) server and [React](https://facebook.github.io/react/) webapp for doing design sketches of flows through a challenge and pieces of the challenge experience.
+A barebones [Express](http://expressjs.com/) server and [React](https://facebook.github.io/react/) webapp for doing design sketches of flows through a challenge and pieces of the challenge experience.  Code in both environments is written in [ES6](https://babeljs.io/docs/learn-es2015/).
 
 ## Server
 #### Run locally
@@ -14,8 +14,11 @@ $ npm start
 It's expecting [Postgres](https://devcenter.heroku.com/articles/heroku-postgresql) in production, and doesn't use anything locally.
 
 ## UI
-#### Build
-In another terminal, start a watch process to build the project:
+#### Tools
+The project is built with [Browserify](http://browserify.org/) and uses Babel via [bablify](https://github.com/babel/babelify) to transpile ES6 and JSX.  It also uses [livereactload](https://github.com/milankinen/livereactload) for hot reloading of React components in local development.
+
+#### Watch and build with hot reloading
+In another terminal, start process that will continually build the UI with hot reloading:
 ```
 ui $ npm run watch
 ```
