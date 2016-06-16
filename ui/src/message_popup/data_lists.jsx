@@ -136,7 +136,36 @@ export const allStudents = [
 ];
 
 export const allQuestions = [
-  { studentId: 4, text: 'At the conclusion of your lesson plan for this challenge, you seed a group discussion by asking "What are you curious about related to photosynthesis?"  Hayin says "Why are plants green?"  What do you do?' },
-  { studentId: 10, text: `Imagine a new student, Sasha, joins your classroom during the lesson plan you developed for this challenge.  As part of helping her feel comfortable, you pull her aside and give her a quick overview of what's happening at the beginning of the class.  She interrupts and asks, "I do better with visuals, can you draw me a picture of photosynthesis?"  What could you quickly sketch to directly answer to her question?` },
-  { studentId: 2, text: 'In the context of the lesson plan you developed for this challenge, Floyd says "why are we even doing this?"  Respond in way that engages his natural curiosity and tendency towards asking questions' }
+  { 
+    studentId: 4, 
+    text: 'At the conclusion of your lesson plan for this challenge, you seed a group discussion by asking "What are you curious about related to photosynthesis?"  Hayin says "Why are plants green?"  What do you do?' 
+  },
+  {
+    studentId: 10, 
+    text: 'Imagine a new student, Sasha, joins your classroom during the lesson plan you developed for this challenge.  As part of helping her feel comfortable, you give her a quick overview of what’s happening.  She asks "what is photosynthesis again?"  How can you give a brief direct answer to her question?' 
+  },
+  { 
+    studentId: 2, 
+    text: 'In the context of the lesson plan you developed for this challenge, Floyd says "why are we even doing this?"  Respond in way that engages his natural curiosity and tendency towards asking questions' 
+  },
+  {
+    studentId: 8,
+    text: 'Imagine in the context of the lesson plan you developed for this challenge, there is an activity where students are coming up with questions to investigate.  Ada says "How many questions should I write and what do you want me to include in them?"  Respond in a way that draws out the student’s curiosity and pushes them towards asking questions that are meaningful to them.'
+  },
+  {
+    studentId: 10,
+    text: 'Imagine a new student, Sasha, joins your classroom during the lesson plan you developed for this challenge.  As part of helping her feel comfortable, you pull her aside and give her a quick overview of what’s happening at the beginning of the class.  She interrupts and asks, "I do better with visuals, can you draw me a picture of photosynthesis?"  What could you quickly sketch to directly answer to her question?'
+  },
+  {
+    studentId: 3,
+    text: 'Imagine in the context of the lesson plan you developed for this challenge, you pause and ask the whole class if they have anything they want to check their understanding on or clarify.  Maia asks "How can plants be breathing, you don’t see them inhaling and exhaling, and you don’t see their breath in the cold?"'
+  },
+  {
+    studentId: 5,
+    text: 'Imagine in the context of the lesson plan you developed for this challenge, you provide a summarizing explanation of photosynthesis to the whole class.  Mike asks, "I’m still a little confused, can you explain it again in a different way?"'
+  },
+  {
+    studentId: 2,
+    text: 'Imagine in the context of the lesson plan you developed for this challenge, you provide a summarizing explanation of photosynthesis to the whole class.  Floyd asks, "But how can plants take in sunlight, do they like grab it?"'
+  }
 ];
