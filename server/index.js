@@ -27,9 +27,16 @@ function queryDatabase(text, values, cb) {
   });
 };
 
-app.post('/server/message_popup', function(request, response) {
-  const values = [JSON.stringify(request.body)];
-  queryDatabase('INSERT INTO message_popup_responses(json) VALUES ($1)', values, function(err, result) {
+app.post('/server/evidence', function(request, response) {
+  const timestamp = new Date().getTime();
+  const payload = JSON.stringify(request.body);
+  const {app, type, version} = url.parse(request.url, true).query;
+  const values = [app, type, version, payload, timestamp];
+
+  const sql = `
+    INSERT INTO evidence(app, type, version, payload, timestamp)
+    VALUES ($1,$2,$3,$4,$5)`;
+  queryDatabase(sql, values, function(err, result) {
     if (err) {
       console.log({ error: err });
       return response.code(500);
@@ -40,7 +47,7 @@ app.post('/server/message_popup', function(request, response) {
 });
 
 app.get('/server/dump', function(request, response) {
-  queryDatabase('SELECT * FROM message_popup_responses', [], function(err, result) {
+  queryDatabase('SELECT * FROM evidence', [], function(err, result) {
     if (err) {
       console.log({ error: err });
       return response.code(500);

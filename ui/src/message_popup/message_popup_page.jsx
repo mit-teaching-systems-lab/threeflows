@@ -29,7 +29,12 @@ function logLocalStorage(record) {
 
 function logDatabase(record) {
   request
-    .post('/server/message_popup')
+    .post('/server/evidence')
+    .query({
+      app: 'threeflows',
+      type: 'message_popup',
+      version: 2
+    })
     .set('Content-Type', 'application/json')
     .send(record)
     .end(function(err, res) {

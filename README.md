@@ -28,8 +28,12 @@ $ heroku addons:create heroku-postgresql:hobby-dev
 Seed the database:
 ```
 $ heroku pg:psql
-threeflows:DATABASE=> CREATE TABLE message_popup_responses (
+threeflows:DATABASE=> CREATE TABLE evidence (
   id serial primary key,
+  app text,
+  type text,
+  version integer,
+  timestamp timestamp,
   json jsonb
 );
 ```
