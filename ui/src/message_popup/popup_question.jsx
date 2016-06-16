@@ -21,9 +21,7 @@ export default React.createClass({
     limitMs: React.PropTypes.number.isRequired,
     question: React.PropTypes.shape({
       text: React.PropTypes.string.isRequired,
-      student: React.PropTypes.shape({
-        name: React.PropTypes.string.isRequired
-      }).isRequired
+      student: React.PropTypes.object.isRequired
     }).isRequired,
     onResponse: React.PropTypes.func.isRequired
   },
