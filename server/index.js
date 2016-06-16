@@ -27,14 +27,15 @@ function queryDatabase(text, values, cb) {
   });
 };
 
-app.post('/server/evidence', function(request, response) {
+// This endpoint receives all evidence, 
+app.post('/server/evidence/:app/:type/:version', function(request, response) {
   const timestamp = new Date().getTime();
+  const {app, type, version} = request.params;
   const payload = JSON.stringify(request.body);
-  const {app, type, version} = url.parse(request.url, true).query;
   const values = [app, type, version, payload, timestamp];
 
   const sql = `
-    INSERT INTO evidence(app, type, version, payload, timestamp)
+    INSERT INTO evidence(payload, timestamp)
     VALUES ($1,$2,$3,$4,$5)`;
   queryDatabase(sql, values, function(err, result) {
     if (err) {

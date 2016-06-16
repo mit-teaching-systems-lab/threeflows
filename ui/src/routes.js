@@ -19,6 +19,12 @@ export function messagePopupPath() {
   return `/message_popup`;
 }
 
+
+/* Services */
+export function evidencePath({app, type, version}) {
+  return `/server/evidence/${app}/${type}/${version}`;
+}
+
 /* External links */
 export function chatRoom(room) {
   return `https://mittsl.slack.com/messages/${room}/`;
