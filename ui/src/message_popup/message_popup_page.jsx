@@ -1,10 +1,14 @@
+// @flow
+import _ from 'lodash';
 import React from 'react';
 import * as Routes from '../routes';
 import * as PropTypes from '../prop_types.js';
 import RaisedButton from 'material-ui/RaisedButton';
 import PopupQuestion from './popup_question.jsx';
+import type {Response} from './popup_question.jsx';
 import TextField from 'material-ui/TextField';
 import request from 'superagent';
+import TextChangeEvent from '../types/dom_types.js';
 
 
 const allQuestions = [
@@ -59,7 +63,7 @@ export default React.createClass({
     this.setState({ hasStarted: true });
   },
 
-  onResponse({question, elapsedMs, responseText}) {
+  onResponse({question, elapsedMs, responseText}:Response) {
     const logFn = (window.location.host.indexOf('localhost') === 0)
       ? logLocalStorage : logDatabase;
     logFn({
@@ -76,8 +80,8 @@ export default React.createClass({
     Routes.navigate(Routes.Home);
   },
 
-  onTextChanged(e) {
-    this.setState({ name: e.target.value });
+  onTextChanged({target:{value}}:TextChangeEvent) {
+    this.setState({ name: value });
   },
 
   render() {

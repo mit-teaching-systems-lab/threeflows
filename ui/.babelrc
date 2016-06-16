@@ -3,6 +3,7 @@
   "env": {
     "development": {
       "plugins": [
+        ["transform-flow-strip-types"],
         ["react-transform", {
           "transforms": [{
             "transform": "livereactload/babel-transform",

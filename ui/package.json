@@ -4,7 +4,9 @@
   "main": "bundle.js",
   "scripts": {
     "build": "cp index.html build/index.html && browserify -t [babelify] src/main.jsx -o build/bundle.js",
-    "watch": "npm run build && watchify -t [babelify] -p livereactload src/main.jsx -o build/bundle.js"
+    "watch": "npm run build && watchify -t [babelify] -p livereactload src/main.jsx -o build/bundle.js",
+    "flow": "flow; test $? -eq 0 -o $? -eq 2",
+    "test": "flow check"
   },
   "repository": {
     "type": "git",
@@ -17,6 +19,7 @@
   },
   "homepage": "https://github.com/mit-teaching-systems-lab/threeflows#readme",
   "dependencies": {
+    "babel-plugin-transform-flow-strip-types": "^6.8.0",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.5.0",
     "babelify": "^7.3.0",
@@ -27,11 +30,13 @@
     "react-dom": "^15.1.0",
     "react-mini-router": "^2.0.0",
     "react-tap-event-plugin": "^1.0.0",
+    "reactify": "^1.1.1",
     "superagent": "^2.0.0",
     "watchify": "3.7.0"
   },
   "devDependencies": {
     "babel-plugin-react-transform": "^2.0.2",
+    "flow-bin": "^0.27.0",
     "livereactload": "^2.2.3",
     "react-proxy": "^1.1.8"
   }

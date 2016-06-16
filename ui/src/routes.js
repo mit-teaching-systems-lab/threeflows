@@ -1,8 +1,10 @@
+//@flow
 /*
 Navigation functions
 */
-export * from 'react-mini-router';
-export function newTab(url) {
+import ReactMiniRouter from 'react-mini-router';
+export const navigate = ReactMiniRouter.navigate;
+export function newTab(url:string):void {
   window.open(url, '_blank');
 }
 
@@ -11,7 +13,7 @@ export function newTab(url) {
 Path definitions
 */
 export const Home = '/';
-export function challengePath(id) {
+export function challengePath(id:number):string {
   return `/challenge/${id}`;
 }
 
@@ -21,28 +23,29 @@ export function messagePopupPath() {
 
 
 /* Services */
-export function evidencePath({app, type, version}) {
+type EvidencePathT = {app:string, type:string, version:number};
+export function evidencePath({app, type, version}:EvidencePathT):string {
   return `/server/evidence/${app}/${type}/${version}`;
 }
 
 /* External links */
-export function chatRoom(room) {
+export function chatRoom(room:string):string {
   return `https://mittsl.slack.com/messages/${room}/`;
 }
 
-export function chatMessage(user) {
+export function chatMessage(user:string):string {
   return `https://mittsl.slack.com/messages/@${user}/`;
 }
 
-export function videoFor(challengeName) {
+export function videoFor(challengeName:string) {
   return `https://appear.in/${encodeURIComponent(challengeName)}`;
 }
 
-export function embeddedDriveList(driveFolderId) {
+export function embeddedDriveList(driveFolderId:string) {
   return `https://drive.google.com/embeddedfolderview?id=${driveFolderId}#list`;
 }
 
-export function driveFolder(driveFolderId) {
+export function driveFolder(driveFolderId:string) {
   return `https://drive.google.com/drive/folders/${driveFolderId}`;
 }
 
