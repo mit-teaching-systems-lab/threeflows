@@ -32,7 +32,7 @@ function queryDatabase(text, values, cb) {
 // supports JSON serialization and puts everything in the same
 // Postgres table with a jsonb column.
 app.post('/server/evidence/:app/:type/:version', function(request, response) {
-  const timestamp = new Date().getTime();
+  const timestamp = Math.floor(new Date().getTime() / 1000);
   const {app, type, version} = request.params;
   const payload = JSON.stringify(request.body);
   const values = [app, type, version, timestamp, payload];
