@@ -43,7 +43,7 @@ export default React.createClass({
 
   onSendPressed() {
     const {elapsedMs, responseText} = this.state;
-    const {question} = this.props.question;
+    const {question} = this.props;
     this.props.onResponse({question, elapsedMs, responseText});
   },
 

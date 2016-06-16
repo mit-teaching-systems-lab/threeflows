@@ -29,12 +29,14 @@ function logLocalStorage(record) {
 
 function logDatabase(record) {
   request
-    .post('/server/message_popup')
+    .post(Routes.evidencePath({
+      app: 'threeflows',
+      type: 'message_popup',
+      version: 2
+    }))
     .set('Content-Type', 'application/json')
     .send(record)
-    .end(function(err, res) {
-      if (err) console.log({err});
-    });
+    .end(function(err, res) { if (err) console.log({err}); });
 }
 
 /*
@@ -60,12 +62,12 @@ export default React.createClass({
   onResponse({question, elapsedMs, responseText}) {
     const logFn = (window.location.host.indexOf('localhost') === 0)
       ? logLocalStorage : logDatabase;
-    logDatabase({
+    logFn({
       question,
       elapsedMs,
       responseText,
       name: this.state.name,
-      timestamp: new Date().getTime()
+      clientTimestampMs: new Date().getTime()
     });
     this.setState({ questionsAnswered: this.state.questionsAnswered + 1 });
   },

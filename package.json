@@ -2,7 +2,7 @@
   "name": "threeflows",
   "version": "0.1.0",
   "engines": {
-    "node": "5.9.1"
+    "node": "6.2.1"
   },
   "main": "server/index.js",
   "scripts": {

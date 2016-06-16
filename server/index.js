@@ -27,9 +27,20 @@ function queryDatabase(text, values, cb) {
   });
 };
 
-app.post('/server/message_popup', function(request, response) {
-  const values = [JSON.stringify(request.body)];
-  queryDatabase('INSERT INTO message_popup_responses(json) VALUES ($1)', values, function(err, result) {
+// This endpoint that receives all evidence.
+// The payload is determined by the type, but for now it only
+// supports JSON serialization and puts everything in the same
+// Postgres table with a jsonb column.
+app.post('/server/evidence/:app/:type/:version', function(request, response) {
+  const timestamp = Math.floor(new Date().getTime() / 1000);
+  const {app, type, version} = request.params;
+  const payload = JSON.stringify(request.body);
+  const values = [app, type, version, timestamp, payload];
+
+  const sql = `
+    INSERT INTO evidence(app, type, version, timestamp, json)
+    VALUES ($1,$2,$3,to_timestamp($4),$5)`;
+  queryDatabase(sql, values, function(err, result) {
     if (err) {
       console.log({ error: err });
       return response.code(500);
@@ -39,8 +50,10 @@ app.post('/server/message_popup', function(request, response) {
   });
 });
 
+// For debugging.
 app.get('/server/dump', function(request, response) {
-  queryDatabase('SELECT * FROM message_popup_responses', [], function(err, result) {
+  const limit = 100;
+  queryDatabase('SELECT * FROM evidence ORDER BY timestamp DESC LIMIT $1', [limit], function(err, result) {
     if (err) {
       console.log({ error: err });
       return response.code(500);
