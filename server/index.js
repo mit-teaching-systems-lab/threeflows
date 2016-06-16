@@ -39,7 +39,7 @@ app.post('/server/evidence/:app/:type/:version', function(request, response) {
 
   const sql = `
     INSERT INTO evidence(app, type, version, timestamp, json)
-    VALUES ($1,$2,$3,$4,$5)`;
+    VALUES ($1,$2,$3,to_timestamp($4),$5)`;
   queryDatabase(sql, values, function(err, result) {
     if (err) {
       console.log({ error: err });
