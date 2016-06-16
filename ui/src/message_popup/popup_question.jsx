@@ -63,7 +63,7 @@ export default React.createClass({
     return (
       <div>
         <div style={styles.question}>{text}</div>
-        <div style={styles.studentCard}><StudentCard {...student} /></div>
+        <div style={styles.studentCard}><StudentCard student={student} /></div>
         <div style={styles.textAreaContainer}>
           <TextField
             style={styles.textField}
@@ -82,32 +82,6 @@ export default React.createClass({
             label="Send" />
           <div style={styles.ticker}>0:{Math.round((limitMs - elapsedMs) / 1000)}s</div>
         </div>
-      </div>
-    );
-  },
-
-  renderStudentCard(student) {
-    const {
-      name,
-      grade,
-      gender,
-      race,
-      behavior,
-      learningDisabilities,
-      interests,
-      familyBackground,
-      ses
-    } = student;
-
-    return (
-      <div>
-        <div>{name}</div>
-        <div>{`${grade} ${gender}, ${race}`}</div>
-        {behavior && <div>{behavior}</div>}
-        {learningDisabilities && <div>{learningDisabilities}</div>}
-        {interests && <div>{interests}</div>}
-        {familyBackground && <div>{familyBackground}</div>}
-        {ses && <div>{ses}</div>}
       </div>
     );
   }

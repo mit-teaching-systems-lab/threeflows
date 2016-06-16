@@ -8,15 +8,17 @@ export default React.createClass({
   displayName: 'StudentCard',
 
   propTypes: {
-    name: React.PropTypes.string.isRequired,
-    grade: React.PropTypes.string.isRequired,
-    gender: React.PropTypes.string.isRequired,
-    race: React.PropTypes.string.isRequired,
-    behavior: React.PropTypes.string.isRequired,
-    learningDisabilities: React.PropTypes.string.isRequired,
-    interests: React.PropTypes.string.isRequired,
-    familyBackground: React.PropTypes.string.isRequired,
-    ses: React.PropTypes.string.isRequired
+    student: {
+      name: React.PropTypes.string.isRequired,
+      grade: React.PropTypes.string.isRequired,
+      gender: React.PropTypes.string.isRequired,
+      race: React.PropTypes.string.isRequired,
+      behavior: React.PropTypes.string.isRequired,
+      learningDisabilities: React.PropTypes.string.isRequired,
+      interests: React.PropTypes.string.isRequired,
+      familyBackground: React.PropTypes.string.isRequired,
+      ses: React.PropTypes.string.isRequired
+    }
   },
 
   render() {
