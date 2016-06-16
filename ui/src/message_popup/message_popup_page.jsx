@@ -34,9 +34,9 @@ function logLocalStorage(record) {
 function logDatabase(record) {
   request
     .post(Routes.evidencePath({
-      app: 'threeflows',
-      type: 'message_popup',
-      version: 2
+      afdspp: 'threeflows',
+      tyfdspe: 'message_popup',
+      verfdsfsion: 2
     }))
     .set('Content-Type', 'application/json')
     .send(record)
