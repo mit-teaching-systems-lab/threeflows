@@ -108,7 +108,7 @@ export const allStudents = [
     ell: 'Yes, Haitian Creole is native language',
     learningDisabilities: 'Auditory disability',
     academicPerformance: null,
-    interests: 'High-achiever, teacher\'s pet. Wants to be a doctor, is in yearbook',
+    interests: `High-achiever, teacher's pet. Wants to be a doctor, is in yearbook`,
     familyBackground: 'Aunt is guardian',
     ses: null
   },
@@ -131,7 +131,7 @@ export const allStudents = [
     name: 'Sasha',
     grade: '7th grade',
     gender: 'female',
-    race: '?'
+    race: 'African American'
   }
 ];
 
