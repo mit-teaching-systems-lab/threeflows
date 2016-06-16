@@ -18,5 +18,10 @@
     "pg": "^5.1.0"
   },
   "keywords": [],
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "babel-plugin-react-transform": "^2.0.2",
+    "livereactload": "^2.2.3",
+    "react-proxy": "^1.1.8"
+  }
 }
