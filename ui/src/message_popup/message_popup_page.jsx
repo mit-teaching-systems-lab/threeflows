@@ -11,11 +11,37 @@ import request from 'superagent';
 import TextChangeEvent from '../types/dom_types.js';
 
 
-const allQuestions = [
-  { text: 'At the conclusion of your lesson plan for this challenge, you seed a group discussion by asking "What are you curious about related to photosynthesis?"  Hayin says "Why are plants green?"  What do you do?' },
-  { text: `Imagine a new student, Sasha, joins your classroom during the lesson plan you developed for this challenge.  As part of helping her feel comfortable, you pull her aside and give her a quick overview of what's happening at the beginning of the class.  She interrupts and asks, "I do better with visuals, can you draw me a picture of photosynthesis?"  What could you quickly sketch to directly answer to her question?` },
-  { text: 'In the context of the lesson plan you developed for this challenge, Floyd says "why are we even doing this?"  Respond in way that engages his natural curiosity and tendency towards asking questions' }
+const allStudents = [
+  { id: 4, name: 'Hayin' },
+  { id: 5, name: 'Sasha' },
+  {
+    id: 6,
+    name: 'Floyd',
+    grade: '7th grade',
+    gender: 'male',
+    race: 'Caucasian',
+    behavior: 'Attendance issues',
+    learningDisabilities: 'ADHD',
+    interests: 'Wants to be a firefighter',
+    familyBackground: 'Divorced parents, younger brother',
+    ses: 'Free and reduced lunch'
+  }
 ];
+
+const allQuestions = [
+  { studentId: 6, text: 'At the conclusion of your lesson plan for this challenge, you seed a group discussion by asking "What are you curious about related to photosynthesis?"  Hayin says "Why are plants green?"  What do you do?' },
+  { studentId: 6, text: `Imagine a new student, Sasha, joins your classroom during the lesson plan you developed for this challenge.  As part of helping her feel comfortable, you pull her aside and give her a quick overview of what's happening at the beginning of the class.  She interrupts and asks, "I do better with visuals, can you draw me a picture of photosynthesis?"  What could you quickly sketch to directly answer to her question?` },
+  { studentId: 6, text: 'In the context of the lesson plan you developed for this challenge, Floyd says "why are we even doing this?"  Respond in way that engages his natural curiosity and tendency towards asking questions' }
+];
+
+
+function randomizedQuestionsWithStudents() {
+  return _.shuffle(allQuestions).map((question) => {
+    const student = _.find(allStudents, {id: question.studentId });
+    return _.extend({student}, question);
+  });
+}
+
 
 /*
 [{"elapsedMs":1000,"responseText":"ok","name":"Kevin","timestamp":1466011218718}
@@ -50,12 +76,13 @@ export default React.createClass({
   displayName: 'MessagePopupPage',
 
   getInitialState: function() {
+    const questions = randomizedQuestionsWithStudents();
     return {
       name: '',
       hasStarted: false,
-      totalQuestions: Math.min(10, allQuestions.length),
+      totalQuestions: Math.min(10, questions.length),
       questionsAnswered: 0,
-      questions: _.shuffle(allQuestions)
+      questions: questions
     };
   },
 
@@ -116,7 +143,7 @@ export default React.createClass({
 
   renderInstructions() {
     return (
-      <div style={styles.container}>
+      <div style={_.merge(styles.instructions, styles.container)}>
         <div style={styles.title}>Message Popup</div>
         <p style={styles.paragraph}>Clear 10 minutes.  Your work is timed, so being able to focus is important.</p>
         <p style={styles.paragraph}>You may be asked to write, sketch or say your responses aloud.</p>
@@ -141,9 +168,11 @@ export default React.createClass({
 });
 
 const styles = {
+  instructions: {
+    padding: 20
+  },
   container: {
     border: '1px solid #ccc',
-    padding: 20,
     margin: 20,
     width: 400,
     fontSize: 18
