@@ -142,7 +142,7 @@ export const allQuestions = [
   },
   {
     studentId: 10, 
-    text: `Imagine a new student, Sasha, joins your classroom during the lesson plan you developed for this challenge.  As part of helping her feel comfortable, you pull her aside and give her a quick overview of what's happening at the beginning of the class.  She interrupts and asks, "I do better with visuals, can you draw me a picture of photosynthesis?"  What could you quickly sketch to directly answer to her question?` 
+    text: 'Imagine a new student, Sasha, joins your classroom during the lesson plan you developed for this challenge.  As part of helping her feel comfortable, you give her a quick overview of what’s happening.  She asks "what is photosynthesis again?"  How can you give a brief direct answer to her question?' 
   },
   { 
     studentId: 2, 
