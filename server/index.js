@@ -27,7 +27,10 @@ function queryDatabase(text, values, cb) {
   });
 };
 
-// This endpoint receives all evidence, 
+// This endpoint that receives all evidence.
+// The payload is determined by the type, but for now it only
+// supports JSON serialization and puts everything in the same
+// Postgres table with a jsonb column.
 app.post('/server/evidence/:app/:type/:version', function(request, response) {
   const timestamp = new Date().getTime();
   const {app, type, version} = request.params;
@@ -35,7 +38,7 @@ app.post('/server/evidence/:app/:type/:version', function(request, response) {
   const values = [app, type, version, payload, timestamp];
 
   const sql = `
-    INSERT INTO evidence(payload, timestamp)
+    INSERT INTO evidence(app, type, version, timestamp, json)
     VALUES ($1,$2,$3,$4,$5)`;
   queryDatabase(sql, values, function(err, result) {
     if (err) {
@@ -47,6 +50,7 @@ app.post('/server/evidence/:app/:type/:version', function(request, response) {
   });
 });
 
+// For debugging.
 app.get('/server/dump', function(request, response) {
   queryDatabase('SELECT * FROM evidence', [], function(err, result) {
     if (err) {
