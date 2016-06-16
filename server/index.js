@@ -52,7 +52,8 @@ app.post('/server/evidence/:app/:type/:version', function(request, response) {
 
 // For debugging.
 app.get('/server/dump', function(request, response) {
-  queryDatabase('SELECT * FROM evidence', [], function(err, result) {
+  const limit = 100;
+  queryDatabase('SELECT * FROM evidence ORDER BY timestamp DESC LIMIT $1', [limit], function(err, result) {
     if (err) {
       console.log({ error: err });
       return response.code(500);
