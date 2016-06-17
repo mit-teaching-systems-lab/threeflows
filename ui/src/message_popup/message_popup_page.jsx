@@ -54,11 +54,12 @@ export default React.createClass({
   getInitialState: function() {
     const questions = randomizedQuestionsWithStudents();
     const {query} = this.props;
-    
+
     return {
       name: '',
-      shouldShowStudentCards: query.cards || false,
-      allowedToToggleHint: query.hints || false,
+      shouldShowStudentCards: !query.solution && query.cards || false,
+      allowedToToggleHint: !query.solution && query.hints || false,
+      isSolutionMode: query.solution || false,
       hasStarted: false,
       totalQuestions: Math.min(10, questions.length),
       questionsAnswered: 0,
@@ -73,10 +74,11 @@ export default React.createClass({
   onResponse(response:Response) {
     const logFn = (window.location.host.indexOf('localhost') === 0)
       ? logLocalStorage : logDatabase;
-    logFn(Object.assign(response, {
+    logFn({
+      ...response,
       name: this.state.name,
       clientTimestampMs: new Date().getTime()
-    }));
+    });
     this.setState({ questionsAnswered: this.state.questionsAnswered + 1 });
   },
 
@@ -138,26 +140,7 @@ export default React.createClass({
         <p style={styles.paragraph}>You may be asked to write, sketch or say your responses aloud.</p>
         <p style={styles.paragraph}>Each question is timed to simulate responding in the moment in the classroom.  You'll have 60 seconds to respond to each question.</p>
         <Divider />
-        <div style={{}}>
-          <div style={{fontSize: 16, padding: 20}}>
-            <Toggle
-              label="With student cards"
-              labelPosition="right"
-              toggled={this.state.shouldShowStudentCards}
-              onToggle={this.onStudentCardsToggled} />
-            <Toggle
-              label="With feeback and revision"
-              labelPosition="right"
-              toggled={false}
-              disabled={true}  />
-            <Toggle
-              label="With hints available"
-              labelPosition="right"
-              toggled={false}
-              disabled={true} />
-          </div>
-        </div>
-        <Divider />
+        {!this.state.isSolutionMode && this.renderScaffoldingOptions()}
         <TextField
           underlineShow={false}
           floatingLabelText="What's your name?"
@@ -172,6 +155,31 @@ export default React.createClass({
             primary={true}
             label="Start" />
         </div>
+      </div>
+    );
+  },
+
+  renderScaffoldingOptions() {
+    return (
+      <div>
+        <div style={{fontSize: 16, padding: 20}}>
+          <Toggle
+            label="With student cards"
+            labelPosition="right"
+            toggled={this.state.shouldShowStudentCards}
+            onToggle={this.onStudentCardsToggled} />
+          <Toggle
+            label="With feeback and revision"
+            labelPosition="right"
+            toggled={false}
+            disabled={true}  />
+          <Toggle
+            label="With hints available"
+            labelPosition="right"
+            toggled={false}
+            disabled={true} />
+        </div>
+        <Divider />
       </div>
     );
   }

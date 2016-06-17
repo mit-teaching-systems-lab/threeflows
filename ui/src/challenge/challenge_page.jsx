@@ -28,18 +28,11 @@ export default React.createClass({
     const {challenge, user} = this.props;
     return (
       <div style={styles.page}>
-        <div style={styles.menu}>
-          <SideMenu
-            chatUrl={Routes.chatRoom('demo-academy')}
-            videoUrl={Routes.videoFor(challenge.name)}
-            driveUrl={Routes.driveFolder(user.driveFolderId)} />
-        </div>
         <div style={styles.content}>
           <a style={styles.challengeTitle} href={Routes.challengePath(challenge.id)}>{challenge.name} Challenge</a>
           <div style={styles.section}>{this.renderScenario()}</div>
           <div style={styles.section}>{this.renderSolution()}</div>
           <div style={styles.section}>{this.renderLearningObjectives()}</div>
-          <div style={styles.section}>{this.renderLearningPlan()}</div>
           <div style={styles.section}>{this.renderLearningExperiences()}</div>
         </div>
       </div>
@@ -65,13 +58,6 @@ export default React.createClass({
             secondary={true}
             label="Virtual classroom"
             onTouchTap={Routes.newTab.bind(Routes, 'https://docs.google.com/document/d/1y-F6SdaCLCSMw3GV5pR96MZHcZT2U4aWXXPTnRTd7ts/edit#heading=h.rphe0u4lat3v')} />
-          <FlatButton
-            secondary={true}
-            label="Clarify scenario"
-            onTouchTap={Routes.newTab.bind(Routes, Routes.chatMessage('ejspang'))} />
-          <div style={styles.driveContainer}>
-            <iframe src={`${Routes.embeddedDriveList(driveFolderId)}#list`} style={styles.driveIframe}></iframe>
-          </div>
         </CardActions>
       </Card>
     );
@@ -91,13 +77,14 @@ export default React.createClass({
         <CardActions expandable={true}>
           <FlatButton
             label="Lesson Sketch"
+            disabled={true}
             secondary={true}
             onTouchTap={Routes.newTab.bind(Routes, 'https://docs.google.com/document/d/1y-F6SdaCLCSMw3GV5pR96MZHcZT2U4aWXXPTnRTd7ts/edit#heading=h.yuqrdnz6q8dr')} />
           <FlatButton
             label="Message PopUp"
             secondary={true}
             linkButton={true}
-            href={Routes.messagePopupPath()} />
+            href={Routes.messagePopupSolutionPath()} />
         </CardActions>
       </Card>
     );
@@ -116,24 +103,6 @@ export default React.createClass({
         <CardText expandable={true}>
           <LearningObjectivesTable learningObjectives={learningObjectives} />
         </CardText>
-      </Card>
-    );
-  },
-
-  renderLearningPlan() {
-    return (
-      <Card
-        initiallyExpanded={false}>
-        <CardHeader
-          title="Learning Plan"
-          titleStyle={styles.cardTitleHeader}
-          subtitle="Make your plan and get feedback"
-          actAsExpander={true}
-          showExpandableButton={true}
-        />
-        <CardActions expandable={true}>
-          <LearningPlan />
-        </CardActions>
       </Card>
     );
   },
@@ -164,7 +133,8 @@ const styles = {
   page: {
     display: 'flex',
     flexDirection: 'row',
-    backgroundColor: '#5481a9'
+    backgroundColor: '#5481a9',
+    padding: 20
   },
   menu: {
     marginLeft: 10,
@@ -174,6 +144,7 @@ const styles = {
     flexDirection: 'column',
     marginTop: 15,
     paddingRight: 10,
+    maxWidth: 800
   },
   challengeTitle: {
     display: 'block',

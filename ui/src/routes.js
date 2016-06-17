@@ -21,6 +21,10 @@ export function messagePopupPath() {
   return `/message_popup`;
 }
 
+export function messagePopupSolutionPath() {
+  return `/message_popup?solution`;
+}
+
 
 /* Services */
 type EvidencePathT = {app:string, type:string, version:number};
