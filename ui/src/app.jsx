@@ -44,7 +44,7 @@ You need to also keep in mind that Margaret, who is both a colleague and your de
     {
       img: 'http://i-cdn.phonearena.com/images/article/41632-image/Google-Babel-references-appear-in-strings-of-code-pop-up-message.jpg',
       href: '/message_popup?cards&hints',
-      title: 'Message PopUp',
+      title: 'Message PopUp practice',
     },
     {
       img: 'http://cdn.rainbowresource.netdna-cdn.com/products/046383.jpg',
@@ -52,14 +52,9 @@ You need to also keep in mind that Margaret, who is both a colleague and your de
     },
     {
       img: 'http://ecx.images-amazon.com/images/I/41vC9AUIoSL._AC_UL320_SR256,320_.jpg',
-      title: 'Slate about formative assessment',
+      title: 'Slate on Formative Assessment',
       href: '/slate/32'
-    },
-    {
-      img: 'https://www.mursion.com/wp-content/uploads/2015/11/Teacher-Preparation-And-Professional-Development.png',
-      href: 'https://www.mursion.com/',
-      title: 'Mursion',
-    },
+    }
   ]
 }];
 

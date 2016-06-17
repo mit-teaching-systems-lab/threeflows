@@ -2,6 +2,7 @@
 /*
 Navigation functions
 */
+import queryString from 'querystring';
 import ReactMiniRouter from 'react-mini-router';
 export const navigate = ReactMiniRouter.navigate;
 export function newTab(url:string):void {
@@ -19,6 +20,10 @@ export function challengePath(id:number):string {
 
 export function messagePopupPath() {
   return `/message_popup`;
+}
+
+export function messagePopupSolutionPath() {
+  return `/message_popup?solution`;
 }
 
 
