@@ -5,6 +5,7 @@ import {rules} from './routes';
 import ChallengePage from './challenge/challenge_page.jsx';
 import HomePage from './home/home_page.jsx';
 import SlatePage from './slate/slate_page.jsx';
+import CSSTankPage from './csstank/csstank_page.jsx';
 import MessagePopupPage from './message_popup/message_popup_page.jsx'
 
 // material-ui
@@ -38,7 +39,7 @@ You need to also keep in mind that Margaret, who is both a colleague and your de
   ],
   learningExperiences: [{
       img: 'http://www.ballermindframe.com/pop-culture-spin/wp-content/uploads/sites/7/2015/04/sharktank.jpg',
-      href: 'https://rnplay.org/apps/KJBRnQ',
+      href: '/csstank',
       title: 'Cognitive Science Shark Tank',
     },
     {
@@ -48,6 +49,7 @@ You need to also keep in mind that Margaret, who is both a colleague and your de
     },
     {
       img: 'http://cdn.rainbowresource.netdna-cdn.com/products/046383.jpg',
+      href: 'https://docs.google.com/document/d/1DPwL3kXN7F5TWzo5UXCRgnaG5NNAwBVFqHjZa-io9t0/edit?usp=sharing',
       title: 'Inquiry Kit',
     },
     {
@@ -68,7 +70,8 @@ export default React.createClass({
     '/': 'home',
     '/challenge/:id': 'challenge',
     '/message_popup': 'messagePopup',
-    '/slate/:id': 'slate'
+    '/slate/:id': 'slate',
+    '/csstank': 'cssTank'
   },
 
   getInitialState: function() {
@@ -107,6 +110,10 @@ export default React.createClass({
 
   messagePopup(query = {}) {
     return <MessagePopupPage query={query} />;
+  },
+  
+  cssTank(query = {}) {
+    return <CSSTankPage query={query} />;
   },
 
   slate(id, query = {}) {

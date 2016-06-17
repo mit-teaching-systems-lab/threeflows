@@ -33,7 +33,6 @@ export default React.createClass({
           <div style={styles.section}>{this.renderScenario()}</div>
           <div style={styles.section}>{this.renderSolution()}</div>
           <div style={styles.section}>{this.renderLearningObjectives()}</div>
-          <div style={styles.section}>{this.renderLearningPlan()}</div>
           <div style={styles.section}>{this.renderLearningExperiences()}</div>
         </div>
       </div>
@@ -145,6 +144,7 @@ const styles = {
     flexDirection: 'column',
     marginTop: 15,
     paddingRight: 10,
+    maxWidth: 800
   },
   challengeTitle: {
     display: 'block',

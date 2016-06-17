@@ -23,7 +23,7 @@ export default React.createClass({
         {learningExperiences.map((tile, index) => {
           const key = `${tile.img}-${index}`;
           return (
-            <a key={key} href={tile.href || null}>
+            <a key={key} target="_blank" href={tile.href || null}>
               <GridTile
                 key={key}
                 title={tile.title}
