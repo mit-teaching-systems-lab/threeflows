@@ -26,3 +26,17 @@ export const Challenge = React.PropTypes.shape({
 export const User = React.PropTypes.shape({
   driveFolderId: React.PropTypes.string.isRequired
 });
+
+export const Student = React.PropTypes.shape({
+  name: React.PropTypes.string.isRequired,
+  grade: React.PropTypes.string.isRequired,
+  gender: React.PropTypes.string.isRequired,
+  race: React.PropTypes.string.isRequired,
+  behavior: React.PropTypes.string,
+  ell: React.PropTypes.string,
+  learningDisabilities: React.PropTypes.string,
+  academicPerformace: React.PropTypes.string,
+  interests: React.PropTypes.string,
+  familyBackground: React.PropTypes.string,
+  ses: React.PropTypes.string
+}).isRequired

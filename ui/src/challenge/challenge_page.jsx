@@ -57,7 +57,7 @@ export default React.createClass({
           <FlatButton
             secondary={true}
             label="Virtual classroom"
-            onTouchTap={Routes.newTab.bind(Routes, 'https://docs.google.com/document/d/1y-F6SdaCLCSMw3GV5pR96MZHcZT2U4aWXXPTnRTd7ts/edit#heading=h.rphe0u4lat3v')} />
+            onTouchTap={Routes.newTab.bind(Routes, '/virtual_school')} />
         </CardActions>
       </Card>
     );
