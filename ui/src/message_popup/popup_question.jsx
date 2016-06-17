@@ -12,12 +12,20 @@ const ONE_SECOND = 1000;
 Shows a single question.
 */
 type Question = {text:string};
-export type Response = {question:Question,elapsedMs:number,responseText:string};
+export type Response = {
+  question:Question,
+  elapsedMs:number,
+  responseText:string,
+  shouldShowStudentCard:boolean,
+  allowedToToggleHint:boolean
+};
 export default React.createClass({
   displayName: 'PopupQuestion',
   mixins: [SetIntervalMixin],
 
   propTypes: {
+    shouldShowStudentCard: React.PropTypes.bool.isRequired,
+    allowedToToggleHint: React.PropTypes.bool.isRequired,
     limitMs: React.PropTypes.number.isRequired,
     question: React.PropTypes.shape({
       text: React.PropTypes.string.isRequired,
@@ -48,20 +56,29 @@ export default React.createClass({
 
   onSendPressed() {
     const {elapsedMs, responseText} = this.state;
-    const {question} = this.props;
-    const response:Response = {question, elapsedMs, responseText};
+    const {question, shouldShowStudentCard, allowedToToggleHint} = this.props;
+    const response:Response = {
+      question,
+      shouldShowStudentCard,
+      allowedToToggleHint,
+      elapsedMs,
+      responseText
+    }
     this.props.onResponse(response);
   },
 
   render() {
     const {elapsedMs} = this.state;
-    const {limitMs} = this.props;
+    const {limitMs, shouldShowStudentCard} = this.props;
     const {text, student} = this.props.question;
 
     return (
       <div>
         <div style={styles.question}>{text}</div>
-        <div style={styles.studentCard}><StudentCard student={student} /></div>
+        {shouldShowStudentCard &&
+          <div style={styles.studentCard}>
+            <StudentCard student={student} />
+          </div>}
         <div style={styles.textAreaContainer}>
           <TextField
             style={styles.textField}

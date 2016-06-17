@@ -4,6 +4,8 @@ import React from 'react';
 import * as Routes from '../routes';
 import * as PropTypes from '../prop_types.js';
 import RaisedButton from 'material-ui/RaisedButton';
+import Toggle from 'material-ui/Toggle';
+import Divider from 'material-ui/Divider';
 import PopupQuestion from './popup_question.jsx';
 import type {Response} from './popup_question.jsx';
 import TextField from 'material-ui/TextField';
@@ -18,12 +20,6 @@ function randomizedQuestionsWithStudents() {
   });
 }
 
-
-/*
-[{"elapsedMs":1000,"responseText":"ok","name":"Kevin","timestamp":1466011218718}
- {"elapsedMs":6000,"responseText":"wat","name":"Kevin","timestamp":1466011224811}
- {"elapsedMs":2000,"responseText":"i dunno","name":"Kevin","timestamp":1466011227651}]
-*/
 function logLocalStorage(record) {
   const KEY = 'messagePopupResponses';
   const string = window.localStorage.getItem(KEY);
@@ -55,6 +51,8 @@ export default React.createClass({
     const questions = randomizedQuestionsWithStudents();
     return {
       name: '',
+      shouldShowStudentCards: true,
+      allowedToToggleHint: false,
       hasStarted: false,
       totalQuestions: Math.min(10, questions.length),
       questionsAnswered: 0,
@@ -66,16 +64,13 @@ export default React.createClass({
     this.setState({ hasStarted: true });
   },
 
-  onResponse({question, elapsedMs, responseText}:Response) {
+  onResponse(response:Response) {
     const logFn = (window.location.host.indexOf('localhost') === 0)
       ? logLocalStorage : logDatabase;
-    logFn({
-      question,
-      elapsedMs,
-      responseText,
+    logFn(Object.assign(response, {
       name: this.state.name,
       clientTimestampMs: new Date().getTime()
-    });
+    }));
     this.setState({ questionsAnswered: this.state.questionsAnswered + 1 });
   },
 
@@ -83,12 +78,22 @@ export default React.createClass({
     Routes.navigate(Routes.Home);
   },
 
+  onStudentCardsToggled() {
+    this.setState({ shouldShowStudentCards: !this.state.shouldShowStudentCards });
+  },
+
   onTextChanged({target:{value}}:TextChangeEvent) {
     this.setState({ name: value });
   },
 
   render() {
-    const {hasStarted, totalQuestions, questionsAnswered} = this.state;
+    const {
+      hasStarted,
+      totalQuestions,
+      questionsAnswered,
+      shouldShowStudentCards,
+      allowedToToggleHint
+    } = this.state;
     if (!hasStarted) return this.renderInstructions();
     if (questionsAnswered >= totalQuestions) return this.renderDone();
 
@@ -98,6 +103,8 @@ export default React.createClass({
         <PopupQuestion
           key={JSON.stringify(question)}
           question={question}
+          shouldShowStudentCard={shouldShowStudentCards}
+          allowedToToggleHint={allowedToToggleHint}
           limitMs={60000}
           onResponse={this.onResponse} />
       </div>
@@ -124,20 +131,41 @@ export default React.createClass({
         <p style={styles.paragraph}>Clear 10 minutes.  Your work is timed, so being able to focus is important.</p>
         <p style={styles.paragraph}>You may be asked to write, sketch or say your responses aloud.</p>
         <p style={styles.paragraph}>Each question is timed to simulate responding in the moment in the classroom.  You'll have 60 seconds to respond to each question.</p>
-        <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center'}}>
-          <TextField
-            underlineShow={false}
-            floatingLabelText="What's your name?"
-            onChange={this.onTextChanged}
-            multiLine={true}
-            rows={2}/>
+        <Divider />
+        <div style={{}}>
+          <div style={{fontSize: 16, padding: 20}}>
+            <Toggle
+              label="With student cards"
+              labelPosition="right"
+              toggled={this.state.shouldShowStudentCards}
+              onToggle={this.onStudentCardsToggled} />
+            <Toggle
+              label="With feeback and revision"
+              labelPosition="right"
+              toggled={false}
+              disabled={true}  />
+            <Toggle
+              label="With hints available"
+              labelPosition="right"
+              toggled={false}
+              disabled={true} />
+          </div>
+        </div>
+        <Divider />
+        <TextField
+          underlineShow={false}
+          floatingLabelText="What's your name?"
+          onChange={this.onTextChanged}
+          multiLine={true}
+          rows={2}/>
+        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-end'}}>
           <RaisedButton
             disabled={this.state.name === ''}
             onTouchTap={this.onStartPressed}
             style={styles.button}
             primary={true}
             label="Start" />
-          </div>
+        </div>
       </div>
     );
   }
@@ -167,6 +195,5 @@ const styles = {
   },
   button: {
     marginTop: 20
-  },
-  allDone: {}
+  }
 }
