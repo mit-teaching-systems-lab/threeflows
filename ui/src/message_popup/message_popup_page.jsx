@@ -47,12 +47,18 @@ Shows the MessagePopup game
 export default React.createClass({
   displayName: 'MessagePopupPage',
 
+  propTypes: {
+    query: React.PropTypes.object.isRequired
+  },
+
   getInitialState: function() {
     const questions = randomizedQuestionsWithStudents();
+    const {query} = this.props;
+    
     return {
       name: '',
-      shouldShowStudentCards: true,
-      allowedToToggleHint: false,
+      shouldShowStudentCards: query.cards || false,
+      allowedToToggleHint: query.hints || false,
       hasStarted: false,
       totalQuestions: Math.min(10, questions.length),
       questionsAnswered: 0,

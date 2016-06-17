@@ -38,6 +38,7 @@ You need to also keep in mind that Margaret, who is both a colleague and your de
     },
     {
       img: 'http://i-cdn.phonearena.com/images/article/41632-image/Google-Babel-references-appear-in-strings-of-code-pop-up-message.jpg',
+      href: '/message_popup?cards&hints',
       title: 'Message PopUp',
     },
     {
@@ -102,7 +103,7 @@ export default React.createClass({
     return <ChallengePage challenge={challenge} user={this.state.user} />;
   },
 
-  messagePopup() {
-    return <MessagePopupPage />;
+  messagePopup(query = {}) {
+    return <MessagePopupPage query={query} />;
   }
 });
