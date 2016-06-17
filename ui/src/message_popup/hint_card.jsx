@@ -54,7 +54,7 @@ export default React.createClass({
                 onTouchTap={this.onHintsToggled}
                 style={styles.button}
                 secondary={true}
-                label="Show Examples" />
+                label="Show Example" />
             </div>
           </div>)
         }
@@ -80,7 +80,7 @@ export default React.createClass({
                 onTouchTap={this.onHintsToggled}
                 style={styles.button}
                 secondary={true}
-                label="Hide Examples" />
+                label="Hide Example" />
             </div>
           </div>)
         }
