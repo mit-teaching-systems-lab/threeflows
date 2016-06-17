@@ -2,7 +2,6 @@
 /*
 Navigation functions
 */
-import queryString from 'querystring';
 import ReactMiniRouter from 'react-mini-router';
 export const navigate = ReactMiniRouter.navigate;
 export function newTab(url:string):void {
