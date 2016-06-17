@@ -1,20 +1,24 @@
-// @flow
 import React from 'react';
+import _ from 'lodash';
 import * as PropTypes from '../prop_types.js';
 import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 
 /*
-Shows a card for a student from the virtual school.
+This shows a hint in the form of a toggleable good or bad example response
 */
 export default React.createClass({
   displayName: 'HintCard',
 
   getInitialState: function(){
+    var goodExamples = _.map(this.props.examples, function(example){return {type: 'Good', text: example}})
+    var badExamples = _.map(this.props.nonExamples, function(example){return {type: 'Bad', text: example}})
+    var allExamples = _.shuffle(goodExamples.concat(badExamples));
+    var originalAll = _.clone(allExamples);
     return ({
       hidden: true,
-      exampleIndex: 0,
-      nonExampleIndex: 0,
+      allExamples: allExamples,
+      originalAll: originalAll
     });
   },
   
@@ -24,21 +28,13 @@ export default React.createClass({
   },
   
   onNextExample(){
-    var length = this.props.examples.length;
-    var next = this.state.exampleIndex + 1;
-    if(next >= length){
-      next = 0;
+    if(this.state.allExamples.length <= 1){
+      this.setState({allExamples: _.clone(this.state.originalAll)});
+    }else{
+      var examples = this.state.allExamples;
+      examples.splice(0, 1);
+      this.setState({allExamples: examples});
     }
-    this.setState({exampleIndex: next});
-  },
-  
-  onNextNonExample(){
-    var length = this.props.nonExamples.length;
-    var next = this.state.nonExampleIndex + 1;
-    if(next >= length){
-      next = 0;
-    }
-    this.setState({nonExampleIndex: next});
   },
   
   onHintsToggled(){
@@ -47,47 +43,39 @@ export default React.createClass({
 
   render() {
     const {examples, nonExamples} = this.props;
-    const {hidden, exampleIndex, nonExampleIndex} = this.state;
+    const {hidden, allExamples} = this.state;
     return (
       <div>
         {hidden &&
           (<div>
             <div style={styles.buttonRow}>
+              <div style={styles.prompt}>Need a hint?</div>
               <RaisedButton
                 onTouchTap={this.onHintsToggled}
                 style={styles.button}
                 secondary={true}
                 label="Show Examples" />
-              <div style={styles.prompt}>Need a hint?</div>
             </div>
           </div>)
         }
         {!hidden &&
           (<div>
-            <div style={styles.examplesBox}>
-              <div style={styles.exampleSection}>
-                <div style={styles.exampleTitle}>Good Example</div>
-                <div style={styles.exampleText}>
-                  {examples[exampleIndex]}
-                </div>
+            <div style={styles.exampleBox}>
+              <div style={styles.exampleTopRow}>
+                <div style={styles.exampleTitle}>{allExamples[0].type} Example</div>
                 <RaisedButton
                   onTouchTap={this.onNextExample}
                   style={styles.button}
-                  label="Next example" />
+                  label="Show another" />
               </div>
-              <div style={styles.exampleSection}>
-                <div style={styles.exampleTitle}>Bad Example</div>
-                <div style={styles.exampleText}>
-                  {nonExamples[nonExampleIndex]}
-                </div>
-                <RaisedButton
-                  onTouchTap={this.onNextNonExample}
-                  style={styles.button}
-                  label="Next example" />
+              <div style={styles.exampleText}>
+                {allExamples[0].text}
               </div>
             </div>
             
             <div style={styles.buttonRow}>
+              
+              <div></div>
               <RaisedButton
                 onTouchTap={this.onHintsToggled}
                 style={styles.button}
@@ -103,36 +91,36 @@ export default React.createClass({
 
 
 const styles = {
-  exampleSection: {
-    display: 'block',
-    marginRight: 10
-  },
   buttonRow: {
     margin: 10,
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   prompt: {
     fontSize: 16,
     fontWeight: 'bold',
-    display: 'inline-block',
   },
-  button: {
-    display: 'inline-block',
-    float: 'right'
-    
+  exampleBox: {
+    display: 'flex',
+    flexDirection: 'column'
   },
-  examplesBox: {
-    display: 'inline-block'
+  exampleTopRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+    marginRight: 10
   },
   exampleTitle: {
     fontSize: 16,
     fontWeight: 'bold',
     marginTop: 6,
     marginBottom: 2,
-    display: 'block',
     clear: 'right'
   },
   exampleText: {
-    display: 'block',
     marginLeft: 10,
     marginRight: 10,
     marginBottom: 10,

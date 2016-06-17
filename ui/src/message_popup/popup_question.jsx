@@ -112,9 +112,9 @@ export default React.createClass({
 
 const styles = {
   hintCard: {
-    backgroundColor: '',
     marginTop: 5,
-    padding: 10
+    padding: 10,
+    paddingBottom: 0
   },
   studentCard: {
     backgroundColor: '#F1C889',
@@ -126,6 +126,7 @@ const styles = {
     padding: 20
   },
   textAreaContainer: {
+    marginTop: 10,
     margin: 20,
     marginBottom: 10
   },
