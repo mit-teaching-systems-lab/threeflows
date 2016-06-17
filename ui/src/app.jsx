@@ -4,12 +4,17 @@ import {RouterMixin} from 'react-mini-router';
 import {rules} from './routes';
 import ChallengePage from './challenge/challenge_page.jsx';
 import HomePage from './home/home_page.jsx';
+import SlatePage from './slate/slate_page.jsx';
 import MessagePopupPage from './message_popup/message_popup_page.jsx'
 
 // material-ui
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+
+const slates = [
+  { id: 32, topic: 'Formative assessment' }
+];
 
 const challenges = [{
   id: 102,
@@ -47,7 +52,8 @@ You need to also keep in mind that Margaret, who is both a colleague and your de
     },
     {
       img: 'http://ecx.images-amazon.com/images/I/41vC9AUIoSL._AC_UL320_SR256,320_.jpg',
-      title: 'Slate',
+      title: 'Slate about formative assessment',
+      href: '/slate/32'
     },
     {
       img: 'https://www.mursion.com/wp-content/uploads/2015/11/Teacher-Preparation-And-Professional-Development.png',
@@ -66,7 +72,8 @@ export default React.createClass({
   routes: {
     '/': 'home',
     '/challenge/:id': 'challenge',
-    '/message_popup': 'messagePopup'
+    '/message_popup': 'messagePopup',
+    '/slate/:id': 'slate'
   },
 
   getInitialState: function() {
@@ -105,5 +112,10 @@ export default React.createClass({
 
   messagePopup(query = {}) {
     return <MessagePopupPage query={query} />;
+  },
+
+  slate(id, query = {}) {
+    const slate = _.find(slates, (slate) => slate.id === _.toInteger(id));
+    return <SlatePage slate={slate} query={query} />;
   }
 });
