@@ -3,9 +3,6 @@ import * as Routes from '../routes';
 import * as PropTypes from '../prop_types.js';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-
-import SideMenu from '../components/side_menu.jsx';
-import LearningPlan from './learning_plan.jsx';
 import LearningObjectivesTable from './learning_objectives_table.jsx';
 import LearningExperiencesGrid from './learning_experiences_grid.jsx';
 
@@ -25,7 +22,7 @@ export default React.createClass({
   },
 
   render() {
-    const {challenge, user} = this.props;
+    const {challenge} = this.props;
     return (
       <div style={styles.page}>
         <div style={styles.content}>
@@ -40,7 +37,6 @@ export default React.createClass({
   },
 
   renderScenario() {
-    const {driveFolderId} = this.props.user;
     return (
       <Card
         initiallyExpanded={true}>

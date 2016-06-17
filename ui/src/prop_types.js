@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 /*
 Defines common shapes of data.  Can moves this to Flow annotations over time.
@@ -35,7 +35,7 @@ export const Student = React.PropTypes.shape({
   behavior: React.PropTypes.string,
   ell: React.PropTypes.string,
   learningDisabilities: React.PropTypes.string,
-  academicPerformace: React.PropTypes.string,
+  academicPerformance: React.PropTypes.string,
   interests: React.PropTypes.string,
   familyBackground: React.PropTypes.string,
   ses: React.PropTypes.string

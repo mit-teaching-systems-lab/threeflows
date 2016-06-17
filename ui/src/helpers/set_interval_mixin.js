@@ -3,9 +3,9 @@ export default {
     this.intervals = [];
   },
   setInterval: function() {
-    this.intervals.push(setInterval.apply(null, arguments));
+    this.intervals.push(window.setInterval.apply(null, arguments));
   },
   componentWillUnmount: function() {
-    this.intervals.forEach(clearInterval);
+    this.intervals.forEach(window.clearInterval);
   }
 };

@@ -6,6 +6,7 @@
     "build": "cp index.html build/index.html && browserify -t [babelify] src/main.jsx -o build/bundle.js",
     "watch": "npm run build && watchify -t [babelify] -p livereactload src/main.jsx -o build/bundle.js",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
+    "lint-quiet": "eslint --fix --ext jsx -c .eslint src; exit 0",
     "test": "echo No tests yet"
   },
   "repository": {
@@ -36,7 +37,13 @@
     "watchify": "3.7.0"
   },
   "devDependencies": {
+    "babel-eslint": "^6.0.4",
     "babel-plugin-react-transform": "^2.0.2",
+    "eslint": "^2.13.0",
+    "eslint-config-airbnb": "^9.0.1",
+    "eslint-plugin-import": "^1.8.1",
+    "eslint-plugin-jsx-a11y": "^1.5.3",
+    "eslint-plugin-react": "^5.2.2",
     "flow-bin": "^0.27.0",
     "livereactload": "^2.2.3",
     "react-proxy": "^1.1.8"

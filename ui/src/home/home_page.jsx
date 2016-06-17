@@ -1,5 +1,4 @@
 import React from 'react';
-import {rules} from '../routes';
 import * as PropTypes from '../prop_types.js';
 import ChallengeCard from './challenge_card.jsx';
 
