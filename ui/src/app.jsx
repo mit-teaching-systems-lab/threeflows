@@ -102,7 +102,7 @@ export default React.createClass({
     return <ChallengePage challenge={challenge} user={this.state.user} />;
   },
 
-  messagePopup() {
-    return <MessagePopupPage />;
+  messagePopup(query = {}) {
+    return <MessagePopupPage query={query} />;
   }
 });
