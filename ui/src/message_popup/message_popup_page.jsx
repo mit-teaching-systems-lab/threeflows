@@ -181,7 +181,7 @@ export default React.createClass({
             label="With hints available"
             labelPosition="right"
             toggled={this.state.allowedToToggleHint}
-            onToggle={this.onHintsOptionToggled} /> />
+            onToggle={this.onHintsOptionToggled} />
         </div>
         <Divider />
       </div>

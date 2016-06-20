@@ -49,7 +49,7 @@ export default React.createClass({
         {hidden &&
           (<div>
             <div style={styles.buttonRow}>
-              <div style={styles.prompt}>Need a hint?</div>
+              <div></div>
               <RaisedButton
                 onTouchTap={this.onHintsToggled}
                 style={styles.button}
@@ -61,26 +61,17 @@ export default React.createClass({
         {!hidden &&
           (<div>
             <div style={styles.exampleBox}>
-              <div style={styles.exampleTopRow}>
+              <div style={styles.buttonRow}>
                 <div style={styles.exampleTitle}>{allExamples[0].type} Example</div>
                 <RaisedButton
                   onTouchTap={this.onNextExample}
                   style={styles.button}
+                  secondary={true}
                   label="Show another" />
               </div>
               <div style={styles.exampleText}>
                 {allExamples[0].text}
               </div>
-            </div>
-            
-            <div style={styles.buttonRow}>
-              
-              <div></div>
-              <RaisedButton
-                onTouchTap={this.onHintsToggled}
-                style={styles.button}
-                secondary={true}
-                label="Hide Example" />
             </div>
           </div>)
         }
@@ -93,25 +84,14 @@ export default React.createClass({
 const styles = {
   buttonRow: {
     margin: 10,
+    marginTop: 0,
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center'
   },
-  prompt: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
   exampleBox: {
     display: 'flex',
     flexDirection: 'column'
-  },
-  exampleTopRow: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 10,
-    marginRight: 10
   },
   exampleTitle: {
     fontSize: 16,
