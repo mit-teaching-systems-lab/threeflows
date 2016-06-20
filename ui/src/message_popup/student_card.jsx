@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import * as PropTypes from '../prop_types.js';
 
 /*
 Shows a card for a student from the virtual school.
@@ -8,22 +9,16 @@ export default React.createClass({
   displayName: 'StudentCard',
 
   propTypes: {
-    student: React.PropTypes.shape({
-      name: React.PropTypes.string.isRequired,
-      grade: React.PropTypes.string.isRequired,
-      gender: React.PropTypes.string.isRequired,
-      race: React.PropTypes.string.isRequired,
-      behavior: React.PropTypes.string,
-      ell: React.PropTypes.string,
-      learningDisabilities: React.PropTypes.string,
-      academicPerformace: React.PropTypes.string,
-      interests: React.PropTypes.string,
-      familyBackground: React.PropTypes.string,
-      ses: React.PropTypes.string
-    }).isRequired
+    student: PropTypes.Student,
+    style: React.PropTypes.object
   },
 
   render() {
+    const attributeStyle = {
+      ...styles.attribute,
+      ...this.props.attributeStyle
+    };
+
     const {
       name,
       grade,
@@ -39,16 +34,16 @@ export default React.createClass({
     } = this.props.student;
 
     return (
-      <div>
+      <div style={this.props.style}>
         <div style={styles.name}>{name}</div>
-        <div style={styles.attribute}>{`${grade} ${gender}, ${race}`}</div>
-        {behavior && <div style={styles.attribute}>{behavior}</div>}
-        {ell && <div style={styles.attribute}>{ell}</div>}
-        {learningDisabilities && <div style={styles.attribute}>{learningDisabilities}</div>}
-        {academicPerformance && <div style={styles.attribute}>{academicPerformance}</div>}
-        {interests && <div style={styles.attribute}>{interests}</div>}
-        {familyBackground && <div style={styles.attribute}>{familyBackground}</div>}
-        {ses && <div style={styles.attribute}>{ses}</div>}
+        <div style={attributeStyle}>{`${grade} ${gender}, ${race}`}</div>
+        {behavior && <div style={attributeStyle}>{behavior}</div>}
+        {ell && <div style={attributeStyle}>{ell}</div>}
+        {learningDisabilities && <div style={attributeStyle}>{learningDisabilities}</div>}
+        {academicPerformance && <div style={attributeStyle}>{academicPerformance}</div>}
+        {interests && <div style={attributeStyle}>{interests}</div>}
+        {familyBackground && <div style={attributeStyle}>{familyBackground}</div>}
+        {ses && <div style={attributeStyle}>{ses}</div>}
       </div>
     );
   }
