@@ -10,7 +10,8 @@ export default React.createClass({
 
   propTypes: {
     student: PropTypes.Student,
-    style: React.PropTypes.object
+    style: React.PropTypes.object,
+    attributeStyle: React.PropTypes.object
   },
 
   render() {

@@ -1,8 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import * as PropTypes from '../prop_types.js';
 import RaisedButton from 'material-ui/RaisedButton';
-import Divider from 'material-ui/Divider';
 
 /*
 This shows a hint in the form of a toggleable good or bad example response
@@ -11,8 +9,8 @@ export default React.createClass({
   displayName: 'HintCard',
 
   getInitialState: function(){
-    var goodExamples = _.map(this.props.examples, function(example){return {type: 'Good', text: example}})
-    var badExamples = _.map(this.props.nonExamples, function(example){return {type: 'Bad', text: example}})
+    var goodExamples = _.map(this.props.examples, function(example){return {type: 'Good', text: example};});
+    var badExamples = _.map(this.props.nonExamples, function(example){return {type: 'Bad', text: example};});
     var allExamples = _.shuffle(goodExamples.concat(badExamples));
     var originalAll = _.clone(allExamples);
     return ({
@@ -42,7 +40,6 @@ export default React.createClass({
   },
 
   render() {
-    const {examples, nonExamples} = this.props;
     const {hidden, allExamples} = this.state;
     return (
       <div>
