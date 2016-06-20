@@ -1,10 +1,9 @@
+import _ from 'lodash';
 import React from 'react';
 import * as PropTypes from '../prop_types.js';
 import {
   Table,
   TableBody,
-  TableHeader,
-  TableHeaderColumn,
   TableRow,
   TableRowColumn
 } from 'material-ui/Table';
@@ -38,7 +37,7 @@ export default React.createClass({
       <Table>
         <TableBody displayRowCheckbox={false}>
           {collapsedLearningObjectives.map(function(learningObjective) {
-           return (
+            return (
               <TableRow key={learningObjective.competencyGroup} style={{height: 'auto'}}>
                 <TableRowColumn style={{verticalAlign: 'top', whiteSpace: 'pre-wrap', paddingTop: 10, paddingBottom: 10, width: '30%'}}>
                   <div style={{fontSize: 18}}>{learningObjective.competencyGroup}</div>

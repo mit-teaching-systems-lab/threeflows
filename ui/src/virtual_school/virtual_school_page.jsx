@@ -1,12 +1,17 @@
 import React from 'react';
-import {allStudents} from '../message_popup/data_lists.jsx'; // TODO(kr) move to shared place
-import StudentCard from '../message_popup/student_card.jsx'; // TODO(kr) move to shared
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import {allStudents} from '../message_popup/data_lists.jsx';
+import StudentCard from '../message_popup/student_card.jsx';
+import * as PropTypes from '../prop_types.js';
+import {Card, CardHeader, CardText} from 'material-ui/Card';
 
 
 
 export default React.createClass({
   displayName: 'VirtualSchoolPage',
+
+  propTypes: {
+    students: React.arrayOf(PropTypes.Student).isRequired
+  },
 
   getDefaultProps() {
     return {

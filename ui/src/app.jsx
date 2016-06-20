@@ -1,13 +1,12 @@
 import React from 'react';
 import _ from 'lodash';
 import {RouterMixin} from 'react-mini-router';
-import {rules} from './routes';
 import ChallengePage from './challenge/challenge_page.jsx';
 import HomePage from './home/home_page.jsx';
 import SlatePage from './slate/slate_page.jsx';
 import CSSTankPage from './csstank/csstank_page.jsx';
 import VirtualSchoolPage from './virtual_school/virtual_school_page.jsx';
-import MessagePopupPage from './message_popup/message_popup_page.jsx'
+import MessagePopupPage from './message_popup/message_popup_page.jsx';
 
 // material-ui
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -35,7 +34,8 @@ You need to also keep in mind that Margaret, who is both a colleague and your de
     { id: 'BIO-C-2', competencyGroup: 'Biology Content Knowledge', text: 'Demonstrate knowledge of required biology standards in the following core ideas: From Molecules to Organisms: Structures and Processes, Ecosystems: Interactions, Energy, and Dynamics, Heredity: Inheritance and Variation of Traits, Biological Evolution: Unity and Diversity' },
     { id: 'BIO-P-2E', competencyGroup: 'Biology Pedagogical Knowledge', text: 'Use a variety of instructional approaches/methods (e.g. inquiry, project-based learning) in lessons to engage students in asking and answering questions about biology.' }
   ],
-  learningExperiences: [{
+  learningExperiences: [
+    {
       img: 'http://www.ballermindframe.com/pop-culture-spin/wp-content/uploads/sites/7/2015/04/sharktank.jpg',
       href: '/csstank',
       title: 'Cognitive Science Shark Tank',

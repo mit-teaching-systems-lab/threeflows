@@ -1,12 +1,11 @@
 // @flow
 import React from 'react';
 import SetIntervalMixin from '../helpers/set_interval_mixin.js';
-import * as PropTypes from '../prop_types.js';
-import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
 import TextChangeEvent from '../types/dom_types.js';
 import StudentCard from './student_card.jsx';
-import HintCard from './hint_card.jsx'
+import HintCard from './hint_card.jsx';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
 const ONE_SECOND = 1000;
 
 /*
@@ -54,7 +53,7 @@ export default React.createClass({
   },
 
   onTextChanged({target:{value}}:TextChangeEvent) {
-    this.setState({ responseText: value })
+    this.setState({ responseText: value });
   },
 
   onSendPressed() {
@@ -66,7 +65,7 @@ export default React.createClass({
       allowedToToggleHint,
       elapsedMs,
       responseText
-    }
+    };
     this.props.onResponse(response);
   },
 

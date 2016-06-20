@@ -17,6 +17,8 @@ It's expecting [Postgres](https://devcenter.heroku.com/articles/heroku-postgresq
 #### Tools
 The project is built with [Browserify](http://browserify.org/) and uses Babel via [bablify](https://github.com/babel/babelify) to transpile ES6 and JSX.  It also uses [livereactload](https://github.com/milankinen/livereactload) for hot reloading of React components in local development.
 
+For static analysis, we're experimenting with [eslint](http://eslint.org/) and [Flow](https://flowtype.org/).  The configuration for eslint uses [eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react) and [babel-eslint](https://github.com/babel/babel-eslint).  None of these tools trigger build failures right now, but can be run locally.
+
 #### Watch and build with hot reloading
 In another terminal, start process that will continually build the UI with hot reloading:
 ```

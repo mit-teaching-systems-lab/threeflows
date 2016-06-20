@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {challengePath} from '../routes';
 
 const styles = {
@@ -13,6 +12,7 @@ export default React.createClass({
   displayName: 'ChallengeCard',
 
   propTypes: {
+    id: React.PropTypes.number.isRequired,
     name: React.PropTypes.string.isRequired
   },
   render: function() {

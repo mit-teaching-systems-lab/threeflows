@@ -18,11 +18,11 @@ export function challengePath(id:number):string {
 }
 
 export function messagePopupPath() {
-  return `/message_popup`;
+  return '/message_popup';
 }
 
 export function messagePopupSolutionPath() {
-  return `/message_popup?solution`;
+  return "/message_popup?solution";
 }
 
 

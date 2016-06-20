@@ -2,16 +2,15 @@
 import _ from 'lodash';
 import React from 'react';
 import * as Routes from '../routes';
-import * as PropTypes from '../prop_types.js';
+import type {Response} from './popup_question.jsx';
 import RaisedButton from 'material-ui/RaisedButton';
 import Toggle from 'material-ui/Toggle';
 import Divider from 'material-ui/Divider';
 import PopupQuestion from './popup_question.jsx';
-import type {Response} from './popup_question.jsx';
 import TextField from 'material-ui/TextField';
 import request from 'superagent';
 import TextChangeEvent from '../types/dom_types.js';
-import { allStudents, allQuestions } from './data_lists.jsx'
+import { allStudents, allQuestions } from './data_lists.jsx';
 
 function randomizedQuestionsWithStudents() {
   return _.shuffle(allQuestions).map((question) => {
@@ -29,6 +28,8 @@ function logLocalStorage(record) {
   window.localStorage.setItem(KEY, updatedString);
 }
 
+// For now, this fires and forgets and does not retry or
+// notify the user on success or failure.
 function logDatabase(record) {
   request
     .post(Routes.evidencePath({
@@ -37,8 +38,7 @@ function logDatabase(record) {
       version: 2
     }))
     .set('Content-Type', 'application/json')
-    .send(record)
-    .end(function(err, res) { if (err) console.log({err}); });
+    .send(record);
 }
 
 /*
@@ -214,4 +214,4 @@ const styles = {
   button: {
     marginTop: 20
   }
-}
+};
