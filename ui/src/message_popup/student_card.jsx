@@ -9,7 +9,7 @@ export default React.createClass({
   displayName: 'StudentCard',
 
   propTypes: {
-    student: PropTypes.Student,
+    student: PropTypes.Student.isRequired,
     style: React.PropTypes.object,
     attributeStyle: React.PropTypes.object
   },

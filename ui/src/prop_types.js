@@ -39,4 +39,4 @@ export const Student = React.PropTypes.shape({
   interests: React.PropTypes.string,
   familyBackground: React.PropTypes.string,
   ses: React.PropTypes.string
-}).isRequired
+});
