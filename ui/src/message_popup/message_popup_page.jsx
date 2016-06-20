@@ -89,6 +89,10 @@ export default React.createClass({
   onStudentCardsToggled() {
     this.setState({ shouldShowStudentCards: !this.state.shouldShowStudentCards });
   },
+  
+  onHintsOptionToggled(){
+    this.setState({ allowedToToggleHint: !this.state.allowedToToggleHint });
+  },
 
   onTextChanged({target:{value}}:TextChangeEvent) {
     this.setState({ name: value });
@@ -176,8 +180,8 @@ export default React.createClass({
           <Toggle
             label="With hints available"
             labelPosition="right"
-            toggled={false}
-            disabled={true} />
+            toggled={this.state.allowedToToggleHint}
+            onToggle={this.onHintsOptionToggled} />
         </div>
         <Divider />
       </div>

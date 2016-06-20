@@ -6,6 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import TextChangeEvent from '../types/dom_types.js';
 import StudentCard from './student_card.jsx';
+import HintCard from './hint_card.jsx'
 const ONE_SECOND = 1000;
 
 /*
@@ -29,6 +30,8 @@ export default React.createClass({
     limitMs: React.PropTypes.number.isRequired,
     question: React.PropTypes.shape({
       text: React.PropTypes.string.isRequired,
+      examples: React.PropTypes.array.isRequired,
+      nonExamples: React.PropTypes.array.isRequired,
       student: React.PropTypes.object.isRequired
     }).isRequired,
     onResponse: React.PropTypes.func.isRequired
@@ -69,8 +72,8 @@ export default React.createClass({
 
   render() {
     const {elapsedMs} = this.state;
-    const {limitMs, shouldShowStudentCard} = this.props;
-    const {text, student} = this.props.question;
+    const {limitMs, shouldShowStudentCard, allowedToToggleHint} = this.props;
+    const {text, student, examples, nonExamples} = this.props.question;
 
     return (
       <div>
@@ -78,6 +81,10 @@ export default React.createClass({
         {shouldShowStudentCard &&
           <div style={styles.studentCard}>
             <StudentCard student={student} />
+          </div>}
+        {allowedToToggleHint && 
+          <div style={styles.hintCard}>
+            <HintCard examples={examples} nonExamples={nonExamples} />
           </div>}
         <div style={styles.textAreaContainer}>
           <TextField
@@ -104,6 +111,11 @@ export default React.createClass({
 
 
 const styles = {
+  hintCard: {
+    marginTop: 5,
+    padding: 10,
+    paddingBottom: 0
+  },
   studentCard: {
     backgroundColor: '#F1C889',
     marginTop: 5,
@@ -114,6 +126,7 @@ const styles = {
     padding: 20
   },
   textAreaContainer: {
+    marginTop: 10,
     margin: 20,
     marginBottom: 10
   },
