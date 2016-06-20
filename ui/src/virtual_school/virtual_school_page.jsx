@@ -1,3 +1,4 @@
+//@flow
 import React from 'react';
 import {allStudents} from '../message_popup/data_lists.jsx';
 import StudentCard from '../message_popup/student_card.jsx';
@@ -10,7 +11,7 @@ export default React.createClass({
   displayName: 'VirtualSchoolPage',
 
   propTypes: {
-    students: React.arrayOf(PropTypes.Student).isRequired
+    students: React.PropTypes.arrayOf(PropTypes.Student).isRequired
   },
 
   getDefaultProps() {
@@ -52,7 +53,7 @@ export default React.createClass({
     );
   },
 
-  renderClassroom(students) {
+  renderClassroom(students:[PropTypes.Student]) {
     return (
       <Card
         initiallyExpanded={true}>
@@ -73,7 +74,7 @@ export default React.createClass({
     );
   },
 
-  renderStudents(students) {
+  renderStudents(students:[PropTypes.Student]) {
     return (
       <Card
         initiallyExpanded={true}>
@@ -90,7 +91,7 @@ export default React.createClass({
     );
   },
 
-  renderCards(students) {
+  renderCards(students:[PropTypes.Student]) {
     return (
       <div>
         {students.map((student) => {
