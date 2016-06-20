@@ -8,6 +8,7 @@ import Toggle from 'material-ui/Toggle';
 import Divider from 'material-ui/Divider';
 import PopupQuestion from './popup_question.jsx';
 import TextField from 'material-ui/TextField';
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import request from 'superagent';
 import TextChangeEvent from '../types/dom_types.js';
 import { allStudents, allQuestions } from './data_lists.jsx';
@@ -19,7 +20,7 @@ function randomizedQuestionsWithStudents() {
   });
 }
 
-function logLocalStorage(record) {
+function logLocalStorage(type, record) {
   const KEY = 'messagePopupResponses';
   const string = window.localStorage.getItem(KEY);
   const records = string ? JSON.parse(string) : [];
@@ -30,11 +31,11 @@ function logLocalStorage(record) {
 
 // For now, this fires and forgets and does not retry or
 // notify the user on success or failure.
-function logDatabase(record) {
+function logDatabase(type, record) {
   request
     .post(Routes.evidencePath({
       app: 'threeflows',
-      type: 'message_popup',
+      type: type,
       version: 2
     }))
     .set('Content-Type', 'application/json')
@@ -54,11 +55,11 @@ export default React.createClass({
   getInitialState: function() {
     const questions = randomizedQuestionsWithStudents();
     const {query} = this.props;
-
+    const help = query.solution ? 'none' : query.feedback ? 'feedback' : query.hints ? 'hints' : 'none';
     return {
       name: '',
       shouldShowStudentCards: !query.solution && query.cards || false,
-      allowedToToggleHint: !query.solution && query.hints || false,
+      helpType: help,
       isSolutionMode: query.solution || false,
       hasStarted: false,
       totalQuestions: Math.min(10, questions.length),
@@ -71,15 +72,18 @@ export default React.createClass({
     this.setState({ hasStarted: true });
   },
 
-  onResponse(response:Response) {
+  onLog(type, response:Response) {
     const logFn = (window.location.host.indexOf('localhost') === 0)
       ? logLocalStorage : logDatabase;
-    logFn({
+    logFn(type, {
       ...response,
       name: this.state.name,
       clientTimestampMs: new Date().getTime()
     });
-    this.setState({ questionsAnswered: this.state.questionsAnswered + 1 });
+  },
+  
+  onQuestionDone() {
+    this.setState({ questionsAnswered: this.state.questionsAnswered + 1 })
   },
 
   onDonePressed() {
@@ -90,10 +94,10 @@ export default React.createClass({
     this.setState({ shouldShowStudentCards: !this.state.shouldShowStudentCards });
   },
   
-  onHintsOptionToggled(){
-    this.setState({ allowedToToggleHint: !this.state.allowedToToggleHint });
+  onHelpToggled(event, value){
+    this.setState({ helpType: value});
   },
-
+  
   onTextChanged({target:{value}}:TextChangeEvent) {
     this.setState({ name: value });
   },
@@ -104,7 +108,9 @@ export default React.createClass({
       totalQuestions,
       questionsAnswered,
       shouldShowStudentCards,
-      allowedToToggleHint
+      helpType
+      //allowedToToggleHint,
+      //shouldShowFeedback
     } = this.state;
     if (!hasStarted) return this.renderInstructions();
     if (questionsAnswered >= totalQuestions) return this.renderDone();
@@ -116,9 +122,10 @@ export default React.createClass({
           key={JSON.stringify(question)}
           question={question}
           shouldShowStudentCard={shouldShowStudentCards}
-          allowedToToggleHint={allowedToToggleHint}
+          helpType={helpType}
           limitMs={60000}
-          onResponse={this.onResponse} />
+          onLog={this.onLog}
+          onDone={this.onQuestionDone}/>
       </div>
     );
   },
@@ -172,16 +179,25 @@ export default React.createClass({
             labelPosition="right"
             toggled={this.state.shouldShowStudentCards}
             onToggle={this.onStudentCardsToggled} />
-          <Toggle
-            label="With feeback and revision"
-            labelPosition="right"
-            toggled={false}
-            disabled={true}  />
-          <Toggle
-            label="With hints available"
-            labelPosition="right"
-            toggled={this.state.allowedToToggleHint}
-            onToggle={this.onHintsOptionToggled} />
+          <div style={{margin: 10}}><Divider /></div>
+          <RadioButtonGroup name="helpOptions" valueSelected={this.state.helpType} onChange={this.onHelpToggled}>
+            <RadioButton
+              value="feedback"
+              label="With feedback and revision"
+              style={styles.radioButton}
+              />
+            <RadioButton
+              value="hints"
+              label="With hints available"
+              style={styles.radioButton}
+              />
+            <RadioButton
+              value="none"
+              label="With no help available"
+              style={styles.radioButton}
+              />
+          </RadioButtonGroup>
+
         </div>
         <Divider />
       </div>

@@ -94,8 +94,7 @@ const styles = {
     fontSize: 16,
     fontWeight: 'bold',
     marginTop: 6,
-    marginBottom: 2,
-    clear: 'right'
+    marginBottom: 2
   },
   exampleText: {
     marginLeft: 10,
