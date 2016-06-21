@@ -6,6 +6,7 @@ import StudentCard from './student_card.jsx';
 import HintCard from './hint_card.jsx';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import FeedbackCard from './feedback_card.jsx';
 const ONE_SECOND = 1000;
 
 /*
@@ -15,9 +16,10 @@ type Question = {text:string};
 export type Response = {
   question:Question,
   elapsedMs:number,
-  responseText:string,
   shouldShowStudentCard:boolean,
-  allowedToToggleHint:boolean
+  helpType:string,
+  initialResponseText:string,
+  finalResponseText:string
 };
 export default React.createClass({
   displayName: 'PopupQuestion',
@@ -25,7 +27,7 @@ export default React.createClass({
 
   propTypes: {
     shouldShowStudentCard: React.PropTypes.bool.isRequired,
-    allowedToToggleHint: React.PropTypes.bool.isRequired,
+    helpType: React.PropTypes.string.isRequired,
     limitMs: React.PropTypes.number.isRequired,
     question: React.PropTypes.shape({
       text: React.PropTypes.string.isRequired,
@@ -33,14 +35,15 @@ export default React.createClass({
       nonExamples: React.PropTypes.array.isRequired,
       student: React.PropTypes.object.isRequired
     }).isRequired,
-    onResponse: React.PropTypes.func.isRequired
+    onLog: React.PropTypes.func.isRequired
   },
 
 
   getInitialState: function() {
     return {
       elapsedMs: 0,
-      responseText: ''
+      initialResponseText: '',
+      isRevising: false
     };
   },
 
@@ -53,25 +56,58 @@ export default React.createClass({
   },
 
   onTextChanged({target:{value}}:TextChangeEvent) {
-    this.setState({ responseText: value });
+    this.setState({ initialResponseText: value });
   },
 
-  onSendPressed() {
-    const {elapsedMs, responseText} = this.state;
-    const {question, shouldShowStudentCard, allowedToToggleHint} = this.props;
+  onSavePressed() {
+    const {helpType} = this.props;
+    this.logResponse();
+    if(helpType === 'feedback'){
+      this.setState({isRevising:true});
+    }else{
+      this.props.onDone();
+    }
+  },
+  
+  onDonePressed(revised, text) {
+    if(revised){
+      this.logRevision(text);
+    }else{
+      this.logRevisionDeclined();
+    }
+    this.props.onDone();
+  },
+  
+  logResponse() {
+    this.logData('message_popup_response');
+  },
+  
+  logRevision(finalText) {
+    this.logData('message_popup_revision', {finalResponseText: finalText});
+  },
+  
+  logRevisionDeclined(){
+    this.logData('message_popup_revision_declined');
+  },
+  
+  logData(type, params = {}) {
+    const {elapsedMs, initialResponseText} = this.state;
+    const {question, shouldShowStudentCard, helpType} = this.props;
+    const {finalResponseText} = params;
     const response:Response = {
       question,
       shouldShowStudentCard,
-      allowedToToggleHint,
+      helpType,
       elapsedMs,
-      responseText
+      initialResponseText,
+      finalResponseText
     };
-    this.props.onResponse(response);
+    this.props.onLog(type, response);
   },
 
   render() {
     const {elapsedMs} = this.state;
-    const {limitMs, shouldShowStudentCard, allowedToToggleHint} = this.props;
+    const {limitMs, shouldShowStudentCard, helpType} = this.props;
     const {text, student, examples, nonExamples} = this.props.question;
 
     return (
@@ -81,7 +117,7 @@ export default React.createClass({
           <div style={styles.studentCard}>
             <StudentCard student={student} />
           </div>}
-        {allowedToToggleHint && 
+        {helpType === 'hints' && 
           <div style={styles.hintCard}>
             <HintCard examples={examples} nonExamples={nonExamples} />
           </div>}
@@ -93,16 +129,22 @@ export default React.createClass({
             floatingLabelText='Speak directly to the student'
             onChange={this.onTextChanged}
             multiLine={true}
+            disabled={this.state.isRevising} 
             rows={2}/>
         </div>
         <div style={styles.buttonRow}>
           <RaisedButton
-            onTouchTap={this.onSendPressed}
+            onTouchTap={this.onSavePressed}
             style={styles.button}
             primary={true}
-            label="Send" />
+            label={this.props.helpType === 'feedback' ? 'Save' : 'Send'}
+            disabled={this.state.isRevising}/>
           <div style={styles.ticker}>0:{Math.round((limitMs - elapsedMs) / 1000)}s</div>
         </div>
+        {this.state.isRevising &&
+          <div style={styles.feedbackCard}>
+            <FeedbackCard initialResponseText={this.state.initialResponseText} onDonePressed={this.onDonePressed} examples={examples}/>  
+          </div>}
       </div>
     );
   }
@@ -110,6 +152,10 @@ export default React.createClass({
 
 
 const styles = {
+  feedbackCard: {
+    marginTop: 5,
+    marginBottom: 10
+  },
   hintCard: {
     marginTop: 5,
     padding: 10,
