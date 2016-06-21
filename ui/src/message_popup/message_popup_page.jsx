@@ -109,8 +109,6 @@ export default React.createClass({
       questionsAnswered,
       shouldShowStudentCards,
       helpType
-      //allowedToToggleHint,
-      //shouldShowFeedback
     } = this.state;
     if (!hasStarted) return this.renderInstructions();
     if (questionsAnswered >= totalQuestions) return this.renderDone();

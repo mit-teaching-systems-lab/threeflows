@@ -79,40 +79,30 @@ export default React.createClass({
   },
   
   logResponse() {
-    this.logData(undefined);
+    this.logData('message_popup_response');
   },
   
   logRevision(finalText) {
-    this.logData(finalText);
+    this.logData('message_popup_revision', {finalResponseText: finalText});
   },
   
   logRevisionDeclined(){
-    this.logData(undefined);
+    this.logData('message_popup_revision_declined');
   },
   
-  logData(value) {
+  logData(type, params = {}) {
     const {elapsedMs, initialResponseText} = this.state;
     const {question, shouldShowStudentCard, helpType} = this.props;
+    const {finalResponseText} = params;
     const response:Response = {
       question,
       shouldShowStudentCard,
       helpType,
       elapsedMs,
       initialResponseText,
-      value
+      finalResponseText
     };
-    if(!this.state.isRevising){
-      const type = 'message_popup_response';
-      this.props.onLog(type, response); 
-    }else{
-      if(value === undefined){
-        const type = 'message_popup_revision_declined';
-        this.props.onLog(type, response);
-      }else{
-        const type = 'message_popup_revision';
-        this.props.onLog(type, response);
-      }
-    }
+    this.props.onLog(type, response);
   },
 
   render() {
