@@ -50,19 +50,6 @@ app.post('/server/evidence/:app/:type/:version', function(request, response) {
   });
 });
 
-// For debugging.
-app.get('/server/dump', function(request, response) {
-  const limit = 100;
-  queryDatabase('SELECT * FROM evidence ORDER BY timestamp DESC LIMIT $1', [limit], function(err, result) {
-    if (err) {
-      console.log({ error: err });
-      return response.code(500);
-    }
-    console.log(JSON.stringify(result));
-    response.json({result});  
-  });
-});
-
 
 // serve static HTML
 function readFile(filename) {
