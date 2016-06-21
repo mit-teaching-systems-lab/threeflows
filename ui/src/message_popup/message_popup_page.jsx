@@ -11,7 +11,9 @@ import TextField from 'material-ui/TextField';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import request from 'superagent';
 import TextChangeEvent from '../types/dom_types.js';
-import { allStudents, allQuestions } from './data_lists.jsx';
+import {allStudents} from './data_lists.jsx';
+import {allQuestions} from './questions.js';
+
 
 function randomizedQuestionsWithStudents() {
   return _.shuffle(allQuestions).map((question) => {
@@ -54,17 +56,18 @@ export default React.createClass({
 
   getInitialState: function() {
     const questions = randomizedQuestionsWithStudents();
-    const {query} = this.props;
-    const help = query.solution ? 'none' : query.feedback ? 'feedback' : query.hints ? 'hints' : 'none';
+    const isSolutionMode = _.has(this.props.query, 'solution');
+    const helpType = isSolutionMode ? 'none' : 'feedback';
+    const shouldShowStudentCards = isSolutionMode ? false : _.has(this.props.query, 'cards');
+    
     return {
+      shouldShowStudentCards,
+      helpType,
+      isSolutionMode,
+      questions,
       name: '',
-      shouldShowStudentCards: !query.solution && query.cards || false,
-      helpType: help,
-      isSolutionMode: query.solution || false,
       hasStarted: false,
-      totalQuestions: Math.min(10, questions.length),
       questionsAnswered: 0,
-      questions: questions
     };
   },
 
@@ -83,7 +86,7 @@ export default React.createClass({
   },
   
   onQuestionDone() {
-    this.setState({ questionsAnswered: this.state.questionsAnswered + 1 })
+    this.setState({ questionsAnswered: this.state.questionsAnswered + 1 });
   },
 
   onDonePressed() {
@@ -105,13 +108,13 @@ export default React.createClass({
   render() {
     const {
       hasStarted,
-      totalQuestions,
+      questions,
       questionsAnswered,
       shouldShowStudentCards,
       helpType
     } = this.state;
     if (!hasStarted) return this.renderInstructions();
-    if (questionsAnswered >= totalQuestions) return this.renderDone();
+    if (questionsAnswered >= questions.length) return this.renderDone();
 
     const question = this.state.questions[questionsAnswered];
     return (
@@ -121,7 +124,7 @@ export default React.createClass({
           question={question}
           shouldShowStudentCard={shouldShowStudentCards}
           helpType={helpType}
-          limitMs={60000}
+          limitMs={90000}
           onLog={this.onLog}
           onDone={this.onQuestionDone}/>
       </div>
@@ -145,9 +148,11 @@ export default React.createClass({
     return (
       <div style={_.merge(styles.instructions, styles.container)}>
         <div style={styles.title}>Message Popup</div>
-        <p style={styles.paragraph}>Clear 10 minutes.  Your work is timed, so being able to focus is important.</p>
+        {this.state.isSolutionMode &&
+          <p style={styles.paragraph}>Clear 15 minutes.  Your work is timed, so being able to focus is important.</p>
+        }
         <p style={styles.paragraph}>You may be asked to write, sketch or say your responses aloud.</p>
-        <p style={styles.paragraph}>Each question is timed to simulate responding in the moment in the classroom.  You'll have 60 seconds to respond to each question.</p>
+        <p style={styles.paragraph}>Each question is timed to simulate responding in the moment in the classroom.  You'll have 90 seconds to respond to each question.</p>
         <Divider />
         {!this.state.isSolutionMode && this.renderScaffoldingOptions()}
         <TextField

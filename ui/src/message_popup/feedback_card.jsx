@@ -1,6 +1,5 @@
 import React from 'react';
 import _ from 'lodash';
-import * as PropTypes from '../prop_types.js';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Divider from 'material-ui/Divider';

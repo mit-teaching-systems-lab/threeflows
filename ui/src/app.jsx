@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import * as PropTypes from './prop_types.js';
 import {RouterMixin} from 'react-mini-router';
 import ChallengePage from './challenge/challenge_page.jsx';
 import HomePage from './home/home_page.jsx';
@@ -12,14 +13,9 @@ import {
   slates,
   withLearningObjectives
 } from './data/challenges.js';
-import {learningObjectives} from './data/learning_objectives.js';
-
-// material-ui
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-
-
 
 
 
@@ -36,10 +32,14 @@ export default React.createClass({
     '/virtual_school': 'virtualSchool',
   },
 
+  propTypes: {
+    challenges: React.PropTypes.arrayOf(PropTypes.Challenge)
+  },
   getDefaultProps() {
+
     return {
       challenges: challenges.map(withLearningObjectives)
-    }
+    };
   },
 
   getInitialState() {
