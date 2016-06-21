@@ -76,12 +76,11 @@ export default React.createClass({
           <div style={styles.scenario}>You will use the LessonSketch tool to demonstrate how you will revise this introduction to photosynthesis lesson based on learning objectives focused on knowledge of inquiry, formative assessment, and motivation. LessonSketch involves writing a broad overview of your lesson and then includes additional questions about your lesson connected to specific learning objectives.</div>
           <FlatButton
             label="Lesson Sketch"
-            disabled={true}
             secondary={true}
-            onTouchTap={Routes.newTab.bind(Routes, 'https://docs.google.com/document/d/1y-F6SdaCLCSMw3GV5pR96MZHcZT2U4aWXXPTnRTd7ts/edit#heading=h.yuqrdnz6q8dr')} />
+            onTouchTap={Routes.newTab.bind(Routes, 'http://goo.gl/forms/eaizykFsgoKVzh7w1')} />
         </CardText>
         <CardText expandable={true}>
-          <div style={styles.scenario}>You’ll be presented with quick student exchanges in the virtual classroom and asked to respond in the moment.  Your responses will be timed and allow you to demonstrate what you’ve learned about applying inquiry and motivation in a simulated classroom lesson.</div>
+          <div style={styles.scenario}>You'll be presented with quick student exchanges in the virtual classroom and asked to respond in the moment.  Your responses will be timed and allow you to demonstrate what you’ve learned about applying inquiry and motivation in a simulated classroom lesson.</div>
           <FlatButton
             label="Message PopUp"
             secondary={true}
@@ -98,7 +97,7 @@ export default React.createClass({
       <Card initiallyExpanded={false}>
         <CardHeader
           title="Learning objectives"
-          subtitle="The competencies you'll focus on in this challenge"
+          subtitle="What you'll focus on in this challenge"
           titleStyle={styles.cardTitleHeader}
           actAsExpander={true}
           showExpandableButton={true} />
