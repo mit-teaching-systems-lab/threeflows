@@ -1,3 +1,4 @@
+//@flow
 import React from 'react';
 import _ from 'lodash';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -43,39 +44,33 @@ export default React.createClass({
   render() {
     const {hidden, allExamples} = this.state;
     return (
-      <div>
-        <VelocityTransitionGroup leave={{animation: "slideUp"}} runOnMount={true}>
-          {hidden &&
-            (<div>
-              <div style={styles.buttonRow}>
-                <div></div>
-                <RaisedButton
-                  onTouchTap={this.onHintsToggled}
-                  style={styles.button}
-                  secondary={true}
-                  label="Show Example" />
-              </div>
-            </div>)
-          }
-        </VelocityTransitionGroup>
-        <VelocityTransitionGroup enter={{animation: "fadeIn"}} runOnMount={true}>
-          {!hidden &&
-            (<div>
-                <div style={styles.exampleBox}>
-                  <div style={styles.buttonRow}>
-                    <div style={styles.exampleTitle}>{allExamples[0].type} Example</div>
-                    <RaisedButton
-                      onTouchTap={this.onNextExample}
-                      style={styles.button}
-                      secondary={true}
-                      label="Show another" />
-                  </div>
-                  <div style={styles.exampleText}>
-                    {allExamples[0].text}
-                  </div>
+      <div className="HintCard">
+        {hidden && (
+          <div style={styles.buttonRow}>
+            <div />
+            <RaisedButton
+              onTouchTap={this.onHintsToggled}
+              secondary={true}
+              label="Show Example" />
+          </div>
+        )}
+        <VelocityTransitionGroup enter={{animation: "slideDown"}} runOnMount={true}>
+          {!hidden && (
+            <div key="visible">
+              <div key={allExamples[0].text} style={styles.exampleBox}>
+                <div style={styles.buttonRow}>
+                  <div style={styles.exampleTitle}>{allExamples[0].type} Example</div>
+                  <RaisedButton
+                    onTouchTap={this.onNextExample}
+                    secondary={true}
+                    label="Show another" />
                 </div>
-            </div>)
-          }
+                <div style={styles.exampleText}>
+                  {allExamples[0].text}
+                </div>
+              </div>
+            </div>
+          )}
         </VelocityTransitionGroup>
       </div>
     );
@@ -88,8 +83,7 @@ const styles = {
     margin: 10,
     marginTop: 0,
     display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center'
+    justifyContent: 'space-between'
   },
   exampleBox: {
     display: 'flex',

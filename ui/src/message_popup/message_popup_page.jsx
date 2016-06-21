@@ -277,12 +277,8 @@ const styles = {
     border: '1px solid #ccc',
     margin: 20,
     width: 400,
-<<<<<<< aaa8a8f1aa06a06987385121aac172009fd395b9
-    fontSize: 20
-=======
-    fontSize: 18,
+    fontSize: 20,
     padding: 0
->>>>>>> Fixed sizing of instructions and done page in message_popup to match that of the question's page
   },
   title: {
     fontSize: 24,
