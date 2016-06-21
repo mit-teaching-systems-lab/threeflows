@@ -244,7 +244,7 @@ export const motivationQuestions:[Question] = [
   },
   {
     studentId: 10,
-    text: 'You divide students into groups to perform a photosynthesis experiment. Students get to divide themselves into groups. A new student, Sasha, doesn’t get picked until the last minute.  What would you do?'
+    text: 'You divide students into groups to perform a photosynthesis experiment. Students get to divide themselves into groups. A new student, Sasha, doesn’t get picked until the last minute.  What would you do?',
     examples: [
       'Try the principle: Sense of belonging',
       'Try the principle: Choice'
@@ -253,7 +253,7 @@ export const motivationQuestions:[Question] = [
   },
   {
     studentId: 3,
-    text: 'You introduced a game related to photosynthesis, and have pairs of two working on a game. Maia is paired with Kevin, and she asks, "How are we getting graded on this?" You tell her that there will be no grade for either completion or participation. "Why are we doing this then?" she asks.'
+    text: 'You introduced a game related to photosynthesis, and have pairs of two working on a game. Maia is paired with Kevin, and she asks, "How are we getting graded on this?" You tell her that there will be no grade for either completion or participation. "Why are we doing this then?" she asks.',
     examples: [
       'Try the principle: Learning as the goal',
       'Try the principle: Outcome as the goal',
