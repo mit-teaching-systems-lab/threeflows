@@ -12,6 +12,8 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import request from 'superagent';
 import TextChangeEvent from '../types/dom_types.js';
 import { allStudents, allQuestions } from './data_lists.jsx';
+import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
+
 
 function randomizedQuestionsWithStudents() {
   return _.shuffle(allQuestions).map((question) => {
@@ -116,55 +118,61 @@ export default React.createClass({
     const question = this.state.questions[questionsAnswered];
     return (
       <div style={styles.container}>
-        <PopupQuestion
-          key={JSON.stringify(question)}
-          question={question}
-          shouldShowStudentCard={shouldShowStudentCards}
-          helpType={helpType}
-          limitMs={60000}
-          onLog={this.onLog}
-          onDone={this.onQuestionDone}/>
+        <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
+          <PopupQuestion
+            key={JSON.stringify(question)}
+            question={question}
+            shouldShowStudentCard={shouldShowStudentCards}
+            helpType={helpType}
+            limitMs={60000}
+            onLog={this.onLog}
+            onDone={this.onQuestionDone}/>
+        </VelocityTransitionGroup>
       </div>
     );
   },
 
   renderDone() {
     return (
-      <div style={_.merge(styles.done, styles.container)}>
-        <div>You finished!</div>
-        <RaisedButton
-          onTouchTap={this.onDonePressed}
-          style={styles.button}
-          primary={true}
-          label="Done" />
-      </div>
+      <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
+        <div style={_.merge(styles.done, styles.container)}>
+          <div>You finished!</div>
+          <RaisedButton
+            onTouchTap={this.onDonePressed}
+            style={styles.button}
+            primary={true}
+            label="Done" />
+        </div>
+      </VelocityTransitionGroup>
     );
   },
 
   renderInstructions() {
     return (
-      <div style={_.merge(styles.instructions, styles.container)}>
-        <div style={styles.title}>Message Popup</div>
-        <p style={styles.paragraph}>Clear 10 minutes.  Your work is timed, so being able to focus is important.</p>
-        <p style={styles.paragraph}>You may be asked to write, sketch or say your responses aloud.</p>
-        <p style={styles.paragraph}>Each question is timed to simulate responding in the moment in the classroom.  You'll have 60 seconds to respond to each question.</p>
-        <Divider />
-        {!this.state.isSolutionMode && this.renderScaffoldingOptions()}
-        <TextField
-          underlineShow={false}
-          floatingLabelText="What's your name?"
-          onChange={this.onTextChanged}
-          multiLine={true}
-          rows={2}/>
-        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-end'}}>
-          <RaisedButton
-            disabled={this.state.name === ''}
-            onTouchTap={this.onStartPressed}
-            style={styles.button}
-            primary={true}
-            label="Start" />
+      <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
+        <div style={_.merge(styles.instructions, styles.container)}>
+          <div style={styles.title}>Message Popup</div>
+          <p style={styles.paragraph}>Clear 10 minutes.  Your work is timed, so being able to focus is important.</p>
+          <p style={styles.paragraph}>You may be asked to write, sketch or say your responses aloud.</p>
+          <p style={styles.paragraph}>Each question is timed to simulate responding in the moment in the classroom.  You'll have 60 seconds to respond to each question.</p>
+          <Divider />
+          {!this.state.isSolutionMode && this.renderScaffoldingOptions()}
+          <TextField
+            underlineShow={false}
+            floatingLabelText="What's your name?"
+            onChange={this.onTextChanged}
+            multiLine={true}
+            rows={2}/>
+          <div style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-end'}}>
+            <RaisedButton
+              disabled={this.state.name === ''}
+              onTouchTap={this.onStartPressed}
+              style={styles.button}
+              primary={true}
+              label="Start" />
+          </div>
         </div>
-      </div>
+      </VelocityTransitionGroup>
     );
   },
 
