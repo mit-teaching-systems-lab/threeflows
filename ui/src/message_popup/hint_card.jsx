@@ -1,6 +1,8 @@
+//@flow
 import React from 'react';
 import _ from 'lodash';
 import RaisedButton from 'material-ui/RaisedButton';
+import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 
 /*
 This shows a hint in the form of a toggleable good or bad example response
@@ -42,27 +44,23 @@ export default React.createClass({
   render() {
     const {hidden, allExamples} = this.state;
     return (
-      <div>
-        {hidden &&
-          (<div>
-            <div style={styles.buttonRow}>
-              <div></div>
-              <RaisedButton
-                onTouchTap={this.onHintsToggled}
-                style={styles.button}
-                secondary={true}
-                label="Show Example" />
-            </div>
-          </div>)
-        }
-        {!hidden &&
-          (<div>
-            <div style={styles.exampleBox}>
+      <div className="HintCard">
+        {hidden && (
+          <div style={styles.buttonRow}>
+            <div />
+            <RaisedButton
+              onTouchTap={this.onHintsToggled}
+              secondary={true}
+              label="Show Example" />
+          </div>
+        )}
+        <VelocityTransitionGroup enter={{animation: "slideDown"}} runOnMount={true}>
+          {!hidden && (
+            <div key={allExamples[0].text} style={styles.exampleBox}>
               <div style={styles.buttonRow}>
                 <div style={styles.exampleTitle}>{allExamples[0].type} Example</div>
                 <RaisedButton
                   onTouchTap={this.onNextExample}
-                  style={styles.button}
                   secondary={true}
                   label="Show another" />
               </div>
@@ -70,8 +68,8 @@ export default React.createClass({
                 {allExamples[0].text}
               </div>
             </div>
-          </div>)
-        }
+          )}
+        </VelocityTransitionGroup>
       </div>
     );
   }
@@ -83,8 +81,7 @@ const styles = {
     margin: 10,
     marginTop: 0,
     display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center'
+    justifyContent: 'space-between'
   },
   exampleBox: {
     display: 'flex',

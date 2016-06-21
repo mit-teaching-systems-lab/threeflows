@@ -14,6 +14,8 @@ import TextChangeEvent from '../types/dom_types.js';
 import {allStudents} from '../data/virtual_school.js';
 import {learningObjectives} from '../data/learning_objectives.js';
 import {allQuestions} from './questions.js';
+import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
+import 'velocity-animate/velocity.ui';
 
 const ALL_COMPETENCY_GROUPS = 'ALL_COMPETENCY_GROUPS';
 
@@ -147,57 +149,63 @@ export default React.createClass({
     const question = this.state.questions[questionsAnswered];
     return (
       <div style={styles.container}>
-        <PopupQuestion
-          key={JSON.stringify(question)}
-          question={question}
-          shouldShowStudentCard={shouldShowStudentCards}
-          helpType={helpType}
-          limitMs={90000}
-          onLog={this.onLog}
-          onDone={this.onQuestionDone}/>
+        <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
+          <PopupQuestion
+            key={JSON.stringify(question)}
+            question={question}
+            shouldShowStudentCard={shouldShowStudentCards}
+            helpType={helpType}
+            limitMs={90000}
+            onLog={this.onLog}
+            onDone={this.onQuestionDone}/>
+        </VelocityTransitionGroup>
       </div>
     );
   },
 
   renderDone() {
     return (
-      <div style={_.merge(styles.done, styles.container)}>
-        <div>You finished!</div>
-        <RaisedButton
-          onTouchTap={this.onDonePressed}
-          style={styles.button}
-          primary={true}
-          label="Done" />
-      </div>
+      <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
+        <div style={_.merge(_.clone(styles.container), styles.done)}>
+          <div>You finished!</div>
+          <RaisedButton
+            onTouchTap={this.onDonePressed}
+            style={styles.button}
+            primary={true}
+            label="Done" />
+        </div>
+      </VelocityTransitionGroup>
     );
   },
 
   renderInstructions() {
     return (
-      <div style={_.merge(styles.instructions, styles.container)}>
-        <div style={styles.title}>Message Popup</div>
-        {this.state.isSolutionMode &&
-          <p style={styles.paragraph}>Clear 15 minutes.  Your work is timed, so being able to focus is important.</p>
-        }
-        <p style={styles.paragraph}>You may be asked to write, sketch or say your responses aloud.</p>
-        <p style={styles.paragraph}>Each question is timed to simulate responding in the moment in the classroom.  You'll have 90 seconds to respond to each question.</p>
-        <Divider />
-        {!this.state.isSolutionMode && this.renderScaffoldingOptions()}
-        <TextField
-          underlineShow={false}
-          floatingLabelText="What's your name?"
-          onChange={this.onTextChanged}
-          multiLine={true}
-          rows={2}/>
-        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-end'}}>
-          <RaisedButton
-            disabled={this.state.name === ''}
-            onTouchTap={this.onStartPressed}
-            style={styles.button}
-            primary={true}
-            label="Start" />
+      <VelocityTransitionGroup enter={{animation: "callout.pulse", duration: 500}} leave={{animation: "slideUp"}} runOnMount={true}>
+        <div style={_.merge(_.clone(styles.container), styles.instructions)}>
+          <div style={styles.title}>Message Popup</div>
+          {this.state.isSolutionMode &&
+            <p style={styles.paragraph}>Clear 15 minutes.  Your work is timed, so being able to focus is important.</p>
+          }
+          <p style={styles.paragraph}>You may be asked to write, sketch or say your responses aloud.</p>
+          <p style={styles.paragraph}>Each question is timed to simulate responding in the moment in the classroom.  You'll have 90 seconds to respond to each question.</p>
+          <Divider />
+          {!this.state.isSolutionMode && this.renderScaffoldingOptions()}
+          <TextField
+            underlineShow={false}
+            floatingLabelText="What's your name?"
+            onChange={this.onTextChanged}
+            multiLine={true}
+            rows={2}/>
+          <div style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-end'}}>
+            <RaisedButton
+              disabled={this.state.name === ''}
+              onTouchTap={this.onStartPressed}
+              style={styles.button}
+              primary={true}
+              label="Start" />
+          </div>
         </div>
-      </div>
+      </VelocityTransitionGroup>
     );
   },
 
@@ -259,16 +267,19 @@ export default React.createClass({
 
 const styles = {
   done: {
-    padding: 20
+    padding: 20,
+    width: 360
   },
   instructions: {
-    padding: 20
+    padding: 20,
+    width: 360
   },
   container: {
     border: '1px solid #ccc',
     margin: 20,
     width: 400,
-    fontSize: 20
+    fontSize: 20,
+    padding: 0
   },
   title: {
     fontSize: 24,
