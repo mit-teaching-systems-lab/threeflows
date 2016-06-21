@@ -1,3 +1,6 @@
+// @flow
+import _ from 'lodash';
+
 // Example Usage:
 //   questions.map(_.partial(forLearningObjective, 39));
 function forLearningObjective(learningObjectiveId, question) {
@@ -7,8 +10,13 @@ function forLearningObjective(learningObjectiveId, question) {
   };
 }
 
-
-export const inquiryQuestions = [
+export type Question = {
+  studentId?: number,
+  text: string,
+  examples: [string],
+  nonExamples: [string]
+};
+export const inquiryQuestions:[Question] = [
   { 
     studentId: 4, 
     text: `At the conclusion of your lesson plan for this challenge, you seed a group discussion by asking "What are you curious about related to photosynthesis?"  Hayin says "Why are plants green?"  What do you do?`,
@@ -71,7 +79,7 @@ export const inquiryQuestions = [
   },
   {
     studentId: 10,
-    text: `Imagine a new student, Sasha, joins your classroom during the lesson plan you developed for this challenge.  As part of helping her feel comfortable, you pull her aside and give her a quick overview of what's happening at the beginning of the class.  She interrupts and asks, "I do better with visuals, can you draw me a picture of photosynthesis?"  What could you quickly sketch to directly answer to her question?`,
+    text: `Imagine a new student, Sasha, joins your classroom during the lesson plan you developed for this challenge.  As part of helping her feel comfortable, you pull her aside and give her a quick overview of what's happening at the beginning of the class.  She interrupts and asks, "I do better with visuals, can you draw me a picture of photosynthesis?"  Describe what you could quickly sketch to directly answer her question.`,
     examples: [
       `[Insert simple drawings here]`
     ],
@@ -120,16 +128,55 @@ export const inquiryQuestions = [
   },
   {
     studentId: 9,
-    text: 'You challenge a student, "What is another hypothesis you could test?" The student asks, "why don\'t you just tell me what the right answer is?"'
+    text: 'You challenge Steve and ask, "What is another hypothesis you could test?" He asks, "why don\'t you just tell me what the right answer is?"',
+    examples: [
+      'Discuss that scientific inquiry often starts when there is no clear right answer.',
+      'Discuss that scientists ask questions about things they are interested in.',
+      `"Let's think about photosynthesis together. What do you know about this process? What are some things you want to know?"`
+    ],
+    nonExamples: [
+      'Criticize the student for not being self-initiative',
+      'Say that there’s only one correct hypothesis.'
+    ]
   },
-].map(_.partial(forLearningObjective, 39));
+  {
+    text: 'You ask the whole class, "how can you test if the amount of sunlight influences the amount of O2 generated as a result of photosynthesis?"  You wait a few seconds and nobody comes forward with an answer.  What would you do?',
+    examples: [
+      'Ask the same question again',
+      'Rephrase the question to clarify',
+      'Rephrase the question to clarify',
+      'Have students brainstorm ideas on paper for 30 sections, then call on students randomly'
+    ],
+    nonExamples: [
+      'Criticize the students for not responding',
+      'Give a very specific suggestion (answer the question directly)'
+    ]
+  }
+  // {
+  //   text: 'You introduce an experiment about photosynthesis, the student says, “Why are we even doing this?”  Generate some seed questions to spark curiosity and prompt students to generate their own questions.',
+  //   examples: [],
+  //   nonExamples: []
+  // }
+];
 
-
-
-export const motivationQuestions = [{
+export const motivationQuestions:[Question] = [{
   studentId: 6,
-  text: 'A student is frustrated that she cannot figure out how her data supports her initial hypothesis. She refuses to modify her question, instead saying, "I don\'t want to try again because I will just mess up again."'
-}].map(_.partial(forLearningObjective, 35));
+  text: 'A student is frustrated that she cannot figure out how her data supports her initial hypothesis. She refuses to modify her question, instead saying, "I don\'t want to try again because I will just mess up again."',
+  examples: [
+    'Try the principle: Persisting through challenges is how we grow (Duckworth)',
+    'Try the principle: Project to students that you believe they can be successful (Expectancy)'
+  ],
+  nonExamples: []
+}, {
+  studentId: 3,
+  text: 'At the end of the photosynthesis unit, you introduce a list of topics that students choose for a project they want to do. A student raises her hand and says, "I don\'t want to do any of these. Can I just come up with my own thing?" Even before you have a chance to respond to her, another student, another student, says, "I want to do my own topic too!"  Respond.',
+  examples: [],
+  nonExamples: []
+}];
 
 
-export const allQuestions = motivationQuestions.concat(inquiryQuestions);
+export const allQuestions = _.flatten([
+  inquiryQuestions.map(_.partial(forLearningObjective, 39)),
+  motivationQuestions.map(_.partial(forLearningObjective, 35))
+], true);
+

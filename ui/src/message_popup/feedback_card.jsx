@@ -21,7 +21,8 @@ export default React.createClass({
   
   propTypes: {
     initialResponseText: React.PropTypes.string.isRequired,
-    onDonePressed: React.PropTypes.func.isRequired,
+    onRevised: React.PropTypes.func.isRequired,
+    onPassed: React.PropTypes.func.isRequired,
     examples: React.PropTypes.array.isRequired
   },
   
@@ -30,11 +31,11 @@ export default React.createClass({
   },
   
   onRevise(){
-    this.props.onDonePressed(true, this.state.finalResponseText);
+    this.props.onRevised(this.state.finalResponseText);
   },
   
   onPass(){
-    this.props.onDonePressed(false, '');
+    this.props.onPassed();
   },
 
   render() {
