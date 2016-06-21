@@ -11,7 +11,7 @@ import TextField from 'material-ui/TextField';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import request from 'superagent';
 import TextChangeEvent from '../types/dom_types.js';
-import {allStudents} from './data_lists.jsx';
+import {allStudents} from '../data/virtual_school.js';
 import {learningObjectives} from '../data/learning_objectives.js';
 import {allQuestions} from './questions.js';
 

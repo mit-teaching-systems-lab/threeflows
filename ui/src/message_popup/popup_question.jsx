@@ -139,7 +139,7 @@ export default React.createClass({
             style={styles.button}
             primary={true}
             label={this.props.helpType === 'feedback' ? 'Save' : 'Send'}
-            disabled={this.state.isRevising}/>
+            disabled={this.state.isRevising || this.state.initialResponseText === ''}/>
           {secondsRemaining > 0 &&
             <div style={styles.ticker}>{secondsRemaining}s</div>
           }
