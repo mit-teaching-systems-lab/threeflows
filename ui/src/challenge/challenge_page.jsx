@@ -5,6 +5,7 @@ import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import LearningObjectivesTable from './learning_objectives_table.jsx';
 import LearningExperiencesGrid from './learning_experiences_grid.jsx';
+import Divider from 'material-ui/Divider';
 
 /*
 Challenge page layout
@@ -70,18 +71,23 @@ export default React.createClass({
           actAsExpander={true}
           showExpandableButton={true} />
         />
-        <CardActions expandable={true}>
+        <Divider />
+        <CardText expandable={true}>
+          <div style={styles.scenario}>You will use the LessonSketch tool to demonstrate how you will revise this introduction to photosynthesis lesson using competencies focused on knowledge of inquiry and motivation.</div>
           <FlatButton
             label="Lesson Sketch"
             disabled={true}
             secondary={true}
             onTouchTap={Routes.newTab.bind(Routes, 'https://docs.google.com/document/d/1y-F6SdaCLCSMw3GV5pR96MZHcZT2U4aWXXPTnRTd7ts/edit#heading=h.yuqrdnz6q8dr')} />
+        </CardText>
+        <CardText expandable={true}>
+          <div style={styles.scenario}>You will complete a 30-minute timed session of Message Pop-up designed to evaluate your application of inquiry and motivation competencies in a simulated classroom lesson.</div>
           <FlatButton
             label="Message PopUp"
             secondary={true}
             linkButton={true}
             href={Routes.messagePopupSolutionPath()} />
-        </CardActions>
+        </CardText>
       </Card>
     );
   },
