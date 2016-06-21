@@ -11,13 +11,30 @@ import TextField from 'material-ui/TextField';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import request from 'superagent';
 import TextChangeEvent from '../types/dom_types.js';
-import { allStudents, allQuestions } from './data_lists.jsx';
+import {allStudents} from './data_lists.jsx';
+import {learningObjectives} from '../data/learning_objectives.js';
+import {allQuestions} from './questions.js';
 
-function randomizedQuestionsWithStudents() {
-  return _.shuffle(allQuestions).map((question) => {
+const ALL_COMPETENCY_GROUPS = 'ALL_COMPETENCY_GROUPS';
+
+function withStudents(questions) {
+  return questions.map((question) => {
     const student = _.find(allStudents, {id: question.studentId });
     return _.extend({student}, question);
   });
+}
+
+function questionsForCompetencies(competencyGroup) {
+  const withCompetencyGroups = _.compact(allQuestions.map((question) => {
+    const learningObjective = _.find(learningObjectives, { id: question.learningObjectiveId });
+    if (learningObjective.competencyGroup !== competencyGroup) return null;
+    return {
+      ...question,
+      competencyGroup: learningObjective.competencyGroup
+    };
+  }));
+
+  return _.shuffle(withStudents(withCompetencyGroups));
 }
 
 function logLocalStorage(type, record) {
@@ -53,23 +70,36 @@ export default React.createClass({
   },
 
   getInitialState: function() {
-    const questions = randomizedQuestionsWithStudents();
-    const {query} = this.props;
-    const help = query.solution ? 'none' : query.feedback ? 'feedback' : query.hints ? 'hints' : 'none';
+    const isSolutionMode = _.has(this.props.query, 'solution');
+    const helpType = isSolutionMode ? 'none' : 'feedback';
+    const shouldShowStudentCards = isSolutionMode ? false : _.has(this.props.query, 'cards');
+    
     return {
+      shouldShowStudentCards,
+      helpType,
+      isSolutionMode,
+      competencyGroupValue: ALL_COMPETENCY_GROUPS,
+      questions: [],
       name: '',
-      shouldShowStudentCards: !query.solution && query.cards || false,
-      helpType: help,
-      isSolutionMode: query.solution || false,
       hasStarted: false,
-      totalQuestions: Math.min(10, questions.length),
       questionsAnswered: 0,
-      questions: questions
     };
   },
 
   onStartPressed() {
-    this.setState({ hasStarted: true });
+    const {competencyGroupValue, isSolutionMode} = this.state;
+    const questions = (isSolutionMode || competencyGroupValue === ALL_COMPETENCY_GROUPS)
+      ? _.shuffle(withStudents(allQuestions))
+      : questionsForCompetencies(competencyGroupValue);
+
+    this.setState({
+      questions,
+      hasStarted: true
+    });
+  },
+
+  onCompetencyGroupChanged(e, competencyGroupValue) {
+    this.setState({competencyGroupValue});
   },
 
   onLog(type, response:Response) {
@@ -83,7 +113,7 @@ export default React.createClass({
   },
   
   onQuestionDone() {
-    this.setState({ questionsAnswered: this.state.questionsAnswered + 1 })
+    this.setState({ questionsAnswered: this.state.questionsAnswered + 1 });
   },
 
   onDonePressed() {
@@ -105,13 +135,13 @@ export default React.createClass({
   render() {
     const {
       hasStarted,
-      totalQuestions,
+      questions,
       questionsAnswered,
       shouldShowStudentCards,
       helpType
     } = this.state;
     if (!hasStarted) return this.renderInstructions();
-    if (questionsAnswered >= totalQuestions) return this.renderDone();
+    if (questionsAnswered >= questions.length) return this.renderDone();
 
     const question = this.state.questions[questionsAnswered];
     return (
@@ -121,7 +151,7 @@ export default React.createClass({
           question={question}
           shouldShowStudentCard={shouldShowStudentCards}
           helpType={helpType}
-          limitMs={60000}
+          limitMs={90000}
           onLog={this.onLog}
           onDone={this.onQuestionDone}/>
       </div>
@@ -145,9 +175,11 @@ export default React.createClass({
     return (
       <div style={_.merge(styles.instructions, styles.container)}>
         <div style={styles.title}>Message Popup</div>
-        <p style={styles.paragraph}>Clear 10 minutes.  Your work is timed, so being able to focus is important.</p>
+        {this.state.isSolutionMode &&
+          <p style={styles.paragraph}>Clear 15 minutes.  Your work is timed, so being able to focus is important.</p>
+        }
         <p style={styles.paragraph}>You may be asked to write, sketch or say your responses aloud.</p>
-        <p style={styles.paragraph}>Each question is timed to simulate responding in the moment in the classroom.  You'll have 60 seconds to respond to each question.</p>
+        <p style={styles.paragraph}>Each question is timed to simulate responding in the moment in the classroom.  You'll have 90 seconds to respond to each question.</p>
         <Divider />
         {!this.state.isSolutionMode && this.renderScaffoldingOptions()}
         <TextField
@@ -169,9 +201,31 @@ export default React.createClass({
   },
 
   renderScaffoldingOptions() {
+    const {competencyGroupValue} = this.state;
+    const competencyGroups = _.uniq(_.map(allQuestions, 'learningObjectiveId')).map((id) => {
+      return _.find(learningObjectives, {id}).competencyGroup;
+    });
     return (
       <div>
-        <div style={{fontSize: 16, padding: 20}}>
+        <div style={styles.optionTitle}>Learning objectives to practice</div>
+        <RadioButtonGroup
+          name="competencyGroupValue"
+          valueSelected={competencyGroupValue}
+          onChange={this.onCompetencyGroupChanged}
+          style={_.merge({ padding: 20 }, styles.option)}>
+          <RadioButton
+            value={ALL_COMPETENCY_GROUPS}
+            label="All" />
+          {competencyGroups.map((competencyGroup) => {
+            return <RadioButton
+              key={competencyGroup}
+              value={competencyGroup}
+              label={competencyGroup} />;
+          })}
+        </RadioButtonGroup>
+        <Divider />
+        <div style={styles.optionTitle}>Scaffolding</div>
+        <div style={_.merge({ padding: 20 }, styles.option)}>
           <Toggle
             label="With student cards"
             labelPosition="right"
@@ -195,7 +249,6 @@ export default React.createClass({
               style={styles.radioButton}
               />
           </RadioButtonGroup>
-
         </div>
         <Divider />
       </div>
@@ -214,7 +267,7 @@ const styles = {
     border: '1px solid #ccc',
     margin: 20,
     width: 400,
-    fontSize: 18
+    fontSize: 20
   },
   title: {
     fontSize: 24,
@@ -224,6 +277,15 @@ const styles = {
   paragraph: {
     marginTop: 20,
     marginBottom: 20
+  },
+  option: {
+    fontSize: 16
+  },
+  optionTitle: {
+    padding: 10,
+    fontSize: 16,
+    paddingTop: 20,
+    paddingBottom: 0
   },
   button: {
     marginTop: 20

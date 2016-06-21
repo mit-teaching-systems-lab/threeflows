@@ -33,7 +33,7 @@ export default React.createClass({
       text: React.PropTypes.string.isRequired,
       examples: React.PropTypes.array.isRequired,
       nonExamples: React.PropTypes.array.isRequired,
-      student: React.PropTypes.object.isRequired
+      student: React.PropTypes.object
     }).isRequired,
     onLog: React.PropTypes.func.isRequired
   },
@@ -69,12 +69,12 @@ export default React.createClass({
     }
   },
   
-  onDonePressed(revised, text) {
-    if(revised){
-      this.logRevision(text);
-    }else{
-      this.logRevisionDeclined();
-    }
+  onRevised(text) {
+    this.logRevision(text);
+    this.props.onDone();
+  },
+  onPassed() {
+    this.logRevisionDeclined();
     this.props.onDone();
   },
   
@@ -109,11 +109,12 @@ export default React.createClass({
     const {elapsedMs} = this.state;
     const {limitMs, shouldShowStudentCard, helpType} = this.props;
     const {text, student, examples, nonExamples} = this.props.question;
+    const secondsRemaining = Math.round((limitMs - elapsedMs) / 1000);
 
     return (
       <div>
         <div style={styles.question}>{text}</div>
-        {shouldShowStudentCard &&
+        {shouldShowStudentCard && student &&
           <div style={styles.studentCard}>
             <StudentCard student={student} />
           </div>}
@@ -139,11 +140,17 @@ export default React.createClass({
             primary={true}
             label={this.props.helpType === 'feedback' ? 'Save' : 'Send'}
             disabled={this.state.isRevising}/>
-          <div style={styles.ticker}>0:{Math.round((limitMs - elapsedMs) / 1000)}s</div>
+          {secondsRemaining > 0 &&
+            <div style={styles.ticker}>{secondsRemaining}s</div>
+          }
         </div>
         {this.state.isRevising &&
           <div style={styles.feedbackCard}>
-            <FeedbackCard initialResponseText={this.state.initialResponseText} onDonePressed={this.onDonePressed} examples={examples}/>  
+            <FeedbackCard
+              initialResponseText={this.state.initialResponseText}
+              onRevised={this.onRevised}
+              onPassed={this.onPassed}
+              examples={examples}/>  
           </div>}
       </div>
     );

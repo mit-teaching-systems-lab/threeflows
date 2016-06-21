@@ -18,15 +18,15 @@ export default React.createClass({
 
   collapseLearningObjectives(learningObjectives) {
     const sortedLearningObjectives = _.sortBy(learningObjectives, (objective) => {
-      if (objective.id.indexOf('PP') === 0) return [10, objective.id];
-      if (objective.id.indexOf('IN') === 0) return [20, objective.id];
-      if (objective.id.indexOf('BIO') === 0) return [30, objective.id];
-      return [40, objective.id];
+      if (objective.key.indexOf('PP') === 0) return [10, objective.key];
+      if (objective.key.indexOf('IN') === 0) return [20, objective.key];
+      if (objective.key.indexOf('BIO') === 0) return [30, objective.key];
+      return [40, objective.key];
     });
     return _.map(_.groupBy(sortedLearningObjectives, 'competencyGroup'), (objectives, competencyGroup) => {
       return {
         competencyGroup,
-        text: _.map(objectives, objective => `${objective.text}  ${objective.id}`).join("\n\n")
+        text: _.map(objectives, objective => `${objective.text}  ${objective.key}`).join("\n\n")
       };
     });
   },
@@ -41,7 +41,7 @@ export default React.createClass({
               <TableRow key={learningObjective.competencyGroup} style={{height: 'auto'}}>
                 <TableRowColumn style={{verticalAlign: 'top', whiteSpace: 'pre-wrap', paddingTop: 10, paddingBottom: 10, width: '30%'}}>
                   <div style={{fontSize: 18}}>{learningObjective.competencyGroup}</div>
-                  <div style={{fontSize: 10}}>{learningObjective.id}</div>
+                  <div style={{fontSize: 10}}>{learningObjective.key}</div>
                 </TableRowColumn>
                 <TableRowColumn style={{verticalAlign: 'top', whiteSpace: 'pre-wrap', paddingTop: 10, paddingBottom: 10}}>{learningObjective.text}</TableRowColumn>
               </TableRow>
