@@ -135,7 +135,7 @@ export default React.createClass({
   renderDone() {
     return (
       <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
-        <div style={_.merge(styles.done, styles.container)}>
+        <div style={_.merge(_.clone(styles.container), styles.done)}>
           <div>You finished!</div>
           <RaisedButton
             onTouchTap={this.onDonePressed}
@@ -150,7 +150,7 @@ export default React.createClass({
   renderInstructions() {
     return (
       <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
-        <div style={_.merge(styles.instructions, styles.container)}>
+        <div style={_.merge(_.clone(styles.container), styles.instructions)}>
           <div style={styles.title}>Message Popup</div>
           <p style={styles.paragraph}>Clear 10 minutes.  Your work is timed, so being able to focus is important.</p>
           <p style={styles.paragraph}>You may be asked to write, sketch or say your responses aloud.</p>
@@ -213,16 +213,19 @@ export default React.createClass({
 
 const styles = {
   done: {
-    padding: 20
+    padding: 20,
+    width: 360
   },
   instructions: {
-    padding: 20
+    padding: 20,
+    width: 360
   },
   container: {
     border: '1px solid #ccc',
     margin: 20,
     width: 400,
-    fontSize: 18
+    fontSize: 18,
+    padding: 0
   },
   title: {
     fontSize: 24,
