@@ -165,7 +165,7 @@ export default React.createClass({
   renderDone() {
     return (
       <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
-        <div style={_.merge(styles.done, styles.container)}>
+        <div style={_.merge(_.clone(styles.container), styles.done)}>
           <div>You finished!</div>
           <RaisedButton
             onTouchTap={this.onDonePressed}
@@ -180,7 +180,7 @@ export default React.createClass({
   renderInstructions() {
     return (
       <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
-        <div style={_.merge(styles.instructions, styles.container)}>
+        <div style={_.merge(_.clone(styles.container), styles.instructions)}>
           <div style={styles.title}>Message Popup</div>
           {this.state.isSolutionMode &&
             <p style={styles.paragraph}>Clear 15 minutes.  Your work is timed, so being able to focus is important.</p>
@@ -266,16 +266,23 @@ export default React.createClass({
 
 const styles = {
   done: {
-    padding: 20
+    padding: 20,
+    width: 360
   },
   instructions: {
-    padding: 20
+    padding: 20,
+    width: 360
   },
   container: {
     border: '1px solid #ccc',
     margin: 20,
     width: 400,
+<<<<<<< aaa8a8f1aa06a06987385121aac172009fd395b9
     fontSize: 20
+=======
+    fontSize: 18,
+    padding: 0
+>>>>>>> Fixed sizing of instructions and done page in message_popup to match that of the question's page
   },
   title: {
     fontSize: 24,
