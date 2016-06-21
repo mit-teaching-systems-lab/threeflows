@@ -7,6 +7,7 @@ import HintCard from './hint_card.jsx';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import FeedbackCard from './feedback_card.jsx';
+import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 const ONE_SECOND = 1000;
 
 /*
@@ -144,14 +145,16 @@ export default React.createClass({
             <div style={styles.ticker}>{secondsRemaining}s</div>
           }
         </div>
-        {this.state.isRevising &&
-          <div style={styles.feedbackCard}>
-            <FeedbackCard
-              initialResponseText={this.state.initialResponseText}
-              onRevised={this.onRevised}
-              onPassed={this.onPassed}
-              examples={examples}/>  
-          </div>}
+        <VelocityTransitionGroup enter={{animation: "slideDown"}} runOnMount={true}>
+          {this.state.isRevising &&
+            <div style={styles.feedbackCard}>
+              <FeedbackCard
+                initialResponseText={this.state.initialResponseText}
+                onRevised={this.onRevised}
+                onPassed={this.onPassed}
+                examples={examples}/>  
+            </div>}
+        </VelocityTransitionGroup>
       </div>
     );
   }
