@@ -15,7 +15,7 @@ import {allStudents} from '../data/virtual_school.js';
 import {learningObjectives} from '../data/learning_objectives.js';
 import {allQuestions} from './questions.js';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
-import * as VelocityUIPack from 'velocity-animate/velocity.ui';
+import 'velocity-animate/velocity.ui';
 
 const ALL_COMPETENCY_GROUPS = 'ALL_COMPETENCY_GROUPS';
 
