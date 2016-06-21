@@ -1,4 +1,5 @@
 // @flow
+//“”
 import _ from 'lodash';
 
 // Example Usage:
@@ -152,11 +153,6 @@ export const inquiryQuestions:[Question] = [
       'Give a very specific suggestion (answer the question directly)'
     ]
   }
-  // {
-  //   text: 'You introduce an experiment about photosynthesis, the student says, “Why are we even doing this?”  Generate some seed questions to spark curiosity and prompt students to generate their own questions.',
-  //   examples: [],
-  //   nonExamples: []
-  // }
 ];
 
 export const motivationQuestions:[Question] = [{

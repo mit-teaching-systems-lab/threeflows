@@ -12,14 +12,29 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import request from 'superagent';
 import TextChangeEvent from '../types/dom_types.js';
 import {allStudents} from './data_lists.jsx';
+import {learningObjectives} from '../data/learning_objectives.js';
 import {allQuestions} from './questions.js';
 
+const ALL_COMPETENCY_GROUPS = 'ALL_COMPETENCY_GROUPS';
 
-function randomizedQuestionsWithStudents() {
-  return _.shuffle(allQuestions).map((question) => {
-    const student = _.find(allStudents, {id: question.studentId });
-    return _.extend({student}, question);
-  });
+function withStudents(questions) {
+  return questions.map((question) => {
+     const student = _.find(allStudents, {id: question.studentId });
+     return _.extend({student}, question);
+   });
+ }
+
+function questionsForCompetencies(competencyGroup) {
+  const withCompetencyGroups = _.compact(allQuestions.map((question) => {
+    const learningObjective = _.find(learningObjectives, { id: question.learningObjectiveId });
+    if (learningObjective.competencyGroup !== competencyGroup) return null;
+    return {
+      ...question,
+      competencyGroup: learningObjective.competencyGroup
+    };
+  }));
+
+  return _.shuffle(withStudents(withCompetencyGroups));
 }
 
 function logLocalStorage(type, record) {
@@ -55,7 +70,6 @@ export default React.createClass({
   },
 
   getInitialState: function() {
-    const questions = randomizedQuestionsWithStudents();
     const isSolutionMode = _.has(this.props.query, 'solution');
     const helpType = isSolutionMode ? 'none' : 'feedback';
     const shouldShowStudentCards = isSolutionMode ? false : _.has(this.props.query, 'cards');
@@ -64,7 +78,8 @@ export default React.createClass({
       shouldShowStudentCards,
       helpType,
       isSolutionMode,
-      questions,
+      competencyGroupValue: ALL_COMPETENCY_GROUPS,
+      questions: [],
       name: '',
       hasStarted: false,
       questionsAnswered: 0,
@@ -72,7 +87,19 @@ export default React.createClass({
   },
 
   onStartPressed() {
-    this.setState({ hasStarted: true });
+    const {competencyGroupValue, isSolutionMode} = this.state;
+    const questions = (isSolutionMode || competencyGroupValue === ALL_COMPETENCY_GROUPS)
+      ? _.shuffle(withStudents(allQuestions))
+      : questionsForCompetencies(competencyGroupValue);
+
+    this.setState({
+      questions,
+      hasStarted: true
+    });
+  },
+
+  onCompetencyGroupChanged(e, competencyGroupValue) {
+    this.setState({competencyGroupValue});
   },
 
   onLog(type, response:Response) {
@@ -174,9 +201,31 @@ export default React.createClass({
   },
 
   renderScaffoldingOptions() {
+    const {competencyGroupValue} = this.state;
+    const competencyGroups = _.uniq(_.map(allQuestions, 'learningObjectiveId')).map((id) => {
+      return _.find(learningObjectives, {id}).competencyGroup;
+    });
     return (
       <div>
-        <div style={{fontSize: 16, padding: 20}}>
+        <div style={styles.optionTitle}>Learning objectives to practice</div>
+        <RadioButtonGroup
+          name="competencyGroupValue"
+          valueSelected={competencyGroupValue}
+          onChange={this.onCompetencyGroupChanged}
+          style={_.merge({ padding: 20 }, styles.option)}>
+          <RadioButton
+            value={ALL_COMPETENCY_GROUPS}
+            label="All" />
+          {competencyGroups.map((competencyGroup) => {
+            return <RadioButton
+              key={competencyGroup}
+              value={competencyGroup}
+              label={competencyGroup} />
+          })}
+        </RadioButtonGroup>
+        <Divider />
+        <div style={styles.optionTitle}>Scaffolding</div>
+        <div style={_.merge({ padding: 20 }, styles.option)}>
           <Toggle
             label="With student cards"
             labelPosition="right"
@@ -200,7 +249,6 @@ export default React.createClass({
               style={styles.radioButton}
               />
           </RadioButtonGroup>
-
         </div>
         <Divider />
       </div>
@@ -219,7 +267,7 @@ const styles = {
     border: '1px solid #ccc',
     margin: 20,
     width: 400,
-    fontSize: 18
+    fontSize: 20
   },
   title: {
     fontSize: 24,
@@ -229,6 +277,15 @@ const styles = {
   paragraph: {
     marginTop: 20,
     marginBottom: 20
+  },
+  option: {
+    fontSize: 16
+  },
+  optionTitle: {
+    padding: 10,
+    fontSize: 16,
+    paddingTop: 20,
+    paddingBottom: 0
   },
   button: {
     marginTop: 20

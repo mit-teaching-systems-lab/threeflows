@@ -107,9 +107,9 @@ export default React.createClass({
 
   render() {
     const {elapsedMs} = this.state;
-    const secondsRemaining = Math.round((limitMs - elapsedMs) / 1000);
     const {limitMs, shouldShowStudentCard, helpType} = this.props;
     const {text, student, examples, nonExamples} = this.props.question;
+    const secondsRemaining = Math.round((limitMs - elapsedMs) / 1000);
 
     return (
       <div>
