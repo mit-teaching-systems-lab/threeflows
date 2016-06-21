@@ -34,6 +34,7 @@
     "react-tap-event-plugin": "^1.0.0",
     "reactify": "^1.1.1",
     "superagent": "^2.0.0",
+    "velocity-animate": "^1.2.3",
     "velocity-react": "^1.1.5",
     "watchify": "3.7.0"
   },

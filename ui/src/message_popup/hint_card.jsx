@@ -56,18 +56,16 @@ export default React.createClass({
         )}
         <VelocityTransitionGroup enter={{animation: "slideDown"}} runOnMount={true}>
           {!hidden && (
-            <div key="visible">
-              <div key={allExamples[0].text} style={styles.exampleBox}>
-                <div style={styles.buttonRow}>
-                  <div style={styles.exampleTitle}>{allExamples[0].type} Example</div>
-                  <RaisedButton
-                    onTouchTap={this.onNextExample}
-                    secondary={true}
-                    label="Show another" />
-                </div>
-                <div style={styles.exampleText}>
-                  {allExamples[0].text}
-                </div>
+            <div key={allExamples[0].text} style={styles.exampleBox}>
+              <div style={styles.buttonRow}>
+                <div style={styles.exampleTitle}>{allExamples[0].type} Example</div>
+                <RaisedButton
+                  onTouchTap={this.onNextExample}
+                  secondary={true}
+                  label="Show another" />
+              </div>
+              <div style={styles.exampleText}>
+                {allExamples[0].text}
               </div>
             </div>
           )}

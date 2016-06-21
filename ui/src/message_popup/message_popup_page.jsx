@@ -15,6 +15,7 @@ import {allStudents} from '../data/virtual_school.js';
 import {learningObjectives} from '../data/learning_objectives.js';
 import {allQuestions} from './questions.js';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
+import * as VelocityUIPack from 'velocity-animate/velocity.ui';
 
 const ALL_COMPETENCY_GROUPS = 'ALL_COMPETENCY_GROUPS';
 
@@ -179,7 +180,7 @@ export default React.createClass({
 
   renderInstructions() {
     return (
-      <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
+      <VelocityTransitionGroup enter={{animation: "callout.pulse", duration: 500}} leave={{animation: "slideUp"}} runOnMount={true}>
         <div style={_.merge(_.clone(styles.container), styles.instructions)}>
           <div style={styles.title}>Message Popup</div>
           {this.state.isSolutionMode &&
