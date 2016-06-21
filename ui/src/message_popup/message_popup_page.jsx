@@ -19,10 +19,10 @@ const ALL_COMPETENCY_GROUPS = 'ALL_COMPETENCY_GROUPS';
 
 function withStudents(questions) {
   return questions.map((question) => {
-     const student = _.find(allStudents, {id: question.studentId });
-     return _.extend({student}, question);
-   });
- }
+    const student = _.find(allStudents, {id: question.studentId });
+    return _.extend({student}, question);
+  });
+}
 
 function questionsForCompetencies(competencyGroup) {
   const withCompetencyGroups = _.compact(allQuestions.map((question) => {
@@ -220,7 +220,7 @@ export default React.createClass({
             return <RadioButton
               key={competencyGroup}
               value={competencyGroup}
-              label={competencyGroup} />
+              label={competencyGroup} />;
           })}
         </RadioButtonGroup>
         <Divider />
