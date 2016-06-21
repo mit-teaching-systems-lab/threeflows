@@ -1,5 +1,5 @@
 // @flow
-//“”
+//“”’
 import _ from 'lodash';
 
 // Example Usage:
@@ -68,6 +68,9 @@ export const inquiryQuestions:[Question] = [
     studentId: 8,
     text: `Imagine in the context of the lesson plan you developed for this challenge, there is an activity where students are coming up with questions to investigate.  Ada says "How many questions should I write and what do you want me to include in them?"  Respond in a way that draws out the student's curiosity and pushes them towards asking questions that are meaningful to them.`,
     examples: [
+      '"Right now come up with as many ideas as you can, then we will build on those ideas for the next step."',
+      '"I really appreciated your ideas during the last discussion, and know you\'ll have great ones here too."',
+      '"Start by coming up with a few questions, and then I\'ll check back with you."',
       `"I want you to ask the kinds of questions you think are meaningful, not the ones I think are meaningful."`,
       `"Well, you have to come up with your own questions that matter to you.  I'll share a question I think is interesting: Plants can get hurt and lose leaves and branches and they grow right back.  That's different than people - you can't break off an arm and have it grow right back or we wouldn't need doctors.  That's something I'm curious about, so you can't use that question, but what else are you curious about?"`,
       `"Let's step back a second. What are you curious about after seeing the demonstration? What are you wondering? Ok, then let's work on turning that into a question that you can answer with an experiment."`,
@@ -75,7 +78,9 @@ export const inquiryQuestions:[Question] = [
     ],
     nonExamples:[
       `"To get an A, make three questions and include an IV, DV in each one."`,
-      `"At least 2 questions focused on how you could collect the oxygen made by a plant."`
+      `"At least 2 questions focused on how you could collect the oxygen made by a plant."`,
+      `Tell students that there is really only one right question to ask related to photosynthesis.`,
+      `"Eight questions."`
     ]
   },
   {
@@ -137,7 +142,7 @@ export const inquiryQuestions:[Question] = [
     ],
     nonExamples: [
       'Criticize the student for not being self-initiative',
-      'Say that there’s only one correct hypothesis.'
+      'Say that there\'s only one correct hypothesis.'
     ]
   },
   {
@@ -152,23 +157,111 @@ export const inquiryQuestions:[Question] = [
       'Criticize the students for not responding',
       'Give a very specific suggestion (answer the question directly)'
     ]
+  },
+  {
+    studentId: 1,
+    text: 'You set up an experiment that tests how light intensity affects photosynthesis over time and recorded the data. Kevin says, “Plant A probably grew more because it a genetically modified by Home Depot,” and the whole class laughs. Prompt the student to clarify and use evidence.',
+    examples: [
+      'Ask the student to make claims using evidence',
+      `That's a great point! Genetically modified plants are going to be a part of our lives. I'm curious - do you think Home Depot would genetically modify a plant? Could you clarify your ideas a little more?`,
+      'OK, so yes genetic modification of plants is definitely happening. How could we measure whether that affects photosynthesis?'
+    ],
+    nonExamples: [
+      `"You're wrong."`
+    ]
+  },
+  {
+    studentId: 6,
+    text: `As you walk around, you see that Jasmine is missing some data in their data tables. What could you do to nudge her in the right direction?`,
+    examples: [
+      `Tell them being systematic is an important part of science.`,
+      `Ask if the collected data reveals any patterns.`,
+      `Ask student to see each variable is increasing or decreasing.`,
+      `"You want to test each variable a number of times, so that you have enough data to be confident of the accuracy of your measurements."`
+    ],
+    nonExamples: [
+      'You need to collect more data.'
+    ]
+  },
+  {
+    studentId: 7,
+    text: 'Miquel finished generating questions (i.e. hypotheses) about photosynthesis, and some are not testable. How can you connect their responses with the idea of planning research?',
+    examples: [
+      'Explain what a testable hypothesis is.'
+    ],
+    nonExamples: [
+      'Your hypotheses are not testable. Come up with new ones.'
+    ]
+  },
+  {
+    text: `You set up a photosynthesis experiment for the class, and students report the data they’ve collected. As it turns out, Mike has experimented with only two variables: hours of light and water.  Respond to this by connecting this with data collection planning.`,
+    examples: [
+      'Ask students to carefully examine the collected data to determine if they have enough data to support or refute their initial hypothesis.'
+    ],
+    nonExamples: [
+      'Tell student to run more experiments with amount of CO2 as a variable.'
+    ]
+
   }
 ];
 
-export const motivationQuestions:[Question] = [{
-  studentId: 6,
-  text: 'A student is frustrated that she cannot figure out how her data supports her initial hypothesis. She refuses to modify her question, instead saying, "I don\'t want to try again because I will just mess up again."',
-  examples: [
-    'Try the principle: Persisting through challenges is how we grow (Duckworth)',
-    'Try the principle: Project to students that you believe they can be successful (Expectancy)'
-  ],
-  nonExamples: []
-}, {
-  studentId: 3,
-  text: 'At the end of the photosynthesis unit, you introduce a list of topics that students choose for a project they want to do. A student raises her hand and says, "I don\'t want to do any of these. Can I just come up with my own thing?" Even before you have a chance to respond to her, another student, another student, says, "I want to do my own topic too!"  Respond.',
-  examples: [],
-  nonExamples: []
-}];
+export const motivationQuestions:[Question] = [
+  {
+    studentId: 8,
+    text: 'Ada is frustrated that she cannot figure out how her data supports her initial hypothesis. She refuses to modify her question, instead saying, "I don\'t want to try again because I will just mess up again."',
+    examples: [
+      'Try the principle: Persisting through challenges is how we grow (Duckworth)',
+      'Try the principle: Project to students that you believe they can be successful (Expectancy)'
+    ],
+    nonExamples: []
+  },
+  {
+    studentId: 3,
+    text: 'At the end of the photosynthesis unit, you introduce a list of topics that students choose for a project they want to do. Maia raises her hand and says, "I don\'t want to do any of these. Can I just come up with my own thing?" Even before you have a chance to respond to her, another student, another student, says, "I want to do my own topic too!"  Respond.',
+    examples: [
+      'Try the principle: Interest-powered learning',
+      'Try the principle: Encourage choice (Glasser)'
+    ],
+    nonExamples: []
+  },
+  {
+    studentId: 8,
+    text: 'Students are working individually on a worksheet. You notice that a student is distracted.  She lashes out, "I can’t do this! And Mike gets it.  He just gets science and I don\'t. Why do I even need to try?"',
+    examples: [
+      'Try the principle: Everyone has the capacity to grow (Dweck)',
+      'Try the principle: Persisting through challenges is how we grow (Duckworth)'
+    ],
+    nonExamples: []
+  },
+  {
+    text: 'For the end of the photosynthesis unit, you arranged a field trip to a local farm so that students could present their findings on improving crop yield potential to professionals in the field. However, when you tell the class about the project, they don’t seem to be excited.  What would you do to communicate the benefits of this field trip to your class?',
+    examples: [
+      'Try the principle: Principles of real-world impact',
+      'Try the principle: Authentic audiences',
+      'Try the principle: Learning by doing'
+    ],
+    nonExamples: []
+  },
+  {
+    studentId: 10,
+    text: 'You divide students into groups to perform a photosynthesis experiment. Students get to divide themselves into groups. A new student, Sasha, doesn’t get picked until the last minute.  What would you do?'
+    examples: [
+      'Try the principle: Sense of belonging',
+      'Try the principle: Choice'
+    ],
+    nonExamples: []
+  },
+  {
+    studentId: 3,
+    text: 'You introduced a game related to photosynthesis, and have pairs of two working on a game. Maia is paired with Kevin, and she asks, "How are we getting graded on this?" You tell her that there will be no grade for either completion or participation. "Why are we doing this then?" she asks.'
+    examples: [
+      'Try the principle: Learning as the goal',
+      'Try the principle: Outcome as the goal',
+      'Try the principle: Learn by teaching (Schwartz)'
+     ],
+     nonExamples: []
+  }
+];
 
 
 export const allQuestions = _.flatten([
