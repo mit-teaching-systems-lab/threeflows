@@ -20,11 +20,7 @@ const slates = [
 const challenges = [{
   id: 102,
   name: 'Photosynthesis',
-  scenario: `At the end of school yesterday, you sent an email to your department head, Margaret, who also teaches 7th grade science, to ask if she has a introductory lesson for photosynthesis that you can use later in the week. She quickly replied and provided you a lesson plan on the topic that she is excited about.  After reviewing Margaret's lesson, however, you decide there are better ways to make this material more engaging for your students.
-
-How might you revise the lesson? That is one of your goals for this Challenge.
-
-You need to also keep in mind that Margaret, who is both a colleague and your department head, is likely to ask you how the lesson she sent you went, and may even stop by your class to see you teach it. How should you explain to your department head that you don't want to use her lesson and want instead to create your own?`,
+  scenario: `At the end of school yesterday, you sent an email to your colleague, Margaret, who also teaches 7th grade science, to ask if she has a introductory lesson for photosynthesis that you can use later in the week. She quickly replied and provided you a lesson plan on the topic that she is excited about.  After reviewing Margaret’s lesson, however, you decide there are better ways to make this material more engaging for your students. How will you revise and facilitate the lesson? To do so, you want to learn more about using inquiry to teach scientific concepts and motivating students to learn.`,
   learningObjectives: [
     { id: 'PP1-3B', competencyGroup: 'Purposeful Planning', text: 'Review learning outcomes based on information regarding each student (such as interests and strengths, input from previous teachers, assessment scores, reading ability, English language proficiency, and special needs) and, if necessary, modify or individualize outcomes to more appropriately meet the needs of all students.' },
     { id: 'PP2-1C', competencyGroup: 'Using Assessment to Advance Learning and Inform Teaching', text: 'Plan, create, integrate, and balance a wide variety of formative assessments (including technology-enabled assessments) that align with learning and goals, fit into unit and course design, and take into account the needs (including special needs) of individual students.' },
