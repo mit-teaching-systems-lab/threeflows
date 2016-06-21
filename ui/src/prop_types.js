@@ -4,7 +4,8 @@ import React from "react";
 Defines common shapes of data.  Can moves this to Flow annotations over time.
 */
 export const LearningObjective = React.PropTypes.shape({
-  id: React.PropTypes.string.isRequired,
+  id: React.PropTypes.number.isRequired,
+  key: React.PropTypes.string.isRequired,
   competencyGroup: React.PropTypes.string.isRequired,
   text: React.PropTypes.string.isRequired
 });
