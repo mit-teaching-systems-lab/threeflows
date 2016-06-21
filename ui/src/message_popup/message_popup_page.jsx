@@ -56,7 +56,8 @@ function logDatabase(type, record) {
       version: 2
     }))
     .set('Content-Type', 'application/json')
-    .send(record);
+    .send(record)
+    .end();
 }
 
 /*
