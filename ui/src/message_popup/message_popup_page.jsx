@@ -39,15 +39,6 @@ function questionsForCompetencies(competencyGroup) {
   return _.shuffle(withStudents(withCompetencyGroups));
 }
 
-function logLocalStorage(type, record) {
-  const KEY = 'messagePopupResponses';
-  const string = window.localStorage.getItem(KEY);
-  const records = string ? JSON.parse(string) : [];
-  const updatedRecords = records.concat(record);
-  const updatedString = JSON.stringify(updatedRecords);
-  window.localStorage.setItem(KEY, updatedString);
-}
-
 // For now, this fires and forgets and does not retry or
 // notify the user on success or failure.
 function logDatabase(type, record) {
@@ -106,9 +97,7 @@ export default React.createClass({
   },
 
   onLog(type, response:Response) {
-    const logFn = (window.location.host.indexOf('localhost') === 0)
-      ? logLocalStorage : logDatabase;
-    logFn(type, {
+    logDatabase(type, {
       ...response,
       name: this.state.name,
       clientTimestampMs: new Date().getTime()

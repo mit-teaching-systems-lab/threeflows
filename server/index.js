@@ -3,7 +3,8 @@ var url = require('url');
 var _ = require('lodash')
 var fs = require('fs');
 var path = require('path');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
+var request = require('superagent');
 
 // create and configure server
 var app = express();
@@ -37,18 +38,51 @@ app.post('/server/evidence/:app/:type/:version', function(request, response) {
   const payload = JSON.stringify(request.body);
   const values = [app, type, version, timestamp, payload];
 
+  tellSlackAboutEvidence(request.params, request.body);
+
+  if (!process.env.DATABASE_URL) {
+    console.log('No database.');
+    response.status(204);
+    return response.json({});
+  }
+
   const sql = `
     INSERT INTO evidence(app, type, version, timestamp, json)
     VALUES ($1,$2,$3,to_timestamp($4),$5)`;
   queryDatabase(sql, values, function(err, result) {
     if (err) {
       console.log({ error: err });
-      return response.code(500);
+      return response.status(500);
     }
     console.log(JSON.stringify(result));
-    response.json({result});  
+    response.status(202);
+    return response.json({result});  
   });
 });
+
+function tellSlackAboutEvidence(params, body) {
+  var url = process.env.SLACK_EVIDENCE_WEBHOOK_URL;
+  if (!url) return console.log('Slack integration not enabled.');
+  request
+    .post(url)
+    .send({
+      username: "robo-coach",
+      icon_emoji: ":robot_face:",
+      text: JSON.stringify({
+        app: params.app,
+        type: params.type,
+        version: params.version,
+        body: {
+          name: body.name,
+          helpType: body.helpType,
+          elapsedMs: body.elapsedMs,
+          response: body.initialResponseText
+        }
+      }, null, 2)
+    })
+    .set('Accept', 'application/json')
+    .end();
+}
 
 
 // serve static HTML
