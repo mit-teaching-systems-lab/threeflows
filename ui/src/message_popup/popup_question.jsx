@@ -138,7 +138,7 @@ export default React.createClass({
           <RaisedButton
             onTouchTap={this.onSavePressed}
             style={styles.button}
-            primary={true}
+            secondary={true}
             label={this.props.helpType === 'feedback' ? 'Save' : 'Send'}
             disabled={this.state.isRevising || this.state.initialResponseText === ''}/>
           {secondsRemaining > 0 &&

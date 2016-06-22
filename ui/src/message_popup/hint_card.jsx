@@ -50,7 +50,7 @@ export default React.createClass({
             <div />
             <RaisedButton
               onTouchTap={this.onHintsToggled}
-              secondary={true}
+              primary={true}
               label="Show Example" />
           </div>
         )}
