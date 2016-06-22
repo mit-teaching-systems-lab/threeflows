@@ -107,9 +107,10 @@ app.get('/server/query', facultyAuth, function(request, response) {
       return response.status(500);
     }
 
+    const {rows} = result.rows;
     console.log(`Returning ${rows.length} records.`);
     response.status(200);
-    return response.json({rows: result.rows});
+    return response.json({rows});
   });
 });
 
