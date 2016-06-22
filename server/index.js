@@ -5,6 +5,8 @@ var fs = require('fs');
 var path = require('path');
 var bodyParser = require('body-parser');
 var request = require('superagent');
+var basicAuth = require('basic-auth');
+var pg = require('pg');
 
 // create and configure server
 var app = express();
@@ -14,11 +16,27 @@ app.use(bodyParser.urlencoded({    // to support URL-encoded bodies
 }));
 
 
+// auth middleware
+function sendUnauthorized(res) {
+  res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+  return res.send(401);
+};
+
+function facultyAuth(req, res, next) {
+  const {FACULTY_USERNAME, FACULTY_PASSWORD} = process.env;
+  if (!FACULTY_USERNAME) return sendUnauthorized(res);
+  if (!FACULTY_PASSWORD) return sendUnauthorized(res);
+
+  var user = basicAuth(req);
+  console.log({user});
+  if (user && user.name === FACULTY_USERNAME && user.pass === FACULTY_PASSWORD) return next();
+  
+  return sendUnauthorized(res);
+};
 
 
 // api routes
 // helper for db connection pooling
-var pg = require('pg');
 function queryDatabase(text, values, cb) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     client.query(text, values, function(err, result) {
@@ -81,6 +99,19 @@ function tellSlackAboutEvidence(params, body) {
     .end();
 }
 
+
+app.get('/server/query', facultyAuth, function(request, response) {
+  queryDatabase('SELECT * FROM evidence ORDER BY timestamp DESC', [], function(err, result) {
+    if (err) {
+      console.log({ error: err });
+      return response.status(500);
+    }
+
+    console.log(`Returning ${rows.length} records.`);
+    response.status(200);
+    return response.json({rows: result.rows});
+  });
+});
 
 // serve static HTML
 function readFile(filename) {
