@@ -16,6 +16,7 @@ import {learningObjectives} from '../data/learning_objectives.js';
 import {allQuestions} from './questions.js';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import 'velocity-animate/velocity.ui';
+import uuid from 'node-uuid';
 
 const ALL_COMPETENCY_GROUPS = 'ALL_COMPETENCY_GROUPS';
 
@@ -67,11 +68,12 @@ export default React.createClass({
     const isSolutionMode = _.has(this.props.query, 'solution');
     const helpType = isSolutionMode ? 'none' : 'feedback';
     const shouldShowStudentCards = isSolutionMode ? false : _.has(this.props.query, 'cards');
-    
+    const sessionId = uuid.v4();
     return {
       shouldShowStudentCards,
       helpType,
       isSolutionMode,
+      sessionId,
       competencyGroupValue: ALL_COMPETENCY_GROUPS,
       questions: [],
       name: '',
@@ -100,6 +102,7 @@ export default React.createClass({
     logDatabase(type, {
       ...response,
       name: this.state.name,
+      sessionId: this.state.sessionId,
       clientTimestampMs: new Date().getTime()
     });
   },

@@ -55,8 +55,8 @@ app.post('/server/evidence/:app/:type/:version', function(request, response) {
       return response.status(500);
     }
     console.log(JSON.stringify(result));
-    response.status(202);
-    return response.json({result});  
+    response.status(201);
+    return response.json({});  
   });
 });
 
@@ -69,15 +69,12 @@ function tellSlackAboutEvidence(params, body) {
       username: "robo-coach",
       icon_emoji: ":robot_face:",
       text: JSON.stringify({
-        app: params.app,
+        name: body.name,
         type: params.type,
-        version: params.version,
-        body: {
-          name: body.name,
-          helpType: body.helpType,
-          elapsedMs: body.elapsedMs,
-          response: body.initialResponseText
-        }
+        helpType: body.helpType,
+        elapsedMs: body.elapsedMs,
+        response: body.initialResponseText,
+        sessionId: body.sessionId
       }, null, 2)
     })
     .set('Accept', 'application/json')
