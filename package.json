@@ -13,6 +13,7 @@
     "test": "cd ui && npm run test"
   },
   "dependencies": {
+    "basic-auth": "^1.0.4",
     "body-parser": "^1.15.1",
     "express": "4.13.3",
     "lodash": "^4.13.1",
