@@ -163,7 +163,7 @@ export default React.createClass({
           <RaisedButton
             onTouchTap={this.onDonePressed}
             style={styles.button}
-            primary={true}
+            secondary={true}
             label="Done" />
         </div>
       </VelocityTransitionGroup>
@@ -193,7 +193,7 @@ export default React.createClass({
               disabled={this.state.name === ''}
               onTouchTap={this.onStartPressed}
               style={styles.button}
-              primary={true}
+              secondary={true}
               label="Start" />
           </div>
         </div>

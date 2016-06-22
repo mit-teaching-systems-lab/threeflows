@@ -63,12 +63,11 @@ export default React.createClass({
         <RaisedButton
           onTouchTap={this.onRevise}
           style={styles.button}
-          primary={true}
+          secondary={true}
           label='Revise'/>
         <RaisedButton
           onTouchTap={this.onPass}
           style={styles.button}
-          primary={true}
           label='Pass'/>
       </div>
     </div>);
