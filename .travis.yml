@@ -8,3 +8,8 @@ branches:
 
 before_script:
   - npm run heroku-prebuild
+
+cache:
+  directories:
+    - node_modules
+    - ui/node_modules
