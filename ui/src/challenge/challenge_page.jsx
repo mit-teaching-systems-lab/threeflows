@@ -84,8 +84,7 @@ export default React.createClass({
           <FlatButton
             label="Message PopUp"
             secondary={true}
-            linkButton={true}
-            href={Routes.messagePopupSolutionPath()} />
+            onTouchTap={Routes.newTab.bind(Routes, Routes.messagePopupSolutionPath())} />
         </CardText>
       </Card>
     );

@@ -1,6 +1,5 @@
 import React from 'react';
 import _ from 'lodash';
-import * as PropTypes from '../prop_types.js';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Divider from 'material-ui/Divider';
@@ -22,7 +21,8 @@ export default React.createClass({
   
   propTypes: {
     initialResponseText: React.PropTypes.string.isRequired,
-    onDonePressed: React.PropTypes.func.isRequired,
+    onRevised: React.PropTypes.func.isRequired,
+    onPassed: React.PropTypes.func.isRequired,
     examples: React.PropTypes.array.isRequired
   },
   
@@ -31,11 +31,11 @@ export default React.createClass({
   },
   
   onRevise(){
-    this.props.onDonePressed(true, this.state.finalResponseText);
+    this.props.onRevised(this.state.finalResponseText);
   },
   
   onPass(){
-    this.props.onDonePressed(false, '');
+    this.props.onPassed();
   },
 
   render() {
@@ -63,12 +63,11 @@ export default React.createClass({
         <RaisedButton
           onTouchTap={this.onRevise}
           style={styles.button}
-          primary={true}
+          secondary={true}
           label='Revise'/>
         <RaisedButton
           onTouchTap={this.onPass}
           style={styles.button}
-          primary={true}
           label='Pass'/>
       </div>
     </div>);

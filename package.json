@@ -13,10 +13,12 @@
     "test": "cd ui && npm run test"
   },
   "dependencies": {
+    "basic-auth": "^1.0.4",
     "body-parser": "^1.15.1",
     "express": "4.13.3",
     "lodash": "^4.13.1",
-    "pg": "^5.1.0"
+    "pg": "^5.1.0",
+    "superagent": "^2.0.0"
   },
   "keywords": [],
   "license": "MIT",

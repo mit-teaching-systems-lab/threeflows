@@ -1,7 +1,7 @@
 //@flow
 import React from 'react';
-import {allStudents} from '../message_popup/data_lists.jsx';
 import StudentCard from '../message_popup/student_card.jsx';
+import {allStudents} from '../data/virtual_school.js';
 import * as PropTypes from '../prop_types.js';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 
