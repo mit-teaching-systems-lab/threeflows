@@ -9,6 +9,9 @@ import Divider from 'material-ui/Divider';
 import PopupQuestion from './popup_question.jsx';
 import TextField from 'material-ui/TextField';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import LinearProgress from 'material-ui/LinearProgress';
+import Slider from 'material-ui/Slider';
+import Snackbar from 'material-ui/Snackbar';
 import request from 'superagent';
 import TextChangeEvent from '../types/dom_types.js';
 import {allStudents} from '../data/virtual_school.js';
@@ -17,6 +20,7 @@ import {allQuestions} from './questions.js';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import 'velocity-animate/velocity.ui';
 import uuid from 'node-uuid';
+import FinalSummaryCard from './final_summary_card.jsx';
 
 const ALL_COMPETENCY_GROUPS = 'ALL_COMPETENCY_GROUPS';
 
@@ -67,35 +71,72 @@ export default React.createClass({
   getInitialState: function() {
     const isSolutionMode = _.has(this.props.query, 'solution');
     const helpType = isSolutionMode ? 'none' : 'feedback';
-    const shouldShowStudentCards = isSolutionMode ? false : _.has(this.props.query, 'cards');
+    //I changed the bottom to true since the feedback listed it as a bug but I thought that not
+    //showing the student cards in solution mode was the initial intention since the users would
+    //have known each of the students by then..?
+    const shouldShowStudentCards = isSolutionMode ? _.has(this.props.query, 'cards') : true;
+    const shouldShowSummary = !isSolutionMode;
     const sessionId = uuid.v4();
     return {
       shouldShowStudentCards,
+      shouldShowSummary,
       helpType,
       isSolutionMode,
       sessionId,
       competencyGroupValue: ALL_COMPETENCY_GROUPS,
-      questions: [],
+      questions: allQuestions,
       name: '',
       hasStarted: false,
       questionsAnswered: 0,
+      sessionLength: 20,
+      toastRevision: false,
+      limitMs: 90000,
+      responseTimes: []
     };
   },
 
   onStartPressed() {
-    const {competencyGroupValue, isSolutionMode} = this.state;
-    const questions = (isSolutionMode || competencyGroupValue === ALL_COMPETENCY_GROUPS)
-      ? _.shuffle(withStudents(allQuestions))
-      : questionsForCompetencies(competencyGroupValue);
-
+    const questions = this.getQuestions();
     this.setState({
       questions,
       hasStarted: true
     });
   },
+  
+  playToast(){
+    if(this.state.helpType === 'feedback' && !this.state.shouldShowSummary){
+      this.setState({toastRevision: true});
+    }
+  },
+  
+  removeToast(){
+    this.setState({toastRevision: false});
+  },
+  
+  addResponseTime(time){
+    this.setState({responseTimes: this.state.responseTimes.concat(time)});
+  },
+  
+  getQuestions(competencyGroup=""){
+    var {competencyGroupValue, isSolutionMode} = this.state;
+    if(competencyGroup !== ""){
+      competencyGroupValue = competencyGroup;
+    }
+    const questions = (isSolutionMode || competencyGroupValue === ALL_COMPETENCY_GROUPS)
+      ? _.shuffle(withStudents(allQuestions))
+      : questionsForCompetencies(competencyGroupValue);
+    return questions;
+  },
 
   onCompetencyGroupChanged(e, competencyGroupValue) {
-    this.setState({competencyGroupValue});
+    const questions = this.getQuestions(competencyGroupValue);
+    const newLength = questions.length;
+    var slength = this.state.sessionLength
+    if(slength > newLength){
+      slength = newLength;
+    }
+    this.setState({questions: questions, competencyGroupValue: competencyGroupValue, sessionLength: slength});
+    
   },
 
   onLog(type, response:Response) {
@@ -107,7 +148,9 @@ export default React.createClass({
     });
   },
   
-  onQuestionDone() {
+  onQuestionDone(elapsedSeconds) {
+    this.playToast();
+    this.addResponseTime(elapsedSeconds);
     this.setState({ questionsAnswered: this.state.questionsAnswered + 1 });
   },
 
@@ -119,8 +162,16 @@ export default React.createClass({
     this.setState({ shouldShowStudentCards: !this.state.shouldShowStudentCards });
   },
   
+  onSummaryToggled(){
+    this.setState({ shouldShowSummary: !this.state.shouldShowSummary });
+  },
+  
   onHelpToggled(event, value){
     this.setState({ helpType: value});
+  },
+  
+  onSliderChange(event, value){
+    this.setState({ sessionLength: value})
   },
   
   onTextChanged({target:{value}}:TextChangeEvent) {
@@ -133,24 +184,36 @@ export default React.createClass({
       questions,
       questionsAnswered,
       shouldShowStudentCards,
-      helpType
+      shouldShowSummary,
+      helpType,
+      sessionLength
     } = this.state;
     if (!hasStarted) return this.renderInstructions();
-    if (questionsAnswered >= questions.length) return this.renderDone();
+    if (questionsAnswered >= sessionLength) return this.renderDone();
 
     const question = this.state.questions[questionsAnswered];
     return (
       <div style={styles.container}>
+        <LinearProgress color="#EC407A" mode="determinate" value={questionsAnswered} max={sessionLength} />
         <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
           <PopupQuestion
             key={JSON.stringify(question)}
             question={question}
             shouldShowStudentCard={shouldShowStudentCards}
+            shouldShowSummary={shouldShowSummary}
             helpType={helpType}
-            limitMs={90000}
+            //Previously initially defined here
+            limitMs={this.state.limitMs}
             onLog={this.onLog}
-            onDone={this.onQuestionDone}/>
+            onDone={this.onQuestionDone}
+            isLastQuestion={questionsAnswered+1===sessionLength ? true : false}/>
         </VelocityTransitionGroup>
+        <Snackbar
+          open={this.state.toastRevision}
+          message="Response recorded for feedback"
+          autoHideDuration={2000}
+          onRequestClose={this.removeToast}
+        />
       </div>
     );
   },
@@ -159,7 +222,11 @@ export default React.createClass({
     return (
       <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
         <div style={_.merge(_.clone(styles.container), styles.done)}>
-          <div>You finished!</div>
+          <div style={styles.doneTitle}>You finished!</div>
+          <Divider />
+          <FinalSummaryCard 
+            responseTimes={this.state.responseTimes} 
+            limitMs={this.state.limitMs} />
           <RaisedButton
             onTouchTap={this.onDonePressed}
             style={styles.button}
@@ -177,6 +244,9 @@ export default React.createClass({
           <div style={styles.title}>Message Popup</div>
           {this.state.isSolutionMode &&
             <p style={styles.paragraph}>Clear 15 minutes.  Your work is timed, so being able to focus is important.</p>
+          }
+          {!this.state.isSolutionMode && 
+            <p style={styles.paragraph}>This will feel uncomfortable at first, but better to get comfortable here than with real students.</p>
           }
           <p style={styles.paragraph}>You may be asked to write, sketch or say your responses aloud.</p>
           <p style={styles.paragraph}>Each question is timed to simulate responding in the moment in the classroom.  You'll have 90 seconds to respond to each question.</p>
@@ -225,6 +295,11 @@ export default React.createClass({
           })}
         </RadioButtonGroup>
         <Divider />
+        <div>
+          <div style={styles.optionTitle}>Session Length: {this.state.sessionLength} {this.state.sessionLength===1 ? "question" : "questions"}</div>
+          <Slider key={competencyGroupValue} value={this.state.sessionLength} min={1} max={this.state.questions.length} step={1} onChange={this.onSliderChange}/>
+        </div>
+        <Divider />
         <div style={styles.optionTitle}>Scaffolding</div>
         <div style={_.merge({ padding: 20 }, styles.option)}>
           <Toggle
@@ -232,6 +307,11 @@ export default React.createClass({
             labelPosition="right"
             toggled={this.state.shouldShowStudentCards}
             onToggle={this.onStudentCardsToggled} />
+          <Toggle
+            label="Show summary after each question"
+            labelPosition="right"
+            toggled={this.state.shouldShowSummary}
+            onToggle={this.onSummaryToggled}/>
           <div style={{margin: 10}}><Divider /></div>
           <RadioButtonGroup name="helpOptions" valueSelected={this.state.helpType} onChange={this.onHelpToggled}>
             <RadioButton
@@ -293,5 +373,8 @@ const styles = {
   },
   button: {
     marginTop: 20
+  },
+  doneTitle: {
+    marginBottom: 10
   }
 };
