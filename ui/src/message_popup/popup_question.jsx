@@ -86,20 +86,6 @@ export default React.createClass({
       this.setState({isDoneRevising: true});
       return;
     }
-    
-    /*
-    if(this.props.shouldShowSummary){
-      if(this.state.isDoneRevising){
-        this.props.onDone(this.state.elapsedMs);
-      }else{
-        var finalText = (text === undefined ? this.state.initialResponseText : text);
-        this.setState({finalResponseText: finalText})
-        this.setState({isDoneRevising: true});
-      }
-    }else{
-      this.props.onDone(this.state.elapsedMs);
-    }
-    */
   },
 
   onSavePressed() {
