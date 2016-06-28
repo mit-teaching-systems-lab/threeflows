@@ -131,11 +131,11 @@ export default React.createClass({
   onCompetencyGroupChanged(e, competencyGroupValue) {
     const questions = this.getQuestions(competencyGroupValue);
     const newLength = questions.length;
-    var slength = this.state.sessionLength
-    if(slength > newLength){
-      slength = newLength;
+    var sessionLength = this.state.sessionLength
+    if(sessionLength > newLength){
+      sessionLength = newLength;
     }
-    this.setState({questions: questions, competencyGroupValue: competencyGroupValue, sessionLength: slength});
+    this.setState({questions, competencyGroupValue, sessionLength});
     
   },
 
@@ -202,7 +202,6 @@ export default React.createClass({
             shouldShowStudentCard={shouldShowStudentCards}
             shouldShowSummary={shouldShowSummary}
             helpType={helpType}
-            //Previously initially defined here
             limitMs={this.state.limitMs}
             onLog={this.onLog}
             onDone={this.onQuestionDone}
