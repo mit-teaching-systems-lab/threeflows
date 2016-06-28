@@ -58,7 +58,7 @@ function logDatabase(type, record) {
 Shows the MessagePopup game
 */
 export default React.createClass({
-  displayName: 'MessagePopupPage',
+  displayName: 'MessagePopupExperiencePage',
 
   propTypes: {
     query: React.PropTypes.object.isRequired

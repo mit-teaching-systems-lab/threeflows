@@ -7,7 +7,7 @@ import HomePage from './home/home_page.jsx';
 import SlatePage from './slate/slate_page.jsx';
 import CSSTankPage from './csstank/csstank_page.jsx';
 import VirtualSchoolPage from './virtual_school/virtual_school_page.jsx';
-import MessagePopupPage from './message_popup/message_popup_page.jsx';
+import * as MessagePopup from './message_popup/index.js';
 import {
   challenges,
   slates,
@@ -25,18 +25,20 @@ export default React.createClass({
   mixins: [RouterMixin],
   routes: {
     '/': 'home',
+    '/virtual_school': 'virtualSchool',
+    
     '/challenge/:id': 'challenge',
     '/message_popup': 'messagePopup',
+    '/message_popup/evaluation': 'messagePopupEvaluation',
     '/slate/:id': 'slate',
     '/csstank': 'cssTank',
-    '/virtual_school': 'virtualSchool',
   },
 
   propTypes: {
     challenges: React.PropTypes.arrayOf(PropTypes.Challenge)
   },
-  getDefaultProps() {
 
+  getDefaultProps() {
     return {
       challenges: challenges.map(withLearningObjectives)
     };
@@ -77,7 +79,11 @@ export default React.createClass({
   },
 
   messagePopup(query = {}) {
-    return <MessagePopupPage query={query} />;
+    return <MessagePopup.ExperiencePage query={query} />;
+  },
+  
+  messagePopupEvaluation(query = {}) {
+    return <MessagePopup.EvaluationPage query={query} />;
   },
   
   cssTank(query = {}) {
