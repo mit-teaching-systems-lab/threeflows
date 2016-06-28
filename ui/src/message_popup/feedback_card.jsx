@@ -13,8 +13,9 @@ export default React.createClass({
 
   getInitialState: function(){
     var example = _.shuffle(this.props.examples)[0];
+    const initialResponseText = this.props.initialResponseText;
     return ({
-      finalResponseText: '',
+      finalResponseText: initialResponseText,
       example: example
     });
   },
@@ -32,6 +33,7 @@ export default React.createClass({
   
   onRevise(){
     this.props.onRevised(this.state.finalResponseText);
+    
   },
   
   onPass(){
@@ -55,8 +57,7 @@ export default React.createClass({
           floatingLabelText='Revise your response'
           onChange={this.onTextChanged}
           defaultValue={this.props.initialResponseText}
-          multiLine={true}
-          disabled={this.state.isRevising} 
+          multiLine={true} 
           rows={2}/>
       </div>
       <div style={styles.buttonRow}>
@@ -64,7 +65,7 @@ export default React.createClass({
           onTouchTap={this.onRevise}
           style={styles.button}
           secondary={true}
-          label='Revise'/>
+          label='Revise Response'/>
         <RaisedButton
           onTouchTap={this.onPass}
           style={styles.button}

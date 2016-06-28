@@ -6,7 +6,9 @@ import StudentCard from './student_card.jsx';
 import HintCard from './hint_card.jsx';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import Snackbar from 'material-ui/Snackbar';
 import FeedbackCard from './feedback_card.jsx';
+import SummaryCard from './summary_card.jsx';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 const ONE_SECOND = 1000;
 
@@ -28,6 +30,7 @@ export default React.createClass({
 
   propTypes: {
     shouldShowStudentCard: React.PropTypes.bool.isRequired,
+    shouldShowSummary: React.PropTypes.bool.isRequired,
     helpType: React.PropTypes.string.isRequired,
     limitMs: React.PropTypes.number.isRequired,
     question: React.PropTypes.shape({
@@ -36,7 +39,9 @@ export default React.createClass({
       nonExamples: React.PropTypes.array.isRequired,
       student: React.PropTypes.object
     }).isRequired,
-    onLog: React.PropTypes.func.isRequired
+    onLog: React.PropTypes.func.isRequired,
+    onDone: React.PropTypes.func.isRequired,
+    isLastQuestion: React.PropTypes.bool.isRequired
   },
 
 
@@ -44,7 +49,9 @@ export default React.createClass({
     return {
       elapsedMs: 0,
       initialResponseText: '',
-      isRevising: false
+      finalResponseText: undefined,
+      isRevising: false,
+      done: false
     };
   },
 
@@ -53,11 +60,27 @@ export default React.createClass({
   },
 
   updateTimer() {
-    this.setState({ elapsedMs: this.state.elapsedMs + ONE_SECOND });
+    if(!this.state.done){
+      this.setState({ elapsedMs: this.state.elapsedMs + ONE_SECOND });
+    }
   },
 
   onTextChanged({target:{value}}:TextChangeEvent) {
     this.setState({ initialResponseText: value });
+  },
+  
+  onDonePressed(text=undefined) {
+    if(this.props.shouldShowSummary){
+      if(this.state.done){
+        this.props.onDone(this.state.elapsedMs);
+      }else{
+        var finalText = (text === undefined ? this.state.initialResponseText : text);
+        this.setState({finalResponseText: finalText})
+        this.setState({done: true});
+      }
+    }else{
+      this.props.onDone(this.state.elapsedMs);
+    }
   },
 
   onSavePressed() {
@@ -66,17 +89,17 @@ export default React.createClass({
     if(helpType === 'feedback'){
       this.setState({isRevising:true});
     }else{
-      this.props.onDone();
+      this.onDonePressed();
     }
   },
   
   onRevised(text) {
     this.logRevision(text);
-    this.props.onDone();
+    this.onDonePressed(text);
   },
   onPassed() {
     this.logRevisionDeclined();
-    this.props.onDone();
+    this.onDonePressed();
   },
   
   logResponse() {
@@ -107,11 +130,27 @@ export default React.createClass({
   },
 
   render() {
-    const {elapsedMs} = this.state;
-    const {limitMs, shouldShowStudentCard, helpType} = this.props;
+    const {done} = this.state;
+    const {shouldShowSummary} = this.props;  
+    return (
+      <div>
+        <VelocityTransitionGroup leave={{animation: "slideUp"}} runOnMount={true}>
+          {!shouldShowSummary && this.renderQuestion()}
+          {!done && shouldShowSummary && this.renderQuestion()}
+        </VelocityTransitionGroup>
+        <VelocityTransitionGroup enter={{animation: "slideDown"}} runOnMount={true}>
+          {done && shouldShowSummary && this.renderSummary()}
+        </VelocityTransitionGroup>
+      </div>
+    );
+  },
+  
+  renderQuestion(){
+    const {elapsedMs, done} = this.state;
+    const {limitMs, shouldShowStudentCard, shouldShowSummary, helpType} = this.props;
     const {text, student, examples, nonExamples} = this.props.question;
-    const secondsRemaining = Math.round((limitMs - elapsedMs) / 1000);
-
+    const seconds = Math.round(elapsedMs / 1000);
+    
     return (
       <div>
         <div style={styles.question}>{text}</div>
@@ -139,10 +178,10 @@ export default React.createClass({
             onTouchTap={this.onSavePressed}
             style={styles.button}
             secondary={true}
-            label={this.props.helpType === 'feedback' ? 'Save' : 'Send'}
+            label={this.props.helpType === 'feedback' ? 'Save Response' : 'Respond'}
             disabled={this.state.isRevising || this.state.initialResponseText === ''}/>
-          {secondsRemaining > 0 &&
-            <div style={styles.ticker}>{secondsRemaining}s</div>
+          {seconds > 0 &&
+            <div style={styles.ticker}>{seconds}s</div>
           }
         </div>
         <VelocityTransitionGroup enter={{animation: "slideDown"}} runOnMount={true}>
@@ -155,8 +194,28 @@ export default React.createClass({
                 examples={examples}/>  
             </div>}
         </VelocityTransitionGroup>
+        <Snackbar
+          open={seconds >= (this.props.limitMs/1000)}
+          message="Remember, these are supposed to be quick responses."
+          onRequestClose={function(reason){
+            //This empty function is meant to cancel out the closing of the toast without having to use
+            //an extremely large autoHideDuration
+          }}
+          />
       </div>
     );
+  },
+  
+  renderSummary(){
+    return (
+      <SummaryCard 
+        onDone={this.onDonePressed} 
+        question={this.props.question} 
+        response={this.props.helpType==='feedback' ? this.state.finalResponseText : this.state.initialResponseText} 
+        elapsedSeconds={Math.round(this.state.elapsedMs / 1000)} 
+        buttonLabel={this.props.isLastQuestion ? "Finish" : "Next Question"}/>
+    );
+    
   }
 });
 
