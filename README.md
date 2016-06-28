@@ -57,6 +57,14 @@ threeflows:DATABASE=> CREATE TABLE evidence (
   timestamp timestamp,
   json jsonb
 );
+threeflows:DATABASE=> CREATE TABLE evaluations (
+  id serial primary key,
+  app text,
+  type text,
+  version integer,
+  timestamp timestamp,
+  json jsonb
+);
 ```
 
 ## Deploying to Heroku

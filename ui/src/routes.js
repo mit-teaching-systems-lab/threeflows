@@ -31,6 +31,9 @@ type EvidencePathT = {app:string, type:string, version:number};
 export function evidencePath({app, type, version}:EvidencePathT):string {
   return `/server/evidence/${app}/${type}/${version}`;
 }
+export function evaluationPath({app, type, version}:EvidencePathT):string {
+  return `/server/evaluations/${app}/${type}/${version}`;
+}
 
 /* External links */
 export function chatRoom(room:string):string {

@@ -36,6 +36,8 @@
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
     "react-mini-router": "^2.0.0",
+    "react-motion": "^0.4.4",
+    "react-swipeable-views": "^0.6.3",
     "react-tap-event-plugin": "^1.0.0",
     "reactify": "^1.1.1",
     "superagent": "^2.0.0",

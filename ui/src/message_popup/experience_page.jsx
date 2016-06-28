@@ -14,35 +14,16 @@ import Slider from 'material-ui/Slider';
 import Snackbar from 'material-ui/Snackbar';
 import request from 'superagent';
 import TextChangeEvent from '../types/dom_types.js';
-import {allStudents} from '../data/virtual_school.js';
 import {learningObjectives} from '../data/learning_objectives.js';
 import {allQuestions} from './questions.js';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
+import {withStudents, questionsForCompetencies} from './transformations.jsx';
 import 'velocity-animate/velocity.ui';
 import uuid from 'node-uuid';
 import FinalSummaryCard from './final_summary_card.jsx';
 
 const ALL_COMPETENCY_GROUPS = 'ALL_COMPETENCY_GROUPS';
 
-function withStudents(questions) {
-  return questions.map((question) => {
-    const student = _.find(allStudents, {id: question.studentId });
-    return _.extend({student}, question);
-  });
-}
-
-function questionsForCompetencies(competencyGroup) {
-  const withCompetencyGroups = _.compact(allQuestions.map((question) => {
-    const learningObjective = _.find(learningObjectives, { id: question.learningObjectiveId });
-    if (learningObjective.competencyGroup !== competencyGroup) return null;
-    return {
-      ...question,
-      competencyGroup: learningObjective.competencyGroup
-    };
-  }));
-
-  return _.shuffle(withStudents(withCompetencyGroups));
-}
 
 // For now, this fires and forgets and does not retry or
 // notify the user on success or failure.
