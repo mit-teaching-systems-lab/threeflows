@@ -51,7 +51,7 @@ export default React.createClass({
       initialResponseText: '',
       finalResponseText: undefined,
       isRevising: false,
-      done: false
+      isDoneRevising: false
     };
   },
 
@@ -60,7 +60,7 @@ export default React.createClass({
   },
 
   updateTimer() {
-    if(!this.state.done){
+    if(!this.state.isDoneRevising){
       this.setState({ elapsedMs: this.state.elapsedMs + ONE_SECOND });
     }
   },
@@ -70,16 +70,21 @@ export default React.createClass({
   },
   
   onDonePressed(text=undefined) {
-    if(this.props.shouldShowSummary){
-      if(this.state.done){
-        this.props.onDone(this.state.elapsedMs);
-      }else{
-        var finalText = (text === undefined ? this.state.initialResponseText : text);
-        this.setState({finalResponseText: finalText})
-        this.setState({done: true});
-      }
-    }else{
+    if(!this.props.shouldShowSummary){
       this.props.onDone(this.state.elapsedMs);
+      return;
+    }
+    
+    if(this.state.isDoneRevising){
+      this.props.onDone(this.state.elapsedMs);
+      return;
+    }
+    
+    if(!this.state.isDoneRevising){
+      var finalText = (text === undefined ? this.state.initialResponseText : text);
+      this.setState({finalResponseText: finalText})
+      this.setState({isDoneRevising: true});
+      return;
     }
   },
 
@@ -130,23 +135,23 @@ export default React.createClass({
   },
 
   render() {
-    const {done} = this.state;
+    const {isDoneRevising} = this.state;
     const {shouldShowSummary} = this.props;  
     return (
       <div>
         <VelocityTransitionGroup leave={{animation: "slideUp"}} runOnMount={true}>
           {!shouldShowSummary && this.renderQuestion()}
-          {!done && shouldShowSummary && this.renderQuestion()}
+          {!isDoneRevising && shouldShowSummary && this.renderQuestion()}
         </VelocityTransitionGroup>
         <VelocityTransitionGroup enter={{animation: "slideDown"}} runOnMount={true}>
-          {done && shouldShowSummary && this.renderSummary()}
+          {isDoneRevising && shouldShowSummary && this.renderSummary()}
         </VelocityTransitionGroup>
       </div>
     );
   },
   
   renderQuestion(){
-    const {elapsedMs, done} = this.state;
+    const {elapsedMs, isDoneRevising} = this.state;
     const {limitMs, shouldShowStudentCard, shouldShowSummary, helpType} = this.props;
     const {text, student, examples, nonExamples} = this.props.question;
     const seconds = Math.round(elapsedMs / 1000);
