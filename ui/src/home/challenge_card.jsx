@@ -1,3 +1,4 @@
+/* @flow weak */
 import React from 'react';
 import {challengePath} from '../routes';
 

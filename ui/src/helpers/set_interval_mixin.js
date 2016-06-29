@@ -1,3 +1,4 @@
+/* @flow */
 export default {
   componentWillMount: function() {
     this.intervals = [];

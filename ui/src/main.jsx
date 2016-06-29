@@ -1,4 +1,4 @@
-// @flow
+/* @flow weak */
 import App from './app.jsx';
 import React from 'react';
 import ReactDOM from 'react-dom';

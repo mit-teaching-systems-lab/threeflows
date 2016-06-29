@@ -1,3 +1,4 @@
+/* @flow weak */
 import request from 'superagent';
 import * as Routes from '../routes.js';
 

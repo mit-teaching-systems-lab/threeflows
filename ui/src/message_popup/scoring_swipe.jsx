@@ -1,3 +1,4 @@
+/* @flow weak */
 import React from 'react';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import 'velocity-animate/velocity.ui';

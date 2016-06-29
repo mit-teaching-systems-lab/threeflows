@@ -1,3 +1,4 @@
+/* @flow weak */
 import React from 'react';
 import * as PropTypes from '../prop_types.js';
 import {GridList, GridTile} from 'material-ui/GridList';

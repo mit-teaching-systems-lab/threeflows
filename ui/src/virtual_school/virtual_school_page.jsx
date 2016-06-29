@@ -1,4 +1,4 @@
-//@flow
+/* @flow weak */
 import React from 'react';
 import StudentCard from '../message_popup/student_card.jsx';
 import {allStudents} from '../data/virtual_school.js';
@@ -53,7 +53,7 @@ export default React.createClass({
     );
   },
 
-  renderClassroom(students:[PropTypes.Student]) {
+  renderClassroom(students) {
     return (
       <Card
         initiallyExpanded={true}>
@@ -74,7 +74,7 @@ export default React.createClass({
     );
   },
 
-  renderStudents(students:[PropTypes.Student]) {
+  renderStudents(students) {
     return (
       <Card
         initiallyExpanded={true}>
@@ -91,12 +91,12 @@ export default React.createClass({
     );
   },
 
-  renderCards(students:[PropTypes.Student]) {
+  renderCards(students) {
     return (
       <div>
         {students.map((student) => {
           return <StudentCard
-            key={student.id}
+            key={student.name}
             student={student}
             attributeStyle={styles.studentCardAttribute}
             style={styles.studentCard} />;

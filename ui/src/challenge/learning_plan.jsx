@@ -1,3 +1,4 @@
+/* @flow weak */
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';

@@ -1,3 +1,4 @@
+/* @flow weak */
 import React from 'react';
 import * as Routes from '../routes';
 import * as PropTypes from '../prop_types.js';
