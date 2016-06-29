@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {allStudents} from '../data/virtual_school.js';
 import {learningObjectives} from '../data/learning_objectives.js';
 import {allQuestions} from './questions.js';

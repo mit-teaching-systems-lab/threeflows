@@ -12,12 +12,10 @@ import DoneIcon from 'material-ui/svg-icons/action/done';
 import AssignmentIcon from 'material-ui/svg-icons/action/assignment';
 import FeedbackIcon from 'material-ui/svg-icons/action/feedback';
 import * as Colors from 'material-ui/styles/colors';
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import {Card, CardHeader, CardText} from 'material-ui/Card';
 import LinearProgress from 'material-ui/LinearProgress';
 import IconButton from 'material-ui/IconButton';
 
-
-import * as Routes from '../routes.js';
 import StudentCard from './student_card.jsx';
 
 
@@ -47,7 +45,7 @@ export default React.createClass({
   getDefaultProps() {
     return {
       limitIncrement: 20
-    }
+    };
   },
 
   getInitialState() {
