@@ -1,7 +1,6 @@
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
-import VelocityTransitionGroup from 'velocity-react/velocity-transition-group';
 
 
 export default React.createClass({

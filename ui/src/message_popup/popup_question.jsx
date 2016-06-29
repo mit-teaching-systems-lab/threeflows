@@ -82,7 +82,7 @@ export default React.createClass({
     
     if(!this.state.isDoneRevising){
       var finalText = (text === undefined ? this.state.initialResponseText : text);
-      this.setState({finalResponseText: finalText})
+      this.setState({finalResponseText: finalText});
       this.setState({isDoneRevising: true});
       return;
     }
@@ -151,8 +151,8 @@ export default React.createClass({
   },
   
   renderQuestion(){
-    const {elapsedMs, isDoneRevising} = this.state;
-    const {limitMs, shouldShowStudentCard, shouldShowSummary, helpType} = this.props;
+    const {elapsedMs} = this.state;
+    const {shouldShowStudentCard, helpType} = this.props;
     const {text, student, examples, nonExamples} = this.props.question;
     const seconds = Math.round(elapsedMs / 1000);
     

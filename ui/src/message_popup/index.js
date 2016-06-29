@@ -1,3 +1,3 @@
 import ExperiencePage from './experience_page.jsx';
-import EvaluationPage from './evaluation_page.jsx';
-export {ExperiencePage, EvaluationPage};
+import ExplorationPage from './exploration_page.jsx';
+export {ExperiencePage, ExplorationPage};

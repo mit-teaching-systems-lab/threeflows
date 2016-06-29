@@ -1,4 +1,4 @@
-// @flow
+import _ from 'lodash';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import fakeNames from '../data/fake_names.js';
@@ -19,10 +19,10 @@ function createAnonymizer() {
 }
 
 /*
-UI for evaluating Message PopUp responses
+UI for exploring Message PopUp responses, not used for scoring.
 */
 export default React.createClass({
-  displayName: 'MessagePopupEvaluationPage',
+  displayName: 'MessagePopup.ExplorationPage',
 
   propTypes: {
     query: React.PropTypes.object.isRequired
@@ -40,6 +40,21 @@ export default React.createClass({
       if (e.keyCode === 27) this.onResetClicked();
     });
 
+    this.doInjectStyles();
+
+    request
+      .get('/server/query')
+      .set('Content-Type', 'application/json')
+      .end(this.onDataReceived);
+  },
+
+  componentDidUpdate(prevProps, prevState) {
+    this.doDraw(this.state.logs);
+  },
+
+  // Inject links for DC and for some styles that override
+  // the default DC styling
+  doInjectStyles() {
     const style = document.createElement('link');
     style.rel = 'stylesheet';
     style.type = 'text/css';
@@ -68,21 +83,9 @@ export default React.createClass({
     `);
     inlineStyleNode.appendChild(styleText);
     document.head.appendChild(inlineStyleNode);
-
-
-    request
-      .get('/server/query')
-      .set('Content-Type', 'application/json')
-      .auth('tobi', 'learnboost')
-      .end(this.onDataReceived);
-  },
-
-  componentDidUpdate(prevProps, prevState) {
-    this.doDraw(this.state.logs);
   },
 
   onDataReceived(err, response) {
-    // Hacked local development mode
     const logs = JSON.parse(response.text).rows;
     this.setState({logs});
   },
@@ -95,13 +98,12 @@ export default React.createClass({
       this.studentChart,
       this.latencyChart,
       this.tableChart
-    ]).forEach(chart => chart.filterAll())
+    ]).forEach(chart => chart.filterAll());
     dc.renderAll();
   },
 
   doDraw(logs) {
     const anonymizer = this.anonymizer;
-    // set crossfilter
     const ndx = crossfilter(logs);
     const transitionDuration = 250;
 
@@ -145,7 +147,7 @@ export default React.createClass({
       .transitionDuration(transitionDuration)
       .render();
 
-    const latency = d => Math.round(+d.json.elapsedMs/1000)
+    const latency = d => Math.round(+d.json.elapsedMs/1000);
     const latencyDim = ndx.dimension(latency);
     window.latencyDim = latencyDim;
     this.latencyChart = dc.barChart('.chart-elapsed')
@@ -222,11 +224,11 @@ export default React.createClass({
   },
 
   renderChart(title, className) {
-     return (
-        <div style={styles.chartContainer}>
-          <div style={styles.title}>{title}</div>
-          <div style={styles.chart} className={className}></div>
-        </div>
+    return (
+      <div style={styles.chartContainer}>
+        <div style={styles.title}>{title}</div>
+        <div style={styles.chart} className={className}></div>
+      </div>
     );
   }
 });

@@ -131,7 +131,7 @@ export default React.createClass({
   onCompetencyGroupChanged(e, competencyGroupValue) {
     const questions = this.getQuestions(competencyGroupValue);
     const newLength = questions.length;
-    var sessionLength = this.state.sessionLength
+    var sessionLength = this.state.sessionLength;
     if(sessionLength > newLength){
       sessionLength = newLength;
     }
@@ -171,7 +171,7 @@ export default React.createClass({
   },
   
   onSliderChange(event, value){
-    this.setState({ sessionLength: value})
+    this.setState({ sessionLength: value});
   },
   
   onTextChanged({target:{value}}:TextChangeEvent) {
@@ -191,7 +191,7 @@ export default React.createClass({
     if (!hasStarted) return this.renderInstructions();
     if (questionsAnswered >= sessionLength) return this.renderDone();
 
-    const question = this.state.questions[questionsAnswered];
+    const question = questions[questionsAnswered];
     return (
       <div style={styles.container}>
         <LinearProgress color="#EC407A" mode="determinate" value={questionsAnswered} max={sessionLength} />
