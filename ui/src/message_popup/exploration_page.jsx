@@ -35,6 +35,9 @@ export default React.createClass({
     };
   },
 
+  anonymizer: null,
+  chartsMap: {},
+
   getInitialState() {
     return {
       logs: null
@@ -98,15 +101,10 @@ export default React.createClass({
   },
 
   onResetClicked() {
-    _.compact([
-      this.typeChart,
-      this.helpTypeChart,
-      this.userChart,
-      this.studentChart,
-      this.latencyChart,
-      this.tableChart
-    ]).forEach(chart => chart.filterAll());
-    dc.renderAll();
+    _.compact(_.values(this.chartsMap)).forEach(chart => {
+      chart.filterAll();
+      chart.render();
+    });
   },
 
   doDraw(logs) {
@@ -115,7 +113,7 @@ export default React.createClass({
     const transitionDuration = 250;
 
     const typeDim = ndx.dimension(d => d.type);
-    this.typeChart = dc.rowChart('.chart-type')
+    this.chartsMap.type = dc.rowChart('.chart-type')
       .dimension(typeDim)
       .group(typeDim.group().reduceSum(d => 1))
       .elasticX(true)
@@ -125,7 +123,7 @@ export default React.createClass({
       .render();
 
     const helpTypeDim = ndx.dimension(d => d.json.helpType);
-    this.helpTypeChart = dc.rowChart('.chart-help-type')
+    this.chartsMap.helpType = dc.rowChart('.chart-help-type')
       .dimension(helpTypeDim)
       .group(helpTypeDim.group().reduceSum(d => 1))
       .elasticX(true)
@@ -135,7 +133,7 @@ export default React.createClass({
       .render();
 
     const studentDim = ndx.dimension(d => d.json.question.student && d.json.question.student.name);
-    this.studentChart = dc.rowChart('.chart-student')
+    this.chartsMap.student = dc.rowChart('.chart-student')
       .dimension(studentDim)
       .group(studentDim.group().reduceSum(d => 1))
       .elasticX(true)
@@ -145,7 +143,7 @@ export default React.createClass({
       .render();
 
     const userDim = ndx.dimension(anonymizer.name);
-    this.userChart = dc.rowChart('.chart-name')
+    this.chartsMap.user = dc.rowChart('.chart-name')
       .dimension(userDim)
       .group(userDim.group().reduceSum(d => 1))
       .elasticX(true)
@@ -156,8 +154,7 @@ export default React.createClass({
 
     const latency = d => Math.round(+d.json.elapsedMs/1000);
     const latencyDim = ndx.dimension(latency);
-    window.latencyDim = latencyDim;
-    this.latencyChart = dc.barChart('.chart-elapsed')
+    this.chartsMap.latency = dc.barChart('.chart-elapsed')
       .dimension(latencyDim)
       .group(latencyDim.group().reduceSum(d => 1))
       .x(d3.scale.linear().domain([0,d3.max(logs, latency)]))
@@ -168,7 +165,7 @@ export default React.createClass({
       .render();
 
     const sessionDim = ndx.dimension(d => d.json.sessionId);
-    this.tableChart = dc.dataTable('.table-responses')
+    this.chartsMap.table = dc.dataTable('.table-responses')
       .dimension(sessionDim)
       .group(d => {
         const date = dateFns.format(new Date(d.timestamp), 'dddd MM/DD/YYYY');

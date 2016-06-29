@@ -1,3 +1,5 @@
+/* @flow weak */
+
 // Holds sets of learning objectives, immutable.
 export const learningObjectives = [
   { id: 30, key: 'PP1-3B', competencyGroup: 'Purposeful Planning', text: 'Review learning outcomes based on information regarding each student (such as interests and strengths, input from previous teachers, assessment scores, reading ability, English language proficiency, and special needs) and, if necessary, modify or individualize outcomes to more appropriately meet the needs of all students.' },

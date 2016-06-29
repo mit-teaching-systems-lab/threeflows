@@ -1,3 +1,4 @@
+/* @flow weak */
 import React from "react";
 
 /*
@@ -29,6 +30,7 @@ export const User = React.PropTypes.shape({
 });
 
 export const Student = React.PropTypes.shape({
+  id: React.PropTypes.number.isRequired,
   name: React.PropTypes.string.isRequired,
   grade: React.PropTypes.string.isRequired,
   gender: React.PropTypes.string.isRequired,

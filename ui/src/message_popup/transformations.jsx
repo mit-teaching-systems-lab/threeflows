@@ -1,3 +1,4 @@
+/* @flow weak */
 import _ from 'lodash';
 import {allStudents} from '../data/virtual_school.js';
 import {learningObjectives} from '../data/learning_objectives.js';

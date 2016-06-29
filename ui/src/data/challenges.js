@@ -1,3 +1,5 @@
+/* @flow weak */
+import _ from 'lodash';
 import {learningObjectives} from './learning_objectives.js';
 
 // Holds data for a particular challenge.

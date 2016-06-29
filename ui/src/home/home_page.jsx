@@ -1,3 +1,4 @@
+/* @flow weak */
 import React from 'react';
 import * as PropTypes from '../prop_types.js';
 import ChallengeCard from './challenge_card.jsx';
@@ -7,7 +8,7 @@ export default React.createClass({
   displayName: 'HomePage',
 
   propTypes: {
-    challenges: React.PropTypes.arrayOf(PropTypes.Challenge)
+    challenges: React.PropTypes.arrayOf(PropTypes.Challenge).isRequired
   },
 
   render() {

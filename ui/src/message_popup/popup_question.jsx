@@ -1,4 +1,4 @@
-// @flow
+/* @flow weak */
 import React from 'react';
 import SetIntervalMixin from '../helpers/set_interval_mixin.js';
 import TextChangeEvent from '../types/dom_types.js';

@@ -1,3 +1,4 @@
+/* @flow weak */
 import _ from 'lodash';
 import React from 'react';
 import * as PropTypes from '../prop_types.js';
