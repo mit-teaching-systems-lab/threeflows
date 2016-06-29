@@ -38,7 +38,6 @@ export default React.createClass({
       familyBackground,
       ses
     } = this.props.student;
-
     return (
       <div style={containerStyle}>
         <div style={styles.name}>{name}</div>

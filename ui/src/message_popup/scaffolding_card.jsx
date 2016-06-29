@@ -18,7 +18,7 @@ export default React.createClass({
     sessionLength: React.PropTypes.number.isRequired,
     questions: React.PropTypes.array.isRequired,
     onSliderChange: React.PropTypes.func.isRequired,
-    shouldShowStudentCards: React.PropTypes.bool.isRequired,
+    shouldShowStudentCard: React.PropTypes.bool.isRequired,
     onStudentCardsToggled: React.PropTypes.func.isRequired,
     shouldShowSummary: React.PropTypes.bool.isRequired,
     onSummaryToggled: React.PropTypes.func.isRequired,
@@ -26,6 +26,8 @@ export default React.createClass({
     onHelpToggled: React.PropTypes.func.isRequired,
     itemsToShow: React.PropTypes.object.isRequired
   },
+  
+  
   
   onHelpToggled(){
     if(this.props.helpType === 'feedback'){
@@ -36,10 +38,10 @@ export default React.createClass({
   },
   
   render(){
-    const {competencyGroupValue, competencyGroups, onCompetencyGroupChanged, sessionLength, questions, onSliderChange, shouldShowStudentCards, onStudentCardsToggled, shouldShowSummary, onSummaryToggled, helpType, onHelpToggled, itemsToShow} = this.props;
+    const {competencyGroupValue, competencyGroups, onCompetencyGroupChanged, sessionLength, questions, onSliderChange, shouldShowStudentCard, onStudentCardsToggled, shouldShowSummary, onSummaryToggled, helpType, onHelpToggled, itemsToShow} = this.props;
     
-    var showLearningObjectives = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'objectives') || _.has(itemsToShow, 'basic');
-    var showSlider = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'slider') || _.has(itemsToShow, 'basic');
+    var showLearningObjectives = true;
+    var showSlider = true;
     var showStudentCardsToggle = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'cards') || _.has(itemsToShow, 'basic');
     var showSummaryToggle = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'summary');
     var showHelpToggle = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'feedback') || _.has(itemsToShow, 'basic');
@@ -87,7 +89,7 @@ export default React.createClass({
               <Toggle
               label="With student cards"
               labelPosition="right"
-              toggled={shouldShowStudentCards}
+              toggled={shouldShowStudentCard}
               onToggle={onStudentCardsToggled} />
               }
               {showSummaryToggle &&

@@ -21,7 +21,6 @@ import InstructionsCard from './instructions_card.jsx';
 
 const ALL_COMPETENCY_GROUPS = 'ALL_COMPETENCY_GROUPS';
 
-
 /*
 Shows the MessagePopup game
 */
@@ -35,11 +34,11 @@ export default React.createClass({
   getInitialState: function() {
     const isSolutionMode = _.has(this.props.query, 'solution');
     const helpType = isSolutionMode ? 'none' : 'feedback';
-    const shouldShowStudentCards = isSolutionMode ? _.has(this.props.query, 'cards') : true;
+    const shouldShowStudentCard = isSolutionMode ? _.has(this.props.query, 'cards') : true;
     const shouldShowSummary = !isSolutionMode;
     const sessionId = uuid.v4();
     return {
-      shouldShowStudentCards,
+      shouldShowStudentCard,
       shouldShowSummary,
       helpType,
       isSolutionMode,
@@ -56,10 +55,14 @@ export default React.createClass({
     };
   },
 
-  onStartPressed() {
-    const questions = this.getQuestions();
+  onStartPressed(name, sessionLength, questions, shouldShowStudentCard,shouldShowSummary, helpType) {
     this.setState({
+      name,
+      sessionLength,
       questions,
+      shouldShowStudentCard,
+      shouldShowSummary,
+      helpType,
       hasStarted: true
     });
   },
@@ -76,28 +79,6 @@ export default React.createClass({
   
   addResponseTime(time){
     this.setState({responseTimes: this.state.responseTimes.concat(time)});
-  },
-  
-  getQuestions(competencyGroup=""){
-    var {competencyGroupValue, isSolutionMode} = this.state;
-    if(competencyGroup !== ""){
-      competencyGroupValue = competencyGroup;
-    }
-    const questions = (isSolutionMode || competencyGroupValue === ALL_COMPETENCY_GROUPS)
-      ? _.shuffle(withStudents(allQuestions))
-      : questionsForCompetencies(competencyGroupValue);
-    return questions;
-  },
-
-  onCompetencyGroupChanged(e, competencyGroupValue) {
-    const questions = this.getQuestions(competencyGroupValue);
-    const newLength = questions.length;
-    var sessionLength = this.state.sessionLength;
-    if(sessionLength > newLength){
-      sessionLength = newLength;
-    }
-    this.setState({questions, competencyGroupValue, sessionLength});
-    
   },
 
   onLog(type, response:Response) {
@@ -119,32 +100,12 @@ export default React.createClass({
     Routes.navigate(Routes.Home);
   },
 
-  onStudentCardsToggled() {
-    this.setState({ shouldShowStudentCards: !this.state.shouldShowStudentCards });
-  },
-  
-  onSummaryToggled(){
-    this.setState({ shouldShowSummary: !this.state.shouldShowSummary });
-  },
-  
-  onHelpToggled(event, value){
-    this.setState({ helpType: value});
-  },
-  
-  onSliderChange(event, value){
-    this.setState({ sessionLength: value});
-  },
-  
-  onTextChanged({target:{value}}:TextChangeEvent) {
-    this.setState({ name: value });
-  },
-
   render() {
     const {
       hasStarted,
       questions,
       questionsAnswered,
-      shouldShowStudentCards,
+      shouldShowStudentCard,
       shouldShowSummary,
       helpType,
       sessionLength
@@ -160,7 +121,7 @@ export default React.createClass({
           <PopupQuestion
             key={JSON.stringify(question)}
             question={question}
-            shouldShowStudentCard={shouldShowStudentCards}
+            shouldShowStudentCard={shouldShowStudentCard}
             shouldShowSummary={shouldShowSummary}
             helpType={helpType}
             limitMs={this.state.limitMs}
@@ -198,28 +159,9 @@ export default React.createClass({
   },
 
   renderInstructions() {
-    const {isSolutionMode, name, competencyGroupValue, sessionLength, questions, shouldShowStudentCards, shouldShowSummary, helpType} = this.state;
-    const competencyGroups = _.uniq(_.map(allQuestions, 'learningObjectiveId')).map((id) => {
-      return _.find(learningObjectives, {id}).competencyGroup;
-    });
     return (
       <InstructionsCard 
-        isSolutionMode={isSolutionMode}
-        onTextChanged={this.onTextChanged}
         onStartPressed={this.onStartPressed}
-        name={name}
-        competencyGroupValue={competencyGroupValue}
-        competencyGroups={competencyGroups}
-        onCompetencyGroupChanged={this.onCompetencyGroupChanged}
-        sessionLength={sessionLength}
-        questions={questions}
-        onSliderChange={this.onSliderChange}
-        shouldShowStudentCards={shouldShowStudentCards}
-        onStudentCardsToggled={this.onStudentCardsToggled}
-        shouldShowSummary={shouldShowSummary}
-        onSummaryToggled={this.onSummaryToggled}
-        helpType={helpType}
-        onHelpToggled={this.onHelpToggled}
         itemsToShow={this.props.query}
         />);
   }
