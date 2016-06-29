@@ -30,18 +30,29 @@ export default React.createClass({
     '/challenge/:id': 'challenge',
     '/message_popup': 'messagePopup',
     '/message_popup/exploration': 'messagePopupExploration',
+    '/message_popup/scoring': 'messagePopupScoring',
     '/slate/:id': 'slate',
     '/csstank': 'cssTank',
   },
 
   propTypes: {
-    challenges: React.PropTypes.arrayOf(PropTypes.Challenge)
+    challenges: React.PropTypes.arrayOf(PropTypes.Challenge),
+    muiTheme: React.PropTypes.object
   },
 
   getDefaultProps() {
     return {
-      challenges: challenges.map(withLearningObjectives)
+      challenges: challenges.map(withLearningObjectives),
+      muiTheme: getMuiTheme()
     };
+  },
+
+  childContextTypes: {
+    muiTheme: React.PropTypes.object.isRequired
+  },
+
+  getChildContext() {
+    return { muiTheme: this.props.muiTheme };
   },
 
   getInitialState() {
@@ -59,14 +70,14 @@ export default React.createClass({
 
   render(){
     return (
-      <MuiThemeProvider muiTheme={getMuiTheme()}>
+      <MuiThemeProvider muiTheme={this.props.muiTheme}>
         {this.renderCurrentRoute()}
       </MuiThemeProvider>
     );
   },
 
   notFound(path, query = {}) {
-    return <div>404</div>;
+    return <div>Could not find path...</div>;
   },
 
   home(query = {}) {
@@ -84,6 +95,10 @@ export default React.createClass({
   
   messagePopupExploration(query = {}) {
     return <MessagePopup.ExplorationPage query={query} />;
+  },
+
+  messagePopupScoring(query = {}) {
+    return <MessagePopup.ScoringPage query={query} />;
   },
   
   cssTank(query = {}) {

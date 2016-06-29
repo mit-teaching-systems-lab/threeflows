@@ -80,7 +80,24 @@ app.post('/server/evidence/:app/:type/:version', function(request, response) {
   });
 });
 
+function tellSlackAboutEvaluations(params, body) {
+  return tellSlack(JSON.stringify({
+    evidence: {params, body}
+  }, null, 2));
+}
+
 function tellSlackAboutEvidence(params, body) {
+  return tellSlack(JSON.stringify({
+    name: body.name,
+    type: params.type,
+    helpType: body.helpType,
+    elapsedMs: body.elapsedMs,
+    response: body.initialResponseText,
+    sessionId: body.sessionId
+  }, null, 2));
+}
+
+function tellSlack(text) {
   var url = process.env.SLACK_EVIDENCE_WEBHOOK_URL;
   if (!url) return console.log('Slack integration not enabled.');
   request
@@ -88,14 +105,7 @@ function tellSlackAboutEvidence(params, body) {
     .send({
       username: "robo-coach",
       icon_emoji: ":robot_face:",
-      text: JSON.stringify({
-        name: body.name,
-        type: params.type,
-        helpType: body.helpType,
-        elapsedMs: body.elapsedMs,
-        response: body.initialResponseText,
-        sessionId: body.sessionId
-      }, null, 2)
+      text: text
     })
     .set('Accept', 'application/json')
     .end();
@@ -103,12 +113,53 @@ function tellSlackAboutEvidence(params, body) {
 
 
 app.get('/server/query', facultyAuth, function(request, response) {
-  // TODO(kr) hacking for now
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === 'development' && process.env.READ_LOCAL_EVIDENCE) {
     return readFile('../../tmp/query.json')(request, response);
   }
 
   queryDatabase('SELECT * FROM evidence ORDER BY timestamp DESC', [], function(err, result) {
+    if (err) {
+      console.log({ error: err });
+      return response.status(500);
+    }
+
+    const {rows} = result;
+    console.log(`Returning ${rows.length} records.`);
+    response.status(200);
+    return response.json({rows});
+  });
+});
+
+app.post('/server/evaluations/:app/:type/:version', function(request, response) {
+  const timestamp = Math.floor(new Date().getTime() / 1000);
+  const {app, type, version} = request.params;
+  const payload = JSON.stringify(request.body);
+  const values = [app, type, version, timestamp, payload];
+
+  tellSlackAboutEvaluations(request.params, request.body);
+
+  if (!process.env.DATABASE_URL) {
+    console.log('No database.');
+    response.status(204);
+    return response.json({});
+  }
+
+  const sql = `
+    INSERT INTO evaluations(app, type, version, timestamp, json)
+    VALUES ($1,$2,$3,to_timestamp($4),$5)`;
+  queryDatabase(sql, values, function(err, result) {
+    if (err) {
+      console.log({ error: err });
+      return response.status(500);
+    }
+    console.log(JSON.stringify(result));
+    response.status(201);
+    return response.json({});  
+  });
+});
+
+app.get('/server/evaluations', facultyAuth, function(request, response) {
+  queryDatabase('SELECT * FROM evaluations ORDER BY timestamp DESC', [], function(err, result) {
     if (err) {
       console.log({ error: err });
       return response.status(500);
@@ -131,6 +182,7 @@ function readFile(filename) {
   }
 }
 app.get('/bundle.js', readFile('bundle.js'));
+app.get('/favicon.ico', (request, response) => { response.status(404).end() });
 app.get('*', readFile('index.html'));
 
 

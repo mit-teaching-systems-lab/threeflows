@@ -10,6 +10,7 @@ export default React.createClass({
 
   propTypes: {
     student: PropTypes.Student.isRequired,
+    useCardStyles: React.PropTypes.bool,
     style: React.PropTypes.object,
     attributeStyle: React.PropTypes.object
   },
@@ -18,6 +19,10 @@ export default React.createClass({
     const attributeStyle = {
       ...styles.attribute,
       ...this.props.attributeStyle
+    };
+    const containerStyle = {
+      ...(this.props.useCardStyles ? styles.cardStyles : {}),
+      ...this.props.style
     };
 
     const {
@@ -35,7 +40,7 @@ export default React.createClass({
     } = this.props.student;
 
     return (
-      <div style={this.props.style}>
+      <div style={containerStyle}>
         <div style={styles.name}>{name}</div>
         <div style={attributeStyle}>{`${grade} ${gender}, ${race}`}</div>
         {behavior && <div style={attributeStyle}>{behavior}</div>}
@@ -52,6 +57,11 @@ export default React.createClass({
 
 
 const styles = {
+  cardStyles: {
+    backgroundColor: '#F1C889',
+    marginTop: 5,
+    padding: 10
+  },
   name: {
     fontWeight: 'bold',
     marginBottom: 10

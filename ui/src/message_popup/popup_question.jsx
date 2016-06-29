@@ -160,9 +160,7 @@ export default React.createClass({
       <div>
         <div style={styles.question}>{text}</div>
         {shouldShowStudentCard && student &&
-          <div style={styles.studentCard}>
-            <StudentCard student={student} />
-          </div>}
+          <StudentCard useCardStyles={true} student={student} />}
         {helpType === 'hints' && 
           <div style={styles.hintCard}>
             <HintCard examples={examples} nonExamples={nonExamples} />
@@ -234,11 +232,6 @@ const styles = {
     marginTop: 5,
     padding: 10,
     paddingBottom: 0
-  },
-  studentCard: {
-    backgroundColor: '#F1C889',
-    marginTop: 5,
-    padding: 10
   },
   question: {
     whiteSpace: 'pre-wrap',
