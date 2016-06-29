@@ -113,8 +113,7 @@ function tellSlack(text) {
 
 
 app.get('/server/query', facultyAuth, function(request, response) {
-  // TODO(kr) hacking for now
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === 'development' && process.env.READ_LOCAL_EVIDENCE) {
     return readFile('../../tmp/query.json')(request, response);
   }
 
