@@ -25,7 +25,14 @@ export default React.createClass({
   displayName: 'MessagePopup.ExplorationPage',
 
   propTypes: {
-    query: React.PropTypes.object.isRequired
+    query: React.PropTypes.object.isRequired,
+    tableLimit: React.PropTypes.number
+  },
+
+  getDefaultProps() {
+    return {
+      tableLimit: 1000
+    };
   },
 
   getInitialState() {
@@ -175,6 +182,9 @@ export default React.createClass({
         (d => this.hintHTML(d.json.question.text)),
         (d => this.hintHTML(d.json.finalResponseText || d.json.initialResponseText)),
       ])
+      .sortBy(d => d.timestamp)
+      .order(d3.descending)
+      .size(this.props.tableLimit)
       .width(styles.table.width)
       .height(styles.table.height)
       .transitionDuration(transitionDuration)
@@ -208,7 +218,7 @@ export default React.createClass({
         </div>
         <div style={styles.container}>
           <div style={styles.tableContainer}>
-            <div style={styles.title}>Logs</div>
+            <div style={styles.title}>Most recent logs{logs.length > this.props.tableLimit ? ' (truncating)' : null}</div>
             <div style={styles.table}><div className="table-responses"></div></div>
           </div>
           <div style={styles.chartsContainer}>
