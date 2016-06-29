@@ -15,6 +15,7 @@ import LinearProgress from 'material-ui/LinearProgress';
 import IconButton from 'material-ui/IconButton';
 
 import StudentCard from './student_card.jsx';
+import ExamplesCard from './examples_card.jsx';
 
 
 const SWIPE_LEFT_INDEX = 0;
@@ -184,24 +185,16 @@ export default React.createClass({
             expandable={true}
             style={styles.competencyText}>{learningObjective.text}</CardText>
         </Card>
-        <Card key="examples" style={styles.contextCard} zDepth={2}>
-          <CardHeader
-            title="Examples"
-            actAsExpander={true}
-            showExpandableButton={true} />
-          <CardText
-            expandable={true}
-            style={styles.competencyText}>{question.examples.join("\n")}</CardText>
-        </Card>
-        <Card key="non-examples" style={styles.contextCard} zDepth={2}>
-          <CardHeader
-            title="Non-examples"
-            actAsExpander={true}
-            showExpandableButton={true} />
-          <CardText
-            expandable={true}
-            style={styles.competencyText}>{question.nonExamples.join("\n")}</CardText>
-        </Card>
+        {question.examples.length > 0 &&
+          <ExamplesCard
+            key="examples"
+            titleText="Examples"
+            examples={question.examples} />}
+        {question.nonExamples.length > 0 &&
+          <ExamplesCard
+            key="non-examples"
+            titleText="Non-examples"
+            examples={question.nonExamples} />}
         <Card key="progress" style={styles.contextCard} zDepth={2}>
           <CardText>
             {logs.length > 0 && 
@@ -214,8 +207,10 @@ export default React.createClass({
             {logs.length === 0 &&
               <RaisedButton
                 onTouchTap={this.onMoreRowsClicked}
+                icon={<DoneIcon />}
+                labelStyle={{verticalAlign: 'middle'}}
                 primary={true}
-                label="Done" />}
+                label="All Done" />}
           </CardText>
         </Card>
       </div>
@@ -237,24 +232,27 @@ export default React.createClass({
 
   renderFeedback(log) {
     return (
-      <div>
-        <div>Give specific, helpful and kind feedback.</div>
+      <div style={styles.feedbackContainer}>
+        <div style={{paddingTop: 15}}>Give specific, helpful and kind feedback.</div>
         <div>
-          <TextField
-            id={log.id.toString()}
-            fullWidth={true}
-            onChange={this.onNotYetFeedbackChanged.bind(this, log)}
-            value={this.state.notYetFeedbackTexts[log.id] || ''}
-            underlineShow={true} />
-        </div>
-        <div>
-          <RaisedButton
-            onTouchTap={this.onDoneNotYetFeedback.bind(this, log)}
-            primary={true}
-            label="Send" />
-          <RaisedButton
-            onTouchTap={this.resetSwipingState.bind(this, log.id)}
-            label="Cancel" />
+          <div>
+            <TextField
+              id={log.id.toString()}
+              fullWidth={true}
+              inputStyle={styles.textField}
+              onChange={this.onNotYetFeedbackChanged.bind(this, log)}
+              value={this.state.notYetFeedbackTexts[log.id] || ''}
+              underlineShow={true} />
+          </div>
+          <div style={{paddingBottom: 15}}>
+            <RaisedButton
+              onTouchTap={this.onDoneNotYetFeedback.bind(this, log)}
+              primary={true}
+              label="Send" />
+            <RaisedButton
+              onTouchTap={this.resetSwipingState.bind(this, log.id)}
+              label="Cancel" />
+          </div>
         </div>
       </div>
     );
@@ -288,6 +286,13 @@ const styles = {
   notYetSwipe: {
     backgroundColor: Colors.orange500,
     justifyContent: 'flex-start'
+  },
+  textField: {},
+  feedbackContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    justifyContent: 'space-between'
   },
   showMoreButton: {
     margin: 20

@@ -38,7 +38,7 @@ export default React.createClass({
 const styles = {
   examplesList: {
     padding: 0,
-    paddingLeft: 20,
+    paddingLeft: 0,
     listStyle: 'none',
     margin: 0
   }
