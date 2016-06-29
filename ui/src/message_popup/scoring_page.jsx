@@ -1,7 +1,6 @@
 // @flow
 import _ from 'lodash';
 import React from 'react';
-import request from 'superagent';
 
 import Divider from 'material-ui/Divider';
 import AppBar from 'material-ui/AppBar';
@@ -9,34 +8,11 @@ import Paper from 'material-ui/Paper';
 import SchoolIcon from 'material-ui/svg-icons/social/school';
 import {List, ListItem} from 'material-ui/List';
 
-import * as Routes from '../routes.js';
 import ScoringSwipe from './scoring_swipe.jsx';
 import {withLearningObjective} from './transformations.jsx';
 import {questionId} from './questions.js';
+import * as Api from '../helpers/api.js';
 
-
-
-function logEvaluation(type, record) {
-  const app = 'threeflows';
-  const version = 1;
-
-  request
-    .post(Routes.evaluationPath({
-      app: app,
-      type: type,
-      version: 1
-    }))
-    .set('Content-Type', 'application/json')
-    .send(record)
-    .end();
-
-  return {
-    app,
-    version,
-    type,
-    json: record
-  };
-}
 
 /*
 UI for scoring Message PopUp responses
@@ -57,15 +33,8 @@ export default React.createClass({
   },
 
   componentWillMount() {
-    request
-       .get('/server/query')
-       .set('Content-Type', 'application/json')
-       .end(this.onLogsReceived);
-    
-    request
-       .get('/server/evaluations')
-       .set('Content-Type', 'application/json')
-       .end(this.onEvaluationsReceived);
+    Api.evidenceQuery().end(this.onLogsReceived);
+    Api.evaluationsQuery().end(this.onEvaluationsReceived);
   },
 
   onLogsReceived(err, response) {
@@ -83,7 +52,7 @@ export default React.createClass({
   },
 
   onEvaluation(evaluationRecord) {
-    const evaluation = logEvaluation('message_popup_response_scored', evaluationRecord);
+    const evaluation = Api.logEvaluation('message_popup_response_scored', evaluationRecord);
     const evaluations = this.state.evaluations.concat(evaluation);
     this.setState({evaluations});
   },

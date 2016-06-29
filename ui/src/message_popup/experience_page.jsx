@@ -12,32 +12,18 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import LinearProgress from 'material-ui/LinearProgress';
 import Slider from 'material-ui/Slider';
 import Snackbar from 'material-ui/Snackbar';
-import request from 'superagent';
 import TextChangeEvent from '../types/dom_types.js';
 import {learningObjectives} from '../data/learning_objectives.js';
 import {allQuestions} from './questions.js';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import {withStudents, questionsForCompetencies} from './transformations.jsx';
+import * as Api from '../helpers/api.js';
 import 'velocity-animate/velocity.ui';
 import uuid from 'node-uuid';
 import FinalSummaryCard from './final_summary_card.jsx';
 
 const ALL_COMPETENCY_GROUPS = 'ALL_COMPETENCY_GROUPS';
 
-
-// For now, this fires and forgets and does not retry or
-// notify the user on success or failure.
-function logDatabase(type, record) {
-  request
-    .post(Routes.evidencePath({
-      app: 'threeflows',
-      type: type,
-      version: 2
-    }))
-    .set('Content-Type', 'application/json')
-    .send(record)
-    .end();
-}
 
 /*
 Shows the MessagePopup game
@@ -121,7 +107,7 @@ export default React.createClass({
   },
 
   onLog(type, response:Response) {
-    logDatabase(type, {
+    Api.logEvidence(type, {
       ...response,
       name: this.state.name,
       sessionId: this.state.sessionId,
