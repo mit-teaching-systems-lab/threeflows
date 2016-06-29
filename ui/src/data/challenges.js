@@ -16,7 +16,7 @@ export const challenges = [{
     },
     {
       img: 'http://i-cdn.phonearena.com/images/article/41632-image/Google-Babel-references-appear-in-strings-of-code-pop-up-message.jpg',
-      href: '/message_popup?cards',
+      href: '/message_popup?basic',
       title: 'Message PopUp practice',
     },
     {
