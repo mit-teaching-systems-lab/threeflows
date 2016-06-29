@@ -12,14 +12,9 @@ import {List, ListItem} from 'material-ui/List';
 import * as Routes from '../routes.js';
 import ScoringSwipe from './scoring_swipe.jsx';
 import {withLearningObjective} from './transformations.jsx';
+import {questionId} from './questions.js';
 
-function hashCode(s){
-  return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a;},0);              
-}
 
-function questionId(question) {
-  return Math.abs(hashCode(question.text)).toString().slice(0, 4);
-}
 
 function logEvaluation(type, record) {
   const app = 'threeflows';

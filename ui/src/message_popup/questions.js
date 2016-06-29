@@ -286,8 +286,16 @@ export const motivationQuestions:[Question] = [
 ];
 
 
+function hashCode(s){
+  return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a;},0);              
+}
+
+// Temporary workaround for no question ids
+export function questionId(question) {
+  return Math.abs(hashCode(question.text)).toString().slice(0, 4);
+}
+
 export const allQuestions = _.flatten([
   inquiryQuestions.map(_.partial(forLearningObjective, 39)),
   motivationQuestions.map(_.partial(forLearningObjective, 35))
 ], true);
-
