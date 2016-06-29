@@ -1,8 +1,6 @@
 // @flow
 import _ from 'lodash';
 import React from 'react';
-import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
-import 'velocity-animate/velocity.ui';
 import request from 'superagent';
 import StudentCard from './student_card.jsx';
 import TextField from 'material-ui/TextField';
