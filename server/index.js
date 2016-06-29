@@ -23,6 +23,8 @@ function sendUnauthorized(res) {
 };
 
 function facultyAuth(req, res, next) {
+  if (process.env.NODE_ENV === 'development') return next();
+
   const {FACULTY_USERNAME, FACULTY_PASSWORD} = process.env;
   if (!FACULTY_USERNAME) return sendUnauthorized(res);
   if (!FACULTY_PASSWORD) return sendUnauthorized(res);
@@ -101,6 +103,11 @@ function tellSlackAboutEvidence(params, body) {
 
 
 app.get('/server/query', facultyAuth, function(request, response) {
+  // TODO(kr) hacking for now
+  if (process.env.NODE_ENV === 'development') {
+    return readFile('../../tmp/query.json')(request, response);
+  }
+
   queryDatabase('SELECT * FROM evidence ORDER BY timestamp DESC', [], function(err, result) {
     if (err) {
       console.log({ error: err });

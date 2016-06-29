@@ -29,7 +29,7 @@ export default React.createClass({
     
     '/challenge/:id': 'challenge',
     '/message_popup': 'messagePopup',
-    '/message_popup/evaluation': 'messagePopupEvaluation',
+    '/message_popup/exploration': 'messagePopupExploration',
     '/slate/:id': 'slate',
     '/csstank': 'cssTank',
   },
@@ -82,8 +82,8 @@ export default React.createClass({
     return <MessagePopup.ExperiencePage query={query} />;
   },
   
-  messagePopupEvaluation(query = {}) {
-    return <MessagePopup.EvaluationPage query={query} />;
+  messagePopupExploration(query = {}) {
+    return <MessagePopup.ExplorationPage query={query} />;
   },
   
   cssTank(query = {}) {

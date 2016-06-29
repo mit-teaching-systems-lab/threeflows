@@ -194,6 +194,7 @@ export const inquiryQuestions:[Question] = [
     ]
   },
   {
+    studentId: 5,
     text: `You set up a photosynthesis experiment for the class, and students report the data they’ve collected. As it turns out, Mike has experimented with only two variables: hours of light and water.  Respond to this by connecting this with data collection planning.`,
     examples: [
       'Ask students to carefully examine the collected data to determine if they have enough data to support or refute their initial hypothesis.'
