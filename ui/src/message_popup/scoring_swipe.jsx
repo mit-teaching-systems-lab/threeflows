@@ -1,10 +1,8 @@
-// @flow
 import React from 'react';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import 'velocity-animate/velocity.ui';
 import SwipeableViews from 'react-swipeable-views';
 
-import Divider from 'material-ui/Divider';
 import AppBar from 'material-ui/AppBar';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -59,6 +57,7 @@ export default React.createClass({
   resetSwipingState(logId) {
     this.setState({
       swipeIndexes: {
+        ...this.state.swipeIndexes,
         [logId]: NO_SWIPE_INDEX
       }
     });
@@ -225,15 +224,13 @@ export default React.createClass({
 
   renderItem(log) {
     return (
-      <Card key="competency" style={styles.itemHeight}>
-        <CardHeader title={log.id}/>
+      <Card key="competency" style={{...styles.itemHeight, ...styles.itemCard}}>
         <CardText style={{fontSize: 16}}>
           <div>
             <div>{log.json.initialResponseText}</div>
             <div style={styles.responseLatency}>{`${Math.round(log.json.elapsedMs/1000)} seconds`}</div>
           </div>
         </CardText>
-        <Divider />
       </Card>
     );
   },
@@ -270,21 +267,26 @@ const styles = {
   },
   contextCard: {},
   itemHeight: {
-    minHeight: 200
+    minHeight: 150
+  },
+  itemCard: {
+    borderBottom: '1px solid #eee',
+    margin: 0 
   },
   swipe: {
     color: 'white',
     paddingLeft: 20,
     paddingRight: 20,
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    height: '100%'
   },
   doneSwipe: {
-    backgroundColor: 'green',
+    backgroundColor: Colors.green500,
     justifyContent: 'flex-end',
   },
   notYetSwipe: {
-    backgroundColor: 'orange',
+    backgroundColor: Colors.orange500,
     justifyContent: 'flex-start'
   },
   showMoreButton: {
