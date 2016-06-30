@@ -1,8 +1,14 @@
 /* @flow weak */
 import React from 'react';
 import _ from 'lodash';
-import * as PropTypes from './prop_types.js';
 import {RouterMixin} from 'react-mini-router';
+
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+import * as PropTypes from './prop_types.js';
+import AuthContainer from './auth_container.jsx';
 import ChallengePage from './challenge/challenge_page.jsx';
 import HomePage from './home/home_page.jsx';
 import SlatePage from './slate/slate_page.jsx';
@@ -14,9 +20,6 @@ import {
   slates,
   withLearningObjectives
 } from './data/challenges.js';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 
 
 
@@ -48,31 +51,16 @@ export default React.createClass({
     };
   },
 
-  childContextTypes: {
-    muiTheme: React.PropTypes.object.isRequired
-  },
-
-  getChildContext() {
-    return { muiTheme: this.props.muiTheme };
-  },
-
-  getInitialState() {
-    return {
-      user: {
-        driveFolderId: '0B1DHMN8NDLMVNnZGaVJjSjRTbDg'
-      }
-    };
-  },
-
-  componentWillMount(props, state) {
-    // material-ui, see https://github.com/zilverline/react-tap-event-plugin
-    injectTapEventPlugin();
+  componentDidMount(props, state) {
+    injectTapEventPlugin(); // material-ui, see https://github.com/zilverline/react-tap-event-plugin
   },
 
   render(){
     return (
       <MuiThemeProvider muiTheme={this.props.muiTheme}>
-        {this.renderCurrentRoute()}
+        <AuthContainer>
+          {this.renderCurrentRoute()}
+        </AuthContainer>
       </MuiThemeProvider>
     );
   },

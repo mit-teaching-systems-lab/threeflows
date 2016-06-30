@@ -49,6 +49,10 @@ export default React.createClass({
     };
   },
 
+  contextTypes: {
+    auth: React.PropTypes.object.isRequired
+  },
+
   getInitialState() {
     return {
       limit: this.props.limitIncrement,
@@ -73,7 +77,8 @@ export default React.createClass({
       logId,
       scoreComment,
       learningObjective,
-      question
+      question,
+      email: this.context.auth.userProfile.email
     });
   },
 

@@ -34,7 +34,7 @@ export default React.createClass({
       selectedQuestion: null
     };
   },
-
+  
   componentWillMount() {
     Api.evidenceQuery().end(this.onLogsReceived);
     Api.evaluationsQuery().end(this.onEvaluationsReceived);

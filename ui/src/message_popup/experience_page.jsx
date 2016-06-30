@@ -1,21 +1,20 @@
 /* @flow weak */
 import _ from 'lodash';
 import React from 'react';
-import * as Routes from '../routes';
-import type {Response} from './popup_question.jsx';
-import RaisedButton from 'material-ui/RaisedButton';
-import Divider from 'material-ui/Divider';
-import PopupQuestion from './popup_question.jsx';
-import LinearProgress from 'material-ui/LinearProgress';
-import Snackbar from 'material-ui/Snackbar';
-import TextChangeEvent from '../types/dom_types.js';
-import {learningObjectives} from '../data/learning_objectives.js';
-import {allQuestions} from './questions.js';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
-import {withStudents, questionsForCompetencies} from './transformations.jsx';
-import * as Api from '../helpers/api.js';
 import 'velocity-animate/velocity.ui';
 import uuid from 'node-uuid';
+
+import RaisedButton from 'material-ui/RaisedButton';
+import Divider from 'material-ui/Divider';
+import LinearProgress from 'material-ui/LinearProgress';
+import Snackbar from 'material-ui/Snackbar';
+
+import PopupQuestion from './popup_question.jsx';
+import * as Routes from '../routes';
+import type {Response} from './popup_question.jsx';
+import {allQuestions} from './questions.js';
+import * as Api from '../helpers/api.js';
 import FinalSummaryCard from './final_summary_card.jsx';
 import InstructionsCard from './instructions_card.jsx';
 
@@ -29,6 +28,10 @@ export default React.createClass({
 
   propTypes: {
     query: React.PropTypes.object.isRequired
+  },
+
+  contextTypes: {
+    auth: React.PropTypes.object.isRequired
   },
 
   getInitialState: function() {
@@ -45,7 +48,7 @@ export default React.createClass({
       sessionId,
       competencyGroupValue: ALL_COMPETENCY_GROUPS,
       questions: allQuestions,
-      name: '',
+      name: this.context.auth.userProfile.name,
       hasStarted: false,
       questionsAnswered: 0,
       sessionLength: 20,
@@ -162,6 +165,7 @@ export default React.createClass({
     return (
       <InstructionsCard 
         onStartPressed={this.onStartPressed}
+        name={this.state.name}
         itemsToShow={this.props.query}
         />);
   }

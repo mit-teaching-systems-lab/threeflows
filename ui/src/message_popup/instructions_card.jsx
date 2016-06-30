@@ -1,6 +1,8 @@
-import React from "react";
-import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
-import "velocity-animate/velocity.ui";
+/* @flow weak */
+import React from 'react';
+import _ from 'lodash';
+import VelocityTransitionGroup from 'velocity-react/velocity-transition-group';
+import 'velocity-animate/velocity.ui';
 import ScaffoldingCard from "./scaffolding_card.jsx";
 import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
@@ -17,13 +19,14 @@ export default React.createClass({
   
   propTypes: {
     onStartPressed: React.PropTypes.func.isRequired,
-    itemsToShow: React.PropTypes.object.isRequired
+    itemsToShow: React.PropTypes.object.isRequired,
+    name: React.PropTypes.string
   },
   
   getInitialState(){
     return ({
       isSolutionMode: _.has(this.props.itemsToShow, "solution"),
-      name: '',
+      name: this.props.name,
       sessionLength: 20,
       questions: allQuestions,
       competencyGroupValue: ALL_COMPETENCY_GROUPS,
@@ -46,7 +49,7 @@ export default React.createClass({
   onCompetencyGroupChanged(event, competencyGroupValue){
     const questions = this.getQuestions(competencyGroupValue);
     const newLength = questions.length;
-    var sessionLength = this.state.sessionLength
+    var sessionLength = this.state.sessionLength;
     if(sessionLength > newLength){
       sessionLength = newLength;
     }
@@ -54,7 +57,7 @@ export default React.createClass({
   },
   
   onSliderChange(event, value){
-    this.setState({ sessionLength: value})
+    this.setState({ sessionLength: value});
   },
   
   onStudentCardsToggled(){
@@ -100,7 +103,7 @@ export default React.createClass({
   },
   
   render(){
-    const{isSolutionMode, name, sessionLength, questions, competencyGroupValue, shouldShowStudentCard, shouldShowSummary, helpType} = this.state;
+    const{isSolutionMode, sessionLength, questions, competencyGroupValue, shouldShowStudentCard, shouldShowSummary, helpType} = this.state;
     const competencyGroups = _.uniq(_.map(allQuestions, 'learningObjectiveId')).map((id) => {
       return _.find(learningObjectives, {id}).competencyGroup;
     });
@@ -136,6 +139,7 @@ export default React.createClass({
           <TextField
             underlineShow={false}
             floatingLabelText="What's your name?"
+            value={this.state.name}
             onChange={this.onTextChanged}
             multiLine={true}
             rows={2}/>
