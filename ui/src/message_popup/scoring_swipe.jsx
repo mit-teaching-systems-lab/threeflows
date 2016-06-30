@@ -8,7 +8,7 @@ import AppBar from 'material-ui/AppBar';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import DoneIcon from 'material-ui/svg-icons/action/done';
-import AssignmentIcon from 'material-ui/svg-icons/action/assignment';
+import BackIcon from 'material-ui/svg-icons/navigation/arrow-back';
 import FeedbackIcon from 'material-ui/svg-icons/action/feedback';
 import * as Colors from 'material-ui/styles/colors';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
@@ -17,6 +17,7 @@ import IconButton from 'material-ui/IconButton';
 
 import StudentCard from './student_card.jsx';
 import ExamplesCard from './examples_card.jsx';
+import {questionId} from './questions.js';
 
 
 const SWIPE_LEFT_INDEX = 0;
@@ -116,7 +117,7 @@ export default React.createClass({
           title="Message PopUp Scorer"
           iconElementLeft={
             <IconButton onClick={() => this.props.onCancel()}>
-            <AssignmentIcon />
+            <BackIcon />
           </IconButton>}
         />
         {this.renderContext(logs)}
@@ -165,7 +166,7 @@ export default React.createClass({
           zDepth={2}
           initiallyExpanded={true}>
           <CardHeader
-            title="Question"
+            title={`Question #${questionId(question)}`}
             actAsExpander={true}
             showExpandableButton={true}/>
           <CardText
@@ -270,7 +271,7 @@ const styles = {
   },
   itemCard: {
     borderBottom: '1px solid #eee',
-    margin: 0 
+    margin: 0
   },
   swipe: {
     color: 'white',
