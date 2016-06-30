@@ -1,6 +1,9 @@
 /* @flow weak */
 import _ from 'lodash';
 import React from 'react';
+import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
+import 'velocity-animate/velocity.ui';
+
 
 import Divider from 'material-ui/Divider';
 import AppBar from 'material-ui/AppBar';
@@ -84,8 +87,13 @@ export default React.createClass({
 
     return (
       <div>
-        {!logs && <div>Loading...</div>}
-        {logs && !selectedQuestion && this.renderQuestions(logs)}
+        {!logs && <div key="loading">Loading...</div>}
+        <VelocityTransitionGroup
+          leave={{animation: "transition.slideLeftOut", duration: 150}}
+          enter={{animation: "transition.slideLeftIn", duration: 150}}
+        >
+          {logs && !selectedQuestion && this.renderQuestions(logs)}
+        </VelocityTransitionGroup>
         {selectedQuestion && selectedLogs && this.renderSwipeableList(selectedQuestion, selectedLogs)}
       </div>
     );
