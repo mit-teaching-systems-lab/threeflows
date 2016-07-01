@@ -13,10 +13,20 @@ import Snackbar from 'material-ui/Snackbar';
 import PopupQuestion from './popup_question.jsx';
 import * as Routes from '../routes';
 import type {Response} from './popup_question.jsx';
+
+import AppBar from 'material-ui/AppBar';
+import IconButton from 'material-ui/IconButton';
+import ArrowBackIcon from 'material-ui/svg-icons/navigation/arrow-back';
+import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
+import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 import {allQuestions} from './questions.js';
+import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
+import {withStudents} from './transformations.jsx';
 import * as Api from '../helpers/api.js';
 import FinalSummaryCard from './final_summary_card.jsx';
 import InstructionsCard from './instructions_card.jsx';
+
+import MobilePrototypeCard from './mobile_prototype_card.jsx';
 
 const ALL_COMPETENCY_GROUPS = 'ALL_COMPETENCY_GROUPS';
 
@@ -102,10 +112,72 @@ export default React.createClass({
   onDonePressed() {
     Routes.navigate(Routes.Home);
   },
+  
+  resetExperience(){
+    this.setState(this.getInitialState());
+  },
 
   render() {
     const {
       hasStarted,
+      questionsAnswered,
+      sessionLength
+    } = this.state;
+    
+    if (_.has(this.props.query, 'mobilePrototype')) return this.renderMobilePrototype();
+    
+    return (
+      <div>
+        <AppBar 
+          title='Message PopUp Practice'
+          iconElementLeft=
+          {
+            <IconButton
+              onTouchTap={this.resetExperience}
+              >
+              {!hasStarted ? <MenuIcon/> : questionsAnswered >= sessionLength ? <RefreshIcon /> : <ArrowBackIcon />}
+            </IconButton>
+          }
+          />
+        {!hasStarted && this.renderInstructions()}
+        {questionsAnswered >= sessionLength && this.renderDone()}
+        {hasStarted && questionsAnswered < sessionLength && this.renderPopupQuestion()}
+      </div>
+    );
+  },
+
+  renderDone() {
+    return (
+      <div>
+        <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
+          <div style={_.merge(_.clone(styles.container), styles.done)}>
+            <div style={styles.doneTitle}>You finished!</div>
+            <Divider />
+            <FinalSummaryCard 
+              responseTimes={this.state.responseTimes} 
+              limitMs={this.state.limitMs} />
+            <RaisedButton
+              onTouchTap={this.onDonePressed}
+              style={styles.button}
+              secondary={true}
+              label="Done" />
+          </div>
+        </VelocityTransitionGroup>
+      </div>
+    );
+  },
+
+  renderInstructions() {
+    return (
+      <InstructionsCard 
+        onStartPressed={this.onStartPressed}
+        email={this.state.email}
+        itemsToShow={this.props.query}
+        />);
+  },
+  
+  renderPopupQuestion() {
+    const {
       questions,
       questionsAnswered,
       shouldShowStudentCard,
@@ -113,12 +185,9 @@ export default React.createClass({
       helpType,
       sessionLength
     } = this.state;
-    if (!hasStarted) return this.renderInstructions();
-    if (questionsAnswered >= sessionLength) return this.renderDone();
-
     const question = questions[questionsAnswered];
     return (
-      <div style={styles.container}>
+      <div style={styles.container}>        
         <LinearProgress color="#EC407A" mode="determinate" value={questionsAnswered} max={sessionLength} />
         <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
           <PopupQuestion
@@ -141,47 +210,25 @@ export default React.createClass({
       </div>
     );
   },
-
-  renderDone() {
+  
+  renderMobilePrototype() {
     return (
-      <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
-        <div style={_.merge(_.clone(styles.container), styles.done)}>
-          <div style={styles.doneTitle}>You finished!</div>
-          <Divider />
-          <FinalSummaryCard 
-            responseTimes={this.state.responseTimes} 
-            limitMs={this.state.limitMs} />
-          <RaisedButton
-            onTouchTap={this.onDonePressed}
-            style={styles.button}
-            secondary={true}
-            label="Done" />
-        </div>
-      </VelocityTransitionGroup>
+      <MobilePrototypeCard 
+        question={_.shuffle(withStudents(this.state.questions))[0]}
+        />
     );
-  },
-
-  renderInstructions() {
-    return (
-      <InstructionsCard 
-        onStartPressed={this.onStartPressed}
-        email={this.state.email}
-        itemsToShow={this.props.query}
-        />);
   }
 });
 
 const styles = {
   done: {
     padding: 20,
-    width: 360
   },
   container: {
-    border: '1px solid #ccc',
-    margin: 20,
-    width: 400,
     fontSize: 20,
-    padding: 0
+    padding: 0,
+    margin:0,
+    paddingBottom: 45
   },
   button: {
     marginTop: 20
