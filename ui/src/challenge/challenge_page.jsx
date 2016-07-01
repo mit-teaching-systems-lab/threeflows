@@ -15,7 +15,6 @@ export default React.createClass({
   displayName: 'ChallengePage',
 
   propTypes: {
-    user: PropTypes.User.isRequired,
     challenge: PropTypes.Challenge.isRequired
   },
 
