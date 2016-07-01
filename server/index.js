@@ -10,11 +10,22 @@ var pg = require('pg');
 
 // create and configure server
 var app = express();
-app.use(bodyParser.json() );       // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded({    // to support URL-encoded bodies
-  extended: true
-}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(enforceHTTPS);
 
+
+// https redirect
+function enforceHTTPS(request, response, next) {
+  if (process.env.NODE_ENV === 'development') return next();
+  
+  if (request.headers['x-forwarded-proto'] !== 'https') {
+    const httpsUrl = ['https://', request.headers.host, request.url].join('');
+    return response.redirect(httpsUrl);
+  }
+
+  return next();
+}
 
 // auth middleware
 function sendUnauthorized(res) {
