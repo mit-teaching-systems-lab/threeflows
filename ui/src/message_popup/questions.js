@@ -280,8 +280,8 @@ export const motivationQuestions:[Question] = [
       'Try the principle: Learning as the goal',
       'Try the principle: Outcome as the goal',
       'Try the principle: Learn by teaching (Schwartz)'
-     ],
-     nonExamples: []
+    ],
+    nonExamples: []
   }
 ];
 
