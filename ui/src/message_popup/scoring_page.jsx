@@ -12,7 +12,7 @@ import SchoolIcon from 'material-ui/svg-icons/social/school';
 import {List, ListItem} from 'material-ui/List';
 
 import ScoringSwipe from './scoring_swipe.jsx';
-import {withLearningObjective} from './transformations.jsx';
+import {withLearningObjectiveAndIndicator} from './transformations.jsx';
 import {questionId} from './questions.js';
 import * as Api from '../helpers/api.js';
 
@@ -112,7 +112,7 @@ export default React.createClass({
         <List>
           {questionGroups.map(({logsForQuestion, questionKey}) => {
             const question = _.first(logsForQuestion).json.question;
-            const {learningObjective} = withLearningObjective(question);            
+            const {learningObjective} = withLearningObjectiveAndIndicator(question);            
             return this.renderQuestion({
               questionKey,
               question,
@@ -146,12 +146,13 @@ export default React.createClass({
   },
 
   renderSwipeableList(question, logsForQuestion) {
-    const {learningObjective} = withLearningObjective(question);
+    const {learningObjective, indicator} = withLearningObjectiveAndIndicator(question);
 
     return (
       <ScoringSwipe
         logs={logsForQuestion}
         learningObjective={learningObjective}
+        indicator={indicator}
         question={question}
         onEvaluation={this.onEvaluation}
         onCancel={this.onQuestionSelected.bind(this, null)}

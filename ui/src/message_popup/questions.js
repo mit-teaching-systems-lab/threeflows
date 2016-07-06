@@ -4,10 +4,21 @@ import _ from 'lodash';
 
 // Example Usage:
 //   questions.map(_.partial(forLearningObjective, 39));
-function forLearningObjective(learningObjectiveId, question) {
-  return {
-    ...question,
-    ...{learningObjectiveId}
+function forLearningObjective(learningObjectiveId) {
+  return function(question) {
+    return {
+      ...question,
+      ...{learningObjectiveId}
+    };
+  };
+}
+
+function forIndicator(indicatorId) {
+  return function(question) {
+    return {
+      ...question,
+      ...{indicatorId}
+    };
   };
 }
 
@@ -296,6 +307,6 @@ export function questionId(question) {
 }
 
 export const allQuestions = _.flatten([
-  inquiryQuestions.map(_.partial(forLearningObjective, 39)),
-  motivationQuestions.map(_.partial(forLearningObjective, 35))
+  inquiryQuestions.map(forLearningObjective, 39).map(forIndicator, 502),
+  motivationQuestions.map(forLearningObjective, 35).map(forIndicator, 501)
 ], true);
