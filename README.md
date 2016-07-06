@@ -30,7 +30,7 @@ This builds artifacts and places them in the `ui/build` folder.
 This starts a [Flow](https://flowtype.org/) server in the background, and then runs a typecheck once.  There's no watch command right now.
 ```
 ui $ npm run flow
-``
+```
 
 ### Run all tests
 This is used in CI, and runs any and all tests in the project including typechecks.
