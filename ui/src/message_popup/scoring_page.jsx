@@ -49,7 +49,6 @@ export default React.createClass({
 
   onTransitionDone() {
     window.scrollTo(0, 0);
-    console.log("scroll")
   },
 
   onLogsReceived(err, response) {

@@ -2,8 +2,6 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import _ from 'lodash';
 
-import {withStudents} from './transformations.jsx';
-
 //Material-UI imports
 import AppBar from 'material-ui/AppBar';
 import Paper from 'material-ui/Paper';
