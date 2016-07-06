@@ -37,6 +37,7 @@ export default React.createClass({
   propTypes: {
     question: React.PropTypes.object.isRequired,
     learningObjective: React.PropTypes.object.isRequired,
+    indicator: React.PropTypes.object.isRequired,
     logs: React.PropTypes.array.isRequired,
     onEvaluation: React.PropTypes.func.isRequired,
     onCancel: React.PropTypes.func.isRequired,
@@ -71,14 +72,17 @@ export default React.createClass({
   },
 
   doScore(logId, scoreValue, {scoreComment} = {}) {
-    const {question, learningObjective} = this.props;
+    const {question, learningObjective, indicator} = this.props;
+    const {email} = this.context.auth.userProfile;
+
     this.props.onEvaluation({
       scoreValue,
       logId,
       scoreComment,
       learningObjective,
+      indicator,
       question,
-      email: this.context.auth.userProfile.email
+      email
     });
   },
 
@@ -162,7 +166,8 @@ export default React.createClass({
   },
 
   renderContext(logs) {
-    const {learningObjective, question} = this.props;
+    const {question, indicator, learningObjective} = this.props;
+    
     return (
       <div>
         <Card
@@ -183,7 +188,7 @@ export default React.createClass({
               </div>
           </CardText>
         </Card>
-        <Card key="competency" style={styles.contextCard} zDepth={2}>
+        <Card key="learningObjective" style={styles.contextCard} zDepth={2}>
           <CardHeader
             title="Learning Objective"
             actAsExpander={true}
@@ -191,6 +196,15 @@ export default React.createClass({
           <CardText
             expandable={true}
             style={styles.competencyText}>{learningObjective.text}</CardText>
+        </Card>
+        <Card key="indicator" style={styles.contextCard} zDepth={2}>
+          <CardHeader
+            title="Indicator"
+            actAsExpander={true}
+            showExpandableButton={true} />
+          <CardText
+            expandable={true}
+            style={styles.competencyText}>{indicator.text}</CardText>
         </Card>
         {question.examples.length > 0 &&
           <ExamplesCard
