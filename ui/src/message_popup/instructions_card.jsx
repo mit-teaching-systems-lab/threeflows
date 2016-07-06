@@ -20,13 +20,13 @@ export default React.createClass({
   propTypes: {
     onStartPressed: React.PropTypes.func.isRequired,
     itemsToShow: React.PropTypes.object.isRequired,
-    name: React.PropTypes.string
+    email: React.PropTypes.string
   },
   
   getInitialState(){
     return ({
       isSolutionMode: _.has(this.props.itemsToShow, "solution"),
-      name: this.props.name,
+      email: this.props.email,
       sessionLength: 20,
       questions: allQuestions,
       competencyGroupValue: ALL_COMPETENCY_GROUPS,
@@ -37,13 +37,13 @@ export default React.createClass({
   },
   
   onTextChanged({target:{value}}:TextChangeEvent) {
-    this.setState({ name: value });
+    this.setState({ email: value });
   },
   
   onConfigurationSet(){
-    const {name, sessionLength, shouldShowStudentCard, shouldShowSummary, helpType} = this.state;
+    const {email, sessionLength, shouldShowStudentCard, shouldShowSummary, helpType} = this.state;
     const questions = this.getQuestions(this.state.competencyGroupValue);
-    this.props.onStartPressed(name, sessionLength, questions, shouldShowStudentCard ,shouldShowSummary, helpType);
+    this.props.onStartPressed(email, sessionLength, questions, shouldShowStudentCard ,shouldShowSummary, helpType);
   },
   
   onCompetencyGroupChanged(event, competencyGroupValue){
@@ -138,14 +138,14 @@ export default React.createClass({
               />}
           <TextField
             underlineShow={false}
-            floatingLabelText="What's your name?"
-            value={this.state.name}
+            floatingLabelText="What's your email address?"
+            value={this.state.email}
             onChange={this.onTextChanged}
             multiLine={true}
             rows={2}/>
           <div style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-end'}}>
             <RaisedButton
-              disabled={this.state.name === ''}
+              disabled={this.state.email === ''}
               onTouchTap={this.onConfigurationSet}
               style={styles.button}
               secondary={true}

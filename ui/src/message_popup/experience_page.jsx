@@ -48,7 +48,7 @@ export default React.createClass({
       sessionId,
       competencyGroupValue: ALL_COMPETENCY_GROUPS,
       questions: allQuestions,
-      name: this.context.auth.userProfile.name,
+      email: this.context.auth.userProfile.email,
       hasStarted: false,
       questionsAnswered: 0,
       sessionLength: 20,
@@ -58,9 +58,9 @@ export default React.createClass({
     };
   },
 
-  onStartPressed(name, sessionLength, questions, shouldShowStudentCard,shouldShowSummary, helpType) {
+  onStartPressed(email, sessionLength, questions, shouldShowStudentCard,shouldShowSummary, helpType) {
     this.setState({
-      name,
+      email,
       sessionLength,
       questions,
       shouldShowStudentCard,
@@ -87,7 +87,7 @@ export default React.createClass({
   onLog(type, response:Response) {
     Api.logEvidence(type, {
       ...response,
-      name: this.state.name,
+      name: this.state.email,
       sessionId: this.state.sessionId,
       clientTimestampMs: new Date().getTime()
     });
@@ -165,7 +165,7 @@ export default React.createClass({
     return (
       <InstructionsCard 
         onStartPressed={this.onStartPressed}
-        name={this.state.name}
+        email={this.state.email}
         itemsToShow={this.props.query}
         />);
   }

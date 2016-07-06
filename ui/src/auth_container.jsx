@@ -1,12 +1,20 @@
 /* @flow weak */
+import _ from 'lodash';
 import React from 'react';
-import Auth0Lock from 'auth0-lock';
-import Auth0Variables from './auth0_config.js';
 
-// Injects Auth0 login screen, bounces over to OAuth provider for login,
+import AppBar from 'material-ui/AppBar';
+import Paper from 'material-ui/Paper';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+import IconButton from 'material-ui/IconButton';
+import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import * as Colors from 'material-ui/styles/Colors';
+
+
+// Injects form asking the user for their email address,
 // saves userTokens in localStorage afterward.
 //
-// Provides auth state as context to children components.
+// Provides userProfile.email as context to children components.
 export default React.createClass({
   displayName: 'AuthContainer',
 
@@ -17,7 +25,7 @@ export default React.createClass({
 
   getDefaultProps() {
     return {
-      localStorageKey: 'threeflows_auth_container'
+      localStorageKey: 'threeflows_email_registration'
     };
   },
 
@@ -25,109 +33,133 @@ export default React.createClass({
 
   getInitialState() {
     return {
-      loginError: null,
-      userToken: null,
-      accessToken: null,
-      authHash: null,
-      userProfile: null
+      userEmail: '',
+      hasConfirmedEmail: false,
+      isNavigatingAway: false
     };
   },
 
   childContextTypes: {
     auth: React.PropTypes.shape({
-      loginError: React.PropTypes.object,
-      userToken: React.PropTypes.string,
-      accessToken: React.PropTypes.string,
       userProfile: React.PropTypes.object,
-      authHash: React.PropTypes.object,
       doLogout: React.PropTypes.func
     }).isRequired
   },
 
   getChildContext() {
+    const userProfile = (this.state.hasConfirmedEmail) ? {
+      email: this.state.userEmail
+    } : null;
+
     return {
       auth: {
-        loginError: this.state.loginError,
-        userToken: this.state.userToken,
-        accessToken: this.state.accessToken,
-        authHash: this.state.authHash,
-        userProfile: this.state.userProfile,
+        userProfile,
         doLogout: this.doLogout
       }
     };
   },
 
-  componentDidMount(props, state) {
-    this.lock = new Auth0Lock(Auth0Variables.AUTH0_CLIENT_ID, Auth0Variables.AUTH0_DOMAIN);
-    this.setProfileOrShowLogin();
-  },
-
   doLogout() {
     window.localStorage.removeItem(this.props.localStorageKey);
-    window.location.reload();
+    this.setState({
+      hasConfirmedEmail: false,
+      userEmail: ''
+    });
   },
 
-  setProfileOrShowLogin() {
-    const {lock} = this;
-
-    // Check hash from redirect
-    const authHash = lock && lock.parseHash(window.location.hash);
-    if (authHash) {
-      window.history.replaceState({}, document.title, '/');
-      
-      const {error} = authHash;
-      const idToken = authHash.id_token;
-      const accessToken = authHash.access_token;
-      if (error) return this.setState({ loginError: error });
-      if (idToken && lock) {
-        return lock.getProfile(idToken, this.onSignInDone.bind(this, {
-          authHash,
-          accessToken,
-          userToken: idToken
-        }));
-      }
-    }
-
+  componentWillMount(prevProps, prevState) {
     // Check local storage cache
     const storedValues = window.localStorage.getItem(this.props.localStorageKey);
-    if (storedValues) {
-      const {userToken, userProfile} = JSON.parse(storedValues);
-      if (userToken && userProfile) return this.setState({userToken, userProfile});
-    }
+    if (!storedValues) return;
+    const {userEmail} = JSON.parse(storedValues);
+    if (!userEmail) return;
 
-    // Do a new login
-    return this.showLogin();
-  },
-
-  showLogin() {
-    this.lock && this.lock.show({
-      connections: ['google-oauth2'],
-      socialBigButtons: true,
-      icon: 'http://ram.raritanassets.com/images/global/why-power-icon_airflow.png',
-      closable: false,
-      popup: false,
-      responseType: 'token',
-      callbackOnLocationHash: true
+    this.setState({
+      userEmail,
+      hasConfirmedEmail: true
     });
   },
 
   componentDidUpdate(prevProps, prevState) {
-    const {userToken, userProfile} = this.state;
-    if (userToken !== prevState.userToken || userProfile !== prevState.userProfile) {
-      window.localStorage.setItem(this.props.localStorageKey, JSON.stringify({userToken, userProfile}));
+    const {userEmail, hasConfirmedEmail} = this.state;
+    if (hasConfirmedEmail && userEmail) {
+      window.localStorage.setItem(this.props.localStorageKey, JSON.stringify({userEmail, hasConfirmedEmail}));
     }
   },
 
-  onSignInDone({authHash, accessToken, userToken}, loginError, userProfile) {
-    this.setState({authHash, accessToken, userToken, loginError, userProfile});
+  validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  },
+
+  onTextChanged(e) {
+    const userEmail = e.target.value;
+    this.setState({userEmail});
+  },
+
+  onDoneEmail(e) {
+    this.setState({ hasConfirmedEmail: true });
+  },
+
+  onDecline(e) {
+    this.setState({ isNavigatingAway: true });
+    window.location = 'http://tsl.mit.edu/';
   },
 
   render() {
-    const {loginError, userProfile} = this.state;
+    const {
+      userEmail,
+      hasConfirmedEmail,
+      isNavigatingAway
+    } = this.state;
 
-    return <div>
-      {loginError && <div>There was an error logging in.</div>}
-      {userProfile && this.props.children}
-    </div>;
+    if (isNavigatingAway) return <div style={{margin: 20}}>Loading...</div>;
+    return (
+      <div>
+        {hasConfirmedEmail && !_.isEmpty(userEmail)
+          ? this.props.children
+          : this.renderEmailForm()}
+      </div>
+    );
+  },
+
+  renderEmailForm() {
+    const {userEmail} = this.state;
+    const shouldShowWarning = userEmail.length > 10 && !this.validateEmail(userEmail);
+
+    return (
+      <div style={{height: '100%', position: 'fixed', backgroundColor: '#ccc'}}>
+        <AppBar
+          title="MIT Teaching Systems Lab"
+          iconElementLeft={
+            <IconButton onTouchTap={this.onDecline}>
+              <NavigationClose />
+            </IconButton>
+          }
+        />
+        <Paper style={{padding: 20}}>
+          <p>Please enter your email address.</p>
+          <p>It will only be used to identify your responses, and not shared or used in any other way.</p>
+          <div style={{marginBottom: 20}}>
+            <TextField
+              name="userEmail"
+              fullWidth={true}
+              hintText="Your email address"
+              errorText={shouldShowWarning && "Please enter a valid email address."}
+              errorStyle={{color: Colors.orange500}}
+              onChange={this.onTextChanged}
+            />
+          </div>
+          <div>
+            <RaisedButton
+              label="Start"
+              primary={true}
+              onTouchTap={this.onDoneEmail}
+              disabled={!this.validateEmail(userEmail)}
+            />
+          </div>
+        </Paper>
+      </div>
+    );
   }
 });
