@@ -92,20 +92,11 @@ app.post('/server/evidence/:app/:type/:version', function(request, response) {
 });
 
 function tellSlackAboutEvaluations(params, body) {
-  return tellSlack(JSON.stringify({
-    evidence: {params, body}
-  }, null, 2));
+  return tellSlack('Got evaluation.');
 }
 
 function tellSlackAboutEvidence(params, body) {
-  return tellSlack(JSON.stringify({
-    name: body.name,
-    type: params.type,
-    helpType: body.helpType,
-    elapsedMs: body.elapsedMs,
-    response: body.initialResponseText,
-    sessionId: body.sessionId
-  }, null, 2));
+  return tellSlack('Got evidence.');
 }
 
 function tellSlack(text) {
