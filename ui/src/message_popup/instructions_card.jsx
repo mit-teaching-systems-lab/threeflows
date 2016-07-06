@@ -8,9 +8,11 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';
 import TextChangeEvent from '../types/dom_types.js';
+
 import {allStudents} from '../data/virtual_school.js';
 import {learningObjectives} from '../data/learning_objectives.js';
 import {allQuestions} from './questions.js';
+
 
 const ALL_COMPETENCY_GROUPS = 'ALL_COMPETENCY_GROUPS';
 
@@ -40,36 +42,14 @@ export default React.createClass({
     this.setState({ email: value });
   },
   
+  onSaveScaffold(scaffoldSettings){
+    this.setState(scaffoldSettings);
+  },
+  
   onConfigurationSet(){
     const {email, sessionLength, shouldShowStudentCard, shouldShowSummary, helpType} = this.state;
     const questions = this.getQuestions(this.state.competencyGroupValue);
     this.props.onStartPressed(email, sessionLength, questions, shouldShowStudentCard ,shouldShowSummary, helpType);
-  },
-  
-  onCompetencyGroupChanged(event, competencyGroupValue){
-    const questions = this.getQuestions(competencyGroupValue);
-    const newLength = questions.length;
-    var sessionLength = this.state.sessionLength;
-    if(sessionLength > newLength){
-      sessionLength = newLength;
-    }
-    this.setState({questions, competencyGroupValue, sessionLength});
-  },
-  
-  onSliderChange(event, value){
-    this.setState({ sessionLength: value});
-  },
-  
-  onStudentCardsToggled(){
-    this.setState({ shouldShowStudentCard: !this.state.shouldShowStudentCard });
-  },
-  
-  onSummaryToggled(){ 
-    this.setState({ shouldShowSummary: !this.state.shouldShowSummary });
-  },
-  
-  onHelpToggled(event, value){
-    this.setState({ helpType: value});
   },
   
   getQuestions(competencyGroup=""){
@@ -103,10 +83,7 @@ export default React.createClass({
   },
   
   render(){
-    const {isSolutionMode, sessionLength, questions, competencyGroupValue, shouldShowStudentCard, shouldShowSummary, helpType} = this.state;
-    const competencyGroups = _.uniq(_.map(allQuestions, 'learningObjectiveId')).map((id) => {
-      return _.find(learningObjectives, {id}).competencyGroup;
-    });
+    const{isSolutionMode, sessionLength, questions, competencyGroupValue, shouldShowStudentCard, shouldShowSummary, helpType} = this.state;
     return (
       <div>        
         <VelocityTransitionGroup enter={{animation: "callout.pulse", duration: 500}} leave={{animation: "slideUp"}} runOnMount={true}>
@@ -121,20 +98,17 @@ export default React.createClass({
             <p style={styles.paragraph}>Each question is timed to simulate responding in the moment in the classroom.  Aim to respond to each scenario in about 90 seconds.</p>
             <Divider />
             {!isSolutionMode &&
-              <ScaffoldingCard
+              <ScaffoldingCard 
                 competencyGroupValue={competencyGroupValue}
-                competencyGroups={competencyGroups}
-                onCompetencyGroupChanged={this.onCompetencyGroupChanged}
                 sessionLength={sessionLength}
                 questions={questions}
-                onSliderChange={this.onSliderChange}
                 shouldShowStudentCard={shouldShowStudentCard}
-                onStudentCardsToggled={this.onStudentCardsToggled}
                 shouldShowSummary={shouldShowSummary}
-                onSummaryToggled={this.onSummaryToggled}
                 helpType={helpType}
-                onHelpToggled={this.onHelpToggled}
+                getQuestions={this.getQuestions}
+                isSolutionMode={isSolutionMode}
                 itemsToShow={this.props.itemsToShow}
+                onSaveScaffold={this.onSaveScaffold}
                 />}
             <TextField
               style={{width: '100%'}}

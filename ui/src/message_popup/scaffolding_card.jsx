@@ -5,6 +5,8 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import Slider from 'material-ui/Slider';
 import _ from 'lodash';
 
+import {learningObjectives} from '../data/learning_objectives.js';
+import {allQuestions} from './questions.js';
 
 const ALL_COMPETENCY_GROUPS = 'ALL_COMPETENCY_GROUPS';
 
@@ -13,32 +15,54 @@ export default React.createClass({
   
   propTypes: {
     competencyGroupValue: React.PropTypes.string.isRequired,
-    competencyGroups: React.PropTypes.array.isRequired,
-    onCompetencyGroupChanged: React.PropTypes.func.isRequired,
     sessionLength: React.PropTypes.number.isRequired,
     questions: React.PropTypes.array.isRequired,
-    onSliderChange: React.PropTypes.func.isRequired,
     shouldShowStudentCard: React.PropTypes.bool.isRequired,
-    onStudentCardsToggled: React.PropTypes.func.isRequired,
     shouldShowSummary: React.PropTypes.bool.isRequired,
-    onSummaryToggled: React.PropTypes.func.isRequired,
     helpType: React.PropTypes.string.isRequired,
-    onHelpToggled: React.PropTypes.func.isRequired,
-    itemsToShow: React.PropTypes.object.isRequired
+    getQuestions: React.PropTypes.func.isRequired,
+    isSolutionMode: React.PropTypes.bool.isRequired,
+    itemsToShow: React.PropTypes.object.isRequired,
+    onSaveScaffold: React.PropTypes.func.isRequired
   },
   
   
+  onCompetencyGroupChanged(event, competencyGroupValue){
+    const questions = this.props.getQuestions(competencyGroupValue);
+    const newLength = questions.length;
+    var sessionLength = this.props.sessionLength;
+    if(sessionLength > newLength){
+      sessionLength = newLength;
+    }
+    this.props.onSaveScaffold({questions, competencyGroupValue, sessionLength});
+  },
   
-  onHelpToggled(){
-    if(this.props.helpType === 'feedback'){
-      this.props.onHelpToggled(null, 'none');
+  onSliderChange(event, value){
+    this.props.onSaveScaffold({ sessionLength: value});
+  },
+  
+  onStudentCardsToggled(){
+    this.props.onSaveScaffold({ shouldShowStudentCard: !this.props.shouldShowStudentCard });
+  },
+  
+  onSummaryToggled(){ 
+    this.props.onSaveScaffold({ shouldShowSummary: !this.props.shouldShowSummary });
+  },
+  
+  onHelpToggled(event, value){
+    if (typeof value === 'boolean'){
+      this.props.onSaveScaffold({ helpType: this.props.helpType === 'feedback' ? 'none' : 'feedback'});
     }else{
-      this.props.onHelpToggled(null, 'feedback');
+      this.props.onSaveScaffold({ helpType: value});
     }
   },
   
   render(){
-    const {competencyGroupValue, competencyGroups, onCompetencyGroupChanged, sessionLength, questions, onSliderChange, shouldShowStudentCard, onStudentCardsToggled, shouldShowSummary, onSummaryToggled, helpType, onHelpToggled, itemsToShow} = this.props;
+    const {competencyGroupValue, sessionLength, questions, shouldShowStudentCard, shouldShowSummary, helpType, itemsToShow} = this.props;
+    
+    const competencyGroups = _.uniq(_.map(allQuestions, 'learningObjectiveId')).map((id) => {
+      return _.find(learningObjectives, {id}).competencyGroup;
+    });
     
     var showLearningObjectives = true;
     var showSlider = true;
@@ -55,7 +79,7 @@ export default React.createClass({
             <RadioButtonGroup
               name="competencyGroupValue"
               valueSelected={competencyGroupValue}
-              onChange={onCompetencyGroupChanged}
+              onChange={this.onCompetencyGroupChanged}
               style={_.merge({padding:20},styles.option)} >
               <RadioButton 
                 value={ALL_COMPETENCY_GROUPS}
@@ -75,7 +99,7 @@ export default React.createClass({
         {showSlider &&
           <div>
             <div style={styles.optionTitle}>Session Length: {sessionLength} {sessionLength===1 ? "question" : "questions"}</div>
-            <Slider key={competencyGroupValue} value={sessionLength} min={1} max={questions.length} step={1} onChange={onSliderChange}/>
+            <Slider key={competencyGroupValue} value={sessionLength} min={1} max={questions.length} step={1} onChange={this.onSliderChange}/>
           </div>
         }
         
@@ -90,14 +114,14 @@ export default React.createClass({
               label="With student cards"
               labelPosition="right"
               toggled={shouldShowStudentCard}
-              onToggle={onStudentCardsToggled} />
+              onToggle={this.onStudentCardsToggled} />
               }
               {showSummaryToggle &&
               <Toggle
               label="Show summary after each question"
               labelPosition="right"
               toggled={shouldShowSummary}
-              onToggle={onSummaryToggled}/>
+              onToggle={this.onSummaryToggled}/>
               }
               {showHelpToggle &&
               <Toggle
@@ -110,7 +134,7 @@ export default React.createClass({
               <div style={{margin: 10}}><Divider /></div>
               }
               {showOriginalHelp &&
-              <RadioButtonGroup name="helpOptions" valueSelected={helpType} onChange={onHelpToggled}>
+              <RadioButtonGroup name="helpOptions" valueSelected={helpType} onChange={this.onHelpToggled}>
                 <RadioButton
                   value="feedback"
                   label="With feedback and revision"
