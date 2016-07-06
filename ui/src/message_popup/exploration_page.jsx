@@ -68,7 +68,7 @@ export default React.createClass({
     const style = document.createElement('link');
     style.rel = 'stylesheet';
     style.type = 'text/css';
-    style.href = 'http://cdnjs.cloudflare.com/ajax/libs/dc/1.7.5/dc.min.css';
+    style.href = 'https://cdnjs.cloudflare.com/ajax/libs/dc/1.7.5/dc.min.css';
     document.head.appendChild(style);
 
     const inlineStyleNode = document.createElement('style');
