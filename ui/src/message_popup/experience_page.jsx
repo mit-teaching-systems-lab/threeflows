@@ -20,7 +20,7 @@ import ArrowBackIcon from 'material-ui/svg-icons/navigation/arrow-back';
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 import {allQuestions} from './questions.js';
-import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
+
 import {withStudents} from './transformations.jsx';
 import * as Api from '../helpers/api.js';
 import FinalSummaryCard from './final_summary_card.jsx';
