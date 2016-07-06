@@ -77,7 +77,7 @@ export default React.createClass({
           <FlatButton
             label="Lesson Sketch"
             secondary={true}
-            onTouchTap={Routes.newTab.bind(Routes, 'http://goo.gl/forms/eaizykFsgoKVzh7w1')} />
+            onTouchTap={Routes.newTab.bind(Routes, 'https://goo.gl/forms/eaizykFsgoKVzh7w1')} />
         </CardText>
         <CardText expandable={true}>
           <div style={styles.scenario}>You'll be presented with quick student exchanges in the virtual classroom and asked to respond in the moment.  Your responses will be timed and allow you to demonstrate what you’ve learned about applying inquiry and motivation in a simulated classroom lesson.</div>
