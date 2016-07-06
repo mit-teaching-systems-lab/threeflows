@@ -25,7 +25,7 @@ export default React.createClass({
 
   getDefaultProps() {
     return {
-      localStorageKey: 'threeflow_email_registration'
+      localStorageKey: 'threeflows_email_registration'
     };
   },
 
