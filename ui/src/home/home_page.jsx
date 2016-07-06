@@ -28,16 +28,12 @@ export default React.createClass({
   },
 
   renderProfile() {
-    const {userProfile, authHash} = this.context.auth;
+    const {userProfile, doLogout} = this.context.auth;
 
     return (
       <div style={{marginTop: 50, border: '1px solid #eee'}}>
-        <div><img src={userProfile.picture} width="64" height="64"/></div>
-        <div>{userProfile.name}</div>
         <div>{userProfile.email}</div>
-        <pre>{JSON.stringify(userProfile, null, 2)}</pre>
-        <pre>{JSON.stringify(authHash, null, 2)}</pre>
-        <div><a href="#" onClick={this.context.auth.doLogout}>Logout</a></div>
+        <div><a href="#" onClick={doLogout}>Logout</a></div>
       </div>
     );
   }

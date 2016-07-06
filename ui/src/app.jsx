@@ -51,7 +51,7 @@ export default React.createClass({
     };
   },
 
-  componentDidMount(props, state) {
+  componentWillMount(props, state) {
     injectTapEventPlugin(); // material-ui, see https://github.com/zilverline/react-tap-event-plugin
   },
 
