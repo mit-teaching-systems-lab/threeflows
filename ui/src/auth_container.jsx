@@ -8,7 +8,7 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
-import * as Colors from 'material-ui/styles/Colors';
+import * as Colors from 'material-ui/styles/colors';
 
 
 // Injects form asking the user for their email address,
