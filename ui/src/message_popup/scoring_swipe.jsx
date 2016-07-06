@@ -1,5 +1,6 @@
 /* @flow weak */
 import React from 'react';
+import ReactDOM from 'react-dom';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import 'velocity-animate/velocity.ui';
 import SwipeableViews from 'react-swipeable-views';

@@ -24,7 +24,14 @@ export default React.createClass({
   displayName: 'MessagePopupScoringPage',
 
   propTypes: {
-    query: React.PropTypes.object.isRequired
+    query: React.PropTypes.object.isRequired,
+    transitionMs: React.PropTypes.number
+  },
+
+  getDefaultProps() {
+    return {
+      transitionMs: 150
+    };
   },
 
   getInitialState() {
@@ -38,6 +45,11 @@ export default React.createClass({
   componentWillMount() {
     Api.evidenceQuery().end(this.onLogsReceived);
     Api.evaluationsQuery().end(this.onEvaluationsReceived);
+  },
+
+  onTransitionDone() {
+    window.scrollTo(0, 0);
+    console.log("scroll")
   },
 
   onLogsReceived(err, response) {
@@ -89,8 +101,8 @@ export default React.createClass({
       <div>
         {!logs && <div key="loading">Loading...</div>}
         <VelocityTransitionGroup
-          leave={{animation: "transition.slideLeftOut", duration: 150}}
-          enter={{animation: "transition.slideLeftIn", duration: 150}}
+          leave={{animation: "transition.slideLeftOut", duration: this.props.transitionMs, complete: this.onTransitionDone}}
+          enter={{animation: "transition.slideLeftIn", duration: this.props.transitionMs, complete: this.onTransitionDone}}
         >
           {logs && !selectedQuestion && this.renderQuestions(logs)}
         </VelocityTransitionGroup>
