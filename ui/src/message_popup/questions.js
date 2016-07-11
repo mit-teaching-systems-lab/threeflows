@@ -230,7 +230,7 @@ export const inquiryQuestions:[Question] = [
     ]
 
   }
-];
+].map(forLearningObjective(39)).map(forIndicator(502));
 
 export const motivationQuestions:[Question] = [
   {
@@ -294,7 +294,7 @@ export const motivationQuestions:[Question] = [
     ],
     nonExamples: []
   }
-];
+].map(forLearningObjective(35)).map(forIndicator(501));
 
 
 function hashCode(s){
@@ -307,6 +307,6 @@ export function questionId(question) {
 }
 
 export const allQuestions = _.flatten([
-  inquiryQuestions.map(forLearningObjective, 39).map(forIndicator, 502),
-  motivationQuestions.map(forLearningObjective, 35).map(forIndicator, 501)
+  inquiryQuestions,
+  motivationQuestions
 ], true);
