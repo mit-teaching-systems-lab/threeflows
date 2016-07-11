@@ -7,7 +7,6 @@ import ScaffoldingCard from "./scaffolding_card.jsx";
 import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';
-import AppBar from 'material-ui/AppBar';
 import TextChangeEvent from '../types/dom_types.js';
 import {allStudents} from '../data/virtual_school.js';
 import {learningObjectives} from '../data/learning_objectives.js';
@@ -28,7 +27,7 @@ export default React.createClass({
     return ({
       isSolutionMode: _.has(this.props.itemsToShow, "solution"),
       email: this.props.email,
-      sessionLength: 20,
+      sessionLength: this.props.sessionLength,
       questions: allQuestions,
       competencyGroupValue: ALL_COMPETENCY_GROUPS,
       shouldShowStudentCard: true,
@@ -104,7 +103,7 @@ export default React.createClass({
   },
   
   render(){
-    const{isSolutionMode, sessionLength, questions, competencyGroupValue, shouldShowStudentCard, shouldShowSummary, helpType} = this.state;
+    const {isSolutionMode, sessionLength, questions, competencyGroupValue, shouldShowStudentCard, shouldShowSummary, helpType} = this.state;
     const competencyGroups = _.uniq(_.map(allQuestions, 'learningObjectiveId')).map((id) => {
       return _.find(learningObjectives, {id}).competencyGroup;
     });
@@ -119,7 +118,7 @@ export default React.createClass({
               <p style={styles.paragraph}>This will feel uncomfortable at first, but better to get comfortable here than with real students.</p>
             }
             <p style={styles.paragraph}>You may be asked to write, sketch or say your responses aloud.</p>
-            <p style={styles.paragraph}>Each question is timed to simulate responding in the moment in the classroom.  You'll have 90 seconds to respond to each question.</p>
+            <p style={styles.paragraph}>Each question is timed to simulate responding in the moment in the classroom.  Aim to respond to each scenario in about 90 seconds.</p>
             <Divider />
             {!isSolutionMode &&
               <ScaffoldingCard

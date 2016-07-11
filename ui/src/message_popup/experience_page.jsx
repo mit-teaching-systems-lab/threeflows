@@ -61,7 +61,7 @@ export default React.createClass({
       email: this.context.auth.userProfile.email,
       hasStarted: false,
       questionsAnswered: 0,
-      sessionLength: 20,
+      sessionLength: 10,
       toastRevision: false,
       limitMs: 90000,
       responseTimes: []
@@ -170,6 +170,7 @@ export default React.createClass({
   renderInstructions() {
     return (
       <InstructionsCard 
+        sessionLength={this.state.sessionLength}
         onStartPressed={this.onStartPressed}
         email={this.state.email}
         itemsToShow={this.props.query}
