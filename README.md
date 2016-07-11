@@ -13,6 +13,18 @@ $ npm start
 #### Database
 It's expecting [Postgres](https://devcenter.heroku.com/articles/heroku-postgresql) in production, and doesn't use anything locally.
 
+Backups can be scheduled like so:
+
+```
+$ heroku pg:backups schedule DATABASE_URL --at '01:00 America/New_York'
+Scheduled automatic daily backups at 01:00 America/New_York for DATABASE
+
+$ heroku pg:backups schedules
+=== Backup Schedules
+DATABASE_URL: daily at 1:00 (America/New_York)
+```
+
+
 ## UI
 #### Tools
 The project is built with [Browserify](http://browserify.org/) and uses Babel via [bablify](https://github.com/babel/babelify) to transpile ES6 and JSX.  It also uses [livereactload](https://github.com/milankinen/livereactload) for hot reloading of React components in local development.
