@@ -173,6 +173,7 @@ export default React.createClass({
         onStartPressed={this.onStartPressed}
         email={this.state.email}
         itemsToShow={this.props.query}
+        helpType={this.state.helpType}
         />);
   },
   
