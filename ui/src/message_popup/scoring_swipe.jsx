@@ -116,6 +116,10 @@ export default React.createClass({
     this.setState({ limit: this.state.limit + this.props.limitIncrement });
   },
 
+  onAllDoneClicked() {
+    this.props.onCancel();
+  },
+
   render() {
     const {logs} = this.props;
     const truncatedLogs = logs.slice(0, this.state.limit);
@@ -227,7 +231,7 @@ export default React.createClass({
               </div>}
             {logs.length === 0 &&
               <RaisedButton
-                onTouchTap={this.onMoreRowsClicked}
+                onTouchTap={this.onAllDoneClicked}
                 icon={<DoneIcon />}
                 labelStyle={{verticalAlign: 'middle'}}
                 primary={true}
