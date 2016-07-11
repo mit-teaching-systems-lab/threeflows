@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "main": "bundle.js",
   "scripts": {
-    "build": "cp index.html build/index.html && browserify -t [babelify] src/main.jsx -o build/bundle.js",
+    "build": "cp *.html build && browserify -t [babelify] src/main.jsx -o build/bundle.js",
     "watch": "npm run build && watchify -t [babelify] -p livereactload src/main.jsx -o build/bundle.js",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
     "lint-quiet": "eslint --fix --ext jsx --ext js -c .eslintrc src; exit 0",

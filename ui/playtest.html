@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8" />
+  <meta name=viewport content="width=device-width, initial-scale=1">
+  <title>threeflows</title>
+  <style type="text/css">
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .choices {
+      margin-top: 40px;
+    }
+
+    ol.list li {
+      margin-bottom: 20px;
+    }
+
+    a {
+      color: blue;
+    }
+
+    ol.list a {
+      display: block;
+      border: 1px solid #ddd;
+      background-color: #eee;
+      padding: 5px 10px;
+      width: 140px;
+      text-decoration: none;
+      margin-top: 5px;
+    }
+
+    .thanks {
+      margin-bottom: 100px;
+    }
+  </style>
+  <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+    <div style="margin: 15px;">
+      <h2>Welcome!</h2>
+      <p>This station is about responding to students in the moment.  It's set in the context of a 7th grade science classroom, in an introductory lesson for photosynthesis.</p>
+
+      <p>It's a practice space to learn to apply science inquiry practices, and to use principles from cognitive science to motivate students.</p>
+
+      <p>When you're done, we'll also ask you to share some <a href="http://goo.gl/forms/lLKzlqOS3PcRrSZt2">quick feedback</a>.</p>
+
+      <p class="choices">You have three choices:</p>
+
+      <ol class="list">
+      <li>If you're an <b>experienced science teacher</b>, we'd love if you could share your feedback on how some undergraduates have responded to these scenarios.
+      <a href="/message_popup/scoring">Give feedback</a>
+      </li>
+
+      <li>If you're an <b>intermediate or beginning science teacher</b>, we'd like you to try out these practice scenarios without any additional scaffolding.
+      <a href="/message_popup?solution">Practice</a>
+      </li>
+
+      <li>If you have <b>no experience whatsoever</b> in science education, we'd like you to practice some of the scenarios with a little support.
+      <a href="/message_popup?basic">With extra support</a>
+      </li>
+      </ol>
+      <p class="thanks">Thanks!</p>
+
+      <a onclick="window.localStorage.removeItem('threeflows_email_registration');">Reset playtest</a>
+    </div>
+  </body>
+</html>
