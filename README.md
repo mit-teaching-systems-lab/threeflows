@@ -7,8 +7,10 @@ A barebones [Express](http://expressjs.com/) server and [React](https://facebook
 #### Run locally
 ```
 $ npm install
-$ npm start
+$ npm run dev
 ```
+
+On Windows with MinGW, run the contents of the `dev` command on the bash command line directly.
 
 #### Database
 It's expecting [Postgres](https://devcenter.heroku.com/articles/heroku-postgresql) in production, and doesn't use anything locally.
