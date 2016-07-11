@@ -32,7 +32,7 @@ export default React.createClass({
       competencyGroupValue: ALL_COMPETENCY_GROUPS,
       shouldShowStudentCard: true,
       shouldShowSummary: true,
-      helpType: 'feedback',
+      helpType: this.props.helpType
     });
   },
   
