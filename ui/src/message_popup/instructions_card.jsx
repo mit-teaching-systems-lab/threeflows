@@ -7,7 +7,6 @@ import ScaffoldingCard from "./scaffolding_card.jsx";
 import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';
-import AppBar from 'material-ui/AppBar';
 import TextChangeEvent from '../types/dom_types.js';
 import {allStudents} from '../data/virtual_school.js';
 import {learningObjectives} from '../data/learning_objectives.js';
