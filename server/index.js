@@ -184,6 +184,7 @@ function readFile(filename) {
   }
 }
 app.get('/bundle.js', readFile('bundle.js'));
+app.get('/playtest.html', readFile('playtest.html'));
 app.get('/favicon.ico', (request, response) => { response.status(404).end() });
 app.get('*', readFile('index.html'));
 
