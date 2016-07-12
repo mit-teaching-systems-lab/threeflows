@@ -1,9 +1,11 @@
 /* @flow weak */
+import _ from 'lodash';
 import React from 'react';
 
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 import * as Colors from 'material-ui/styles/colors';
 import TextField from 'material-ui/TextField';
+import FlatButton from 'material-ui/FlatButton';
 
 import SetIntervalMixin from '../helpers/set_interval_mixin.js';
 import * as Api from '../helpers/api.js';
@@ -58,6 +60,10 @@ export default React.createClass({
     this.setState({ searchText: e.target.value });
   },
 
+  onTapEmail(email) {
+    this.setState({ searchText: email });
+  },
+
   filterRaw(items) {
     const {searchText} = this.state;
 
@@ -75,21 +81,55 @@ export default React.createClass({
         {!isLoaded && <div key="loading">Loading...</div>}
         {isLoaded &&
           <div>
-            <div>
-              <TextField
-                name="searchText"
-                onChange={this.onSearchTextChanged}
-                value={this.state.searchText}
-                fullWidth={true}
-                hintText="Search..."
-              />
-            </div>
+            <div>{this.renderSearch()}</div>
             <div>{this.renderLogs(logs)}</div>
             <div>{this.renderEvaluations(evaluations)}</div>
             <div>{this.renderIndicators(indicators)}</div>
           </div>
         }
       </div>
+    );
+  },
+
+  renderSearch() {
+    const {logs, evaluations} = this.state;
+    const emails = _.uniq(_.compact([].concat(
+      evaluations.map(evaluation => evaluation.json && evaluation.json.email),
+      logs.map(log => log.json && log.json.email)
+    )));
+    
+    return (
+      <Card
+        initiallyExpanded={true}>
+        <CardHeader
+          titleStyle={styles.cardTitleHeader}
+          title="Filter" />
+        <CardText>
+          <div>
+            <TextField
+              name="searchText"
+              onChange={this.onSearchTextChanged}
+              value={this.state.searchText}
+              fullWidth={true}
+              hintText="Search..."
+            />
+          </div>
+          <div>
+            <FlatButton
+              label="Clear"
+              primary={true}
+              onTouchTap={this.onTapEmail.bind(this, '')}
+            />
+            {emails.map(email => {
+              return <FlatButton
+                key={email}
+                label={email}
+                onTouchTap={this.onTapEmail.bind(this, email)}
+              />;
+            })}
+          </div>
+        </CardText>
+      </Card>
     );
   },
 
