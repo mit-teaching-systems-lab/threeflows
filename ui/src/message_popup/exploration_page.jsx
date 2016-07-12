@@ -1,22 +1,14 @@
 import _ from 'lodash';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import fakeNames from '../data/fake_names.js';
-import request from 'superagent';
 import d3 from 'd3';
 import dc from 'dc';
 import crossfilter from 'crossfilter';
 import dateFns from 'date-fns';
 
-// Make this a consistent hash from the value
-function createAnonymizer() {
-  const nameScale = d3.scale.ordinal()
-    .range(fakeNames);
-  
-  return {
-    name: (d) => nameScale(d.json.name)
-  };     
-}
+import * as Api from '../helpers/api.js';
+import * as Anonymizer from '../helpers/anonymizer.js';
+
 
 /*
 UI for exploring Message PopUp responses, not used for scoring.
@@ -45,17 +37,13 @@ export default React.createClass({
   },
 
   componentDidMount(props, state) {
-    this.anonymizer = createAnonymizer();
+    this.anonymizer = Anonymizer.create();
     document.addEventListener('keydown', (e) => {
       if (e.keyCode === 27) this.onResetClicked();
     });
 
     this.doInjectStyles();
-
-    request
-      .get('/server/query')
-      .set('Content-Type', 'application/json')
-      .end(this.onDataReceived);
+    Api.evidenceQuery().end(this.onDataReceived);
   },
 
   componentDidUpdate(prevProps, prevState) {

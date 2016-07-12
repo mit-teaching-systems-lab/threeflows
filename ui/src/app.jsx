@@ -14,6 +14,7 @@ import HomePage from './home/home_page.jsx';
 import SlatePage from './slate/slate_page.jsx';
 import CSSTankPage from './csstank/csstank_page.jsx';
 import VirtualSchoolPage from './virtual_school/virtual_school_page.jsx';
+import RawPage from './ecd/raw_page.jsx';
 import * as MessagePopup from './message_popup/index.js';
 import {
   challenges,
@@ -35,6 +36,7 @@ export default React.createClass({
     '/message_popup': 'messagePopup',
     '/message_popup/exploration': 'messagePopupExploration',
     '/message_popup/scoring': 'messagePopupScoring',
+    '/ecd/raw': 'ecdRaw',
     '/slate/:id': 'slate',
     '/csstank': 'cssTank',
   },
@@ -101,5 +103,9 @@ export default React.createClass({
 
   virtualSchool(query = {}) {
     return <VirtualSchoolPage query={query} />;
+  },
+
+  ecdRaw(query = {}) {
+    return <RawPage query={query} />;
   }
 });

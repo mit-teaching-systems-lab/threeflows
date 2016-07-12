@@ -41,7 +41,7 @@ export function logEvidence(type, record) {
 
 export function evidenceQuery() {
   return request
-    .get('/server/query')
+    .get('/server/evidence')
     .set('Content-Type', 'application/json');
 }
 
