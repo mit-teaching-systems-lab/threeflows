@@ -42,42 +42,36 @@ export default React.createClass({
 
   getInitialState: function() {
     const isSolutionMode = _.has(this.props.query, 'solution');
+    const email = this.context.auth.userProfile.email;
+    const questions = allQuestions;
     const helpType = isSolutionMode ? 'none' : 'feedback';
     const shouldShowStudentCard = isSolutionMode ? _.has(this.props.query, 'cards') : true;
     const shouldShowSummary = !isSolutionMode;
+    const sessionLength = 10;
+    const scaffolding = {email, questions, shouldShowStudentCard, shouldShowSummary, helpType, sessionLength};
     const sessionId = uuid.v4();
     return {
-      shouldShowStudentCard,
-      shouldShowSummary,
-      helpType,
+      scaffolding,
       isSolutionMode,
       sessionId,
       competencyGroupValue: ALL_COMPETENCY_GROUPS,
-      questions: allQuestions,
-      email: this.context.auth.userProfile.email,
       hasStarted: false,
       questionsAnswered: 0,
-      sessionLength: 10,
       toastRevision: false,
       limitMs: 90000,
       responseTimes: []
     };
   },
 
-  onStartPressed(email, sessionLength, questions, shouldShowStudentCard,shouldShowSummary, helpType) {
+  onStartPressed(scaffolding) {
     this.setState({
-      email,
-      sessionLength,
-      questions,
-      shouldShowStudentCard,
-      shouldShowSummary,
-      helpType,
+      scaffolding,
       hasStarted: true
     });
   },
   
   playToast(){
-    if(this.state.helpType === 'feedback' && !this.state.shouldShowSummary){
+    if(this.state.scaffolding.helpType === 'feedback' && !this.state.scaffolding.shouldShowSummary){
       this.setState({toastRevision: true});
     }
   },
@@ -93,7 +87,7 @@ export default React.createClass({
   onLog(type, response:Response) {
     Api.logEvidence(type, {
       ...response,
-      name: this.state.email,
+      name: this.state.scaffolding.email,
       sessionId: this.state.sessionId,
       clientTimestampMs: new Date().getTime()
     });
@@ -117,7 +111,7 @@ export default React.createClass({
     const {
       hasStarted,
       questionsAnswered,
-      sessionLength
+      scaffolding
     } = this.state;
     
     if (_.has(this.props.query, 'mobilePrototype')) return this.renderMobilePrototype();
@@ -134,8 +128,8 @@ export default React.createClass({
           }
         />
         {!hasStarted && this.renderInstructions()}
-        {questionsAnswered >= sessionLength && this.renderDone()}
-        {hasStarted && questionsAnswered < sessionLength && this.renderPopupQuestion()}
+        {questionsAnswered >= scaffolding.sessionLength && this.renderDone()}
+        {hasStarted && questionsAnswered < scaffolding.sessionLength && this.renderPopupQuestion()}
       </div>
     );
   },
@@ -164,38 +158,34 @@ export default React.createClass({
   renderInstructions() {
     return (
       <InstructionsCard 
-        sessionLength={this.state.sessionLength}
+        sessionLength={this.state.scaffolding.sessionLength}
         onStartPressed={this.onStartPressed}
-        email={this.state.email}
+        email={this.state.scaffolding.email}
         itemsToShow={this.props.query}
-        helpType={this.state.helpType}
+        helpType={this.state.scaffolding.helpType}
         />);
   },
   
   renderPopupQuestion() {
     const {
-      questions,
+      scaffolding,
       questionsAnswered,
-      shouldShowStudentCard,
-      shouldShowSummary,
-      helpType,
-      sessionLength
     } = this.state;
-    const question = questions[questionsAnswered];
+    const question = scaffolding.questions[questionsAnswered];
     return (
       <div style={styles.container}>        
-        <LinearProgress color="#EC407A" mode="determinate" value={questionsAnswered} max={sessionLength} />
+        <LinearProgress color="#EC407A" mode="determinate" value={questionsAnswered} max={scaffolding.sessionLength} />
         <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
           <PopupQuestion
             key={JSON.stringify(question)}
             question={question}
-            shouldShowStudentCard={shouldShowStudentCard}
-            shouldShowSummary={shouldShowSummary}
-            helpType={helpType}
+            shouldShowStudentCard={scaffolding.shouldShowStudentCard}
+            shouldShowSummary={scaffolding.shouldShowSummary}
+            helpType={scaffolding.helpType}
             limitMs={this.state.limitMs}
             onLog={this.onLog}
             onDone={this.onQuestionDone}
-            isLastQuestion={questionsAnswered+1===sessionLength ? true : false}/>
+            isLastQuestion={questionsAnswered+1===scaffolding.sessionLength ? true : false}/>
         </VelocityTransitionGroup>
         <Snackbar
           open={this.state.toastRevision}
@@ -210,7 +200,7 @@ export default React.createClass({
   renderMobilePrototype() {
     return (
       <MobilePrototypeCard 
-        question={_.shuffle(withStudents(this.state.questions))[0]}
+        question={_.shuffle(withStudents(this.state.scaffolding.questions))[0]}
         />
     );
   }

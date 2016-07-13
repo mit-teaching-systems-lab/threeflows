@@ -15,11 +15,7 @@ export default React.createClass({
   
   propTypes: {
     competencyGroupValue: React.PropTypes.string.isRequired,
-    sessionLength: React.PropTypes.number.isRequired,
-    questions: React.PropTypes.array.isRequired,
-    shouldShowStudentCard: React.PropTypes.bool.isRequired,
-    shouldShowSummary: React.PropTypes.bool.isRequired,
-    helpType: React.PropTypes.string.isRequired,
+    scaffolding: React.PropTypes.object.isRequired,
     getQuestions: React.PropTypes.func.isRequired,
     isSolutionMode: React.PropTypes.bool.isRequired,
     itemsToShow: React.PropTypes.object.isRequired,
@@ -30,11 +26,11 @@ export default React.createClass({
   onCompetencyGroupChanged(event, competencyGroupValue){
     const questions = this.props.getQuestions(competencyGroupValue);
     const newLength = questions.length;
-    var sessionLength = this.props.sessionLength;
+    var sessionLength = this.props.scaffolding.sessionLength;
     if(sessionLength > newLength){
       sessionLength = newLength;
     }
-    this.props.onSaveScaffold({questions, competencyGroupValue, sessionLength});
+    this.props.onSaveScaffold({questions, sessionLength}, {competencyGroupValue});
   },
   
   onSliderChange(event, value){
@@ -42,23 +38,23 @@ export default React.createClass({
   },
   
   onStudentCardsToggled(){
-    this.props.onSaveScaffold({ shouldShowStudentCard: !this.props.shouldShowStudentCard });
+    this.props.onSaveScaffold({ shouldShowStudentCard: !this.props.scaffolding.shouldShowStudentCard });
   },
   
   onSummaryToggled(){ 
-    this.props.onSaveScaffold({ shouldShowSummary: !this.props.shouldShowSummary });
+    this.props.onSaveScaffold({ shouldShowSummary: !this.props.scaffolding.shouldShowSummary });
   },
   
   onHelpToggled(event, value){
     if (typeof value === 'boolean'){
-      this.props.onSaveScaffold({ helpType: this.props.helpType === 'feedback' ? 'none' : 'feedback'});
+      this.props.onSaveScaffold({ helpType: this.props.scaffolding.helpType === 'feedback' ? 'none' : 'feedback'});
     }else{
       this.props.onSaveScaffold({ helpType: value});
     }
   },
   
   render(){
-    const {competencyGroupValue, sessionLength, questions, shouldShowStudentCard, shouldShowSummary, helpType, itemsToShow} = this.props;
+    const {competencyGroupValue, scaffolding, itemsToShow} = this.props;
     
     const competencyGroups = _.uniq(_.map(allQuestions, 'learningObjectiveId')).map((id) => {
       return _.find(learningObjectives, {id}).competencyGroup;
@@ -98,8 +94,8 @@ export default React.createClass({
         
         {showSlider &&
           <div>
-            <div style={styles.optionTitle}>Session Length: {sessionLength} {sessionLength===1 ? "question" : "questions"}</div>
-            <Slider key={competencyGroupValue} value={sessionLength} min={1} max={questions.length} step={1} onChange={this.onSliderChange}/>
+            <div style={styles.optionTitle}>Session Length: {scaffolding.sessionLength} {scaffolding.sessionLength===1 ? "question" : "questions"}</div>
+            <Slider key={competencyGroupValue} value={scaffolding.sessionLength} min={1} max={scaffolding.questions.length} step={1} onChange={this.onSliderChange}/>
           </div>
         }
         
@@ -113,28 +109,28 @@ export default React.createClass({
               <Toggle
               label="With student cards"
               labelPosition="right"
-              toggled={shouldShowStudentCard}
+              toggled={scaffolding.shouldShowStudentCard}
               onToggle={this.onStudentCardsToggled} />
               }
               {showSummaryToggle &&
               <Toggle
               label="Show summary after each question"
               labelPosition="right"
-              toggled={shouldShowSummary}
+              toggled={scaffolding.shouldShowSummary}
               onToggle={this.onSummaryToggled}/>
               }
               {showHelpToggle &&
               <Toggle
               label="With feedback and revision"
               labelPosition="right"
-              toggled={helpType==='feedback'}
+              toggled={scaffolding.helpType==='feedback'}
               onToggle={this.onHelpToggled} />
               }
               {(showStudentCardsToggle || showSummaryToggle || showHelpToggle) && showOriginalHelp &&
               <div style={{margin: 10}}><Divider /></div>
               }
               {showOriginalHelp &&
-              <RadioButtonGroup name="helpOptions" valueSelected={helpType} onChange={this.onHelpToggled}>
+              <RadioButtonGroup name="helpOptions" valueSelected={scaffolding.helpType} onChange={this.onHelpToggled}>
                 <RadioButton
                   value="feedback"
                   label="With feedback and revision"

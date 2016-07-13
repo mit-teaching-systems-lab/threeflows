@@ -28,28 +28,36 @@ export default React.createClass({
   getInitialState(){
     return ({
       isSolutionMode: _.has(this.props.itemsToShow, "solution"),
-      email: this.props.email,
-      sessionLength: this.props.sessionLength,
-      questions: allQuestions,
       competencyGroupValue: ALL_COMPETENCY_GROUPS,
-      shouldShowStudentCard: true,
-      shouldShowSummary: true,
-      helpType: this.props.helpType
+      scaffolding: { email: this.props.email,
+        sessionLength: this.props.sessionLength,
+        questions: allQuestions,
+        shouldShowStudentCard: true,
+        shouldShowSummary: true,
+        helpType: this.props.helpType}
     });
   },
   
   onTextChanged({target:{value}}:TextChangeEvent) {
-    this.setState({ email: value });
+    this.setState({ scaffolding: _.set(_.clone(this.state.scaffolding), 'email', value) });
   },
   
-  onSaveScaffold(scaffoldSettings){
-    this.setState(scaffoldSettings);
+  onSaveScaffold(scaffoldSettings, nonScaffoldSettings={}){
+    var scaffolding = _.clone(this.state.scaffolding);
+    for(var key in scaffoldSettings){
+      _.set(scaffolding, key, scaffoldSettings[key]);
+    }
+    var objectToSave = {scaffolding}
+    for(var key in nonScaffoldSettings){
+      _.set(objectToSave, key, nonScaffoldSettings[key]);
+    }
+    this.setState(objectToSave);
   },
   
   onConfigurationSet(){
-    const {email, sessionLength, shouldShowStudentCard, shouldShowSummary, helpType} = this.state;
+    const {scaffolding} = this.state;
     const questions = this.getQuestions(this.state.competencyGroupValue);
-    this.props.onStartPressed(email, sessionLength, questions, shouldShowStudentCard ,shouldShowSummary, helpType);
+    this.props.onStartPressed(scaffolding);
   },
   
   getQuestions(competencyGroup=""){
@@ -83,7 +91,7 @@ export default React.createClass({
   },
   
   render(){
-    const{isSolutionMode, sessionLength, questions, competencyGroupValue, shouldShowStudentCard, shouldShowSummary, helpType} = this.state;
+    const{isSolutionMode, competencyGroupValue, scaffolding} = this.state;
     return (
       <div>        
         <VelocityTransitionGroup enter={{animation: "callout.pulse", duration: 500}} leave={{animation: "slideUp"}} runOnMount={true}>
@@ -100,11 +108,7 @@ export default React.createClass({
             {!isSolutionMode &&
               <ScaffoldingCard 
                 competencyGroupValue={competencyGroupValue}
-                sessionLength={sessionLength}
-                questions={questions}
-                shouldShowStudentCard={shouldShowStudentCard}
-                shouldShowSummary={shouldShowSummary}
-                helpType={helpType}
+                scaffolding={scaffolding}
                 getQuestions={this.getQuestions}
                 isSolutionMode={isSolutionMode}
                 itemsToShow={this.props.itemsToShow}
@@ -114,13 +118,13 @@ export default React.createClass({
               style={{width: '100%'}}
               underlineShow={false}
               floatingLabelText="What's your email address?"
-              value={this.state.email}
+              value={scaffolding.email}
               onChange={this.onTextChanged}
               multiLine={true}
               rows={2}/>
             <div style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-end'}}>
               <RaisedButton
-                disabled={this.state.email === ''}
+                disabled={scaffolding.email === ''}
                 onTouchTap={this.onConfigurationSet}
                 style={styles.button}
                 secondary={true}
