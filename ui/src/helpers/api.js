@@ -1,6 +1,8 @@
 /* @flow weak */
-import request from 'superagent';
+import superagent from 'superagent';
 import * as Routes from '../routes.js';
+import SuperagentPromise from 'superagent-promise';
+const request = SuperagentPromise(superagent, Promise);
 
 
 export function logEvaluation(type, record) {
