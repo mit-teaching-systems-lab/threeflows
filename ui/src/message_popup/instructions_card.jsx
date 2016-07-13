@@ -8,11 +8,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';
 import TextChangeEvent from '../types/dom_types.js';
-
 import {allStudents} from '../data/virtual_school.js';
 import {learningObjectives} from '../data/learning_objectives.js';
 import {allQuestions} from './questions.js';
-
 
 const ALL_COMPETENCY_GROUPS = 'ALL_COMPETENCY_GROUPS';
 
@@ -29,7 +27,8 @@ export default React.createClass({
     return ({
       isSolutionMode: _.has(this.props.itemsToShow, "solution"),
       competencyGroupValue: ALL_COMPETENCY_GROUPS,
-      scaffolding: { email: this.props.email,
+      scaffolding: { 
+        email: this.props.email,
         sessionLength: this.props.sessionLength,
         questions: allQuestions,
         shouldShowStudentCard: true,
@@ -44,19 +43,20 @@ export default React.createClass({
   
   onSaveScaffold(scaffoldSettings, nonScaffoldSettings={}){
     var scaffolding = _.clone(this.state.scaffolding);
-    for(var key in scaffoldSettings){
-      _.set(scaffolding, key, scaffoldSettings[key]);
+    for(var scaffoldSetting in scaffoldSettings){
+      _.set(scaffolding, scaffoldSetting, scaffoldSettings[scaffoldSetting]);
     }
-    var objectToSave = {scaffolding}
-    for(var key in nonScaffoldSettings){
-      _.set(objectToSave, key, nonScaffoldSettings[key]);
+    var objectToSave = {scaffolding};
+    for(var nonScaffoldSetting in nonScaffoldSettings){
+      _.set(objectToSave, nonScaffoldSetting, nonScaffoldSettings[nonScaffoldSetting]);
     }
     this.setState(objectToSave);
   },
   
   onConfigurationSet(){
-    const {scaffolding} = this.state;
+    const {scaffolding} = _.clone(this.state);
     const questions = this.getQuestions(this.state.competencyGroupValue);
+    _.set(scaffolding, 'questions', questions);
     this.props.onStartPressed(scaffolding);
   },
   

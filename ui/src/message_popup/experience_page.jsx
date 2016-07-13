@@ -24,8 +24,6 @@ import NavigationAppBar from '../components/navigation_app_bar.jsx';
 
 import MobilePrototypeCard from './mobile_prototype_card.jsx';
 
-const ALL_COMPETENCY_GROUPS = 'ALL_COMPETENCY_GROUPS';
-
 /*
 Shows the MessagePopup game
 */
@@ -49,12 +47,9 @@ export default React.createClass({
     const shouldShowSummary = !isSolutionMode;
     const sessionLength = 10;
     const scaffolding = {email, questions, shouldShowStudentCard, shouldShowSummary, helpType, sessionLength};
-    const sessionId = uuid.v4();
     return {
       scaffolding,
-      isSolutionMode,
-      sessionId,
-      competencyGroupValue: ALL_COMPETENCY_GROUPS,
+      sessionId: uuid.v4(),
       hasStarted: false,
       questionsAnswered: 0,
       toastRevision: false,
