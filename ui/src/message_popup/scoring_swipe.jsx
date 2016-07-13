@@ -10,22 +10,18 @@ import RaisedButton from 'material-ui/RaisedButton';
 import DoneIcon from 'material-ui/svg-icons/action/done';
 import BackIcon from 'material-ui/svg-icons/navigation/arrow-back';
 import FeedbackIcon from 'material-ui/svg-icons/action/feedback';
-import * as Colors from 'material-ui/styles/colors';
-import {Card, CardHeader, CardText} from 'material-ui/Card';
+import {Card, CardText} from 'material-ui/Card';
 import LinearProgress from 'material-ui/LinearProgress';
 import IconButton from 'material-ui/IconButton';
 
-import StudentCard from './student_card.jsx';
-import ExamplesCard from './examples_card.jsx';
-import {questionId} from './questions.js';
-
+import ScoringQuestionContext from './scoring_question_context.jsx';
+import MessageResponseCard from './message_response_card.jsx';
+import * as EvaluationConstants from '../helpers/evaluation_constants';
+const {DEMONSTRATED_COMPETENCY, NOT_YET_COMPETENCY} = EvaluationConstants;
 
 const SWIPE_LEFT_INDEX = 0;
 const NO_SWIPE_INDEX = 1;
 const SWIPE_RIGHT_INDEX = 2;
-
-const DEMONSTRATED_COMPETENCY = 1;
-const NOT_YET_COMPETENCY = 0;
 
 
 /*
@@ -171,55 +167,13 @@ export default React.createClass({
 
   renderContext(logs) {
     const {question, indicator, learningObjective} = this.props;
-    
     return (
       <div>
-        <Card
-          key="question"
-          style={styles.contextCard}
-          zDepth={2}
-          initiallyExpanded={true}>
-          <CardHeader
-            title={`Question #${questionId(question)}`}
-            actAsExpander={true}
-            showExpandableButton={true}/>
-          <CardText
-            expandable={true}
-            style={styles.competencyText}>
-              <div>
-                <div style={{paddingBottom: 20}}>{question.text}</div>
-                {question.student && <StudentCard useCardStyles={true} student={question.student} />}
-              </div>
-          </CardText>
-        </Card>
-        <Card key="learningObjective" style={styles.contextCard} zDepth={2}>
-          <CardHeader
-            title="Learning Objective"
-            actAsExpander={true}
-            showExpandableButton={true} />
-          <CardText
-            expandable={true}
-            style={styles.competencyText}>{learningObjective.text}</CardText>
-        </Card>
-        <Card key="indicator" style={styles.contextCard} zDepth={2}>
-          <CardHeader
-            title="Indicator"
-            actAsExpander={true}
-            showExpandableButton={true} />
-          <CardText
-            expandable={true}
-            style={styles.competencyText}>{indicator.text}</CardText>
-        </Card>
-        {question.examples.length > 0 &&
-          <ExamplesCard
-            key="examples"
-            titleText="Examples"
-            examples={question.examples} />}
-        {question.nonExamples.length > 0 &&
-          <ExamplesCard
-            key="non-examples"
-            titleText="Non-examples"
-            examples={question.nonExamples} />}
+        <ScoringQuestionContext
+          question={question}
+          indicator={indicator}
+          learningObjective={learningObjective}
+        />
         <Card key="progress" style={styles.contextCard} zDepth={2}>
           <CardText>
             {logs.length > 0 && 
@@ -243,16 +197,7 @@ export default React.createClass({
   },
 
   renderItem(log) {
-    return (
-      <Card key="competency" style={{...styles.itemHeight, ...styles.itemCard}}>
-        <CardText style={{fontSize: 16}}>
-          <div>
-            <div>{log.json.initialResponseText}</div>
-            <div style={styles.responseLatency}>{`${Math.round(log.json.elapsedMs/1000)} seconds`}</div>
-          </div>
-        </CardText>
-      </Card>
-    );
+    return <MessageResponseCard log={log} extendStyle={styles.itemHeight} />;
   },
 
   renderFeedback(log) {
@@ -288,13 +233,8 @@ const styles = {
   listContainer: {
     paddingTop: 5
   },
-  contextCard: {},
   itemHeight: {
     minHeight: 150
-  },
-  itemCard: {
-    borderBottom: '1px solid #eee',
-    margin: 0
   },
   swipe: {
     color: 'white',
@@ -305,11 +245,11 @@ const styles = {
     height: '100%'
   },
   doneSwipe: {
-    backgroundColor: Colors.green500,
+    backgroundColor: EvaluationConstants.Colors[DEMONSTRATED_COMPETENCY],
     justifyContent: 'flex-end',
   },
   notYetSwipe: {
-    backgroundColor: Colors.orange500,
+    backgroundColor: EvaluationConstants.Colors[NOT_YET_COMPETENCY],
     justifyContent: 'flex-start'
   },
   textField: {},
@@ -321,9 +261,5 @@ const styles = {
   },
   showMoreButton: {
     margin: 20
-  },
-  responseLatency: {
-    marginTop: 10,
-    color: Colors.grey500
   }
 };

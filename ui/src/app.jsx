@@ -15,6 +15,7 @@ import SlatePage from './slate/slate_page.jsx';
 import CSSTankPage from './csstank/csstank_page.jsx';
 import VirtualSchoolPage from './virtual_school/virtual_school_page.jsx';
 import RawPage from './ecd/raw_page.jsx';
+import CandidatePage from './ecd/candidate_page.jsx';
 import * as MessagePopup from './message_popup/index.js';
 import {
   challenges,
@@ -35,8 +36,10 @@ export default React.createClass({
     '/challenge/:id': 'challenge',
     '/message_popup': 'messagePopup',
     '/message_popup/exploration': 'messagePopupExploration',
+    '/message_popup/evaluations/:id': 'messagePopupEvaluation',
     '/message_popup/scoring': 'messagePopupScoring',
     '/ecd/raw': 'ecdRaw',
+    '/ecd/candidate': 'ecdCandidate',
     '/slate/:id': 'slate',
     '/csstank': 'cssTank',
   },
@@ -91,6 +94,10 @@ export default React.createClass({
   messagePopupScoring(query = {}) {
     return <MessagePopup.ScoringPage query={query} />;
   },
+
+  messagePopupEvaluation(evaluationId, query = {}) {
+    return <MessagePopup.EvaluationViewerPage evaluationId={evaluationId} />;
+  },
   
   cssTank(query = {}) {
     return <CSSTankPage query={query} />;
@@ -107,5 +114,9 @@ export default React.createClass({
 
   ecdRaw(query = {}) {
     return <RawPage query={query} />;
-  }
+  },
+
+  ecdCandidate(query = {}) {
+    return <CandidatePage candidateEmail={query.email} />;
+  },
 });
