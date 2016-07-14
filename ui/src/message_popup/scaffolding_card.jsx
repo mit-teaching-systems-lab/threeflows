@@ -55,17 +55,18 @@ export default React.createClass({
   
   render(){
     const {competencyGroupValue, scaffolding, itemsToShow} = this.props;
-    
+    const {sessionLength, questions, shouldShowStudentCard, shouldShowSummary, helpType} = scaffolding;
+
     const competencyGroups = _.uniq(_.map(allQuestions, 'learningObjectiveId')).map((id) => {
       return _.find(learningObjectives, {id}).competencyGroup;
     });
     
-    var showLearningObjectives = true;
-    var showSlider = true;
-    var showStudentCardsToggle = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'cards') || _.has(itemsToShow, 'basic');
-    var showSummaryToggle = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'summary');
-    var showHelpToggle = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'feedback') || _.has(itemsToShow, 'basic');
-    var showOriginalHelp = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'originalHelp');
+    const showLearningObjectives = true;
+    const showSlider = true;
+    const showStudentCardsToggle = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'cards') || _.has(itemsToShow, 'basic');
+    const showSummaryToggle = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'summary');
+    const showHelpToggle = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'feedback') || _.has(itemsToShow, 'basic');
+    const showOriginalHelp = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'originalHelp');
     
     return (
       <div>
@@ -94,8 +95,8 @@ export default React.createClass({
         
         {showSlider &&
           <div>
-            <div style={styles.optionTitle}>Session Length: {scaffolding.sessionLength} {scaffolding.sessionLength===1 ? "question" : "questions"}</div>
-            <Slider key={competencyGroupValue} value={scaffolding.sessionLength} min={1} max={scaffolding.questions.length} step={1} onChange={this.onSliderChange}/>
+            <div style={styles.optionTitle}>Session Length: {sessionLength} {sessionLength===1 ? "question" : "questions"}</div>
+            <Slider key={competencyGroupValue} value={sessionLength} min={1} max={questions.length} step={1} onChange={this.onSliderChange}/>
           </div>
         }
         
@@ -109,48 +110,37 @@ export default React.createClass({
               <Toggle
               label="With student cards"
               labelPosition="right"
-              toggled={scaffolding.shouldShowStudentCard}
+              toggled={shouldShowStudentCard}
               onToggle={this.onStudentCardsToggled} />
               }
               {showSummaryToggle &&
               <Toggle
               label="Show summary after each question"
               labelPosition="right"
-              toggled={scaffolding.shouldShowSummary}
+              toggled={shouldShowSummary}
               onToggle={this.onSummaryToggled}/>
               }
               {showHelpToggle &&
               <Toggle
               label="With feedback and revision"
               labelPosition="right"
-              toggled={scaffolding.helpType==='feedback'}
+              toggled={helpType==='feedback'}
               onToggle={this.onHelpToggled} />
               }
               {(showStudentCardsToggle || showSummaryToggle || showHelpToggle) && showOriginalHelp &&
               <div style={{margin: 10}}><Divider /></div>
               }
               {showOriginalHelp &&
-              <RadioButtonGroup name="helpOptions" valueSelected={scaffolding.helpType} onChange={this.onHelpToggled}>
-                <RadioButton
-                  value="feedback"
-                  label="With feedback and revision"
-                  />
-                <RadioButton
-                  value="hints"
-                  label="With hints available"
-                  />
-                <RadioButton
-                  value="none"
-                  label="With no help available"
-                  />
+              <RadioButtonGroup name="helpOptions" valueSelected={helpType} onChange={this.onHelpToggled}>
+                <RadioButton value="feedback" label="With feedback and revision"/>
+                <RadioButton value="hints" label="With hints available"/>
+                <RadioButton value="none" label="With no help available"/>
               </RadioButtonGroup>
               }
             </div>
           </div>
         }
-        
-        <Divider />
-            
+        <Divider />   
       </div>
     );
   }
@@ -165,18 +155,5 @@ const styles = {
     fontSize: 16,
     paddingTop: 20,
     paddingBottom: 0
-  },
-  objective: {
-    fontSize: 16,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
-  objectiveSlider: {
-    width: 80
-  },
-  objectiveText: {
-    width: 240,
-    padding: 'auto'
   }
 };

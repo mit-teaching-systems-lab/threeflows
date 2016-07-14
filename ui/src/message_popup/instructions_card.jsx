@@ -33,7 +33,8 @@ export default React.createClass({
         questions: allQuestions,
         shouldShowStudentCard: true,
         shouldShowSummary: true,
-        helpType: this.props.helpType}
+        helpType: this.props.helpType
+      }
     });
   },
   
@@ -145,11 +146,6 @@ const styles = {
     margin: 0,
     fontSize: 20,
     padding: 0
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20
   },
   paragraph: {
     marginTop: 20,

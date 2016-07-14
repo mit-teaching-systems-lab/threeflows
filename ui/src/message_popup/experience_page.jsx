@@ -110,10 +110,9 @@ export default React.createClass({
   },
 
   render() {
-    const {
-      gameSession,
-      scaffolding
-    } = this.state;
+    const {gameSession, scaffolding} = this.state;
+    const {hasStarted, questionsAnswered} = gameSession;
+    const {sessionLength} = scaffolding;
     if (_.has(this.props.query, 'mobilePrototype')) return this.renderMobilePrototype();
     return (
       <div>
@@ -126,9 +125,9 @@ export default React.createClass({
               primaryText="Restart game" />
           }
         />
-        {!gameSession.hasStarted && this.renderInstructions()}
-        {gameSession.questionsAnswered >= scaffolding.sessionLength && this.renderDone()}
-        {gameSession.hasStarted && gameSession.questionsAnswered < scaffolding.sessionLength && this.renderPopupQuestion()}
+        {!hasStarted && this.renderInstructions()}
+        {questionsAnswered >= sessionLength && this.renderDone()}
+        {hasStarted && questionsAnswered < sessionLength && this.renderPopupQuestion()}
       </div>
     );
   },
@@ -155,25 +154,26 @@ export default React.createClass({
   },
 
   renderInstructions() {
+    const {scaffolding} = this.state;
+    const {sessionLength, email, helpType} = scaffolding;
     return (
       <InstructionsCard 
-        sessionLength={this.state.scaffolding.sessionLength}
+        sessionLength={sessionLength}
         onStartPressed={this.onStartPressed}
-        email={this.state.scaffolding.email}
+        email={email}
         itemsToShow={this.props.query}
-        helpType={this.state.scaffolding.helpType}
+        helpType={helpType}
         />);
   },
   
   renderPopupQuestion() {
-    const {
-      scaffolding,
-      gameSession
-    } = this.state;
-    const question = scaffolding.questions[gameSession.questionsAnswered];
+    const {scaffolding, gameSession} = this.state;
+    const {questionsAnswered} = gameSession;
+    const {questions, sessionLength} = scaffolding;
+    const question = questions[questionsAnswered];
     return (
       <div style={styles.container}>        
-        <LinearProgress color="#EC407A" mode="determinate" value={gameSession.questionsAnswered} max={scaffolding.sessionLength} />
+        <LinearProgress color="#EC407A" mode="determinate" value={questionsAnswered} max={sessionLength} />
         <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
           <PopupQuestion
             key={JSON.stringify(question)}
@@ -182,7 +182,7 @@ export default React.createClass({
             limitMs={this.state.limitMs}
             onLog={this.onLog}
             onDone={this.onQuestionDone}
-            isLastQuestion={gameSession.questionsAnswered+1===scaffolding.sessionLength ? true : false}/>
+            isLastQuestion={questionsAnswered+1===sessionLength ? true : false}/>
         </VelocityTransitionGroup>
         <Snackbar
           open={this.state.toastRevision}
