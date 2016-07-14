@@ -29,9 +29,9 @@ export default React.createClass({
   mixins: [SetIntervalMixin],
 
   propTypes: {
-    shouldShowStudentCard: React.PropTypes.bool.isRequired,
-    shouldShowSummary: React.PropTypes.bool.isRequired,
-    helpType: React.PropTypes.string.isRequired,
+    scaffolding: React.PropTypes.object.isRequired,
+
+
     limitMs: React.PropTypes.number.isRequired,
     question: React.PropTypes.shape({
       text: React.PropTypes.string.isRequired,
@@ -70,7 +70,7 @@ export default React.createClass({
   },
   
   onDonePressed(text=undefined) {
-    if(!this.props.shouldShowSummary){
+    if(!this.props.scaffolding.shouldShowSummary){
       this.props.onDone(this.state.elapsedMs);
       return;
     }
@@ -90,10 +90,9 @@ export default React.createClass({
 
   onSavePressed() {
     this.logResponse();
-    
-    const {helpType} = this.props;
+    const {scaffolding} = this.props
     const {examples} = this.props.question;
-    if(helpType === 'feedback' && examples.length > 0) {
+    if(scaffolding.helpType === 'feedback' && examples.length > 0) {
       this.setState({ isRevising: true });
     } else{
       this.onDonePressed();
@@ -123,12 +122,12 @@ export default React.createClass({
   
   logData(type, params = {}) {
     const {elapsedMs, initialResponseText} = this.state;
-    const {question, shouldShowStudentCard, helpType} = this.props;
+    const {question, scaffolding} = this.props;
     const {finalResponseText} = params;
     const response:Response = {
       question,
-      shouldShowStudentCard,
-      helpType,
+      shouldShowStudentCard: scaffolding.shouldShowStudentCard,
+      helpType: scaffolding.helpType,
       elapsedMs,
       initialResponseText,
       finalResponseText
@@ -138,15 +137,15 @@ export default React.createClass({
 
   render() {
     const {isDoneRevising} = this.state;
-    const {shouldShowSummary} = this.props;  
+    const {scaffolding} = this.props;  
     return (
       <div>
         <VelocityTransitionGroup leave={{animation: "slideUp"}} runOnMount={true}>
-          {!shouldShowSummary && this.renderQuestion()}
-          {!isDoneRevising && shouldShowSummary && this.renderQuestion()}
+          {!scaffolding.shouldShowSummary && this.renderQuestion()}
+          {!isDoneRevising && scaffolding.shouldShowSummary && this.renderQuestion()}
         </VelocityTransitionGroup>
         <VelocityTransitionGroup enter={{animation: "slideDown"}} runOnMount={true}>
-          {isDoneRevising && shouldShowSummary && this.renderSummary()}
+          {isDoneRevising && scaffolding.shouldShowSummary && this.renderSummary()}
         </VelocityTransitionGroup>
       </div>
     );
@@ -154,16 +153,16 @@ export default React.createClass({
   
   renderQuestion(){
     const {elapsedMs} = this.state;
-    const {shouldShowStudentCard, helpType} = this.props;
+    const {scaffolding} = this.props;
     const {text, student, examples, nonExamples} = this.props.question;
     const seconds = Math.round(elapsedMs / 1000);
     
     return (
       <div>
         <div style={styles.question}>{text}</div>
-        {shouldShowStudentCard && student &&
+        {scaffolding.shouldShowStudentCard && student &&
           <StudentCard useCardStyles={true} student={student} />}
-        {helpType === 'hints' && 
+        {scaffolding.helpType === 'hints' && 
           <div style={styles.hintCard}>
             <HintCard examples={examples} nonExamples={nonExamples} />
           </div>}
@@ -183,7 +182,7 @@ export default React.createClass({
             onTouchTap={this.onSavePressed}
             style={styles.button}
             secondary={true}
-            label={this.props.helpType === 'feedback' ? 'Save Response' : 'Respond'}
+            label={scaffolding.helpType === 'feedback' ? 'Save Response' : 'Respond'}
             disabled={this.state.isRevising || this.state.initialResponseText === ''}/>
           {seconds > 0 &&
             <div style={styles.ticker}>{seconds}s</div>
@@ -216,7 +215,7 @@ export default React.createClass({
       <SummaryCard 
         onDone={this.onDonePressed} 
         question={this.props.question} 
-        response={this.props.helpType==='feedback' ? this.state.finalResponseText : this.state.initialResponseText} 
+        response={this.props.scaffolding.helpType==='feedback' ? this.state.finalResponseText : this.state.initialResponseText} 
         elapsedSeconds={Math.round(this.state.elapsedMs / 1000)} 
         buttonLabel={this.props.isLastQuestion ? "Finish" : "Next Question"}/>
     );

@@ -51,7 +51,7 @@ export default React.createClass({
     const sessionId = uuid.v4();
     const hasStarted = false;
     const questionsAnswered = 0;
-    const responseTimes = []
+    const responseTimes = [];
     const gameSession = {sessionId, hasStarted, questionsAnswered, responseTimes};
     return {
       scaffolding,
@@ -178,9 +178,7 @@ export default React.createClass({
           <PopupQuestion
             key={JSON.stringify(question)}
             question={question}
-            shouldShowStudentCard={scaffolding.shouldShowStudentCard}
-            shouldShowSummary={scaffolding.shouldShowSummary}
-            helpType={scaffolding.helpType}
+            scaffolding={scaffolding}
             limitMs={this.state.limitMs}
             onLog={this.onLog}
             onDone={this.onQuestionDone}
