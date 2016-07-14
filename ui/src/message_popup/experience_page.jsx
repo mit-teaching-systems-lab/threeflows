@@ -40,22 +40,21 @@ export default React.createClass({
 
   getInitialState: function() {
     const isSolutionMode = _.has(this.props.query, 'solution');
-    const email = this.context.auth.userProfile.email;
-    const questions = allQuestions;
-    const helpType = isSolutionMode ? 'none' : 'feedback';
-    const shouldShowStudentCard = isSolutionMode ? _.has(this.props.query, 'cards') : true;
-    const shouldShowSummary = !isSolutionMode;
-    const sessionLength = 10;
-    const scaffolding = {email, questions, shouldShowStudentCard, shouldShowSummary, helpType, sessionLength};
-
-    const sessionId = uuid.v4();
-    const hasStarted = false;
-    const questionsAnswered = 0;
-    const responseTimes = [];
-    const gameSession = {sessionId, hasStarted, questionsAnswered, responseTimes};
     return {
-      scaffolding,
-      gameSession,
+      scaffolding: {
+        email: this.context.auth.userProfile.email,
+        questions: allQuestions,
+        helpType: isSolutionMode ? 'none' : 'feedback',
+        shouldShowStudentCard: isSolutionMode ? _.has(this.props.query, 'cards') : true,
+        shouldShowSummary: !isSolutionMode,
+        sessionLength: 10
+      },
+      gameSession: {
+        sessionId: uuid.v4(),
+        hasStarted: false,
+        questionsAnswered: 0,
+        responseTimes: []
+      },
       toastRevision: false,
       limitMs: 90000,
     };
