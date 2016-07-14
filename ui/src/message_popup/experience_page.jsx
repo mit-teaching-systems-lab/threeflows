@@ -47,21 +47,24 @@ export default React.createClass({
     const shouldShowSummary = !isSolutionMode;
     const sessionLength = 10;
     const scaffolding = {email, questions, shouldShowStudentCard, shouldShowSummary, helpType, sessionLength};
+
+    const sessionId = uuid.v4();
+    const hasStarted = false;
+    const questionsAnswered = 0;
+    const responseTimes = []
+    const gameSession = {sessionId, hasStarted, questionsAnswered, responseTimes};
     return {
       scaffolding,
-      sessionId: uuid.v4(),
-      hasStarted: false,
-      questionsAnswered: 0,
+      gameSession,
       toastRevision: false,
       limitMs: 90000,
-      responseTimes: []
     };
   },
 
   onStartPressed(scaffolding) {
     this.setState({
       scaffolding,
-      hasStarted: true
+      gameSession: _.set(_.clone(this.state.gameSession), 'hasStarted', true)
     });
   },
   
@@ -76,14 +79,16 @@ export default React.createClass({
   },
   
   addResponseTime(time){
-    this.setState({responseTimes: this.state.responseTimes.concat(time)});
+    var gameSession = _.clone(this.state.gameSession);
+    gameSession.responseTimes.push(time);
+    this.setState({gameSession});
   },
 
   onLog(type, response:Response) {
     Api.logEvidence(type, {
       ...response,
       name: this.state.scaffolding.email,
-      sessionId: this.state.sessionId,
+      sessionId: this.state.gameSession.sessionId,
       clientTimestampMs: new Date().getTime()
     });
   },
@@ -91,7 +96,9 @@ export default React.createClass({
   onQuestionDone(elapsedSeconds) {
     this.playToast();
     this.addResponseTime(elapsedSeconds);
-    this.setState({ questionsAnswered: this.state.questionsAnswered + 1 });
+    var gameSession = _.clone(this.state.gameSession);
+    gameSession.questionsAnswered += 1;
+    this.setState({ gameSession });
   },
 
   onDonePressed() {
@@ -104,13 +111,10 @@ export default React.createClass({
 
   render() {
     const {
-      hasStarted,
-      questionsAnswered,
+      gameSession,
       scaffolding
     } = this.state;
-    
     if (_.has(this.props.query, 'mobilePrototype')) return this.renderMobilePrototype();
-    
     return (
       <div>
         <NavigationAppBar
@@ -122,9 +126,9 @@ export default React.createClass({
               primaryText="Restart game" />
           }
         />
-        {!hasStarted && this.renderInstructions()}
-        {questionsAnswered >= scaffolding.sessionLength && this.renderDone()}
-        {hasStarted && questionsAnswered < scaffolding.sessionLength && this.renderPopupQuestion()}
+        {!gameSession.hasStarted && this.renderInstructions()}
+        {gameSession.questionsAnswered >= scaffolding.sessionLength && this.renderDone()}
+        {gameSession.hasStarted && gameSession.questionsAnswered < scaffolding.sessionLength && this.renderPopupQuestion()}
       </div>
     );
   },
@@ -137,7 +141,7 @@ export default React.createClass({
             <div style={styles.doneTitle}>You finished!</div>
             <Divider />
             <FinalSummaryCard 
-              responseTimes={this.state.responseTimes} 
+              responseTimes={this.state.gameSession.responseTimes} 
               limitMs={this.state.limitMs} />
             <RaisedButton
               onTouchTap={this.onDonePressed}
@@ -164,12 +168,12 @@ export default React.createClass({
   renderPopupQuestion() {
     const {
       scaffolding,
-      questionsAnswered,
+      gameSession
     } = this.state;
-    const question = scaffolding.questions[questionsAnswered];
+    const question = scaffolding.questions[gameSession.questionsAnswered];
     return (
       <div style={styles.container}>        
-        <LinearProgress color="#EC407A" mode="determinate" value={questionsAnswered} max={scaffolding.sessionLength} />
+        <LinearProgress color="#EC407A" mode="determinate" value={gameSession.questionsAnswered} max={scaffolding.sessionLength} />
         <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
           <PopupQuestion
             key={JSON.stringify(question)}
@@ -180,7 +184,7 @@ export default React.createClass({
             limitMs={this.state.limitMs}
             onLog={this.onLog}
             onDone={this.onQuestionDone}
-            isLastQuestion={questionsAnswered+1===scaffolding.sessionLength ? true : false}/>
+            isLastQuestion={gameSession.questionsAnswered+1===scaffolding.sessionLength ? true : false}/>
         </VelocityTransitionGroup>
         <Snackbar
           open={this.state.toastRevision}
