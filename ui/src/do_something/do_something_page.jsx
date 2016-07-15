@@ -13,6 +13,8 @@ const APPEAR_IN_CONTAINER = 'appear-in-container';
 export default React.createClass({
   displayName: 'DoSomethingPage',
 
+  appearIn: null,
+
   getInitialState() {
     return {
       roomName: null
@@ -26,7 +28,7 @@ export default React.createClass({
 
   componentDidUpdate(prevProps, prevState) {
     const {roomName} = this.state;
-    if (prevState.roomName === null && roomName !== null) {
+    if (prevState.roomName === null && roomName !== null && this.appearIn) {
       this.appearIn.addRoomToElementById(APPEAR_IN_CONTAINER, roomName);
     }
   },
