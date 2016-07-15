@@ -16,6 +16,8 @@ function startRollbar() {
   const portString = port === '' ? '' : `:${port}`;
   const environment = `${protocol}//${hostname}${portString}`;
 
+  // Don't log if hosted locally
+  if (hostname === 'localhost') return;
   window.rollbar = Rollbar.init({
     accessToken: "de42c0395e924afba679510bd16908a6",
     captureUncaught: true,
