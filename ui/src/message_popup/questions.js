@@ -1,6 +1,6 @@
 /* @flow weak */
-//“”’
 import _ from 'lodash';
+//“”’
 
 // Example Usage:
 //   questions.map(_.partial(forLearningObjective, 39));
@@ -221,7 +221,7 @@ export const inquiryQuestions:[Question] = [
   {
     studentId: 5,
     id: 114,
-    text: `You set up a photosynthesis experiment for the class, and students report the data they’ve collected. As it turns out, Mike has experimented with only two variables: hours of light and water.  Respond to this by connecting this with data collection planning.`,
+    text: `You set up a photosynthesis experiment for the class, and students report the data they\'ve collected. As it turns out, Mike has experimented with only two variables: hours of light and water.  Respond to this by connecting this with data collection planning.`,
     examples: [
       'Ask students to carefully examine the collected data to determine if they have enough data to support or refute their initial hypothesis.'
     ],
@@ -256,7 +256,7 @@ export const motivationQuestions:[Question] = [
   {
     studentId: 8,
     id: 117,
-    text: 'Students are working individually on a worksheet. You notice that a student is distracted.  She lashes out, "I can’t do this! And Mike gets it.  He just gets science and I don\'t. Why do I even need to try?"',
+    text: 'Students are working individually on a worksheet. You notice that a student is distracted.  She lashes out, "I can\'t do this! And Mike gets it.  He just gets science and I don\'t. Why do I even need to try?"',
     examples: [
       'Try the principle: Everyone has the capacity to grow (Dweck)',
       'Try the principle: Persisting through challenges is how we grow (Duckworth)'
@@ -265,7 +265,7 @@ export const motivationQuestions:[Question] = [
   },
   {
     id: 118,
-    text: 'For the end of the photosynthesis unit, you arranged a field trip to a local farm so that students could present their findings on improving crop yield potential to professionals in the field. However, when you tell the class about the project, they don’t seem to be excited.  What would you do to communicate the benefits of this field trip to your class?',
+    text: 'For the end of the photosynthesis unit, you arranged a field trip to a local farm so that students could present their findings on improving crop yield potential to professionals in the field. However, when you tell the class about the project, they don\'t seem to be excited.  What would you do to communicate the benefits of this field trip to your class?',
     examples: [
       'Try the principle: Principles of real-world impact',
       'Try the principle: Authentic audiences',
@@ -276,7 +276,7 @@ export const motivationQuestions:[Question] = [
   {
     studentId: 10,
     id: 119,
-    text: 'You divide students into groups to perform a photosynthesis experiment. Students get to divide themselves into groups. A new student, Sasha, doesn’t get picked until the last minute.  What would you do?',
+    text: 'You divide students into groups to perform a photosynthesis experiment. Students get to divide themselves into groups. A new student, Sasha, doesn\'t get picked until the last minute.  What would you do?',
     examples: [
       'Try the principle: Sense of belonging',
       'Try the principle: Choice'
@@ -297,6 +297,113 @@ export const motivationQuestions:[Question] = [
 ].map(forLearningObjective(35)).map(forIndicator(501));
 
 
+export const doSomethingQuestions:[Question] = [
+  {
+    id: 301,
+    text: 'During afternoon homeroom, two students are playing a hand slap game which gets out of control after a few rounds when a student yells and is about to cry.',
+    examples: [],
+    nonExamples: []
+  },
+  {
+    id: 302,
+    text: 'It is the first public share of student work.  Students are sharing their thinking maps in small groups.  One student clearly spent more time on his piece and added glitter and neon.  When he begins to share, the most volatile student lets out a laugh, "ohh my god that is sooo gay."',
+    examples: [],
+    nonExamples: []
+  },
+  {
+    id: 303,
+    text: 'After lunch, you come back to the room and see someone took down the color chart or homework chart and threw it on the floor.  It is not clear who did this.',
+    examples: [],
+    nonExamples: []
+  },
+  {
+    id: 304,
+    text: 'During a mini lesson you inadvertently say a phrase that clearly is taken as a sexual innuendo by a small group of students who start laughing out loud.  Others are in the dark or missed it.  You hear them ask, "what?.."',
+    examples: [],
+    nonExamples: []
+  },
+  {
+    id: 305,
+    text: 'You are checking homework, and you notice Danny doesn\'t have his hw out and ready.  You write it down on your clipboard without interrupting his Do Now.  You ask his partner where her homework is.  Danny looks up and says loudly, "you didn\'t ask me for my homework--what, it\'s cause I\'m black!"',
+    examples: [],
+    nonExamples: []
+  },
+  {
+    id: 306,
+    text: 'During a lesson on the rug, you are engaging the class in a Read Aloud, students are clearly engaged.  However, you soon notice that one student in the back of the room is writing all over her desk top seeming not to be paying attention.',
+    examples: [],
+    nonExamples: []
+  },
+  {
+    id: 307,
+    text: 'Students are working in small groups of three or four. You scan and notice that in one group only one student is doing all the work while the other two are drawing and in another group one of the students keeps calling another student "stupid" and telling the student that his/her ideas, "suck".',
+    examples: [],
+    nonExamples: []
+  },
+  {
+    id: 308,
+    text: 'You have started a well planned launch of a lesson where just about every word and idea is critical to the student entry into the problem solving part of the lesson. A student waves his/her hand and asks to go to the bathroom.',
+    examples: [],
+    nonExamples: []
+  },
+  {
+    id: 309,
+    text: 'It is group work time, and students are working on a problem solving protocol on chart papers.  One group calls out, “who has a green marker?”  Across the room--the green marker flies, successfully, from one group to another.',
+    examples: [],
+    nonExamples: []
+  },
+  {
+    id: 310,
+    text: 'It\'s rug time. You transition the class to the rug. One student refuses to leave his seat and starts yelling out negative comments, "I hate this class. The work we do is stupid."',
+    examples: [],
+    nonExamples: []
+  },
+  {
+    id: 311,
+    text: 'The lesson is going along smoothly. You ask a question and calls on a student, as the student begins to respond, another student then yells out, "You NEVER call on me!" and rips their paper up.',
+    examples: [],
+    nonExamples: []
+  },
+  {
+    id: 313,
+    text: 'The class is actively engaged in a discussion about a time they felt grown up, and as you scan the room, you notice a student has their head down and is staring into space.',
+    examples: [],
+    nonExamples: []
+  },
+  {
+    id: 314,
+    text: 'Students have just returned to class from special and have started the routine of independent reading. You are passing out the snack for the day - bananas. As you reach one student, she asks, "What can we have if we don\'t like bananas?" You say, "Bananas are the only choice. It\'s bananas or you can wait until lunch." The student yells out "WHAT?! I don\'t like bananas," walks out of her seat, rolls up half the rug, and then starts slamming the door repeatedly.',
+    examples: [],
+    nonExamples: []
+  },
+  {
+    id: 315,
+    text: 'The class is lining up for specials in line order. One of your students decides cut in front of another student. You hear the other student ask her to kindly move but she refuses with a smirk on her face. You tell the student she needs to return to her line spot, but she continues to stand there silently. Your student who was cut starts to stomp her feet and yell "That\'s not fair that she gets to cut!"',
+    examples: [],
+    nonExamples: []
+  },
+  {
+    id: 316,
+    text: 'It\'s the third day of school, a student walks in the middle of the mini lesson and yells, "Ms. I\'m in your class now!" The class bursts out in equal parts "ooooohhhh" and "oh nooooooo"  The newly entering student begins to answer back, "What?"',
+    examples: [],
+    nonExamples: []
+  },
+  {
+    id: 317,
+    text: 'Students are getting ready for dismissal. There are few students out in the classroom getting their backpacks as you are monitoring the other students working at their desks. One student comes in and reports two students are fighting in the hallway. You walk out and see one student pinning the other student to the ground. Many students from the class have gotten out of their desks and are watching in the doorway.',
+    examples: [],
+    nonExamples: []
+  },
+  {
+    id: 318,
+    text: 'It is the second full week of school and during your silent do now, you hear a student\'s phone buzz.  The student starts texting.  You ask her to put the phone away and she says, loud enough for others to hear, "it\'s my mom..." and continues texting.',
+    examples: [],
+    nonExamples: []
+  }
+].map(forLearningObjective(50)).map(forIndicator(601));
+
+
+
 function hashCode(s){
   return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a;},0);              
 }
@@ -308,5 +415,6 @@ export function questionId(question) {
 
 export const allQuestions = _.flatten([
   inquiryQuestions,
-  motivationQuestions
+  motivationQuestions,
+  doSomethingQuestions
 ], true);

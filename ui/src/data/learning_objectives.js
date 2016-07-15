@@ -2,6 +2,7 @@
 
 // Holds sets of learning objectives, immutable.
 export const learningObjectives = [
+  { id: 50, key: 'LE5-2C', competencyGroup: 'Managing Student Behavior', text: 'Monitor the class for early signs of behavior problems on an ongoing basis, regardless of how the classroom is configured or what activities are taking place, giving students the impression that teachers are aware of what is going on at all times.' },
   { id: 30, key: 'PP1-3B', competencyGroup: 'Purposeful Planning', text: 'Review learning outcomes based on information regarding each student (such as interests and strengths, input from previous teachers, assessment scores, reading ability, English language proficiency, and special needs) and, if necessary, modify or individualize outcomes to more appropriately meet the needs of all students.' },
   { id: 31, key: 'PP2-1C', competencyGroup: 'Using Assessment to Advance Learning and Inform Teaching', text: 'Plan, create, integrate, and balance a wide variety of formative assessments (including technology-enabled assessments) that align with learning and goals, fit into unit and course design, and take into account the needs (including special needs) of individual students.' },
   { id: 32, key: 'IN1-1B', competencyGroup: 'Designing Engaging Learning Experiences', text: 'Create learning experiences or modify existing learning experiences to make them relevant and meaningful to all students.' },

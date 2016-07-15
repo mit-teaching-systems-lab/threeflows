@@ -89,11 +89,13 @@ export default React.createClass({
   },
 
   onSavePressed() {
-    const {helpType} = this.props;
     this.logResponse();
-    if(helpType === 'feedback'){
-      this.setState({isRevising:true});
-    }else{
+    
+    const {helpType} = this.props;
+    const {examples} = this.props.question;
+    if(helpType === 'feedback' && examples.length > 0) {
+      this.setState({ isRevising: true });
+    } else{
       this.onDonePressed();
     }
   },
