@@ -1,9 +1,18 @@
 /* @flow weak */
 import React from 'react';
+
+import {Card, CardHeader, CardText} from 'material-ui/Card';
+
 import * as PropTypes from '../prop_types.js';
 import ChallengeCard from './challenge_card.jsx';
+import NavigationAppBar from './navigation_app_bar.jsx';
 
 
+
+/*
+Home navigation page, for navigating between ECD pieces,
+particular learning experiences, and prototypes of WWA program elements.
+*/
 export default React.createClass({
   displayName: 'HomePage',
 
@@ -18,23 +27,27 @@ export default React.createClass({
   render() {
     return (
       <div>
-        <h1>Home page</h1>
-        {this.props.challenges.map((challenge) => {
-          return <ChallengeCard key="{challenge.name}" {...challenge} />;
-        })}
-        {this.renderProfile()}
-      </div>
-    );
-  },
-
-  renderProfile() {
-    const {userProfile, doLogout} = this.context.auth;
-
-    return (
-      <div style={{marginTop: 50, border: '1px solid #eee'}}>
-        <div>{userProfile.email}</div>
-        <div><a href="#" onClick={doLogout}>Logout</a></div>
+        <NavigationAppBar title="threeflows" />
+        <Card style={styles.card}>
+          <CardHeader
+            titleStyle={styles.cardTitleHeader}
+            title="Challenge prototypes"/>
+          <CardText>
+            {this.props.challenges.map((challenge) => {
+              return <ChallengeCard key="{challenge.id}" {...challenge} style={{ border: 'none', padding: 0 }} />;
+            })}
+          </CardText>
+        </Card>
       </div>
     );
   }
 });
+
+const styles = {
+  card: {
+    margin: 0
+  },
+  cardTitleHeader: {
+    fontSize: 24
+  }
+};

@@ -14,12 +14,15 @@ export default React.createClass({
 
   propTypes: {
     id: React.PropTypes.number.isRequired,
-    name: React.PropTypes.string.isRequired
+    name: React.PropTypes.string.isRequired,
+    style: React.PropTypes.object
   },
+
   render: function() {
+    const {style, id, name} = this.props;
     return (
-      <div style={styles.challengeCard}>
-        <a href={challengePath(this.props.id)}>{this.props.name}</a>
+      <div style={style || styles.challengeCard}>
+        <a href={challengePath(id)}>{name}</a>
       </div>
     );
   }
