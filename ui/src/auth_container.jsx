@@ -29,8 +29,6 @@ export default React.createClass({
     };
   },
 
-  lock: null,
-
   getInitialState() {
     return {
       userEmail: '',
