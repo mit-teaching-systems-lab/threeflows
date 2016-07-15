@@ -106,6 +106,12 @@ export default React.createClass({
     window.location = 'http://tsl.mit.edu/';
   },
 
+  onKeyDown(e) {
+    if (e.keyCode !== 13) return;
+    if (!this.validateEmail(this.state.userEmail)) return;
+    this.onDoneEmail();
+  },
+
   render() {
     const {
       userEmail,
@@ -143,6 +149,8 @@ export default React.createClass({
           <div style={{marginBottom: 20}}>
             <TextField
               name="userEmail"
+              ref={(el) => el && el.focus()}
+              onKeyDown={this.onKeyDown}
               fullWidth={true}
               hintText="Your email address"
               errorText={shouldShowWarning && "Please enter a valid email address."}
