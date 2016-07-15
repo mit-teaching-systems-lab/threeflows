@@ -10,18 +10,21 @@ import Divider from 'material-ui/Divider';
 import LinearProgress from 'material-ui/LinearProgress';
 import Snackbar from 'material-ui/Snackbar';
 import MenuItem from 'material-ui/MenuItem';
+
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 
 import PopupQuestion from './popup_question.jsx';
 import * as Routes from '../routes';
 import type {Response} from './popup_question.jsx';
-import {allQuestions} from './questions.js';
+
 import {withStudents} from './transformations.jsx';
 import * as Api from '../helpers/api.js';
 import FinalSummaryCard from './final_summary_card.jsx';
 import InstructionsCard from './instructions_card.jsx';
 import NavigationAppBar from '../components/navigation_app_bar.jsx';
 
+
+import ScaffoldingCard from './scaffolding_card.jsx';
 import MobilePrototypeCard from './mobile_prototype_card.jsx';
 
 /*
@@ -42,29 +45,17 @@ export default React.createClass({
     const isSolutionMode = _.has(this.props.query, 'solution');
     return {
       scaffolding: {
-        email: this.context.auth.userProfile.email,
-        questions: allQuestions,
         helpType: isSolutionMode ? 'none' : 'feedback',
         shouldShowStudentCard: isSolutionMode ? _.has(this.props.query, 'cards') : true,
         shouldShowSummary: !isSolutionMode,
-        sessionLength: 10
       },
       gameSession: {
-        sessionId: uuid.v4(),
-        hasStarted: false,
-        questionsAnswered: 0,
-        responseTimes: []
+        email: this.context.auth.userProfile.email,
       },
+      hasStarted: false,
       toastRevision: false,
       limitMs: 90000,
     };
-  },
-
-  onStartPressed(scaffolding) {
-    this.setState({
-      scaffolding,
-      gameSession: _.set(_.clone(this.state.gameSession), 'hasStarted', true)
-    });
   },
   
   playToast(){
@@ -78,15 +69,15 @@ export default React.createClass({
   },
   
   addResponseTime(time){
-    var gameSession = _.clone(this.state.gameSession);
+    var gameSession = {...this.state.gameSession};
     gameSession.responseTimes.push(time);
-    this.setState({gameSession});
+    this.setState({ gameSession });
   },
 
   onLog(type, response:Response) {
     Api.logEvidence(type, {
       ...response,
-      name: this.state.scaffolding.email,
+      name: this.state.gameSession.email,
       sessionId: this.state.gameSession.sessionId,
       clientTimestampMs: new Date().getTime()
     });
@@ -95,7 +86,7 @@ export default React.createClass({
   onQuestionDone(elapsedSeconds) {
     this.playToast();
     this.addResponseTime(elapsedSeconds);
-    var gameSession = _.clone(this.state.gameSession);
+    var gameSession = {...this.state.gameSession};
     gameSession.questionsAnswered += 1;
     this.setState({ gameSession });
   },
@@ -108,10 +99,24 @@ export default React.createClass({
     this.setState(this.getInitialState());
   },
 
+  onSaveScaffoldingAndSession(scaffolding, gameSession){
+    this.setState({
+      scaffolding: {
+        ...scaffolding
+      },
+      gameSession: {
+        ...gameSession,
+        sessionId: uuid.v4(),
+        questionsAnswered: 0,
+        responseTimes: []
+      },
+      hasStarted: true
+    });
+  },
+
   render() {
-    const {gameSession, scaffolding} = this.state;
-    const {hasStarted, questionsAnswered} = gameSession;
-    const {sessionLength} = scaffolding;
+    const {gameSession, hasStarted} = this.state;
+    const {sessionLength, questionsAnswered} = gameSession;
     if (_.has(this.props.query, 'mobilePrototype')) return this.renderMobilePrototype();
     return (
       <div>
@@ -153,22 +158,27 @@ export default React.createClass({
   },
 
   renderInstructions() {
-    const {scaffolding} = this.state;
-    const {sessionLength, email, helpType} = scaffolding;
+    const {scaffolding, gameSession} = this.state;
     return (
-      <InstructionsCard 
-        sessionLength={sessionLength}
-        onStartPressed={this.onStartPressed}
-        email={email}
-        itemsToShow={this.props.query}
-        helpType={helpType}
-        />);
+      <VelocityTransitionGroup enter={{animation: "callout.pulse", duration: 500}} leave={{animation: "slideUp"}} runOnMount={true}>
+        <div>
+          <InstructionsCard 
+           itemsToShow={this.props.query}
+           />
+          <ScaffoldingCard
+            email={gameSession.email}
+            scaffolding={scaffolding}
+            itemsToShow={this.props.query}
+            saveScaffoldingAndSession={this.onSaveScaffoldingAndSession}
+           />
+        </div>
+      </VelocityTransitionGroup>
+      );
   },
   
   renderPopupQuestion() {
     const {scaffolding, gameSession} = this.state;
-    const {questionsAnswered} = gameSession;
-    const {questions, sessionLength} = scaffolding;
+    const {questions, sessionLength, questionsAnswered} = gameSession;
     const question = questions[questionsAnswered];
     return (
       <div style={styles.container}>        

@@ -29,9 +29,11 @@ export default React.createClass({
   mixins: [SetIntervalMixin],
 
   propTypes: {
-    scaffolding: React.PropTypes.object.isRequired,
-
-
+    scaffolding: React.PropTypes.shape({
+      helpType: React.PropTypes.string.isRequired,
+      shouldShowStudentCard: React.PropTypes.bool.isRequired,
+      shouldShowSummary: React.PropTypes.bool.isRequired
+    }).isRequired,
     limitMs: React.PropTypes.number.isRequired,
     question: React.PropTypes.shape({
       text: React.PropTypes.string.isRequired,
@@ -90,7 +92,7 @@ export default React.createClass({
 
   onSavePressed() {
     this.logResponse();
-    const {scaffolding} = this.props
+    const {scaffolding} = this.props;
     const {examples} = this.props.question;
     if(scaffolding.helpType === 'feedback' && examples.length > 0) {
       this.setState({ isRevising: true });
