@@ -1,4 +1,6 @@
 //@flow
+import querystring from 'querystring';
+
 /*
 Navigation functions
 */
@@ -17,7 +19,7 @@ export function challengePath(id:number):string {
   return `/challenge/${id}`;
 }
 
-export function messagePopupPath() {
+export function messagePopupPracticePath() {
   return '/message_popup';
 }
 
@@ -25,8 +27,25 @@ export function messagePopupSolutionPath() {
   return "/message_popup?solution";
 }
 
+export function messagePopupScoringPath() {
+  return '/message_popup/scoring';
+}
+
+export function messagePopupExplorationPath() {
+  return '/message_popup/exploration';
+}
+
 export function messagePopupEvaluationUrl(evaluationId:number) {
   return `/message_popup/evaluations/${evaluationId}`;
+}
+
+export function ecdRaw() {
+  return '/ecd/raw';
+}
+
+export function ecdCandidate(email:string) {
+  const queryString = querystring.stringify({email});
+  return `/ecd/candidate?${queryString}`;
 }
 
 
