@@ -7,7 +7,8 @@ import MenuItem from 'material-ui/MenuItem';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import HomeIcon from 'material-ui/svg-icons/action/home';
-import AsessmentIcon from 'material-ui/svg-icons/action/assessment';
+import GroupIcon from 'material-ui/svg-icons/social/group';
+import AssessmentIcon from 'material-ui/svg-icons/action/assessment';
 import ChatBubble from 'material-ui/svg-icons/communication/chat-bubble-outline';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 
@@ -20,7 +21,8 @@ export default React.createClass({
   displayName: 'NavigationDrawer',
 
   propTypes: {
-    title: React.PropTypes.string.isRequired
+    title: React.PropTypes.string.isRequired,
+    style: React.PropTypes.object
   },
 
   contextTypes: {
@@ -47,7 +49,8 @@ export default React.createClass({
     return (
       <div>
         <AppBar
-          title="threeflows"
+          title={this.props.title}
+          style={this.props.style}
           iconElementLeft={
             <IconButton onTouchTap={this.onToggled} >
               <MenuIcon />
@@ -56,23 +59,23 @@ export default React.createClass({
         />
         <Drawer
           docked={false}
-          width={250}
           open={this.state.isOpen}
           onRequestChange={(isOpen) => this.setState({isOpen})}
         >
-          {<MenuItem leftIcon={<HomeIcon />} onClick={Routes.navigate.bind(Routes, '/')} primaryText="Home" />}
+          {<MenuItem leftIcon={<HomeIcon />} onTouchTap={() => Routes.navigate('/')} primaryText="Home" />}
           <Divider />
           <MenuItem onTouchTap={() => Routes.navigate(Routes.messagePopupPracticePath())} leftIcon={<ChatBubble />} primaryText="Practice" />
           <MenuItem onTouchTap={() => Routes.navigate(Routes.messagePopupSolutionPath())} leftIcon={<ChatBubble />} primaryText="Solution" />
           <MenuItem onTouchTap={() => Routes.navigate(Routes.messagePopupScoringPath())} leftIcon={<ChatBubble />} primaryText="Scoring" />
-          <MenuItem onTouchTap={() => Routes.navigate(Routes.messagePopupExplorationPath())} leftIcon={<ChatBubble />} primaryText="Exploration" />
           <Divider />
-          <MenuItem onTouchTap={() => Routes.navigate(Routes.ecdRaw())} leftIcon={<AsessmentIcon />} primaryText="Raw data" />
-          <MenuItem onTouchTap={() => Routes.navigate(Routes.ecdCandidate(demoCandidateEmail))} leftIcon={<AsessmentIcon />} primaryText="Candidate page" />
+          <MenuItem onTouchTap={() => Routes.navigate(Routes.doSomethingPath())} leftIcon={<GroupIcon />} primaryText="Do Something" />
+          <Divider />
+          <MenuItem onTouchTap={() => Routes.navigate(Routes.ecdRaw())} leftIcon={<AssessmentIcon />} primaryText="Raw data" />
+          <MenuItem onTouchTap={() => Routes.navigate(Routes.ecdCandidate(demoCandidateEmail))} leftIcon={<AssessmentIcon />} primaryText="Candidate page" />
           {userProfile &&
             <div>
               <Divider />
-              <MenuItem onClick={doLogout} primaryText="Logout"/>
+              <MenuItem onTouchTap={doLogout} primaryText="Logout"/>
             </div>
           }
         </Drawer>

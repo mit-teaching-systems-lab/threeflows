@@ -39,6 +39,10 @@ export function messagePopupEvaluationUrl(evaluationId:number) {
   return `/message_popup/evaluations/${evaluationId}`;
 }
 
+export function doSomethingPath() {
+  return '/do_something';
+}
+
 export function ecdRaw() {
   return '/ecd/raw';
 }

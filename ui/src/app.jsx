@@ -16,6 +16,7 @@ import CSSTankPage from './csstank/csstank_page.jsx';
 import VirtualSchoolPage from './virtual_school/virtual_school_page.jsx';
 import RawPage from './ecd/raw_page.jsx';
 import CandidatePage from './ecd/candidate_page.jsx';
+import DoSomethingPage from './do_something/do_something_page.jsx';
 import * as MessagePopup from './message_popup/index.js';
 import {
   challenges,
@@ -38,6 +39,7 @@ export default React.createClass({
     '/message_popup/exploration': 'messagePopupExploration',
     '/message_popup/evaluations/:id': 'messagePopupEvaluation',
     '/message_popup/scoring': 'messagePopupScoring',
+    '/do_something': 'doSomething',
     '/ecd/raw': 'ecdRaw',
     '/ecd/candidate': 'ecdCandidate',
     '/slate/:id': 'slate',
@@ -114,6 +116,10 @@ export default React.createClass({
 
   ecdRaw(query = {}) {
     return <RawPage query={query} />;
+  },
+
+  doSomething(query = {}) {
+    return <DoSomethingPage />;
   },
 
   ecdCandidate(query = {}) {
