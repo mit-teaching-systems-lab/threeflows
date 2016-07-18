@@ -14,10 +14,6 @@ import PopupQuestion from './popup_question.jsx';
 import * as Routes from '../routes';
 import type {Response} from './popup_question.jsx';
 
-import IconButton from 'material-ui/IconButton';
-import ArrowBackIcon from 'material-ui/svg-icons/navigation/arrow-back';
-import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
-import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 import {allQuestions} from './questions.js';
 
 import {withStudents} from './transformations.jsx';
