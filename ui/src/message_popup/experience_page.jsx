@@ -111,8 +111,8 @@ export default React.createClass({
   render() {
     const {gameSession} = this.state;
     const hasStarted = gameSession !== undefined;
-    const questionsAnswered = hasStarted ? gameSession.questionsAnswered : undefined;
-    const questions = hasStarted ? gameSession.questions : undefined;
+    const questionsAnswered = hasStarted ? gameSession.questionsAnswered : 0;
+    const questions = hasStarted ? gameSession.questions : [];
     const sessionLength = hasStarted ? questions.length : 0;
     if (_.has(this.props.query, 'mobilePrototype')) return this.renderMobilePrototype();
     return (
@@ -127,7 +127,7 @@ export default React.createClass({
           }
         />
         {!hasStarted && this.renderInstructions()}
-        {questionsAnswered >= sessionLength && this.renderDone()}
+        {hasStarted && questionsAnswered >= sessionLength && this.renderDone()}
         {hasStarted && questionsAnswered < sessionLength && this.renderPopupQuestion()}
       </div>
     );

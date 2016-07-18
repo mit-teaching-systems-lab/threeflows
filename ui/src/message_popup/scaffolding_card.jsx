@@ -10,7 +10,6 @@ import _ from 'lodash';
 
 import {learningObjectives} from '../data/learning_objectives.js';
 import {allQuestions} from './questions.js';
-import {allStudents} from '../data/virtual_school.js';
 import {withStudents, questionsForCompetencies} from './transformations.jsx';
 
 const ALL_COMPETENCY_GROUPS = 'ALL_COMPETENCY_GROUPS';
