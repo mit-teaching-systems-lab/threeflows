@@ -11,6 +11,7 @@ import _ from 'lodash';
 import {learningObjectives} from '../data/learning_objectives.js';
 import {allQuestions} from './questions.js';
 import {allStudents} from '../data/virtual_school.js';
+import {withStudents, questionsForCompetencies} from './transformations.jsx';
 
 const ALL_COMPETENCY_GROUPS = 'ALL_COMPETENCY_GROUPS';
 
@@ -23,20 +24,21 @@ export default React.createClass({
       shouldShowStudentCard: React.PropTypes.bool.isRequired,
       shouldShowSummary: React.PropTypes.bool.isRequired
     }).isRequired,
-    email: React.PropTypes.string.isRequired,
+    initialEmail: React.PropTypes.string.isRequired,
     itemsToShow: React.PropTypes.object.isRequired,
-    saveScaffoldingAndSession: React.PropTypes.func.isRequired
+    onSessionConfigured: React.PropTypes.func.isRequired
   },
   
   getInitialState(){
     const isSolutionMode = _.has(this.props.itemsToShow, 'solution');
     return ({
-      email: this.props.email,
-      questions: allQuestions,
+      email: this.props.initialEmail,
       sessionLength: 10,
-      helpType: this.props.scaffolding.helpType,
-      shouldShowStudentCard: this.props.scaffolding.shouldShowStudentCard,
-      shouldShowSummary: this.props.scaffolding.shouldShowSummary,
+      scaffolding: {
+        helpType: this.props.scaffolding.helpType,
+        shouldShowStudentCard: this.props.scaffolding.shouldShowStudentCard,
+        shouldShowSummary: this.props.scaffolding.shouldShowSummary,
+      },
       competencyGroupValue: ALL_COMPETENCY_GROUPS,
       isSolutionMode
     });
@@ -48,42 +50,15 @@ export default React.createClass({
       competencyGroupValue = competencyGroup;
     }
     const questions = (isSolutionMode || competencyGroupValue === ALL_COMPETENCY_GROUPS)
-      ? _.shuffle(this.withStudents(allQuestions))
-      : this.questionsForCompetencies(competencyGroupValue);
+      ? _.shuffle(withStudents(allQuestions))
+      : questionsForCompetencies(competencyGroupValue);
     return questions;
-  },
-  
-  withStudents(questions) {
-    return questions.map((question) => {
-      const student = _.find(allStudents, {id: question.studentId });
-      return _.extend({student}, question);
-    });
-  },
-  
-  questionsForCompetencies(competencyGroup) {
-    const withCompetencyGroups = _.compact(allQuestions.map((question) => {
-      const learningObjective = _.find(learningObjectives, { id: question.learningObjectiveId });
-      if (learningObjective.competencyGroup !== competencyGroup) return null;
-      return {
-        ...question,
-        competencyGroup: learningObjective.competencyGroup
-      };
-    }));
-    return _.shuffle(this.withStudents(withCompetencyGroups));
   },
 
   onSave(){
-    const scaffolding = {
-      helpType: this.state.helpType,
-      shouldShowStudentCard: this.state.shouldShowStudentCard,
-      shouldShowSummary: this.state.shouldShowSummary
-    };
-    const gameSession = {
-      email: this.state.email,
-      sessionLength: this.state.sessionLength,
-      questions: this.getQuestions(this.state.competencyGroupValue)
-    };
-    this.props.saveScaffoldingAndSession(scaffolding, gameSession);
+    const {scaffolding, email} = this.state;
+    const questions = this.getQuestions(this.state.competencyGroupValue).slice(0, this.state.sessionLength);
+    this.props.onSessionConfigured(scaffolding, email, questions);
   },
   
   onCompetencyGroupChanged(event, competencyGroupValue){
@@ -93,7 +68,7 @@ export default React.createClass({
     if(sessionLength > newLength){
       sessionLength = newLength;
     }
-    this.setState({questions, sessionLength, competencyGroupValue});
+    this.setState({sessionLength, competencyGroupValue});
   },
   
   onSliderChange(event, value){
@@ -101,19 +76,25 @@ export default React.createClass({
   },
   
   onStudentCardsToggled(){
-    this.setState({ shouldShowStudentCard: !this.state.shouldShowStudentCard });
+    var scaffolding = {...this.state.scaffolding};
+    scaffolding.shouldShowStudentCard = !scaffolding.shouldShowStudentCard;
+    this.setState({ scaffolding });
   },
   
   onSummaryToggled(){ 
-    this.setState({ shouldShowSummary: !this.state.shouldShowSummary });
+    var scaffolding = {...this.state.scaffolding};
+    scaffolding.shouldShowSummary = !scaffolding.shouldShowSummary;
+    this.setState({ scaffolding });
   },
   
   onHelpToggled(event, value){
+    var scaffolding = {...this.state.scaffolding};
     if (typeof value === 'boolean'){
-      this.setState({ helpType: this.state.helpType === 'feedback' ? 'none' : 'feedback'});
+      scaffolding.helpType = scaffolding.helpType === 'feedback' ? 'none' : 'feedback';
     }else{
-      this.setState({ helpType: value});
+      scaffolding.helpType = value;
     }
+    this.setState({scaffolding});
   },
 
   onTextChanged({target:{value}}:TextChangeEvent) {
@@ -122,7 +103,9 @@ export default React.createClass({
   
   render(){
     const {itemsToShow} = this.props;
-    const {competencyGroupValue, sessionLength, questions, shouldShowStudentCard, shouldShowSummary, helpType} = this.state;
+    const {competencyGroupValue, sessionLength, scaffolding} = this.state;
+    const {shouldShowStudentCard, shouldShowSummary, helpType} = scaffolding;
+    const questions = this.getQuestions(competencyGroupValue);
 
     const competencyGroups = _.uniq(_.map(allQuestions, 'learningObjectiveId')).map((id) => {
       return _.find(learningObjectives, {id}).competencyGroup;

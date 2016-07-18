@@ -49,10 +49,6 @@ export default React.createClass({
         shouldShowStudentCard: isSolutionMode ? _.has(this.props.query, 'cards') : true,
         shouldShowSummary: !isSolutionMode,
       },
-      gameSession: {
-        email: this.context.auth.userProfile.email,
-      },
-      hasStarted: false,
       toastRevision: false,
       limitMs: 90000,
     };
@@ -96,27 +92,28 @@ export default React.createClass({
   },
   
   resetExperience(){
-    this.setState(this.getInitialState());
+    this.replaceState(this.getInitialState());
   },
 
-  onSaveScaffoldingAndSession(scaffolding, gameSession){
+  onSaveScaffoldingAndSession(scaffolding, email, questions){
     this.setState({
-      scaffolding: {
-        ...scaffolding
-      },
+      scaffolding,
       gameSession: {
-        ...gameSession,
+        email,
+        questions,
         sessionId: uuid.v4(),
         questionsAnswered: 0,
         responseTimes: []
       },
-      hasStarted: true
     });
   },
 
   render() {
-    const {gameSession, hasStarted} = this.state;
-    const {sessionLength, questionsAnswered} = gameSession;
+    const {gameSession} = this.state;
+    const hasStarted = gameSession !== undefined;
+    const questionsAnswered = hasStarted ? gameSession.questionsAnswered : undefined;
+    const questions = hasStarted ? gameSession.questions : undefined;
+    const sessionLength = hasStarted ? questions.length : 0;
     if (_.has(this.props.query, 'mobilePrototype')) return this.renderMobilePrototype();
     return (
       <div>
@@ -158,7 +155,7 @@ export default React.createClass({
   },
 
   renderInstructions() {
-    const {scaffolding, gameSession} = this.state;
+    const {scaffolding} = this.state;
     return (
       <VelocityTransitionGroup enter={{animation: "callout.pulse", duration: 500}} leave={{animation: "slideUp"}} runOnMount={true}>
         <div>
@@ -166,10 +163,10 @@ export default React.createClass({
            itemsToShow={this.props.query}
            />
           <ScaffoldingCard
-            email={gameSession.email}
+            initialEmail={this.context.auth.userProfile.email}
             scaffolding={scaffolding}
             itemsToShow={this.props.query}
-            saveScaffoldingAndSession={this.onSaveScaffoldingAndSession}
+            onSessionConfigured={this.onSaveScaffoldingAndSession}
            />
         </div>
       </VelocityTransitionGroup>
@@ -178,7 +175,8 @@ export default React.createClass({
   
   renderPopupQuestion() {
     const {scaffolding, gameSession} = this.state;
-    const {questions, sessionLength, questionsAnswered} = gameSession;
+    const {questions, questionsAnswered} = gameSession;
+    const sessionLength = questions.length;
     const question = questions[questionsAnswered];
     return (
       <div style={styles.container}>        
