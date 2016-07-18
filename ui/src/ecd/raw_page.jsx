@@ -5,10 +5,12 @@ import React from 'react';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
+import * as Colors from 'material-ui/styles/colors';
 
 import SetIntervalMixin from '../helpers/set_interval_mixin.js';
 import * as Api from '../helpers/api.js';
 import {indicators} from '../data/indicators.js';
+import NavigationAppBar from '../components/navigation_app_bar.jsx';
 
 // app-specific
 import MessageEvaluationCard from '../message_popup/message_evaluation_card.jsx';
@@ -78,7 +80,10 @@ export default React.createClass({
     const isLoaded = logs && evaluations && indicators;
 
     return (
-      <div style={styles.pageContainer}>
+      <div>
+        <NavigationAppBar
+          title="Gradebook"
+          style={{backgroundColor: Colors.blueGrey500}} />
         {!isLoaded && <div key="loading">Loading...</div>}
         {isLoaded &&
           <div>
@@ -163,8 +168,13 @@ export default React.createClass({
           showExpandableButton={true} />
         <CardText expandable={true}>
           {this.filterRaw(evaluations).map((evaluation) => {
-            if (evaluation.type === 'message_popup_response_scored') return <MessageEvaluationCard evaluation={evaluation} />;
-            return <pre key={evaluation.id} style={styles.line}>{JSON.stringify(evaluation)}</pre>;
+            return (
+              <div key={evaluation.id}>
+                {evaluation.type === 'message_popup_response_scored'
+                  ? <MessageEvaluationCard evaluation={evaluation} />
+                  : <pre key={evaluation.id} style={styles.line}>{JSON.stringify(evaluation)}</pre>}
+              </div>
+            );
           })}
         </CardText>
       </Card>
@@ -193,9 +203,6 @@ export default React.createClass({
 const styles = {
   cardTitleHeader: {
     fontSize: 24
-  },
-  pageContainer: {
-    padding: 10
   },
   line: {
     padding: 0,

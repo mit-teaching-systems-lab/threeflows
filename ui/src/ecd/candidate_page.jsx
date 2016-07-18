@@ -9,6 +9,7 @@ import * as Colors from 'material-ui/styles/colors';
 import * as Routes from '../routes.js';
 import * as Api from '../helpers/api.js';
 import * as EvaluationConstants from '../helpers/evaluation_constants';
+import NavigationAppBar from '../components/navigation_app_bar.jsx';
 import {indicators} from '../data/indicators.js';
 
 
@@ -63,8 +64,11 @@ export default React.createClass({
     const isLoaded = candidateEvaluations && indicators;
 
     return (
-      <div style={styles.pageContainer}>
-        <h2>{candidateEmail}</h2>
+      <div>
+        <NavigationAppBar
+          title="Gradebook"
+          style={{backgroundColor: Colors.blueGrey500}} />
+        <h3 style={{padding: 10}}>{candidateEmail}</h3>
         {!isLoaded && <div key="loading">Loading...</div>}
         {isLoaded &&
           <div>
@@ -120,9 +124,6 @@ export default React.createClass({
 const styles = {
   cardTitleHeader: {
     fontSize: 24
-  },
-  pageContainer: {
-    padding: 10
   },
   line: {
     padding: 0,

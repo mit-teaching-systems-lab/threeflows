@@ -22,7 +22,8 @@ export default React.createClass({
 
   propTypes: {
     title: React.PropTypes.string.isRequired,
-    style: React.PropTypes.object
+    style: React.PropTypes.object,
+    iconElementRight: React.PropTypes.element
   },
 
   contextTypes: {
@@ -46,6 +47,8 @@ export default React.createClass({
   render() {
     const demoCandidateEmail = 'kevin.robinson.0@gmail.com';
     const {userProfile, doLogout} = this.context.auth;
+    const {iconElementRight} = this.props;
+
     return (
       <div>
         <AppBar
@@ -56,6 +59,7 @@ export default React.createClass({
               <MenuIcon />
             </IconButton>
           }
+          iconElementRight={iconElementRight}
         />
         <Drawer
           docked={false}
