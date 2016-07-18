@@ -9,13 +9,13 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 import LinearProgress from 'material-ui/LinearProgress';
 import Snackbar from 'material-ui/Snackbar';
+import MenuItem from 'material-ui/MenuItem';
+import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 
 import PopupQuestion from './popup_question.jsx';
 import * as Routes from '../routes';
 import type {Response} from './popup_question.jsx';
-
 import {allQuestions} from './questions.js';
-
 import {withStudents} from './transformations.jsx';
 import * as Api from '../helpers/api.js';
 import FinalSummaryCard from './final_summary_card.jsx';
@@ -124,7 +124,15 @@ export default React.createClass({
     
     return (
       <div>
-        <NavigationAppBar title="Message PopUp Practice" />
+        <NavigationAppBar
+          title="Message PopUp Practice"
+          prependMenuItems={
+            <MenuItem
+              onTouchTap={this.resetExperience}
+              leftIcon={<RefreshIcon />}
+              primaryText="Restart game" />
+          }
+        />
         {!hasStarted && this.renderInstructions()}
         {questionsAnswered >= sessionLength && this.renderDone()}
         {hasStarted && questionsAnswered < sessionLength && this.renderPopupQuestion()}

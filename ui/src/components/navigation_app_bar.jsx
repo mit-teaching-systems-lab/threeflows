@@ -23,7 +23,8 @@ export default React.createClass({
   propTypes: {
     title: React.PropTypes.string.isRequired,
     style: React.PropTypes.object,
-    iconElementRight: React.PropTypes.element
+    iconElementRight: React.PropTypes.element,
+    prependMenuItems: React.PropTypes.element
   },
 
   contextTypes: {
@@ -42,13 +43,17 @@ export default React.createClass({
 
   onNavigationTapped(url) {
     Routes.navigate(url);
-    this.setState({isOpen: false});
+    this.doCloseDrawer();
+  },
+
+  doCloseDrawer() {
+    this.setState({ isOpen: false });
   },
 
   render() {
     const demoCandidateEmail = 'kevin.robinson.0@gmail.com';
     const {userProfile, doLogout} = this.context.auth;
-    const {iconElementRight} = this.props;
+    const {iconElementRight, prependMenuItems} = this.props;
 
     return (
       <div>
@@ -68,6 +73,7 @@ export default React.createClass({
           onRequestChange={(isOpen) => this.setState({isOpen})}
         >
           {<MenuItem leftIcon={<HomeIcon />} onTouchTap={this.onNavigationTapped.bind(this, '/')} primaryText="Home" />}
+          {prependMenuItems && <div onClick={this.doCloseDrawer}>{prependMenuItems}</div>}
           <Divider />
           <MenuItem onTouchTap={this.onNavigationTapped.bind(this, Routes.messagePopupPracticePath())} leftIcon={<ChatBubble />} primaryText="Practice" />
           <MenuItem onTouchTap={this.onNavigationTapped.bind(this, Routes.messagePopupSolutionPath())} leftIcon={<ChatBubble />} primaryText="Solution" />
@@ -80,7 +86,10 @@ export default React.createClass({
           {userProfile &&
             <div>
               <Divider />
-              <MenuItem onTouchTap={doLogout} primaryText="Logout"/>
+              <MenuItem
+                leftIcon={<div style={{height: 24, width: 24, padding: 12}} />}
+                primaryText="Logout"
+                onTouchTap={doLogout} />
             </div>
           }
         </Drawer>
