@@ -11,6 +11,8 @@ import SetIntervalMixin from '../helpers/set_interval_mixin.js';
 import * as Api from '../helpers/api.js';
 import {indicators} from '../data/indicators.js';
 
+// app-specific
+import MessageEvaluationCard from '../message_popup/message_evaluation_card.jsx';
 
 
 export default React.createClass({
@@ -136,7 +138,6 @@ export default React.createClass({
   renderLogs(logs) {
     return (
       <Card
-        style={{backgroundColor: Colors.amber700}}
         initiallyExpanded={false}>
         <CardHeader
           titleStyle={styles.cardTitleHeader}
@@ -155,7 +156,6 @@ export default React.createClass({
   renderEvaluations(evaluations) {
     return (
       <Card
-        style={{backgroundColor: Colors.lightBlue200}}
         initiallyExpanded={false}>
         <CardHeader
           titleStyle={styles.cardTitleHeader}
@@ -164,6 +164,7 @@ export default React.createClass({
           showExpandableButton={true} />
         <CardText expandable={true}>
           {this.filterRaw(evaluations).map((evaluation) => {
+            if (evaluation.type === 'message_popup_response_scored') return <MessageEvaluationCard evaluation={evaluation} />;
             return <pre key={evaluation.id} style={styles.line}>{JSON.stringify(evaluation)}</pre>;
           })}
         </CardText>
@@ -174,7 +175,6 @@ export default React.createClass({
   renderIndicators(indicators) {
     return (
       <Card
-        style={{backgroundColor: Colors.deepPurple100}}
         initiallyExpanded={false}>
         <CardHeader
           titleStyle={styles.cardTitleHeader}

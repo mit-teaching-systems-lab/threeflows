@@ -8,6 +8,8 @@ import * as Colors from 'material-ui/styles/colors';
 import * as Api from '../helpers/api.js';
 import ScoringQuestionContext from './scoring_question_context.jsx';
 import MessageResponseCard from './message_response_card.jsx';
+import MessageEvaluationCard from './message_evaluation_card.jsx';
+
 
 
 /*
@@ -61,10 +63,6 @@ export default React.createClass({
   },
 
   renderEvaluation(evaluation, log) {
-    const scoreColor = (evaluation.json.scoreValue === 0)
-      ? Colors.orange500
-      : Colors.green500;
-
     return (
       <div>
         <ScoringQuestionContext
@@ -73,11 +71,7 @@ export default React.createClass({
           learningObjective={evaluation.json.learningObjective}
         />
         <MessageResponseCard log={log} />
-        <div style={{backgroundColor: scoreColor, padding: 10}}>
-          <div>Scored by: {evaluation.json.email}</div>
-          <div>Score: {evaluation.json.scoreValue}</div>
-          <div>Comment: {evaluation.json.scoreComment}</div>
-        </div>
+        <MessageEvaluationCard evaluation={evaluation} />
         <pre style={{color: Colors.grey300}}>{JSON.stringify({evaluation, log}, null, 2)}</pre>
       </div>
     );
