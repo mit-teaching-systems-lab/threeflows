@@ -2,7 +2,7 @@
 import React from 'react';
 import AppearIn from 'appearin-sdk';
 import * as Colors from 'material-ui/styles/colors';
-import NavigationAppBar from '../home/navigation_app_bar.jsx';
+import NavigationAppBar from '../components/navigation_app_bar.jsx';
 
 
 
