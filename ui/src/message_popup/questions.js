@@ -378,7 +378,7 @@ export const doSomethingQuestions:[Question] = [
   },
   {
     id: 315,
-    text: 'The class is lining up for specials in line order. One of your students decides cut in front of another student. You hear the other student ask her to kindly move but she refuses with a smirk on her face. You tell the student she needs to return to her line spot, but she continues to stand there silently. Your student who was cut starts to stomp her feet and yell "That\'s not fair that she gets to cut!"',
+    text: 'The class is lining up for specials in line order. One of your students decides to cut in front of another student. You hear the other student ask her to kindly move but she refuses with a smirk on her face. You tell the student she needs to return to her line spot, but she continues to stand there silently. Your student who was cut starts to stomp her feet and yell "That\'s not fair that she gets to cut!"',
     examples: [],
     nonExamples: []
   },
