@@ -3,7 +3,6 @@ import _ from 'lodash';
 import React from 'react';
 
 import {Card, CardHeader, CardText} from 'material-ui/Card';
-import * as Colors from 'material-ui/styles/colors';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 
