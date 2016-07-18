@@ -1,10 +1,10 @@
 /* @flow weak */
 import React from 'react';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
-
+import * as Colors from 'material-ui/styles/colors';
 import * as PropTypes from '../prop_types.js';
 import ChallengeCard from './challenge_card.jsx';
-import NavigationAppBar from './navigation_app_bar.jsx';
+import NavigationAppBar from '../components/navigation_app_bar.jsx';
 
 
 
@@ -26,7 +26,9 @@ export default React.createClass({
   render() {
     return (
       <div>
-        <NavigationAppBar title="threeflows" />
+        <NavigationAppBar
+          title="threeflows"
+          style={{backgroundColor: Colors.blueGrey500}} />
         <Card style={styles.card}>
           <CardHeader
             titleStyle={styles.cardTitleHeader}

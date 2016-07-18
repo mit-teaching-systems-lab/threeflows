@@ -86,7 +86,9 @@ export default React.createClass({
   },
 
   messagePopup(query = {}) {
-    return <MessagePopup.ExperiencePage query={query} />;
+    // Uses a unique key per query string so that navigating between
+    // rebuilds the page.
+    return <MessagePopup.ExperiencePage key={JSON.stringify(query)} query={query} />;
   },
   
   messagePopupExploration(query = {}) {

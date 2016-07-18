@@ -9,22 +9,18 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 import LinearProgress from 'material-ui/LinearProgress';
 import Snackbar from 'material-ui/Snackbar';
+import MenuItem from 'material-ui/MenuItem';
+import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 
 import PopupQuestion from './popup_question.jsx';
 import * as Routes from '../routes';
 import type {Response} from './popup_question.jsx';
-
-import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
-import ArrowBackIcon from 'material-ui/svg-icons/navigation/arrow-back';
-import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
-import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 import {allQuestions} from './questions.js';
-
 import {withStudents} from './transformations.jsx';
 import * as Api from '../helpers/api.js';
 import FinalSummaryCard from './final_summary_card.jsx';
 import InstructionsCard from './instructions_card.jsx';
+import NavigationAppBar from '../components/navigation_app_bar.jsx';
 
 import MobilePrototypeCard from './mobile_prototype_card.jsx';
 
@@ -128,17 +124,15 @@ export default React.createClass({
     
     return (
       <div>
-        <AppBar 
-          title='Message PopUp Practice'
-          iconElementLeft=
-          {
-            <IconButton
+        <NavigationAppBar
+          title="Message PopUp Practice"
+          prependMenuItems={
+            <MenuItem
               onTouchTap={this.resetExperience}
-              >
-              {!hasStarted ? <MenuIcon/> : questionsAnswered >= sessionLength ? <RefreshIcon /> : <ArrowBackIcon />}
-            </IconButton>
+              leftIcon={<RefreshIcon />}
+              primaryText="Restart game" />
           }
-          />
+        />
         {!hasStarted && this.renderInstructions()}
         {questionsAnswered >= sessionLength && this.renderDone()}
         {hasStarted && questionsAnswered < sessionLength && this.renderPopupQuestion()}

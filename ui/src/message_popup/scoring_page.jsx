@@ -6,7 +6,7 @@ import 'velocity-animate/velocity.ui';
 
 
 import Divider from 'material-ui/Divider';
-import AppBar from 'material-ui/AppBar';
+import NavigationAppBar from '../components/navigation_app_bar.jsx';
 import Paper from 'material-ui/Paper';
 import SchoolIcon from 'material-ui/svg-icons/social/school';
 import {List, ListItem} from 'material-ui/List';
@@ -118,7 +118,7 @@ export default React.createClass({
     
     return (
       <div>
-        <AppBar title="Message PopUp Scorer" />
+        <NavigationAppBar title="Message PopUp Practice" />
         <Paper zDepth={2} style={{padding: 20}}>There are {questionGroups.length} questions that need scoring.</Paper>
         <List>
           {questionGroups.map(({logsForQuestion, questionKey}) => {

@@ -22,7 +22,9 @@ export default React.createClass({
 
   propTypes: {
     title: React.PropTypes.string.isRequired,
-    style: React.PropTypes.object
+    style: React.PropTypes.object,
+    iconElementRight: React.PropTypes.element,
+    prependMenuItems: React.PropTypes.element
   },
 
   contextTypes: {
@@ -39,13 +41,20 @@ export default React.createClass({
     this.setState({isOpen: !this.state.isOpen});
   },
 
-  handleClose() {
-    this.setState({isOpen: false});
+  onNavigationTapped(url) {
+    Routes.navigate(url);
+    this.doCloseDrawer();
+  },
+
+  doCloseDrawer() {
+    this.setState({ isOpen: false });
   },
 
   render() {
     const demoCandidateEmail = 'kevin.robinson.0@gmail.com';
     const {userProfile, doLogout} = this.context.auth;
+    const {iconElementRight, prependMenuItems} = this.props;
+
     return (
       <div>
         <AppBar
@@ -56,26 +65,31 @@ export default React.createClass({
               <MenuIcon />
             </IconButton>
           }
+          iconElementRight={iconElementRight}
         />
         <Drawer
           docked={false}
           open={this.state.isOpen}
           onRequestChange={(isOpen) => this.setState({isOpen})}
         >
-          {<MenuItem leftIcon={<HomeIcon />} onTouchTap={() => Routes.navigate('/')} primaryText="Home" />}
+          {<MenuItem leftIcon={<HomeIcon />} onTouchTap={this.onNavigationTapped.bind(this, '/')} primaryText="Home" />}
+          {prependMenuItems && <div onClick={this.doCloseDrawer}>{prependMenuItems}</div>}
           <Divider />
-          <MenuItem onTouchTap={() => Routes.navigate(Routes.messagePopupPracticePath())} leftIcon={<ChatBubble />} primaryText="Practice" />
-          <MenuItem onTouchTap={() => Routes.navigate(Routes.messagePopupSolutionPath())} leftIcon={<ChatBubble />} primaryText="Solution" />
-          <MenuItem onTouchTap={() => Routes.navigate(Routes.messagePopupScoringPath())} leftIcon={<ChatBubble />} primaryText="Scoring" />
+          <MenuItem onTouchTap={this.onNavigationTapped.bind(this, Routes.messagePopupPracticePath())} leftIcon={<ChatBubble />} primaryText="Practice" />
+          <MenuItem onTouchTap={this.onNavigationTapped.bind(this, Routes.messagePopupSolutionPath())} leftIcon={<ChatBubble />} primaryText="Solution" />
+          <MenuItem onTouchTap={this.onNavigationTapped.bind(this, Routes.messagePopupScoringPath())} leftIcon={<ChatBubble />} primaryText="Scoring" />
           <Divider />
-          <MenuItem onTouchTap={() => Routes.navigate(Routes.doSomethingPath())} leftIcon={<GroupIcon />} primaryText="Do Something" />
+          <MenuItem onTouchTap={this.onNavigationTapped.bind(this, Routes.doSomethingPath())} leftIcon={<GroupIcon />} primaryText="Do Something" />
           <Divider />
-          <MenuItem onTouchTap={() => Routes.navigate(Routes.ecdRaw())} leftIcon={<AssessmentIcon />} primaryText="Raw data" />
-          <MenuItem onTouchTap={() => Routes.navigate(Routes.ecdCandidate(demoCandidateEmail))} leftIcon={<AssessmentIcon />} primaryText="Candidate page" />
+          <MenuItem onTouchTap={this.onNavigationTapped.bind(this, Routes.ecdRaw())} leftIcon={<AssessmentIcon />} primaryText="Raw data" />
+          <MenuItem onTouchTap={this.onNavigationTapped.bind(this, Routes.ecdCandidate(demoCandidateEmail))} leftIcon={<AssessmentIcon />} primaryText="Candidate page" />
           {userProfile &&
             <div>
               <Divider />
-              <MenuItem onTouchTap={doLogout} primaryText="Logout"/>
+              <MenuItem
+                leftIcon={<div style={{height: 24, width: 24, padding: 12}} />}
+                primaryText="Logout"
+                onTouchTap={doLogout} />
             </div>
           }
         </Drawer>
