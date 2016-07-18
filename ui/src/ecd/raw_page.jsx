@@ -8,6 +8,7 @@ import FlatButton from 'material-ui/FlatButton';
 import * as Colors from 'material-ui/styles/colors';
 
 import SetIntervalMixin from '../helpers/set_interval_mixin.js';
+import * as Routes from '../routes.js';
 import * as Api from '../helpers/api.js';
 import {indicators} from '../data/indicators.js';
 import NavigationAppBar from '../components/navigation_app_bar.jsx';
@@ -171,8 +172,8 @@ export default React.createClass({
             return (
               <div key={evaluation.id}>
                 {evaluation.type === 'message_popup_response_scored'
-                  ? <MessageEvaluationCard evaluation={evaluation} />
-                  : <pre key={evaluation.id} style={styles.line}>{JSON.stringify(evaluation)}</pre>}
+                  ? this.renderMessagePopupEvaluation(evaluation)
+                  : <pre style={styles.line}>{JSON.stringify(evaluation)}</pre>}
               </div>
             );
           })}
@@ -196,6 +197,14 @@ export default React.createClass({
           })}
         </CardText>
       </Card>
+    );
+  },
+
+  renderMessagePopupEvaluation(evaluation) {
+    return (
+      <a style={{textDecoration: 'none', color: 'black'}} href={Routes.messagePopupEvaluationUrl(evaluation.id)}>
+        <MessageEvaluationCard evaluation={evaluation} />
+      </a>
     );
   }
 });
