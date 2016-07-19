@@ -14,7 +14,7 @@ import {indicators} from '../data/indicators.js';
 import NavigationAppBar from '../components/navigation_app_bar.jsx';
 
 // app-specific
-import MessageEvaluationCard from '../message_popup/message_evaluation_card.jsx';
+import {MessageEvaluationCard, emailsFromLogs} from '../message_popup/index.js';
 
 
 export default React.createClass({
@@ -141,6 +141,9 @@ export default React.createClass({
   },
 
   renderLogs(logs) {
+    const filteredLogs = this.filterRaw(logs);
+    const emails = emailsFromLogs(filteredLogs);
+
     return (
       <Card
         initiallyExpanded={false}>
@@ -150,9 +153,17 @@ export default React.createClass({
           actAsExpander={true}
           showExpandableButton={true} />
         <CardText expandable={true}>
-          {this.filterRaw(logs).map((log) => {
-            return <pre key={log.id} style={styles.line}>{JSON.stringify(log)}</pre>;
-          })}
+          <div>
+            {emails.map((email) => {
+              const candidateUrl = Routes.ecdCandidate(email);
+              return <div key={email}><a href={candidateUrl}>{email}</a></div>;
+            })}
+          </div>
+          <div>
+            {filteredLogs.map((log) => {
+              return <pre key={log.id} style={styles.line}>{JSON.stringify(log)}</pre>;
+            })}
+          </div>
         </CardText>
       </Card>
     );
