@@ -10,21 +10,22 @@ import Divider from 'material-ui/Divider';
 import LinearProgress from 'material-ui/LinearProgress';
 import Snackbar from 'material-ui/Snackbar';
 import MenuItem from 'material-ui/MenuItem';
+
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 
 import PopupQuestion from './popup_question.jsx';
 import * as Routes from '../routes';
 import type {Response} from './popup_question.jsx';
-import {allQuestions} from './questions.js';
+
 import {withStudents} from './transformations.jsx';
 import * as Api from '../helpers/api.js';
 import FinalSummaryCard from './final_summary_card.jsx';
 import InstructionsCard from './instructions_card.jsx';
 import NavigationAppBar from '../components/navigation_app_bar.jsx';
 
-import MobilePrototypeCard from './mobile_prototype_card.jsx';
 
-const ALL_COMPETENCY_GROUPS = 'ALL_COMPETENCY_GROUPS';
+import ScaffoldingCard from './scaffolding_card.jsx';
+import MobilePrototypeCard from './mobile_prototype_card.jsx';
 
 /*
 Shows the MessagePopup game
@@ -42,42 +43,20 @@ export default React.createClass({
 
   getInitialState: function() {
     const isSolutionMode = _.has(this.props.query, 'solution');
-    const helpType = isSolutionMode ? 'none' : 'feedback';
-    const shouldShowStudentCard = isSolutionMode ? _.has(this.props.query, 'cards') : true;
-    const shouldShowSummary = !isSolutionMode;
-    const sessionId = uuid.v4();
     return {
-      shouldShowStudentCard,
-      shouldShowSummary,
-      helpType,
-      isSolutionMode,
-      sessionId,
-      competencyGroupValue: ALL_COMPETENCY_GROUPS,
-      questions: allQuestions,
-      email: this.context.auth.userProfile.email,
-      hasStarted: false,
-      questionsAnswered: 0,
-      sessionLength: 10,
+      scaffolding: {
+        helpType: isSolutionMode ? 'none' : 'feedback',
+        shouldShowStudentCard: isSolutionMode ? _.has(this.props.query, 'cards') : true,
+        shouldShowSummary: !isSolutionMode,
+      },
+      gameSession: null,
       toastRevision: false,
       limitMs: 90000,
-      responseTimes: []
     };
-  },
-
-  onStartPressed(email, sessionLength, questions, shouldShowStudentCard,shouldShowSummary, helpType) {
-    this.setState({
-      email,
-      sessionLength,
-      questions,
-      shouldShowStudentCard,
-      shouldShowSummary,
-      helpType,
-      hasStarted: true
-    });
   },
   
   playToast(){
-    if(this.state.helpType === 'feedback' && !this.state.shouldShowSummary){
+    if(this.state.scaffolding.helpType === 'feedback' && !this.state.scaffolding.shouldShowSummary){
       this.setState({toastRevision: true});
     }
   },
@@ -87,14 +66,16 @@ export default React.createClass({
   },
   
   addResponseTime(time){
-    this.setState({responseTimes: this.state.responseTimes.concat(time)});
+    var gameSession = {...this.state.gameSession};
+    gameSession.responseTimes.push(time);
+    this.setState({ gameSession });
   },
 
   onLog(type, response:Response) {
     Api.logEvidence(type, {
       ...response,
-      name: this.state.email,
-      sessionId: this.state.sessionId,
+      name: this.state.gameSession.email,
+      sessionId: this.state.gameSession.sessionId,
       clientTimestampMs: new Date().getTime()
     });
   },
@@ -102,7 +83,9 @@ export default React.createClass({
   onQuestionDone(elapsedSeconds) {
     this.playToast();
     this.addResponseTime(elapsedSeconds);
-    this.setState({ questionsAnswered: this.state.questionsAnswered + 1 });
+    var gameSession = {...this.state.gameSession};
+    gameSession.questionsAnswered += 1;
+    this.setState({ gameSession });
   },
 
   onDonePressed() {
@@ -113,15 +96,26 @@ export default React.createClass({
     this.setState(this.getInitialState());
   },
 
+  onSaveScaffoldingAndSession(scaffolding, email, questions){
+    this.setState({
+      scaffolding,
+      gameSession: {
+        email,
+        questions,
+        sessionId: uuid.v4(),
+        questionsAnswered: 0,
+        responseTimes: []
+      },
+    });
+  },
+
   render() {
-    const {
-      hasStarted,
-      questionsAnswered,
-      sessionLength
-    } = this.state;
-    
+    const {gameSession} = this.state;
+    const hasStarted = gameSession !== null;
+    const questionsAnswered = hasStarted ? gameSession.questionsAnswered : 0;
+    const questions = hasStarted ? gameSession.questions : [];
+    const sessionLength = hasStarted ? questions.length : 0;
     if (_.has(this.props.query, 'mobilePrototype')) return this.renderMobilePrototype();
-    
     return (
       <div>
         <NavigationAppBar
@@ -134,7 +128,7 @@ export default React.createClass({
           }
         />
         {!hasStarted && this.renderInstructions()}
-        {questionsAnswered >= sessionLength && this.renderDone()}
+        {hasStarted && questionsAnswered >= sessionLength && this.renderDone()}
         {hasStarted && questionsAnswered < sessionLength && this.renderPopupQuestion()}
       </div>
     );
@@ -148,7 +142,7 @@ export default React.createClass({
             <div style={styles.doneTitle}>You finished!</div>
             <Divider />
             <FinalSummaryCard 
-              responseTimes={this.state.responseTimes} 
+              responseTimes={this.state.gameSession.responseTimes} 
               limitMs={this.state.limitMs} />
             <RaisedButton
               onTouchTap={this.onDonePressed}
@@ -162,25 +156,28 @@ export default React.createClass({
   },
 
   renderInstructions() {
+    const {scaffolding} = this.state;
     return (
-      <InstructionsCard 
-        sessionLength={this.state.sessionLength}
-        onStartPressed={this.onStartPressed}
-        email={this.state.email}
-        itemsToShow={this.props.query}
-        helpType={this.state.helpType}
-        />);
+      <VelocityTransitionGroup enter={{animation: "callout.pulse", duration: 500}} leave={{animation: "slideUp"}} runOnMount={true}>
+        <div>
+          <InstructionsCard 
+           itemsToShow={this.props.query}
+           />
+          <ScaffoldingCard
+            initialEmail={this.context.auth.userProfile.email}
+            scaffolding={scaffolding}
+            itemsToShow={this.props.query}
+            onSessionConfigured={this.onSaveScaffoldingAndSession}
+           />
+        </div>
+      </VelocityTransitionGroup>
+      );
   },
   
   renderPopupQuestion() {
-    const {
-      questions,
-      questionsAnswered,
-      shouldShowStudentCard,
-      shouldShowSummary,
-      helpType,
-      sessionLength
-    } = this.state;
+    const {scaffolding, gameSession} = this.state;
+    const {questions, questionsAnswered} = gameSession;
+    const sessionLength = questions.length;
     const question = questions[questionsAnswered];
     return (
       <div style={styles.container}>        
@@ -189,9 +186,7 @@ export default React.createClass({
           <PopupQuestion
             key={JSON.stringify(question)}
             question={question}
-            shouldShowStudentCard={shouldShowStudentCard}
-            shouldShowSummary={shouldShowSummary}
-            helpType={helpType}
+            scaffolding={scaffolding}
             limitMs={this.state.limitMs}
             onLog={this.onLog}
             onDone={this.onQuestionDone}
@@ -210,7 +205,7 @@ export default React.createClass({
   renderMobilePrototype() {
     return (
       <MobilePrototypeCard 
-        question={_.shuffle(withStudents(this.state.questions))[0]}
+        question={_.shuffle(withStudents(this.state.scaffolding.questions))[0]}
         />
     );
   }

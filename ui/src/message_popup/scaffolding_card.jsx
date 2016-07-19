@@ -1,10 +1,16 @@
 import React from "react";
 import Toggle from 'material-ui/Toggle';
 import Divider from 'material-ui/Divider';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+import TextChangeEvent from '../types/dom_types.js';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import Slider from 'material-ui/Slider';
 import _ from 'lodash';
 
+import {learningObjectives} from '../data/learning_objectives.js';
+import {allQuestions} from './questions.js';
+import {withStudents, questionsForCompetencies} from './transformations.jsx';
 
 const ALL_COMPETENCY_GROUPS = 'ALL_COMPETENCY_GROUPS';
 
@@ -12,50 +18,114 @@ export default React.createClass({
   displayName: "ScaffoldingCard",
   
   propTypes: {
-    competencyGroupValue: React.PropTypes.string.isRequired,
-    competencyGroups: React.PropTypes.array.isRequired,
-    onCompetencyGroupChanged: React.PropTypes.func.isRequired,
-    sessionLength: React.PropTypes.number.isRequired,
-    questions: React.PropTypes.array.isRequired,
-    onSliderChange: React.PropTypes.func.isRequired,
-    shouldShowStudentCard: React.PropTypes.bool.isRequired,
-    onStudentCardsToggled: React.PropTypes.func.isRequired,
-    shouldShowSummary: React.PropTypes.bool.isRequired,
-    onSummaryToggled: React.PropTypes.func.isRequired,
-    helpType: React.PropTypes.string.isRequired,
-    onHelpToggled: React.PropTypes.func.isRequired,
-    itemsToShow: React.PropTypes.object.isRequired
+    scaffolding: React.PropTypes.shape({
+      helpType: React.PropTypes.string.isRequired,
+      shouldShowStudentCard: React.PropTypes.bool.isRequired,
+      shouldShowSummary: React.PropTypes.bool.isRequired
+    }).isRequired,
+    initialEmail: React.PropTypes.string.isRequired,
+    itemsToShow: React.PropTypes.object.isRequired,
+    onSessionConfigured: React.PropTypes.func.isRequired
   },
   
-  
-  
-  onHelpToggled(){
-    if(this.props.helpType === 'feedback'){
-      this.props.onHelpToggled(null, 'none');
-    }else{
-      this.props.onHelpToggled(null, 'feedback');
+  getInitialState(){
+    const isSolutionMode = _.has(this.props.itemsToShow, 'solution');
+    return ({
+      email: this.props.initialEmail,
+      sessionLength: 10,
+      scaffolding: {
+        helpType: this.props.scaffolding.helpType,
+        shouldShowStudentCard: this.props.scaffolding.shouldShowStudentCard,
+        shouldShowSummary: this.props.scaffolding.shouldShowSummary,
+      },
+      competencyGroupValue: ALL_COMPETENCY_GROUPS,
+      isSolutionMode
+    });
+  },
+
+  getQuestions(competencyGroup=""){
+    var {competencyGroupValue, isSolutionMode} = this.state;
+    if(competencyGroup !== ""){
+      competencyGroupValue = competencyGroup;
     }
+    const questions = (isSolutionMode || competencyGroupValue === ALL_COMPETENCY_GROUPS)
+      ? _.shuffle(withStudents(allQuestions))
+      : questionsForCompetencies(competencyGroupValue);
+    return questions;
+  },
+
+  onSave(){
+    const {scaffolding, email} = this.state;
+    const questions = this.getQuestions(this.state.competencyGroupValue).slice(0, this.state.sessionLength);
+    this.props.onSessionConfigured(scaffolding, email, questions);
+  },
+  
+  onCompetencyGroupChanged(event, competencyGroupValue){
+    const questions = this.getQuestions(competencyGroupValue);
+    const newLength = questions.length;
+    var sessionLength = this.state.sessionLength;
+    if(sessionLength > newLength){
+      sessionLength = newLength;
+    }
+    this.setState({sessionLength, competencyGroupValue});
+  },
+  
+  onSliderChange(event, value){
+    this.setState({ sessionLength: value });
+  },
+  
+  onStudentCardsToggled(){
+    var scaffolding = {...this.state.scaffolding};
+    scaffolding.shouldShowStudentCard = !scaffolding.shouldShowStudentCard;
+    this.setState({ scaffolding });
+  },
+  
+  onSummaryToggled(){ 
+    var scaffolding = {...this.state.scaffolding};
+    scaffolding.shouldShowSummary = !scaffolding.shouldShowSummary;
+    this.setState({ scaffolding });
+  },
+  
+  onHelpToggled(event, value){
+    var scaffolding = {...this.state.scaffolding};
+    if (typeof value === 'boolean'){
+      scaffolding.helpType = scaffolding.helpType === 'feedback' ? 'none' : 'feedback';
+    }else{
+      scaffolding.helpType = value;
+    }
+    this.setState({scaffolding});
+  },
+
+  onTextChanged({target:{value}}:TextChangeEvent) {
+    this.setState({email: value});
   },
   
   render(){
-    const {competencyGroupValue, competencyGroups, onCompetencyGroupChanged, sessionLength, questions, onSliderChange, shouldShowStudentCard, onStudentCardsToggled, shouldShowSummary, onSummaryToggled, helpType, onHelpToggled, itemsToShow} = this.props;
+    const {itemsToShow} = this.props;
+    const {competencyGroupValue, sessionLength, scaffolding} = this.state;
+    const {shouldShowStudentCard, shouldShowSummary, helpType} = scaffolding;
+    const questions = this.getQuestions(competencyGroupValue);
+
+    const competencyGroups = _.uniq(_.map(allQuestions, 'learningObjectiveId')).map((id) => {
+      return _.find(learningObjectives, {id}).competencyGroup;
+    });
     
-    var showLearningObjectives = true;
-    var showSlider = true;
-    var showStudentCardsToggle = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'cards') || _.has(itemsToShow, 'basic');
-    var showSummaryToggle = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'summary');
-    var showHelpToggle = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'feedback') || _.has(itemsToShow, 'basic');
-    var showOriginalHelp = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'originalHelp');
+    const showLearningObjectives = true;
+    const showSlider = true;
+    const showStudentCardsToggle = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'cards') || _.has(itemsToShow, 'basic');
+    const showSummaryToggle = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'summary');
+    const showHelpToggle = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'feedback') || _.has(itemsToShow, 'basic');
+    const showOriginalHelp = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'originalHelp');
     
     return (
-      <div>
+      <div style={styles.container}>
         {showLearningObjectives &&
           <div>
             <div style={styles.optionTitle}>Learning objectives to practice</div>
             <RadioButtonGroup
               name="competencyGroupValue"
               valueSelected={competencyGroupValue}
-              onChange={onCompetencyGroupChanged}
+              onChange={this.onCompetencyGroupChanged}
               style={_.merge({padding:20},styles.option)} >
               <RadioButton 
                 value={ALL_COMPETENCY_GROUPS}
@@ -75,7 +145,7 @@ export default React.createClass({
         {showSlider &&
           <div>
             <div style={styles.optionTitle}>Session Length: {sessionLength} {sessionLength===1 ? "question" : "questions"}</div>
-            <Slider key={competencyGroupValue} value={sessionLength} min={1} max={questions.length} step={1} onChange={onSliderChange}/>
+            <Slider key={competencyGroupValue} value={sessionLength} min={1} max={questions.length} step={1} onChange={this.onSliderChange}/>
           </div>
         }
         
@@ -90,14 +160,14 @@ export default React.createClass({
               label="With student cards"
               labelPosition="right"
               toggled={shouldShowStudentCard}
-              onToggle={onStudentCardsToggled} />
+              onToggle={this.onStudentCardsToggled} />
               }
               {showSummaryToggle &&
               <Toggle
               label="Show summary after each question"
               labelPosition="right"
               toggled={shouldShowSummary}
-              onToggle={onSummaryToggled}/>
+              onToggle={this.onSummaryToggled}/>
               }
               {showHelpToggle &&
               <Toggle
@@ -110,33 +180,43 @@ export default React.createClass({
               <div style={{margin: 10}}><Divider /></div>
               }
               {showOriginalHelp &&
-              <RadioButtonGroup name="helpOptions" valueSelected={helpType} onChange={onHelpToggled}>
-                <RadioButton
-                  value="feedback"
-                  label="With feedback and revision"
-                  />
-                <RadioButton
-                  value="hints"
-                  label="With hints available"
-                  />
-                <RadioButton
-                  value="none"
-                  label="With no help available"
-                  />
+              <RadioButtonGroup name="helpOptions" valueSelected={helpType} onChange={this.onHelpToggled}>
+                <RadioButton value="feedback" label="With feedback and revision"/>
+                <RadioButton value="hints" label="With hints available"/>
+                <RadioButton value="none" label="With no help available"/>
               </RadioButtonGroup>
               }
             </div>
           </div>
         }
-        
         <Divider />
-            
+
+        <TextField
+          style={{width: '100%'}}
+          underlineShow={false}
+          floatingLabelText="What's your email address?"
+          value={this.state.email}
+          onChange={this.onTextChanged}
+          multiLine={true}
+          rows={2}/>
+        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-end'}}>
+          <RaisedButton
+            disabled={this.state.email === ''}
+            onTouchTap={this.onSave}
+            style={styles.button}
+            secondary={true}
+            label="Start" />
+        </div>  
       </div>
     );
   }
 });
 
 const styles = {
+  container: {
+    padding: 20,
+    paddingTop: 0,
+  },
   option: {
     fontSize: 16,
   },
@@ -146,17 +226,7 @@ const styles = {
     paddingTop: 20,
     paddingBottom: 0
   },
-  objective: {
-    fontSize: 16,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
-  objectiveSlider: {
-    width: 80
-  },
-  objectiveText: {
-    width: 240,
-    padding: 'auto'
+  button: {
+    marginTop: 20
   }
 };
