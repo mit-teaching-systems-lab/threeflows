@@ -30,20 +30,15 @@ export default React.createClass({
   },
   
   componentWillMount() {
-    Promise.all([
-      Api.evaluationsQuery(),
-      Api.evidenceQuery()
-    ]).then(this.onDataReceived);
+    Api.evaluationsWithEvidenceQuery().then(this.onDataReceived);
   },
 
   // This is over-fetching to get all evidence and evaluations, and filtering
   // down to a specific evaluation and the log it refers to.
-  onDataReceived([evaluationsResponse, evidenceResponse]) {
+  onDataReceived(evaluations) {
     const {evaluationId} = this.props;
-    const evaluations = JSON.parse(evaluationsResponse.text).rows;
     const evaluation = _.find(evaluations, evaluation => evaluation.id.toString() === evaluationId);
-    const logs = JSON.parse(evidenceResponse.text).rows;
-    const log = _.find(logs, log => log.id.toString() === evaluation.json.logId.toString());
+    const {log} = evaluation;
 
     this.setState({evaluation, log});
   },

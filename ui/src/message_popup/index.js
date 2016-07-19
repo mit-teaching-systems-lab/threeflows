@@ -7,13 +7,19 @@ import ScoringPage from './scoring_page.jsx';
 import EvaluationViewerPage from './evaluation_viewer_page.jsx';
 import MessageEvaluationCard from './message_evaluation_card.jsx';
 
+
 // Returns a unique set of emails for people we have evidence for.
 // The check for @ is because of older logs that used names instead of email
 // addresses.
-function emailsFromLogs(logs:[ResponseLogT]) {
-  return _.uniq(_.compact(logs.map(log => log.json && log.json.name))).filter((name) => {
-    return name.indexOf('@') !== -1;
-  });
+export function candidateEmailFromLog(log:ResponseLogT) {
+  if (!log.json) return undefined;
+  if (log.json.email) return log.json.email;
+  if (log.json.name && log.json.name.indexOf('@') !== -1) return log.json.name;
+  return undefined;
+}
+
+export function emailsFromLogs(logs:[ResponseLogT]) {
+  return _.uniq(_.compact(logs.map(candidateEmailFromLog)));
 }
 
 export {
@@ -21,6 +27,5 @@ export {
   ExplorationPage,
   ScoringPage,
   EvaluationViewerPage,
-  MessageEvaluationCard,
-  emailsFromLogs
+  MessageEvaluationCard
 };

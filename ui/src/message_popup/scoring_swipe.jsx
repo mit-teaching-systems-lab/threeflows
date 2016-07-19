@@ -78,7 +78,8 @@ export default React.createClass({
       learningObjective,
       indicator,
       question,
-      email
+      email,
+      scorerEmail: email
     });
   },
 

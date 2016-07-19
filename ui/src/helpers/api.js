@@ -1,4 +1,5 @@
 /* @flow weak */
+import _ from 'lodash';
 import superagent from 'superagent';
 import * as Routes from '../routes.js';
 import SuperagentPromise from 'superagent-promise';
@@ -51,4 +52,21 @@ export function evaluationsQuery() {
   return request
     .get('/server/evaluations')
     .set('Content-Type', 'application/json');
+}
+
+// Query both endpoints and join inefficently in the browser
+export function evaluationsWithEvidenceQuery() {
+  return Promise.all([
+    evaluationsQuery(),
+    evidenceQuery()
+  ]).then(joinEvaluationsWithEvidence);
+}
+
+function joinEvaluationsWithEvidence([evaluationsResponse, evidenceResponse]) {
+  const evaluations = JSON.parse(evaluationsResponse.text).rows;
+  const logs = JSON.parse(evidenceResponse.text).rows;
+  return evaluations.map((evaluation) => {
+    const log = _.find(logs, log => log.id.toString() === evaluation.json.logId.toString());
+    return {...evaluation, log};
+  });
 }

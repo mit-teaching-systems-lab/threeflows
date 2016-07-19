@@ -16,6 +16,7 @@ import CSSTankPage from './csstank/csstank_page.jsx';
 import VirtualSchoolPage from './virtual_school/virtual_school_page.jsx';
 import RawPage from './ecd/raw_page.jsx';
 import CandidatePage from './ecd/candidate_page.jsx';
+import EvaluatorPage from './ecd/evaluator_page.jsx';
 import DoSomethingPage from './do_something/do_something_page.jsx';
 import * as MessagePopup from './message_popup/index.js';
 import {
@@ -42,6 +43,7 @@ export default React.createClass({
     '/do_something': 'doSomething',
     '/ecd/raw': 'ecdRaw',
     '/ecd/candidate': 'ecdCandidate',
+    '/ecd/evaluator': 'ecdEvaluator',
     '/slate/:id': 'slate',
     '/csstank': 'cssTank',
   },
@@ -127,4 +129,8 @@ export default React.createClass({
   ecdCandidate(query = {}) {
     return <CandidatePage candidateEmail={query.email} />;
   },
+
+  ecdEvaluator(query = {}) {
+    return <EvaluatorPage evaluatorEmail={query.email} />;
+  }
 });
