@@ -141,6 +141,12 @@ export default React.createClass({
   },
 
   renderLogs(logs) {
+    const filteredLogs = this.filterRaw(logs);
+    // Handling older `names` that are names and not email addresses.
+    const emails = _.uniq(_.compact(filteredLogs.map(log => log.json && log.json.name))).filter((name) => {
+      return name.indexOf('@') !== -1;
+    });
+
     return (
       <Card
         initiallyExpanded={false}>
@@ -150,9 +156,17 @@ export default React.createClass({
           actAsExpander={true}
           showExpandableButton={true} />
         <CardText expandable={true}>
-          {this.filterRaw(logs).map((log) => {
-            return <pre key={log.id} style={styles.line}>{JSON.stringify(log)}</pre>;
-          })}
+          <div>
+            {emails.map((email) => {
+              const candidateUrl = Routes.ecdCandidate(email);
+              return <div key={email}><a href={candidateUrl}>{email}</a></div>;
+            })}
+          </div>
+          <div>
+            {filteredLogs.map((log) => {
+              return <pre key={log.id} style={styles.line}>{JSON.stringify(log)}</pre>;
+            })}
+          </div>
         </CardText>
       </Card>
     );
