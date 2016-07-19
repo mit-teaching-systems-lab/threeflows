@@ -1,4 +1,4 @@
-  /* @flow weak */
+/* @flow weak */
 import _ from 'lodash';
 import React from 'react';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";

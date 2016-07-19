@@ -1,4 +1,4 @@
-
+/* @flow weak */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
@@ -44,7 +44,16 @@ const Message = React.createClass({
             <InfoOutlineIcon/>
           </IconButton>
         }
-        <Paper style={messageTextStyle}>{this.props.text}</Paper>
+        <div style={styles.messageTextSection}>
+          {this.props.question !== undefined && 
+            <div style={styles.studentName}>
+              {this.props.question.student.name}
+            </div>
+          }
+          <Paper style={messageTextStyle}>{this.props.text}</Paper>
+          
+        </div>
+
         { type === 'user' && 
           <FaceIcon  style={styles.messageIcon}/> 
         }
@@ -69,6 +78,7 @@ export const StudentMessage = React.createClass({
         <Message 
           type="student"
           text={this.props.text}
+          question={this.props.question}
           messageStyle={messageStyle}
           messageTextStyle={messageTextStyle}
           onOpenDialog={this.props.onOpenStudentDialog}
@@ -147,13 +157,23 @@ const styles = {
     padding: 0,
     margin: 5
   },
+  messageTextSection: {
+    //padding: 10,
+    margin: 5,
+    flexGrow: 0,
+    flexShrink: 1
+  },
   messageText: {
     padding: 10,
-    margin: 5,
+    //margin: 5,
     whiteSpace: 'pre-wrap',
     wordWrap: 'break-word',
     wordBreak: 'break-word',
-    flexGrow: 0,
-    flexShrink: 1
+    //flexGrow: 0,
+    //flexShrink: 1
+  },
+  studentName: {
+    margin:5,
+    fontSize: 12
   }
 };

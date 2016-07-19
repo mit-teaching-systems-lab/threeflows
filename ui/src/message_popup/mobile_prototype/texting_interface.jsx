@@ -1,3 +1,4 @@
+/* @flow weak */
 import React from 'react';
 import _ from 'lodash';
 
@@ -11,6 +12,7 @@ export const TextBody = React.createClass({
   displayName: 'TextBody',
 
   propTypes: {
+    question: React.PropTypes.object.isRequired,
     messages: React.PropTypes.array.isRequired,
     onOpenStudentDialog: React.PropTypes.func.isRequired,
     onOpenInfoDialog: React.PropTypes.func.isRequired
@@ -24,7 +26,7 @@ export const TextBody = React.createClass({
           if(message.type === 'user'){
             return (<UserMessage text={message.text}  key={message.key} />);
           }else if(message.type === 'student'){
-            return (<StudentMessage text={message.text} onOpenStudentDialog={this.props.onOpenStudentDialog} key={message.key} />);
+            return (<StudentMessage text={message.text} question={this.props.question} onOpenStudentDialog={this.props.onOpenStudentDialog} key={message.key} />);
           }else{
             return (<InfoMessage text={message.text} onOpenInfoDialog={this.props.onOpenInfoDialog} key={message.key} />);
           }

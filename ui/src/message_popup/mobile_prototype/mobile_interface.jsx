@@ -1,3 +1,4 @@
+/* @flow weak */
 //normal imports
 import React from 'react';
 import _ from 'lodash';
@@ -5,6 +6,7 @@ import _ from 'lodash';
 //other file imports
 import SetIntervalMixin from '../../helpers/set_interval_mixin.js';
 import {TextBody, TextFooter} from './texting_interface.jsx';
+import type {Response} from '../popup_question.jsx';
 
 //material-ui imports
 import FlatButton from 'material-ui/FlatButton';
@@ -27,12 +29,10 @@ export default React.createClass({
   getInitialState() {
     var allExamples = [];
     var messages = [];
-    if(this.props.question !== undefined){
-      const goodExamples = _.map(this.props.question.examples, (example) => { return {type: 'Good', text: example}; });
-      const badExamples = _.map(this.props.question.nonExamples, (example) => { return {type: 'Bad', text: example}; });
-      allExamples = _.shuffle(_.clone(goodExamples).concat(badExamples)); 
-      messages = this.getInitialMessages(this.props.question, this.props.scaffolding.shouldShowStudentCard);
-    }
+    const goodExamples = _.map(this.props.question.examples, (example) => { return {type: 'Good', text: example}; });
+    const badExamples = _.map(this.props.question.nonExamples, (example) => { return {type: 'Bad', text: example}; });
+    allExamples = _.shuffle(_.clone(goodExamples).concat(badExamples)); 
+    messages = this.getInitialMessages(this.props.question, this.props.scaffolding.shouldShowStudentCard);
     return ({
       messages,
       allExamples,
@@ -40,7 +40,8 @@ export default React.createClass({
       revisedResponse: undefined,
       elapsedMs: 0,
       exampleIndex: 0,
-      dialog: 'none'
+      dialog: 'none',
+      messageId: 1
     });
   },
   
@@ -50,7 +51,7 @@ export default React.createClass({
       shouldShowStudentCard: React.PropTypes.bool.isRequired,
       shouldShowSummary: React.PropTypes.bool.isRequired,
     }).isRequired,
-    question: React.PropTypes.object,
+    question: React.PropTypes.object.isRequired,
     onQuestionDone: React.PropTypes.func.isRequired,
     limitMs: React.PropTypes.number.isRequired,
     onLog: React.PropTypes.func.isRequired,
@@ -59,12 +60,13 @@ export default React.createClass({
   
   addMessages(messageList){
     var messages = _.clone(this.state.messages);
+    var messageId = this.state.messageId;
     for(var messageIndex = 0; messageIndex < messageList.length; messageIndex++){
-      this.messageId+=1;
-      const message = _.extend({key: this.messageId}, messageList[messageIndex]);
+      messageId+=1;
+      const message = _.extend({key: messageId}, messageList[messageIndex]);
       messages.push(message);
     }
-    this.setState({messages});
+    this.setState({messages, messageId});
   },
   
   addResponse(response){
@@ -178,7 +180,7 @@ export default React.createClass({
       shouldShowStudentCard,
       helpType,
       elapsedMs,
-      initialResponse,
+      initialResponseText: initialResponse,
       finalResponseText
     };
     this.props.onLog(type, response);
@@ -228,10 +230,6 @@ export default React.createClass({
     }
   },
   
-  componentWillMount(){
-    this.messageId = 1;
-  },
-  
   render(){
     const {scaffolding, question} = this.props;
     const {helpType, shouldShowStudentCard} = scaffolding;
@@ -242,6 +240,7 @@ export default React.createClass({
           <div>
             <div style={styles.textBody}>
               <TextBody 
+                question={this.props.question}
                 messages={this.state.messages}
                 onOpenStudentDialog={this.onOpenStudentDialog}
                 onOpenInfoDialog={this.onOpenInfoDialog}
