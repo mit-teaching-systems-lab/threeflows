@@ -14,7 +14,7 @@ import {indicators} from '../data/indicators.js';
 import NavigationAppBar from '../components/navigation_app_bar.jsx';
 
 // app-specific
-import MessageEvaluationCard from '../message_popup/message_evaluation_card.jsx';
+import {MessageEvaluationCard, emailsFromLogs} from '../message_popup/index.js';
 
 
 export default React.createClass({
@@ -142,10 +142,7 @@ export default React.createClass({
 
   renderLogs(logs) {
     const filteredLogs = this.filterRaw(logs);
-    // Handling older `names` that are names and not email addresses.
-    const emails = _.uniq(_.compact(filteredLogs.map(log => log.json && log.json.name))).filter((name) => {
-      return name.indexOf('@') !== -1;
-    });
+    const emails = emailsFromLogs(filteredLogs);
 
     return (
       <Card
