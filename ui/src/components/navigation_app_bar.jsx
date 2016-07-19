@@ -7,7 +7,6 @@ import MenuItem from 'material-ui/MenuItem';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import HomeIcon from 'material-ui/svg-icons/action/home';
-import GroupIcon from 'material-ui/svg-icons/social/group';
 import AssessmentIcon from 'material-ui/svg-icons/action/assessment';
 import ChatBubble from 'material-ui/svg-icons/communication/chat-bubble-outline';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
@@ -51,7 +50,6 @@ export default React.createClass({
   },
 
   render() {
-    const demoCandidateEmail = 'kevin.robinson.0@gmail.com';
     const {userProfile, doLogout} = this.context.auth;
     const {iconElementRight, prependMenuItems} = this.props;
 
@@ -79,10 +77,7 @@ export default React.createClass({
           <MenuItem onTouchTap={this.onNavigationTapped.bind(this, Routes.messagePopupSolutionPath())} leftIcon={<ChatBubble />} primaryText="Solution" />
           <MenuItem onTouchTap={this.onNavigationTapped.bind(this, Routes.messagePopupScoringPath())} leftIcon={<ChatBubble />} primaryText="Scoring" />
           <Divider />
-          <MenuItem onTouchTap={this.onNavigationTapped.bind(this, Routes.doSomethingPath())} leftIcon={<GroupIcon />} primaryText="Do Something" />
-          <Divider />
           <MenuItem onTouchTap={this.onNavigationTapped.bind(this, Routes.ecdRaw())} leftIcon={<AssessmentIcon />} primaryText="Raw data" />
-          <MenuItem onTouchTap={this.onNavigationTapped.bind(this, Routes.ecdCandidate(demoCandidateEmail))} leftIcon={<AssessmentIcon />} primaryText="Candidate page" />
           {userProfile &&
             <div>
               <Divider />
