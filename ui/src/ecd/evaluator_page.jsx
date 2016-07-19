@@ -12,46 +12,44 @@ import * as EvaluationConstants from '../helpers/evaluation_constants';
 import NavigationAppBar from '../components/navigation_app_bar.jsx';
 import {indicators} from '../data/indicators.js';
 
-import {candidateEmailFromLog} from '../message_popup/index.js';
 
 /*
-A page showing all evaluations against indicators for a particular
-candidate.
+A page showing all evaluations made against indicators by a particular
+evaluator.
 */
 export default React.createClass({
-  displayName: 'CandidatePage',
+  displayName: 'EvaluatorPage',
 
   propTypes: {
-    candidateEmail: React.PropTypes.string.isRequired
+    evaluatorEmail: React.PropTypes.string.isRequired
   },
 
   getInitialState() {
     return {
       indicators,
-      candidateEvaluations: null
+      evaluatorEvaluations: null
     };
   },
 
   componentDidMount(props, state) {
-    Api.evaluationsWithEvidenceQuery().then(this.onDataReceived);
+    Api.evaluationsQuery().end(this.onEvaluationsReceived);
   },
 
-  onDataReceived(evaluations) {
-    const candidateEvaluations = this.filteredByCandidate(evaluations, this.props.candidateEmail);
-    this.setState({candidateEvaluations});
+  onEvaluationsReceived(err, response) {
+    const evaluations = JSON.parse(response.text).rows;
+    const evaluatorEvaluations = this.filteredByEmail(evaluations, this.props.evaluatorEmail);
+    this.setState({evaluatorEvaluations});
   },
 
   // Also filters out evaluations without links back to indicators.
-  filteredByCandidate(evaluations, candidateEmail) {
+  filteredByEmail(evaluations, email) {
     return evaluations.filter(evaluation => {
-      if (!evaluation.json.indicator) return false;
-      if (candidateEmailFromLog(evaluation.log) !== candidateEmail) return false;
-      return true;
+      return evaluation.json && evaluation.json.email === email && evaluation.json.indicator;
     });
   },
 
-  computeGroupedIndicators(candidateEvaluations) {
-    const indicatorEvaluationsMap = _.groupBy(candidateEvaluations, (evaluation) => {
+  computeGroupedIndicators(evaluatorEvaluations) {
+    const indicatorEvaluationsMap = _.groupBy(evaluatorEvaluations, (evaluation) => {
       return evaluation.json && evaluation.json.indicator && evaluation.json.indicator.id;
     });
     return _.zipWith(_.toPairs(indicatorEvaluationsMap), ([indicatorId, evaluations]) => {
@@ -61,16 +59,16 @@ export default React.createClass({
   },
 
   render() {
-    const {candidateEmail} = this.props;
-    const {candidateEvaluations, indicators} = this.state;
-    const isLoaded = candidateEvaluations && indicators;
+    const {evaluatorEmail} = this.props;
+    const {evaluatorEvaluations, indicators} = this.state;
+    const isLoaded = evaluatorEvaluations && indicators;
 
     return (
       <div>
         <NavigationAppBar
-          title="Gradebook for Candidate"
+          title="Gradebook for Evaluator"
           style={{backgroundColor: Colors.blueGrey500}} />
-        <h3 style={{padding: 10}}>{candidateEmail}</h3>
+        <h3 style={{padding: 10}}>{evaluatorEmail}</h3>
         {!isLoaded && <div key="loading">Loading...</div>}
         {isLoaded &&
           <div>
@@ -82,8 +80,8 @@ export default React.createClass({
   },
 
   renderIndicatorsTable() {
-    const {candidateEvaluations} = this.state;
-    const groupedIndicators = this.computeGroupedIndicators(candidateEvaluations);
+    const {evaluatorEvaluations} = this.state;
+    const groupedIndicators = this.computeGroupedIndicators(evaluatorEvaluations);
 
     return (
       <Card

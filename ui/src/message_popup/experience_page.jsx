@@ -75,6 +75,7 @@ export default React.createClass({
     Api.logEvidence(type, {
       ...response,
       name: this.state.gameSession.email,
+      email: this.state.gameSession.email,
       sessionId: this.state.gameSession.sessionId,
       clientTimestampMs: new Date().getTime()
     });
