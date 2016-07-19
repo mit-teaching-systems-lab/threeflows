@@ -49,6 +49,7 @@ export default React.createClass({
         shouldShowStudentCard: isSolutionMode ? _.has(this.props.query, 'cards') : true,
         shouldShowSummary: !isSolutionMode,
       },
+      gameSession: null,
       toastRevision: false,
       limitMs: 90000,
     };
@@ -92,7 +93,7 @@ export default React.createClass({
   },
   
   resetExperience(){
-    this.replaceState(this.getInitialState());
+    this.setState(this.getInitialState());
   },
 
   onSaveScaffoldingAndSession(scaffolding, email, questions){
@@ -110,7 +111,7 @@ export default React.createClass({
 
   render() {
     const {gameSession} = this.state;
-    const hasStarted = gameSession !== undefined;
+    const hasStarted = gameSession !== null;
     const questionsAnswered = hasStarted ? gameSession.questionsAnswered : 0;
     const questions = hasStarted ? gameSession.questions : [];
     const sessionLength = hasStarted ? questions.length : 0;
