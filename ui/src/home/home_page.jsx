@@ -5,6 +5,7 @@ import * as Colors from 'material-ui/styles/colors';
 import * as PropTypes from '../prop_types.js';
 import ChallengeCard from './challenge_card.jsx';
 import NavigationAppBar from '../components/navigation_app_bar.jsx';
+import Audio from '../components/audio.jsx';
 
 
 
@@ -39,6 +40,7 @@ export default React.createClass({
             })}
           </CardText>
         </Card>
+        <Audio />
       </div>
     );
   }
