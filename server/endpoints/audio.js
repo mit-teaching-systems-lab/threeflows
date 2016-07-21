@@ -3,12 +3,9 @@ const dateFns = require('date-fns');
 var uuid = require('uuid');
 
 function getAudioKey(request, id) {
-  const env = process.env.NODE_ENV;
-  const domain = getDomain(request);
-
+  const deploymentFolder = [process.env.NODE_ENV, request.headers.host].join('_');
   return [
-    env,
-    domain,
+    deploymentFolder,
     'wav-responses',
     `${id}.wav`
   ].join('/');
