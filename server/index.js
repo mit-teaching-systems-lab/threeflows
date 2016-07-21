@@ -7,11 +7,13 @@ var bodyParser = require('body-parser');
 var request = require('superagent');
 var basicAuth = require('basic-auth');
 var pg = require('pg');
+var uuid = require('uuid');
 
 // create and configure server
 var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.raw({ type: 'audio/wav', limit: '50mb' }));
 app.use(enforceHTTPS);
 
 
@@ -219,6 +221,32 @@ app.get('/server/questions', facultyAuth, function(request, response){
   });
 });
 
+
+app.get('/audio/:id', facultyAuth, function(request, response) {
+  const {id} = request.params;
+  const filename = `${id}.wav`;
+  var readStream = fs.createReadStream(filename);
+
+  response.set('Content-Type', 'audio/wav');
+  readStream.pipe(response);
+});
+
+app.post('/audio', function(request, response) {
+  const timestamp = Math.floor(new Date().getTime() / 1000);
+  const id = [timestamp, uuid.v4()].join('_');
+
+  console.log(`Received ${request.body.length} bytes of audio.`);
+  const filename = `${id}.wav`
+  const url = (process.env.NODE_ENV === 'development')
+    ? [`http://localhost:5000/audio/${id}`].join('')
+    : ['https://', request.headers.host, `/audio/${id}`].join('');
+  fs.writeFile(filename, request.body, (err) => {
+    const status = err ? 500 : 201;
+    response.status(status);
+    return response.json({ url, filename });
+  });
+});
+
 // serve static HTML
 function readFile(filename) {
   return function(request, response) {
@@ -239,3 +267,4 @@ app.set('port', (process.env.PORT || 5000));
 app.listen(app.get('port'), function() {
   console.log('Server is running on port:', app.get('port'));
 });
+

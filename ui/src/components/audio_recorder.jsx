@@ -11,7 +11,9 @@ export default React.createClass({
   getInitialState() {
     return {
       isRecording: false,
-      downloadUrl: null
+      downloadUrl: null,
+      uploadState: 'idle',
+      uploadedUrl: null
     };
   },
 
@@ -28,11 +30,35 @@ export default React.createClass({
 
   onDoneRecording(blob) {
     var downloadUrl = URL.createObjectURL(blob);
-    this.setState({downloadUrl});
+    this.setState({ downloadUrl });
+    this.uploadBlob(blob);
+  },
+
+  uploadBlob(blob) {
+    const url = '/audio';
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', url);
+    xhr.onload = this.onDoneUploading;
+    xhr.send(blob);
+    this.setState({ uploadState: 'pending' });
+  },
+
+  onDoneUploading(event) {
+    const {url} = JSON.parse(event.target.response);
+    console.log(JSON.parse(event.target.response));
+    this.setState({
+      uploadState: 'done',
+      uploadedUrl: url
+    });
   },
 
   render() {
-    const {isRecording, downloadUrl} = this.state;
+    const {
+      isRecording,
+      downloadUrl,
+      uploadState,
+      uploadedUrl
+    } = this.state;
 
     return (
       <div style={{border: '1px solid red'}}>
@@ -49,6 +75,10 @@ export default React.createClass({
             <a href={downloadUrl} target="_blank">download.wav</a>
           </div>
         }
+        {uploadState === 'done' && uploadedUrl &&
+          <a href={uploadedUrl} target="_blank">{uploadedUrl}</a>
+        }
+        <div>upload: {uploadState}</div>
       </div>
     );
   }

@@ -19,7 +19,8 @@
     "express": "4.13.3",
     "lodash": "^4.13.1",
     "pg": "^5.1.0",
-    "superagent": "^2.0.0"
+    "superagent": "^2.0.0",
+    "uuid": "^2.0.2"
   },
   "keywords": [],
   "license": "MIT",
