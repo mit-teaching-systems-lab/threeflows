@@ -14,6 +14,7 @@
     "test": "cd ui && npm run test"
   },
   "dependencies": {
+    "aws-sdk": "^2.4.8",
     "basic-auth": "^1.0.4",
     "body-parser": "^1.15.1",
     "express": "4.13.3",

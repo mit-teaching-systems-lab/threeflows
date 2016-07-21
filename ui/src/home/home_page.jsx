@@ -40,7 +40,19 @@ export default React.createClass({
             })}
           </CardText>
         </Card>
-        <AudioRecorder />
+        <AudioRecorder
+          url="/message_popup/wav"
+          reviewEl={
+            <div>
+              <div style={{marginTop: 20}}>Consider:</div>
+              <ul>
+                <li>NGSS inquiry practices</li>
+                <li>Motivation</li>
+                <li>Strong voice</li>
+              </ul>
+            </div>
+          }
+        />
       </div>
     );
   }

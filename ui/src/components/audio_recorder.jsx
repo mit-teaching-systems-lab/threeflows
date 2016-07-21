@@ -3,82 +3,137 @@ import React from 'react';
 import AudioCapture from './audio_capture.jsx';
 
 /*
-This is a minimal UI for recording audio and getting back a blob.
+This is a minimal UI for asking a user to:
+
+ - record audio
+ - listen to what they recorded and review with a prompt
+ - allow them to re-record or submit
+
 */
 export default React.createClass({
   displayName: 'AudioRecorder',
 
+  propTypes: {
+    url: React.PropTypes.string.isRequired,
+    reviewEl: React.PropTypes.element.isRequired
+  },
+
   getInitialState() {
     return {
       isRecording: false,
+      haveRecorded: false,
       downloadUrl: null,
       uploadState: 'idle',
+      blob: null,
       uploadedUrl: null
     };
   },
 
   onRecordClicked() {
     this.setState({
-      isRecording: true,
-      downloadUrl: null
+      ...this.getInitialState(),
+      isRecording: true
     });
   },
 
   onStopClicked() {
-    this.setState({ isRecording: false });
+    this.setState({
+      isRecording: false,
+      haveRecorded: true
+    });
   },
 
   onDoneRecording(blob) {
     var downloadUrl = URL.createObjectURL(blob);
-    this.setState({ downloadUrl });
-    this.uploadBlob(blob);
+    this.setState({ blob, downloadUrl });
+  },
+
+  onSubmit() {
+    this.setState({ uploadState: 'pending' });
+    this.uploadBlob(this.state.blob);
   },
 
   uploadBlob(blob) {
-    const url = '/audio';
+    const {url} = this.props;;
     const xhr = new XMLHttpRequest();
     xhr.open('POST', url);
     xhr.onload = this.onDoneUploading;
     xhr.send(blob);
-    this.setState({ uploadState: 'pending' });
   },
 
   onDoneUploading(event) {
     const {url} = JSON.parse(event.target.response);
-    console.log(JSON.parse(event.target.response));
     this.setState({
       uploadState: 'done',
       uploadedUrl: url
     });
   },
 
+  // Determine which step we're at in the flow through
+  // these states.
+  whichStep(state) {
+    const {
+      isRecording,
+      haveRecorded,
+      blob,
+      uploadState,
+      uploadedUrl
+    } = state;
+
+    if (!isRecording && !haveRecorded) return 'idle';
+    if (isRecording) return 'recording';
+    if (haveRecorded && !blob) return 'capturing';
+    if (haveRecorded && blob && uploadState === 'idle') return 'reviewing';
+    if (blob && uploadState === 'pending') return 'submitting';
+    if (blob && uploadedUrl) return 'done';
+  },
+
   render() {
+    const step = this.whichStep(this.state);
     const {
       isRecording,
       downloadUrl,
-      uploadState,
       uploadedUrl
     } = this.state;
-
+    
     return (
-      <div style={{border: '1px solid red'}}>
+      <div style={{border: '1px solid #eee', padding: 20}}>
         <AudioCapture
-          isRecording={this.state.isRecording}
+          isRecording={isRecording}
           onDoneRecording={this.onDoneRecording} />
-        {isRecording
-          ? <div onClick={this.onStopClicked}>STOP</div>
-          : <div onClick={this.onRecordClicked}>Record!</div>
-        }
-        {downloadUrl && 
+        {step === 'idle' && <button onClick={this.onRecordClicked}>Record</button>}
+        {step === 'recording' && 
           <div>
-            <audio controls={true} src={downloadUrl} />
-            <a href={downloadUrl} target="_blank">download.wav</a>
+            <div>Recording...</div>
+            <button onClick={this.onStopClicked}>Stop</button>
           </div>
         }
-        {uploadState === 'done' && uploadedUrl &&
+        {step === 'capturing' && <div>Processing...</div>}
+        {step === 'reviewing' && this.renderReview(downloadUrl)}
+        {step === 'submitting' && <div>Saving...</div>}
+        {step === 'done' && this.renderDone(uploadedUrl)}
+      </div>
+    );
+  },
+
+  renderReview(downloadUrl) {
+    return (
+      <div>
+        <div>Review your answer!</div>
+        <audio controls={true} src={downloadUrl} />
+        {this.props.reviewEl}
+        <button onClick={this.onSubmit}>Submit</button>
+      </div>
+    );
+  },
+
+  renderDone(uploadedUrl) {
+    return (
+      <div>
+        <div>
           <a href={uploadedUrl} target="_blank">{uploadedUrl}</a>
-        }
-        <div>upload: {uploadState}</div>
+        </div>
+        <button>Done!</button>
       </div>
     );
   }

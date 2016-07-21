@@ -8,6 +8,7 @@ var request = require('superagent');
 var basicAuth = require('basic-auth');
 var pg = require('pg');
 var uuid = require('uuid');
+var AWS = require('aws-sdk');
 
 // create and configure server
 var app = express();
@@ -16,6 +17,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.raw({ type: 'audio/wav', limit: '50mb' }));
 app.use(enforceHTTPS);
 
+// configure s3 client
+AWS.config.loadFromPath('./tmp/aws_message_popup.json');
+const s3 = new AWS.S3(); 
+
+function getDomain(request) {
+  return (process.env.NODE_ENV !== 'development')
+    ? 'http://localhost:5000/'
+    : `https://${request.headers.host}`;
+}
 
 // https redirect
 function enforceHTTPS(request, response, next) {
@@ -222,30 +232,44 @@ app.get('/server/questions', facultyAuth, function(request, response){
 });
 
 
-app.get('/audio/:id', facultyAuth, function(request, response) {
-  const {id} = request.params;
-  const filename = `${id}.wav`;
-  var readStream = fs.createReadStream(filename);
 
-  response.set('Content-Type', 'audio/wav');
-  readStream.pipe(response);
+app.get('/message_popup/wav/(:id).wav', facultyAuth, function(request, response) {
+  const {id} = request.params;
+  var params = {
+    Bucket: 'message-popup',
+    Key: `wav-responses/${id}.wav`
+  };
+  console.log('Reading from S3...');
+  s3.getObject(params).createReadStream().pipe(response);
 });
 
-app.post('/audio', function(request, response) {
+
+app.post('/message_popup/wav', function(request, response) {
   const timestamp = Math.floor(new Date().getTime() / 1000);
   const id = [timestamp, uuid.v4()].join('_');
-
   console.log(`Received ${request.body.length} bytes of audio.`);
-  const filename = `${id}.wav`
-  const url = (process.env.NODE_ENV === 'development')
-    ? [`http://localhost:5000/audio/${id}`].join('')
-    : ['https://', request.headers.host, `/audio/${id}`].join('');
-  fs.writeFile(filename, request.body, (err) => {
-    const status = err ? 500 : 201;
-    response.status(status);
-    return response.json({ url, filename });
+
+  var params = {
+    Bucket: 'message-popup',
+    Key: `wav-responses/${id}.wav`,
+    Body: request.body
+  };
+  
+  const url = `${getDomain(request)}/message_popup/wav/${id}.wav`;
+  console.log('Writing to S3...');
+  s3.putObject(params, function(err, data) {
+    if (err) {
+      console.log('Error writing to S3: ', err);
+      response.status(500);
+      return response.json({});
+    }
+
+    response.status(201);
+    return response.json({ url, id });
   });
 });
+
+
 
 // serve static HTML
 function readFile(filename) {
@@ -267,4 +291,3 @@ app.set('port', (process.env.PORT || 5000));
 app.listen(app.get('port'), function() {
   console.log('Server is running on port:', app.get('port'));
 });
-
