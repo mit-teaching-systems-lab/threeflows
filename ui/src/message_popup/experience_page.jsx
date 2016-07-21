@@ -6,10 +6,12 @@ import 'velocity-animate/velocity.ui';
 import uuid from 'node-uuid';
 
 import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 import Divider from 'material-ui/Divider';
 import LinearProgress from 'material-ui/LinearProgress';
 import Snackbar from 'material-ui/Snackbar';
 import MenuItem from 'material-ui/MenuItem';
+import Dialog from 'material-ui/Dialog';
 
 import PopupQuestion from './popup_question.jsx';
 import * as Routes from '../routes';
@@ -53,6 +55,7 @@ export default React.createClass({
       gameSession: null,
       toastRevision: false,
       limitMs: 90000,
+      showLastReminders:false
     };
   },
   
@@ -72,8 +75,14 @@ export default React.createClass({
     this.setState({ gameSession });
   },
 
+
   resetExperience(){
     this.setState(this.getInitialState());
+  },
+
+  onCloseReminders(){
+    this.setState({showLastReminders: false});
+
   },
 
   onLog(type, response:Response) {
@@ -108,12 +117,13 @@ export default React.createClass({
         questionsAnswered: 0,
         responseTimes: []
       },
+      showLastReminders: _.has(this.props.query, 'mobilePrototype')
     });
   },
 
   render() {
-    const {gameSession} = this.state;
-    const hasStarted = gameSession !== null;
+    const {gameSession, showLastReminders} = this.state;
+    const hasStarted = gameSession !== null && !showLastReminders;
     const questionsAnswered = hasStarted ? gameSession.questionsAnswered : 0;
     const questions = hasStarted ? gameSession.questions : [];
     const sessionLength = hasStarted ? questions.length : 0;
@@ -129,6 +139,13 @@ export default React.createClass({
               primaryText="Restart game" />
           }
         />
+        <Dialog
+          title="Final Reminders"
+          actions={<FlatButton label="Continue" onTouchTap={this.onCloseReminders}/>}
+          open={this.state.showLastReminders}
+          onRequestClose={this.onCloseReminders}>
+          Remember, for questions that have students involved, you can tap the icons on the left to see available information on the student.
+        </Dialog>
         {!hasStarted && this.renderInstructions()}
         {hasStarted && questionsAnswered >= sessionLength && this.renderDone()}
         {hasStarted && questionsAnswered < sessionLength && (_.has(this.props.query, 'mobilePrototype') ? this.renderMobilePrototype() : this.renderPopupQuestion())}
