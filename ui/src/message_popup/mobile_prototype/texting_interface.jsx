@@ -26,7 +26,7 @@ export const TextBody = React.createClass({
           if(message.type === 'user'){
             return (<UserMessage text={message.text}  key={message.key} />);
           }else if(message.type === 'student'){
-            return (<StudentMessage text={message.text} question={this.props.question} onOpenStudentDialog={this.props.onOpenStudentDialog} key={message.key} />);
+            return (<StudentMessage text={message.text} student={message.student} onOpenStudentDialog={this.props.onOpenStudentDialog(message.student)} key={message.key} />);
           }else{
             return (<InfoMessage text={message.text} onOpenInfoDialog={this.props.onOpenInfoDialog} key={message.key} />);
           }

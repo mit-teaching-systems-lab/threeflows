@@ -15,7 +15,7 @@ const Message = React.createClass({
     text: React.PropTypes.string.isRequired,
     messageStyle: React.PropTypes.object.isRequired,
     messageTextStyle: React.PropTypes.object.isRequired,
-    question: React.PropTypes.object,
+    student: React.PropTypes.object,
     onOpenDialog: React.PropTypes.func
   },
   
@@ -45,9 +45,9 @@ const Message = React.createClass({
           </IconButton>
         }
         <div style={styles.messageTextSection}>
-          {this.props.question !== undefined && 
+          {this.props.student !== undefined && 
             <div style={styles.studentName}>
-              {this.props.question.student.name}
+              {this.props.student.name}
             </div>
           }
           <Paper style={messageTextStyle}>{this.props.text}</Paper>
@@ -65,7 +65,7 @@ const Message = React.createClass({
 export const StudentMessage = React.createClass({
   propTypes: {
     text: React.PropTypes.string.isRequired,
-    question: React.PropTypes.object,
+    student: React.PropTypes.object,
     onOpenStudentDialog: React.PropTypes.func.isRequired
   },
   
@@ -78,7 +78,7 @@ export const StudentMessage = React.createClass({
         <Message 
           type="student"
           text={this.props.text}
-          question={this.props.question}
+          student={this.props.student}
           messageStyle={messageStyle}
           messageTextStyle={messageTextStyle}
           onOpenDialog={this.props.onOpenStudentDialog}
@@ -114,7 +114,6 @@ export const UserMessage = React.createClass({
 export const InfoMessage = React.createClass({
   propTypes: {
     text: React.PropTypes.string.isRequired,
-    question: React.PropTypes.object,
     onOpenInfoDialog: React.PropTypes.func.isRequired
   },
   

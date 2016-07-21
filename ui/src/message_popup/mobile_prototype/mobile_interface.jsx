@@ -36,6 +36,7 @@ export default React.createClass({
     return ({
       messages,
       allExamples,
+      selectedStudent: this.props.question.students[0],
       initialResponse: undefined,
       revisedResponse: undefined,
       elapsedMs: 0,
@@ -154,8 +155,11 @@ export default React.createClass({
     this.setDialog('info');
   },
 
-  onOpenStudentDialog(){
-    this.setDialog('student');
+  onOpenStudentDialog(student){
+    return (function() {
+      this.setState({selectedStudent: student});
+      this.setDialog('student');
+    }.bind(this));
   },
 
   logResponse() {
@@ -194,13 +198,21 @@ export default React.createClass({
         var rawMessageText = arrayOfMessages[index];
         if(rawMessageText !== ''){
           const messageCode = rawMessageText.substring(0, 2);
-          const messageText = rawMessageText.substring(2, rawMessageText.length);
+          var messageText = rawMessageText.substring(2, rawMessageText.length);
           var messageType = undefined;
-          messageCode === 'i]' ? messageType = 'info' : messageCode === 's]' ? messageType = 'student' : messageType = 'user';
+          var student = undefined;
+          messageCode === 'i]' ? messageType = 'info' : messageCode === 'u]' ? messageType = 'user' : messageType = 'student';
+          if(messageType === 'student'){
+            const splitStudentMessage = rawMessageText.split('s]');
+            const studentId = Number(splitStudentMessage[0]);
+            messageText = splitStudentMessage[1];
+            student = _.find(this.props.question.students, student => student.id===studentId);
+          }
           const message = {
             type: messageType,
             text: messageText,
-            key: messageText
+            key: messageText,
+            student
           };
           messages.push(message);
         }
@@ -233,7 +245,7 @@ export default React.createClass({
   render(){
     const {scaffolding, question} = this.props;
     const {helpType, shouldShowStudentCard} = scaffolding;
-    const student = question === undefined ? undefined : question.student;
+    const {selectedStudent} = this.state;
     return (
       <div>
         <div>
@@ -266,34 +278,39 @@ export default React.createClass({
                 />
             </div>
             <div>
-              {question !== undefined && student !== undefined &&
+              {selectedStudent !== undefined &&
                 <div>
                   <Dialog 
                     title="Involved Students"
                     actions={<FlatButton label="Close" onTouchTap={this.onCloseDialog}/>}
                     open={this.state.dialog === 'info'}
                     onRequestClose={this.onCloseDialog}>
-                    <Chip
-                      onTouchTap={this.onOpenStudentDialog}
-                      backgroundColor='#F1C889'
-                      style={{margin: 4}}>
-                      <Avatar color={fullBlack} backgroundColor='#F1C889' icon={<FaceIcon />} />
-                      {student.name}
-                    </Chip>
+                    <div style={{display: 'flex', flexDirection: 'row'}}>
+                      {question.students.map(student => (
+                        <Chip
+                          key={"Student:" + student.id}
+                          onTouchTap={this.onOpenStudentDialog(student)}
+                          backgroundColor='#F1C889'
+                          style={{margin: 4}}>
+                          <Avatar color={fullBlack} backgroundColor='#F1C889' icon={<FaceIcon />} />
+                          {student.name}
+                        </Chip>
+                      ))}
+                    </div>
                   </Dialog>
                   <Dialog 
-                    title={student.name}
+                    title={selectedStudent.name}
                     actions={<FlatButton label="Close" onTouchTap={this.onCloseDialog}/>}
                     open={this.state.dialog === 'student'}
                     onRequestClose={this.onCloseDialog}>
-                    <div style={styles.studentAttribute}>{`${student.grade} ${student.gender}, ${student.race}`}</div>
-                    {shouldShowStudentCard && student.behavior && <div style={styles.studentAttribute}>{student.behavior}</div>}
-                    {shouldShowStudentCard && student.ell && <div style={styles.studentAttribute}>{student.ell}</div>}
-                    {shouldShowStudentCard && student.learningDisabilities && <div style={styles.studentAttribute}>{student.learningDisabilities}</div>}
-                    {shouldShowStudentCard && student.academicPerformance && <div style={styles.studentAttribute}>{student.academicPerformance}</div>}
-                    {shouldShowStudentCard && student.interests && <div style={styles.studentAttribute}>{student.interests}</div>}
-                    {shouldShowStudentCard && student.familyBackground && <div style={styles.studentAttribute}>{student.familyBackground}</div>}
-                    {shouldShowStudentCard && student.ses && <div style={styles.studentAttribute}>{student.ses}</div>}
+                    <div style={styles.studentAttribute}>{`${selectedStudent.grade} ${selectedStudent.gender}, ${selectedStudent.race}`}</div>
+                    {shouldShowStudentCard && selectedStudent.behavior && <div style={styles.studentAttribute}>{selectedStudent.behavior}</div>}
+                    {shouldShowStudentCard && selectedStudent.ell && <div style={styles.studentAttribute}>{selectedStudent.ell}</div>}
+                    {shouldShowStudentCard && selectedStudent.learningDisabilities && <div style={styles.studentAttribute}>{selectedStudent.learningDisabilities}</div>}
+                    {shouldShowStudentCard && selectedStudent.academicPerformance && <div style={styles.studentAttribute}>{selectedStudent.academicPerformance}</div>}
+                    {shouldShowStudentCard && selectedStudent.interests && <div style={styles.studentAttribute}>{selectedStudent.interests}</div>}
+                    {shouldShowStudentCard && selectedStudent.familyBackground && <div style={styles.studentAttribute}>{selectedStudent.familyBackground}</div>}
+                    {shouldShowStudentCard && selectedStudent.ses && <div style={styles.studentAttribute}>{selectedStudent.ses}</div>}
                   </Dialog>
                 </div>
               }
