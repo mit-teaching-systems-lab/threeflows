@@ -7,6 +7,7 @@ import ChallengeCard from './challenge_card.jsx';
 import NavigationAppBar from '../components/navigation_app_bar.jsx';
 
 
+
 /*
 Home navigation page, for navigating between ECD pieces,
 particular learning experiences, and prototypes of WWA program elements.
@@ -38,7 +39,6 @@ export default React.createClass({
             })}
           </CardText>
         </Card>
-
       </div>
     );
   }
