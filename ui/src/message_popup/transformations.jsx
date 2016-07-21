@@ -23,15 +23,16 @@ export function withLearningObjectiveAndIndicator(question) {
   };
 }
 
-export function questionsForCompetencies(competencyGroup) {
-  const withCompetencyGroups = _.compact(allQuestions.map((question) => {
-    const learningObjective = _.find(learningObjectives, { id: question.learningObjectiveId });
-    if (learningObjective.competencyGroup !== competencyGroup) return null;
+export function questionsForIndicator(indicatorId) {
+  const withIndicators = _.compact(allQuestions.map((question) => {
+    if (question.indicatorId !== indicatorId) return null;
+    
+    const indicator = _.find(indicators, { id: question.indicatorId });
     return {
       ...question,
-      competencyGroup: learningObjective.competencyGroup
+      indicator
     };
   }));
 
-  return _.shuffle(withStudents(withCompetencyGroups));
+  return _.shuffle(withStudents(withIndicators));
 }
