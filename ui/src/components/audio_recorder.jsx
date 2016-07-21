@@ -15,7 +15,8 @@ export default React.createClass({
 
   propTypes: {
     url: React.PropTypes.string.isRequired,
-    reviewEl: React.PropTypes.element.isRequired
+    reviewing: React.PropTypes.func.isRequired,
+    done: React.PropTypes.func.isRequired
   },
 
   getInitialState() {
@@ -53,8 +54,15 @@ export default React.createClass({
     this.uploadBlob(this.state.blob);
   },
 
+  onRetry() {
+    this.setState({
+      ...this.getInitialState(),
+      isRecording: true
+    });
+  },
+
   uploadBlob(blob) {
-    const {url} = this.props;;
+    const {url} = this.props;
     const xhr = new XMLHttpRequest();
     xhr.open('POST', url);
     xhr.onload = this.onDoneUploading;
@@ -90,41 +98,41 @@ export default React.createClass({
 
   render() {
     const step = this.whichStep(this.state);
-    const {
-      isRecording,
-      downloadUrl,
-      uploadedUrl
-    } = this.state;
+    const {isRecording, uploadedUrl} = this.state;
     
     return (
       <div style={{border: '1px solid #eee', padding: 20}}>
         <AudioCapture
           isRecording={isRecording}
           onDoneRecording={this.onDoneRecording} />
-        {step === 'idle' && <button onClick={this.onRecordClicked}>Record</button>}
+        {step === 'idle' && 
+          <div>
+            <div>Speak directly to the student.</div>
+            <button onClick={this.onRecordClicked}>Record</button>
+          </div>
+        }
         {step === 'recording' && 
           <div>
-            <div>Recording...</div>
-            <button onClick={this.onStopClicked}>Stop</button>
+            <div style={{color: 'red'}}>Recording...</div>
+            <button onClick={this.onStopClicked}>Done</button>
           </div>
         }
         {step === 'capturing' && <div>Processing...</div>}
-        {step === 'reviewing' && this.renderReview(downloadUrl)}
+        {step === 'reviewing' && this.renderReview()}
         {step === 'submitting' && <div>Saving...</div>}
         {step === 'done' && this.renderDone(uploadedUrl)}
       </div>
     );
   },
 
-  renderReview(downloadUrl) {
-    return (
-      <div>
-        <div>Review your answer!</div>
-        <audio controls={true} src={downloadUrl} />
-        {this.props.reviewEl}
-        <button onClick={this.onSubmit}>Submit</button>
-      </div>
-    );
+  renderReview() {
+    const {blob, downloadUrl} = this.state;
+    return this.props.reviewing({
+      blob,
+      downloadUrl,
+      onSubmit: this.onSubmit,
+      onRetry: this.onRetry
+    });
   },
 
   renderDone(uploadedUrl) {
