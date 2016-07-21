@@ -2,12 +2,21 @@
 import React from 'react';
 import {AuO} from './AuO.js';
 
+/*
+This is a React API to capture audio using a fork of the AuO widget.
+
+It's a hack and hides all the UI features of AuO, while taking
+advantage of its audio capture and encoding features.
+
+Future work could swap in another implementation here, or extract the
+necessary code from AuO.
+*/
 export default React.createClass({
   displayName: 'AudioCapture',
 
   propTypes: {
     isRecording: React.PropTypes.bool.isRequired,
-    onDoneRecording: React.PropTypes.func.isRequired
+    onDoneCapture: React.PropTypes.func.isRequired
   },
 
   componentDidMount() {
@@ -49,7 +58,7 @@ export default React.createClass({
     this.auo.onStopClicked();
 
     // hack: add an async tick here, to allow state.audioBuffer
-    // to be set
+    // to be set.
     window.setTimeout(() => {
       // force offline mode to just get the blob ourselves
       this.auo.state.online = false;
@@ -58,10 +67,10 @@ export default React.createClass({
   },
 
   onSaveWhenOffline(blob) {
-    this.props.onDoneRecording(blob);
+    this.props.onDoneCapture(blob);
   },
 
   render() {
-    return <div />;
+    return null;
   }
 });

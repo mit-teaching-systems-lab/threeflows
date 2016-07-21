@@ -3,11 +3,14 @@ import React from 'react';
 import AudioCapture from './audio_capture.jsx';
 
 /*
-This is a minimal UI for asking a user to:
+This is a state-machine UI for asking a user to:
 
  - record audio
  - listen to what they recorded and review with a prompt
  - allow them to re-record or submit
+
+The presentation can be configured with the props below,
+corresponding to each state.
 
 */
 export default React.createClass({
@@ -15,7 +18,11 @@ export default React.createClass({
 
   propTypes: {
     url: React.PropTypes.string.isRequired,
+    start: React.PropTypes.func.isRequired,
     reviewing: React.PropTypes.func.isRequired,
+    recording: React.PropTypes.func.isRequired,
+    processing: React.PropTypes.func,
+    saving: React.PropTypes.func,
     done: React.PropTypes.func.isRequired
   },
 
@@ -37,14 +44,14 @@ export default React.createClass({
     });
   },
 
-  onStopClicked() {
+  onDoneRecordingClicked() {
     this.setState({
       isRecording: false,
       haveRecorded: true
     });
   },
 
-  onDoneRecording(blob) {
+  onDoneCapture(blob) {
     var downloadUrl = URL.createObjectURL(blob);
     this.setState({ blob, downloadUrl });
   },
@@ -90,39 +97,41 @@ export default React.createClass({
 
     if (!isRecording && !haveRecorded) return 'idle';
     if (isRecording) return 'recording';
-    if (haveRecorded && !blob) return 'capturing';
+    if (haveRecorded && !blob) return 'processing';
     if (haveRecorded && blob && uploadState === 'idle') return 'reviewing';
-    if (blob && uploadState === 'pending') return 'submitting';
+    if (blob && uploadState === 'pending') return 'saving';
     if (blob && uploadedUrl) return 'done';
   },
 
   render() {
     const step = this.whichStep(this.state);
-    const {isRecording, uploadedUrl} = this.state;
+    const {isRecording} = this.state;
     
     return (
-      <div style={{border: '1px solid #eee', padding: 20}}>
+      <div>
         <AudioCapture
           isRecording={isRecording}
-          onDoneRecording={this.onDoneRecording} />
-        {step === 'idle' && 
-          <div>
-            <div>Speak directly to the student.</div>
-            <button onClick={this.onRecordClicked}>Record</button>
-          </div>
-        }
-        {step === 'recording' && 
-          <div>
-            <div style={{color: 'red'}}>Recording...</div>
-            <button onClick={this.onStopClicked}>Done</button>
-          </div>
-        }
-        {step === 'capturing' && <div>Processing...</div>}
+          onDoneCapture={this.onDoneCapture} />
+        {step === 'idle' && this.renderStart()}
+        {step === 'recording' && this.renderRecording()}
+        {step === 'processing' && (this.props.processing || <div>Processing...</div>)}
         {step === 'reviewing' && this.renderReview()}
-        {step === 'submitting' && <div>Saving...</div>}
-        {step === 'done' && this.renderDone(uploadedUrl)}
+        {step === 'saving' && (this.props.saving || <div>Saving...</div>)}
+        {step === 'done' && this.renderDone()}
       </div>
     );
+  },
+
+  renderStart() {
+    return this.props.start({
+      onRecord: this.onRecordClicked
+    });
+  },
+
+  renderRecording() {
+    return this.props.recording({
+      onDone: this.onDoneRecordingClicked
+    });
   },
 
   renderReview() {
@@ -135,14 +144,8 @@ export default React.createClass({
     });
   },
 
-  renderDone(uploadedUrl) {
-    return (
-      <div>
-        <div>
-          <a href={uploadedUrl} target="_blank">{uploadedUrl}</a>
-        </div>
-        <button>Done!</button>
-      </div>
-    );
+  renderDone() {
+    const {uploadedUrl} = this.state;
+    return this.props.done({uploadedUrl});
   }
 });
