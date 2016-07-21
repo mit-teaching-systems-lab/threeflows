@@ -19,6 +19,8 @@ export default React.createClass({
     onDoneCapture: React.PropTypes.func.isRequired
   },
 
+  auo: null,
+
   componentDidMount() {
     this.injectStyles();
   },
@@ -55,21 +57,23 @@ export default React.createClass({
 
   startRecording() {
     // We want direct access to the blob and don't want the UI.
-    this.auo = new AuO(null, null, this.onSaveWhenOffline);
-    this.auo.launch();
-    this.auo.reset();
-    this.auo.record();
+    const auo = this.auo = new AuO(null, null, this.onSaveWhenOffline);
+    auo.launch();
+    auo.reset();
+    auo.record();
   },
 
   stopRecording() {
-    this.auo.stop();
+    const auo = this.auo;
+    if (!auo) return;
 
     // hack: add an async tick here, to allow state.audioBuffer
-    // to be set.
+    // to be set after stopping.
+    auo.stop();
     window.setTimeout(() => {
       // force offline mode to just get the blob ourselves
-      this.auo.setOnline(false);
-      this.auo.save();
+      auo.setOnline(false);
+      auo.save();
     }, 100);
   },
 
