@@ -179,7 +179,7 @@ export const inquiryQuestions:[Question] = [
     studentIds: [],
     id: 110,
     text: 'You ask the whole class, "how can you test if the amount of sunlight influences the amount of O2 generated as a result of photosynthesis?"  You wait a few seconds and nobody comes forward with an answer.  What would you do?',
-    encodedText: '[:u]How can you test if the amount of sunlight influences the amount of O2 generated as a result of photosynthesis?[:i]You wait a few seconds and nobody comes forward with an answer.  What would you do?',
+    encodedText: '[:i]You ask the entire class a question.[:u]How can you test if the amount of sunlight influences the amount of O2 generated as a result of photosynthesis?[:i]You wait a few seconds and nobody comes forward with an answer.  What would you do?',
     examples: [
       'Ask the same question again',
       'Rephrase the question to clarify',
