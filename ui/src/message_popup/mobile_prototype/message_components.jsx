@@ -15,7 +15,7 @@ const Message = React.createClass({
     text: React.PropTypes.string.isRequired,
     messageStyle: React.PropTypes.object.isRequired,
     messageTextStyle: React.PropTypes.object.isRequired,
-    student: React.PropTypes.object,
+    label: React.PropTypes.string,
     onOpenDialog: React.PropTypes.func
   },
   
@@ -45,9 +45,9 @@ const Message = React.createClass({
           </IconButton>
         }
         <div style={styles.messageTextSection}>
-          {this.props.student !== undefined && 
-            <div style={styles.studentName}>
-              {this.props.student.name}
+          {this.props.label !== undefined && 
+            <div style={_.merge(type === 'user' ? {textAlign: 'right'} : {textAlign: 'left'}, {...messageTextStyle, ...styles.label})}>
+              {this.props.label}
             </div>
           }
           <Paper style={messageTextStyle}>{this.props.text}</Paper>
@@ -65,7 +65,7 @@ const Message = React.createClass({
 export const StudentMessage = React.createClass({
   propTypes: {
     text: React.PropTypes.string.isRequired,
-    student: React.PropTypes.object,
+    student: React.PropTypes.object.isRequired,
     onOpenStudentDialog: React.PropTypes.func.isRequired
   },
   
@@ -78,7 +78,7 @@ export const StudentMessage = React.createClass({
         <Message 
           type="student"
           text={this.props.text}
-          student={this.props.student}
+          label={this.props.student.name}
           messageStyle={messageStyle}
           messageTextStyle={messageTextStyle}
           onOpenDialog={this.props.onOpenStudentDialog}
@@ -90,7 +90,8 @@ export const StudentMessage = React.createClass({
 
 export const UserMessage = React.createClass({
   propTypes: {
-    text: React.PropTypes.string.isRequired  
+    text: React.PropTypes.string.isRequired,
+    label: React.PropTypes.string
   },
 
   
@@ -103,6 +104,7 @@ export const UserMessage = React.createClass({
         <Message 
           type="user"
           text={this.props.text}
+          label={this.props.label === undefined ? 'You' : this.props.label}
           messageStyle={messageStyle}
           messageTextStyle={messageTextStyle}
           />
@@ -171,8 +173,10 @@ const styles = {
     //flexGrow: 0,
     //flexShrink: 1
   },
-  studentName: {
+  label: {
     margin:5,
-    fontSize: 12
+    fontSize: 12,
+    padding: 0,
+    backgroundColor: undefined,
   }
 };
