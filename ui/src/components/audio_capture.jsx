@@ -23,6 +23,13 @@ export default React.createClass({
     this.injectStyles();
   },
 
+  componentWillUnmount() {
+    if (this.auo) {
+      this.auo.suspend();
+      this.auo = null;
+    }
+  },
+
   // Hide the UI
   injectStyles() {
     const inlineStyleNode = document.createElement('style');
