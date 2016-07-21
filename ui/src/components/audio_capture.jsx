@@ -57,19 +57,19 @@ export default React.createClass({
     // We want direct access to the blob and don't want the UI.
     this.auo = new AuO(null, null, this.onSaveWhenOffline);
     this.auo.launch();
-    this.auo.stateReset();
-    this.auo.onRecordClicked();
+    this.auo.reset();
+    this.auo.record();
   },
 
   stopRecording() {
-    this.auo.onStopClicked();
+    this.auo.stop();
 
     // hack: add an async tick here, to allow state.audioBuffer
     // to be set.
     window.setTimeout(() => {
       // force offline mode to just get the blob ourselves
-      this.auo.state.online = false;
-      this.auo.onSaveClicked();
+      this.auo.setOnline(false);
+      this.auo.save();
     }, 100);
   },
 

@@ -62,7 +62,7 @@ export function AuO(/* SAVE_URL = null, SAVE_CALLBACK = null, LOCAL_SAVE_CALLBAC
         stateReset();
     },
 
-    this.onlineResource = function (isOnline) {
+    this.setOnline = function (isOnline) {
         onlineResource(isOnline);
     },
 
@@ -613,7 +613,7 @@ export function AuO(/* SAVE_URL = null, SAVE_CALLBACK = null, LOCAL_SAVE_CALLBAC
      */
     const beginAudioPlayback = function (/* start = 0, end = Infinity */) {
         const start = getArgument(arguments, 0, 0);
-        const endTime = getArgument(arguments, 1, Infinity);
+        var endTime = getArgument(arguments, 1, Infinity);
         if (Infinity === endTime) {
             endTime = state.elapsedTime;
         }
@@ -768,7 +768,7 @@ export function AuO(/* SAVE_URL = null, SAVE_CALLBACK = null, LOCAL_SAVE_CALLBAC
      */
     const beginAudioSave = function (onready /* , start = 0, end = Infinity */) {
         const start = getArgument(arguments, 1, 0);
-        const endTime = getArgument(arguments, 2, Infinity);
+        var endTime = getArgument(arguments, 2, Infinity);
         if (Infinity === endTime) {
             endTime = state.elapsedTime;
         }
@@ -1919,7 +1919,7 @@ export function AuO(/* SAVE_URL = null, SAVE_CALLBACK = null, LOCAL_SAVE_CALLBAC
     });
 
     // Clicking the record button.
-    buttonRecord.listen("click", function onRecordClicked(event) {
+    function onRecordClicked(event) {
         container.element().focus();
 
         stateReset();
@@ -1937,7 +1937,8 @@ export function AuO(/* SAVE_URL = null, SAVE_CALLBACK = null, LOCAL_SAVE_CALLBAC
         state.audioPlaybackCurrentTime = function () {
             return state.elapsedTime;
         };
-    });
+    }
+    buttonRecord.listen("click", onRecordClicked);
 
     // Clicking the play button.
     buttonPlay.listen("click", function (event) {
@@ -1961,7 +1962,7 @@ export function AuO(/* SAVE_URL = null, SAVE_CALLBACK = null, LOCAL_SAVE_CALLBAC
     });
 
     // Clicking the stop button.
-    buttonStop.listen("click", function onStopClicked(event) {
+    function onStopClicked(event) {
         container.element().focus();
 
         if (state.playing) {
@@ -1985,7 +1986,8 @@ export function AuO(/* SAVE_URL = null, SAVE_CALLBACK = null, LOCAL_SAVE_CALLBAC
             toggleInput(buttonStop, false);
             state.endRecording = true;
         }
-    });
+    }
+    buttonStop.listen("click", onStopClicked);
 
     // Clicking the zoom in button.
     buttonZoomIn.listen("click", function (event) {
@@ -2090,7 +2092,7 @@ export function AuO(/* SAVE_URL = null, SAVE_CALLBACK = null, LOCAL_SAVE_CALLBAC
     });
 
     // Clicking the save button.
-    buttonSave.listen("click", function onSaveClicked(event) {
+    function onSaveClicked(event) {
         container.element().focus();
 
         // UI change to let user know that save is being processed.
@@ -2138,7 +2140,8 @@ export function AuO(/* SAVE_URL = null, SAVE_CALLBACK = null, LOCAL_SAVE_CALLBAC
                 request.send(blob);
             }
         }, startTime, endTime);
-    });
+    }
+    buttonSave.listen("click", onSaveClicked);
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //
