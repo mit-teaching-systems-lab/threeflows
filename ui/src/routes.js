@@ -43,6 +43,10 @@ export function messagePopupEvaluationUrl(evaluationId:number) {
   return `/message_popup/evaluations/${evaluationId}`;
 }
 
+export function messagePopupAuthoringQuestionsPath(){
+  return '/message_popup/authoring/questions';
+}
+
 export function doSomethingPath() {
   return '/do_something';
 }
