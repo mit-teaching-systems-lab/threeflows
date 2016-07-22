@@ -9,6 +9,7 @@ import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
+import Divider from 'material-ui/Divider';
 
 import ArrowBackIcon from 'material-ui/svg-icons/navigation/arrow-back';
 
@@ -44,8 +45,10 @@ export default React.createClass({
 					title={`Editing Question #${this.props.questionId}`}
 					iconElementLeft={<IconButton onTouchTap={this.returnToQuestions}><ArrowBackIcon /></IconButton>}
 					/>
-				<Paper style={styles.container}>
-					<div style={styles.originalQuestion}>
+				<div style={styles.container}>
+					<Paper style={styles.questionTextContainer}>
+						<div style={styles.questionTextTitle}>Question Text</div>
+						<Divider />
 						<div style={styles.originalQuestionTitle}>Original Question Text</div>
 						<div style={styles.originalQuestionText}>{this.state.originalQuestion.text}</div>
 						<TextField 
@@ -55,8 +58,8 @@ export default React.createClass({
 							multiLine={true}
 							onChange={this.onQuestionTextChange}
 							floatingLabelText='Type out the question text here.'/>
-					</div>
-				</Paper>
+					</Paper>
+				</div>
 			</div>
 			);
 	}
@@ -65,15 +68,20 @@ export default React.createClass({
 const styles = {
 	container: {
 		margin: 10,
-		padding: 10,
 	},
-	originalQuestion: {
-		padding: 5,
+	questionTextContainer: {
+		margin: 5,
+		padding: 10,
 		fontSize: 14
 	},
-	originalQuestionTitle: {
-		fontSize: 14,
+	questionTextTitle: {
+		marginBottom: 5,
+		fontSize: 18,
 		fontWeight: 'bold'
+	},
+	originalQuestionTitle: {
+		marginTop: 10,
+		fontSize: 14,
 	},
 	originalQuestionText: {
 		padding: 10,
