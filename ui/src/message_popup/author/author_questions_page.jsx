@@ -15,7 +15,7 @@ import {withLearningObjectiveAndIndicator} from '../transformations.jsx';
 import {allStudents} from '../../data/virtual_school.js';
 
 export default React.createClass({
-	displayName: 'AuthoringQuestionsPage',
+	displayName: 'AuthorQuestionsPage',
 	render(){
 		return(
 			<div>

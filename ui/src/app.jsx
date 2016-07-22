@@ -52,7 +52,8 @@ export default React.createClass({
     '/message_popup/exploration': 'messagePopupExploration',
     '/message_popup/evaluations/:id': 'messagePopupEvaluation',
     '/message_popup/scoring': 'messagePopupScoring',
-    '/message_popup/authoring/questions' : 'messagePopupAuthoringQuestions',
+    '/message_popup/author/questions' : 'messagePopupAuthorQuestions',
+    '/message_popup/author/questions/:id' : 'messagePopupAuthorQuestionsEdit',
     '/ecd/raw': 'ecdRaw',
     '/ecd/candidate': 'ecdCandidate',
     '/ecd/evaluator': 'ecdEvaluator',
@@ -102,8 +103,12 @@ export default React.createClass({
     return <MessagePopup.EvaluationViewerPage evaluationId={evaluationId} />;
   },
 
-  messagePopupAuthoringQuestions(query = {}) {
-    return <MessagePopup.AuthoringQuestionsPage />
+  messagePopupAuthorQuestions(query = {}) {
+    return <MessagePopup.AuthorQuestionsPage />
+  },
+
+  messagePopupAuthorQuestionsEdit(questionId, query = {}){
+    return <MessagePopup.EditQuestionPage questionId={questionId}/>
   },
   
   cssTank(query = {}) {

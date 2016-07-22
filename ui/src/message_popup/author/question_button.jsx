@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {withLearningObjectiveAndIndicator} from '../transformations.jsx';
+import * as Routes from '../../routes.js';
 
 import {ListItem} from 'material-ui/List';
 
@@ -13,6 +14,10 @@ export default React.createClass({
 		question: React.PropTypes.object.isRequired
 	}, 
 
+	changePath(){
+		Routes.navigate(Routes.messagePopupAuthorQuestionsEditPath(this.props.question.id));
+	},
+
 	render(){
 		const question = withLearningObjectiveAndIndicator(this.props.question);
 		return (
@@ -22,6 +27,7 @@ export default React.createClass({
 				primaryText={"#" + question.id + " " + question.learningObjective.competencyGroup}
 				secondaryText={question.text}
 				secondaryTextLines={2}
+				onTouchTap={this.changePath}
 			/>
 			);
 	}
