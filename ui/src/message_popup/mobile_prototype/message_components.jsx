@@ -159,19 +159,15 @@ const styles = {
     margin: 5
   },
   messageTextSection: {
-    //padding: 10,
     margin: 5,
     flexGrow: 0,
     flexShrink: 1
   },
   messageText: {
     padding: 10,
-    //margin: 5,
     whiteSpace: 'pre-wrap',
     wordWrap: 'break-word',
     wordBreak: 'break-word',
-    //flexGrow: 0,
-    //flexShrink: 1
   },
   label: {
     margin:5,

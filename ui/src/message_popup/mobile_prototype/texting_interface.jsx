@@ -1,6 +1,8 @@
 /* @flow weak */
 import React from 'react';
 import _ from 'lodash';
+import VelocityComponent from 'velocity-react/velocity-component';
+import 'velocity-animate/velocity.ui';
 
 import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';
@@ -24,11 +26,23 @@ export const TextBody = React.createClass({
       <div>
         {_.map(messages, (message) => { 
           if(message.type === 'user'){
-            return (<UserMessage text={message.text}  key={message.key} />);
+            return (
+              <VelocityComponent animation='transition.expandIn' runOnMount={true} key={'animation'+ message.key}>
+                <UserMessage text={message.text}  key={message.key} />
+              </VelocityComponent>
+              );
           }else if(message.type === 'student'){
-            return (<StudentMessage text={message.text} student={message.student} onOpenStudentDialog={this.props.onOpenStudentDialog(message.student)} key={message.key} />);
+            return (
+              <VelocityComponent animation='transition.expandIn' runOnMount={true} key={'animation'+ message.key}>
+                <StudentMessage text={message.text} student={message.student} onOpenStudentDialog={this.props.onOpenStudentDialog(message.student)} key={message.key} />
+              </VelocityComponent>
+              );
           }else{
-            return (<InfoMessage text={message.text} onOpenInfoDialog={this.props.onOpenInfoDialog} key={message.key} />);
+            return (
+              <VelocityComponent animation='transition.expandIn' runOnMount={true} key={'animation'+ message.key}>
+                <InfoMessage text={message.text} onOpenInfoDialog={this.props.onOpenInfoDialog} key={message.key} />
+              </VelocityComponent>
+              );
           }
         })}
       </div>
