@@ -8,8 +8,13 @@ import {allQuestions} from './questions.js';
 
 export function withStudents(questions) {
   return questions.map((question) => {
-    const student = _.find(allStudents, {id: question.studentId });
-    return _.extend({student}, question);
+    var students = [];
+    if(_.has(question, 'studentIds')){
+      for (var studentIdIndex = 0; studentIdIndex < question.studentIds.length; studentIdIndex++){
+        students.push(_.find((allStudents), {id: question.studentIds[studentIdIndex]}));
+      }
+    }
+    return _.extend({students}, question);
   });
 }
 

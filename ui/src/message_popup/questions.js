@@ -23,7 +23,7 @@ function forIndicator(indicatorId) {
 }
 
 export type Question = {
-  studentId?: number,
+  studentIds?: [number],
   id: number,
   text: string,
   examples: [string],
@@ -31,7 +31,7 @@ export type Question = {
 };
 export const inquiryQuestions:[Question] = [
   { 
-    studentId: 4, 
+    studentIds: [4], 
     id: 101,
     text: `At the conclusion of your lesson plan for this challenge, you seed a group discussion by asking "What are you curious about related to photosynthesis?"  Hayin says "Why are plants green?"  What do you do?`,
     examples: [
@@ -48,7 +48,7 @@ export const inquiryQuestions:[Question] = [
     ]
   },  
   {
-    studentId: 10, 
+    studentIds: [10], 
     id: 102,
     text: `Imagine a new student, Sasha, joins your classroom during the lesson plan you developed for this challenge.  As part of helping her feel comfortable, you give her a quick overview of what's happening.  She asks "what is photosynthesis again?"  How can you give a brief direct answer to her question?`,
     examples: [
@@ -64,7 +64,7 @@ export const inquiryQuestions:[Question] = [
     ]
   },
   { 
-    studentId: 2, 
+    studentIds: [2], 
     id: 103,
     text: `In the context of the lesson plan you developed for this challenge, Floyd says "why are we even doing this?"  Respond in way that engages his natural curiosity and tendency towards asking questions`,
     examples: [
@@ -80,7 +80,7 @@ export const inquiryQuestions:[Question] = [
     ]
   },
   {
-    studentId: 8,
+    studentIds: [8],
     id: 104,
     text: `Imagine in the context of the lesson plan you developed for this challenge, there is an activity where students are coming up with questions to investigate.  Ada says "How many questions should I write and what do you want me to include in them?"  Respond in a way that draws out the student's curiosity and pushes them towards asking questions that are meaningful to them.`,
     examples: [
@@ -100,7 +100,7 @@ export const inquiryQuestions:[Question] = [
     ]
   },
   {
-    studentId: 10,
+    studentIds: [10],
     id: 105,
     text: `Imagine a new student, Sasha, joins your classroom during the lesson plan you developed for this challenge.  As part of helping her feel comfortable, you pull her aside and give her a quick overview of what's happening at the beginning of the class.  She interrupts and asks, "I do better with visuals, can you draw me a picture of photosynthesis?"  Describe what you could quickly sketch to directly answer her question.`,
     examples: [
@@ -112,7 +112,7 @@ export const inquiryQuestions:[Question] = [
     ]
   },
   {
-    studentId: 3,
+    studentIds: [3],
     id: 106,
     text: `Imagine in the context of the lesson plan you developed for this challenge, you pause and ask the whole class if they have anything they want to check their understanding on or clarify.  Maia asks "How can plants be breathing, you don't see them inhaling and exhaling, and you don't see their breath in the cold?"`,
     examples: [
@@ -125,7 +125,7 @@ export const inquiryQuestions:[Question] = [
     ]
   },
   {
-    studentId: 5,
+    studentIds: [5],
     id: 107,
     text: `Imagine in the context of the lesson plan you developed for this challenge, you provide a summarizing explanation of photosynthesis to the whole class.  Mike asks, "I'm still a little confused, can you explain it again in a different way?"`,
     examples: [
@@ -139,7 +139,7 @@ export const inquiryQuestions:[Question] = [
     ]
   },
   {
-    studentId: 2,
+    studentIds: [2],
     id: 108,
     text: `Imagine in the context of the lesson plan you developed for this challenge, you provide a summarizing explanation of photosynthesis to the whole class.  Floyd asks, "But how can plants take in sunlight, do they like grab it?"`,
     examples: [
@@ -153,7 +153,7 @@ export const inquiryQuestions:[Question] = [
     ]
   },
   {
-    studentId: 9,
+    studentIds: [9],
     id: 109,
     text: 'You challenge Steve and ask, "What is another hypothesis you could test?" He asks, "why don\'t you just tell me what the right answer is?"',
     examples: [
@@ -181,9 +181,9 @@ export const inquiryQuestions:[Question] = [
     ]
   },
   {
-    studentId: 1,
+    studentIds: [1],
     id: 111,
-    text: 'You set up an experiment that tests how light intensity affects photosynthesis over time and recorded the data. Kevin says, “Plant A probably grew more because it a genetically modified by Home Depot,” and the whole class laughs. Prompt the student to clarify and use evidence.',
+    text: 'You set up an experiment that tests how light intensity affects photosynthesis over time and recorded the data. Kevin says, "Plant A probably grew more because it was genetically modified by Home Depot," and the whole class laughs. Prompt the student to clarify and use evidence.',
     examples: [
       'Ask the student to make claims using evidence',
       `That's a great point! Genetically modified plants are going to be a part of our lives. I'm curious - do you think Home Depot would genetically modify a plant? Could you clarify your ideas a little more?`,
@@ -194,7 +194,7 @@ export const inquiryQuestions:[Question] = [
     ]
   },
   {
-    studentId: 6,
+    studentIds: [6],
     id: 112,
     text: `As you walk around, you see that Jasmine is missing some data in their data tables. What could you do to nudge her in the right direction?`,
     examples: [
@@ -208,9 +208,9 @@ export const inquiryQuestions:[Question] = [
     ]
   },
   {
-    studentId: 7,
+    studentIds: [7],
     id: 113,
-    text: 'Miquel finished generating questions (i.e. hypotheses) about photosynthesis, and some are not testable. How can you connect their responses with the idea of planning research?',
+    text: 'Miquel finished generating questions (i.e. hypotheses) about photosynthesis, and some are not testable. How can you connect his responses with the idea of planning research?',
     examples: [
       'Explain what a testable hypothesis is.'
     ],
@@ -219,7 +219,7 @@ export const inquiryQuestions:[Question] = [
     ]
   },
   {
-    studentId: 5,
+    studentIds: [5],
     id: 114,
     text: `You set up a photosynthesis experiment for the class, and students report the data they\'ve collected. As it turns out, Mike has experimented with only two variables: hours of light and water.  Respond to this by connecting this with data collection planning.`,
     examples: [
@@ -234,7 +234,7 @@ export const inquiryQuestions:[Question] = [
 
 export const motivationQuestions:[Question] = [
   {
-    studentId: 8,
+    studentIds: [8],
     id: 115,
     text: 'Ada is frustrated that she cannot figure out how her data supports her initial hypothesis. She refuses to modify her question, instead saying, "I don\'t want to try again because I will just mess up again."',
     examples: [
@@ -244,9 +244,9 @@ export const motivationQuestions:[Question] = [
     nonExamples: []
   },
   {
-    studentId: 3,
+    studentIds: [3, 8],
     id: 116,
-    text: 'At the end of the photosynthesis unit, you introduce a list of topics that students choose for a project they want to do. Maia raises her hand and says, "I don\'t want to do any of these. Can I just come up with my own thing?" Even before you have a chance to respond to her, another student, another student, says, "I want to do my own topic too!"  Respond.',
+    text: 'At the end of the photosynthesis unit, you introduce a list of topics that students choose for a project they want to do. Maia raises her hand and says, "I don\'t want to do any of these. Can I just come up with my own thing?" Even before you have a chance to respond to her, another student says, "I want to do my own topic too!"  Respond.',
     examples: [
       'Try the principle: Interest-powered learning',
       'Try the principle: Encourage choice (Glasser)'
@@ -254,9 +254,9 @@ export const motivationQuestions:[Question] = [
     nonExamples: []
   },
   {
-    studentId: 8,
+    studentIds: [8, 5],
     id: 117,
-    text: 'Students are working individually on a worksheet. You notice that a student is distracted.  She lashes out, "I can\'t do this! And Mike gets it.  He just gets science and I don\'t. Why do I even need to try?"',
+    text: 'Students are working individually on a worksheet. You notice that a student is distracted.  She lashes out, "I can\'t do this! And Mike gets it. He just gets science and I don\'t. Why do I even need to try?"',
     examples: [
       'Try the principle: Everyone has the capacity to grow (Dweck)',
       'Try the principle: Persisting through challenges is how we grow (Duckworth)'
@@ -274,7 +274,7 @@ export const motivationQuestions:[Question] = [
     nonExamples: []
   },
   {
-    studentId: 10,
+    studentIds: [10],
     id: 119,
     text: 'You divide students into groups to perform a photosynthesis experiment. Students get to divide themselves into groups. A new student, Sasha, doesn\'t get picked until the last minute.  What would you do?',
     examples: [
@@ -284,7 +284,7 @@ export const motivationQuestions:[Question] = [
     nonExamples: []
   },
   {
-    studentId: 3,
+    studentIds: [3, 1],
     id: 120,
     text: 'You introduced a game related to photosynthesis, and have pairs of two working on a game. Maia is paired with Kevin, and she asks, "How are we getting graded on this?" You tell her that there will be no grade for either completion or participation. "Why are we doing this then?" she asks.',
     examples: [

@@ -38,7 +38,7 @@ export default React.createClass({
             expandable={true}>
               <div>
                 <div style={{paddingBottom: 20}}>{question.text}</div>
-                {question.student && <StudentCard useCardStyles={true} student={question.student} />}
+                {question.students && question.students.map(student => <StudentCard useCardStyles={true} student={student} />)}
               </div>
           </CardText>
         </Card>
