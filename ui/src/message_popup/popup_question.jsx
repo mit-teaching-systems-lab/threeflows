@@ -158,7 +158,7 @@ export default React.createClass({
     const {scaffolding} = this.props;
     const {text, students, examples, nonExamples} = this.props.question;
     const seconds = Math.round(elapsedMs / 1000);
-    const student = students[0];
+    const student = students === undefined ? undefined : students[0];
     
     return (
       <div>
