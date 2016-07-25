@@ -31,13 +31,18 @@ export default React.createClass({
   getInitialState() {
     const {questionId} = this.props;
     const question = withLearningObjectiveAndIndicator(_.find(withStudents(allQuestions), question => question.id.toString()===questionId));
-
+    var goodExamplesText = '';
+    _.forEach(question.examples, example => {goodExamplesText += (goodExamplesText === '' ? '' : '\n\n') + example;});
+    var badExamplesText = '';
+    _.forEach(question.nonExamples, example => {badExamplesText += (badExamplesText === '' ? '' : '\n\n') + example;});
     return ({
       originalQuestion: question,
       questionText: question.text,
       studentText: '',
       students: _.has(question, 'students') ? question.students : [],
-      selectedStudent: null
+      selectedStudent: null,
+      goodExamplesText,
+      badExamplesText
     });
   },
 
@@ -83,6 +88,26 @@ export default React.createClass({
     if(_.find(allStudents, student => student.name.toLowerCase() === selection.toLowerCase()) === undefined) return false;
     if(_.find(this.state.students, student => student.name.toLowerCase() === selection.toLowerCase()) !== undefined) return false;
     return true;
+  },
+
+  onGoodExamplesChange(event, text){
+    this.setState({goodExamplesText: text});
+    this.getExamples();
+  },
+
+  onBadExamplesChange(event, text){
+    this.setState({badExamplesText: text});
+    this.getExamples();
+  },
+
+  getExamples(){
+    const {goodExamplesText, badExamplesText} = this.state;
+    var goodExamples = goodExamplesText.split('\n\n');
+    var badExamples = badExamplesText.split('\n\n');
+    goodExamples = goodExamples.map(example => example.trim());
+    badExamples = badExamples.map(example => example.trim());
+    _.remove(goodExamples, example => example == '');
+    _.remove(badExamples, example => example == '');
   },
 
   render(){
@@ -163,6 +188,34 @@ export default React.createClass({
               {selectedStudent.ses && <div style={styles.studentAttribute}>{selectedStudent.ses}</div>}
             </Dialog>
           }
+          <Paper style={styles.sectionContainer}>
+            <div style={styles.sectionTitle}>Good Examples</div>
+            <Divider />
+            <TextField
+              id="good-examples"
+              style={styles.examplesTextArea}
+              floatingLabelText="Separate different examples with a new line"
+              floatingLabelFixed={true}
+              textareaStyle={styles.examplesTextAreaInner}
+              multiLine={true}
+              value={this.state.goodExamplesText}
+              underlineShow={false}
+              onChange={this.onGoodExamplesChange}/>
+          </Paper>
+          <Paper style={styles.sectionContainer}>
+            <div style={styles.sectionTitle}>Bad Examples</div>
+            <Divider />
+            <TextField
+              id="bad-examples"
+              style={styles.examplesTextArea}
+              floatingLabelText="Separate different examples with a new line"
+              floatingLabelFixed={true}
+              textareaStyle={styles.examplesTextAreaInner}
+              multiLine={true}
+              value={this.state.badExamplesText}
+              underlineShow={false}
+              onChange={this.onBadExamplesChange}/>
+          </Paper>
         </div>
       </div>
       );
@@ -207,5 +260,14 @@ const styles = {
   studentAttribute: {
     fontSize: 14,
     marginTop: 2
+  },
+  examplesTextArea: {
+    width: '100%'
+  },
+  examplesTextAreaInner: {
+    border: '1px solid #eee',
+    rows: 2,
+    padding: 5,
+    fontSize: 14 
   }
 };
