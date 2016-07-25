@@ -11,6 +11,7 @@ import IconButton from 'material-ui/IconButton';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
+import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import AutoComplete from 'material-ui/AutoComplete';
 import Dialog from 'material-ui/Dialog';
@@ -108,6 +109,36 @@ export default React.createClass({
     badExamples = badExamples.map(example => example.trim());
     _.remove(goodExamples, example => example == '');
     _.remove(badExamples, example => example == '');
+    return {goodExamples, badExamples};
+  },
+
+  onSaveEdit(){
+    console.log("");
+    console.log("Saving the following new question:");
+    const studentIds = this.state.students.map(student => student.id);
+    const text = this.state.questionText;
+    const {goodExamples, badExamples} = this.getExamples();
+    const id = _.maxBy(allQuestions, question => question.id).id + 1;
+    const question = {
+      studentIds,
+      id,
+      text,
+      examples: goodExamples,
+      nonExamples: badExamples
+    };
+    console.log(question);
+    console.log("Also deleting and archiving the following question:");
+    console.log(this.state.originalQuestion);
+    console.log("");
+    this.returnToQuestions();
+  },
+
+  onDeleteQuestion(){
+    console.log("");
+    console.log("Deleting and archiving the following question:");
+    console.log(this.state.originalQuestion);
+    console.log("");
+    this.returnToQuestions();
   },
 
   render(){
@@ -216,6 +247,22 @@ export default React.createClass({
               underlineShow={false}
               onChange={this.onBadExamplesChange}/>
           </Paper>
+
+          <div style={styles.finalButtonRow}>
+            <RaisedButton 
+              style={styles.finalButton}
+              label="Save"
+              primary={true}
+              onTouchTap={this.onSaveEdit}
+              />
+            <RaisedButton
+              style={styles.finalButton}
+              backgroundColor="#CA2300"
+              labelStyle={{color: 'white'}}
+              label="Delete"
+              onTouchTap={this.onDeleteQuestion}
+              />
+          </div>
         </div>
       </div>
       );
@@ -225,7 +272,6 @@ export default React.createClass({
 const styles = {
   container: {
     margin: 10,
-    marginBottom: 1000
   },
   sectionContainer: {
     margin: 5,
@@ -269,5 +315,13 @@ const styles = {
     rows: 2,
     padding: 5,
     fontSize: 14 
+  },
+  finalButtonRow: {
+    display: 'flex',
+    justifyContent: 'flex-end'
+  },
+  finalButton: {
+    margin: 10,
+    marginRight : 5
   }
 };
