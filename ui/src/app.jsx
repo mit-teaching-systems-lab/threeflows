@@ -53,6 +53,7 @@ export default React.createClass({
     '/message_popup/evaluations/:id': 'messagePopupEvaluation',
     '/message_popup/scoring': 'messagePopupScoring',
     '/message_popup/author/questions' : 'messagePopupAuthorQuestions',
+    '/message_popup/author/questions/new' : 'messagePopupAuthorQuestionsNew',
     '/message_popup/author/questions/:id' : 'messagePopupAuthorQuestionsEdit',
     '/ecd/raw': 'ecdRaw',
     '/ecd/candidate': 'ecdCandidate',
@@ -109,6 +110,10 @@ export default React.createClass({
 
   messagePopupAuthorQuestionsEdit(questionId, query = {}){
     return <MessagePopup.EditQuestionPage questionId={questionId}/>;
+  },
+
+  messagePopupAuthorQuestionsNew(query = {}){
+    return <MessagePopup.EditQuestionPage />
   },
   
   cssTank(query = {}) {
