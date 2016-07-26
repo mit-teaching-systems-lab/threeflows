@@ -4,6 +4,8 @@ import _ from 'lodash';
 import {allQuestions} from '../questions.js';
 import {allStudents} from '../../data/virtual_school.js';
 import {withStudents, withLearningObjectiveAndIndicator} from '../transformations.jsx';
+import {learningObjectives} from '../../data/learning_objectives.js';
+import {indicators} from '../../data/indicators.js';
 import * as Routes from '../../routes.js';
 
 import AppBar from 'material-ui/AppBar';
@@ -15,6 +17,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import AutoComplete from 'material-ui/AutoComplete';
 import Dialog from 'material-ui/Dialog';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import {ListItem} from 'material-ui/List';
 
 import FaceIcon from 'material-ui/svg-icons/action/face';
@@ -42,6 +47,8 @@ export default React.createClass({
       studentText: '',
       students: _.has(question, 'students') ? question.students : [],
       selectedStudent: null,
+      learningObjective: question.learningObjective,
+      indicator: question.indicator,
       goodExamplesText,
       badExamplesText
     });
@@ -112,6 +119,14 @@ export default React.createClass({
     return {goodExamples, badExamples};
   },
 
+  onChangeLearningObjective(event, index, value){
+    this.setState({learningObjective: _.find(learningObjectives, learningObjective => learningObjective.id === value)});
+  },
+
+  onChangeIndicator(event, value){
+    this.setState({indicator: _.find(indicators, indicator => indicator.id.toString() === value)});
+  },
+
   onSaveEdit(){
     console.log("");
     console.log("Saving the following new question:");
@@ -124,7 +139,11 @@ export default React.createClass({
       id,
       text,
       examples: goodExamples,
-      nonExamples: badExamples
+      nonExamples: badExamples,
+      indicatorId: this.state.indicator.id,
+      indicator: this.state.indicator,
+      learningObjectiveId: this.state.learningObjective.id,
+      learningObjective: this.state.learningObjective
     };
     console.log(question);
     console.log("Also deleting and archiving the following question:");
@@ -143,7 +162,6 @@ export default React.createClass({
 
   render(){
     const selectedStudent = _.find(allStudents, student => student.id === this.state.selectedStudent);
-
     return (
       <div>
         <AppBar 
@@ -248,6 +266,24 @@ export default React.createClass({
               onChange={this.onBadExamplesChange}/>
           </Paper>
 
+          <Paper style={styles.sectionContainer}>
+            <div style={styles.sectionTitle}>Learning Objective</div>
+            <Divider />
+            <div style={styles.learningObjectiveTitle}>{this.state.learningObjective.key + " " + this.state.learningObjective.competencyGroup}</div>
+            <div style={styles.learningObjectiveText}>{this.state.learningObjective.text}</div>
+            <DropDownMenu value={this.state.learningObjective.id} style={{width:'100%'}} onChange={this.onChangeLearningObjective}>
+              {learningObjectives.map(learningObjective => <MenuItem value={learningObjective.id} key={learningObjective.key} primaryText={learningObjective.key}/>)}
+            </DropDownMenu>
+          </Paper>
+
+          <Paper style={styles.sectionContainer}>
+            <div style={styles.sectionTitle}>Indicator</div>
+            <Divider />
+            <RadioButtonGroup style={styles.indicatorRadioGroup} name="indicator" valueSelected={this.state.indicator.id.toString()} onChange={this.onChangeIndicator}>
+              {indicators.map(indicator => <RadioButton key={'indicator-' + indicator.id} value={indicator.id.toString()} label={indicator.text}/>)}
+            </RadioButtonGroup>
+          </Paper>
+
           <div style={styles.finalButtonRow}>
             <RaisedButton 
               style={styles.finalButton}
@@ -323,5 +359,17 @@ const styles = {
   finalButton: {
     margin: 10,
     marginRight : 5
+  },
+  learningObjectiveTitle: {
+    marginTop:10,
+    fontSize: 14
+  },
+  learningObjectiveText: {
+    padding: 10,
+    paddingTop: 5,
+  },
+  indicatorRadioGroup: {
+    marginTop: 10,
+    fontSize: 14
   }
 };
