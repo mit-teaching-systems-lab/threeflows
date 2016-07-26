@@ -8,6 +8,7 @@ import EvaluationViewerPage from './evaluation_viewer_page.jsx';
 import MessageEvaluationCard from './message_evaluation_card.jsx';
 import AuthorQuestionsPage from './author/author_questions_page.jsx';
 import EditQuestionPage from './author/edit_question_page.jsx';
+import NewQuestionPage from './author/new_question_page.jsx';
 
 
 // Returns a unique set of emails for people we have evidence for.
@@ -31,5 +32,6 @@ export {
   EvaluationViewerPage,
   MessageEvaluationCard,
   AuthorQuestionsPage,
-  EditQuestionPage
+  EditQuestionPage,
+  NewQuestionPage
 };

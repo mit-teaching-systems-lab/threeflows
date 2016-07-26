@@ -1,9 +1,13 @@
 import React from 'react';
 
+import * as Routes from '../../routes.js';
+
 import TextField from 'material-ui/TextField';
 import Divider from 'material-ui/Divider';
+import IconButton from 'material-ui/IconButton';
 
 import SearchIcon from 'material-ui/svg-icons/action/search';
+import AddIcon from 'material-ui/svg-icons/content/add';
 
 import NavigationAppBar from '../../components/navigation_app_bar.jsx';
 import QuestionButton from './question_button.jsx';
@@ -13,12 +17,17 @@ import {allQuestions} from '../questions.js';
 export default React.createClass({
   displayName: 'AuthorQuestionsPage',
   
+  onNewQuestion(){
+    Routes.navigate(Routes.messagePopupAuthorQuestionsNewPath());
+  },
+
   render(){
     return(
       <div>
         <NavigationAppBar
           title="MP Questions"
-         />
+          iconElementRight={<IconButton onTouchTap={this.onNewQuestion}><AddIcon /></IconButton>}
+          />
         <div style={styles.container}>
           <div style={styles.searchbar}>
             <SearchIcon />

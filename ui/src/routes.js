@@ -51,7 +51,7 @@ export function messagePopupAuthorQuestionsEditPath(questionId:number){
   return `/message_popup/author/questions/${questionId}`;
 }
 
-export function messagePopupAuthorQuestionsNewPpath(){
+export function messagePopupAuthorQuestionsNewPath(){
   return '/message_popup/author/questions/new';
 }
 
