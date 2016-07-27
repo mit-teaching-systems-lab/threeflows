@@ -41,7 +41,7 @@ export default React.createClass({
         if(_.has(question, 'students')) _.forEach(question.students, student => questionString += " " + student.id + " " + student.name);
         _.forEach(question.examples, example => questionString += " " + example);
         _.forEach(question.nonExamples, example => questionString += " " + example);
-        return questionString.toLowerCase().search(value) !== -1;
+        return questionString.toLowerCase().includes(value);
       });
       questions = questions.sort(questionOriginal => {
         const question = withStudents([withLearningObjectiveAndIndicator(questionOriginal)])[0];
