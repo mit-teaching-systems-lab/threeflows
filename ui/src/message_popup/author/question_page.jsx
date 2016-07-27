@@ -14,6 +14,8 @@ import * as Routes from '../../routes.js';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 
 import ArrowBackIcon from 'material-ui/svg-icons/navigation/arrow-back';
 
@@ -39,8 +41,8 @@ export default React.createClass({
       goodExamplesText: "",
       badExamplesText: ""
     });
-  },
 
+  },
   getInitialState() {
     return ({
       questionText: this.props.questionText,
@@ -48,7 +50,8 @@ export default React.createClass({
       learningObjective: this.props.learningObjective,
       indicator: this.props.indicator,
       goodExamplesText: this.props.goodExamplesText,
-      badExamplesText: this.props.badExamplesText
+      badExamplesText: this.props.badExamplesText,
+      deleteConfirmationOpen: false
     });
   },
 
@@ -155,6 +158,14 @@ export default React.createClass({
     this.returnToQuestions();
   },
 
+  openDeleteConfirmation(){
+    this.setState({deleteConfirmationOpen: true});
+  },
+
+  closeDeleteConfirmation(){
+    this.setState({deleteConfirmationOpen: false});
+  },
+
   onDeleteQuestion(){
     console.log("");
     console.log("Deleting and archiving the following question:");
@@ -215,7 +226,7 @@ export default React.createClass({
                   backgroundColor="#CA2300"
                   labelStyle={{color: 'white'}}
                   label="Delete"
-                  onTouchTap={this.onDeleteQuestion}
+                  onTouchTap={this.openDeleteConfirmation}
                   />
               </div>
             }
@@ -231,6 +242,23 @@ export default React.createClass({
               </div>
             }
           </div>
+          <Dialog 
+            open={this.state.deleteConfirmationOpen}
+            actions={[
+              <FlatButton
+                label="Cancel"
+                onTouchTap={this.closeDeleteConfirmation}/>,
+              <FlatButton
+                label="Delete"
+                style={{color: "#CA2300"}}
+                onTouchTap={function(){
+                  this.closeDeleteConfirmation();
+                  this.onDeleteQuestion();
+                }.bind(this)}/>
+              ]}
+            onRequestClose={this.closeDeleteConfirmation}>
+            Deleting this will archive the deleted question. Are you sure you wish to continue?
+          </Dialog>
         </div>
       </div>
       );

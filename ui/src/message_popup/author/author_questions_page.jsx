@@ -6,6 +6,8 @@ import * as Routes from '../../routes.js';
 import TextField from 'material-ui/TextField';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
+import Paper from 'material-ui/Paper';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
 import SearchIcon from 'material-ui/svg-icons/action/search';
 import AddIcon from 'material-ui/svg-icons/content/add';
@@ -21,7 +23,8 @@ export default React.createClass({
 
   getInitialState(){
     return ({
-      questions: allQuestions
+      questions: allQuestions,
+      showArchivedQuestions: false
     });
   },
   
@@ -56,6 +59,16 @@ export default React.createClass({
   },
 
   render(){
+    var archivedQuestions = [];
+    archivedQuestions.push({
+      studentIds: [1, 2, 3],
+      id: 3000,
+      text: "This is an example of a deleted card",
+      examples: [],
+      nonExamples: [],
+      indicatorId: 501,
+      learningObjectiveId: 50
+    });
     return(
       <div>
         <NavigationAppBar
@@ -75,11 +88,24 @@ export default React.createClass({
           </div>
           <Divider />
           <div style={styles.questionsContainer}>
-            {this.state.questions.map(question => {
-              return (
-               <QuestionButton question={question} key={question.id} />
-               );
-            })}
+            <Paper style={styles.currentQuestionsContainer} rounded={false}>
+              {this.state.questions.map(question => {
+                return (
+                 <QuestionButton question={question} key={question.id} />
+                 );
+              })}
+            </Paper>
+            <Card style={styles.archivedQuestionsContainer} rounded={false} expanded={this.state.showArchivedQuestions} onExpandChange={function(){this.setState({showArchivedQuestions: !this.state.showArchivedQuestions})}.bind(this)}>
+              <CardHeader 
+                title="Archived/Deleted Questions"
+                actAsExpander={true}
+                showExpandableButton={true}/>
+              <CardText expandable={true}>
+                <div>
+                  {archivedQuestions.map(question => <QuestionButton question={question} key={question.id}/>)}
+                </div>
+              </CardText>
+            </Card>
           </div>
         </div>
       </div>
@@ -102,8 +128,16 @@ const styles = {
   },
   questionsContainer: {
     position: 'absolute',
+    width: '100%',
     top: 112,
     bottom: 0,
     overflowY: 'scroll'
+  },
+  currentQuestionsContainer: {
+    marginBottom: 10
+  },
+  archivedQuestionsContainer: {
+    marginBottom: 10,
+    backgroundColor: "#F4F4F4"
   }
 };
