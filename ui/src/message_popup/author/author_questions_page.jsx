@@ -8,7 +8,7 @@ import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
 import Paper from 'material-ui/Paper';
 import MenuItem from 'material-ui/MenuItem';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import {Card, CardHeader, CardText} from 'material-ui/Card';
 
 import SearchIcon from 'material-ui/svg-icons/action/search';
 import AddIcon from 'material-ui/svg-icons/content/add';
@@ -53,8 +53,8 @@ export default React.createClass({
         if(_.has(question, 'students')) _.forEach(question.students, student => questionString += " " + student.id + " " + student.name);
         _.forEach(question.examples, example => questionString += " " + example);
         _.forEach(question.nonExamples, example => questionString += " " + example);
-        return questionString.split(value).length
-      })
+        return questionString.split(value).length;
+      });
       this.setState({questions});
     }
   },
@@ -73,7 +73,7 @@ export default React.createClass({
     return(
       <div>
         <NavigationAppBar
-          title="MP Questions"
+          title="Message PopUp Questions"
           iconElementRight={<IconButton onTouchTap={this.onNewQuestion}><AddIcon /></IconButton>}
           prependMenuItems={
             <MenuItem
@@ -102,7 +102,7 @@ export default React.createClass({
                  );
               })}
             </Paper>
-            <Card style={styles.archivedQuestionsContainer} rounded={false} expanded={this.state.showArchivedQuestions} onExpandChange={function(){this.setState({showArchivedQuestions: !this.state.showArchivedQuestions})}.bind(this)}>
+            <Card style={styles.archivedQuestionsContainer} rounded={false} expanded={this.state.showArchivedQuestions} onExpandChange={function(){this.setState({showArchivedQuestions: !this.state.showArchivedQuestions});}.bind(this)}>
               <CardHeader 
                 title="Archived/Deleted Questions"
                 actAsExpander={true}

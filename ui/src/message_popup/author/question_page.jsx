@@ -255,7 +255,7 @@ export default React.createClass({
                   this.closeDeleteConfirmation();
                   this.onDeleteQuestion();
                 }.bind(this)}/>
-              ]}
+            ]}
             onRequestClose={this.closeDeleteConfirmation}>
             Deleting this will archive the deleted question. Are you sure you wish to continue?
           </Dialog>
