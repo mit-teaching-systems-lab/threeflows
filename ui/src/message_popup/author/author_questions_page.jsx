@@ -7,6 +7,7 @@ import TextField from 'material-ui/TextField';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
 import Paper from 'material-ui/Paper';
+import MenuItem from 'material-ui/MenuItem';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 
 import SearchIcon from 'material-ui/svg-icons/action/search';
@@ -74,6 +75,12 @@ export default React.createClass({
         <NavigationAppBar
           title="MP Questions"
           iconElementRight={<IconButton onTouchTap={this.onNewQuestion}><AddIcon /></IconButton>}
+          prependMenuItems={
+            <MenuItem
+              onTouchTap={this.onNewQuestion}
+              leftIcon={<AddIcon />}
+              primaryText="New Question" />
+          }
           />
         <div style={styles.container}>
           <div style={styles.searchbar}>
