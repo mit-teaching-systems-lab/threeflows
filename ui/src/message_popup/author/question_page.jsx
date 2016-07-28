@@ -2,6 +2,8 @@
 /* eslint no-console: "off" */
 import React from 'react';
 import _ from 'lodash';
+import VelocityTransitionGroup from 'velocity-react/velocity-transition-group';
+import 'velocity-animate/velocity.ui';
 
 import * as EditingComponents from './question_editing_components/editing_component.jsx';
 
@@ -182,66 +184,68 @@ export default React.createClass({
           iconElementLeft={<IconButton onTouchTap={this.returnToQuestions}><ArrowBackIcon /></IconButton>}
           />
         <div style={styles.container}>
-          <EditingComponents.QuestionText 
-            originalText={this.props.originalQuestion !== undefined ? this.props.originalQuestion.text : undefined}
-            questionText={this.state.questionText}
-            onQuestionTextChange={this.onQuestionTextChange}
-            />
-          <EditingComponents.Students 
-            students={this.state.students}
-            addStudent={this.addStudent}
-            removeStudent={this.removeStudent}
-            />
-          <EditingComponents.Examples 
-            type="Good"
-            examplesText={this.state.goodExamplesText}
-            onExamplesChange={this.onGoodExamplesChange}
-            />
-          <EditingComponents.Examples 
-            type="Bad"
-            examplesText={this.state.badExamplesText}
-            onExamplesChange={this.onBadExamplesChange}
-            />
-          <EditingComponents.LearningObjectives 
-            learningObjective={this.state.learningObjective}
-            onChangeLearningObjective={this.onChangeLearningObjective}
-            />
-          <EditingComponents.Indicators 
-            indicator={this.state.indicator}
-            onChangeIndicator={this.onChangeIndicator}
-            />
+          <VelocityTransitionGroup enter={{animation: 'transition.fadeIn'}} runOnMount={true}>
+            <EditingComponents.QuestionText 
+              originalText={this.props.originalQuestion !== undefined ? this.props.originalQuestion.text : undefined}
+              questionText={this.state.questionText}
+              onQuestionTextChange={this.onQuestionTextChange}
+              />
+            <EditingComponents.Students 
+              students={this.state.students}
+              addStudent={this.addStudent}
+              removeStudent={this.removeStudent}
+              />
+            <EditingComponents.Examples 
+              type="Good"
+              examplesText={this.state.goodExamplesText}
+              onExamplesChange={this.onGoodExamplesChange}
+              />
+            <EditingComponents.Examples 
+              type="Bad"
+              examplesText={this.state.badExamplesText}
+              onExamplesChange={this.onBadExamplesChange}
+              />
+            <EditingComponents.LearningObjectives 
+              learningObjective={this.state.learningObjective}
+              onChangeLearningObjective={this.onChangeLearningObjective}
+              />
+            <EditingComponents.Indicators 
+              indicator={this.state.indicator}
+              onChangeIndicator={this.onChangeIndicator}
+              />
 
-          <div style={styles.finalButtonRow}>
-            {this.props.originalQuestion !== undefined &&
-              <div>
-                <RaisedButton 
-                  style={styles.finalButton}
-                  label="Save"
-                  primary={true}
-                  disabled={!this.saveCheckPassed()}
-                  onTouchTap={this.onSaveEdit}
-                  />
-                <RaisedButton
-                  style={styles.finalButton}
-                  backgroundColor="#CA2300"
-                  labelStyle={{color: 'white'}}
-                  label="Delete"
-                  onTouchTap={this.openDeleteConfirmation}
-                  />
-              </div>
-            }
-            {this.props.originalQuestion === undefined &&
-              <div>
-                <RaisedButton
-                  style={styles.finalButton}
-                  label="Create"
-                  primary={true}
-                  disabled={!this.saveCheckPassed()}
-                  onTouchTap={this.onCreate}
-                  />
-              </div>
-            }
-          </div>
+            <div style={styles.finalButtonRow}>
+              {this.props.originalQuestion !== undefined &&
+                <div>
+                  <RaisedButton 
+                    style={styles.finalButton}
+                    label="Save"
+                    primary={true}
+                    disabled={!this.saveCheckPassed()}
+                    onTouchTap={this.onSaveEdit}
+                    />
+                  <RaisedButton
+                    style={styles.finalButton}
+                    backgroundColor="#CA2300"
+                    labelStyle={{color: 'white'}}
+                    label="Delete"
+                    onTouchTap={this.openDeleteConfirmation}
+                    />
+                </div>
+              }
+              {this.props.originalQuestion === undefined &&
+                <div>
+                  <RaisedButton
+                    style={styles.finalButton}
+                    label="Create"
+                    primary={true}
+                    disabled={!this.saveCheckPassed()}
+                    onTouchTap={this.onCreate}
+                    />
+                </div>
+              }
+            </div>
+          </VelocityTransitionGroup>
           <Dialog 
             open={this.state.deleteConfirmationOpen}
             actions={[
