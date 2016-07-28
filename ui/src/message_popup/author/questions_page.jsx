@@ -20,7 +20,7 @@ import {allQuestions} from '../questions.js';
 import {withStudents, withLearningObjectiveAndIndicator} from '../transformations.jsx';
 
 export default React.createClass({
-  displayName: 'AuthorQuestionsPage',
+  displayName: 'QuestionsPage',
 
   getInitialState(){
     return ({

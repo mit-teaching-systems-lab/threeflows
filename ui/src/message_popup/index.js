@@ -6,10 +6,10 @@ import ExplorationPage from './exploration_page.jsx';
 import ScoringPage from './scoring_page.jsx';
 import EvaluationViewerPage from './evaluation_viewer_page.jsx';
 import MessageEvaluationCard from './message_evaluation_card.jsx';
-import AuthorQuestionsPage from './author/author_questions_page.jsx';
+import QuestionsPage from './author/questions_page.jsx';
 import EditQuestionPage from './author/edit_question_page.jsx';
 import NewQuestionPage from './author/new_question_page.jsx';
-
+import ArchivedQuestionsPage from './author/archived_questions_page.jsx';
 
 // Returns a unique set of emails for people we have evidence for.
 // The check for @ is because of older logs that used names instead of email
@@ -31,7 +31,8 @@ export {
   ScoringPage,
   EvaluationViewerPage,
   MessageEvaluationCard,
-  AuthorQuestionsPage,
+  QuestionsPage,
   EditQuestionPage,
-  NewQuestionPage
+  NewQuestionPage,
+  ArchivedQuestionsPage
 };
