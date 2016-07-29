@@ -3,17 +3,21 @@
 import React from 'react';
 import _ from 'lodash';
 
+import * as Routes from '../../routes.js';
+
 import TextField from 'material-ui/TextField';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
+import MenuItem from 'material-ui/MenuItem';
 
 import SearchIcon from 'material-ui/svg-icons/action/search';
 import CheckIcon from 'material-ui/svg-icons/navigation/check';
 import CloseIcon from 'material-ui/svg-icons/navigation/close';
 import UncheckedIcon from 'material-ui/svg-icons/toggle/check-box-outline-blank';
 import CheckedIcon from 'material-ui/svg-icons/toggle/check-box';
+import SchoolIcon from 'material-ui/svg-icons/social/school';
 
 import NavigationAppBar from '../../components/navigation_app_bar.jsx';
 import ArchivedQuestionButton from './archived_question_button.jsx';
@@ -28,8 +32,35 @@ export default React.createClass({
     return ({
       checking: false,
       selectedQuestions: [],
-      dialogOpened: 'none'
+      dialogOpened: 'none',
+      questionsToShow: allArchivedQuestions
     });
+  },
+
+  onSearchBarChange(event){
+    const value = event.target.value.toLowerCase().trim();
+    if(value === ''){
+      this.setState({questionsToShow: allArchivedQuestions});
+    }else{
+      var questions = _.clone(allArchivedQuestions);
+      questions = questions.filter(questionOriginal => {
+        const question = withStudents([withLearningObjectiveAndIndicator(questionOriginal)])[0];
+        var questionString = question.id + " " + question.text + " " + question.learningObjective.key + " " + question.learningObjective.text + " " + question.learningObjective.competencyGroup + " " + question.indicator.text;
+        if(_.has(question, 'students')) _.forEach(question.students, student => questionString += " " + student.id + " " + student.name);
+        _.forEach(question.examples, example => questionString += " " + example);
+        _.forEach(question.nonExamples, example => questionString += " " + example);
+        return questionString.toLowerCase().includes(value);
+      });
+      questions = questions.sort(questionOriginal => {
+        const question = withStudents([withLearningObjectiveAndIndicator(questionOriginal)])[0];
+        var questionString = question.id + " " + question.text + " " + question.learningObjective.key + " " + question.learningObjective.text + " " + question.learningObjective.competencyGroup + " " + question.indicator.text;
+        if(_.has(question, 'students')) _.forEach(question.students, student => questionString += " " + student.id + " " + student.name);
+        _.forEach(question.examples, example => questionString += " " + example);
+        _.forEach(question.nonExamples, example => questionString += " " + example);
+        return questionString.split(value).length;
+      });
+      this.setState({questionsToShow: questions});
+    }
   },
 
   onToggleSelection(){
@@ -77,6 +108,10 @@ export default React.createClass({
     });
   },
 
+  onQuestionAuthoring(){
+    Routes.navigate(Routes.messagePopupAuthorQuestionsPath());
+  },
+
   render(){
     const selectedQuestions = this.state.selectedQuestions.map(id => _.find(allArchivedQuestions, question => question.id === id));
     const selectedQuestion = this.state.selectedQuestions.length > 0 ? withLearningObjectiveAndIndicator(withStudents(selectedQuestions)[0]) : undefined;
@@ -85,6 +120,12 @@ export default React.createClass({
         <NavigationAppBar
           title="MP Archived Questions"
           iconElementRight={<IconButton onTouchTap={this.onToggleSelection}>{this.state.checking ? <CloseIcon /> : <CheckIcon />}</IconButton>}
+          prependMenuItems={
+            <MenuItem
+              onTouchTap={this.onQuestionAuthoring}
+              leftIcon={<SchoolIcon />}
+              primaryText="Question Authoring" />
+          }
           />
         <div style={styles.container}>
           <div style={styles.searchbar}>
@@ -94,6 +135,7 @@ export default React.createClass({
               fullWidth={true}
               style={styles.searchbarText}
               underlineShow={false}
+              onChange={this.onSearchBarChange}
             />
           </div>
           <Divider />
@@ -109,7 +151,7 @@ export default React.createClass({
           </div>
         }
         <div style={{top: this.state.checking ? 160 : 112, ...styles.questionsContainer}}>
-          {allArchivedQuestions.map(question => 
+          {this.state.questionsToShow.map(question => 
             <ArchivedQuestionButton 
               key={question.id} 
               onSetDialog={this.onSetDialog('singleQuestion')}

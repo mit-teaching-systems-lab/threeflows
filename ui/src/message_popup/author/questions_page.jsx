@@ -13,6 +13,7 @@ import {Card, CardHeader, CardText} from 'material-ui/Card';
 
 import SearchIcon from 'material-ui/svg-icons/action/search';
 import AddIcon from 'material-ui/svg-icons/content/add';
+import ArchiveIcon from 'material-ui/svg-icons/content/archive';
 
 import NavigationAppBar from '../../components/navigation_app_bar.jsx';
 import QuestionButton from './question_button.jsx';
@@ -32,6 +33,10 @@ export default React.createClass({
   
   onNewQuestion(){
     Routes.navigate(Routes.messagePopupAuthorQuestionsNewPath());
+  },
+
+  onArchivedQuestions(){
+    Routes.navigate(Routes.messagePopupAuthorArchivedQuestionsPath());
   },
 
   onSearchBarChange(event){
@@ -77,10 +82,16 @@ export default React.createClass({
           title="Message PopUp Questions"
           iconElementRight={<IconButton onTouchTap={this.onNewQuestion}><AddIcon /></IconButton>}
           prependMenuItems={
-            <MenuItem
-              onTouchTap={this.onNewQuestion}
-              leftIcon={<AddIcon />}
-              primaryText="New Question" />
+            <div>
+              <MenuItem
+                onTouchTap={this.onNewQuestion}
+                leftIcon={<AddIcon />}
+                primaryText="New Question" />
+              <MenuItem
+                onTouchTap={this.onArchivedQuestions}
+                leftIcon={<ArchiveIcon />}
+                primaryText="Archived Questions" />
+            </div>
           }
           />
         <div style={styles.container}>
