@@ -118,7 +118,7 @@ export default React.createClass({
   },
   
   messagePopupAuthorArchivedQuestions(query = {}){
-    return <MessagePopup.ArchivedQuestionsPage />
+    return <MessagePopup.ArchivedQuestionsPage />;
   },
 
   cssTank(query = {}) {
