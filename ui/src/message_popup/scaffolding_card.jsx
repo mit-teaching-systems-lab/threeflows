@@ -8,11 +8,11 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import Slider from 'material-ui/Slider';
 import _ from 'lodash';
 
-import {learningObjectives} from '../data/learning_objectives.js';
+import {indicators} from '../data/indicators.js';
 import {allQuestions} from './questions.js';
-import {withStudents, questionsForCompetencies} from './transformations.jsx';
+import {withStudents, questionsForIndicator} from './transformations.jsx';
 
-const ALL_COMPETENCY_GROUPS = 'ALL_COMPETENCY_GROUPS';
+const ALL_INDICATORS = -1;
 
 export default React.createClass({
   displayName: "ScaffoldingCard",
@@ -38,36 +38,34 @@ export default React.createClass({
         shouldShowStudentCard: this.props.scaffolding.shouldShowStudentCard,
         shouldShowSummary: this.props.scaffolding.shouldShowSummary,
       },
-      competencyGroupValue: ALL_COMPETENCY_GROUPS,
+      selectedIndicatorId: ALL_INDICATORS,
       isSolutionMode
     });
   },
 
-  getQuestions(competencyGroup=""){
-    var {competencyGroupValue, isSolutionMode} = this.state;
-    if(competencyGroup !== ""){
-      competencyGroupValue = competencyGroup;
-    }
-    const questions = (isSolutionMode || competencyGroupValue === ALL_COMPETENCY_GROUPS)
+  getQuestions(selectedIndicatorId){
+    var {isSolutionMode} = this.state;
+    const questions = (isSolutionMode || selectedIndicatorId === ALL_INDICATORS)
       ? _.shuffle(withStudents(allQuestions))
-      : questionsForCompetencies(competencyGroupValue);
+      : questionsForIndicator(selectedIndicatorId);
     return questions;
   },
 
   onSave(){
-    const {scaffolding, email} = this.state;
-    const questions = this.getQuestions(this.state.competencyGroupValue).slice(0, this.state.sessionLength);
+    const {scaffolding, email, selectedIndicatorId} = this.state;
+    const questions = this.getQuestions(selectedIndicatorId).slice(0, this.state.sessionLength);
     this.props.onSessionConfigured(scaffolding, email, questions);
   },
   
-  onCompetencyGroupChanged(event, competencyGroupValue){
-    const questions = this.getQuestions(competencyGroupValue);
+  onIndicatorChanged(event, selectedIndicatorIdText){
+    const selectedIndicatorId = _.toInteger(selectedIndicatorIdText);
+    const questions = this.getQuestions(selectedIndicatorId);
     const newLength = questions.length;
     var sessionLength = this.state.sessionLength;
     if(sessionLength > newLength){
       sessionLength = newLength;
     }
-    this.setState({sessionLength, competencyGroupValue});
+    this.setState({sessionLength, selectedIndicatorId});
   },
   
   onSliderChange(event, value){
@@ -102,50 +100,26 @@ export default React.createClass({
   
   render(){
     const {itemsToShow} = this.props;
-    const {competencyGroupValue, sessionLength, scaffolding} = this.state;
+    const {selectedIndicatorId, sessionLength, scaffolding} = this.state;
     const {shouldShowStudentCard, shouldShowSummary, helpType} = scaffolding;
-    const questions = this.getQuestions(competencyGroupValue);
+    const questions = this.getQuestions(selectedIndicatorId);
 
-    const competencyGroups = _.uniq(_.map(allQuestions, 'learningObjectiveId')).map((id) => {
-      return _.find(learningObjectives, {id}).competencyGroup;
-    });
-    
-    const showLearningObjectives = true;
     const showSlider = true;
     const showStudentCardsToggle = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'cards') || _.has(itemsToShow, 'basic');
     const showSummaryToggle = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'summary');
     const showHelpToggle = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'feedback') || _.has(itemsToShow, 'basic');
     const showOriginalHelp = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'originalHelp');
-    
+
     return (
       <div style={styles.container}>
-        {showLearningObjectives &&
-          <div>
-            <div style={styles.optionTitle}>Learning objectives to practice</div>
-            <RadioButtonGroup
-              name="competencyGroupValue"
-              valueSelected={competencyGroupValue}
-              onChange={this.onCompetencyGroupChanged}
-              style={_.merge({padding:20},styles.option)} >
-              <RadioButton 
-                value={ALL_COMPETENCY_GROUPS}
-                label="All" />
-              {competencyGroups.map((competencyGroup) => {
-                return <RadioButton
-                         key={competencyGroup}
-                         value={competencyGroup}
-                         label={competencyGroup} />;
-              })}
-            </RadioButtonGroup>
-          </div>
-        }
+        {this.renderIndicators()}
         
         <Divider />
-        
+      
         {showSlider &&
           <div>
             <div style={styles.optionTitle}>Session Length: {sessionLength} {sessionLength===1 ? "question" : "questions"}</div>
-            <Slider key={competencyGroupValue} value={sessionLength} min={1} max={questions.length} step={1} onChange={this.onSliderChange}/>
+            <Slider value={sessionLength} min={1} max={questions.length} step={1} onChange={this.onSliderChange}/>
           </div>
         }
         
@@ -180,11 +154,11 @@ export default React.createClass({
               <div style={{margin: 10}}><Divider /></div>
               }
               {showOriginalHelp &&
-              <RadioButtonGroup name="helpOptions" valueSelected={helpType} onChange={this.onHelpToggled}>
-                <RadioButton value="feedback" label="With feedback and revision"/>
-                <RadioButton value="hints" label="With hints available"/>
-                <RadioButton value="none" label="With no help available"/>
-              </RadioButtonGroup>
+                <RadioButtonGroup name="helpOptions" valueSelected={helpType} onChange={this.onHelpToggled}>
+                  <RadioButton value="feedback" label="With feedback and revision"/>
+                  <RadioButton value="hints" label="With hints available"/>
+                  <RadioButton value="none" label="With no help available"/>
+                </RadioButtonGroup>
               }
             </div>
           </div>
@@ -209,6 +183,34 @@ export default React.createClass({
         </div>  
       </div>
     );
+  },
+
+  renderIndicators() {
+    const {selectedIndicatorId} = this.state;
+    const possibleIndicators = _.uniq(_.map(allQuestions, 'indicatorId')).map((id) => {
+      return _.find(indicators, {id});
+    });
+
+    return (
+      <div>
+        <div style={styles.optionTitle}>Practice scenarios:</div>
+        <RadioButtonGroup
+          name="indica"
+          valueSelected={selectedIndicatorId.toString()}
+          onChange={this.onIndicatorChanged}
+          style={{...styles.option, padding: 20 }}>
+          <RadioButton 
+            value={ALL_INDICATORS.toString()}
+            label="All" />
+          {possibleIndicators.map((indicator) => {
+            return <RadioButton
+                     key={indicator.id}
+                     value={indicator.id.toString()}
+                     label={indicator.text} />;
+          })}
+        </RadioButtonGroup>
+      </div>
+    );
   }
 });
 
@@ -218,12 +220,11 @@ const styles = {
     paddingTop: 0,
   },
   option: {
-    fontSize: 16,
+    fontSize: 14
   },
   optionTitle: {
-    padding: 10,
-    fontSize: 16,
     paddingTop: 20,
+    fontSize: 16,
     paddingBottom: 0
   },
   button: {
