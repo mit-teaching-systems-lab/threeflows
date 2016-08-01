@@ -3,4 +3,5 @@
 .*/node_modules/config-chain/test/broken.json
 .*/node_modules/npmconf/test/.*
 .*/node_modules/react-motion/.*
+.*/node_modules/react-swipeable-views/src/.*
 .*/node_modules/reqwest/.*
