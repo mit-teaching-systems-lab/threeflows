@@ -1,10 +1,13 @@
 /* @flow weak */
 import React from 'react';
+
+import {Card, CardHeader, CardText} from 'material-ui/Card';
+import * as Colors from 'material-ui/styles/colors';
+
 import StudentCard from '../message_popup/student_card.jsx';
 import {allStudents} from '../data/virtual_school.js';
 import * as PropTypes from '../prop_types.js';
-import {Card, CardHeader, CardText} from 'material-ui/Card';
-
+import NavigationAppBar from '../components/navigation_app_bar.jsx';
 
 
 export default React.createClass({
@@ -15,18 +18,24 @@ export default React.createClass({
   },
 
   getDefaultProps() {
-    return {
-      students: allStudents
-    };
+    // Only show the latest cohort of students
+    const students = allStudents.filter(student => student.cohortKey === '20160722');
+    return {students};
   },
 
   render() {
     const {students} = this.props;
     return (
-      <div style={styles.pageContainer}>
-        <div style={styles.section}>{this.renderSchool()}</div>
-        <div style={styles.section}>{this.renderClassroom(students)}</div>
-        <div style={styles.section}>{this.renderStudents(students)}</div>
+      <div>
+        <NavigationAppBar
+          title="Virtual School"
+          style={{backgroundColor: Colors.blueGrey500}}
+        />
+        <div style={styles.pageContainer}>
+          <div style={styles.section}>{this.renderSchool()}</div>
+          <div style={styles.section}>{this.renderClassroom(students)}</div>
+          <div style={styles.section}>{this.renderStudents(students)}</div>
+        </div>
       </div>
     );
   },
@@ -108,16 +117,13 @@ export default React.createClass({
 
 const styles = {
   section: {
-    marginTop: 20,
     marginBottom: 20
   },
   cardTitleHeader: {
     fontSize: 24
   },
   pageContainer: {
-    padding: 20,
-    paddingTop: 5,
-    backgroundColor: '#A31F34'
+    paddingTop: 5
   },
   text: {
     fontSize: 16,
@@ -131,7 +137,7 @@ const styles = {
     padding: 10,
     border: '1px solid #ccc',
     minHeight: 200,
-    width: 380,
+    width: 300,
     fontSize: 18
   },
   studentCardAttribute: {

@@ -10,20 +10,16 @@ import Divider from 'material-ui/Divider';
 import LinearProgress from 'material-ui/LinearProgress';
 import Snackbar from 'material-ui/Snackbar';
 import MenuItem from 'material-ui/MenuItem';
-
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 
 import PopupQuestion from './popup_question.jsx';
 import * as Routes from '../routes';
 import type {Response} from './popup_question.jsx';
-
 import {withStudents} from './transformations.jsx';
 import * as Api from '../helpers/api.js';
 import FinalSummaryCard from './final_summary_card.jsx';
 import InstructionsCard from './instructions_card.jsx';
 import NavigationAppBar from '../components/navigation_app_bar.jsx';
-
-
 import ScaffoldingCard from './scaffolding_card.jsx';
 import MobilePrototypeCard from './mobile_prototype_card.jsx';
 

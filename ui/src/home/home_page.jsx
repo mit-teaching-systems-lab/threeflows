@@ -27,12 +27,12 @@ export default React.createClass({
     return (
       <div>
         <NavigationAppBar
-          title="threeflows"
+          title="Home"
           style={{backgroundColor: Colors.blueGrey500}} />
         <Card style={styles.card}>
           <CardHeader
             titleStyle={styles.cardTitleHeader}
-            title="Challenge prototypes"/>
+            title="Challenges"/>
           <CardText>
             {this.props.challenges.map((challenge) => {
               return <ChallengeCard key="{challenge.id}" {...challenge} style={{ border: 'none', padding: 0 }} />;

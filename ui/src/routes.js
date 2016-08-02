@@ -19,6 +19,10 @@ export function challengePath(id:number):string {
   return `/challenge/${id}`;
 }
 
+export function virtualSchoolPath():string {
+  return '/virtual_school';
+}
+
 export function messagePopupPracticePath() {
   return '/message_popup';
 }
