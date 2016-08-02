@@ -83,7 +83,7 @@ export default React.createClass({
     });
   },
 
-  onSwiped(log, index, fromIndex) {
+  onSwiped(log, index) {
     if (index === SWIPE_LEFT_INDEX) return this.doScore(log.id, DEMONSTRATED_COMPETENCY);
     if (index === SWIPE_RIGHT_INDEX) {
       this.setState({

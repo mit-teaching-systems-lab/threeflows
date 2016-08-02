@@ -21,9 +21,6 @@
     "indent": ["error", 2],
     "semi": ["error", "always"],
     "comma-dangle": ["error", "only-multiline"],
-    "no-unused-vars": ["error", {
-      "args": "none"
-    }],
 
     "react/prefer-stateless-function": "off",
     "react/prefer-es6-class": "off",

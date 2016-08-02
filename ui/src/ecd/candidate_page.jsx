@@ -32,7 +32,7 @@ export default React.createClass({
     };
   },
 
-  componentDidMount(props, state) {
+  componentDidMount() {
     Api.evaluationsWithEvidenceQuery().then(this.onDataReceived);
   },
 
