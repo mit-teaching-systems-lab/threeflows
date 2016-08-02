@@ -32,7 +32,6 @@ export default React.createClass({
 
   propTypes: {
     question: React.PropTypes.object.isRequired,
-    learningObjective: React.PropTypes.object.isRequired,
     indicator: React.PropTypes.object.isRequired,
     logs: React.PropTypes.array.isRequired,
     onEvaluation: React.PropTypes.func.isRequired,
@@ -68,14 +67,13 @@ export default React.createClass({
   },
 
   doScore(logId, scoreValue, {scoreComment} = {}) {
-    const {question, learningObjective, indicator} = this.props;
+    const {question, indicator} = this.props;
     const {email} = this.context.auth.userProfile;
 
     this.props.onEvaluation({
       scoreValue,
       logId,
       scoreComment,
-      learningObjective,
       indicator,
       question,
       email,
@@ -167,13 +165,12 @@ export default React.createClass({
   },
 
   renderContext(logs) {
-    const {question, indicator, learningObjective} = this.props;
+    const {question, indicator} = this.props;
     return (
       <div>
         <ScoringQuestionContext
           question={question}
           indicator={indicator}
-          learningObjective={learningObjective}
         />
         <Card key="progress" style={styles.contextCard} zDepth={2}>
           <CardText>

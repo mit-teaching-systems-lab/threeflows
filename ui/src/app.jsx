@@ -18,11 +18,7 @@ import RawPage from './ecd/raw_page.jsx';
 import CandidatePage from './ecd/candidate_page.jsx';
 import EvaluatorPage from './ecd/evaluator_page.jsx';
 import * as MessagePopup from './message_popup/index.js';
-import {
-  challenges,
-  slates,
-  withLearningObjectives
-} from './data/challenges.js';
+import {challenges, slates} from './challenge/challenges.js';
 
 
 
@@ -53,7 +49,7 @@ export default React.createClass({
 
   getDefaultProps() {
     return {
-      challenges: challenges.map(withLearningObjectives),
+      challenges: challenges,
       muiTheme: getMuiTheme()
     };
   },

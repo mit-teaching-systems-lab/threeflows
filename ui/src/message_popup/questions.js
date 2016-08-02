@@ -2,17 +2,6 @@
 import _ from 'lodash';
 //“”’
 
-// Example Usage:
-//   questions.map(_.partial(forLearningObjective, 39));
-function forLearningObjective(learningObjectiveId) {
-  return function(question) {
-    return {
-      ...question,
-      ...{learningObjectiveId}
-    };
-  };
-}
-
 function forIndicator(indicatorId) {
   return function(question) {
     return {
@@ -231,7 +220,7 @@ export const inquiryQuestions:[Question] = [
     ]
 
   }
-].map(forLearningObjective(39)).map(forIndicator(502));
+].map(forIndicator(502));
 
 export const motivationQuestions:[Question] = [
   {
@@ -296,7 +285,7 @@ export const motivationQuestions:[Question] = [
     ],
     nonExamples: []
   }
-].map(forLearningObjective(35)).map(forIndicator(501));
+].map(forIndicator(501));
 
 
 export const doSomethingQuestions:[Question] = [
@@ -419,7 +408,7 @@ export const doSomethingQuestions:[Question] = [
     examples: [],
     nonExamples: []
   }
-].map(forLearningObjective(50)).map(forIndicator(601));
+].map(forIndicator(601));
 
 
 

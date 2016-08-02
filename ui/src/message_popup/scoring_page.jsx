@@ -12,7 +12,7 @@ import SchoolIcon from 'material-ui/svg-icons/social/school';
 import {List, ListItem} from 'material-ui/List';
 
 import ScoringSwipe from './scoring_swipe.jsx';
-import {withLearningObjectiveAndIndicator} from './transformations.jsx';
+import {withIndicator} from './transformations.jsx';
 import {questionId} from './questions.js';
 import * as Api from '../helpers/api.js';
 
@@ -123,11 +123,11 @@ export default React.createClass({
         <List>
           {questionGroups.map(({logsForQuestion, questionKey}) => {
             const question = _.first(logsForQuestion).json.question;
-            const {learningObjective} = withLearningObjectiveAndIndicator(question);            
+            const {indicator} = withIndicator(question);            
             return this.renderQuestion({
               questionKey,
               question,
-              learningObjective,
+              indicator,
               logsForQuestion
             });
           })}
@@ -136,14 +136,14 @@ export default React.createClass({
     );
   },
 
-  renderQuestion({questionKey, question, learningObjective, logsForQuestion}) {
+  renderQuestion({questionKey, question, indicator, logsForQuestion}) {
     return (
       <div key={questionKey}>
         <ListItem
           style={{cursor: 'pointer', fontSize: 14}}
           onClick={this.onQuestionSelected.bind(this, question)}
           leftIcon={<SchoolIcon />}
-          primaryText={`#${questionId(question)} ${learningObjective.competencyGroup} (${logsForQuestion.length})`}
+          primaryText={`(${logsForQuestion.length}) #${questionId(question)} ${indicator.text}`}
           secondaryText={
             <div>
               <span>{question.text}</span>
@@ -157,12 +157,11 @@ export default React.createClass({
   },
 
   renderSwipeableList(question, logsForQuestion) {
-    const {learningObjective, indicator} = withLearningObjectiveAndIndicator(question);
+    const {indicator} = withIndicator(question);
 
     return (
       <ScoringSwipe
         logs={logsForQuestion}
-        learningObjective={learningObjective}
         indicator={indicator}
         question={question}
         onEvaluation={this.onEvaluation}
