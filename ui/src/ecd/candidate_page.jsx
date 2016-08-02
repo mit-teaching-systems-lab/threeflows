@@ -36,11 +36,6 @@ export default React.createClass({
     Api.evaluationsWithEvidenceQuery().then(this.onDataReceived);
   },
 
-  onDataReceived(evaluations) {
-    const candidateEvaluations = this.filteredByCandidate(evaluations, this.props.candidateEmail);
-    this.setState({candidateEvaluations});
-  },
-
   // Also filters out evaluations without links back to indicators.
   filteredByCandidate(evaluations, candidateEmail) {
     return evaluations.filter(evaluation => {
@@ -58,6 +53,11 @@ export default React.createClass({
       const indicator = _.find(indicators, indicator => indicator.id.toString() === indicatorId);
       return {indicator, evaluations};
     });
+  },
+
+  onDataReceived(evaluations) {
+    const candidateEvaluations = this.filteredByCandidate(evaluations, this.props.candidateEmail);
+    this.setState({candidateEvaluations});
   },
 
   render() {

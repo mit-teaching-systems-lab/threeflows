@@ -23,6 +23,13 @@ export default React.createClass({
     localStorageKey: React.PropTypes.string
   },
 
+  childContextTypes: {
+    auth: React.PropTypes.shape({
+      userProfile: React.PropTypes.object,
+      doLogout: React.PropTypes.func
+    }).isRequired
+  },
+
   getDefaultProps() {
     return {
       localStorageKey: 'threeflows_email_registration'
@@ -37,13 +44,6 @@ export default React.createClass({
     };
   },
 
-  childContextTypes: {
-    auth: React.PropTypes.shape({
-      userProfile: React.PropTypes.object,
-      doLogout: React.PropTypes.func
-    }).isRequired
-  },
-
   getChildContext() {
     const userProfile = (this.state.hasConfirmedEmail) ? {
       email: this.state.userEmail
@@ -55,14 +55,6 @@ export default React.createClass({
         doLogout: this.doLogout
       }
     };
-  },
-
-  doLogout() {
-    window.localStorage.removeItem(this.props.localStorageKey);
-    this.setState({
-      hasConfirmedEmail: false,
-      userEmail: ''
-    });
   },
 
   componentWillMount() {
@@ -83,6 +75,14 @@ export default React.createClass({
     if (hasConfirmedEmail && userEmail) {
       window.localStorage.setItem(this.props.localStorageKey, JSON.stringify({userEmail, hasConfirmedEmail}));
     }
+  },
+
+  doLogout() {
+    window.localStorage.removeItem(this.props.localStorageKey);
+    this.setState({
+      hasConfirmedEmail: false,
+      userEmail: ''
+    });
   },
 
   validateEmail(email) {

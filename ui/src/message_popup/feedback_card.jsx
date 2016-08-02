@@ -12,7 +12,14 @@ This shows a feedback card after the user first presses save
 export default React.createClass({
   displayName: 'FeedbackCard',
 
-  getInitialState: function(){
+  propTypes: {
+    initialResponseText: React.PropTypes.string.isRequired,
+    onRevised: React.PropTypes.func.isRequired,
+    onPassed: React.PropTypes.func.isRequired,
+    examples: React.PropTypes.array.isRequired
+  },
+
+  getInitialState(){
     var example = _.shuffle(this.props.examples)[0];
     const initialResponseText = this.props.initialResponseText;
     return ({
@@ -21,20 +28,12 @@ export default React.createClass({
     });
   },
   
-  propTypes: {
-    initialResponseText: React.PropTypes.string.isRequired,
-    onRevised: React.PropTypes.func.isRequired,
-    onPassed: React.PropTypes.func.isRequired,
-    examples: React.PropTypes.array.isRequired
-  },
-  
   onTextChanged({target:{value}}:TextChangeEvent){
     this.setState({ finalResponseText: value });
   },
   
   onRevise(){
     this.props.onRevised(this.state.finalResponseText);
-    
   },
   
   onPass(){

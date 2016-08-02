@@ -36,6 +36,10 @@ export default React.createClass({
     };
   },
 
+  doCloseDrawer() {
+    this.setState({ isOpen: false });
+  },
+
   onToggled() {
     this.setState({isOpen: !this.state.isOpen});
   },
@@ -43,10 +47,6 @@ export default React.createClass({
   onNavigationTapped(url) {
     Routes.navigate(url);
     this.doCloseDrawer();
-  },
-
-  doCloseDrawer() {
-    this.setState({ isOpen: false });
   },
 
   render() {

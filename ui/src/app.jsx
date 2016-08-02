@@ -30,21 +30,6 @@ export default React.createClass({
   displayName: 'App',
 
   mixins: [RouterMixin],
-  routes: {
-    '/': 'home',
-    '/virtual_school': 'virtualSchool',
-    
-    '/challenge/:id': 'challenge',
-    '/message_popup': 'messagePopup',
-    '/message_popup/exploration': 'messagePopupExploration',
-    '/message_popup/evaluations/:id': 'messagePopupEvaluation',
-    '/message_popup/scoring': 'messagePopupScoring',
-    '/ecd/raw': 'ecdRaw',
-    '/ecd/candidate': 'ecdCandidate',
-    '/ecd/evaluator': 'ecdEvaluator',
-    '/slate/:id': 'slate',
-    '/csstank': 'cssTank',
-  },
 
   propTypes: {
     challenges: React.PropTypes.arrayOf(PropTypes.Challenge),
@@ -62,6 +47,23 @@ export default React.createClass({
     injectTapEventPlugin(); // material-ui, see https://github.com/zilverline/react-tap-event-plugin
   },
 
+  routes: {
+    '/': 'home',
+    '/virtual_school': 'virtualSchool',
+    
+    '/challenge/:id': 'challenge',
+    '/message_popup': 'messagePopup',
+    '/message_popup/exploration': 'messagePopupExploration',
+    '/message_popup/evaluations/:id': 'messagePopupEvaluation',
+    '/message_popup/scoring': 'messagePopupScoring',
+    '/ecd/raw': 'ecdRaw',
+    '/ecd/candidate': 'ecdCandidate',
+    '/ecd/evaluator': 'ecdEvaluator',
+    '/slate/:id': 'slate',
+    '/csstank': 'cssTank',
+  },
+
+  /*eslint-disable react/sort-comp */
   render(){
     return (
       <MuiThemeProvider muiTheme={this.props.muiTheme}>
@@ -127,4 +129,5 @@ export default React.createClass({
   ecdEvaluator(query = {}) {
     return <EvaluatorPage evaluatorEmail={query.email} />;
   }
+  /*eslint-enable react/sort-comp */
 });
