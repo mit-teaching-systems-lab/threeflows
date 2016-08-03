@@ -5,7 +5,8 @@ import _ from 'lodash';
 
 //other file imports
 import SetIntervalMixin from '../../helpers/set_interval_mixin.js';
-import {TextBody, TextFooter} from './texting_interface.jsx';
+import TextBody from './text_body_component.jsx';
+import TextFooter from './text_footer_component.jsx';
 import type {Response} from '../popup_question.jsx';
 
 //material-ui imports
@@ -27,22 +28,19 @@ export default React.createClass({
   mixins: [SetIntervalMixin],
   
   getInitialState() {
-    var allExamples = [];
-    var messages = [];
     const goodExamples = _.map(this.props.question.examples, (example) => { return {type: 'Good', text: example}; });
     const badExamples = _.map(this.props.question.nonExamples, (example) => { return {type: 'Bad', text: example}; });
-    allExamples = _.shuffle(_.clone(goodExamples).concat(badExamples)); 
-    messages = this.getInitialMessages(this.props.question, this.props.scaffolding.shouldShowStudentCard);
+    const allExamples = _.shuffle(_.clone(goodExamples).concat(badExamples)); 
+    const messages = this.getInitialMessages(this.props.question);
     return ({
       messages,
       allExamples,
-      selectedStudent: this.props.question.students[0],
       initialResponse: undefined,
       revisedResponse: undefined,
       elapsedMs: 0,
       exampleIndex: 0,
-      dialog: 'none',
-      messageId: 1
+      dialog: null,
+      messageIndex: 1
     });
   },
   
@@ -61,17 +59,13 @@ export default React.createClass({
   
   addMessages(messageList){
     var messages = _.clone(this.state.messages);
-    var messageId = this.state.messageId;
+    var messageId = this.state.messageIndex;
     for(var messageIndex = 0; messageIndex < messageList.length; messageIndex++){
       messageId+=1;
       const message = _.extend({key: messageId}, messageList[messageIndex]);
       messages.push(message);
     }
-    this.setState({messages, messageId});
-  },
-  
-  addResponse(response){
-    this.addMessages([{type: 'user', text: response}]);
+    this.setState({messages, messageIndex: messageId});
   },
 
   setInitialResponse(response){
@@ -79,12 +73,12 @@ export default React.createClass({
     if(this.props.scaffolding.helpType === 'feedback'){
       this.sendRevision(response);
     }else{
-      this.addResponse(response);
+      this.addMessages([{type: 'user', text: response}]);
     }
   },
 
   setRevisedResponse(response){
-    this.addResponse(response);
+    this.addMessages([{type: 'user', text: response}]);
     this.setState({revisedResponse: response});
   },
 
@@ -111,21 +105,14 @@ export default React.createClass({
   },
   
   sendRevision(response){
-    if(this.props.question.examples.length > 0){
-      this.addMessages([
-        {type: 'user', text: response},
-        {type: 'info', text: "Here's an example of something you could say/do:\n\n" + _.shuffle(this.props.question.examples)[0] + "\n\nWould you like to revise your response?"}, 
-      ]);
-    }else{
-      this.addMessages([
-        {type: 'user', text: response},
-        {type: 'info', text: "There aren't any examples for this situation yet but your response will be recorded for feedback."}, 
-      ]);
-      this.setPassedResponse();
-    }
+    var messages = [{type: 'user', text: response}];
+    if(this.props.question.examples.length > 0) messages.push({type: 'info', text: "Here's an example of something you could say/do:\n\n" + _.shuffle(this.props.question.examples)[0] + "\n\nWould you like to revise your response?"});
+    this.addMessages(messages);
+    if(this.props.question.examples.length === 0) this.setPassedResponse()
+    
   },
   
-  showExample(){
+  onShowExampleClicked(){
     const example = this.nextExample(true);
     const messageText = example.type + ' Example:\n' + example.text;
     this.addMessages([{type: 'info', text: messageText}]);
@@ -143,22 +130,17 @@ export default React.createClass({
     }
   },
 
-  setDialog(value){
-    this.setState({dialog: value});
-  },
-
   onCloseDialog(){
-    this.setDialog('none');
+    this.setState({dialog: null});
   },
 
   onOpenInfoDialog(){
-    this.setDialog('info');
+    this.setState({dialog: {type: 'info'}});
   },
 
   onOpenStudentDialog(student){
     return (function() {
-      this.setState({selectedStudent: student});
-      this.setDialog('student');
+      this.setState({dialog: {type: 'student', student}});
     }.bind(this));
   },
 
@@ -190,7 +172,7 @@ export default React.createClass({
     this.props.onLog(type, response);
   },
 
-  getInitialMessages(questionObject, shouldShowStudentCard){
+  getInitialMessages(questionObject){
     var messages = [];
     if(_.has(questionObject, 'encodedText')){
       var arrayOfMessages = questionObject.encodedText.split('[:');
@@ -245,101 +227,86 @@ export default React.createClass({
   render(){
     const {scaffolding, question} = this.props;
     const {helpType, shouldShowStudentCard} = scaffolding;
-    const {selectedStudent} = this.state;
     return (
       <div>
-        <div>
-          <div>
-            <div style={styles.textBody}>
-              <TextBody 
-                question={this.props.question}
-                messages={this.state.messages}
-                onOpenStudentDialog={this.onOpenStudentDialog}
-                onOpenInfoDialog={this.onOpenInfoDialog}
-                />
-            </div>
-          </div>
+        <div style={styles.textBody}>
+          <TextBody 
+            question={this.props.question}
+            messages={this.state.messages}
+            onOpenStudentDialog={this.onOpenStudentDialog}
+            onOpenInfoDialog={this.onOpenInfoDialog}
+            />
+        </div>
+        <div style={styles.textFooter}>
+          <TextFooter 
+            onQuestionDone={this.onNextQuestion}
+            setInitialResponse={this.setInitialResponse}
+            setRevisedResponse={this.setRevisedResponse}
+            setPassedResponse={this.setPassedResponse}
+            log={{logResponse: this.logResponse, logRevision: this.logRevision, logRevisionDeclined: this.logRevisionDeclined}}
+            isReadyToMoveOn={this.isReadyToMoveOn()}
+            helpType={helpType}
+            elapsedMs={this.state.elapsedMs}
+            onShowExampleClicked={this.onShowExampleClicked}
+            nextExample={this.nextExample}
+            nextButtonLabel={this.props.isLastQuestion ? 'Finish' : 'Next Question'}
+            />
         </div>
         <div>
-          <div> 
-            <div style={styles.textFooter}>
-              <TextFooter 
-                onQuestionDone={this.onNextQuestion}
-                setInitialResponse={this.setInitialResponse}
-                setRevisedResponse={this.setRevisedResponse}
-                setPassedResponse={this.setPassedResponse}
-                log={{logResponse: this.logResponse, logRevision: this.logRevision, logRevisionDeclined: this.logRevisionDeclined}}
-                isReadyToMoveOn={this.isReadyToMoveOn}
-                helpType={helpType}
-                elapsedMs={this.state.elapsedMs}
-                showExample={this.showExample}
-                nextExample={this.nextExample}
-                nextButtonLabel={this.props.isLastQuestion ? 'Finish' : 'Next Question'}
-                />
-            </div>
-            <div>
-              {selectedStudent !== undefined &&
-                <div>
-                  <Dialog 
-                    title="Involved Students"
-                    actions={<FlatButton label="Close" onTouchTap={this.onCloseDialog}/>}
-                    open={this.state.dialog === 'info'}
-                    onRequestClose={this.onCloseDialog}>
-                    <div style={{display: 'flex', flexDirection: 'row'}}>
-                      {question.students.map(student => (
-                        <Chip
-                          key={"Student:" + student.id}
-                          onTouchTap={this.onOpenStudentDialog(student)}
-                          backgroundColor='#F1C889'
-                          style={{margin: 4}}>
-                          <Avatar color={fullBlack} backgroundColor='#F1C889' icon={<FaceIcon />} />
-                          {student.name}
-                        </Chip>
-                      ))}
-                    </div>
-                  </Dialog>
-                  <Dialog 
-                    title={selectedStudent.name}
-                    actions={<FlatButton label="Close" onTouchTap={this.onCloseDialog}/>}
-                    open={this.state.dialog === 'student'}
-                    onRequestClose={this.onCloseDialog}>
-                    <div style={styles.studentAttribute}>{`${selectedStudent.grade} ${selectedStudent.gender}, ${selectedStudent.race}`}</div>
-                    {shouldShowStudentCard && selectedStudent.behavior && <div style={styles.studentAttribute}>{selectedStudent.behavior}</div>}
-                    {shouldShowStudentCard && selectedStudent.ell && <div style={styles.studentAttribute}>{selectedStudent.ell}</div>}
-                    {shouldShowStudentCard && selectedStudent.learningDisabilities && <div style={styles.studentAttribute}>{selectedStudent.learningDisabilities}</div>}
-                    {shouldShowStudentCard && selectedStudent.academicPerformance && <div style={styles.studentAttribute}>{selectedStudent.academicPerformance}</div>}
-                    {shouldShowStudentCard && selectedStudent.interests && <div style={styles.studentAttribute}>{selectedStudent.interests}</div>}
-                    {shouldShowStudentCard && selectedStudent.familyBackground && <div style={styles.studentAttribute}>{selectedStudent.familyBackground}</div>}
-                    {shouldShowStudentCard && selectedStudent.ses && <div style={styles.studentAttribute}>{selectedStudent.ses}</div>}
-                  </Dialog>
-                </div>
-              }
-            </div>
-          </div>
+          {question.students.length > 0 && this.renderDialogs()}
         </div>
       </div>
     );
+  },
+
+  renderDialogs(){
+    const {scaffolding, question} = this.props;
+    const {shouldShowStudentCard} = scaffolding;
+    const {dialog} = this.state;
+    const selectedStudent = dialog !== null ? (dialog.type === 'student' ? dialog.student : undefined) : undefined;
+    return (
+      <div>
+        <Dialog 
+          title="Involved Students"
+          actions={<FlatButton label="Close" onTouchTap={this.onCloseDialog}/>}
+          open={dialog !== null && dialog.type === 'info'}
+          onRequestClose={this.onCloseDialog}>
+          <div style={{display: 'flex', flexDirection: 'row'}}>
+            {question.students.map(student => (
+              <Chip
+                key={"Student:" + student.id}
+                onTouchTap={this.onOpenStudentDialog(student)}
+                backgroundColor='#F1C889'
+                style={{margin: 4}}>
+                <Avatar color={fullBlack} backgroundColor='#F1C889' icon={<FaceIcon />} />
+                {student.name}
+              </Chip>
+            ))}
+          </div>
+        </Dialog>
+        {selectedStudent !== undefined &&
+          <Dialog 
+            title={selectedStudent.name}
+            actions={<FlatButton label="Close" onTouchTap={this.onCloseDialog}/>}
+            open={dialog !== null && dialog.type === 'student'}
+            onRequestClose={this.onCloseDialog}>
+            <div style={styles.studentAttribute}>{`${selectedStudent.grade} ${selectedStudent.gender}, ${selectedStudent.race}`}</div>
+            {shouldShowStudentCard && selectedStudent.behavior && <div style={styles.studentAttribute}>{selectedStudent.behavior}</div>}
+            {shouldShowStudentCard && selectedStudent.ell && <div style={styles.studentAttribute}>{selectedStudent.ell}</div>}
+            {shouldShowStudentCard && selectedStudent.learningDisabilities && <div style={styles.studentAttribute}>{selectedStudent.learningDisabilities}</div>}
+            {shouldShowStudentCard && selectedStudent.academicPerformance && <div style={styles.studentAttribute}>{selectedStudent.academicPerformance}</div>}
+            {shouldShowStudentCard && selectedStudent.interests && <div style={styles.studentAttribute}>{selectedStudent.interests}</div>}
+            {shouldShowStudentCard && selectedStudent.familyBackground && <div style={styles.studentAttribute}>{selectedStudent.familyBackground}</div>}
+            {shouldShowStudentCard && selectedStudent.ses && <div style={styles.studentAttribute}>{selectedStudent.ses}</div>}
+          </Dialog>
+        }
+      </div>
+      );
   }
 });
 
 
 const styles = {
-  appBar: {
-    position: 'absolute',
-    top: 0
-  },
-  instructionsBody: {
-    position: 'absolute',
-    top: 64,
-    bottom: 0,
-    overflowY: 'scroll'
-  },
-  progressBar: {
-    width: '100%',
-    position:'absolute',
-    top: 64,
-    
-  },
   textBody: {
     position: 'absolute',
     top: 69,
@@ -353,21 +320,7 @@ const styles = {
     paddingBottom: 15,
     width: '100%',
     backgroundColor: '#ffffff'
-  },
-  doneBody:{
-    position: 'absolute',
-    top: 64,
-    bottom: 0,
-    width: '100%',
-    padding: 20,
-    fontSize: 20
-  },
-  doneBodyText:{
-    paddingBottom: 10
-  },
-  doneBodyButton: {
-    marginTop: 20
-  },
+  },    
   studentAttribute: {
     fontSize: 14,
     marginTop: 2

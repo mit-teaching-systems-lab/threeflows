@@ -9,14 +9,19 @@ import IconButton from 'material-ui/IconButton';
 import FaceIcon from 'material-ui/svg-icons/action/face';
 import InfoOutlineIcon from 'material-ui/svg-icons/action/info-outline';
 
+/*
+Contains the components for messages "sent" through the message popup texting interface.
+*/
+
 const Message = React.createClass({
   propTypes: {
     type: React.PropTypes.string.isRequired,
     text: React.PropTypes.string.isRequired,
     messageStyle: React.PropTypes.object.isRequired,
     messageTextStyle: React.PropTypes.object.isRequired,
+    leftIcon: React.PropTypes.element,
+    rightIcon: React.PropTypes.element,
     label: React.PropTypes.string,
-    onOpenDialog: React.PropTypes.func
   },
   
   componentDidMount(){ 
@@ -28,22 +33,7 @@ const Message = React.createClass({
     
     return (
       <div style={messageStyle}>
-        { type === 'student' && 
-          <IconButton 
-            onTouchTap={this.props.onOpenDialog} 
-            style={styles.messageIconButton} 
-            iconStyle={styles.messageIcon}>
-            <FaceIcon/>
-          </IconButton>
-        }
-        { type === 'info' && 
-          <IconButton 
-            onTouchTap={this.props.onOpenDialog}
-            style={styles.messageIconButton}
-            iconStyle={styles.messageIcon}>
-            <InfoOutlineIcon/>
-          </IconButton>
-        }
+        {this.props.leftIcon}
         <div style={styles.messageTextSection}>
           {this.props.label !== undefined && 
             <div style={_.merge(type === 'user' ? {textAlign: 'right'} : {textAlign: 'left'}, {...messageTextStyle, ...styles.label})}>
@@ -53,10 +43,7 @@ const Message = React.createClass({
           <Paper style={messageTextStyle}>{this.props.text}</Paper>
           
         </div>
-
-        { type === 'user' && 
-          <FaceIcon  style={styles.messageIcon}/> 
-        }
+        {this.props.rightIcon}
       </div>
     );
   }
@@ -81,7 +68,14 @@ export const StudentMessage = React.createClass({
           label={this.props.student.name}
           messageStyle={messageStyle}
           messageTextStyle={messageTextStyle}
-          onOpenDialog={this.props.onOpenStudentDialog}
+          leftIcon={
+            <IconButton 
+              onTouchTap={this.props.onOpenStudentDialog} 
+              style={styles.messageIconButton} 
+              iconStyle={styles.messageIcon}>
+              <FaceIcon/>
+            </IconButton>
+          }
           />
       </div>
     );
@@ -107,6 +101,9 @@ export const UserMessage = React.createClass({
           label={this.props.label === undefined ? 'You' : this.props.label}
           messageStyle={messageStyle}
           messageTextStyle={messageTextStyle}
+          rightIcon={
+            <FaceIcon  style={{marginTop: 8, ...styles.messageIcon}}/> 
+          }
           />
       </div>
     );
@@ -130,7 +127,14 @@ export const InfoMessage = React.createClass({
           text={this.props.text}
           messageStyle={messageStyle}
           messageTextStyle={messageTextStyle}
-          onOpenDialog={this.props.onOpenInfoDialog}
+          leftIcon={
+            <IconButton 
+              onTouchTap={this.props.onOpenInfoDialog}
+              style={styles.messageIconButton}
+              iconStyle={styles.messageIcon}>
+              <InfoOutlineIcon/>
+            </IconButton>
+          }
           />
       </div>
     );
@@ -147,7 +151,7 @@ const styles = {
     padding: 0,
     flexGrow: 0,
     flexShrink: 0,
-    flexBasis:30
+    flexBasis: 30
   },
   messageIcon: {
     width: 30,
