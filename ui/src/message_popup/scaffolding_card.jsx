@@ -110,6 +110,8 @@ export default React.createClass({
     const showHelpToggle = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'feedback') || _.has(itemsToShow, 'basic');
     const showOriginalHelp = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'originalHelp');
 
+    // This is a workaround for a bug in Slider while we wait for https://github.com/callemall/material-ui/pull/4895 to land
+    const sliderKey = [sessionLength, questionsLength, selectedIndicatorId].join('-');
     return (
       <div style={styles.container}>
         {this.renderIndicators()}
@@ -119,7 +121,7 @@ export default React.createClass({
         {showSlider &&
           <div>
             <div style={styles.optionTitle}>Session Length: {sessionLength} {sessionLength===1 ? "question" : "questions"}</div>
-            <Slider value={sessionLength} min={1} max={questionsLength} step={1} onChange={this.onSliderChange}/>
+            <Slider key={sliderKey} value={sessionLength} min={1} max={questionsLength} step={1} onChange={this.onSliderChange}/>
           </div>
         }
         
