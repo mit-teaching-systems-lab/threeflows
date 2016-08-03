@@ -40,7 +40,7 @@ export default React.createClass({
     };
   },
 
-  componentDidMount(props, state) {
+  componentDidMount() {
     this.doReload();
     this.setInterval(this.doReload, this.props.refreshIntervalMs);
   },

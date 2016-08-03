@@ -36,7 +36,7 @@ export default React.createClass({
     };
   },
 
-  componentDidMount(props, state) {
+  componentDidMount() {
     this.anonymizer = Anonymizer.create();
     document.addEventListener('keydown', (e) => {
       if (e.keyCode === 27) this.onResetClicked();
@@ -46,7 +46,7 @@ export default React.createClass({
     Api.evidenceQuery().end(this.onDataReceived);
   },
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate() {
     this.doDraw(this.state.logs);
   },
 
@@ -103,7 +103,7 @@ export default React.createClass({
     const typeDim = ndx.dimension(d => d.type);
     this.chartsMap.type = dc.rowChart('.chart-type')
       .dimension(typeDim)
-      .group(typeDim.group().reduceSum(d => 1))
+      .group(typeDim.group().reduceSum(() => 1))
       .elasticX(true)
       .width(styles.chart.width)
       .height(styles.chart.height)
@@ -113,7 +113,7 @@ export default React.createClass({
     const helpTypeDim = ndx.dimension(d => d.json.helpType);
     this.chartsMap.helpType = dc.rowChart('.chart-help-type')
       .dimension(helpTypeDim)
-      .group(helpTypeDim.group().reduceSum(d => 1))
+      .group(helpTypeDim.group().reduceSum(() => 1))
       .elasticX(true)
       .width(styles.chart.width)
       .height(styles.chart.height)
@@ -123,7 +123,7 @@ export default React.createClass({
     const studentDim = ndx.dimension(d => d.json.question.student && d.json.question.student.name);
     this.chartsMap.student = dc.rowChart('.chart-student')
       .dimension(studentDim)
-      .group(studentDim.group().reduceSum(d => 1))
+      .group(studentDim.group().reduceSum(() => 1))
       .elasticX(true)
       .width(styles.chart.width)
       .height(styles.chart.height)
@@ -133,7 +133,7 @@ export default React.createClass({
     const userDim = ndx.dimension(anonymizer.name);
     this.chartsMap.user = dc.rowChart('.chart-name')
       .dimension(userDim)
-      .group(userDim.group().reduceSum(d => 1))
+      .group(userDim.group().reduceSum(() => 1))
       .elasticX(true)
       .width(styles.chart.width)
       .height(styles.chart.height)
@@ -144,7 +144,7 @@ export default React.createClass({
     const latencyDim = ndx.dimension(latency);
     this.chartsMap.latency = dc.barChart('.chart-elapsed')
       .dimension(latencyDim)
-      .group(latencyDim.group().reduceSum(d => 1))
+      .group(latencyDim.group().reduceSum(() => 1))
       .x(d3.scale.linear().domain([0,d3.max(logs, latency)]))
       .controlsUseVisibility(true)
       .width(styles.chart.width)

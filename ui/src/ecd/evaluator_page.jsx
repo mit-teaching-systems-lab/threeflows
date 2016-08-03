@@ -31,7 +31,7 @@ export default React.createClass({
     };
   },
 
-  componentDidMount(props, state) {
+  componentDidMount() {
     Api.evaluationsQuery().end(this.onEvaluationsReceived);
   },
 

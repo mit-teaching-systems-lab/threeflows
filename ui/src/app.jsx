@@ -58,7 +58,7 @@ export default React.createClass({
     };
   },
 
-  componentWillMount(props, state) {
+  componentWillMount() {
     injectTapEventPlugin(); // material-ui, see https://github.com/zilverline/react-tap-event-plugin
   },
 
@@ -72,15 +72,15 @@ export default React.createClass({
     );
   },
 
-  notFound(path, query = {}) {
-    return <div>Could not find path...</div>;
+  notFound(path) {
+    return <div>Could not find {path}...</div>;
   },
 
-  home(query = {}) {
+  home() {
     return <HomePage challenges={this.props.challenges} />;
   },
 
-  challenge(id, query = {}) {
+  challenge(id) {
     const challenge = _.find(this.props.challenges, (challenge) => challenge.id === _.toInteger(id));
     return <ChallengePage challenge={challenge} user={this.state.user} />;
   },
@@ -99,7 +99,7 @@ export default React.createClass({
     return <MessagePopup.ScoringPage query={query} />;
   },
 
-  messagePopupEvaluation(evaluationId, query = {}) {
+  messagePopupEvaluation(evaluationId) {
     return <MessagePopup.EvaluationViewerPage evaluationId={evaluationId} />;
   },
   

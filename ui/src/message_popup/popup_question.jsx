@@ -109,6 +109,11 @@ export default React.createClass({
     this.logRevisionDeclined();
     this.onDonePressed();
   },
+
+  onRequestClose() {
+    //This empty function is meant to cancel out the closing of the toast without having to use
+    //an extremely large autoHideDuration
+  },
   
   logResponse() {
     this.logData('message_popup_response');
@@ -204,10 +209,7 @@ export default React.createClass({
         <Snackbar
           open={seconds >= (this.props.limitMs/1000)}
           message="Remember, these are supposed to be quick responses."
-          onRequestClose={function(reason){
-            //This empty function is meant to cancel out the closing of the toast without having to use
-            //an extremely large autoHideDuration
-          }}
+          onRequestClose={this.onRequestClose}
           />
       </div>
     );

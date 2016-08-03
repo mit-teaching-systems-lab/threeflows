@@ -65,7 +65,7 @@ export default React.createClass({
     });
   },
 
-  componentWillMount(prevProps, prevState) {
+  componentWillMount() {
     // Check local storage cache
     const storedValues = window.localStorage.getItem(this.props.localStorageKey);
     if (!storedValues) return;
@@ -78,7 +78,7 @@ export default React.createClass({
     });
   },
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate() {
     const {userEmail, hasConfirmedEmail} = this.state;
     if (hasConfirmedEmail && userEmail) {
       window.localStorage.setItem(this.props.localStorageKey, JSON.stringify({userEmail, hasConfirmedEmail}));
@@ -95,11 +95,11 @@ export default React.createClass({
     this.setState({userEmail});
   },
 
-  onDoneEmail(e) {
+  onDoneEmail() {
     this.setState({ hasConfirmedEmail: true });
   },
 
-  onDecline(e) {
+  onDecline() {
     this.setState({ isNavigatingAway: true });
     window.location = 'http://tsl.mit.edu/';
   },
