@@ -5,7 +5,7 @@ import {Card, CardHeader, CardText} from 'material-ui/Card';
 import * as Colors from 'material-ui/styles/colors';
 
 import StudentCard from '../message_popup/student_card.jsx';
-import {allStudents} from '../data/virtual_school.js';
+import {activeStudents} from '../data/virtual_school.js';
 import * as PropTypes from '../prop_types.js';
 import NavigationAppBar from '../components/navigation_app_bar.jsx';
 
@@ -19,7 +19,7 @@ export default React.createClass({
 
   getDefaultProps() {
     // Only show the latest cohort of students
-    const students = allStudents.filter(student => student.cohortKey === '20160722');
+    const students = activeStudents;
     return {students};
   },
 

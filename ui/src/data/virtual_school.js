@@ -376,3 +376,6 @@ export const allStudents = initialStudents.concat(
   julyStudentsFromMursion,
   julyStudentsNotFromMursion
 );
+
+// Only include the latest cohort of students (others are essentially archived).
+export const activeStudents = allStudents.filter(student => student.cohortKey === '20160722');
