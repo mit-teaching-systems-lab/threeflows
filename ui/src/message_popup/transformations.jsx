@@ -8,8 +8,8 @@ import {allQuestions} from './questions.js';
 
 export function withStudents(questions) {
   return questions.map((question) => {
-    const student = _.find(allStudents, {id: question.studentId });
-    return _.extend({student}, question);
+    const students = question.studentIds.map(studentId => _.find(allStudents, {id: studentId}));
+    return _.extend({students}, question);
   });
 }
 
