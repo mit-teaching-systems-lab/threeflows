@@ -27,8 +27,10 @@ export default React.createClass({
     };
   },
 
-  anonymizer: null,
+  /* eslint-disable react/sort-comp */
+  anonymizer: null,  
   chartsMap: {},
+  /* eslint-enable react/sort-comp */
 
   getInitialState() {
     return {

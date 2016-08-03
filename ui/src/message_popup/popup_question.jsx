@@ -67,6 +67,33 @@ export default React.createClass({
     }
   },
 
+  logResponse() {
+    this.logData('message_popup_response');
+  },
+  
+  logRevision(finalText) {
+    this.logData('message_popup_revision', {finalResponseText: finalText});
+  },
+  
+  logRevisionDeclined(){
+    this.logData('message_popup_revision_declined');
+  },
+  
+  logData(type, params = {}) {
+    const {elapsedMs, initialResponseText} = this.state;
+    const {question, scaffolding} = this.props;
+    const {finalResponseText} = params;
+    const response:Response = {
+      question,
+      shouldShowStudentCard: scaffolding.shouldShowStudentCard,
+      helpType: scaffolding.helpType,
+      elapsedMs,
+      initialResponseText,
+      finalResponseText
+    };
+    this.props.onLog(type, response);
+  },
+  
   onTextChanged({target:{value}}:TextChangeEvent) {
     this.setState({ initialResponseText: value });
   },
@@ -113,33 +140,6 @@ export default React.createClass({
   onRequestClose() {
     //This empty function is meant to cancel out the closing of the toast without having to use
     //an extremely large autoHideDuration
-  },
-  
-  logResponse() {
-    this.logData('message_popup_response');
-  },
-  
-  logRevision(finalText) {
-    this.logData('message_popup_revision', {finalResponseText: finalText});
-  },
-  
-  logRevisionDeclined(){
-    this.logData('message_popup_revision_declined');
-  },
-  
-  logData(type, params = {}) {
-    const {elapsedMs, initialResponseText} = this.state;
-    const {question, scaffolding} = this.props;
-    const {finalResponseText} = params;
-    const response:Response = {
-      question,
-      shouldShowStudentCard: scaffolding.shouldShowStudentCard,
-      helpType: scaffolding.helpType,
-      elapsedMs,
-      initialResponseText,
-      finalResponseText
-    };
-    this.props.onLog(type, response);
   },
 
   render() {

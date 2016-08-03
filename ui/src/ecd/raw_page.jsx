@@ -45,6 +45,14 @@ export default React.createClass({
     this.setInterval(this.doReload, this.props.refreshIntervalMs);
   },
 
+  filterRaw(items) {
+    const {searchText} = this.state;
+
+    return items.filter((item) => {
+      return JSON.stringify(item).indexOf(searchText) !== -1;
+    });
+  },
+
   doReload() {
     Api.evidenceQuery().end(this.onDataReceived);
     Api.evaluationsQuery().end(this.onEvaluationsReceived);
@@ -66,14 +74,6 @@ export default React.createClass({
 
   onTapEmail(email) {
     this.setState({ searchText: email });
-  },
-
-  filterRaw(items) {
-    const {searchText} = this.state;
-
-    return items.filter((item) => {
-      return JSON.stringify(item).indexOf(searchText) !== -1;
-    });
   },
 
   render() {

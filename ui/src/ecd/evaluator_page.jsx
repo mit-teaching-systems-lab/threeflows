@@ -35,12 +35,6 @@ export default React.createClass({
     Api.evaluationsQuery().end(this.onEvaluationsReceived);
   },
 
-  onEvaluationsReceived(err, response) {
-    const evaluations = JSON.parse(response.text).rows;
-    const evaluatorEvaluations = this.filteredByEmail(evaluations, this.props.evaluatorEmail);
-    this.setState({evaluatorEvaluations});
-  },
-
   // Also filters out evaluations without links back to indicators.
   filteredByEmail(evaluations, email) {
     return evaluations.filter(evaluation => {
@@ -56,6 +50,12 @@ export default React.createClass({
       const indicator = _.find(indicators, indicator => indicator.id.toString() === indicatorId);
       return {indicator, evaluations};
     });
+  },
+
+  onEvaluationsReceived(err, response) {
+    const evaluations = JSON.parse(response.text).rows;
+    const evaluatorEvaluations = this.filteredByEmail(evaluations, this.props.evaluatorEmail);
+    this.setState({evaluatorEvaluations});
   },
 
   render() {

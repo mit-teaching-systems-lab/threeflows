@@ -40,14 +40,14 @@ export default React.createClass({
     limitIncrement: React.PropTypes.number
   },
 
+  contextTypes: {
+    auth: React.PropTypes.object.isRequired
+  },
+
   getDefaultProps() {
     return {
       limitIncrement: 20
     };
-  },
-
-  contextTypes: {
-    auth: React.PropTypes.object.isRequired
   },
 
   getInitialState() {

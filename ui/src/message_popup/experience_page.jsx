@@ -71,6 +71,10 @@ export default React.createClass({
     this.setState({ gameSession });
   },
 
+  resetExperience(){
+    this.setState(this.getInitialState());
+  },
+
   onLog(type, response:Response) {
     Api.logEvidence(type, {
       ...response,
@@ -93,10 +97,6 @@ export default React.createClass({
     Routes.navigate(Routes.Home);
   },
   
-  resetExperience(){
-    this.setState(this.getInitialState());
-  },
-
   onSaveScaffoldingAndSession(scaffolding, email, questions){
     this.setState({
       scaffolding,

@@ -9,8 +9,13 @@ This shows a hint in the form of a toggleable good or bad example response
 */
 export default React.createClass({
   displayName: 'HintCard',
+  
+  propTypes: {
+    examples: React.PropTypes.array.isRequired,
+    nonExamples: React.PropTypes.array.isRequired
+  },
 
-  getInitialState: function(){
+  getInitialState() {
     var goodExamples = _.map(this.props.examples, function(example){return {type: 'Good', text: example};});
     var badExamples = _.map(this.props.nonExamples, function(example){return {type: 'Bad', text: example};});
     var allExamples = _.shuffle(goodExamples.concat(badExamples));
@@ -20,11 +25,6 @@ export default React.createClass({
       allExamples: allExamples,
       originalAll: originalAll
     });
-  },
-  
-  propTypes: {
-    examples: React.PropTypes.array.isRequired,
-    nonExamples: React.PropTypes.array.isRequired
   },
   
   onNextExample(){

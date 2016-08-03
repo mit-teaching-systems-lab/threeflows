@@ -47,6 +47,26 @@ export default React.createClass({
     Api.evaluationsQuery().end(this.onEvaluationsReceived);
   },
 
+  computeRelevantLogs() {
+    const {logs, evaluations} = this.state;
+    if (logs === null) return [];
+    if (evaluations === null) return [];
+
+    // Show only solution mode responses, and those that haven't been translated to evidence
+    // or dismissed.
+    const logIds = evaluations.map(evaluation => evaluation.json.logId);
+    return logs.filter((log) => {
+      if (log.type !== 'message_popup_response') return false;
+      if (log.json.helpType === 'none') return false;
+      if (logIds.indexOf(log.id) !== -1) return false;
+      return true;
+    });
+  },
+
+  computeSelectedLogs(logs, selectedQuestion) {
+    return logs.filter(log => log.json.question.text === selectedQuestion.text);
+  },
+
   onTransitionDone() {
     window.scrollTo(0, 0);
   },
@@ -69,26 +89,6 @@ export default React.createClass({
     const evaluation = Api.logEvaluation('message_popup_response_scored', evaluationRecord);
     const evaluations = this.state.evaluations.concat(evaluation);
     this.setState({evaluations});
-  },
-
-  computeRelevantLogs() {
-    const {logs, evaluations} = this.state;
-    if (logs === null) return [];
-    if (evaluations === null) return [];
-
-    // Show only solution mode responses, and those that haven't been translated to evidence
-    // or dismissed.
-    const logIds = evaluations.map(evaluation => evaluation.json.logId);
-    return logs.filter((log) => {
-      if (log.type !== 'message_popup_response') return false;
-      if (log.json.helpType === 'none') return false;
-      if (logIds.indexOf(log.id) !== -1) return false;
-      return true;
-    });
-  },
-
-  computeSelectedLogs(logs, selectedQuestion) {
-    return logs.filter(log => log.json.question.text === selectedQuestion.text);
   },
 
   render() {
