@@ -119,7 +119,7 @@ export default React.createClass({
         {showSlider &&
           <div>
             <div style={styles.optionTitle}>Session Length: {sessionLength} {sessionLength===1 ? "question" : "questions"}</div>
-            <Slider value={sessionLength} min={1} max={questions.length} step={1} onChange={this.onSliderChange}/>
+            <Slider key={selectedIndicatorId} value={sessionLength} min={1} max={questions.length} step={1} onChange={this.onSliderChange}/>
           </div>
         }
         
