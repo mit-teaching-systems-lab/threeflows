@@ -29,7 +29,7 @@ export default React.createClass({
         <p style={styles.paragraph}>You may be asked to write, sketch or say your responses aloud.</p>
         <p style={styles.paragraph}>Each question is timed to simulate responding in the moment in the classroom.  Aim to respond to each scenario in about 90 seconds.</p>
         {_.has(this.props.itemsToShow, "mobilePrototype") &&
-          <p style={styles.paragraph}>In this version, tap on a student's icon to see his or her information. You can also tap an information message's icon to see all involved students. From there, you can click on a student's chip to see the his or her information.</p>
+          <p style={styles.paragraph}>You can tap on the icons in the left margin to see more information about the question's students.</p>
         }
         <Divider />
       </div>
