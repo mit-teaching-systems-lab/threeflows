@@ -36,7 +36,8 @@ export default React.createClass({
       academicPerformance,
       interests,
       familyBackground,
-      ses
+      ses,
+      isMursion
     } = this.props.student;
     return (
       <div style={containerStyle}>
@@ -49,6 +50,7 @@ export default React.createClass({
         {interests && <div style={attributeStyle}>{interests}</div>}
         {familyBackground && <div style={attributeStyle}>{familyBackground}</div>}
         {ses && <div style={attributeStyle}>{ses}</div>}
+        {<div style={attributeStyle}>{isMursion && 'From Mursion'}</div>}
       </div>
     );
   }

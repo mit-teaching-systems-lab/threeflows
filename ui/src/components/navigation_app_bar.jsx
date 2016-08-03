@@ -10,6 +10,7 @@ import HomeIcon from 'material-ui/svg-icons/action/home';
 import AssessmentIcon from 'material-ui/svg-icons/action/assessment';
 import ChatBubble from 'material-ui/svg-icons/communication/chat-bubble-outline';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
+import SchoolIcon from 'material-ui/svg-icons/social/school';
 
 import * as Routes from '../routes.js';
 
@@ -71,6 +72,7 @@ export default React.createClass({
           onRequestChange={(isOpen) => this.setState({isOpen})}
         >
           {<MenuItem leftIcon={<HomeIcon />} onTouchTap={this.onNavigationTapped.bind(this, '/')} primaryText="Home" />}
+          <MenuItem onTouchTap={this.onNavigationTapped.bind(this, Routes.virtualSchoolPath())} leftIcon={<SchoolIcon />} primaryText="Virtual school" />
           {prependMenuItems && <div onClick={this.doCloseDrawer}>{prependMenuItems}</div>}
           <Divider />
           <MenuItem onTouchTap={this.onNavigationTapped.bind(this, Routes.messagePopupPracticePath())} leftIcon={<ChatBubble />} primaryText="Practice" />
