@@ -22,14 +22,9 @@ export function withIndicator(question) {
 
 export function questionsForIndicator(indicatorId) {
   const withIndicators = _.compact(allQuestions.map((question) => {
-    if (question.indicatorId !== indicatorId) return null;
-    
-    const indicator = _.find(indicators, { id: question.indicatorId });
-    return {
-      ...question,
-      indicator
-    };
+    if (question.indicatorId !== indicatorId) return null;    
+    return withIndicator(question);
   }));
 
-  return _.shuffle(withStudents(withIndicators));
+  return withStudents(withIndicators);
 }

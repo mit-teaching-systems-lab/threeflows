@@ -46,21 +46,21 @@ export default React.createClass({
   getQuestions(selectedIndicatorId){
     var {isSolutionMode} = this.state;
     const questions = (isSolutionMode || selectedIndicatorId === ALL_INDICATORS)
-      ? _.shuffle(withStudents(allQuestions))
+      ? withStudents(allQuestions)
       : questionsForIndicator(selectedIndicatorId);
     return questions;
   },
 
   onSave(){
     const {scaffolding, email, selectedIndicatorId} = this.state;
-    const questions = this.getQuestions(selectedIndicatorId).slice(0, this.state.sessionLength);
-    this.props.onSessionConfigured(scaffolding, email, questions);
+    const questions = this.getQuestions(selectedIndicatorId);
+    const questionsForSession = _.shuffle(questions.slice(0, this.state.sessionLength));
+    this.props.onSessionConfigured(scaffolding, email, questionsForSession);
   },
   
   onIndicatorChanged(event, selectedIndicatorIdText){
     const selectedIndicatorId = _.toInteger(selectedIndicatorIdText);
-    const questions = this.getQuestions(selectedIndicatorId);
-    const newLength = questions.length;
+    const newLength = this.getQuestions(selectedIndicatorId).length;
     var sessionLength = this.state.sessionLength;
     if(sessionLength > newLength){
       sessionLength = newLength;
@@ -102,7 +102,7 @@ export default React.createClass({
     const {itemsToShow} = this.props;
     const {selectedIndicatorId, sessionLength, scaffolding} = this.state;
     const {shouldShowStudentCard, shouldShowSummary, helpType} = scaffolding;
-    const questions = this.getQuestions(selectedIndicatorId);
+    const questionsLength = this.getQuestions(selectedIndicatorId).length;
 
     const showSlider = true;
     const showStudentCardsToggle = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'cards') || _.has(itemsToShow, 'basic');
@@ -119,7 +119,7 @@ export default React.createClass({
         {showSlider &&
           <div>
             <div style={styles.optionTitle}>Session Length: {sessionLength} {sessionLength===1 ? "question" : "questions"}</div>
-            <Slider key={selectedIndicatorId} value={sessionLength} min={1} max={questions.length} step={1} onChange={this.onSliderChange}/>
+            <Slider value={sessionLength} min={1} max={questionsLength} step={1} onChange={this.onSliderChange}/>
           </div>
         }
         
