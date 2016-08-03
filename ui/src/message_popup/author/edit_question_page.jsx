@@ -25,7 +25,6 @@ export default React.createClass({
         originalQuestion={question}
         questionText={question.text}
         students={question.students}
-        learningObjective={question.learningObjective}
         indicator={question.indicator}
         goodExamplesText={goodExamplesText}
         badExamplesText={badExamplesText}

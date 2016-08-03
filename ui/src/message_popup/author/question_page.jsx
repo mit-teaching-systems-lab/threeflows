@@ -9,7 +9,6 @@ import * as EditingComponents from './question_editing_components/editing_compon
 
 import {allQuestions} from '../questions.js';
 import {allStudents} from '../../data/virtual_school.js';
-import {learningObjectives} from '../../data/learning_objectives.js';
 import {indicators} from '../../data/indicators.js';
 import * as Routes from '../../routes.js';
 
@@ -28,7 +27,6 @@ export default React.createClass({
     originalQuestion: React.PropTypes.object,
     questionText: React.PropTypes.string,
     students: React.PropTypes.array,
-    learningObjective: React.PropTypes.object,
     indicator: React.PropTypes.object,
     goodExamplesText: React.PropTypes.string,
     badExamplesText: React.PropTypes.string
@@ -38,7 +36,6 @@ export default React.createClass({
     return ({
       questionText: '',
       students: [],
-      learningObjective: learningObjectives[0],
       indicator: indicators[0],
       goodExamplesText: "",
       badExamplesText: ""
@@ -49,7 +46,6 @@ export default React.createClass({
     return ({
       questionText: this.props.questionText,
       students: this.props.students,
-      learningObjective: this.props.learningObjective,
       indicator: this.props.indicator,
       goodExamplesText: this.props.goodExamplesText,
       badExamplesText: this.props.badExamplesText,
@@ -100,10 +96,6 @@ export default React.createClass({
     return {goodExamples, badExamples};
   },
 
-  onChangeLearningObjective(event, index, value){
-    this.setState({learningObjective: _.find(learningObjectives, learningObjective => learningObjective.id === value)});
-  },
-
   onChangeIndicator(event, value){
     this.setState({indicator: _.find(indicators, indicator => indicator.id.toString() === value)});
   },
@@ -128,8 +120,6 @@ export default React.createClass({
       nonExamples: badExamples,
       indicatorId: this.state.indicator.id,
       indicator: this.state.indicator,
-      learningObjectiveId: this.state.learningObjective.id,
-      learningObjective: this.state.learningObjective
     };
     console.log(question);
     console.log("Also deleting and archiving the following question:");
@@ -153,8 +143,6 @@ export default React.createClass({
       nonExamples: badExamples,
       indicatorId: this.state.indicator.id,
       indicator: this.state.indicator,
-      learningObjectiveId: this.state.learningObjective.id,
-      learningObjective: this.state.learningObjective
     };
     console.log(question);
     this.returnToQuestions();
@@ -204,10 +192,6 @@ export default React.createClass({
               type="Bad"
               examplesText={this.state.badExamplesText}
               onExamplesChange={this.onBadExamplesChange}
-              />
-            <EditingComponents.LearningObjectives 
-              learningObjective={this.state.learningObjective}
-              onChangeLearningObjective={this.onChangeLearningObjective}
               />
             <EditingComponents.Indicators 
               indicator={this.state.indicator}

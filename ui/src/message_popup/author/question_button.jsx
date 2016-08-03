@@ -29,6 +29,6 @@ export default React.createClass({
         secondaryTextLines={2}
         onTouchTap={this.changePath}
       />
-      );
+    );
   }
 });
