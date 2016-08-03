@@ -250,6 +250,7 @@ export default React.createClass({
             onShowExampleClicked={this.onShowExampleClicked}
             nextExample={this.nextExample}
             nextButtonLabel={this.props.isLastQuestion ? 'Finish' : 'Next Question'}
+            mainStudent={question.students[0]}
             />
         </div>
         <div>

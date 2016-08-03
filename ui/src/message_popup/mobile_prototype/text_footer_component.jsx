@@ -18,7 +18,8 @@ export default React.createClass({
     elapsedMs: React.PropTypes.number.isRequired,
     nextButtonLabel: React.PropTypes.string.isRequired,
     nextExample: React.PropTypes.func.isRequired,
-    onShowExampleClicked: React.PropTypes.func.isRequired
+    onShowExampleClicked: React.PropTypes.func.isRequired,
+    mainStudent: React.PropTypes.object
   },
   
   getInitialState(){
@@ -53,7 +54,7 @@ export default React.createClass({
   },
   
   render(){
-    const mainButtonLabel = this.props.isReadyToMoveOn ? this.props.nextButtonLabel : this.props.helpType !== 'feedback' ? 'Send' : this.state.initialMessageSent ? 'Revise Response' : 'Save Response';
+    const mainButtonLabel = this.props.isReadyToMoveOn ? this.props.nextButtonLabel : this.props.helpType !== 'feedback' ? 'Respond to ' + (this.props.mainStudent !== undefined ? this.props.mainStudent.name : 'Class') : this.state.initialMessageSent ? 'Revise Response' : 'Save Response';
     return (
       <div>
         <Divider />
