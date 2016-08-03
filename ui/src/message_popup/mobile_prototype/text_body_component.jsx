@@ -1,3 +1,4 @@
+/* @flow weak */
 import React from 'react';
 import VelocityComponent from 'velocity-react/velocity-component';
 import 'velocity-animate/velocity.ui';

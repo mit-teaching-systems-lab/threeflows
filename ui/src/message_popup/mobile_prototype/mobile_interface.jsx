@@ -108,7 +108,7 @@ export default React.createClass({
     var messages = [{type: 'user', text: response}];
     if(this.props.question.examples.length > 0) messages.push({type: 'info', text: "Here's an example of something you could say/do:\n\n" + _.shuffle(this.props.question.examples)[0] + "\n\nWould you like to revise your response?"});
     this.addMessages(messages);
-    if(this.props.question.examples.length === 0) this.setPassedResponse()
+    if(this.props.question.examples.length === 0) this.setPassedResponse();
     
   },
   
@@ -226,7 +226,7 @@ export default React.createClass({
   
   render(){
     const {scaffolding, question} = this.props;
-    const {helpType, shouldShowStudentCard} = scaffolding;
+    const {helpType} = scaffolding;
     return (
       <div>
         <div style={styles.textBody}>

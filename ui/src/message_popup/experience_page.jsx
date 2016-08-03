@@ -6,12 +6,10 @@ import 'velocity-animate/velocity.ui';
 import uuid from 'node-uuid';
 
 import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
 import Divider from 'material-ui/Divider';
 import LinearProgress from 'material-ui/LinearProgress';
 import Snackbar from 'material-ui/Snackbar';
 import MenuItem from 'material-ui/MenuItem';
-import Dialog from 'material-ui/Dialog';
 
 import PopupQuestion from './popup_question.jsx';
 import * as Routes from '../routes';
