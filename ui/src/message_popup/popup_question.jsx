@@ -39,7 +39,7 @@ export default React.createClass({
       text: React.PropTypes.string.isRequired,
       examples: React.PropTypes.array.isRequired,
       nonExamples: React.PropTypes.array.isRequired,
-      students: React.PropTypes.array
+      students: React.PropTypes.array.isRequired
     }).isRequired,
     onLog: React.PropTypes.func.isRequired,
     onDone: React.PropTypes.func.isRequired,
@@ -158,7 +158,7 @@ export default React.createClass({
     const {scaffolding} = this.props;
     const {text, students, examples, nonExamples} = this.props.question;
     const seconds = Math.round(elapsedMs / 1000);
-    const student = students === undefined ? undefined : students[0];
+    const student = students[0];
     
     return (
       <div>
