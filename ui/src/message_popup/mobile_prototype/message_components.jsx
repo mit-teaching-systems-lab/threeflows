@@ -33,7 +33,7 @@ const Message = React.createClass({
     
     return (
       <div style={messageStyle}>
-        {this.props.leftIcon}
+        <div>{this.props.leftIcon}</div>
         <div style={styles.messageTextSection}>
           {this.props.label !== undefined && 
             <div style={_.merge(type === 'user' ? {textAlign: 'right'} : {textAlign: 'left'}, {...messageTextStyle, ...styles.label})}>
@@ -149,23 +149,17 @@ const styles = {
   messageIconButton: {
     margin: 0,
     padding: 0,
-    flexGrow: 0,
-    flexShrink: 0,
-    flexBasis: 30
+    width: '100%'
   },
   messageIcon: {
     width: 30,
     height: 30,
-    flexGrow: 0,
-    flexShrink: 0,
-    flexBasis: 30,
-    padding: 0,
-    margin: 5
+    padding: 0
   },
   messageTextSection: {
     margin: 5,
-    flexGrow: 0,
-    flexShrink: 1
+    marginLeft: 10,
+    marginRight: 10
   },
   messageText: {
     padding: 10,
