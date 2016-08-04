@@ -27,6 +27,19 @@ export default React.createClass({
 
   mixins: [SetIntervalMixin],
   
+  propTypes: {
+    scaffolding: React.PropTypes.shape({
+      helpType: React.PropTypes.string.isRequired,
+      shouldShowStudentCard: React.PropTypes.bool.isRequired,
+      shouldShowSummary: React.PropTypes.bool.isRequired,
+    }).isRequired,
+    question: React.PropTypes.object.isRequired,
+    onQuestionDone: React.PropTypes.func.isRequired,
+    limitMs: React.PropTypes.number.isRequired,
+    onLog: React.PropTypes.func.isRequired,
+    isLastQuestion: React.PropTypes.bool.isRequired,
+  },
+
   getInitialState() {
     const goodExamples = _.map(this.props.question.examples, (example) => { return {type: 'Good', text: example}; });
     const badExamples = _.map(this.props.question.nonExamples, (example) => { return {type: 'Bad', text: example}; });
@@ -43,133 +56,9 @@ export default React.createClass({
       messageIndex: 1
     });
   },
-  
-  propTypes: {
-    scaffolding: React.PropTypes.shape({
-      helpType: React.PropTypes.string.isRequired,
-      shouldShowStudentCard: React.PropTypes.bool.isRequired,
-      shouldShowSummary: React.PropTypes.bool.isRequired,
-    }).isRequired,
-    question: React.PropTypes.object.isRequired,
-    onQuestionDone: React.PropTypes.func.isRequired,
-    limitMs: React.PropTypes.number.isRequired,
-    onLog: React.PropTypes.func.isRequired,
-    isLastQuestion: React.PropTypes.bool.isRequired,
-  },
-  
-  addMessages(messageList){
-    var messages = _.clone(this.state.messages);
-    var messageId = this.state.messageIndex;
-    for(var messageIndex = 0; messageIndex < messageList.length; messageIndex++){
-      messageId+=1;
-      const message = _.extend({key: messageId}, messageList[messageIndex]);
-      messages.push(message);
-    }
-    this.setState({messages, messageIndex: messageId});
-  },
 
-  setInitialResponse(response){
-    this.setState({initialResponse: response});
-    if(this.props.scaffolding.helpType === 'feedback'){
-      this.sendRevision(response);
-    }else{
-      this.addMessages([{type: 'user', text: response}]);
-    }
-  },
-
-  setRevisedResponse(response){
-    this.addMessages([{type: 'user', text: response}]);
-    this.setState({revisedResponse: response});
-  },
-
-  setPassedResponse(){
-    this.setState({revisedResponse: ''});
-  },
-  
-  isReadyToMoveOn(){
-    if(this.props.scaffolding.helpType === 'feedback'){
-      if(this.state.revisedResponse !== undefined){ 
-        return true;
-      }
-    }else{
-      if(this.state.initialResponse !== undefined){
-        return true;
-      }
-    }
-    return false;
-  },
-  
-  onNextQuestion(){
-    this.props.onQuestionDone(this.state.elapsedMs);
-    this.setState(this.getInitialState());
-  },
-  
-  sendRevision(response){
-    var messages = [{type: 'user', text: response}];
-    if(this.props.question.examples.length > 0) messages.push({type: 'info', text: "Here's an example of something you could say/do:\n\n" + _.shuffle(this.props.question.examples)[0] + "\n\nWould you like to revise your response?"});
-    this.addMessages(messages);
-    if(this.props.question.examples.length === 0) this.setPassedResponse();
-    
-  },
-  
-  onShowExampleClicked(){
-    const example = this.nextExample(true);
-    const messageText = example.type + ' Example:\n' + example.text;
-    this.addMessages([{type: 'info', text: messageText}]);
-  },
-  
-  nextExample(increment){
-    const currentIndex = this.state.exampleIndex;
-    if(this.state.allExamples.length > currentIndex){
-      if(increment){
-        this.setState({exampleIndex: this.state.exampleIndex + 1});
-      }
-      return this.state.allExamples[currentIndex];
-    }else{
-      return null;
-    }
-  },
-
-  onCloseDialog(){
-    this.setState({dialog: null});
-  },
-
-  onOpenInfoDialog(){
-    this.setState({dialog: {type: 'info'}});
-  },
-
-  onOpenStudentDialog(student){
-    return (function() {
-      this.setState({dialog: {type: 'student', student}});
-    }.bind(this));
-  },
-
-  logResponse() {
-    this.logData('message_popup_response');
-  },
-  
-  logRevision(finalText) {
-    this.logData('message_popup_revision', {finalResponseText: finalText});
-  },
-  
-  logRevisionDeclined(){
-    this.logData('message_popup_revision_declined');
-  },
-  
-  logData(type, params = {}) {
-    const {elapsedMs, initialResponse} = this.state;
-    const {question, scaffolding} = this.props;
-    const {shouldShowStudentCard, helpType} = scaffolding;
-    const {finalResponseText} = params;
-    const response:Response = {
-      question,
-      shouldShowStudentCard,
-      helpType,
-      elapsedMs,
-      initialResponseText: initialResponse,
-      finalResponseText
-    };
-    this.props.onLog(type, response);
+  componentDidMount() {
+    this.setInterval(this.updateTimer, ONE_SECOND);
   },
 
   getInitialMessages(questionObject){
@@ -210,10 +99,6 @@ export default React.createClass({
     
     return messages;
   },
-  
-  componentDidMount() {
-    this.setInterval(this.updateTimer, ONE_SECOND);
-  },
 
   updateTimer() {
     if(!this.isReadyToMoveOn()){
@@ -222,6 +107,120 @@ export default React.createClass({
       }
       this.setState({ elapsedMs: this.state.elapsedMs + ONE_SECOND });
     }
+  },
+
+  isReadyToMoveOn(){
+    if(this.props.scaffolding.helpType === 'feedback'){
+      if(this.state.revisedResponse !== undefined){ 
+        return true;
+      }
+    }else{
+      if(this.state.initialResponse !== undefined){
+        return true;
+      }
+    }
+    return false;
+  },
+
+  nextExample(increment){
+    const currentIndex = this.state.exampleIndex;
+    if(this.state.allExamples.length > currentIndex){
+      if(increment){
+        this.setState({exampleIndex: this.state.exampleIndex + 1});
+      }
+      return this.state.allExamples[currentIndex];
+    }else{
+      return null;
+    }
+  },
+
+  addMessages(messageList){
+    var messages = _.clone(this.state.messages);
+    var messageId = this.state.messageIndex;
+    for(var messageIndex = 0; messageIndex < messageList.length; messageIndex++){
+      messageId+=1;
+      const message = _.extend({key: messageId}, messageList[messageIndex]);
+      messages.push(message);
+    }
+    this.setState({messages, messageIndex: messageId});
+  },
+
+  setInitialResponse(response){
+    this.setState({initialResponse: response});
+    if(this.props.scaffolding.helpType === 'feedback'){
+      this.sendRevision(response);
+    }else{
+      this.addMessages([{type: 'user', text: response}]);
+    }
+  },
+
+  setRevisedResponse(response){
+    this.addMessages([{type: 'user', text: response}]);
+    this.setState({revisedResponse: response});
+  },
+
+  setPassedResponse(){
+    this.setState({revisedResponse: ''});
+  },
+
+  sendRevision(response){
+    var messages = [{type: 'user', text: response}];
+    if(this.props.question.examples.length > 0) messages.push({type: 'info', text: "Here's an example of something you could say/do:\n\n" + _.shuffle(this.props.question.examples)[0] + "\n\nWould you like to revise your response?"});
+    this.addMessages(messages);
+    if(this.props.question.examples.length === 0) this.setPassedResponse();
+  },
+
+  logResponse() {
+    this.logData('message_popup_response');
+  },
+  
+  logRevision(finalText) {
+    this.logData('message_popup_revision', {finalResponseText: finalText});
+  },
+  
+  logRevisionDeclined(){
+    this.logData('message_popup_revision_declined');
+  },
+  
+  logData(type, params = {}) {
+    const {elapsedMs, initialResponse} = this.state;
+    const {question, scaffolding} = this.props;
+    const {shouldShowStudentCard, helpType} = scaffolding;
+    const {finalResponseText} = params;
+    const response:Response = {
+      question,
+      shouldShowStudentCard,
+      helpType,
+      elapsedMs,
+      initialResponseText: initialResponse,
+      finalResponseText
+    };
+    this.props.onLog(type, response);
+  },
+  
+  onNextQuestion(){
+    this.props.onQuestionDone(this.state.elapsedMs);
+    this.setState(this.getInitialState());
+  },
+  
+  onShowExampleClicked(){
+    const example = this.nextExample(true);
+    const messageText = example.type + ' Example:\n' + example.text;
+    this.addMessages([{type: 'info', text: messageText}]);
+  },
+
+  onCloseDialog(){
+    this.setState({dialog: null});
+  },
+
+  onOpenInfoDialog(){
+    this.setState({dialog: {type: 'info'}});
+  },
+
+  onOpenStudentDialog(student){
+    return (function() {
+      this.setState({dialog: {type: 'student', student}});
+    }.bind(this));
   },
   
   render(){
