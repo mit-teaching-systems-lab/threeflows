@@ -19,27 +19,29 @@ export default React.createClass({
     const {messages} = this.props;
     return (
       <div>
+
         {messages.map(message => { 
           if(message.type === 'user'){
             return (
-              <VelocityComponent animation='transition.expandIn' runOnMount={true} key={'animation'+ message.key}>
+              <VelocityComponent animation='transition.slideRightBigIn' runOnMount={true} key={'animation'+ message.key}>
                 <UserMessage text={message.text}  key={message.key} />
               </VelocityComponent>
               );
           }else if(message.type === 'student'){
             return (
-              <VelocityComponent animation='transition.expandIn' runOnMount={true} key={'animation'+ message.key}>
+              <VelocityComponent animation='transition.slideLeftBigIn' runOnMount={true} key={'animation'+ message.key}>
                 <StudentMessage text={message.text} student={message.student} onOpenStudentDialog={this.props.onOpenStudentDialog(message.student)} key={message.key} />
               </VelocityComponent>
               );
           }else{
             return (
-              <VelocityComponent animation='transition.expandIn' runOnMount={true} key={'animation'+ message.key}>
+              <VelocityComponent animation='transition.slideLeftBigIn' runOnMount={true} key={'animation'+ message.key}>
                 <InfoMessage text={message.text} onOpenInfoDialog={this.props.onOpenInfoDialog} key={message.key} />
               </VelocityComponent>
               );
           }
         })}
+
       </div>
     );
   }
