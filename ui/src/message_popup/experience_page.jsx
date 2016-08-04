@@ -10,18 +10,23 @@ import Divider from 'material-ui/Divider';
 import LinearProgress from 'material-ui/LinearProgress';
 import Snackbar from 'material-ui/Snackbar';
 import MenuItem from 'material-ui/MenuItem';
-import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 
 import PopupQuestion from './popup_question.jsx';
 import * as Routes from '../routes';
 import type {Response} from './popup_question.jsx';
+
+import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
+
 import {withStudents} from './transformations.jsx';
+
 import * as Api from '../helpers/api.js';
 import FinalSummaryCard from './final_summary_card.jsx';
 import InstructionsCard from './instructions_card.jsx';
 import NavigationAppBar from '../components/navigation_app_bar.jsx';
+
+import MobileInterface from './mobile_prototype/mobile_interface.jsx';
+
 import ScaffoldingCard from './scaffolding_card.jsx';
-import MobilePrototypeCard from './mobile_prototype_card.jsx';
 
 /*
 Shows the MessagePopup game
@@ -47,7 +52,7 @@ export default React.createClass({
       },
       gameSession: null,
       toastRevision: false,
-      limitMs: 90000,
+      limitMs: 90000
     };
   },
   
@@ -112,7 +117,7 @@ export default React.createClass({
     const questionsAnswered = hasStarted ? gameSession.questionsAnswered : 0;
     const questions = hasStarted ? gameSession.questions : [];
     const sessionLength = hasStarted ? questions.length : 0;
-    if (_.has(this.props.query, 'mobilePrototype')) return this.renderMobilePrototype();
+    //if (_.has(this.props.query, 'mobilePrototype')) return this.renderMobilePrototype();
     return (
       <div>
         <NavigationAppBar
@@ -126,7 +131,7 @@ export default React.createClass({
         />
         {!hasStarted && this.renderInstructions()}
         {hasStarted && questionsAnswered >= sessionLength && this.renderDone()}
-        {hasStarted && questionsAnswered < sessionLength && this.renderPopupQuestion()}
+        {hasStarted && questionsAnswered < sessionLength && (_.has(this.props.query, 'mobilePrototype') ? this.renderMobilePrototype() : this.renderPopupQuestion())}
       </div>
     );
   },
@@ -172,7 +177,7 @@ export default React.createClass({
   },
   
   renderPopupQuestion() {
-    const {scaffolding, gameSession} = this.state;
+    const {scaffolding, gameSession, limitMs} = this.state;
     const {questions, questionsAnswered} = gameSession;
     const sessionLength = questions.length;
     const question = questions[questionsAnswered];
@@ -184,7 +189,7 @@ export default React.createClass({
             key={JSON.stringify(question)}
             question={question}
             scaffolding={scaffolding}
-            limitMs={this.state.limitMs}
+            limitMs={limitMs}
             onLog={this.onLog}
             onDone={this.onQuestionDone}
             isLastQuestion={questionsAnswered+1===sessionLength ? true : false}/>
@@ -200,10 +205,23 @@ export default React.createClass({
   },
   
   renderMobilePrototype() {
-    return (
-      <MobilePrototypeCard 
-        question={_.shuffle(withStudents(this.state.scaffolding.questions))[0]}
-        />
+    const {scaffolding, gameSession, limitMs} = this.state;
+    const {questions, questionsAnswered} = gameSession;
+    const sessionLength = questions.length;
+    const question = withStudents(questions)[questionsAnswered];
+    return ( 
+      <div>
+        <LinearProgress color="#EC407A" mode="determinate" value={questionsAnswered} max={sessionLength} />
+        <MobileInterface
+          key={JSON.stringify(question)}
+          scaffolding={scaffolding}
+          question={question}
+          onQuestionDone={this.onQuestionDone}
+          limitMs={limitMs}
+          onLog={this.onLog}
+          isLastQuestion={questionsAnswered+1===sessionLength ? true : false}
+          />
+      </div>
     );
   }
 });
