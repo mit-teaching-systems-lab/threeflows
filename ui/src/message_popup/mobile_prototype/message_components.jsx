@@ -149,12 +149,15 @@ const styles = {
   messageIconButton: {
     margin: 0,
     padding: 0,
-    width: '100%'
+    width: '100%',
+    height: 0
   },
   messageIcon: {
     width: 30,
     height: 30,
-    padding: 0
+    padding: 0,
+    marginTop: 5,
+    flexShrink: 0
   },
   messageTextSection: {
     margin: 5,
