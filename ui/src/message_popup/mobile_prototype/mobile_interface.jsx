@@ -62,30 +62,23 @@ export default React.createClass({
   },
 
   getInitialMessages(questionObject){
-    var messages = [];
-    if(_.has(questionObject, 'encodedText')){
-
-      for (var index in questionObject.encodedText){
-        const textObject = questionObject.encodedText[index];
-        const student = _.find(this.props.question.students, student => student.id === textObject.studentId);
-        const message = {
-          type: textObject.type,
-          text: textObject.text,
-          key: textObject.text,
-          student
-        };
-        messages.push(message);
-      }
-    }else{
-      const message = {
+    if(_.has(questionObject, 'messages')) return this.props.question.messages.map(message => { 
+      return ({
+        type: message.type,
+        text: message.text,
+        key: message.text,
+        student: _.find(this.props.question.students, {id: message.studentId})
+      }); 
+    });
+    
+    return [
+      {
         type: 'info',
         text: questionObject.text,
         key: questionObject.text
-      };
-      messages.push(message);
-    }
+      }
+    ];
     
-    return messages;
   },
 
   updateTimer() {

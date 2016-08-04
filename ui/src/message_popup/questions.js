@@ -34,7 +34,7 @@ export const inquiryQuestions:[Question] = [
     studentIds: [4], 
     id: 101,
     text: `At the conclusion of your lesson plan for this challenge, you seed a group discussion by asking "What are you curious about related to photosynthesis?"  Hayin says "Why are plants green?"  What do you do?`,
-    encodedText: [
+    messages: [
       {
         type: 'info',
         text: 'At the conclusion of your lesson plan for this challenge, you seed a group discussion.'
@@ -66,7 +66,7 @@ export const inquiryQuestions:[Question] = [
     studentIds: [10], 
     id: 102,
     text: `Imagine a new student, Sasha, joins your classroom during the lesson plan you developed for this challenge.  As part of helping her feel comfortable, you give her a quick overview of what's happening.  She asks "what is photosynthesis again?"  How can you give a brief direct answer to her question?`,
-    encodedText: [
+    messages: [
       {
         type: 'info',
         text: 'Imagine a new student, Sasha, joins your classroom during the lesson plan you developed for this challenge.  As part of helping her feel comfortable, you give her a quick overview of what\'s happening.'
@@ -97,7 +97,7 @@ export const inquiryQuestions:[Question] = [
     studentIds: [2], 
     id: 103,
     text: `In the context of the lesson plan you developed for this challenge, Floyd says "why are we even doing this?"  Respond in way that engages his natural curiosity and tendency towards asking questions`,
-    encodedText: [
+    messages: [
       {
         type: 'info',
         text: 'In the context of the lesson plan you developed for this challenge...'
@@ -128,7 +128,7 @@ export const inquiryQuestions:[Question] = [
     studentIds: [8],
     id: 104,
     text: `Imagine in the context of the lesson plan you developed for this challenge, there is an activity where students are coming up with questions to investigate.  Ada says "How many questions should I write and what do you want me to include in them?"  Respond in a way that draws out the student's curiosity and pushes them towards asking questions that are meaningful to them.`,
-    encodedText: [
+    messages: [
       {
         type: 'info',
         text: 'Imagine in the context of the lesson plan you developed for this challenge, there is an activity where students are coming up with questions to investigate.'
@@ -163,7 +163,7 @@ export const inquiryQuestions:[Question] = [
     studentIds: [10],
     id: 105,
     text: `Imagine a new student, Sasha, joins your classroom during the lesson plan you developed for this challenge.  As part of helping her feel comfortable, you pull her aside and give her a quick overview of what's happening at the beginning of the class.  She interrupts and asks, "I do better with visuals, can you draw me a picture of photosynthesis?"  Describe what you could quickly sketch to directly answer her question.`,
-    encodedText: [
+    messages: [
       {
         type: 'info',
         text: 'Imagine a new student, Sasha, joins your classroom during the lesson plan you developed for this challenge.  As part of helping her feel comfortable, you pull her aside and give her a quick overview of what\'s happening at the beginning of the class.'
@@ -190,7 +190,7 @@ export const inquiryQuestions:[Question] = [
     studentIds: [3],
     id: 106,
     text: `Imagine in the context of the lesson plan you developed for this challenge, you pause and ask the whole class if they have anything they want to check their understanding on or clarify.  Maia asks "How can plants be breathing, you don't see them inhaling and exhaling, and you don't see their breath in the cold?"`,
-    encodedText: [
+    messages: [
       {
         type: 'info',
         text: 'Imagine in the context of the lesson plan you developed for this challenge, you pause and ask the whole class if they have anything they want to check their understanding on or clarify.'
@@ -214,7 +214,7 @@ export const inquiryQuestions:[Question] = [
     studentIds: [5],
     id: 107,
     text: `Imagine in the context of the lesson plan you developed for this challenge, you provide a summarizing explanation of photosynthesis to the whole class.  Mike asks, "I'm still a little confused, can you explain it again in a different way?"`,
-    encodedText: [
+    messages: [
       {
         type: 'info',
         text: 'Imagine in the context of the lesson plan you developed for this challenge, you provide a summarizing explanation of photosynthesis to the whole class.'
@@ -239,7 +239,7 @@ export const inquiryQuestions:[Question] = [
     studentIds: [2],
     id: 108,
     text: `Imagine in the context of the lesson plan you developed for this challenge, you provide a summarizing explanation of photosynthesis to the whole class.  Floyd asks, "But how can plants take in sunlight, do they like grab it?"`,
-    encodedText: [
+    messages: [
       {
         type: 'info',
         text: 'Imagine in the context of the lesson plan you developed for this challenge, you provide a summarizing explanation of photosynthesis to the whole class.'
@@ -264,7 +264,7 @@ export const inquiryQuestions:[Question] = [
     studentIds: [9],
     id: 109,
     text: 'You challenge Steve and ask, "What is another hypothesis you could test?" He asks, "why don\'t you just tell me what the right answer is?"',
-    encodedText: [
+    messages: [
       {
         type: 'info',
         text: 'You challenge Steve.'
@@ -293,7 +293,7 @@ export const inquiryQuestions:[Question] = [
     studentIds: [],
     id: 110,
     text: 'You ask the whole class, "how can you test if the amount of sunlight influences the amount of O2 generated as a result of photosynthesis?"  You wait a few seconds and nobody comes forward with an answer.  What would you do?',
-    encodedText: [
+    messages: [
       {
         type: 'info',
         text: 'You ask the entire class a question.'
@@ -322,7 +322,7 @@ export const inquiryQuestions:[Question] = [
     studentIds: [1],
     id: 111,
     text: 'You set up an experiment that tests how light intensity affects photosynthesis over time and recorded the data. Kevin says, "Plant A probably grew more because it was genetically modified by Home Depot," and the whole class laughs. Prompt the student to clarify and use evidence.',
-    encodedText: [
+    messages: [
       {
         type: 'info',
         text: 'You set up an experiment that tests how light intensity affects photosynthesis over time and recorded the data.'
@@ -350,7 +350,7 @@ export const inquiryQuestions:[Question] = [
     studentIds: [6],
     id: 112,
     text: `As you walk around, you see that Jasmine is missing some data in their data tables. What could you do to nudge her in the right direction?`,
-    encodedText: [
+    messages: [
       {
         type: 'info',
         text: 'As you walk around, you see that Jasmine is missing some data in their data tables. What could you do to nudge her in the right direction?'
@@ -370,7 +370,7 @@ export const inquiryQuestions:[Question] = [
     studentIds: [7],
     id: 113,
     text: 'Miquel finished generating questions (i.e. hypotheses) about photosynthesis, and some are not testable. How can you connect his responses with the idea of planning research?',
-    encodedText: [
+    messages: [
       {
         type: 'info',
         text: 'Miquel finished generating questions (i.e. hypotheses) about photosynthesis, and some are not testable. How can you connect his responses with the idea of planning research?'
@@ -387,7 +387,7 @@ export const inquiryQuestions:[Question] = [
     studentIds: [5],
     id: 114,
     text: `You set up a photosynthesis experiment for the class, and students report the data they\'ve collected. As it turns out, Mike has experimented with only two variables: hours of light and water.  Respond to this by connecting this with data collection planning.`,
-    encodedText: [
+    messages: [
       {
         type: 'info',
         text: 'You set up a photosynthesis experiment for the class, and students report the data they\'ve collected. As it turns out, Mike has experimented with only two variables: hours of light and water.  Respond to this by connecting this with data collection planning.'
@@ -408,7 +408,7 @@ export const motivationQuestions:[Question] = [
     studentIds: [8],
     id: 115,
     text: 'Ada is frustrated that she cannot figure out how her data supports her initial hypothesis. She refuses to modify her question, instead saying, "I don\'t want to try again because I will just mess up again."',
-    encodedText: [
+    messages: [
       {
         type: 'info',
         text: 'Ada is frustrated that she cannot figure out how her data supports her initial hypothesis. She refuses to modify her question.'
@@ -429,7 +429,7 @@ export const motivationQuestions:[Question] = [
     studentIds: [3, 8],
     id: 116,
     text: 'At the end of the photosynthesis unit, you introduce a list of topics that students choose for a project they want to do. Maia raises her hand and says, "I don\'t want to do any of these. Can I just come up with my own thing?" Even before you have a chance to respond to her, another student says, "I want to do my own topic too!"  Respond.',
-    encodedText: [
+    messages: [
       {
         type: 'info',
         text: 'At the end of the photosynthesis unit, you introduce a list of topics that students choose for a project they want to do. Maia raises her hand.'
@@ -459,7 +459,7 @@ export const motivationQuestions:[Question] = [
     studentIds: [8, 5],
     id: 117,
     text: 'Students are working individually on a worksheet. You notice that a student is distracted.  She lashes out, "I can\'t do this! And Mike gets it. He just gets science and I don\'t. Why do I even need to try?"',
-    encodedText: [
+    messages: [
       {
         type: 'info',
         text: 'Students are working individually on a worksheet. You notice that a student is distracted.'
@@ -480,7 +480,7 @@ export const motivationQuestions:[Question] = [
     studentIds: [],
     id: 118,
     text: 'For the end of the photosynthesis unit, you arranged a field trip to a local farm so that students could present their findings on improving crop yield potential to professionals in the field. However, when you tell the class about the project, they don\'t seem to be excited.  What would you do to communicate the benefits of this field trip to your class?',
-    encodedText: [
+    messages: [
       {
         type: 'info',
         text: 'For the end of the photosynthesis unit, you arranged a field trip to a local farm so that students could present their findings on improving crop yield potential to professionals in the field. However, when you tell the class about the project, they don’t seem to be excited.  What would you do to communicate the benefits of this field trip to your class?'
@@ -497,7 +497,7 @@ export const motivationQuestions:[Question] = [
     studentIds: [10],
     id: 119,
     text: 'You divide students into groups to perform a photosynthesis experiment. Students get to divide themselves into groups. A new student, Sasha, doesn\'t get picked until the last minute.  What would you do?',
-    encodedText: [
+    messages: [
       {
         type: 'info',
         text: 'You divide students into groups to perform a photosynthesis experiment. Students get to divide themselves into groups. A new student, Sasha, doesn\'t get picked until the last minute.  What would you do?'
@@ -513,7 +513,7 @@ export const motivationQuestions:[Question] = [
     studentIds: [3, 1],
     id: 120,
     text: 'You introduced a game related to photosynthesis, and have pairs of two working on a game. Maia is paired with Kevin, and she asks, "How are we getting graded on this?" You tell her that there will be no grade for either completion or participation. "Why are we doing this then?" she asks.',
-    encodedText: [
+    messages: [
       {
         type: 'info',
         text: 'You introduced a game related to photosynthesis, and have pairs of two working on a game. Maia is paired with Kevin.'
