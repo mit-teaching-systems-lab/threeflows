@@ -53,9 +53,15 @@ export default React.createClass({
   onNextQuestion(){
     this.props.onQuestionDone();
   },
+
+  renderButtonText(){
+    if(this.props.isReadyToMoveOn) return this.props.nextButtonLabel;
+    if(this.props.helpType === 'feedback' && this.state.initialMessageSent) return 'Revise response';
+    return `Respond to ${this.props.mainStudent !== undefined ? this.props.mainStudent.name : 'Class'}`;
+  },
   
   render(){
-    const mainButtonLabel = this.props.isReadyToMoveOn ? this.props.nextButtonLabel : this.props.helpType !== 'feedback' ? 'Respond to ' + (this.props.mainStudent !== undefined ? this.props.mainStudent.name : 'Class') : this.state.initialMessageSent ? 'Revise Response' : 'Save Response';
+    const mainButtonLabel = this.renderButtonText();
     return (
       <div>
         <Divider />
