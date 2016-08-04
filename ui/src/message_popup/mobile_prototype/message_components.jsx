@@ -43,7 +43,7 @@ const Message = React.createClass({
           <Paper style={messageTextStyle}>{this.props.text}</Paper>
           
         </div>
-        {this.props.rightIcon}
+        <div>{this.props.rightIcon}</div>
       </div>
     );
   }
@@ -71,7 +71,7 @@ export const StudentMessage = React.createClass({
           leftIcon={
             <IconButton 
               onTouchTap={this.props.onOpenStudentDialog} 
-              style={styles.messageIconButton} 
+              style={styles.messageIconContainer} 
               iconStyle={styles.messageIcon}>
               <FaceIcon/>
             </IconButton>
@@ -102,7 +102,9 @@ export const UserMessage = React.createClass({
           messageStyle={messageStyle}
           messageTextStyle={messageTextStyle}
           rightIcon={
-            <FaceIcon  style={{marginTop: 8, ...styles.messageIcon}}/> 
+            <div style={styles.messageIconContainer}>
+              <FaceIcon  style={{marginTop: 8, ...styles.messageIcon}}/>
+            </div>
           }
           />
       </div>
@@ -130,7 +132,7 @@ export const InfoMessage = React.createClass({
           leftIcon={
             <IconButton 
               onTouchTap={this.props.onOpenInfoDialog}
-              style={styles.messageIconButton}
+              style={styles.messageIconContainer}
               iconStyle={styles.messageIcon}>
               <InfoOutlineIcon/>
             </IconButton>
@@ -146,18 +148,15 @@ const styles = {
     display: 'flex',
     padding: 5
   },
-  messageIconButton: {
+  messageIconContainer: {
     margin: 0,
     padding: 0,
     width: '100%',
-    height: 0
   },
   messageIcon: {
     width: 30,
     height: 30,
     padding: 0,
-    marginTop: 5,
-    flexShrink: 0
   },
   messageTextSection: {
     margin: 5,
