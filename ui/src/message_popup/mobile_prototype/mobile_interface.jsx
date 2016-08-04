@@ -64,29 +64,17 @@ export default React.createClass({
   getInitialMessages(questionObject){
     var messages = [];
     if(_.has(questionObject, 'encodedText')){
-      var arrayOfMessages = questionObject.encodedText.split('[:');
-      for (var index in arrayOfMessages){
-        var rawMessageText = arrayOfMessages[index];
-        if(rawMessageText !== ''){
-          const messageCode = rawMessageText.substring(0, 2);
-          var messageText = rawMessageText.substring(2, rawMessageText.length);
-          var messageType = undefined;
-          var student = undefined;
-          messageCode === 'i]' ? messageType = 'info' : messageCode === 'u]' ? messageType = 'user' : messageType = 'student';
-          if(messageType === 'student'){
-            const splitStudentMessage = rawMessageText.split('s]');
-            const studentId = Number(splitStudentMessage[0]);
-            messageText = splitStudentMessage[1];
-            student = _.find(this.props.question.students, student => student.id===studentId);
-          }
-          const message = {
-            type: messageType,
-            text: messageText,
-            key: messageText,
-            student
-          };
-          messages.push(message);
-        }
+
+      for (var index in questionObject.encodedText){
+        const textObject = questionObject.encodedText[index];
+        const student = _.find(this.props.question.students, student => student.id === textObject.studentId);
+        const message = {
+          type: textObject.type,
+          text: textObject.text,
+          key: textObject.text,
+          student
+        };
+        messages.push(message);
       }
     }else{
       const message = {
