@@ -111,7 +111,7 @@ export default React.createClass({
     const showOriginalHelp = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'originalHelp');
 
     // This is a workaround for a bug in Slider while we wait for https://github.com/callemall/material-ui/pull/4895 to land
-    const sliderKey = [sessionLength, questionsLength, selectedIndicatorId].join('-');
+    const sliderKey = [questionsLength, selectedIndicatorId].join('-');
     return (
       <div style={styles.container}>
         {this.renderIndicators()}
