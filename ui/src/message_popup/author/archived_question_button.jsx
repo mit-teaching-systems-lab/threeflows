@@ -1,9 +1,9 @@
+/* @flow weak */
 import React from 'react';
 
 import {withStudents, withLearningObjectiveAndIndicator} from '../transformations.jsx';
 
 import {ListItem} from 'material-ui/List';
-import Checkbox from 'material-ui/Checkbox';
 
 import SchoolIcon from 'material-ui/svg-icons/social/school';
 

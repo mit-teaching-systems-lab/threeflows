@@ -28,15 +28,15 @@ export default React.createClass({
   },
 
   getInitialState() {
-    const questionExists = this.props.originalQuestion !== undefined
+    const question = this.props.originalQuestion;
     return ({
-      questionText: questionExists ? this.props.originalQuestion.text : '',
-      students: questionExists ? this.props.originalQuestion.students : [],
-      indicator: questionExists ? this.props.originalQuestion.indicator : indicators[0],
-      goodExamplesText: questionExists ? this.props.originalQuestion.examples.join('\n\n') : "",
-      badExamplesText: questionExists ? this.props.originalQuestion.nonExamples.join('\n\n') : "",
+      questionText: question !== undefined ? question.text : '',
+      students: question !== undefined ? question.students : [],
+      indicator: question !== undefined ? question.indicator : indicators[0],
+      goodExamplesText: question !== undefined ? question.examples.join('\n\n') : "",
+      badExamplesText: question !== undefined ? question.nonExamples.join('\n\n') : "",
       deleteConfirmationOpen: false,
-      availableStudentList: questionExists ? allStudents.filter(student => !this.props.originalQuestion.studentIds.includes(student.id)) : allStudents
+      availableStudentList: question !== undefined ? allStudents.filter(student => !question.studentIds.includes(student.id)) : allStudents
     });
   },
 
