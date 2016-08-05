@@ -10,38 +10,38 @@ export default React.createClass({
 
   propTypes: {
     question: React.PropTypes.object.isRequired,
+    animatedMessages: React.PropTypes.array.isRequired,
     messages: React.PropTypes.array.isRequired,
     onOpenStudentDialog: React.PropTypes.func.isRequired,
-    onOpenInfoDialog: React.PropTypes.func.isRequired
+    onOpenInfoDialog: React.PropTypes.func.isRequired,
+    onAnimationDone: React.PropTypes.func.isRequired
   },
   
   render(){
-    const {messages} = this.props;
+    const {animatedMessages} = this.props;
     return (
       <div>
-
-        {messages.map(message => { 
+        {animatedMessages.map(message => {
           if(message.type === 'user'){
             return (
-              <VelocityComponent animation='transition.slideRightBigIn' runOnMount={true} key={'animation'+ message.key}>
-                <UserMessage text={message.text}  key={message.key} />
+              <VelocityComponent animation='transition.slideRightBigIn' complete={this.props.onAnimationDone} duration={500} runOnMount={true} key={'animation'+ message.key}>
+                <UserMessage text={message.text}/>
               </VelocityComponent>
-              );
+            );
           }else if(message.type === 'student'){
             return (
-              <VelocityComponent animation='transition.slideLeftBigIn' runOnMount={true} key={'animation'+ message.key}>
-                <StudentMessage text={message.text} student={message.student} onOpenStudentDialog={this.props.onOpenStudentDialog(message.student)} key={message.key} />
+              <VelocityComponent animation='transition.slideLeftBigIn' complete={this.props.onAnimationDone} duration={500} runOnMount={true} key={'animation'+ message.key}>
+                <StudentMessage text={message.text} student={message.student} onOpenStudentDialog={this.props.onOpenStudentDialog(message.student)}/>
               </VelocityComponent>
-              );
+            );
           }else{
             return (
-              <VelocityComponent animation='transition.slideLeftBigIn' runOnMount={true} key={'animation'+ message.key}>
-                <InfoMessage text={message.text} onOpenInfoDialog={this.props.onOpenInfoDialog} key={message.key} />
+              <VelocityComponent animation='transition.slideLeftBigIn' complete={this.props.onAnimationDone} duration={500} runOnMount={true} key={'animation'+ message.key}>
+                <InfoMessage text={message.text} onOpenInfoDialog={this.props.onOpenInfoDialog}/>
               </VelocityComponent>
-              );
+            );
           }
         })}
-
       </div>
     );
   }

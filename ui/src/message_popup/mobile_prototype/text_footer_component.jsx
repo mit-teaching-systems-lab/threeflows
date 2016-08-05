@@ -21,7 +21,6 @@ export default React.createClass({
     nextExample: React.PropTypes.func.isRequired,
     onShowExampleClicked: React.PropTypes.func.isRequired,
     mainStudent: React.PropTypes.object,
-    disabledButton: React.PropTypes.bool.isRequired,
   },
   
   getInitialState(){
@@ -83,21 +82,20 @@ export default React.createClass({
               primary={this.props.isReadyToMoveOn}
               secondary={!this.props.isReadyToMoveOn}
               onTouchTap={this.props.isReadyToMoveOn ? this.onNextQuestion : this.state.initialMessageSent ?  this.onRevisionSendMessage : this.onSendMessage}
-              disabled={this.props.disabledButton || ((this.state.text === undefined || this.state.text === '') && !this.props.isReadyToMoveOn)}
+              disabled={(this.state.text === undefined || this.state.text === '') && !this.props.isReadyToMoveOn}
               />
             {this.props.helpType === 'feedback' && this.state.initialMessageSent && !this.props.isReadyToMoveOn &&
             <RaisedButton
               style={styles.responseButton}
               label="Pass"
               onTouchTap={this.onPassSendMessage}
-              disabled={this.props.disabledButton}
               />
             }
             {this.props.helpType === 'hints' && !this.props.isReadyToMoveOn &&
             <RaisedButton
               style={styles.responseButton}
               label="Show Example"
-              disabled={this.props.disabledButton || (this.props.nextExample(false) === null)}
+              disabled={this.props.nextExample(false) === null}
               onTouchTap={this.props.onShowExampleClicked}
               />
             }

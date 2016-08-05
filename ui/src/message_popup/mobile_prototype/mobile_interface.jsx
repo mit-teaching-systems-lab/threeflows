@@ -45,7 +45,8 @@ export default React.createClass({
     const badExamples = _.map(this.props.question.nonExamples, (example) => { return {type: 'Bad', text: example}; });
     const allExamples = _.shuffle(_.clone(goodExamples).concat(badExamples)); 
     return ({
-      messages: [],
+      animatedMessages: [],
+      messages: this.getInitialMessages(this.props.question),
       allExamples,
       initialResponse: undefined,
       revisedResponse: undefined,
@@ -53,13 +54,12 @@ export default React.createClass({
       exampleIndex: 0,
       dialog: null,
       messageIndex: 1,
-      disabledButton: false
     });
   },
 
   componentDidMount() {
     this.setInterval(this.updateTimer, ONE_SECOND);
-    this.addMessages(this.getInitialMessages(this.props.question));
+    this.onAnimationDone();
   },
 
   getInitialMessages(questionObject){
@@ -67,7 +67,8 @@ export default React.createClass({
       return ({
         type: message.type,
         text: message.text,
-        student: _.find(this.props.question.students, {id: message.studentId})
+        student: _.find(this.props.question.students, {id: message.studentId}),
+        key: `question-${message.text}`
       }); 
     });
     
@@ -75,6 +76,7 @@ export default React.createClass({
       {
         type: 'info',
         text: questionObject.text,
+        key: `question-${questionObject.text}`
       }
     ];
     
@@ -115,17 +117,17 @@ export default React.createClass({
   },
 
   addMessages(messageList){
-    const message = {key: this.state.messageIndex+1, ...messageList.shift()};
-    this.setState({messages: this.state.messages.concat(message), messageIndex: this.state.messageIndex + 1, disabledButton: messageList.length > 0});
-    const interval = setInterval(function(){
-      if(messageList.length > 0){
-        const message = {key: this.state.messageIndex+1, ...messageList.shift()};
-        this.setState({messages: this.state.messages.concat(message), messageIndex: this.state.messageIndex + 1});
-      }else{
-        if(this.state.disabledButton) this.setState({disabledButton: false});
-        clearInterval(interval);
-      }
-    }.bind(this, interval, messageList), 300);
+    var messageId = this.state.messageIndex;
+    var newMessages = messageList.map(message => {
+      messageId ++;
+      return {key: messageId, ... message};
+    });
+    if(this.state.messages.length === 0){
+      const newAnimatedMessage = newMessages.shift();
+      this.setState({messages: newMessages, animatedMessages: this.state.animatedMessages.concat(newAnimatedMessage), messageIndex: messageId});
+      return;
+    }
+    this.setState({messages: [...this.state.messages, ...newMessages], messageIndex: messageId});
   },
 
   setInitialResponse(response){
@@ -205,6 +207,14 @@ export default React.createClass({
       this.setState({dialog: {type: 'student', student}});
     }.bind(this));
   },
+
+  onAnimationDone(){
+    var messages = _.clone(this.state.messages);
+    if(messages.length > 0){
+      const message = messages.shift();
+      this.setState({animatedMessages: this.state.animatedMessages.concat(message), messages});
+    }
+  },
   
   render(){
     const {scaffolding, question} = this.props;
@@ -214,9 +224,11 @@ export default React.createClass({
         <div style={styles.textBody}>
           <TextBody 
             question={this.props.question}
+            animatedMessages={this.state.animatedMessages}
             messages={this.state.messages}
             onOpenStudentDialog={this.onOpenStudentDialog}
             onOpenInfoDialog={this.onOpenInfoDialog}
+            onAnimationDone={this.onAnimationDone}
             />
         </div>
         <div style={styles.textFooter}>
@@ -233,7 +245,6 @@ export default React.createClass({
             nextExample={this.nextExample}
             nextButtonLabel={this.props.isLastQuestion ? 'Finish' : 'Next Question'}
             mainStudent={question.students[0]}
-            disabledButton={this.state.disabledButton}
             />
         </div>
         <div>
