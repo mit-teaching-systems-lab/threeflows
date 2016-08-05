@@ -44,21 +44,22 @@ export default React.createClass({
     const goodExamples = _.map(this.props.question.examples, (example) => { return {type: 'Good', text: example}; });
     const badExamples = _.map(this.props.question.nonExamples, (example) => { return {type: 'Bad', text: example}; });
     const allExamples = _.shuffle(_.clone(goodExamples).concat(badExamples)); 
-    const messages = this.getInitialMessages(this.props.question);
     return ({
-      messages,
+      messages: [],
       allExamples,
       initialResponse: undefined,
       revisedResponse: undefined,
       elapsedMs: 0,
       exampleIndex: 0,
       dialog: null,
-      messageIndex: 1
+      messageIndex: 1,
+      disabledButton: false
     });
   },
 
   componentDidMount() {
     this.setInterval(this.updateTimer, ONE_SECOND);
+    this.addMessages(this.getInitialMessages(this.props.question));
   },
 
   getInitialMessages(questionObject){
@@ -66,7 +67,6 @@ export default React.createClass({
       return ({
         type: message.type,
         text: message.text,
-        key: message.text,
         student: _.find(this.props.question.students, {id: message.studentId})
       }); 
     });
@@ -75,7 +75,6 @@ export default React.createClass({
       {
         type: 'info',
         text: questionObject.text,
-        key: questionObject.text
       }
     ];
     
@@ -116,14 +115,17 @@ export default React.createClass({
   },
 
   addMessages(messageList){
-    var messages = _.clone(this.state.messages);
-    var messageId = this.state.messageIndex;
-    for(var messageIndex = 0; messageIndex < messageList.length; messageIndex++){
-      messageId+=1;
-      const message = _.extend({key: messageId}, messageList[messageIndex]);
-      messages.push(message);
-    }
-    this.setState({messages, messageIndex: messageId});
+    const message = {key: this.state.messageIndex+1, ...messageList.shift()};
+    this.setState({messages: this.state.messages.concat(message), messageIndex: this.state.messageIndex + 1, disabledButton: messageList.length > 0});
+    const interval = setInterval(function(){
+      if(messageList.length > 0){
+        const message = {key: this.state.messageIndex+1, ...messageList.shift()};
+        this.setState({messages: this.state.messages.concat(message), messageIndex: this.state.messageIndex + 1});
+      }else{
+        if(this.state.disabledButton) this.setState({disabledButton: false});
+        clearInterval(interval);
+      }
+    }.bind(this, interval, messageList), 300);
   },
 
   setInitialResponse(response){
@@ -231,6 +233,7 @@ export default React.createClass({
             nextExample={this.nextExample}
             nextButtonLabel={this.props.isLastQuestion ? 'Finish' : 'Next Question'}
             mainStudent={question.students[0]}
+            disabledButton={this.state.disabledButton}
             />
         </div>
         <div>
