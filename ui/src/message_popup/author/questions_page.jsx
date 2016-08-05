@@ -1,6 +1,5 @@
 /* @flow weak */
 import React from 'react';
-import _ from 'lodash';
 
 import * as Routes from '../../routes.js';
 
@@ -35,6 +34,30 @@ export default React.createClass({
       selectedArchivedQuestion: null
     });
   },
+
+  getQuestionString(question){
+    question = withIndicator(withStudents([question])[0]);
+    const questionString = [
+      question.id, 
+      question.text, 
+      question.indicator.text, 
+      ...question.students.map(student => student.id),
+      ...question.students.map(student => student.name),
+      ...question.examples,
+      ...question.nonExamples
+    ].join(' ');
+    return questionString;
+  },
+
+  searchQuestionForText(text, question){
+    const questionString = this.getQuestionString(question);
+    return questionString.toLowerCase().includes(text);
+  },
+
+  countTextOccurrences(text, question){
+    const questionString = this.getQuestionString(question);
+    return questionString.split(text).length;
+  },
   
   onNewQuestion(){
     Routes.navigate(Routes.messagePopupAuthorQuestionsNewPath());
@@ -44,26 +67,10 @@ export default React.createClass({
     const value = event.target.value.toLowerCase().trim();
     if(value === ''){
       this.setState({questions: allQuestions});
-    }else{
-      var questions = _.clone(allQuestions);
-      questions = questions.filter(questionOriginal => {
-        const question = withStudents([withIndicator(questionOriginal)])[0];
-        var questionString = question.id + " " + question.text + " " + question.indicator.text;
-        if(_.has(question, 'students')) _.forEach(question.students, student => questionString += " " + student.id + " " + student.name);
-        _.forEach(question.examples, example => questionString += " " + example);
-        _.forEach(question.nonExamples, example => questionString += " " + example);
-        return questionString.toLowerCase().includes(value);
-      });
-      questions = questions.sort(questionOriginal => {
-        const question = withStudents([withIndicator(questionOriginal)])[0];
-        var questionString = question.id + " " + question.text + " " + question.indicator.text;
-        if(_.has(question, 'students')) _.forEach(question.students, student => questionString += " " + student.id + " " + student.name);
-        _.forEach(question.examples, example => questionString += " " + example);
-        _.forEach(question.nonExamples, example => questionString += " " + example);
-        return questionString.split(value).length;
-      });
-      this.setState({questions});
+      return;
     }
+    const questions = allQuestions.filter(questionOriginal => this.searchQuestionForText(value, questionOriginal)).sort(questionOriginal => this.countTextOccurrences(value, questionOriginal));
+    this.setState({questions});
   },
 
   onTouchArchivedQuestion(question){

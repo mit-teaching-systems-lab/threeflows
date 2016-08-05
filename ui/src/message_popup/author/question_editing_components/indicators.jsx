@@ -12,16 +12,16 @@ export default React.createClass({
 
   propTypes: {
     indicator: React.PropTypes.object.isRequired,
-    onChangeIndicator: React.PropTypes.func.isRequired
+    onIndicatorChange: React.PropTypes.func.isRequired
   },
 
   render(){
-    const {indicator, onChangeIndicator} = this.props;
+    const {indicator, onIndicatorChange} = this.props;
     return (
       <Paper style={styles.container}>
         <div style={styles.title}>Indicator</div>
         <Divider />
-        <RadioButtonGroup style={styles.indicatorRadioGroup} name="indicator" valueSelected={indicator.id.toString()} onChange={onChangeIndicator}>
+        <RadioButtonGroup style={styles.indicatorRadioGroup} name="indicator" valueSelected={indicator.id.toString()} onChange={onIndicatorChange}>
           {indicators.map(otherIndicator => <RadioButton key={'indicator-' + otherIndicator.id} value={otherIndicator.id.toString()} label={otherIndicator.text}/>)}
         </RadioButtonGroup>
       </Paper>

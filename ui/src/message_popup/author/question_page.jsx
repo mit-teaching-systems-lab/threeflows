@@ -95,7 +95,7 @@ export default React.createClass({
     this.setState({badExamplesText: text});
   },
 
-  onChangeIndicator(event, value){
+  onIndicatorChange(event, value){
     this.setState({indicator: _.find(indicators, indicator => indicator.id.toString() === value)});
   },
 
@@ -187,7 +187,7 @@ export default React.createClass({
               />
             <EditingComponents.Indicators 
               indicator={this.state.indicator}
-              onChangeIndicator={this.onChangeIndicator}
+              onIndicatorChange={this.onIndicatorChange}
               />
             {this.renderButtons()}
           </VelocityTransitionGroup>
