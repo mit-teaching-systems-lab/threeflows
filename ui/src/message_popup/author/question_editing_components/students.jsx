@@ -24,6 +24,7 @@ export default React.createClass({
     students: React.PropTypes.array.isRequired,
     addStudent: React.PropTypes.func.isRequired,
     removeStudent: React.PropTypes.func.isRequired,
+    availableStudentList: React.PropTypes.array.isRequired,
   },
 
   getInitialState(){
@@ -53,8 +54,7 @@ export default React.createClass({
 
   isStudentSelectionValid(selection){
     if(selection === '') return true;
-    if(_.find(allStudents, student => student.name.toLowerCase() === selection.toLowerCase()) === undefined) return false;
-    if(_.find(this.props.students, student => student.name.toLowerCase() === selection.toLowerCase()) !== undefined) return false;
+    if(_.find(this.props.availableStudentList, student => student.name.toLowerCase() === selection.toLowerCase()) === undefined) return false;
     return true;
   },
 
@@ -63,6 +63,7 @@ export default React.createClass({
       students,
       addStudent,
       removeStudent,
+      availableStudentList
     } = this.props;
 
     const {studentText} = this.state;
@@ -94,7 +95,7 @@ export default React.createClass({
               hintText="Type a student's name..."
               errorText={this.isStudentSelectionValid(studentText) ? '' : ' '}
               fullWidth={true}
-              dataSource={_.filter(allStudents, student => this.isStudentSelectionValid(student.name)).map(student => student.name)}
+              dataSource={availableStudentList.map(student => student.name)}
               filter={AutoComplete.fuzzyFilter}
               maxSearchResults={4}
              />

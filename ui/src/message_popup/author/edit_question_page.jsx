@@ -16,18 +16,9 @@ export default React.createClass({
 
   render(){
     const question = withLearningObjectiveAndIndicator(_.find(withStudents(allQuestions), question => question.id.toString()===this.props.questionId));
-    var goodExamplesText = '';
-    _.forEach(question.examples, example => {goodExamplesText += (goodExamplesText === '' ? '' : '\n\n') + example;});
-    var badExamplesText = '';
-    _.forEach(question.nonExamples, example => {badExamplesText += (badExamplesText === '' ? '' : '\n\n') + example;});
     return (
       <QuestionPage 
         originalQuestion={question}
-        questionText={question.text}
-        students={question.students}
-        indicator={question.indicator}
-        goodExamplesText={goodExamplesText}
-        badExamplesText={badExamplesText}
         />
       );
   }

@@ -25,35 +25,22 @@ export default React.createClass({
 
   propTypes: {
     originalQuestion: React.PropTypes.object,
-    questionText: React.PropTypes.string,
-    students: React.PropTypes.array,
-    indicator: React.PropTypes.object,
-    goodExamplesText: React.PropTypes.string,
-    badExamplesText: React.PropTypes.string
   },
 
-  getDefaultProps(){
-    return ({
-      questionText: '',
-      students: [],
-      indicator: indicators[0],
-      goodExamplesText: "",
-      badExamplesText: ""
-    });
-
-  },
   getInitialState() {
+    const questionExists = this.props.originalQuestion !== undefined
     return ({
-      questionText: this.props.questionText,
-      students: this.props.students,
-      indicator: this.props.indicator,
-      goodExamplesText: this.props.goodExamplesText,
-      badExamplesText: this.props.badExamplesText,
-      deleteConfirmationOpen: false
+      questionText: questionExists ? this.props.originalQuestion.text : '',
+      students: questionExists ? this.props.originalQuestion.students : [],
+      indicator: questionExists ? this.props.originalQuestion.indicator : indicators[0],
+      goodExamplesText: questionExists ? this.props.originalQuestion.examples.join('\n\n') : "",
+      badExamplesText: questionExists ? this.props.originalQuestion.nonExamples.join('\n\n') : "",
+      deleteConfirmationOpen: false,
+      availableStudentList: questionExists ? allStudents.filter(student => !this.props.originalQuestion.studentIds.includes(student.id)) : allStudents
     });
   },
 
-  returnToQuestions(){
+  onReturnToQuestions(){
     Routes.navigate(Routes.messagePopupAuthorQuestionsPath());
   },
 
@@ -62,38 +49,37 @@ export default React.createClass({
   },
 
   addStudent(studentName){
-    const student = _.find(allStudents, student => student.name.toLowerCase() === studentName.toLowerCase());
-    const alreadyAdded =  student !== undefined && _.find(this.state.students, newStudent => newStudent.id === student.id) !== undefined;
-    if(student !== undefined && !alreadyAdded){
-      this.setState({students: this.state.students.concat(student)});
+    var availableStudentList = _.clone(this.state.availableStudentList);
+    const student = _.remove(availableStudentList, student => student.name.toLowerCase() === studentName.toLowerCase())[0];
+    if(student !== undefined){
+      this.setState({students: this.state.students.concat(student), availableStudentList});
     }
   },
 
   removeStudent(studentId){
     return function(){
-      this.setState({students: _.remove(_.clone(this.state.students), student => student.id !== studentId)});
+      this.setState({
+        students: this.state.students.filter(student => student.id !== studentId), 
+        availableStudentList: this.state.availableStudentList.concat(_.find(allStudents, student => student.id === studentId))
+      });
     }.bind(this);
   },
 
   onGoodExamplesChange(event, text){
     this.setState({goodExamplesText: text});
-    this.getExamples();
   },
 
   onBadExamplesChange(event, text){
     this.setState({badExamplesText: text});
-    this.getExamples();
+  },
+
+  parseExamples(examplesText){
+    return examplesText.split('\n\n').map(exampleText => exampleText.trim()).filter(example => example !== '');
   },
 
   getExamples(){
     const {goodExamplesText, badExamplesText} = this.state;
-    var goodExamples = goodExamplesText.split('\n\n');
-    var badExamples = badExamplesText.split('\n\n');
-    goodExamples = goodExamples.map(example => example.trim());
-    badExamples = badExamples.map(example => example.trim());
-    _.remove(goodExamples, example => example == '');
-    _.remove(badExamples, example => example == '');
-    return {goodExamples, badExamples};
+    return {goodExamples: this.parseExamples(goodExamplesText), badExamples: this.parseExamples(badExamplesText)};
   },
 
   onChangeIndicator(event, value){
@@ -125,7 +111,7 @@ export default React.createClass({
     console.log("Also deleting and archiving the following question:");
     console.log(this.props.originalQuestion);
     console.log("");
-    this.returnToQuestions();
+    this.onReturnToQuestions();
   },
 
   onCreate(){
@@ -145,7 +131,7 @@ export default React.createClass({
       indicator: this.state.indicator,
     };
     console.log(question);
-    this.returnToQuestions();
+    this.onReturnToQuestions();
   },
 
   openDeleteConfirmation(){
@@ -156,12 +142,17 @@ export default React.createClass({
     this.setState({deleteConfirmationOpen: false});
   },
 
+  onDeleteButtonClicked(){
+    this.closeDeleteConfirmation();
+    this.onDeleteQuestion();
+  },
+
   onDeleteQuestion(){
     console.log("");
     console.log("Deleting and archiving the following question:");
     console.log(this.props.originalQuestion);
     console.log("");
-    this.returnToQuestions();
+    this.onReturnToQuestions();
   },
 
   render(){
@@ -169,7 +160,7 @@ export default React.createClass({
       <div>
         <AppBar 
           title={this.props.originalQuestion !== undefined ? `Editing Question #${this.props.originalQuestion.id}` : 'New Question'}
-          iconElementLeft={<IconButton onTouchTap={this.returnToQuestions}><ArrowBackIcon /></IconButton>}
+          iconElementLeft={<IconButton onTouchTap={this.onReturnToQuestions}><ArrowBackIcon /></IconButton>}
           />
         <div style={styles.container}>
           <VelocityTransitionGroup enter={{animation: 'transition.fadeIn'}} runOnMount={true}>
@@ -182,6 +173,7 @@ export default React.createClass({
               students={this.state.students}
               addStudent={this.addStudent}
               removeStudent={this.removeStudent}
+              availableStudentList={this.state.availableStudentList}
               />
             <EditingComponents.Examples 
               type="Good"
@@ -197,38 +189,7 @@ export default React.createClass({
               indicator={this.state.indicator}
               onChangeIndicator={this.onChangeIndicator}
               />
-
-            <div style={styles.finalButtonRow}>
-              {this.props.originalQuestion !== undefined &&
-                <div>
-                  <RaisedButton 
-                    style={styles.finalButton}
-                    label="Save"
-                    primary={true}
-                    disabled={!this.saveCheckPassed()}
-                    onTouchTap={this.onSaveEdit}
-                    />
-                  <RaisedButton
-                    style={styles.finalButton}
-                    backgroundColor="#CA2300"
-                    labelStyle={{color: 'white'}}
-                    label="Delete"
-                    onTouchTap={this.openDeleteConfirmation}
-                    />
-                </div>
-              }
-              {this.props.originalQuestion === undefined &&
-                <div>
-                  <RaisedButton
-                    style={styles.finalButton}
-                    label="Create"
-                    primary={true}
-                    disabled={!this.saveCheckPassed()}
-                    onTouchTap={this.onCreate}
-                    />
-                </div>
-              }
-            </div>
+            {this.renderButtons()}
           </VelocityTransitionGroup>
           <Dialog 
             open={this.state.deleteConfirmationOpen}
@@ -239,17 +200,50 @@ export default React.createClass({
               <FlatButton
                 label="Delete"
                 style={{color: "#CA2300"}}
-                onTouchTap={function(){
-                  this.closeDeleteConfirmation();
-                  this.onDeleteQuestion();
-                }.bind(this)}/>
+                onTouchTap={this.onDeleteButtonClicked}/>
             ]}
             onRequestClose={this.closeDeleteConfirmation}>
             Deleting this will archive the deleted question. Are you sure you wish to continue?
           </Dialog>
         </div>
       </div>
-      );
+    );
+  },
+
+  renderButtons(){
+    return (
+      <div style={styles.finalButtonRow}>
+        {this.props.originalQuestion !== undefined &&
+          <div>
+            <RaisedButton 
+              style={styles.finalButton}
+              label="Save"
+              primary={true}
+              disabled={!this.saveCheckPassed()}
+              onTouchTap={this.onSaveEdit}
+              />
+            <RaisedButton
+              style={styles.finalButton}
+              backgroundColor="#CA2300"
+              labelStyle={{color: 'white'}}
+              label="Delete"
+              onTouchTap={this.openDeleteConfirmation}
+              />
+          </div>
+        }
+        {this.props.originalQuestion === undefined &&
+          <div>
+            <RaisedButton
+              style={styles.finalButton}
+              label="Create"
+              primary={true}
+              disabled={!this.saveCheckPassed()}
+              onTouchTap={this.onCreate}
+              />
+          </div>
+        }
+      </div>
+    );
   }
 });
 

@@ -14,7 +14,7 @@ export default React.createClass({
     question: React.PropTypes.object.isRequired
   }, 
 
-  changePath(){
+  onItemClicked(){
     Routes.navigate(Routes.messagePopupAuthorQuestionsEditPath(this.props.question.id));
   },
 
@@ -27,7 +27,7 @@ export default React.createClass({
         primaryText={"#" + question.id + " " + question.learningObjective.competencyGroup}
         secondaryText={question.text}
         secondaryTextLines={2}
-        onTouchTap={this.changePath}
+        onTouchTap={this.onItemClicked}
       />
     );
   }
