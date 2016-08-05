@@ -3,7 +3,7 @@ import _ from 'lodash';
 import {learningObjectives} from './learning_objectives.js';
 
 // Holds data for a particular challenge.
-export const challenges = [{
+const rawChallenges = [{
   id: 102,
   name: 'Photosynthesis',
   learningObjectiveIds: [30, 31, 32, 33, 34, 35, 36, 37, 38, 39],
@@ -32,7 +32,7 @@ export const challenges = [{
   ]
 }];
 
-export function withLearningObjectives(challenge) {
+function withLearningObjectives(challenge) {
   return {
     ...challenge,
     learningObjectives: challenge.learningObjectiveIds.map((id) => {
@@ -41,6 +41,7 @@ export function withLearningObjectives(challenge) {
   };
 }
 
+export const challenges = rawChallenges.map(withLearningObjectives);
 export const slates = [
   { id: 32, topic: 'Formative assessment' }
 ];

@@ -17,12 +17,11 @@ export default React.createClass({
 
   propTypes: {
     question: React.PropTypes.object.isRequired,
-    learningObjective: React.PropTypes.object.isRequired,
     indicator: React.PropTypes.object.isRequired
   },
 
   render() {
-    const {question, indicator, learningObjective} = this.props;
+    const {question, indicator} = this.props;
     
     return (
       <div>
@@ -41,14 +40,6 @@ export default React.createClass({
                 {question.students && question.students.map(student => <StudentCard useCardStyles={true} key={`student-${student.id}`} student={student} />)}
               </div>
           </CardText>
-        </Card>
-        <Card key="learningObjective" zDepth={2}>
-          <CardHeader
-            title="Learning Objective"
-            actAsExpander={true}
-            showExpandableButton={true} />
-          <CardText
-            expandable={true}>{learningObjective.text}</CardText>
         </Card>
         <Card key="indicator" zDepth={2}>
           <CardHeader

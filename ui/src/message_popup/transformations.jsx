@@ -1,7 +1,6 @@
 /* @flow weak */
 import _ from 'lodash';
 import {allStudents} from '../data/virtual_school.js';
-import {learningObjectives} from '../data/learning_objectives.js';
 import {indicators} from '../data/indicators.js';
 import {allQuestions} from './questions.js';
 
@@ -13,26 +12,19 @@ export function withStudents(questions) {
   });
 }
 
-export function withLearningObjectiveAndIndicator(question) {
-  const learningObjective = _.find(learningObjectives, { id: question.learningObjectiveId });
+export function withIndicator(question) {
   const indicator = _.find(indicators, { id: question.indicatorId });
   return {
     ...question,
-    indicator,
-    learningObjective
+    indicator
   };
 }
 
 export function questionsForIndicator(indicatorId) {
   const withIndicators = _.compact(allQuestions.map((question) => {
-    if (question.indicatorId !== indicatorId) return null;
-    
-    const indicator = _.find(indicators, { id: question.indicatorId });
-    return {
-      ...question,
-      indicator
-    };
+    if (question.indicatorId !== indicatorId) return null;    
+    return withIndicator(question);
   }));
 
-  return _.shuffle(withStudents(withIndicators));
+  return withStudents(withIndicators);
 }

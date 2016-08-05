@@ -63,7 +63,6 @@ export default React.createClass({
         <ScoringQuestionContext
           question={evaluation.json.question}
           indicator={evaluation.json.indicator}
-          learningObjective={evaluation.json.learningObjective}
         />
         <MessageResponseCard log={log} />
         <MessageEvaluationCard evaluation={evaluation} />
