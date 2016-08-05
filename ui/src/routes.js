@@ -43,6 +43,18 @@ export function messagePopupEvaluationUrl(evaluationId:number) {
   return `/message_popup/evaluations/${evaluationId}`;
 }
 
+export function messagePopupAuthorQuestionsPath(){
+  return '/message_popup/author/questions';
+}
+
+export function messagePopupAuthorQuestionsEditPath(questionId:number){
+  return `/message_popup/author/questions/${questionId}`;
+}
+
+export function messagePopupAuthorQuestionsNewPath(){
+  return '/message_popup/author/questions/new';
+}
+
 export function doSomethingPath() {
   return '/do_something';
 }

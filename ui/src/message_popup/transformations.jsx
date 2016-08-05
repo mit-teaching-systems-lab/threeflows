@@ -25,6 +25,5 @@ export function questionsForIndicator(indicatorId) {
     if (question.indicatorId !== indicatorId) return null;    
     return withIndicator(question);
   }));
-
   return withStudents(withIndicators);
 }
