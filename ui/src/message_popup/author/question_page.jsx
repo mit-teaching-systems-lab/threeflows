@@ -40,14 +40,6 @@ export default React.createClass({
     });
   },
 
-  onReturnToQuestions(){
-    Routes.navigate(Routes.messagePopupAuthorQuestionsPath());
-  },
-
-  onQuestionTextChange(event, value){
-    this.setState({questionText: value});
-  },
-
   addStudent(studentName){
     var availableStudentList = _.clone(this.state.availableStudentList);
     const student = _.remove(availableStudentList, student => student.name.toLowerCase() === studentName.toLowerCase())[0];
@@ -65,14 +57,6 @@ export default React.createClass({
     }.bind(this);
   },
 
-  onGoodExamplesChange(event, text){
-    this.setState({goodExamplesText: text});
-  },
-
-  onBadExamplesChange(event, text){
-    this.setState({badExamplesText: text});
-  },
-
   parseExamples(examplesText){
     return examplesText.split('\n\n').map(exampleText => exampleText.trim()).filter(example => example !== '');
   },
@@ -82,13 +66,37 @@ export default React.createClass({
     return {goodExamples: this.parseExamples(goodExamplesText), badExamples: this.parseExamples(badExamplesText)};
   },
 
-  onChangeIndicator(event, value){
-    this.setState({indicator: _.find(indicators, indicator => indicator.id.toString() === value)});
-  },
-
   saveCheckPassed(){
     if(this.state.questionText !== '') return true;
     return false;
+  },
+
+  openDeleteConfirmation(){
+    this.setState({deleteConfirmationOpen: true});
+  },
+
+  closeDeleteConfirmation(){
+    this.setState({deleteConfirmationOpen: false});
+  },
+
+  onReturnToQuestions(){
+    Routes.navigate(Routes.messagePopupAuthorQuestionsPath());
+  },
+
+  onQuestionTextChange(event, value){
+    this.setState({questionText: value});
+  },
+
+  onGoodExamplesChange(event, text){
+    this.setState({goodExamplesText: text});
+  },
+
+  onBadExamplesChange(event, text){
+    this.setState({badExamplesText: text});
+  },
+
+  onChangeIndicator(event, value){
+    this.setState({indicator: _.find(indicators, indicator => indicator.id.toString() === value)});
   },
 
   onSaveEdit(){
@@ -132,14 +140,6 @@ export default React.createClass({
     };
     console.log(question);
     this.onReturnToQuestions();
-  },
-
-  openDeleteConfirmation(){
-    this.setState({deleteConfirmationOpen: true});
-  },
-
-  closeDeleteConfirmation(){
-    this.setState({deleteConfirmationOpen: false});
   },
 
   onDeleteButtonClicked(){

@@ -23,7 +23,7 @@ import ArchivedQuestionButton from './archived_question_button.jsx';
 
 import {allQuestions} from '../questions.js';
 import {allArchivedQuestions} from './archived_questions.js';
-import {withStudents, withLearningObjectiveAndIndicator} from '../transformations.jsx';
+import {withStudents, withIndicator} from '../transformations.jsx';
 
 export default React.createClass({
   displayName: 'QuestionsPage',
@@ -47,16 +47,16 @@ export default React.createClass({
     }else{
       var questions = _.clone(allQuestions);
       questions = questions.filter(questionOriginal => {
-        const question = withStudents([withLearningObjectiveAndIndicator(questionOriginal)])[0];
-        var questionString = question.id + " " + question.text + " " + question.learningObjective.key + " " + question.learningObjective.text + " " + question.learningObjective.competencyGroup + " " + question.indicator.text;
+        const question = withStudents([withIndicator(questionOriginal)])[0];
+        var questionString = question.id + " " + question.text + " " + question.indicator.text;
         if(_.has(question, 'students')) _.forEach(question.students, student => questionString += " " + student.id + " " + student.name);
         _.forEach(question.examples, example => questionString += " " + example);
         _.forEach(question.nonExamples, example => questionString += " " + example);
         return questionString.toLowerCase().includes(value);
       });
       questions = questions.sort(questionOriginal => {
-        const question = withStudents([withLearningObjectiveAndIndicator(questionOriginal)])[0];
-        var questionString = question.id + " " + question.text + " " + question.learningObjective.key + " " + question.learningObjective.text + " " + question.learningObjective.competencyGroup + " " + question.indicator.text;
+        const question = withStudents([withIndicator(questionOriginal)])[0];
+        var questionString = question.id + " " + question.text + " " + question.indicator.text;
         if(_.has(question, 'students')) _.forEach(question.students, student => questionString += " " + student.id + " " + student.name);
         _.forEach(question.examples, example => questionString += " " + example);
         _.forEach(question.nonExamples, example => questionString += " " + example);

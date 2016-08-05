@@ -1,7 +1,7 @@
 /* @flow weak */
 import React from 'react';
 
-import {withLearningObjectiveAndIndicator} from '../transformations.jsx';
+import {withIndicator} from '../transformations.jsx';
 import * as Routes from '../../routes.js';
 
 import {ListItem} from 'material-ui/List';
@@ -20,12 +20,12 @@ export default React.createClass({
   },
 
   render(){
-    const question = withLearningObjectiveAndIndicator(this.props.question);
+    const question = withIndicator(this.props.question);
     return (
       <ListItem
         style={{cursor: 'pointer', fontSize: 14}} 
         leftIcon={<SchoolIcon />}
-        primaryText={"#" + question.id + " " + question.learningObjective.competencyGroup}
+        primaryText={"#" + question.id + " " + question.indicator.text}
         secondaryText={question.text}
         secondaryTextLines={2}
         onTouchTap={this.onItemClicked}

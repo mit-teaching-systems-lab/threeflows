@@ -1,7 +1,7 @@
 /* @flow weak */
 import React from 'react';
 
-import {withStudents, withLearningObjectiveAndIndicator} from '../transformations.jsx';
+import {withStudents, withIndicator} from '../transformations.jsx';
 
 import {ListItem} from 'material-ui/List';
 
@@ -16,18 +16,18 @@ export default React.createClass({
   }, 
 
   onTouch(){
-    this.props.onTouchQuestion(withLearningObjectiveAndIndicator(withStudents([this.props.question])[0]));
+    this.props.onTouchQuestion(withIndicator(withStudents([this.props.question])[0]));
   },
 
   render(){
-    const question = withLearningObjectiveAndIndicator(this.props.question);
+    const question = withIndicator(this.props.question);
     return (
       <div>
         <ListItem
           style={{cursor: 'pointer', fontSize: 14}}
           leftIcon={<SchoolIcon />}
           onTouchTap={this.onTouch}
-          primaryText={"#" + question.id + " " + question.learningObjective.competencyGroup}
+          primaryText={"#" + question.id + " " + question.indicator.text}
           secondaryText={question.text}
           secondaryTextLines={2}
         />

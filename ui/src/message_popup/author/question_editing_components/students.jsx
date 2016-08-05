@@ -44,10 +44,6 @@ export default React.createClass({
     this.setState({selectedStudent: null});
   },
 
-  onStudentTextChange(searchText, dataSource){
-    this.setState({studentText: searchText});
-  },
-
   addAutoStudent(name, value){
     this.props.addStudent(name);
   },
@@ -56,6 +52,10 @@ export default React.createClass({
     if(selection === '') return true;
     if(_.find(this.props.availableStudentList, student => student.name.toLowerCase() === selection.toLowerCase()) === undefined) return false;
     return true;
+  },
+
+  onStudentTextChange(searchText, dataSource){
+    this.setState({studentText: searchText});
   },
 
   render(){
