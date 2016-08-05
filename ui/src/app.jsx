@@ -55,7 +55,6 @@ export default React.createClass({
     '/message_popup/author/questions' : 'messagePopupAuthorQuestions',
     '/message_popup/author/questions/new' : 'messagePopupAuthorQuestionsNew',
     '/message_popup/author/questions/:id' : 'messagePopupAuthorQuestionsEdit',
-    '/message_popup/author/archived_questions' : 'messagePopupAuthorArchivedQuestions',
     '/ecd/raw': 'ecdRaw',
     '/ecd/candidate': 'ecdCandidate',
     '/ecd/evaluator': 'ecdEvaluator',
@@ -115,10 +114,6 @@ export default React.createClass({
 
   messagePopupAuthorQuestionsEdit(questionId, query = {}){
     return <MessagePopup.EditQuestionPage questionId={questionId}/>;
-  },
-  
-  messagePopupAuthorArchivedQuestions(query = {}){
-    return <MessagePopup.ArchivedQuestionsPage />;
   },
 
   cssTank(query = {}) {

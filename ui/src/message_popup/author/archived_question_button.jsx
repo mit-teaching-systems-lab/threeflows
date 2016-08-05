@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {withLearningObjectiveAndIndicator} from '../transformations.jsx';
+import {withStudents, withLearningObjectiveAndIndicator} from '../transformations.jsx';
 
 import {ListItem} from 'material-ui/List';
 import Checkbox from 'material-ui/Checkbox';
@@ -12,49 +12,25 @@ export default React.createClass({
 
   propTypes: {
     question: React.PropTypes.object.isRequired,
-    checking: React.PropTypes.bool,
-    checked: React.PropTypes.bool,
-    onTouchQuestion: React.PropTypes.func.isRequired,
-    onSetDialog: React.PropTypes.func
+    onTouchQuestion: React.PropTypes.func.isRequired
   }, 
 
-  getDefaultProps(){
-    return ({
-      checking: false,
-      checked: false,
-    });
-  },
-
   onTouch(){
-    this.props.onTouchQuestion(this.props.question.id);
+    this.props.onTouchQuestion(withLearningObjectiveAndIndicator(withStudents([this.props.question])[0]));
   },
 
   render(){
     const question = withLearningObjectiveAndIndicator(this.props.question);
     return (
       <div>
-        {!this.props.checking && 
-          <ListItem
-            style={{cursor: 'pointer', fontSize: 14}}
-            leftIcon={<SchoolIcon />}
-            onTouchTap={function(){
-              this.onTouch();
-              this.props.onSetDialog();
-            }.bind(this)}
-            primaryText={"#" + question.id + " " + question.learningObjective.competencyGroup}
-            secondaryText={question.text}
-            secondaryTextLines={2}
-          />
-        }
-        {this.props.checking && 
-          <ListItem
-            style={{cursor: 'pointer', fontSize: 14}}
-            leftCheckbox={<Checkbox checked={this.props.checked} onCheck={this.onTouch}/>}
-            primaryText={"#" + question.id + " " + question.learningObjective.competencyGroup}
-            secondaryText={question.text}
-            secondaryTextLines={2}
-          />
-        }
+        <ListItem
+          style={{cursor: 'pointer', fontSize: 14}}
+          leftIcon={<SchoolIcon />}
+          onTouchTap={this.onTouch}
+          primaryText={"#" + question.id + " " + question.learningObjective.competencyGroup}
+          secondaryText={question.text}
+          secondaryTextLines={2}
+        />
       </div>
     );
   }

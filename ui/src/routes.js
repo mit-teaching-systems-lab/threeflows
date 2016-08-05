@@ -55,10 +55,6 @@ export function messagePopupAuthorQuestionsNewPath(){
   return '/message_popup/author/questions/new';
 }
 
-export function messagePopupAuthorArchivedQuestionsPath(){
-  return '/message_popup/author/archived_questions';
-}
-
 export function doSomethingPath() {
   return '/do_something';
 }

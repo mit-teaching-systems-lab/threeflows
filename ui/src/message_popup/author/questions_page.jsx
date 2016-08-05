@@ -7,8 +7,10 @@ import * as Routes from '../../routes.js';
 import TextField from 'material-ui/TextField';
 import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
+import FlatButton from 'material-ui/FlatButton';
 import Paper from 'material-ui/Paper';
 import MenuItem from 'material-ui/MenuItem';
+import Dialog from 'material-ui/Dialog';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 
 import SearchIcon from 'material-ui/svg-icons/action/search';
@@ -18,8 +20,10 @@ import ChatBubbleOutlineIcon from 'material-ui/svg-icons/communication/chat-bubb
 
 import NavigationAppBar from '../../components/navigation_app_bar.jsx';
 import QuestionButton from './question_button.jsx';
+import ArchivedQuestionButton from './archived_question_button.jsx';
 
 import {allQuestions} from '../questions.js';
+import {allArchivedQuestions} from './archived_questions.js';
 import {withStudents, withLearningObjectiveAndIndicator} from '../transformations.jsx';
 
 export default React.createClass({
@@ -28,16 +32,13 @@ export default React.createClass({
   getInitialState(){
     return ({
       questions: allQuestions,
-      showArchivedQuestions: false
+      showArchivedQuestions: false,
+      selectedArchivedQuestion: null
     });
   },
   
   onNewQuestion(){
     Routes.navigate(Routes.messagePopupAuthorQuestionsNewPath());
-  },
-
-  onArchivedQuestions(){
-    Routes.navigate(Routes.messagePopupAuthorArchivedQuestionsPath());
   },
 
   onSearchBarChange(event){
@@ -66,17 +67,12 @@ export default React.createClass({
     }
   },
 
+  onTouchArchivedQuestion(question){
+    this.setState({selectedArchivedQuestion: question});
+  },
+
   render(){
-    var archivedQuestions = [];
-    archivedQuestions.push({
-      studentIds: [1, 2, 3],
-      id: 3000,
-      text: "This is an example of a deleted card",
-      examples: [],
-      nonExamples: [],
-      indicatorId: 501,
-      learningObjectiveId: 50
-    });
+    const {selectedArchivedQuestion} = this.state;
     return(
       <div>
         <NavigationAppBar
@@ -88,10 +84,6 @@ export default React.createClass({
                 onTouchTap={this.onNewQuestion}
                 leftIcon={<ChatBubbleOutlineIcon />}
                 primaryText="New Question" />
-              <MenuItem
-                onTouchTap={this.onArchivedQuestions}
-                leftIcon={<ChatBubbleOutlineIcon />}
-                primaryText="Archived Questions" />
             </div>
           }
           />
@@ -108,7 +100,7 @@ export default React.createClass({
           </div>
           <Divider />
           <div style={styles.questionsContainer}>
-            <Paper style={styles.currentQuestionsContainer} rounded={false}>
+            <Paper rounded={false}>
               {this.state.questions.map(question => {
                 return (
                  <QuestionButton question={question} key={question.id} />
@@ -122,14 +114,42 @@ export default React.createClass({
                 showExpandableButton={true}/>
               <CardText expandable={true}>
                 <div>
-                  {archivedQuestions.map(question => <QuestionButton question={question} key={question.id}/>)}
+                  {allArchivedQuestions.map(question => 
+                    <ArchivedQuestionButton 
+                      question={question}
+                      onTouchQuestion={this.onTouchArchivedQuestion}
+                      key={question.id}/>
+                  )}
                 </div>
               </CardText>
             </Card>
           </div>
         </div>
+        {selectedArchivedQuestion !== null &&
+          <Dialog
+            open={selectedArchivedQuestion !== null}
+            onRequestClose={function(){this.setState({selectedArchivedQuestion: null});}.bind(this)}
+            autoScrollBodyContent={true}
+            actions={[
+              <div style={{padding: 0, margin: 0, display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-around'}}>
+                <FlatButton label="Cancel" onTouchTap={function(){this.setState({selectedArchivedQuestion: null});}.bind(this)} />
+                <FlatButton label="Restore" style={styles.selectionRestoreButton}/>
+              </div>
+            ]}>
+            <div style={styles.dialogTitle}>Question #{selectedArchivedQuestion.id}</div>
+            <div style={styles.dialogText}><b>Question Text:</b> {selectedArchivedQuestion.text}</div>
+            <div style={styles.dialogText}><b>Students:</b>{selectedArchivedQuestion.students.map(student => " " + student.name)}</div>
+            <div style={styles.dialogText}><b>Indicator:</b> {selectedArchivedQuestion.indicator.text}</div>
+            {selectedArchivedQuestion.examples.length > 0 && 
+              <div style={styles.dialogText}><b>Good Examples:</b> {selectedArchivedQuestion.examples.map(example => <div key={`example-text:${example}`}>{example}</div>)}</div>
+            }
+            {selectedArchivedQuestion.nonExamples.length > 0 && 
+              <div style={styles.dialogText}><b>Bad Examples:</b> {selectedArchivedQuestion.nonExamples.map(example => <div key={`example-text:${example}`}>{example}</div>)}</div>
+            }
+          </Dialog>
+        }
       </div>
-      );
+    );
   }
 });
 
@@ -153,11 +173,18 @@ const styles = {
     bottom: 0,
     overflowY: 'scroll'
   },
-  currentQuestionsContainer: {
-    marginBottom: 10
-  },
   archivedQuestionsContainer: {
-    marginBottom: 10,
     backgroundColor: "#F4F4F4"
+  },
+  selectionRestoreButton: {
+    color: 'green',
+  },
+  dialogTitle: {
+    fontWeight: 'bold',
+    fontSize: 16
+  },
+  dialogText: {
+    fontSize: 14,
+    padding: 5
   }
 };
