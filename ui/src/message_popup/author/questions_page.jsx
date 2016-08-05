@@ -14,6 +14,7 @@ import {Card, CardHeader, CardText} from 'material-ui/Card';
 import SearchIcon from 'material-ui/svg-icons/action/search';
 import AddIcon from 'material-ui/svg-icons/content/add';
 import ArchiveIcon from 'material-ui/svg-icons/content/archive';
+import ChatBubbleOutlineIcon from 'material-ui/svg-icons/communication/chat-bubble-outline';
 
 import NavigationAppBar from '../../components/navigation_app_bar.jsx';
 import QuestionButton from './question_button.jsx';
@@ -85,11 +86,11 @@ export default React.createClass({
             <div>
               <MenuItem
                 onTouchTap={this.onNewQuestion}
-                leftIcon={<AddIcon />}
+                leftIcon={<ChatBubbleOutlineIcon />}
                 primaryText="New Question" />
               <MenuItem
                 onTouchTap={this.onArchivedQuestions}
-                leftIcon={<ArchiveIcon />}
+                leftIcon={<ChatBubbleOutlineIcon />}
                 primaryText="Archived Questions" />
             </div>
           }
