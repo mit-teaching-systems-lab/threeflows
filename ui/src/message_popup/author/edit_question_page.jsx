@@ -15,7 +15,7 @@ export default React.createClass({
   },
 
   render(){
-    const question = withIndicator(_.find(withStudents(allQuestions), question => question.id.toString()===this.props.questionId));
+    const question = withIndicator(withStudents([_.find(allQuestions, question => question.id.toString() === this.props.questionId)])[0]);
     return (
       <QuestionPage 
         originalQuestion={question}

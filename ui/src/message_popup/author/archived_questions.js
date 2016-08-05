@@ -14,8 +14,7 @@ export const allArchivedQuestions = [
     nonExamples: [
       'How \'bout a bad example?'
     ],
-    indicatorId: 501,
-    learningObjectiveId: 50
+    indicatorId: 501
   },
   {
     studentIds: [3, 4],
@@ -27,8 +26,7 @@ export const allArchivedQuestions = [
     nonExamples: [
       'How \'bout a bad example?'
     ],
-    indicatorId: 501,
-    learningObjectiveId: 50
+    indicatorId: 501
   },
   {
     studentIds: [5, 3],
@@ -40,8 +38,7 @@ export const allArchivedQuestions = [
     nonExamples: [
       'How \'bout a bad example?'
     ],
-    indicatorId: 501,
-    learningObjectiveId: 50
+    indicatorId: 501
   },
   {
     studentIds: [2],
@@ -53,8 +50,7 @@ export const allArchivedQuestions = [
     nonExamples: [
       'How \'bout a bad example?'
     ],
-    indicatorId: 501,
-    learningObjectiveId: 50
+    indicatorId: 501
   },
   {
     studentIds: [7, 8],
@@ -66,8 +62,7 @@ export const allArchivedQuestions = [
     nonExamples: [
       'How \'bout a bad example?'
     ],
-    indicatorId: 501,
-    learningObjectiveId: 50
+    indicatorId: 501
   },
   {
     studentIds: [8, 4],
@@ -79,8 +74,7 @@ export const allArchivedQuestions = [
     nonExamples: [
       'How \'bout a bad example?'
     ],
-    indicatorId: 501,
-    learningObjectiveId: 50
+    indicatorId: 501
   },
   {
     studentIds: [4, 1],
@@ -92,8 +86,7 @@ export const allArchivedQuestions = [
     nonExamples: [
       'How \'bout a bad example?'
     ],
-    indicatorId: 501,
-    learningObjectiveId: 50
+    indicatorId: 501
   },
   {
     studentIds: [1, 10, 6],
@@ -105,8 +98,7 @@ export const allArchivedQuestions = [
     nonExamples: [
       'How \'bout a bad example?'
     ],
-    indicatorId: 501,
-    learningObjectiveId: 50
+    indicatorId: 501
   },
   {
     studentIds: [7, 3],
@@ -118,8 +110,7 @@ export const allArchivedQuestions = [
     nonExamples: [
       'How \'bout a bad example?'
     ],
-    indicatorId: 501,
-    learningObjectiveId: 50
+    indicatorId: 501
   },
   {
     studentIds: [9, 8],
@@ -131,8 +122,7 @@ export const allArchivedQuestions = [
     nonExamples: [
       'How \'bout a bad example?'
     ],
-    indicatorId: 501,
-    learningObjectiveId: 50
+    indicatorId: 501
   },
   {
     studentIds: [1, 2],
@@ -144,7 +134,6 @@ export const allArchivedQuestions = [
     nonExamples: [
       'How \'bout a bad example?'
     ],
-    indicatorId: 501,
-    learningObjectiveId: 50
+    indicatorId: 501
   },
 ];
