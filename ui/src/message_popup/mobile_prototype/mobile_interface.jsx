@@ -44,16 +44,16 @@ export default React.createClass({
     const goodExamples = _.map(this.props.question.examples, (example) => { return {type: 'Good', text: example}; });
     const badExamples = _.map(this.props.question.nonExamples, (example) => { return {type: 'Bad', text: example}; });
     const allExamples = _.shuffle(_.clone(goodExamples).concat(badExamples)); 
-    const messages = this.getInitialMessages(this.props.question);
     return ({
-      messages,
+      animatedMessages: [],
+      messages: this.getInitialMessages(this.props.question),
       allExamples,
       initialResponse: undefined,
       revisedResponse: undefined,
       elapsedMs: 0,
       exampleIndex: 0,
       dialog: null,
-      messageIndex: 1
+      messageId: 1,
     });
   },
 
@@ -66,19 +66,17 @@ export default React.createClass({
       return ({
         type: message.type,
         text: message.text,
-        key: message.text,
-        student: _.find(this.props.question.students, {id: message.studentId})
+        student: _.find(this.props.question.students, {id: message.studentId}),
+        key: `question-${message.text}`
       }); 
     });
-    
     return [
       {
         type: 'info',
         text: questionObject.text,
-        key: questionObject.text
+        key: `question-${questionObject.text}`
       }
     ];
-    
   },
 
   updateTimer() {
@@ -116,14 +114,12 @@ export default React.createClass({
   },
 
   addMessages(messageList){
-    var messages = _.clone(this.state.messages);
-    var messageId = this.state.messageIndex;
-    for(var messageIndex = 0; messageIndex < messageList.length; messageIndex++){
-      messageId+=1;
-      const message = _.extend({key: messageId}, messageList[messageIndex]);
-      messages.push(message);
-    }
-    this.setState({messages, messageIndex: messageId});
+    var messageId = this.state.messageId;
+    var newMessages = messageList.map(message => {
+      messageId ++;
+      return {key: messageId, ... message};
+    });
+    this.setState({messages: [...this.state.messages, ...newMessages], messageId});
   },
 
   setInitialResponse(response){
@@ -203,6 +199,14 @@ export default React.createClass({
       this.setState({dialog: {type: 'student', student}});
     }.bind(this));
   },
+
+  onAnimationDone(){
+    var messages = _.clone(this.state.messages);
+    if(messages.length > 0){
+      const message = messages.shift();
+      this.setState({animatedMessages: this.state.animatedMessages.concat(message), messages});
+    }
+  },
   
   render(){
     const {scaffolding, question} = this.props;
@@ -212,9 +216,11 @@ export default React.createClass({
         <div style={styles.textBody}>
           <TextBody 
             question={this.props.question}
+            animatedMessages={this.state.animatedMessages}
             messages={this.state.messages}
             onOpenStudentDialog={this.onOpenStudentDialog}
             onOpenInfoDialog={this.onOpenInfoDialog}
+            onAnimationDone={this.onAnimationDone}
             />
         </div>
         <div style={styles.textFooter}>

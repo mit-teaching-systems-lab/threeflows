@@ -20,7 +20,7 @@ export default React.createClass({
     nextButtonLabel: React.PropTypes.string.isRequired,
     nextExample: React.PropTypes.func.isRequired,
     onShowExampleClicked: React.PropTypes.func.isRequired,
-    mainStudent: React.PropTypes.object
+    mainStudent: React.PropTypes.object,
   },
   
   getInitialState(){
