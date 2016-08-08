@@ -53,7 +53,7 @@ export default React.createClass({
       elapsedMs: 0,
       exampleIndex: 0,
       dialog: null,
-      messageIndex: 1,
+      messageId: 1,
     });
   },
 
@@ -117,17 +117,17 @@ export default React.createClass({
   },
 
   addMessages(messageList){
-    var messageId = this.state.messageIndex;
+    var messageId = this.state.messageId;
     var newMessages = messageList.map(message => {
       messageId ++;
       return {key: messageId, ... message};
     });
     if(this.state.messages.length === 0){
       const newAnimatedMessage = newMessages.shift();
-      this.setState({messages: newMessages, animatedMessages: this.state.animatedMessages.concat(newAnimatedMessage), messageIndex: messageId});
+      this.setState({messages: newMessages, animatedMessages: this.state.animatedMessages.concat(newAnimatedMessage), messageId});
       return;
     }
-    this.setState({messages: [...this.state.messages, ...newMessages], messageIndex: messageId});
+    this.setState({messages: [...this.state.messages, ...newMessages], messageId});
   },
 
   setInitialResponse(response){
