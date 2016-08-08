@@ -174,6 +174,26 @@ app.get('/server/evaluations', facultyAuth, function(request, response) {
   });
 });
 
+
+
+app.get('/server/questions', facultyAuth, function(request, response){
+  if (process.env.NODE_ENV === 'development') {
+    return response.json({});
+  }
+
+  queryDatabase('SELECT * FROM message_popup_questions ORDER BY timestamp DESC LIMIT 1', [], function(err, result){
+    if (err) {
+      console.log({ error: err });
+      return response.status(500);
+    }
+
+    const {rows} = result;
+    console.log(rows);
+    response.status(200);
+    return response.json({rows});
+  });
+});
+
 // serve static HTML
 function readFile(filename) {
   return function(request, response) {

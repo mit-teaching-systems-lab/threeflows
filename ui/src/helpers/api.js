@@ -70,3 +70,10 @@ function joinEvaluationsWithEvidence([evaluationsResponse, evidenceResponse]) {
     return {...evaluation, log};
   });
 }
+
+//Query for questions
+export function questionsQuery() {
+  return request
+    .get('/server/questions')
+    .set('Content-Type', 'application/json');
+}
