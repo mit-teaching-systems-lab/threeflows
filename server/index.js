@@ -132,7 +132,7 @@ app.get('/server/evidence', facultyAuth, function(request, response) {
   });
 });
 
-app.post('/server/evaluations/:app/:type/:version', function(request, response) {
+app.post('/server/evaluations/:app/:type/:version', facultyAuth, function(request, response) {
   const timestamp = Math.floor(new Date().getTime() / 1000);
   const {app, type, version} = request.params;
   const payload = JSON.stringify(request.body);
