@@ -1,5 +1,6 @@
 /* @flow weak */
 import React from 'react';
+import _ from 'lodash';
 import VelocityComponent from 'velocity-react/velocity-component';
 import 'velocity-animate/velocity.ui';
 
@@ -18,10 +19,10 @@ export default React.createClass({
   },
   
   render(){
-    const {animatedMessages} = this.props;
+    const messagesToRender = _.compact(this.props.animatedMessages.concat(this.props.messages[0]));
     return (
       <div>
-        {animatedMessages.map(message => {
+        {messagesToRender.map(message => {
           if(message.type === 'user'){
             return (
               <VelocityComponent animation='transition.slideRightBigIn' complete={this.props.onAnimationDone} duration={500} runOnMount={true} key={'animation'+ message.key}>

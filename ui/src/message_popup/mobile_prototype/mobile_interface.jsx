@@ -59,7 +59,6 @@ export default React.createClass({
 
   componentDidMount() {
     this.setInterval(this.updateTimer, ONE_SECOND);
-    this.onAnimationDone();
   },
 
   getInitialMessages(questionObject){
@@ -71,7 +70,6 @@ export default React.createClass({
         key: `question-${message.text}`
       }); 
     });
-    
     return [
       {
         type: 'info',
@@ -79,7 +77,6 @@ export default React.createClass({
         key: `question-${questionObject.text}`
       }
     ];
-    
   },
 
   updateTimer() {
@@ -122,11 +119,6 @@ export default React.createClass({
       messageId ++;
       return {key: messageId, ... message};
     });
-    if(this.state.messages.length === 0){
-      const newAnimatedMessage = newMessages.shift();
-      this.setState({messages: newMessages, animatedMessages: this.state.animatedMessages.concat(newAnimatedMessage), messageId});
-      return;
-    }
     this.setState({messages: [...this.state.messages, ...newMessages], messageId});
   },
 
