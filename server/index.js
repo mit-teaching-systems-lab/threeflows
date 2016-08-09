@@ -174,7 +174,31 @@ app.get('/server/evaluations', facultyAuth, function(request, response) {
   });
 });
 
+app.post('/server/questions', facultyAuth, function(request, response){
+  const timestamp = Math.floor(new Date().getTime() / 1000);
+  const questions = JSON.stringify(request.body);
+  const values = [timestamp, questions];
 
+  if (!process.env.DATABASE_URL) {
+    console.log('No database.');
+    return response.status(204);
+  }
+
+  const sql = `
+    INSERT INTO message_popup_questions(timestamp, questions)
+    VALUES (to_timestamp($1), $2)`;
+
+    queryDatabase(sql, values, function(err, result){
+      if(err) {
+        console.log({ error: err });
+        return response.status(500);
+      }
+      console.log(JSON.stringify(result));
+      response.status(201);
+      return response.json({});
+    });
+
+});
 
 app.get('/server/questions', facultyAuth, function(request, response){
   if (process.env.NODE_ENV === 'development') {

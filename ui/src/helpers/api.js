@@ -77,3 +77,11 @@ export function questionsQuery() {
     .get('/server/questions')
     .set('Content-Type', 'application/json');
 }
+
+export function saveQuestions(record) {
+  request
+    .post('/server/questions')
+    .set('Content-Type', 'application/json')
+    .send(record)
+    .end();
+}
