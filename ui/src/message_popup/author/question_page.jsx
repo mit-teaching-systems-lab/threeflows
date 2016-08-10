@@ -51,26 +51,6 @@ export default React.createClass({
     if(this.props.allQuestions === undefined) Api.questionsQuery().end(this.onQuestionsReceived);
   },
 
-  onQuestionsReceived(err, response){
-    const allDatabaseQuestions = JSON.parse(response.text).row;
-    if(allDatabaseQuestions === undefined) {
-      this.setState({
-        allQuestions: {
-          currentQuestions: allQuestions, 
-          archivedQuestions: allArchivedQuestions
-        },
-        currentQuestions: allQuestions,
-        archivedQuestions: allArchivedQuestions
-      });
-      return;
-    }
-    this.setState({ 
-      allQuestions: allDatabaseQuestions,  
-      currentQuestions: allDatabaseQuestions.currentQuestions,
-      archivedQuestions: allDatabaseQuestions.archivedQuestions
-    });
-  },
-
   addStudent(studentName){
     var availableStudentList = _.clone(this.state.availableStudentList);
     const student = _.remove(availableStudentList, student => student.name.toLowerCase() === studentName.toLowerCase())[0];
@@ -110,6 +90,26 @@ export default React.createClass({
     this.setState({deleteConfirmationOpen: false});
   },
 
+  onQuestionsReceived(err, response){
+    const allDatabaseQuestions = JSON.parse(response.text).row;
+    if(allDatabaseQuestions === undefined) {
+      this.setState({
+        allQuestions: {
+          currentQuestions: allQuestions, 
+          archivedQuestions: allArchivedQuestions
+        },
+        currentQuestions: allQuestions,
+        archivedQuestions: allArchivedQuestions
+      });
+      return;
+    }
+    this.setState({ 
+      allQuestions: allDatabaseQuestions,  
+      currentQuestions: allDatabaseQuestions.currentQuestions,
+      archivedQuestions: allDatabaseQuestions.archivedQuestions
+    });
+  },
+
   onReturnToQuestions(){
     Routes.navigate(Routes.messagePopupAuthorQuestionsPath());
   },
@@ -138,7 +138,7 @@ export default React.createClass({
     const {originalQuestion} = this.props;
     const {goodExamples, badExamples} = this.getExamples();
     var {currentQuestions, archivedQuestions} = this.state;
-    const mostRecentQuestion = _.maxBy(currentQuestions.concat(archivedQuestions), question => question.id)
+    const mostRecentQuestion = _.maxBy(currentQuestions.concat(archivedQuestions), question => question.id);
     const id = (mostRecentQuestion !== undefined ? mostRecentQuestion.id : 0) + 1;
     const question = {
       studentIds,
@@ -169,7 +169,7 @@ export default React.createClass({
     const text = this.state.questionText;
     const {goodExamples, badExamples} = this.getExamples();
     var {currentQuestions, archivedQuestions} = this.state;
-    const mostRecentQuestion = _.maxBy(currentQuestions.concat(archivedQuestions), question => question.id)
+    const mostRecentQuestion = _.maxBy(currentQuestions.concat(archivedQuestions), question => question.id);
     const id = (mostRecentQuestion !== undefined ? mostRecentQuestion.id : 0) + 1;
     const question = {
       studentIds,
