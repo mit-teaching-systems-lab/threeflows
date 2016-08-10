@@ -1,6 +1,7 @@
 /* @flow weak */
 import React from 'react';
 
+import * as Api from '../../helpers/api.js';
 import * as Routes from '../../routes.js';
 
 import TextField from 'material-ui/TextField';
@@ -29,10 +30,16 @@ export default React.createClass({
 
   getInitialState(){
     return ({
-      questions: allQuestions,
+      allDatabaseQuestions: [],
+      currentQuestions: [],
+      archivedQuestions: [],
       showArchivedQuestions: false,
       selectedArchivedQuestion: null
     });
+  },
+
+  componentDidMount(){
+    Api.questionsQuery().end(this.onQuestionsReceived);
   },
 
   getQuestionString(question){
@@ -59,6 +66,25 @@ export default React.createClass({
     return questionString.split(text).length;
   },
   
+  onQuestionsReceived(err, response){
+    const allDatabaseQuestions = JSON.parse(response.text).row;
+    if(allDatabaseQuestions === undefined) {
+      this.setState({
+        allDatabaseQuestions: {
+          currentQuestions: allQuestions, 
+          archivedQuestions: allArchivedQuestions
+        }, 
+        currentQuestions: allQuestions, 
+        archivedQuestions: allArchivedQuestions});
+      return;
+    }
+    this.setState({
+      allDatabaseQuestions: allDatabaseQuestions, 
+      currentQuestions: allDatabaseQuestions.currentQuestions, 
+      archivedQuestions: allDatabaseQuestions.archivedQuestions
+    });
+  },
+
   onNewQuestion(){
     Routes.navigate(Routes.messagePopupAuthorQuestionsNewPath());
   },
@@ -66,11 +92,11 @@ export default React.createClass({
   onSearchBarChange(event){
     const value = event.target.value.toLowerCase().trim();
     if(value === ''){
-      this.setState({questions: allQuestions});
+      this.setState({currentQuestions: this.state.allDatabaseQuestions.currentQuestions});
       return;
     }
-    const questions = allQuestions.filter(questionOriginal => this.searchQuestionForText(value, questionOriginal)).sort(questionOriginal => this.countTextOccurrences(value, questionOriginal));
-    this.setState({questions});
+    const questions = this.state.allDatabaseQuestions.currentQuestions.filter(questionOriginal => this.searchQuestionForText(value, questionOriginal)).sort(questionOriginal => this.countTextOccurrences(value, questionOriginal));
+    this.setState({currentQuestions: questions});
   },
 
   onTouchArchivedQuestion(question){
@@ -107,7 +133,7 @@ export default React.createClass({
           <Divider />
           <div style={styles.questionsContainer}>
             <Paper rounded={false}>
-              {this.state.questions.map(question => {
+              {this.state.currentQuestions.map(question => {
                 return (
                  <QuestionButton question={question} key={question.id} />
                  );
@@ -120,7 +146,7 @@ export default React.createClass({
                 showExpandableButton={true}/>
               <CardText expandable={true}>
                 <div>
-                  {allArchivedQuestions.map(question => 
+                  {this.state.archivedQuestions.map(question => 
                     <ArchivedQuestionButton 
                       question={question}
                       onTouchQuestion={this.onTouchArchivedQuestion}
