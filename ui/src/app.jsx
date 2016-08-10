@@ -55,6 +55,7 @@ export default React.createClass({
     '/message_popup/author/questions' : 'messagePopupAuthorQuestions',
     '/message_popup/author/questions/new' : 'messagePopupAuthorQuestionsNew',
     '/message_popup/author/questions/:id' : 'messagePopupAuthorQuestionsEdit',
+    '/message_popup/audio_flow_prototype': 'messagePopupAudioFlowPrototype',
     '/ecd/raw': 'ecdRaw',
     '/ecd/candidate': 'ecdCandidate',
     '/ecd/evaluator': 'ecdEvaluator',
@@ -116,6 +117,10 @@ export default React.createClass({
     return <MessagePopup.EditQuestionPage questionId={questionId}/>;
   },
 
+  messagePopupAudioFlowPrototype(query = {}) {
+    return <MessagePopup.AudioFlowPrototype />;
+  },
+  
   cssTank(query = {}) {
     return <CSSTankPage query={query} />;
   },

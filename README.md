@@ -4,6 +4,9 @@
 A barebones [Express](http://expressjs.com/) server and [React](https://facebook.github.io/react/) webapp for doing design sketches of flows through a challenge and pieces of the challenge experience.  Code in both environments is written in [ES6](https://babeljs.io/docs/learn-es2015/).
 
 ## Server
+#### Local configuration
+For storing audio files, you'll need keys authorized for an S3 bucket.
+
 #### Run locally
 ```
 $ npm install

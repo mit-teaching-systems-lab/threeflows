@@ -7,12 +7,19 @@ var bodyParser = require('body-parser');
 var request = require('superagent');
 var basicAuth = require('basic-auth');
 var pg = require('pg');
+var AudioEndpoints = require('./endpoints/audio.js');
+var createS3Client = require('./s3_client.js');
 
 // create and configure server
 var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.raw({ type: 'audio/wav', limit: '50mb' }));
 app.use(enforceHTTPS);
+
+// external services
+const s3 = createS3Client();
+
 
 
 // https redirect
@@ -218,6 +225,13 @@ app.get('/server/questions', facultyAuth, function(request, response){
     return response.json({row: rows[0]});
   });
 });
+
+
+
+app.get('/message_popup/wav/(:id).wav', facultyAuth, AudioEndpoints.get(s3));
+app.post('/message_popup/wav', AudioEndpoints.post(s3));
+
+
 
 // serve static HTML
 function readFile(filename) {

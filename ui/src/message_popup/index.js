@@ -6,9 +6,9 @@ import ExplorationPage from './exploration_page.jsx';
 import ScoringPage from './scoring_page.jsx';
 import EvaluationViewerPage from './evaluation_viewer_page.jsx';
 import MessageEvaluationCard from './message_evaluation_card.jsx';
-import QuestionsPage from './author/questions_page.jsx';
-import EditQuestionPage from './author/edit_question_page.jsx';
-import QuestionPage from './author/question_page.jsx';
+import AudioFlowPrototype from './audio_flow_prototype.jsx';
+
+
 
 // Returns a unique set of emails for people we have evidence for.
 // The check for @ is because of older logs that used names instead of email
@@ -30,7 +30,5 @@ export {
   ScoringPage,
   EvaluationViewerPage,
   MessageEvaluationCard,
-  QuestionsPage,
-  EditQuestionPage,
-  QuestionPage,
+  AudioFlowPrototype
 };
