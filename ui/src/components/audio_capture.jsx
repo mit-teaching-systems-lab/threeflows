@@ -19,10 +19,17 @@ export default React.createClass({
     onDoneCapture: React.PropTypes.func.isRequired
   },
 
-  auo: null,
-
   componentDidMount() {
     this.injectStyles();
+  },
+
+  componentDidUpdate(prevProps, prevState) {
+    if (!prevProps.isRecording && this.props.isRecording) {
+      this.startRecording();
+    }
+    if (prevProps.isRecording && !this.props.isRecording) {
+      this.stopRecording();
+    }
   },
 
   componentWillUnmount() {
@@ -31,6 +38,8 @@ export default React.createClass({
       this.auo = null;
     }
   },
+
+  auo: null,
 
   // Hide the UI
   injectStyles() {
@@ -46,15 +55,6 @@ export default React.createClass({
     document.head.appendChild(inlineStyleNode);
   },
   
-  componentDidUpdate(prevProps, prevState) {
-    if (!prevProps.isRecording && this.props.isRecording) {
-      this.startRecording();
-    }
-    if (prevProps.isRecording && !this.props.isRecording) {
-      this.stopRecording();
-    }
-  },
-
   startRecording() {
     // We want direct access to the blob and don't want the UI.
     const auo = this.auo = new AuO(null, null, this.onSaveWhenOffline);

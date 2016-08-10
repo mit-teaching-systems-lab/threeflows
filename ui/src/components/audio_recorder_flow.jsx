@@ -37,6 +37,34 @@ export default React.createClass({
     };
   },
 
+
+  uploadBlob(blob) {
+    const {url} = this.props;
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', url);
+    xhr.onload = this.onDoneUploading;
+    xhr.send(blob);
+  },
+
+  // Determine which step we're at in the flow through
+  // these states.
+  whichStep(state) {
+    const {
+      isRecording,
+      haveRecorded,
+      blob,
+      uploadState,
+      uploadedUrl
+    } = state;
+
+    if (!isRecording && !haveRecorded) return 'idle';
+    if (isRecording) return 'recording';
+    if (haveRecorded && !blob) return 'processing';
+    if (haveRecorded && blob && uploadState === 'idle') return 'reviewing';
+    if (blob && uploadState === 'pending') return 'saving';
+    if (blob && uploadedUrl) return 'done';
+  },
+
   onRecordClicked() {
     this.setState({
       ...this.getInitialState(),
@@ -68,39 +96,12 @@ export default React.createClass({
     });
   },
 
-  uploadBlob(blob) {
-    const {url} = this.props;
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', url);
-    xhr.onload = this.onDoneUploading;
-    xhr.send(blob);
-  },
-
   onDoneUploading(event) {
     const {url} = JSON.parse(event.target.response);
     this.setState({
       uploadState: 'done',
       uploadedUrl: url
     });
-  },
-
-  // Determine which step we're at in the flow through
-  // these states.
-  whichStep(state) {
-    const {
-      isRecording,
-      haveRecorded,
-      blob,
-      uploadState,
-      uploadedUrl
-    } = state;
-
-    if (!isRecording && !haveRecorded) return 'idle';
-    if (isRecording) return 'recording';
-    if (haveRecorded && !blob) return 'processing';
-    if (haveRecorded && blob && uploadState === 'idle') return 'reviewing';
-    if (blob && uploadState === 'pending') return 'saving';
-    if (blob && uploadedUrl) return 'done';
   },
 
   render() {

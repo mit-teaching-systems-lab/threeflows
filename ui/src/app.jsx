@@ -105,7 +105,6 @@ export default React.createClass({
     return <MessagePopup.EvaluationViewerPage evaluationId={evaluationId} />;
   },
 
-<<<<<<< 0082f576d0adeddd1081e33889c274d1ab631f5b
   messagePopupAuthorQuestions(query = {}) {
     return <MessagePopup.QuestionsPage />;
   },
@@ -118,12 +117,10 @@ export default React.createClass({
     return <MessagePopup.EditQuestionPage questionId={questionId}/>;
   },
 
-=======
   messagePopupAudioFlowPrototype(query = {}) {
     return <MessagePopup.AudioFlowPrototype />;
   },
   
->>>>>>> Finished this round
   cssTank(query = {}) {
     return <CSSTankPage query={query} />;
   },
