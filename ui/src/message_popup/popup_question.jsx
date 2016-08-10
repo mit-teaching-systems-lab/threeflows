@@ -148,7 +148,6 @@ export default React.createClass({
     return (
       <div>
         <VelocityTransitionGroup leave={{animation: "slideUp"}} runOnMount={true}>
-          {!scaffolding.shouldShowSummary && this.renderQuestion()}
           {!isDoneRevising && scaffolding.shouldShowSummary && this.renderQuestion()}
         </VelocityTransitionGroup>
         <VelocityTransitionGroup enter={{animation: "slideDown"}} runOnMount={true}>
