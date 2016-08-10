@@ -47,10 +47,14 @@ export default React.createClass({
     const allQuestionsFlat =  this.state.allDatabaseQuestions.currentQuestions.concat(this.state.allDatabaseQuestions.archivedQuestions);
     const originalQuestion = _.find(withStudents(allQuestionsFlat).map(question => withIndicator(question)), question => question.id.toString() === this.props.questionId);
     return (
-      <QuestionPage 
-        originalQuestion={originalQuestion}
-        allQuestions={this.state.allDatabaseQuestions}
-        />
-      );
+      <div>
+        {originalQuestion &&
+          <QuestionPage 
+            originalQuestion={originalQuestion}
+            allQuestions={this.state.allDatabaseQuestions}
+            />
+        }
+      </div>
+    );
   }
 });
