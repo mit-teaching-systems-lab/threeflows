@@ -222,7 +222,7 @@ app.get('/server/questions', facultyAuth, function(request, response){
     console.log(rows);
     response.status(200);
     if(rows.length === 0) return response.json({});
-    return response.json({rows});
+    return response.json({row: rows[0]});
   });
 });
 

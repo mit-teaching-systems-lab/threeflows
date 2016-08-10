@@ -8,6 +8,7 @@ import 'velocity-animate/velocity.ui';
 import * as EditingComponents from './question_editing_components/editing_component.jsx';
 
 import {allQuestions} from '../questions.js';
+import {allArchivedQuestions} from './archived_questions.js';
 import {allStudents} from '../../data/virtual_school.js';
 import {indicators} from '../../data/indicators.js';
 import * as Routes from '../../routes.js';
@@ -39,8 +40,8 @@ export default React.createClass({
       badExamplesText: question !== undefined ? question.nonExamples.join('\n\n') : "",
       deleteConfirmationOpen: false,
       availableStudentList: question !== undefined ? allStudents.filter(student => !question.studentIds.includes(student.id)) : allStudents,
-      currentQuestions: this.props.allQuestions.currentQuestions,
-      archivedQuestions: this.props.allQuestions.archivedQuestions
+      currentQuestions: this.props.allQuestions !== undefined ? this.props.allQuestions.currentQuestions : allQuestions,
+      archivedQuestions: this.props.allQuestions !== undefined ? this.props.allQuestions.archivedQuestions : allArchivedQuestions
     });
   },
 
@@ -108,6 +109,7 @@ export default React.createClass({
     console.log("Saving the following new question:");
     const studentIds = this.state.students.map(student => student.id);
     const text = this.state.questionText;
+    const {originalQuestion} = this.props;
     const {goodExamples, badExamples} = this.getExamples();
     var {currentQuestions, archivedQuestions} = this.state;
     const id = _.maxBy(currentQuestions.concat(archivedQuestions), question => question.id).id + 1;
@@ -120,11 +122,13 @@ export default React.createClass({
       indicatorId: this.state.indicator.id,
       indicator: this.state.indicator,
     };
-    currentQuestions = currentQuestions.filter(questionInner => questionInner.id !== this.props.originalQuestion.id).concat(question);
-    archivedQuestions = archivedQuestions.concat(this.props.originalQuestion);
+    if(originalQuestion !== undefined){
+      currentQuestions = currentQuestions.filter(questionInner => questionInner.id !== originalQuestion.id).concat(question);
+      archivedQuestions = archivedQuestions.concat(originalQuestion);
+    }
     console.log(question);
     console.log("Also deleting and archiving the following question:");
-    console.log(this.props.originalQuestion);
+    console.log(originalQuestion);
     console.log("");
     Api.saveQuestions({currentQuestions, archivedQuestions});
     this.setState({currentQuestions, archivedQuestions});
@@ -163,11 +167,14 @@ export default React.createClass({
   onDeleteQuestion(){
     console.log("");
     console.log("Deleting and archiving the following question:");
-    console.log(this.props.originalQuestion);
+    const {originalQuestion} = this.props;
+    console.log(originalQuestion);
     console.log("");
     var {currentQuestions, archivedQuestions} = this.state;
-    currentQuestions = currentQuestions.filter(questionInner => questionInner.id !== this.props.originalQuestion.id);
-    archivedQuestions = archivedQuestions.concat(this.props.originalQuestion);
+    if(originalQuestion !== undefined){
+      currentQuestions = currentQuestions.filter(questionInner => questionInner.id !== originalQuestion.id);
+      archivedQuestions = archivedQuestions.concat(originalQuestion);
+    }
     Api.saveQuestions({currentQuestions, archivedQuestions});
     this.setState({currentQuestions, archivedQuestions});
     this.onReturnToQuestions();
