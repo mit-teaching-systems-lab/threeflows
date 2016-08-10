@@ -20,8 +20,9 @@ export function withIndicator(question) {
   };
 }
 
-export function questionsForIndicator(indicatorId) {
-  const withIndicators = _.compact(allQuestions.map((question) => {
+export function questionsForIndicator(indicatorId, questions) {
+  const questionsList = (questions === undefined) ? allQuestions : questions;
+  const withIndicators = _.compact(questionsList.map((question) => {
     if (question.indicatorId !== indicatorId) return null;    
     return withIndicator(question);
   }));
