@@ -21,6 +21,7 @@ export default React.createClass({
 
   componentDidMount() {
     this.injectStyles();
+    this.auo = new AuO(null, null, this.onSaveWhenOffline);
   },
 
   componentDidUpdate(prevProps, prevState) {
@@ -34,7 +35,7 @@ export default React.createClass({
 
   componentWillUnmount() {
     if (this.auo) {
-      this.auo.suspend();
+      this.auo.close();
       this.auo = null;
     }
   },
@@ -57,7 +58,9 @@ export default React.createClass({
   
   startRecording() {
     // We want direct access to the blob and don't want the UI.
-    const auo = this.auo = new AuO(null, null, this.onSaveWhenOffline);
+    const auo = this.auo;
+    if (!auo) return;
+    
     auo.launch();
     auo.reset();
     auo.record();

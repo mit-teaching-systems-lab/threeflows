@@ -58,6 +58,12 @@ export function AuO(/* SAVE_URL = null, SAVE_CALLBACK = null, LOCAL_SAVE_CALLBAC
         suspendInstance();
     };
 
+    // Release all resources
+    this.close = function () {
+        suspendInstance();
+        closeAudioContext();
+    };
+
     this.reset = function () {
         stateReset();
     },
@@ -291,6 +297,10 @@ export function AuO(/* SAVE_URL = null, SAVE_CALLBACK = null, LOCAL_SAVE_CALLBAC
     // TODO: Remove this once navigator.mediaDevices.getUserMedia becomes supported.
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
         navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+    function closeAudioContext() {
+        audioContext.close();
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //
