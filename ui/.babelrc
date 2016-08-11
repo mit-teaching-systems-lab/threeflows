@@ -4,6 +4,7 @@
     "development": {
       "plugins": [
         ["transform-flow-strip-types"],
+        ["transform-class-properties"],
         ["react-transform", {
           "transforms": [{
             "transform": "livereactload/babel-transform",
