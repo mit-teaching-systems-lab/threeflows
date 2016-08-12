@@ -2,6 +2,80 @@
 import React from 'react';
 import {AuO} from './AuO.js';
 
+
+/*
+This wraps Au0 and uses it to grab audio on Chrome and Firefox for a
+one-time use recording.
+We want direct access to the blob and don't want the UI, but since the UI
+is rendering the audio stream, the microphone stays active.
+*/
+class WilliamRecorder {
+  auo: ?Object;
+  inlineStyleNode: ?HTMLStyleElement;
+  onBlobReady: ?Function;
+
+  _error(...params) {
+    console.error(params); // eslint-disable-line no-console
+  }
+
+  // Hide the UI
+  _injectStyles() {
+    const inlineStyleNode = this.inlineStyleNode = document.createElement('style');
+    inlineStyleNode.type = 'text/css';
+    const styleText = document.createTextNode(`
+      .AuO * {
+        display: none;
+        color: red;
+      }
+    `);
+    inlineStyleNode.appendChild(styleText);
+    document.head.appendChild(inlineStyleNode);
+  }
+
+  record() {
+    this._injectStyles();
+    const auo = new AuO(null, null, this._onSaveWhenOffline.bind(this));
+    auo.launch();
+    auo.record();
+    this.auo = auo;
+  }
+
+  stop(onBlobReady) {
+    // hack: add an async tick here, to allow state.audioBuffer
+    // to be set after stopping.
+    const auo = this.auo;
+    if (!auo) return this._error('Unexpected state: auo', auo);
+    if (this.onBlobReady) return this._error('Unexpected state: this.onBlobReady', this.onBlobReady);
+
+    this.onBlobReady = onBlobReady;
+    auo.stop();
+    window.setTimeout(() => {
+      // force offline mode to just get the blob ourselves
+      auo.setOnline(false);
+      auo.save();
+    }, 100);
+
+  }
+  
+  _onSaveWhenOffline(blob) {
+    if (!this.onBlobReady) return this._error('Unexpected state: this.onBlobReady', this.onBlobReady);
+    this.onBlobReady(blob);
+    this.destroy();
+  }
+
+  destroy() {
+    if (this.auo) {
+      this.auo.close();
+      delete this.auo;
+    }
+    if (this.inlineStyleNode) {
+      document.head.removeChild(this.inlineStyleNode);
+      delete this.inlineStyleNode;
+    }
+  }
+}
+
+
 /*
 This is a React API to capture audio using a fork of the AuO widget.
 
@@ -19,11 +93,6 @@ export default React.createClass({
     onDoneCapture: React.PropTypes.func.isRequired
   },
 
-  componentDidMount() {
-    this.injectStyles();
-    this.auo = new AuO(null, null, this.onSaveWhenOffline);
-  },
-
   componentDidUpdate(prevProps, prevState) {
     if (!prevProps.isRecording && this.props.isRecording) {
       this.startRecording();
@@ -33,55 +102,23 @@ export default React.createClass({
     }
   },
 
-  componentWillUnmount() {
-    if (this.auo) {
-      this.auo.close();
-      this.auo = null;
-    }
-  },
-
-  auo: null,
-
-  // Hide the UI
-  injectStyles() {
-    const inlineStyleNode = document.createElement('style');
-    inlineStyleNode.type = 'text/css';
-    const styleText = document.createTextNode(`
-      .AuO * {
-        display: none;
-        color: red;
-      }
-    `);
-    inlineStyleNode.appendChild(styleText);
-    document.head.appendChild(inlineStyleNode);
-  },
+  recorder:(null: ?Object),
   
   startRecording() {
-    // We want direct access to the blob and don't want the UI.
-    const auo = this.auo;
-    if (!auo) return;
-    
-    auo.launch();
-    auo.reset();
-    auo.record();
+    const recorder = this.recorder = new WilliamRecorder();
+    recorder.record();
   },
 
   stopRecording() {
-    const auo = this.auo;
-    if (!auo) return;
+    const recorder = this.recorder;
+    if (!recorder) return;
 
-    // hack: add an async tick here, to allow state.audioBuffer
-    // to be set after stopping.
-    auo.stop();
-    window.setTimeout(() => {
-      // force offline mode to just get the blob ourselves
-      auo.setOnline(false);
-      auo.save();
-    }, 100);
+    recorder.stop(this.onBlobReady);
   },
 
-  onSaveWhenOffline(blob) {
+  onBlobReady(blob) {
     this.props.onDoneCapture(blob);
+    delete this.recorder;
   },
 
   render() {
