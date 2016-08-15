@@ -28,9 +28,9 @@ export default React.createClass({
   },
   
   onNextExample(){
-    if(this.state.allExamples.length <= 1){
+    if (this.state.allExamples.length <= 1) {
       this.setState({allExamples: _.clone(this.state.originalAll)});
-    }else{
+    } else {
       var examples = this.state.allExamples;
       examples.splice(0, 1);
       this.setState({allExamples: examples});
@@ -43,6 +43,8 @@ export default React.createClass({
 
   render() {
     const {hidden, allExamples} = this.state;
+    const areAnyExamples = allExamples.length > 0;
+
     return (
       <div className="HintCard">
         {hidden && (
@@ -55,7 +57,7 @@ export default React.createClass({
           </div>
         )}
         <VelocityTransitionGroup enter={{animation: "slideDown"}} runOnMount={true}>
-          {!hidden && (
+          {!hidden && areAnyExamples && (
             <div key={allExamples[0].text} style={styles.exampleBox}>
               <div style={styles.buttonRow}>
                 <div style={styles.exampleTitle}>{allExamples[0].type} Example</div>
