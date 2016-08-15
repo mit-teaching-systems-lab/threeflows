@@ -46,11 +46,23 @@ This builds artifacts and places them in the `ui/build` folder.
 ### Type check with Flow
 This starts a [Flow](https://flowtype.org/) server in the background, and then runs a typecheck once.  There's no watch command right now.
 ```
-ui $ npm run flow
+ui $ npm run flow-quiet
+```
+
+### Lint and fixup with eslint
+```
+ui $ npm run lint-quiet
+```
+
+### Run Mocha tests
+This project uses Mocha, with Chai's expect-style assertions, and Enzyme for some React testing utilities.  To run a process that watches and continually re-runs the tests:
+
+```
+ui $ npm run mocha-watch
 ```
 
 ### Run all tests
-This is used in CI, and runs any and all tests in the project including typechecks.
+This is used in CI, and runs any and all tests in the project including linting, typechecks and actual tests.
 ```
 ui $ npm run test
 ```
