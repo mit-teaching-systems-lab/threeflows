@@ -9,11 +9,11 @@ import Snackbar from 'material-ui/Snackbar';
 
 import SetIntervalMixin from '../../helpers/set_interval_mixin.js';
 import FeedbackCard from '../feedback_card.jsx';
-
-
 const ONE_SECOND = 1000;
+
+// This response renderer supports responding with text, and revising the text.
 export default React.createClass({
-  displayName: 'RevisingResponseRenderer',
+  displayName: 'ResponseRenderer',
 
   mixins: [SetIntervalMixin],
 
@@ -108,6 +108,11 @@ export default React.createClass({
   onPassed() {
     this.logMessage('message_popup_revision_declined');
     this.submitResponse();
+  },
+
+  onRequestClose() {
+    //This empty function is meant to cancel out the closing of the toast without having to use
+    //an extremely large autoHideDuration
   },
 
   render() {

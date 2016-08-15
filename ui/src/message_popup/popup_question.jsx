@@ -1,62 +1,15 @@
 /* @flow weak */
 import React from 'react';
 import _ from 'lodash';
-import StudentCard from './student_card.jsx';
-import HintCard from './renderers/hint_card.jsx';
-import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
-import Snackbar from 'material-ui/Snackbar';
-import FeedbackCard from './feedback_card.jsx';
-import SummaryCard from './summary_card.jsx';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
-import RevisingResponseRenderer from './renderers/revising_response_renderer.jsx';
 
-
-
-const ScenarioRenderer = React.createClass({
-  displayName: 'ScenarioRenderer',
-
-  propTypes: {
-    question: React.PropTypes.object.isRequired
-  },
-
-  render() {
-    const {question} = this.props;
-    return <div style={styles.question}>{question.text}</div>;
-  }
-});
-
-
-const PromptsRenderer = React.createClass({
-  displayName: 'PromptsRenderer',
-
-  propTypes: {
-    scaffolding: React.PropTypes.object.isRequired,
-    question: React.PropTypes.object.isRequired,
-    student: React.PropTypes.object
-  },
-
-  render() {
-    const {scaffolding, student, question} = this.props;
-    const {examples, nonExamples} = question;
-
-    return (
-      <div>
-        {scaffolding.shouldShowStudentCard && student &&
-          <StudentCard useCardStyles={true} student={student} />}
-        {scaffolding.helpType === 'hints' && 
-          <div style={styles.hintCard}>
-            <HintCard examples={examples} nonExamples={nonExamples} />
-          </div>}
-      </div>
-    );
-  }
-});
-
-
+import SummaryCard from './summary_card.jsx';
+import ScenarioRenderer from './renderers/scenario_renderer.jsx';
+import PromptsRenderer from './renderers/prompts_renderer.jsx';
+import ResponseRenderer from './renderers/response_renderer.jsx';
 
 /*
-Shows a single question.
+Shows a single question, using various rendering strategies.
 */
 type Question = {text:string};
 export type Response = {
@@ -109,18 +62,11 @@ export default React.createClass({
     this.props.onLog(type, response);
   },
   
-  onRequestClose() {
-    //This empty function is meant to cancel out the closing of the toast without having to use
-    //an extremely large autoHideDuration
-  },
-
   onResponseSubmitted(response) {
-    console.log('onResponseSubmitted', response);
     this.setState({response});
   },
 
-  onDone(finalResponseText) {
-    console.log('finalResponseText', finalResponseText);
+  onDone() {
     this.props.onDone(this.state.response.elapsedMs * 1000);
   },
 
@@ -158,7 +104,7 @@ export default React.createClass({
           student={student}
           question={this.props.question}
         />
-        <RevisingResponseRenderer
+        <ResponseRenderer
           scaffolding={scaffolding}
           question={question}
           limitMs={limitMs}
@@ -184,19 +130,3 @@ export default React.createClass({
     
   }
 });
-
-
-const styles = {
-  // prompt
-  hintCard: {
-    marginTop: 5,
-    padding: 10,
-    paddingBottom: 0
-  },
-
-  // scenario
-  question: {
-    whiteSpace: 'pre-wrap',
-    padding: 20
-  }
-};
