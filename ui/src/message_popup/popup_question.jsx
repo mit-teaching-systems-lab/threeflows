@@ -8,8 +8,11 @@ import ScenarioRenderer from './renderers/scenario_renderer.jsx';
 import PromptsRenderer from './renderers/prompts_renderer.jsx';
 import ResponseRenderer from './renderers/response_renderer.jsx';
 
+
 /*
-Shows a single question, using various rendering strategies.
+Defines the layout and flow through a single question, using renderer components
+for the different pieces of the question (eg., scenario, response).  This lets it
+delegate to different representation formats and questions.
 */
 type Question = {text:string};
 export type Response = {
@@ -48,16 +51,15 @@ export default React.createClass({
     };
   },
   
+  // Allow pieces of the UI to log data for particular event types, along
+  // with an opaque set of params.
   logData(type, params = {}) {
     const {question, scaffolding} = this.props;
-    const {finalResponseText, initialResponseText, elapsedMs} = params;
     const response:Response = {
       question,
       shouldShowStudentCard: scaffolding.shouldShowStudentCard,
       helpType: scaffolding.helpType,
-      elapsedMs,
-      initialResponseText,
-      finalResponseText
+      ...params
     };
     this.props.onLog(type, response);
   },
