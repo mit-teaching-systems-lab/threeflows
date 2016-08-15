@@ -4,7 +4,7 @@ import {expect} from 'chai';
 import sinon from 'sinon';
 
 import RaisedButton from 'material-ui/RaisedButton';
-import HintCard from '../src/message_popup/hint_card.jsx';
+import HintCard from '../../src/message_popup/hint_card.jsx';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
