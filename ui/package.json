@@ -8,8 +8,9 @@
     "flow-quiet": "flow; test $? -eq 0 -o $? -eq 2",
     "lint-quiet": "eslint --fix --ext jsx --ext js -c .eslintrc src; exit 0",
     "lint": "eslint --ext jsx --ext js -c .eslintrc src",
-    "mocha-watch": "mocha --watch --check-leaks --require test/setup.js --compilers jsx:babel-register",
-    "test": "npm run lint && flow && mocha"
+    "mocha-watch": "npm run mocha -- --watch",
+    "mocha": "mocha --check-leaks --require test/setup.js --compilers jsx:babel-register",
+    "test": "npm run lint && flow && npm run mocha"
   },
   "repository": {
     "type": "git",
