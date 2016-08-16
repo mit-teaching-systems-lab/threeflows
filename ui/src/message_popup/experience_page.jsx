@@ -66,9 +66,9 @@ export default React.createClass({
     this.setState({toastRevision: false});
   },
   
-  addResponseTime(time){
+  addResponseTime(elapsedMs){
     var gameSession = {...this.state.gameSession};
-    gameSession.responseTimes.push(time);
+    gameSession.msResponseTimes.push(elapsedMs);
     this.setState({ gameSession });
   },
 
@@ -86,9 +86,9 @@ export default React.createClass({
     });
   },
   
-  onQuestionDone(elapsedSeconds) {
+  onQuestionDone(elapsedMs) {
     this.playToast();
-    this.addResponseTime(elapsedSeconds);
+    this.addResponseTime(elapsedMs);
     var gameSession = {...this.state.gameSession};
     gameSession.questionsAnswered += 1;
     this.setState({ gameSession });
@@ -106,7 +106,7 @@ export default React.createClass({
         questions,
         sessionId: uuid.v4(),
         questionsAnswered: 0,
-        responseTimes: []
+        msResponseTimes: []
       },
     });
   },
@@ -144,7 +144,7 @@ export default React.createClass({
             <div style={styles.doneTitle}>You finished!</div>
             <Divider />
             <FinalSummaryCard 
-              responseTimes={this.state.gameSession.responseTimes} 
+              msResponseTimes={this.state.gameSession.msResponseTimes} 
               limitMs={this.state.limitMs} />
             <RaisedButton
               onTouchTap={this.onDonePressed}

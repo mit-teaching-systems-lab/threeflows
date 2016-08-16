@@ -65,17 +65,20 @@ export default React.createClass({
   },
   
   onResponseSubmitted(response) {
-    this.setState({response});
+    this.setState({response}, () => {
+      if (!this.props.scaffolding.shouldShowSummary) {
+        this.onDone();
+      }
+    });
   },
 
   onDone() {
-    this.props.onDone(this.state.response.elapsedMs * 1000);
+    this.props.onDone(this.state.response.elapsedMs / 1000);
   },
 
   render() {
     const {response} = this.state;
     const {scaffolding} = this.props;  
-
     const shouldRenderQuestion = (
       (!scaffolding.shouldShowSummary) ||
       (!response && scaffolding.shouldShowSummary)
@@ -129,6 +132,5 @@ export default React.createClass({
         elapsedSeconds={Math.round(elapsedMs / 1000)} 
         buttonLabel={isLastQuestion ? "Finish" : "Next Question"}/>
     );
-    
   }
 });
