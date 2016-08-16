@@ -1,6 +1,5 @@
 /* @flow weak */
 import React from 'react';
-import _ from 'lodash';
 
 import * as Api from '../../helpers/api.js';
 import * as Routes from '../../routes.js';
@@ -101,9 +100,9 @@ export default React.createClass({
   onQuestionRestore(){
     const {selectedArchivedQuestion} = this.state;
     if(selectedArchivedQuestion !== null){
-      const allDatabaseQuestions = _.clone(this.state.allDatabaseQuestions);
-      _.remove(allDatabaseQuestions.archivedQuestions, question => question.id === selectedArchivedQuestion.id);
-      allDatabaseQuestions.currentQuestions.push(selectedArchivedQuestion);
+      const archivedQuestions = this.state.allDatabaseQuestions.archivedQuestions.filter(question => question.id !== selectedArchivedQuestion.id);
+      const currentQuestions = this.state.allDatabaseQuestions.currentQuestions.concat(selectedArchivedQuestion);
+      const allDatabaseQuestions = {currentQuestions, archivedQuestions};
       Api.saveQuestions(allDatabaseQuestions);
       this.setState({allDatabaseQuestions, selectedArchivedQuestion: null});
     }
