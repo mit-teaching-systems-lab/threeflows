@@ -116,7 +116,7 @@ export default React.createClass({
   },
 
   messagePopupAuthorQuestionsNew(query = {}){
-    return <MessagePopup.QuestionPage />;
+    return <MessagePopup.NewQuestionPage />;
   },
 
   messagePopupAuthorQuestionsEdit(questionId, query = {}){
