@@ -78,22 +78,21 @@ export default React.createClass({
     });
   },
 
-  // This transitions from one of:
-  //   initial -> revising
-  //   initial -> done
+  // This transitions to either: (revising mode) or (done).
   onRespondClicked() {
     const {isDoneRevising} = this.state;    
     const {scaffolding} = this.props;
     const {examples} = this.props.question;
 
-    // Capture initial response, transition to revising.
-    if (scaffolding.helpType === 'feedback' && examples.length > 0 && !isDoneRevising) {
-      this.logMessage('message_popup_response');
-      this.setState({ isRevising: true });
-      return;
-    }
+    // Capture response either way
+    this.logMessage('message_popup_response');
 
-    this.submitResponse();
+    // Transition to revising or to being done
+    if (scaffolding.helpType === 'feedback' && examples.length > 0 && !isDoneRevising) {
+      this.setState({ isRevising: true });
+    } else {
+      this.submitResponse();
+    }
   },
 
   onRevised(finalResponseText) {
