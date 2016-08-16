@@ -1,9 +1,9 @@
-/* @flow weak */
+/* @flow */
 import _ from 'lodash';
-//“”’
+import type {QuestionT} from './question.js';
 
 function forIndicator(indicatorId) {
-  return function(question) {
+  return function(question:QuestionT):QuestionT {
     return {
       ...question,
       ...{indicatorId}
@@ -11,14 +11,8 @@ function forIndicator(indicatorId) {
   };
 }
 
-export type Question = {
-  studentIds?: [number],
-  id: number,
-  text: string,
-  examples: [string],
-  nonExamples: [string]
-};
-export const inquiryQuestions:[Question] = [
+
+const inquiryQuestions:[QuestionT] = [
   { 
     studentIds: [4], 
     id: 101,
@@ -392,7 +386,7 @@ export const inquiryQuestions:[Question] = [
   }
 ].map(forIndicator(502));
 
-export const motivationQuestions:[Question] = [
+export const motivationQuestions = [
   {
     studentIds: [8],
     id: 115,
@@ -532,7 +526,7 @@ export const motivationQuestions:[Question] = [
 ].map(forIndicator(501));
 
 
-export const doSomethingQuestions:[Question] = [
+export const doSomethingQuestions:[QuestionT] = [
   {
     studentIds: [],
     id: 301,
@@ -655,18 +649,34 @@ export const doSomethingQuestions:[Question] = [
 ].map(forIndicator(601));
 
 
+const justinAndRitaQuestions = [
+  {
+    id: 3001,
+    studentIds: [],
+    youTubeId: 'EvQ1S6-ImRk',
+    youTubeParams: {
+      end: 124
+    },
+    examples: [],
+    nonExamples: []
+  }
+].map(forIndicator(701));
 
-function hashCode(s){
-  return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a;},0);              
-}
+const mathMisconceptionsQuestions = [
+  {
+    id: 2001,
+    studentIds: [],
+    youTubeId: '5iUTUQ3e0_w',
+    examples: [],
+    nonExamples: []
+  }
+].map(forIndicator(801));
 
-// Temporary workaround for no question ids
-export function questionId(question) {
-  return Math.abs(hashCode(question.text)).toString().slice(0, 4);
-}
 
-export const allQuestions = _.flatten([
+export const allQuestions:[QuestionT] = _.flatten([
   inquiryQuestions,
   motivationQuestions,
-  doSomethingQuestions
+  doSomethingQuestions,
+  justinAndRitaQuestions,
+  mathMisconceptionsQuestions
 ], true);

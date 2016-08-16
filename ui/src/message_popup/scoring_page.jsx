@@ -13,7 +13,7 @@ import {List, ListItem} from 'material-ui/List';
 
 import ScoringSwipe from './scoring_swipe.jsx';
 import {withIndicator} from './transformations.jsx';
-import {questionId} from './questions.js';
+import {questionId} from './question.js';
 import * as Api from '../helpers/api.js';
 
 

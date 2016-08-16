@@ -34,7 +34,8 @@ export default React.createClass({
     }).isRequired,
     limitMs: React.PropTypes.number.isRequired,
     question: React.PropTypes.shape({
-      text: React.PropTypes.string.isRequired,
+      text: React.PropTypes.string,
+      youTubeId: React.PropTypes.string,
       examples: React.PropTypes.array.isRequired,
       nonExamples: React.PropTypes.array.isRequired,
       students: React.PropTypes.array.isRequired
@@ -47,6 +48,7 @@ export default React.createClass({
 
   getInitialState: function() {
     return {
+      showResponse: false,
       response: null
     };
   },
@@ -64,6 +66,10 @@ export default React.createClass({
     this.props.onLog(type, response);
   },
   
+  onScenarioDone() {
+    this.setState({ showResponse: true });
+  },
+
   onResponseSubmitted(response) {
     this.setState({response}, () => {
       if (!this.props.scaffolding.shouldShowSummary) {
@@ -73,7 +79,7 @@ export default React.createClass({
   },
 
   onDone() {
-    this.props.onDone(this.state.response.elapsedMs / 1000);
+    this.props.onDone(this.state.response.elapsedMs);
   },
 
   render() {
@@ -98,24 +104,27 @@ export default React.createClass({
   
   renderQuestion(){
     const {scaffolding, limitMs, question} = this.props;
+    const {showResponse} = this.state;
     const student = _.first(question.students || []);
-    
-    return (
+
+    return ( 
       <div>
         <ScenarioRenderer
-          question={this.props.question} />
+          question={question}
+          onScenarioDone={this.onScenarioDone}
+        />
         <PromptsRenderer
           scaffolding={scaffolding}
           student={student}
-          question={this.props.question}
+          question={question}
         />
-        <ResponseRenderer
+        {showResponse && <ResponseRenderer
           scaffolding={scaffolding}
           question={question}
           limitMs={limitMs}
           onResponseSubmitted={this.onResponseSubmitted}
           onLogMessage={this.logData}
-        />
+        />}
       </div>
     );
   },
@@ -123,14 +132,18 @@ export default React.createClass({
   renderSummary() {
     const {elapsedMs, finalResponseText, initialResponseText} = this.state.response;
     const {question, scaffolding, isLastQuestion} = this.props;
+    const responseText = (scaffolding.helpType ==='feedback')
+      ? finalResponseText
+      : initialResponseText;
 
     return (
       <SummaryCard 
         onDone={this.onDone} 
         question={question} 
-        response={scaffolding.helpType ==='feedback' ? finalResponseText : initialResponseText} 
+        responseText={responseText} 
         elapsedSeconds={Math.round(elapsedMs / 1000)} 
-        buttonLabel={isLastQuestion ? "Finish" : "Next Question"}/>
+        buttonLabel={isLastQuestion ? "Finish" : "Next Question"}
+      />
     );
   }
 });

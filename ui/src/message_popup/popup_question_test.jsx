@@ -28,7 +28,6 @@ function testProps(props) {
 function expectChildElementsIn(wrapper) {
   expect(wrapper.find(ScenarioRenderer).length).to.equal(1);
   expect(wrapper.find(PromptsRenderer).length).to.equal(1);
-  expect(wrapper.find(ResponseRenderer).length).to.equal(1);
   expect(wrapper.find(SummaryCard).length).to.equal(0);
 }
 
@@ -37,11 +36,22 @@ describe('<PopupQuestion />', () => {
     const props = testProps();
     const wrapper = shallow(<PopupQuestion {...props} />);
     expectChildElementsIn(wrapper);
+    expect(wrapper.find(ResponseRenderer).length).to.equal(0);
   });
 
   it('renders the question in solution mode', () => {    
     const props = testProps({ scaffolding: TestFixtures.solutionScaffolding });
     const wrapper = shallow(<PopupQuestion {...props} />);
     expectChildElementsIn(wrapper);
+    expect(wrapper.find(ResponseRenderer).length).to.equal(0);
+  });
+
+  it('renders the response', () => {    
+    const props = testProps();
+    const wrapper = shallow(<PopupQuestion {...props} />);
+    wrapper.setState({ showResponse: true });
+
+    expectChildElementsIn(wrapper);
+    expect(wrapper.find(ResponseRenderer).length).to.equal(1);
   });
 });
