@@ -121,7 +121,7 @@ export default React.createClass({
     return (
       <div>
         <NavigationAppBar
-          title="Message PopUp Practice"
+          title="Teacher Moments"
           prependMenuItems={
             <MenuItem
               onTouchTap={this.resetExperience}

@@ -82,7 +82,7 @@ export default React.createClass({
         <CardText expandable={true}>
           <div style={styles.scenario}>You'll be presented with quick student exchanges in the virtual classroom and asked to respond in the moment.  Your responses will be timed and allow you to demonstrate what you’ve learned about applying inquiry and motivation in a simulated classroom lesson.</div>
           <FlatButton
-            label="Message PopUp"
+            label="Teacher Moments"
             secondary={true}
             onTouchTap={Routes.newTab.bind(Routes, Routes.messagePopupSolutionPath())} />
         </CardText>

@@ -228,8 +228,8 @@ app.get('/server/questions', facultyAuth, function(request, response){
 
 
 
-app.get('/message_popup/wav/(:id).wav', facultyAuth, AudioEndpoints.get(s3));
-app.post('/message_popup/wav', AudioEndpoints.post(s3));
+app.get('/teachermoments/wav/(:id).wav', facultyAuth, AudioEndpoints.get(s3));
+app.post('/teachermoments/wav', AudioEndpoints.post(s3));
 
 
 

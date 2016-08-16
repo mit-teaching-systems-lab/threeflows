@@ -3,6 +3,7 @@ import React from 'react';
 
 import RaisedButton from 'material-ui/RaisedButton';
 
+import Routes from '../routes.js';
 import NavigationAppBar from '../components/navigation_app_bar.jsx';
 import AudioRecorderFlow from '../components/audio_recorder_flow.jsx';
 
@@ -23,7 +24,7 @@ export default React.createClass({
         <NavigationAppBar title="Audio flow prototype" />
         <div style={{border: '1px solid #eee', padding: 20}}>
           <AudioRecorderFlow
-            url="/message_popup/wav"
+            url={Routes.messagePopupUploadWavPath()}
             start={this.renderStart}
             reviewing={this.renderReviewing}
             recording={this.renderRecording}

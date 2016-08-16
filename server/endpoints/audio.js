@@ -14,7 +14,7 @@ function getAudioKey(request, id) {
 
 function getUrl(request, id) {
   const domain = getDomain(request);
-  return `${domain}/message_popup/wav/${id}.wav`;
+  return `${domain}/teachermoments/wav/${id}.wav`;
 };
 
 function post(s3) {

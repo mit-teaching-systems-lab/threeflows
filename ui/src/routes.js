@@ -24,35 +24,39 @@ export function virtualSchoolPath():string {
 }
 
 export function messagePopupPracticePath() {
-  return '/message_popup';
+  return '/teachermoments';
 }
 
 export function messagePopupSolutionPath() {
-  return "/message_popup?solution";
+  return "/teachermoments?solution";
 }
 
 export function messagePopupScoringPath() {
-  return '/message_popup/scoring';
+  return '/teachermoments/scoring';
 }
 
 export function messagePopupExplorationPath() {
-  return '/message_popup/exploration';
+  return '/teachermoments/exploration';
 }
 
 export function messagePopupEvaluationUrl(evaluationId:number) {
-  return `/message_popup/evaluations/${evaluationId}`;
+  return `/teachermoments/evaluations/${evaluationId}`;
 }
 
 export function messagePopupAuthorQuestionsPath(){
-  return '/message_popup/author/questions';
+  return '/teachermoments/author/questions';
 }
 
 export function messagePopupAuthorQuestionsEditPath(questionId:number){
-  return `/message_popup/author/questions/${questionId}`;
+  return `/teachermoments/author/questions/${questionId}`;
 }
 
 export function messagePopupAuthorQuestionsNewPath(){
-  return '/message_popup/author/questions/new';
+  return '/teachermoments/author/questions/new';
+}
+
+export function messagePopupUploadWavPath() {
+  return '/teachermoments/wav';
 }
 
 export function doSomethingPath() {
