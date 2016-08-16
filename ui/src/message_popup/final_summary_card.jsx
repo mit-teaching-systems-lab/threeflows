@@ -6,16 +6,16 @@ export default React.createClass({
   displayName: "FinalSummaryCard",
   
   propTypes: {
-    msResponseTimes: React.PropTypes.array.isRequired,
+    responseTimes: React.PropTypes.array.isRequired,
     limitMs: React.PropTypes.number.isRequired
   },
 
   render(){
-    const mean = Math.round(_.mean(this.props.msResponseTimes)/10)/100;
-    const numUnderTime = this.props.msResponseTimes.filter(time => time <= this.props.limitMs).length;
-    const numAboveTime = this.props.msResponseTimes.filter(time => time > this.props.limitMs).length;
-    const slowestResponse = Math.round(_.max(this.props.msResponseTimes)/1000);
-    const fastestResponse = Math.round(_.min(this.props.msResponseTimes)/1000);
+    const mean = Math.round(_.mean(this.props.responseTimes)/10)/100;
+    const numUnderTime = this.props.responseTimes.filter(time => time <= this.props.limitMs).length;
+    const numAboveTime = this.props.responseTimes.filter(time => time > this.props.limitMs).length;
+    const slowestResponse = Math.round(_.max(this.props.responseTimes)/1000);
+    const fastestResponse = Math.round(_.min(this.props.responseTimes)/1000);
     return (
       <div style={styles.summary}>
         <div style={styles.summaryTitle}>Response Time Summary</div>
