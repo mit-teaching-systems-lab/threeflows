@@ -3,7 +3,7 @@ import React from 'react';
 import SetIntervalMixin from '../helpers/set_interval_mixin.js';
 import TextChangeEvent from '../types/dom_types.js';
 import StudentCard from './student_card.jsx';
-import HintCard from './hint_card.jsx';
+import HintCard from './renderers/hint_card.jsx';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Snackbar from 'material-ui/Snackbar';

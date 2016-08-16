@@ -1,1 +1,1 @@
-test/**/*.{js,jsx}
+src/**/*_test.{js,jsx}

@@ -55,7 +55,7 @@ ui $ npm run lint-quiet
 ```
 
 ### Run Mocha tests
-This project uses Mocha, with Chai's expect-style assertions, and Enzyme for some React testing utilities.  To run a process that watches and continually re-runs the tests:
+This project uses Mocha, with Chai's expect-style assertions, and Enzyme for some React testing utilities.  Tests are co-located with source code in the same folder, distinguished by a `_test.jsx` extension.  To run a process that watches and continually re-runs the tests:
 
 ```
 ui $ npm run mocha-watch
