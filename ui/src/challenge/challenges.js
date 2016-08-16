@@ -16,7 +16,7 @@ const rawChallenges = [{
     },
     {
       img: 'https://s3.amazonaws.com/tsl-hacking/threeflows/message-popup.jpg',
-      href: '/teacher_moments?basic',
+      href: '/teachermoments?basic',
       title: 'Teacher Moments practice',
     },
     {

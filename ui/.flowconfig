@@ -5,3 +5,4 @@
 .*/node_modules/react-motion/.*
 .*/node_modules/react-swipeable-views/src/.*
 .*/node_modules/reqwest/.*
+.*/node_modules/cjson/.*

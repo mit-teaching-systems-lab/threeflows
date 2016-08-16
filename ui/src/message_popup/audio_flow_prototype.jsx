@@ -3,7 +3,7 @@ import React from 'react';
 
 import RaisedButton from 'material-ui/RaisedButton';
 
-import Routes from '../routes.js';
+import * as Routes from '../routes.js';
 import NavigationAppBar from '../components/navigation_app_bar.jsx';
 import AudioRecorderFlow from '../components/audio_recorder_flow.jsx';
 

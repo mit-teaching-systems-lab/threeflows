@@ -1,7 +1,7 @@
 /* @flow weak */
 import React from 'react';
 import _ from 'lodash';
-import {RouterMixin, navigate} from 'react-mini-router';
+import {RouterMixin} from 'react-mini-router';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -91,7 +91,7 @@ export default React.createClass({
   },
 
   messagePopupRedirect(remainingPath, query = {}) {
-    navigate(`/teacher_moments/${remainingPath}`);
+    window.location = `/teachermoments/${remainingPath}`;
   },
 
   messagePopup(query = {}) {
