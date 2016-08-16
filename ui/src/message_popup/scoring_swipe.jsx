@@ -122,7 +122,7 @@ export default React.createClass({
     return (
       <div>
         <AppBar
-          title="Message PopUp Scorer"
+          title="Teacher Moments Scorer"
           iconElementLeft={
             <IconButton onClick={() => this.props.onCancel()}>
             <BackIcon />

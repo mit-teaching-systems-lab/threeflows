@@ -118,7 +118,7 @@ export default React.createClass({
     
     return (
       <div>
-        <NavigationAppBar title="Message PopUp Practice" />
+        <NavigationAppBar title="Teacher Moments" />
         <Paper zDepth={2} style={{padding: 20}}>There are {questionGroups.length} questions that need scoring.</Paper>
         <List>
           {questionGroups.map(({logsForQuestion, questionKey}) => {

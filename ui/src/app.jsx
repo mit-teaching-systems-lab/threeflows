@@ -48,14 +48,17 @@ export default React.createClass({
     '/virtual_school': 'virtualSchool',
     
     '/challenge/:id': 'challenge',
-    '/message_popup': 'messagePopup',
-    '/message_popup/exploration': 'messagePopupExploration',
-    '/message_popup/evaluations/:id': 'messagePopupEvaluation',
-    '/message_popup/scoring': 'messagePopupScoring',
-    '/message_popup/author/questions' : 'messagePopupAuthorQuestions',
-    '/message_popup/author/questions/new' : 'messagePopupAuthorQuestionsNew',
-    '/message_popup/author/questions/:id' : 'messagePopupAuthorQuestionsEdit',
-    '/message_popup/audio_flow_prototype': 'messagePopupAudioFlowPrototype',
+
+    '/message_popup*': 'messagePopupRedirect',
+    '/teachermoments': 'messagePopup',
+    '/teachermoments/exploration': 'messagePopupExploration',
+    '/teachermoments/evaluations/:id': 'messagePopupEvaluation',
+    '/teachermoments/scoring': 'messagePopupScoring',
+    '/teachermoments/author/questions' : 'messagePopupAuthorQuestions',
+    '/teachermoments/author/questions/new' : 'messagePopupAuthorQuestionsNew',
+    '/teachermoments/author/questions/:id' : 'messagePopupAuthorQuestionsEdit',
+    '/teachermoments/audio_flow_prototype': 'messagePopupAudioFlowPrototype',
+    
     '/ecd/raw': 'ecdRaw',
     '/ecd/candidate': 'ecdCandidate',
     '/ecd/evaluator': 'ecdEvaluator',
@@ -85,6 +88,10 @@ export default React.createClass({
   challenge(id) {
     const challenge = _.find(this.props.challenges, (challenge) => challenge.id === _.toInteger(id));
     return <ChallengePage challenge={challenge} user={this.state.user} />;
+  },
+
+  messagePopupRedirect(remainingPath, query = {}) {
+    window.location = `/teachermoments${remainingPath}`;
   },
 
   messagePopup(query = {}) {
