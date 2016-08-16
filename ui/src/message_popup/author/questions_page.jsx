@@ -1,5 +1,6 @@
 /* @flow weak */
 import React from 'react';
+import _ from 'lodash';
 
 import * as Api from '../../helpers/api.js';
 import * as Routes from '../../routes.js';
@@ -30,9 +31,12 @@ export default React.createClass({
 
   getInitialState(){
     return ({
-      allDatabaseQuestions: [],
-      currentQuestions: [],
-      archivedQuestions: [],
+      loaded: false,
+      searchText: '',
+      allDatabaseQuestions: {
+        currentQuestions: allQuestions,
+        archivedQuestions: allArchivedQuestions
+      },
       showArchivedQuestions: false,
       selectedArchivedQuestion: null
     });
@@ -66,37 +70,45 @@ export default React.createClass({
     return questionString.split(text).length;
   },
   
+  getSearchResults(){
+    const {searchText} = this.state;
+    if(searchText === '') return this.state.allDatabaseQuestions;
+    const currentQuestions = this.state.allDatabaseQuestions.currentQuestions
+      .filter(question => this.searchQuestionForText(searchText, question))
+      .sort(question => this.countTextOccurrences(searchText, question));
+    const archivedQuestions = this.state.allDatabaseQuestions.archivedQuestions
+      .filter(question => this.searchQuestionForText(searchText, question))
+      .sort(question => this.countTextOccurrences(searchText, question));
+    return {currentQuestions, archivedQuestions};
+  },
+
   onQuestionsReceived(err, response){
-    const allDatabaseQuestions = JSON.parse(response.text).row;
-    if(allDatabaseQuestions === undefined) {
-      this.setState({
-        allDatabaseQuestions: {
-          currentQuestions: allQuestions, 
-          archivedQuestions: allArchivedQuestions
-        }, 
-        currentQuestions: allQuestions, 
-        archivedQuestions: allArchivedQuestions});
+    const questions = JSON.parse(response.text).questions;
+    if(questions !== undefined){
+      this.setState({loaded: true, allDatabaseQuestions: questions});
       return;
     }
-    this.setState({
-      allDatabaseQuestions: allDatabaseQuestions, 
-      currentQuestions: allDatabaseQuestions.currentQuestions, 
-      archivedQuestions: allDatabaseQuestions.archivedQuestions
-    });
+    this.setState({loaded: true});
   },
 
   onNewQuestion(){
     Routes.navigate(Routes.messagePopupAuthorQuestionsNewPath());
   },
 
+  onQuestionRestore(){
+    const {selectedArchivedQuestion} = this.state;
+    if(selectedArchivedQuestion !== null){
+      const allDatabaseQuestions = _.clone(this.state.allDatabaseQuestions);
+      _.remove(allDatabaseQuestions.archivedQuestions, question => question.id === selectedArchivedQuestion.id);
+      allDatabaseQuestions.currentQuestions.push(selectedArchivedQuestion);
+      Api.saveQuestions(allDatabaseQuestions);
+      this.setState({allDatabaseQuestions, selectedArchivedQuestion: null});
+    }
+  },
+
   onSearchBarChange(event){
     const value = event.target.value.toLowerCase().trim();
-    if(value === ''){
-      this.setState({currentQuestions: this.state.allDatabaseQuestions.currentQuestions});
-      return;
-    }
-    const questions = this.state.allDatabaseQuestions.currentQuestions.filter(questionOriginal => this.searchQuestionForText(value, questionOriginal)).sort(questionOriginal => this.countTextOccurrences(value, questionOriginal));
-    this.setState({currentQuestions: questions});
+    this.setState({searchText: value});
   },
 
   onTouchArchivedQuestion(question){
@@ -104,7 +116,8 @@ export default React.createClass({
   },
 
   render(){
-    const {selectedArchivedQuestion} = this.state;
+    const {selectedArchivedQuestion, loaded} = this.state;
+    const {currentQuestions, archivedQuestions} = this.getSearchResults();
     return(
       <div>
         <NavigationAppBar
@@ -133,7 +146,7 @@ export default React.createClass({
           <Divider />
           <div style={styles.questionsContainer}>
             <Paper rounded={false}>
-              {this.state.currentQuestions.map(question => {
+              {loaded && currentQuestions.map(question => {
                 return (
                  <QuestionButton question={question} key={question.id} />
                  );
@@ -146,7 +159,7 @@ export default React.createClass({
                 showExpandableButton={true}/>
               <CardText expandable={true}>
                 <div>
-                  {this.state.archivedQuestions.map(question => 
+                  {loaded && archivedQuestions.map(question => 
                     <ArchivedQuestionButton 
                       question={question}
                       onTouchQuestion={this.onTouchArchivedQuestion}
@@ -165,7 +178,7 @@ export default React.createClass({
             actions={[
               <div style={{padding: 0, margin: 0, display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-around'}}>
                 <FlatButton label="Cancel" onTouchTap={function(){this.setState({selectedArchivedQuestion: null});}.bind(this)} />
-                <FlatButton label="Restore" style={styles.selectionRestoreButton}/>
+                <FlatButton label="Restore" onTouchTap={this.onQuestionRestore} style={styles.selectionRestoreButton}/>
               </div>
             ]}>
             <div style={styles.dialogTitle}>Question #{selectedArchivedQuestion.id}</div>

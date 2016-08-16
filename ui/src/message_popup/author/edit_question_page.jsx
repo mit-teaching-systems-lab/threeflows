@@ -18,9 +18,10 @@ export default React.createClass({
 
   getInitialState(){
     return ({
+      loaded: false,
       allDatabaseQuestions: {
-        currentQuestions: [],
-        archivedQuestions: []
+        currentQuestions: allQuestions,
+        archivedQuestions: allArchivedQuestions
       }
     });
   },
@@ -30,28 +31,31 @@ export default React.createClass({
   },
 
   onQuestionsReceived(err, response){
-    const allDatabaseQuestions = JSON.parse(response.text).row;
-    if(allDatabaseQuestions === undefined) {
-      this.setState({
-        allDatabaseQuestions: {
-          currentQuestions: allQuestions, 
-          archivedQuestions: allArchivedQuestions
-        }
-      });
+    const questions = JSON.parse(response.text).questions;
+    if(questions !== undefined){
+      this.setState({loaded: true, allDatabaseQuestions: questions});
       return;
     }
-    this.setState({ allDatabaseQuestions: allDatabaseQuestions });
+    this.setState({loaded: true});
   },
 
   render(){
+    const {loaded, allDatabaseQuestions} = this.state;
     const allQuestionsFlat =  this.state.allDatabaseQuestions.currentQuestions.concat(this.state.allDatabaseQuestions.archivedQuestions);
     const originalQuestion = _.find(withStudents(allQuestionsFlat).map(question => withIndicator(question)), question => question.id.toString() === this.props.questionId);
     return (
       <div>
-        {originalQuestion &&
+        {!loaded &&
+          <QuestionPage
+            allQuestions={allDatabaseQuestions}
+            loaded={false}
+            />
+        }
+        {loaded &&
           <QuestionPage 
             originalQuestion={originalQuestion}
-            allQuestions={this.state.allDatabaseQuestions}
+            allQuestions={allDatabaseQuestions}
+            loaded={true}
             />
         }
       </div>
