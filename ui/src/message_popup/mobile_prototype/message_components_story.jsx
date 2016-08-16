@@ -20,6 +20,6 @@ storiesOf('MessageComponents')
   ))
   .add('InfoMessage', () => (
     <MuiThemeProvider>
-      <UserMessage text="Info message." />
+      <InfoMessage text="Info message." />
     </MuiThemeProvider>
-  ))
+  ));
