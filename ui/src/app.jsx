@@ -49,7 +49,7 @@ export default React.createClass({
     
     '/challenge/:id': 'challenge',
 
-    '/message_popup/*': 'messagePopupRedirect',
+    '/message_popup*': 'messagePopupRedirect',
     '/teachermoments': 'messagePopup',
     '/teachermoments/exploration': 'messagePopupExploration',
     '/teachermoments/evaluations/:id': 'messagePopupEvaluation',
@@ -91,7 +91,7 @@ export default React.createClass({
   },
 
   messagePopupRedirect(remainingPath, query = {}) {
-    window.location = `/teachermoments/${remainingPath}`;
+    window.location = `/teachermoments${remainingPath}`;
   },
 
   messagePopup(query = {}) {
