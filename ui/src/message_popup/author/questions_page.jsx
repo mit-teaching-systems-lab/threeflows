@@ -70,15 +70,18 @@ export default React.createClass({
     return questionString.split(text).length;
   },
   
-  getSearchResults(){
+  getSearchResults(text, list){
+    const results = list
+      .filter(question => this.searchQuestionForText(text, question))
+      .sort(question => this.countTextOccurrences(text, question));
+    return results;
+  },
+
+  getAllSearchResults(){
     const {searchText} = this.state;
     if(searchText === '') return this.state.allDatabaseQuestions;
-    const currentQuestions = this.state.allDatabaseQuestions.currentQuestions
-      .filter(question => this.searchQuestionForText(searchText, question))
-      .sort(question => this.countTextOccurrences(searchText, question));
-    const archivedQuestions = this.state.allDatabaseQuestions.archivedQuestions
-      .filter(question => this.searchQuestionForText(searchText, question))
-      .sort(question => this.countTextOccurrences(searchText, question));
+    const currentQuestions = this.getSearchResults(searchText, this.state.allDatabaseQuestions.currentQuestions);
+    const archivedQuestions = this.getSearchResults(searchText, this.state.allDatabaseQuestions.archivedQuestions);
     return {currentQuestions, archivedQuestions};
   },
 
@@ -117,7 +120,7 @@ export default React.createClass({
 
   render(){
     const {selectedArchivedQuestion, loaded} = this.state;
-    const {currentQuestions, archivedQuestions} = this.getSearchResults();
+    const {currentQuestions, archivedQuestions} = this.getAllSearchResults();
     return(
       <div>
         <NavigationAppBar
