@@ -70,22 +70,4 @@ describe('<PopupQuestion />', () => {
     expect(wrapper.find(ResponseRenderer).length).to.equal(1);
     expect(wrapper.find(SummaryCard).length).to.equal(0);
   });
-
-  // This is stuck on full mounting, maybe because of Material?
-  // it('shows the summary after the user responds', (done) => {    
-  //   const props = testProps();
-  //   const response = createResponse();
-  //   const wrapper = shallow(<PopupQuestion {...props} />);
-  //   wrapper.instance().onResponseSubmitted(response);
-    
-  //   expect(wrapper.state().response).to.equal(response);
-  //   // expect(4).to.equal(5);
-  //   // expect(wrapper.find(ResponseRenderer).find(length).to.equal(1);
-  //   // wrapper.find(RaisedButton).simulate('touchTap');
-  //   setTimeout(() => {
-  //     console.log(wrapper.debug());
-  //     expect(wrapper.find('.foo').length).to.equal(1);
-  //     done();
-  //   }, 1000);
-  // });
 });
