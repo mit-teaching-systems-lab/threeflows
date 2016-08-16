@@ -10,7 +10,8 @@
     "lint": "eslint --ext jsx --ext js -c .eslintrc src",
     "mocha-watch": "npm run mocha -- --watch",
     "mocha": "mocha --check-leaks --require test/setup.js --compilers jsx:babel-register",
-    "test": "npm run lint && flow && npm run mocha"
+    "test": "npm run lint && flow && npm run mocha",
+    "storybook": "start-storybook -p 9001"
   },
   "repository": {
     "type": "git",
@@ -52,6 +53,7 @@
     "watchify": "3.7.0"
   },
   "devDependencies": {
+    "@kadira/storybook": "^2.2.3",
     "babel-eslint": "^6.0.4",
     "babel-plugin-react-transform": "^2.0.2",
     "babel-register": "^6.11.6",
