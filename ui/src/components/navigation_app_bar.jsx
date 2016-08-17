@@ -18,7 +18,7 @@ import * as Routes from '../routes.js';
 Shows an AppBar for the screen title, with a drawer for navigating elsewhere.
 */
 export default React.createClass({
-  displayName: 'NavigationDrawer',
+  displayName: 'NavigationAppBar',
 
   propTypes: {
     title: React.PropTypes.string.isRequired,

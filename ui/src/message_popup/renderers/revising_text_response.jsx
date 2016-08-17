@@ -103,14 +103,17 @@ export default React.createClass({
       <div>
         <div style={styles.textAreaContainer}>
           <TextField
+            id="revising-text-response-textfield"
             style={styles.textField}
             textareaStyle={styles.textareaInner}
             underlineShow={false}
-            floatingLabelText='Speak directly to the student'
-            onChange={this.onTextChanged}
             multiLine={true}
-            disabled={isRevising} 
-            rows={2}/>
+            rows={2}
+            floatingLabelText='Speak directly to the student'
+            value={initialResponseText}
+            onChange={this.onTextChanged}
+            disabled={isRevising}
+          />
         </div>
         <div style={styles.buttonRow}>
           <RaisedButton
@@ -155,8 +158,12 @@ const styles = {
   textField: {
     width: '100%'
   },
+  // Fixing the height to two rows large, since TextField reflects on the
+  // DOM to size its height, and when animating with Velocity it's still hidden
+  // and doesn't have its full size yet.
   textareaInner: {
     border: '1px solid #eee',
+    height: 48,
     marginBottom: 0
   },
   buttonRow: {

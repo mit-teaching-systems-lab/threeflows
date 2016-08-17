@@ -108,10 +108,10 @@ export default React.createClass({
 
   onResponseSubmitted(response:ResponseT) {
     this.clearIntervals();
-    this.setState({response}, () => {
-      if (!this.props.scaffolding.shouldShowSummary) return this.onDone();
-      if (this.state.responseMode === 'audio') return this.onDone();
-    });
+    
+    if (!this.props.scaffolding.shouldShowSummary) return this.onDone();
+    if (this.state.responseMode === 'audio') return this.onDone();
+    this.setState({response});
   },
 
   onDone() {
