@@ -42,7 +42,7 @@ export default React.createClass({
     auth: React.PropTypes.object.isRequired
   },
 
-  getInitialState: function() {
+  getInitialState() {
     const isSolutionMode = _.has(this.props.query, 'solution');
     return {
       scaffolding: {

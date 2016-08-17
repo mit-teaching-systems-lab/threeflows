@@ -1,4 +1,4 @@
-/* @flow weak */
+/* @flow */
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
@@ -10,7 +10,7 @@ export default React.createClass({
   propTypes: {
     onDone: React.PropTypes.func.isRequired,
     question: React.PropTypes.object.isRequired,
-    response: React.PropTypes.string.isRequired,
+    responseText: React.PropTypes.string.isRequired,
     elapsedSeconds: React.PropTypes.number.isRequired,
     buttonLabel: React.PropTypes.string.isRequired
   },
@@ -21,11 +21,9 @@ export default React.createClass({
         <div style={styles.title}>Summary:</div>
         <Divider />
         <div style={styles.summary}>
-          <div style={styles.questionTitle}>Question:</div>
-          <div style={styles.questionText}>{this.props.question.text}</div>
-          <Divider />
+          {this.renderQuestion()}
           <div style={styles.responseTitle}>Your Response:</div>
-          <div style={styles.responseText}>"{this.props.response}"</div>
+          <div style={styles.responseText}>"{this.props.responseText}"</div>
           <div style={styles.responseTime}>Time to respond: {this.props.elapsedSeconds} {this.props.elapsedSeconds === 1 ? "second" : "seconds"}</div>
         </div>
         <Divider />
@@ -38,7 +36,19 @@ export default React.createClass({
         </div>
       </div>
     );
-  }  
+  },
+
+  renderQuestion() {
+    const {question} = this.props;
+    if (!question.text) return null;
+    return (
+      <div>
+        <div style={styles.questionTitle}>Question:</div>
+        <div style={styles.questionText}>{this.props.question.text}</div>
+        <Divider />
+      </div>
+    );
+  }
 });
 
 const styles = {

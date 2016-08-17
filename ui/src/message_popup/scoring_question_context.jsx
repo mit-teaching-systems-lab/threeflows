@@ -5,7 +5,7 @@ import {Card, CardHeader, CardText} from 'material-ui/Card';
 
 import StudentCard from './student_card.jsx';
 import ExamplesCard from './examples_card.jsx';
-import {questionId} from './questions.js';
+import {questionId} from './question.js';
 
 
 /*
