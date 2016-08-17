@@ -25,6 +25,7 @@ export default React.createClass({
     }).isRequired,
     initialEmail: React.PropTypes.string.isRequired,
     itemsToShow: React.PropTypes.object.isRequired,
+    allowChoosingResponseMode: React.PropTypes.bool.isRequired,
     onSessionConfigured: React.PropTypes.func.isRequired
   },
   
@@ -39,7 +40,8 @@ export default React.createClass({
         shouldShowSummary: this.props.scaffolding.shouldShowSummary,
       },
       selectedIndicatorId: ALL_INDICATORS,
-      isSolutionMode
+      isSolutionMode,
+      responseModeKey: 'mixed'
     });
   },
 
@@ -51,11 +53,29 @@ export default React.createClass({
     return questions;
   },
 
+  // This is not a pure function, it's not idempotent and can include
+  // randomness.  It shouldn't be called within render methods.
+  drawResponseMode(question, scaffolding) {
+    const {responseModeKey} = this.state;
+    if (responseModeKey === 'mixed') return Math.random() > 0.5 ? 'audio' : 'text';
+    if (responseModeKey === 'text') return 'text';
+    if (responseModeKey === 'audio') return 'audio';
+  },
+
+  onResponseModeChanged(event, responseModeKey) {
+    this.setState({ responseModeKey });
+  },
+
   onSave(){
     const {scaffolding, email, selectedIndicatorId} = this.state;
     const questions = this.getQuestions(selectedIndicatorId);
     const questionsForSession = _.shuffle(questions.slice(0, this.state.sessionLength));
-    this.props.onSessionConfigured(scaffolding, email, questionsForSession);
+    this.props.onSessionConfigured({
+      scaffolding,
+      email,
+      questionsForSession,
+      drawResponseMode: this.drawResponseMode
+    });
   },
   
   onIndicatorChanged(event, selectedIndicatorIdText){
@@ -99,7 +119,7 @@ export default React.createClass({
   },
   
   render(){
-    const {itemsToShow} = this.props;
+    const {itemsToShow, allowChoosingResponseMode} = this.props;
     const {selectedIndicatorId, sessionLength, scaffolding} = this.state;
     const {shouldShowStudentCard, shouldShowSummary, helpType} = scaffolding;
     const questionsLength = this.getQuestions(selectedIndicatorId).length;
@@ -124,6 +144,8 @@ export default React.createClass({
             <Slider key={sliderKey} value={sessionLength} min={0} max={questionsLength} step={1} onChange={this.onSliderChange}/>
           </div>
         }
+
+        {allowChoosingResponseMode && this.renderResponseModeChoice()}
         
         <Divider />
         
@@ -210,6 +232,25 @@ export default React.createClass({
                      value={indicator.id.toString()}
                      label={indicator.text} />;
           })}
+        </RadioButtonGroup>
+      </div>
+    );
+  },
+
+  renderResponseModeChoice() {
+    const {responseModeKey} = this.state;
+    return (
+      <div>
+        <div >Response modes:</div>
+        <RadioButtonGroup
+          name="responseMode"
+          valueSelected={responseModeKey}
+          style={{...styles.option, padding: 20 }}
+          onChange={this.onResponseModeChanged}
+        >
+          <RadioButton value="mixed" label="Mixed" />
+          <RadioButton value="text" label="Text" />
+          <RadioButton value="audio" label="Audio" />
         </RadioButtonGroup>
       </div>
     );

@@ -59,14 +59,12 @@ export default React.createClass({
     onLog: React.PropTypes.func.isRequired,
     onDone: React.PropTypes.func.isRequired,
     isLastQuestion: React.PropTypes.bool.isRequired,
-    drawResponseMode: React.PropTypes.func // for testing
+    drawResponseMode: React.PropTypes.func.isRequired
   },
 
   getInitialState: function() {
     const {question, scaffolding} = this.props;
-    const responseMode = (this.props.drawResponseMode)
-      ? this.props.drawResponseMode(question, scaffolding)
-      : this.drawResponseMode(question, scaffolding);
+    const responseMode = this.props.drawResponseMode(question, scaffolding);
 
     return {
       responseMode,
@@ -74,12 +72,6 @@ export default React.createClass({
       allowResponding: false,
       response: null
     };
-  },
-
-  // This is not a pure function, it's not idempotent and can include
-  // randomness.  It shouldn't be called within render methods.
-  drawResponseMode(question, scaffolding) {
-    return Math.random() > 0.5 ? 'audio' : 'text';
   },
 
   // Allow pieces of the UI to log data for particular event types, along

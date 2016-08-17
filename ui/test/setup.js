@@ -31,3 +31,7 @@ console.error = function(message) {
   throw new Error(message, args.slice(1));
   consoleError.apply(console, args);
 };
+
+// for material-ui, see https://github.com/zilverline/react-tap-event-plugin
+// can only be called once
+require('react-tap-event-plugin')();
