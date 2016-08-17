@@ -37,11 +37,10 @@ export default React.createClass({
   },
 
   render(){
-    const {loaded, allQuestions} = this.props;
+    const {loaded} = this.props;
     return (
       <div>
         <QuestionPage
-          allQuestions={allQuestions}
           loaded={loaded}
           onCreateQuestion={this.onCreateQuestion}
           />
