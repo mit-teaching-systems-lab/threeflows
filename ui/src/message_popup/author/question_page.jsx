@@ -111,7 +111,7 @@ export default React.createClass({
       examples: goodExamples,
       nonExamples: badExamples,
       indicatorId: this.state.indicator.id,
-      indidcator: this.state.indicator
+      indicator: this.state.indicator
     };
     if(this.props.onEditQuestion === undefined) return;
     this.props.onEditQuestion(newQuestion, originalQuestion);
@@ -126,7 +126,7 @@ export default React.createClass({
       examples: goodExamples,
       nonExamples: badExamples,
       indicatorId: this.state.indicator.id,
-      indidcator: this.state.indicator
+      indicator: this.state.indicator
     };
     if(this.props.onCreateQuestion === undefined) return;
     this.props.onCreateQuestion(newQuestion);
