@@ -209,7 +209,7 @@ app.post('/server/questions', facultyAuth, function(request, response){
 
 app.get('/server/questions', facultyAuth, function(request, response){
   if (process.env.NODE_ENV === 'development') {
-    return response.json({});
+    return response.json({questions: {currentQuestions:[], archivedQuestions: []}});
   }
 
   queryDatabase('SELECT * FROM message_popup_questions ORDER BY timestamp DESC LIMIT 1', [], function(err, result){
