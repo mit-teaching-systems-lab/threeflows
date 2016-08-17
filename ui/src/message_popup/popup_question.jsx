@@ -120,11 +120,13 @@ export default React.createClass({
 
   render() {
     const hasResponded = (this.state.response);
+    const {responseMode} = this.state;
     const {scaffolding} = this.props;  
     const shouldRenderQuestion = (
       (!scaffolding.shouldShowSummary) ||
       (!hasResponded && scaffolding.shouldShowSummary)
     );
+    const shouldRenderSummary = (responseMode === 'text' && hasResponded && scaffolding.shouldShowSummary);
 
     return (
       <div>
@@ -132,7 +134,7 @@ export default React.createClass({
           {shouldRenderQuestion && this.renderQuestion()}
         </VelocityTransitionGroup>
         <VelocityTransitionGroup enter={{animation: "slideDown"}} runOnMount={true}>
-          {hasResponded && scaffolding.shouldShowSummary && this.renderSummary()}
+          {shouldRenderSummary && this.renderSummaryForTextResponse()}
         </VelocityTransitionGroup>
       </div>
     );
@@ -174,7 +176,10 @@ export default React.createClass({
     if (responseMode === 'audio') return <AudioResponse {...responseProps} />;
   },
   
-  renderSummary() {
+  // This is just for text responses, since we can summarize them in a way
+  // we can't summarize audio responses.  This could be moved into
+  // `RevisingTextResponse`.
+  renderSummaryForTextResponse() {
     const {elapsedMs} = this.state;
     const {finalResponseText, initialResponseText} = this.state.response;
     const {question, scaffolding, isLastQuestion} = this.props;
