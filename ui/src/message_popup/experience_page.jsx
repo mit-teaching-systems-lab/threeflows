@@ -151,7 +151,7 @@ export default React.createClass({
 
   renderDone() {
     return (
-      <div>
+      <div className="done">
         <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
           <div style={_.merge(_.clone(styles.container), styles.done)}>
             <div style={styles.doneTitle}>You finished!</div>
@@ -176,7 +176,7 @@ export default React.createClass({
 
     return (
       <VelocityTransitionGroup enter={{animation: "callout.pulse", duration: 500}} leave={{animation: "slideUp"}} runOnMount={true}>
-        <div>
+        <div className="instructions">
           <InstructionsCard 
            itemsToShow={query}
            />
@@ -199,7 +199,7 @@ export default React.createClass({
     const question = questions[questionsAnswered];
 
     return (
-      <div style={styles.container}>        
+      <div className="question" style={styles.container}>        
         <LinearProgress color="#EC407A" mode="determinate" value={questionsAnswered} max={sessionLength} />
         <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
           <PopupQuestion
@@ -228,7 +228,7 @@ export default React.createClass({
     const sessionLength = questions.length;
     const question = withStudents(questions)[questionsAnswered];
     return ( 
-      <div>
+      <div className="prototype">
         <LinearProgress color="#EC407A" mode="determinate" value={questionsAnswered} max={sessionLength} />
         <MobileInterface
           key={JSON.stringify(question)}

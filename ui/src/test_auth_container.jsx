@@ -8,7 +8,9 @@ import sinon from 'sinon';
 export default React.createClass({
   displayName: 'TestAuthContainer',
 
-  propTypes: AuthContainer.propTypes,
+  propTypes: {
+    children: React.PropTypes.element.isRequired
+  },
 
   childContextTypes: AuthContainer.childContextTypes,
 
