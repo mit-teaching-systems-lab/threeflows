@@ -1,4 +1,3 @@
-/* @flow weak */
 import React from 'react';
 
 import * as Api from '../../helpers/api.js';
@@ -21,7 +20,6 @@ import NavigationAppBar from '../../components/navigation_app_bar.jsx';
 import QuestionButton from './question_button.jsx';
 import ArchivedQuestionButton from './archived_question_button.jsx';
 
-import {allArchivedQuestions} from './archived_questions.js';
 import {withStudents, withIndicator} from '../transformations.jsx';
 
 export default React.createClass({
@@ -29,7 +27,8 @@ export default React.createClass({
 
   propTypes: {
     loaded: React.PropTypes.bool,
-    allQuestions: React.PropTypes.object
+    allQuestions: React.PropTypes.object,
+    onReloadQuestions: React.PropTypes.func
   },
 
   getInitialState(){

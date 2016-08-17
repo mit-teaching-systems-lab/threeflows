@@ -1,9 +1,12 @@
 import React from 'react';
 import * as Api from '../helpers/api.js';
-import {allQuestions} from './questions.js';
 
 export default React.createClass({
   displayName: 'QuestionsLoader',
+
+  propTypes: {
+    children: React.PropTypes.element
+  },
 
   getInitialState(){
     return ({
@@ -28,9 +31,8 @@ export default React.createClass({
       this.setState({loaded: true});
       return;
     }
-    //const allQuestions = JSON.parse(response.text).questions;
-    //this.setState({ loaded: true, allQuestions });
-    this.setState({loaded: true, allQuestions: {currentQuestions: allQuestions, archivedQuestions: []}})
+    const allQuestions = JSON.parse(response.text).questions;
+    this.setState({ loaded: true, allQuestions });
   },
 
   render(){
