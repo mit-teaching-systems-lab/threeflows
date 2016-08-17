@@ -7,20 +7,17 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Snackbar from 'material-ui/Snackbar';
 
-import SetIntervalMixin from '../../helpers/set_interval_mixin.js';
 import FeedbackCard from '../feedback_card.jsx';
-const ONE_SECOND = 1000;
 
-// This response renderer supports responding with text, and revising the text.
+// This response supports responding with text, and revising the text.
 export default React.createClass({
-  displayName: 'ResponseRenderer',
-
-  mixins: [SetIntervalMixin],
+  displayName: 'RevisingTextResponse',
 
   propTypes: {
     question: React.PropTypes.object.isRequired,
     scaffolding: React.PropTypes.object.isRequired,
     limitMs: React.PropTypes.number.isRequired,
+    elapsedMs: React.PropTypes.number.isRequired,
     onLogMessage: React.PropTypes.func.isRequired,
     onResponseSubmitted: React.PropTypes.func.isRequired
   },
@@ -31,43 +28,25 @@ export default React.createClass({
       isDoneRevising: false,
       didRevise: false,
       initialResponseText: '',
-      finalResponseText: '',
-      elapsedMs: 0
+      finalResponseText: ''
     };
   },
 
-  componentDidMount() {
-    this.setInterval(this.onTimerTick, ONE_SECOND);
-  },
-  
   logMessage(type) {
-    const {initialResponseText, finalResponseText, elapsedMs} = this.state;    
+    const {initialResponseText, finalResponseText} = this.state;    
     this.props.onLogMessage(type, {
       initialResponseText,
-      finalResponseText,
-      elapsedMs
+      finalResponseText
     });
   },
 
   submitResponse() {
-    const {
-      initialResponseText,
-      finalResponseText,
-      elapsedMs,
-      didRevise
-    } = this.state;
+    const {initialResponseText, finalResponseText, didRevise} = this.state;
     this.props.onResponseSubmitted({
       initialResponseText,
       finalResponseText,
-      elapsedMs,
       didRevise
     });
-  },
-
-  onTimerTick() {
-    if (!this.state.isDoneRevising) {
-      this.setState({ elapsedMs: this.state.elapsedMs + ONE_SECOND });
-    }
   },
 
   onTextChanged(e) {
@@ -115,9 +94,9 @@ export default React.createClass({
   },
 
   render() {
-    const {scaffolding, limitMs} = this.props;
+    const {scaffolding, limitMs, elapsedMs} = this.props;
     const {examples} = this.props.question;
-    const {isRevising, initialResponseText, elapsedMs} = this.state;
+    const {isRevising, initialResponseText} = this.state;
     const seconds = Math.round(elapsedMs / 1000);
 
     return (

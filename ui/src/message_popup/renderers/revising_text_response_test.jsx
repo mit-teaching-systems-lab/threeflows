@@ -6,7 +6,7 @@ import {expect} from 'chai';
 import sinon from 'sinon';
 import * as TestFixtures from '../test_fixtures.js';
 
-import ResponseRenderer from './response_renderer.jsx';
+import RevisingTextResponse from './revising_text_response.jsx';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import FeedbackCard from '../feedback_card.jsx';
@@ -17,16 +17,17 @@ function testProps(props) {
     question: TestFixtures.testQuestion,
     scaffolding: TestFixtures.practiceScaffolding,
     limitMs: 30000,
+    elapsedMs: 0,
     onLogMessage: sinon.spy(),
     onResponseSubmitted: sinon.spy(),
     ...props
   };
 }
 
-describe('<ResponseRenderer />', () => {
+describe('<RevisingTextResponse />', () => {
   it('renders in practice mode', () => {
     const props = testProps();
-    const wrapper = shallow(<ResponseRenderer {...props} />);
+    const wrapper = shallow(<RevisingTextResponse {...props} />);
     
     expect(wrapper.find(TextField).props().disabled).to.equal(false);
     expect(wrapper.find(RaisedButton).props().label).to.equal('Save Response');
@@ -36,14 +37,14 @@ describe('<ResponseRenderer />', () => {
 
   it('renders differently in solution mode', () => {
     const props = testProps({ scaffolding: TestFixtures.solutionScaffolding });
-    const wrapper = shallow(<ResponseRenderer {...props} />);
+    const wrapper = shallow(<RevisingTextResponse {...props} />);
 
     expect(wrapper.find(RaisedButton).props().label).to.equal('Respond');
   });
 
   it('allows revision in practice mode', () => {
     const props = testProps();
-    const wrapper = shallow(<ResponseRenderer {...props} />);
+    const wrapper = shallow(<RevisingTextResponse {...props} />);
     
     wrapper.find(RaisedButton).simulate('touchTap');
     expect(wrapper.find(FeedbackCard).length).to.equal(1);
@@ -53,7 +54,7 @@ describe('<ResponseRenderer />', () => {
 
   it('submits response immediately in solution mode', () => {
     const props = testProps({ scaffolding: TestFixtures.solutionScaffolding });
-    const wrapper = shallow(<ResponseRenderer {...props} />);
+    const wrapper = shallow(<RevisingTextResponse {...props} />);
     const responseText = 'foo';
 
     wrapper.find(TextField).simulate('change', { target: { value: responseText } });
@@ -63,7 +64,6 @@ describe('<ResponseRenderer />', () => {
     expect(props.onResponseSubmitted.firstCall.args[0]).to.deep.equal({
       initialResponseText: responseText,
       finalResponseText: responseText,
-      elapsedMs: 0, // timer doesn't start since this is a shallow test
       didRevise: false
     });
   });

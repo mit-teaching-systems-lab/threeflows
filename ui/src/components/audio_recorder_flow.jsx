@@ -2,6 +2,15 @@
 import React from 'react';
 import AudioCapture from './audio_capture.jsx';
 
+type State = {
+  isRecording: bool,
+  haveRecorded: bool,
+  downloadUrl: ?string,
+  uploadState: 'idle' | 'pending' | 'done',
+  blob: ?Blob,
+  uploadedUrl: ?string
+};
+
 /*
 This is a state-machine UI for asking a user to:
 
@@ -14,7 +23,7 @@ corresponding to each state.
 
 */
 export default React.createClass({
-  displayName: 'AudioRecorder',
+  displayName: 'AudioRecorderFlow',
 
   propTypes: {
     url: React.PropTypes.string.isRequired,
@@ -23,10 +32,11 @@ export default React.createClass({
     recording: React.PropTypes.func.isRequired,
     processing: React.PropTypes.func,
     saving: React.PropTypes.func,
-    done: React.PropTypes.func.isRequired
+    done: React.PropTypes.func,
+    onDone: React.PropTypes.func.isRequired
   },
 
-  getInitialState() {
+  getInitialState():State {
     return {
       isRecording: false,
       haveRecorded: false,
@@ -38,7 +48,7 @@ export default React.createClass({
   },
 
 
-  uploadBlob(blob) {
+  uploadBlob(blob:Blob) {
     const {url} = this.props;
     const xhr = new XMLHttpRequest();
     xhr.open('POST', url);
@@ -48,7 +58,7 @@ export default React.createClass({
 
   // Determine which step we're at in the flow through
   // these states.
-  whichStep(state) {
+  whichStep(state:State) {
     const {
       isRecording,
       haveRecorded,
@@ -79,14 +89,15 @@ export default React.createClass({
     });
   },
 
-  onDoneCapture(blob) {
+  onDoneCapture(blob:Blob) {
     var downloadUrl = URL.createObjectURL(blob);
-    this.setState({ blob, downloadUrl });
+    this.setState({blob, downloadUrl});
   },
 
   onSubmit() {
     this.setState({ uploadState: 'pending' });
-    this.uploadBlob(this.state.blob);
+    const {blob} = this.state;
+    if (blob) this.uploadBlob(blob);
   },
 
   onRetry() {
@@ -97,11 +108,12 @@ export default React.createClass({
   },
 
   onDoneUploading(event) {
-    const {url} = JSON.parse(event.target.response);
+    const uploadedUrl = JSON.parse(event.target.response).url;
     this.setState({
+      uploadedUrl,
       uploadState: 'done',
-      uploadedUrl: url
     });
+    this.props.onDone({uploadedUrl});
   },
 
   render() {
@@ -147,6 +159,7 @@ export default React.createClass({
 
   renderDone() {
     const {uploadedUrl} = this.state;
+    if (!this.props.done) return null;
     return this.props.done({uploadedUrl});
   }
 });
