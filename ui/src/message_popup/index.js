@@ -6,7 +6,6 @@ import ExplorationPage from './exploration_page.jsx';
 import ScoringPage from './scoring_page.jsx';
 import EvaluationViewerPage from './evaluation_viewer_page.jsx';
 import MessageEvaluationCard from './message_evaluation_card.jsx';
-import AudioFlowPrototype from './audio_flow_prototype.jsx';
 
 
 
@@ -29,6 +28,5 @@ export {
   ExplorationPage,
   ScoringPage,
   EvaluationViewerPage,
-  MessageEvaluationCard,
-  AudioFlowPrototype
+  MessageEvaluationCard
 };

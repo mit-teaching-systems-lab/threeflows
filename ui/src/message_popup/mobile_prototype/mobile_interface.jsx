@@ -7,7 +7,7 @@ import _ from 'lodash';
 import SetIntervalMixin from '../../helpers/set_interval_mixin.js';
 import TextBody from './text_body_component.jsx';
 import TextFooter from './text_footer_component.jsx';
-import type {Response} from '../popup_question.jsx';
+import type {RevisingTextResponseT} from '../popup_question.jsx';
 
 //material-ui imports
 import FlatButton from 'material-ui/FlatButton';
@@ -164,7 +164,7 @@ export default React.createClass({
     const {question, scaffolding} = this.props;
     const {shouldShowStudentCard, helpType} = scaffolding;
     const {finalResponseText} = params;
-    const response:Response = {
+    const response:RevisingTextResponseT = {
       question,
       shouldShowStudentCard,
       helpType,

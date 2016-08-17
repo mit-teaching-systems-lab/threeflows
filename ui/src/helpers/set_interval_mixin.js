@@ -1,12 +1,15 @@
 /* @flow */
 export default {
-  componentWillMount: function() {
+  componentWillMount() {
     this.intervals = [];
   },
-  setInterval: function() {
+  setInterval() {
     this.intervals.push(window.setInterval.apply(null, arguments));
   },
-  componentWillUnmount: function() {
+  clearIntervals() {
     this.intervals.forEach(window.clearInterval);
+  },
+  componentWillUnmount() {
+    this.clearIntervals();
   }
 };

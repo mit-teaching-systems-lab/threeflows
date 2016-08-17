@@ -41,20 +41,21 @@ class WilliamRecorder {
   }
 
   stop(onBlobReady) {
-    // hack: add an async tick here, to allow state.audioBuffer
-    // to be set after stopping.
     const auo = this.auo;
     if (!auo) return this._error('Unexpected state: auo', auo);
     if (this.onBlobReady) return this._error('Unexpected state: this.onBlobReady', this.onBlobReady);
 
     this.onBlobReady = onBlobReady;
-    auo.stop();
-    window.setTimeout(() => {
-      // force offline mode to just get the blob ourselves
-      auo.setOnline(false);
-      auo.save();
-    }, 100);
+    auo.stop(this._onAudioProcessed.bind(this));
+  }
 
+  // Force offline mode to just get the blob ourselves
+  _onAudioProcessed() {
+    const auo = this.auo;
+    if (!auo) return this._error('Unexpected state: auo', auo);
+
+    auo.setOnline(false);
+    auo.save();
   }
   
   _onSaveWhenOffline(blob) {

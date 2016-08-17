@@ -13,7 +13,7 @@ import MenuItem from 'material-ui/MenuItem';
 
 import PopupQuestion from './popup_question.jsx';
 import * as Routes from '../routes';
-import type {Response} from './popup_question.jsx';
+import type {ResponseT} from './popup_question.jsx';
 
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 
@@ -76,7 +76,7 @@ export default React.createClass({
     this.setState(this.getInitialState());
   },
 
-  onLog(type, response:Response) {
+  onLog(type, response:ResponseT) {
     Api.logEvidence(type, {
       ...response,
       name: this.state.gameSession.email,
