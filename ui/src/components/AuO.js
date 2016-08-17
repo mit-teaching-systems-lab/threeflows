@@ -76,7 +76,12 @@ export function AuO(/* SAVE_URL = null, SAVE_CALLBACK = null, LOCAL_SAVE_CALLBAC
         onRecordClicked();
     },
 
-    this.stop = function () {
+    // Stopping the recording takes some time to post-process
+    // before the audio buffer is available.  So for example if
+    // you want to get a blob of the recorded audio, you can use
+    // this callback to know when it's available.
+    this.stop = function (onDonePostProcessing) {
+        state.onDonePostProcessing = onDonePostProcessing;
         onStopClicked();
     },
 
@@ -109,6 +114,7 @@ export function AuO(/* SAVE_URL = null, SAVE_CALLBACK = null, LOCAL_SAVE_CALLBAC
 
     const state = {
         running: false,
+        onDonePostProcessing: null
     };
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -601,12 +607,13 @@ export function AuO(/* SAVE_URL = null, SAVE_CALLBACK = null, LOCAL_SAVE_CALLBAC
             state.data.push(data);
             state.dataUpdated = true;
         } else if (endRecording) {
-            setTimeout(function () {
+            setTimeout(() => {
                 endAudioRecording();
 
                 // Reset UI to indicate that post-processing of recording has completed.
                 editorMode(true);
                 idleControls();
+                if (state.onDonePostProcessing) state.onDonePostProcessing();
             }, 0);
         }
     };
