@@ -41,11 +41,14 @@ export default React.createClass({
   },
 
   render() {
+    const {initialResponseText} = this.props;
+    const {finalResponseText, example} = this.state;
+
     return (<div>
       <div style={{margin: 10}}><Divider /></div>
       <div style={styles.exampleBox}>
         <div style={styles.exampleTitle}>Good Example</div>
-        <div style={styles.exampleText}>{this.state.example}</div>
+        <div style={styles.exampleText}>{example}</div>
       </div>  
       <div style={{margin: 10}}><Divider /></div>
         
@@ -56,7 +59,7 @@ export default React.createClass({
           underlineShow={false}
           floatingLabelText='Revise your response'
           onChange={this.onTextChanged}
-          defaultValue={this.props.initialResponseText}
+          defaultValue={initialResponseText}
           multiLine={true} 
           rows={2}/>
       </div>
@@ -65,6 +68,7 @@ export default React.createClass({
           onTouchTap={this.onRevise}
           style={styles.button}
           secondary={true}
+          disabled={_.isEqual(initialResponseText, finalResponseText)}
           label='Revise Response'/>
         <RaisedButton
           onTouchTap={this.onPass}
