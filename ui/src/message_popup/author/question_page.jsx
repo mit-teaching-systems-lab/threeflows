@@ -1,5 +1,4 @@
 /* @flow weak */
-/* eslint no-console: "off" */
 import React from 'react';
 import _ from 'lodash';
 import VelocityTransitionGroup from 'velocity-react/velocity-transition-group';
@@ -10,7 +9,6 @@ import * as EditingComponents from './question_editing_components/editing_compon
 import {allStudents} from '../../data/virtual_school.js';
 import {indicators} from '../../data/indicators.js';
 import * as Routes from '../../routes.js';
-import * as Api from '../../helpers/api.js';
 
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
@@ -115,6 +113,7 @@ export default React.createClass({
       indicatorId: this.state.indicator.id,
       indidcator: this.state.indicator
     };
+    if(this.props.onEditQuestion === undefined) return;
     this.props.onEditQuestion(newQuestion, originalQuestion);
     this.onReturnToQuestions();
   },
@@ -129,6 +128,7 @@ export default React.createClass({
       indicatorId: this.state.indicator.id,
       indidcator: this.state.indicator
     };
+    if(this.props.onCreateQuestion === undefined) return;
     this.props.onCreateQuestion(newQuestion);
     this.onReturnToQuestions();
   },
@@ -139,6 +139,7 @@ export default React.createClass({
   },
 
   onDeleteQuestion(){
+    if(this.props.onDeleteQuestion === undefined) return;
     const {originalQuestion} = this.props;
     this.props.onDeleteQuestion(originalQuestion);
     this.onReturnToQuestions();

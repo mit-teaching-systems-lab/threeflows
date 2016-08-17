@@ -1,4 +1,4 @@
-/* @flow weak */
+/* eslint no-console: "off" */
 import React from 'react';
 import _ from 'lodash';
 
@@ -13,7 +13,8 @@ export default React.createClass({
   propTypes: {
     questionId: React.PropTypes.string.isRequired,
     loaded: React.PropTypes.bool,
-    allQuestions: React.PropTypes.object
+    allQuestions: React.PropTypes.object,
+    onReloadQuestions: React.PropTypes.func
   },
 
   componentDidMount(){
@@ -23,7 +24,8 @@ export default React.createClass({
   getNewID(){
     const {allQuestions} = this.props;
     const allQuestionsFlat = allQuestions.currentQuestions.concat(allQuestions.archivedQuestions);
-    const largestID = _.maxBy(allQuestionsFlat, question => question.id).id;
+    const mostRecentQuestion = _.maxBy(allQuestionsFlat, question => question.id);
+    const largestID = mostRecentQuestion !== undefined ? mostRecentQuestion.id : 0;
     return largestID + 1;
   },
 

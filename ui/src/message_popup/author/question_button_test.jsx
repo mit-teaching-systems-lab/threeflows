@@ -1,11 +1,10 @@
 import React from 'react';
-import {mount, shallow, render} from 'enzyme';
+import {shallow} from 'enzyme';
 import {expect} from 'chai';
 
 import QuestionButton from './question_button.jsx';
 import {testQuestion} from '../test_fixtures.js';
 import {ListItem} from 'material-ui/List';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 describe('<QuestionButton />', () => {
   it('can shallow render with question text', () => {
