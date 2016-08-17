@@ -73,7 +73,7 @@ export default React.createClass({
   },
 
   onDone() {
-    this.props.onDone(this.state.response.elapsedMs / 1000);
+    this.props.onDone(this.state.response.elapsedMs);
   },
 
   render() {
