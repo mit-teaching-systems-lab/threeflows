@@ -23,7 +23,6 @@ export default React.createClass({
 
   propTypes: {
     originalQuestion: React.PropTypes.object,
-    allQuestions: React.PropTypes.object.isRequired,
     loaded: React.PropTypes.bool.isRequired,
     onEditQuestion: React.PropTypes.func,
     onDeleteQuestion: React.PropTypes.func,

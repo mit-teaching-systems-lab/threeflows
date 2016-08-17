@@ -58,7 +58,6 @@ export default React.createClass({
       <div>
         {!loaded &&
           <QuestionPage
-            allQuestions={allQuestions}
             loaded={false}
             onEditQuestion={this.onEditQuestion}
             onDeleteQuestion={this.onDeleteQuestion}
@@ -67,7 +66,6 @@ export default React.createClass({
         {loaded &&
           <QuestionPage 
             originalQuestion={originalQuestion}
-            allQuestions={allQuestions}
             loaded={true}
             onEditQuestion={this.onEditQuestion}
             onDeleteQuestion={this.onDeleteQuestion}
