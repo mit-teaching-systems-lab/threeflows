@@ -21,28 +21,27 @@ import NavigationAppBar from '../../components/navigation_app_bar.jsx';
 import QuestionButton from './question_button.jsx';
 import ArchivedQuestionButton from './archived_question_button.jsx';
 
-import {allQuestions} from '../questions.js';
 import {allArchivedQuestions} from './archived_questions.js';
 import {withStudents, withIndicator} from '../transformations.jsx';
 
 export default React.createClass({
   displayName: 'QuestionsPage',
 
+  propTypes: {
+    loaded: React.PropTypes.bool,
+    allQuestions: React.PropTypes.object
+  },
+
   getInitialState(){
     return ({
-      loaded: false,
       searchText: '',
-      allDatabaseQuestions: {
-        currentQuestions: allQuestions,
-        archivedQuestions: allArchivedQuestions
-      },
       showArchivedQuestions: false,
       selectedArchivedQuestion: null
     });
   },
 
   componentDidMount(){
-    Api.questionsQuery().end(this.onQuestionsReceived);
+    this.props.onReloadQuestions();
   },
 
   getQuestionString(question){
@@ -77,34 +76,28 @@ export default React.createClass({
   },
 
   getAllSearchResults(){
+    const {allQuestions} = this.props;
     const {searchText} = this.state;
-    if(searchText === '') return this.state.allDatabaseQuestions;
-    const currentQuestions = this.getSearchResults(searchText, this.state.allDatabaseQuestions.currentQuestions);
-    const archivedQuestions = this.getSearchResults(searchText, this.state.allDatabaseQuestions.archivedQuestions);
+    if(searchText === '') return allQuestions;
+    const currentQuestions = this.getSearchResults(searchText, allQuestions.currentQuestions);
+    const archivedQuestions = this.getSearchResults(searchText, allQuestions.archivedQuestions);
     return {currentQuestions, archivedQuestions};
   },
 
-  onQuestionsReceived(err, response){
-    const questions = JSON.parse(response.text).questions;
-    if(questions !== undefined){
-      this.setState({loaded: true, allDatabaseQuestions: questions});
-      return;
-    }
-    this.setState({loaded: true});
-  },
 
   onNewQuestion(){
     Routes.navigate(Routes.messagePopupAuthorQuestionsNewPath());
   },
 
   onQuestionRestore(){
+    const {allQuestions, onReloadQuestions} = this.props;
     const {selectedArchivedQuestion} = this.state;
     if(selectedArchivedQuestion !== null){
-      const archivedQuestions = this.state.allDatabaseQuestions.archivedQuestions.filter(question => question.id !== selectedArchivedQuestion.id);
-      const currentQuestions = this.state.allDatabaseQuestions.currentQuestions.concat(selectedArchivedQuestion);
-      const allDatabaseQuestions = {currentQuestions, archivedQuestions};
-      Api.saveQuestions(allDatabaseQuestions);
-      this.setState({allDatabaseQuestions, selectedArchivedQuestion: null});
+      const archivedQuestions = allQuestions.archivedQuestions.filter(question => question.id !== selectedArchivedQuestion.id);
+      const currentQuestions = allQuestions.currentQuestions.concat(selectedArchivedQuestion);
+      Api.saveQuestions({currentQuestions, archivedQuestions});
+      onReloadQuestions();
+      this.setState({selectedArchivedQuestion: null});
     }
   },
 
@@ -118,7 +111,8 @@ export default React.createClass({
   },
 
   render(){
-    const {selectedArchivedQuestion, loaded} = this.state;
+    const {loaded} = this.props;
+    const {selectedArchivedQuestion} = this.state;
     const {currentQuestions, archivedQuestions} = this.getAllSearchResults();
     return(
       <div>

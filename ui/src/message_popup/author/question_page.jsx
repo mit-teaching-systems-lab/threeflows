@@ -26,7 +26,10 @@ export default React.createClass({
   propTypes: {
     originalQuestion: React.PropTypes.object,
     allQuestions: React.PropTypes.object.isRequired,
-    loaded: React.PropTypes.bool.isRequired
+    loaded: React.PropTypes.bool.isRequired,
+    onEditQuestion: React.PropTypes.func,
+    onDeleteQuestion: React.PropTypes.func,
+    onCreateQuestion: React.PropTypes.func
   },
 
   getInitialState() {
@@ -101,60 +104,32 @@ export default React.createClass({
     this.setState({indicator: _.find(indicators, indicator => indicator.id.toString() === value)});
   },
 
-  onSaveEdit(){
-    console.log("");
-    console.log("Saving the following new question:");
-    const studentIds = this.state.students.map(student => student.id);
-    const text = this.state.questionText;
-    const {originalQuestion} = this.props;
+  onEditQuestion(){
     const {goodExamples, badExamples} = this.getExamples();
-    var {currentQuestions, archivedQuestions} = this.props.allQuestions;
-    const mostRecentQuestion = _.maxBy(currentQuestions.concat(archivedQuestions), question => question.id);
-    const id = (mostRecentQuestion !== undefined ? mostRecentQuestion.id : 0) + 1;
-    const question = {
-      studentIds,
-      id,
-      text,
+    const {originalQuestion} = this.props;
+    const newQuestion = {
+      studentIds: this.state.students.map(student => student.id),
+      text: this.state.questionText,
       examples: goodExamples,
       nonExamples: badExamples,
       indicatorId: this.state.indicator.id,
-      indicator: this.state.indicator,
+      indidcator: this.state.indicator
     };
-    if(originalQuestion !== undefined){
-      currentQuestions = currentQuestions.filter(questionInner => questionInner.id !== originalQuestion.id).concat(question);
-      archivedQuestions = archivedQuestions.concat(originalQuestion);
-    }
-    console.log(question);
-    console.log("Also deleting and archiving the following question:");
-    console.log(originalQuestion);
-    console.log("");
-    Api.saveQuestions({currentQuestions, archivedQuestions});
-    this.setState({currentQuestions, archivedQuestions});
+    this.props.onEditQuestion(newQuestion, originalQuestion);
     this.onReturnToQuestions();
   },
 
-  onCreate(){
-    console.log("");
-    console.log("Creating the following new question:");
-    const studentIds = this.state.students.map(student => student.id);
-    const text = this.state.questionText;
+  onCreateQuestion(){
     const {goodExamples, badExamples} = this.getExamples();
-    var {currentQuestions, archivedQuestions} = this.props.allQuestions;
-    const mostRecentQuestion = _.maxBy(currentQuestions.concat(archivedQuestions), question => question.id);
-    const id = (mostRecentQuestion !== undefined ? mostRecentQuestion.id : 0) + 1;
-    const question = {
-      studentIds,
-      id,
-      text,
+    const newQuestion = {
+      studentIds: this.state.students.map(student => student.id),
+      text: this.state.questionText,
       examples: goodExamples,
       nonExamples: badExamples,
       indicatorId: this.state.indicator.id,
-      indicator: this.state.indicator,
+      indidcator: this.state.indicator
     };
-    currentQuestions = currentQuestions.concat(question);
-    console.log(question);
-    Api.saveQuestions({currentQuestions, archivedQuestions});
-    this.setState({currentQuestions, archivedQuestions});
+    this.props.onCreateQuestion(newQuestion);
     this.onReturnToQuestions();
   },
 
@@ -164,18 +139,8 @@ export default React.createClass({
   },
 
   onDeleteQuestion(){
-    console.log("");
-    console.log("Deleting and archiving the following question:");
     const {originalQuestion} = this.props;
-    console.log(originalQuestion);
-    console.log("");
-    var {currentQuestions, archivedQuestions} = this.props.allQuestions;
-    if(originalQuestion !== undefined){
-      currentQuestions = currentQuestions.filter(questionInner => questionInner.id !== originalQuestion.id);
-      archivedQuestions = archivedQuestions.concat(originalQuestion);
-    }
-    Api.saveQuestions({currentQuestions, archivedQuestions});
-    this.setState({currentQuestions, archivedQuestions});
+    this.props.onDeleteQuestion(originalQuestion);
     this.onReturnToQuestions();
   },
 
@@ -249,7 +214,7 @@ export default React.createClass({
               label="Save"
               primary={true}
               disabled={!this.saveCheckPassed()}
-              onTouchTap={this.onSaveEdit}
+              onTouchTap={this.onEditQuestion}
               />
             <RaisedButton
               style={styles.finalButton}
@@ -267,7 +232,7 @@ export default React.createClass({
               label="Create"
               primary={true}
               disabled={!this.saveCheckPassed()}
-              onTouchTap={this.onCreate}
+              onTouchTap={this.onCreateQuestion}
               />
           </div>
         }
