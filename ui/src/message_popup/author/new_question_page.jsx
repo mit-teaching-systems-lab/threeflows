@@ -1,44 +1,46 @@
 import React from 'react';
+import _ from 'lodash';
 
 import QuestionPage from './question_page.jsx';
-import {allArchivedQuestions} from './archived_questions.js';
-import {allQuestions} from '../questions.js';
 import * as Api from '../../helpers/api.js';
 
 
 export default React.createClass({
   displayName: 'NewQuestionPage',
 
-  getInitialState(){
-    return ({
-      loaded: false,
-      allDatabaseQuestions: {
-        currentQuestions: allQuestions,
-        archivedQuestions: allArchivedQuestions
-      }
-    });
+  propTypes: {
+    loaded: React.PropTypes.bool,
+    allQuestions: React.PropTypes.object
   },
 
   componentDidMount(){
-    Api.questionsQuery().end(this.onQuestionsReceived);
+    this.props.onReloadQuestions();
   },
 
-  onQuestionsReceived(err, response){
-    const questions = JSON.parse(response.text).questions;
-    if(questions !== undefined){
-      this.setState({loaded: true, allDatabaseQuestions: questions});
-      return;
-    }
-    this.setState({loaded: true});
+  getNewID(){
+    const {allQuestions} = this.props;
+    const allQuestionsFlat = allQuestions.currentQuestions.concat(allQuestions.archivedQuestions);
+    const largestID = _.maxBy(allQuestionsFlat, question => question.id).id;
+    return largestID + 1;
+  },
+
+  onCreateQuestion(newQuestion){
+    const {currentQuestions, archivedQuestions} = this.props.allQuestions;
+    const question = {id: this.getNewID(), ...newQuestion};
+    const newCurrentQuestions = currentQuestions.concat(question);
+    console.log('Creating new question...');
+    console.log(question);
+    Api.saveQuestions({currentQuestions: newCurrentQuestions, archivedQuestions});
   },
 
   render(){
-    const {loaded, allDatabaseQuestions} = this.state;
+    const {loaded, allQuestions} = this.props;
     return (
       <div>
         <QuestionPage
-          allQuestions={allDatabaseQuestions}
+          allQuestions={allQuestions}
           loaded={loaded}
+          onCreateQuestion={this.onCreateQuestion}
           />
       </div>
     );
