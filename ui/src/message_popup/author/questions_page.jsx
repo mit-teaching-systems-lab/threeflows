@@ -1,6 +1,6 @@
-/* @flow weak */
 import React from 'react';
 
+import * as Api from '../../helpers/api.js';
 import * as Routes from '../../routes.js';
 
 import TextField from 'material-ui/TextField';
@@ -20,19 +20,27 @@ import NavigationAppBar from '../../components/navigation_app_bar.jsx';
 import QuestionButton from './question_button.jsx';
 import ArchivedQuestionButton from './archived_question_button.jsx';
 
-import {allQuestions} from '../questions.js';
-import {allArchivedQuestions} from './archived_questions.js';
 import {withStudents, withIndicator} from '../transformations.jsx';
 
 export default React.createClass({
   displayName: 'QuestionsPage',
 
+  propTypes: {
+    loaded: React.PropTypes.bool,
+    allQuestions: React.PropTypes.object,
+    onReloadQuestions: React.PropTypes.func
+  },
+
   getInitialState(){
     return ({
-      questions: allQuestions,
+      searchText: '',
       showArchivedQuestions: false,
       selectedArchivedQuestion: null
     });
+  },
+
+  componentDidMount(){
+    this.props.onReloadQuestions();
   },
 
   getQuestionString(question){
@@ -59,18 +67,42 @@ export default React.createClass({
     return questionString.split(text).length;
   },
   
+  getSearchResults(text, list){
+    const results = list
+      .filter(question => this.searchQuestionForText(text, question))
+      .sort(question => this.countTextOccurrences(text, question));
+    return results;
+  },
+
+  getAllSearchResults(){
+    const {allQuestions} = this.props;
+    const {searchText} = this.state;
+    if(searchText === '') return allQuestions;
+    const currentQuestions = this.getSearchResults(searchText, allQuestions.currentQuestions);
+    const archivedQuestions = this.getSearchResults(searchText, allQuestions.archivedQuestions);
+    return {currentQuestions, archivedQuestions};
+  },
+
+
   onNewQuestion(){
     Routes.navigate(Routes.messagePopupAuthorQuestionsNewPath());
   },
 
+  onQuestionRestore(){
+    const {allQuestions, onReloadQuestions} = this.props;
+    const {selectedArchivedQuestion} = this.state;
+    if(selectedArchivedQuestion !== null){
+      const archivedQuestions = allQuestions.archivedQuestions.filter(question => question.id !== selectedArchivedQuestion.id);
+      const currentQuestions = allQuestions.currentQuestions.concat(selectedArchivedQuestion);
+      Api.saveQuestions({currentQuestions, archivedQuestions});
+      onReloadQuestions();
+      this.setState({selectedArchivedQuestion: null});
+    }
+  },
+
   onSearchBarChange(event){
     const value = event.target.value.toLowerCase().trim();
-    if(value === ''){
-      this.setState({questions: allQuestions});
-      return;
-    }
-    const questions = allQuestions.filter(questionOriginal => this.searchQuestionForText(value, questionOriginal)).sort(questionOriginal => this.countTextOccurrences(value, questionOriginal));
-    this.setState({questions});
+    this.setState({searchText: value});
   },
 
   onTouchArchivedQuestion(question){
@@ -78,7 +110,9 @@ export default React.createClass({
   },
 
   render(){
+    const {loaded} = this.props;
     const {selectedArchivedQuestion} = this.state;
+    const {currentQuestions, archivedQuestions} = this.getAllSearchResults();
     return(
       <div>
         <NavigationAppBar
@@ -107,7 +141,7 @@ export default React.createClass({
           <Divider />
           <div style={styles.questionsContainer}>
             <Paper rounded={false}>
-              {this.state.questions.map(question => {
+              {loaded && currentQuestions.map(question => {
                 return (
                  <QuestionButton question={question} key={question.id} />
                  );
@@ -120,7 +154,7 @@ export default React.createClass({
                 showExpandableButton={true}/>
               <CardText expandable={true}>
                 <div>
-                  {allArchivedQuestions.map(question => 
+                  {loaded && archivedQuestions.map(question => 
                     <ArchivedQuestionButton 
                       question={question}
                       onTouchQuestion={this.onTouchArchivedQuestion}
@@ -139,7 +173,7 @@ export default React.createClass({
             actions={[
               <div style={{padding: 0, margin: 0, display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-around'}}>
                 <FlatButton label="Cancel" onTouchTap={function(){this.setState({selectedArchivedQuestion: null});}.bind(this)} />
-                <FlatButton label="Restore" style={styles.selectionRestoreButton}/>
+                <FlatButton label="Restore" onTouchTap={this.onQuestionRestore} style={styles.selectionRestoreButton}/>
               </div>
             ]}>
             <div style={styles.dialogTitle}>Question #{selectedArchivedQuestion.id}</div>

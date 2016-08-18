@@ -1,5 +1,4 @@
 /* @flow weak */
-/* eslint no-console: "off" */
 import React from 'react';
 import _ from 'lodash';
 import VelocityTransitionGroup from 'velocity-react/velocity-transition-group';
@@ -7,7 +6,6 @@ import 'velocity-animate/velocity.ui';
 
 import * as EditingComponents from './question_editing_components/editing_component.jsx';
 
-import {allQuestions} from '../questions.js';
 import {allStudents} from '../../data/virtual_school.js';
 import {indicators} from '../../data/indicators.js';
 import * as Routes from '../../routes.js';
@@ -25,6 +23,10 @@ export default React.createClass({
 
   propTypes: {
     originalQuestion: React.PropTypes.object,
+    loaded: React.PropTypes.bool.isRequired,
+    onEditQuestion: React.PropTypes.func,
+    onDeleteQuestion: React.PropTypes.func,
+    onCreateQuestion: React.PropTypes.func
   },
 
   getInitialState() {
@@ -36,7 +38,7 @@ export default React.createClass({
       goodExamplesText: question !== undefined ? question.examples.join('\n\n') : "",
       badExamplesText: question !== undefined ? question.nonExamples.join('\n\n') : "",
       deleteConfirmationOpen: false,
-      availableStudentList: question !== undefined ? allStudents.filter(student => !question.studentIds.includes(student.id)) : allStudents
+      availableStudentList: question !== undefined ? allStudents.filter(student => !question.studentIds.includes(student.id)) : allStudents,
     });
   },
 
@@ -99,46 +101,34 @@ export default React.createClass({
     this.setState({indicator: _.find(indicators, indicator => indicator.id.toString() === value)});
   },
 
-  onSaveEdit(){
-    console.log("");
-    console.log("Saving the following new question:");
-    const studentIds = this.state.students.map(student => student.id);
-    const text = this.state.questionText;
+  onEditQuestion(){
     const {goodExamples, badExamples} = this.getExamples();
-    const id = _.maxBy(allQuestions, question => question.id).id + 1;
-    const question = {
-      studentIds,
-      id,
-      text,
+    const {originalQuestion} = this.props;
+    const newQuestion = {
+      studentIds: this.state.students.map(student => student.id),
+      text: this.state.questionText,
       examples: goodExamples,
       nonExamples: badExamples,
       indicatorId: this.state.indicator.id,
-      indicator: this.state.indicator,
+      indicator: this.state.indicator
     };
-    console.log(question);
-    console.log("Also deleting and archiving the following question:");
-    console.log(this.props.originalQuestion);
-    console.log("");
+    if(this.props.onEditQuestion === undefined) return;
+    this.props.onEditQuestion(newQuestion, originalQuestion);
     this.onReturnToQuestions();
   },
 
-  onCreate(){
-    console.log("");
-    console.log("Creating the following new question:");
-    const studentIds = this.state.students.map(student => student.id);
-    const text = this.state.questionText;
+  onCreateQuestion(){
     const {goodExamples, badExamples} = this.getExamples();
-    const id = _.maxBy(allQuestions, question => question.id).id + 1;
-    const question = {
-      studentIds,
-      id,
-      text,
+    const newQuestion = {
+      studentIds: this.state.students.map(student => student.id),
+      text: this.state.questionText,
       examples: goodExamples,
       nonExamples: badExamples,
       indicatorId: this.state.indicator.id,
-      indicator: this.state.indicator,
+      indicator: this.state.indicator
     };
-    console.log(question);
+    if(this.props.onCreateQuestion === undefined) return;
+    this.props.onCreateQuestion(newQuestion);
     this.onReturnToQuestions();
   },
 
@@ -148,64 +138,68 @@ export default React.createClass({
   },
 
   onDeleteQuestion(){
-    console.log("");
-    console.log("Deleting and archiving the following question:");
-    console.log(this.props.originalQuestion);
-    console.log("");
+    if(this.props.onDeleteQuestion === undefined) return;
+    const {originalQuestion} = this.props;
+    this.props.onDeleteQuestion(originalQuestion);
     this.onReturnToQuestions();
   },
 
   render(){
+    const {loaded, originalQuestion} = this.props;
+    const {questionText, students, goodExamplesText, badExamplesText, indicator, deleteConfirmationOpen} = this.state;
+    const title = originalQuestion !== undefined ? `Editing Question #${originalQuestion.id}` : loaded ? 'New Question' : '';
     return (
       <div>
         <AppBar 
-          title={this.props.originalQuestion !== undefined ? `Editing Question #${this.props.originalQuestion.id}` : 'New Question'}
+          title={title}
           iconElementLeft={<IconButton onTouchTap={this.onReturnToQuestions}><ArrowBackIcon /></IconButton>}
           />
-        <div style={styles.container}>
-          <VelocityTransitionGroup enter={{animation: 'transition.fadeIn'}} runOnMount={true}>
-            <EditingComponents.QuestionText 
-              originalText={this.props.originalQuestion !== undefined ? this.props.originalQuestion.text : undefined}
-              questionText={this.state.questionText}
-              onQuestionTextChange={this.onQuestionTextChange}
-              />
-            <EditingComponents.Students 
-              students={this.state.students}
-              addStudent={this.addStudent}
-              removeStudent={this.removeStudent}
-              availableStudentList={this.state.availableStudentList}
-              />
-            <EditingComponents.Examples 
-              type="Good"
-              examplesText={this.state.goodExamplesText}
-              onExamplesChange={this.onGoodExamplesChange}
-              />
-            <EditingComponents.Examples 
-              type="Bad"
-              examplesText={this.state.badExamplesText}
-              onExamplesChange={this.onBadExamplesChange}
-              />
-            <EditingComponents.Indicators 
-              indicator={this.state.indicator}
-              onIndicatorChange={this.onIndicatorChange}
-              />
-            {this.renderButtons()}
-          </VelocityTransitionGroup>
-          <Dialog 
-            open={this.state.deleteConfirmationOpen}
-            actions={[
-              <FlatButton
-                label="Cancel"
-                onTouchTap={this.closeDeleteConfirmation}/>,
-              <FlatButton
-                label="Delete"
-                style={{color: "#CA2300"}}
-                onTouchTap={this.onDeleteButtonClicked}/>
-            ]}
-            onRequestClose={this.closeDeleteConfirmation}>
-            Deleting this will archive the deleted question. Are you sure you wish to continue?
-          </Dialog>
-        </div>
+        {loaded &&
+          <div style={styles.container}>
+            <VelocityTransitionGroup enter={{animation: 'transition.fadeIn'}} runOnMount={true}>
+              <EditingComponents.QuestionText 
+                originalText={originalQuestion !== undefined ? originalQuestion.text : undefined}
+                questionText={questionText}
+                onQuestionTextChange={this.onQuestionTextChange}
+                />
+              <EditingComponents.Students 
+                students={students}
+                addStudent={this.addStudent}
+                removeStudent={this.removeStudent}
+                availableStudentList={this.state.availableStudentList}
+                />
+              <EditingComponents.Examples 
+                type="Good"
+                examplesText={goodExamplesText}
+                onExamplesChange={this.onGoodExamplesChange}
+                />
+              <EditingComponents.Examples 
+                type="Bad"
+                examplesText={badExamplesText}
+                onExamplesChange={this.onBadExamplesChange}
+                />
+              <EditingComponents.Indicators 
+                indicator={indicator}
+                onIndicatorChange={this.onIndicatorChange}
+                />
+              {this.renderButtons()}
+            </VelocityTransitionGroup>
+            <Dialog 
+              open={deleteConfirmationOpen}
+              actions={[
+                <FlatButton
+                  label="Cancel"
+                  onTouchTap={this.closeDeleteConfirmation}/>,
+                <FlatButton
+                  label="Delete"
+                  style={{color: "#CA2300"}}
+                  onTouchTap={this.onDeleteButtonClicked}/>
+              ]}
+              onRequestClose={this.closeDeleteConfirmation}>
+              Deleting this will archive the deleted question. Are you sure you wish to continue?
+            </Dialog>
+          </div>
+        }
       </div>
     );
   },
@@ -220,7 +214,7 @@ export default React.createClass({
               label="Save"
               primary={true}
               disabled={!this.saveCheckPassed()}
-              onTouchTap={this.onSaveEdit}
+              onTouchTap={this.onEditQuestion}
               />
             <RaisedButton
               style={styles.finalButton}
@@ -238,7 +232,7 @@ export default React.createClass({
               label="Create"
               primary={true}
               disabled={!this.saveCheckPassed()}
-              onTouchTap={this.onCreate}
+              onTouchTap={this.onCreateQuestion}
               />
           </div>
         }
