@@ -27,12 +27,23 @@ export default React.createClass({
 
   propTypes: {
     loaded: React.PropTypes.bool,
-    allQuestions: React.PropTypes.object,
-    onReloadQuestions: React.PropTypes.func
+    allQuestions: React.PropTypes.object
+  },
+
+  getDefaultProps(){
+    return ({
+      loaded: false,
+      allQuestions: {
+        currentQuestions: [],
+        archivedQuestions: []
+      }
+    });
   },
 
   getInitialState(){
     return ({
+      loaded: this.props.loaded,
+      allQuestions: this.props.allQuestions,
       searchText: '',
       showArchivedQuestions: false,
       selectedArchivedQuestion: null
@@ -40,7 +51,11 @@ export default React.createClass({
   },
 
   componentDidMount(){
-    this.props.onReloadQuestions();
+    this.queryDatabase();
+  },
+
+  queryDatabase(){
+    Api.questionsQuery().end(this.onQuestionsReceived);
   },
 
   getQuestionString(question){
@@ -75,8 +90,7 @@ export default React.createClass({
   },
 
   getAllSearchResults(){
-    const {allQuestions} = this.props;
-    const {searchText} = this.state;
+    const {allQuestions, searchText} = this.state;
     if(searchText === '') return allQuestions;
     const currentQuestions = this.getSearchResults(searchText, allQuestions.currentQuestions);
     const archivedQuestions = this.getSearchResults(searchText, allQuestions.archivedQuestions);
@@ -88,14 +102,22 @@ export default React.createClass({
     Routes.navigate(Routes.messagePopupAuthorQuestionsNewPath());
   },
 
+  onQuestionsReceived(err, response){
+    if(err){
+      this.setState({loaded: true});
+      return;
+    }
+    const allQuestions = JSON.parse(response.text).questions;
+    this.setState({ loaded: true, allQuestions });
+  },
+
   onQuestionRestore(){
-    const {allQuestions, onReloadQuestions} = this.props;
-    const {selectedArchivedQuestion} = this.state;
+    const {allQuestions, selectedArchivedQuestion} = this.state;
     if(selectedArchivedQuestion !== null){
       const archivedQuestions = allQuestions.archivedQuestions.filter(question => question.id !== selectedArchivedQuestion.id);
       const currentQuestions = allQuestions.currentQuestions.concat(selectedArchivedQuestion);
       Api.saveQuestions({currentQuestions, archivedQuestions});
-      onReloadQuestions();
+      this.queryDatabase();
       this.setState({selectedArchivedQuestion: null});
     }
   },
@@ -110,8 +132,7 @@ export default React.createClass({
   },
 
   render(){
-    const {loaded} = this.props;
-    const {selectedArchivedQuestion} = this.state;
+    const {loaded, selectedArchivedQuestion} = this.state;
     const {currentQuestions, archivedQuestions} = this.getAllSearchResults();
     return(
       <div>

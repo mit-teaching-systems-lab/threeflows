@@ -13,24 +13,53 @@ export default React.createClass({
   propTypes: {
     questionId: React.PropTypes.string.isRequired,
     loaded: React.PropTypes.bool,
-    allQuestions: React.PropTypes.object,
-    onReloadQuestions: React.PropTypes.func
+    allQuestions: React.PropTypes.object
+  },
+
+  getDefaultProps(){
+    return ({
+      loaded: false,
+      allQuestions: {
+        currentQuestions: [],
+        archivedQuestions: []
+      }
+    });
+  },
+
+  getInitialState(){
+    return ({
+      loaded: this.props.loaded,
+      allQuestions: this.props.allQuestions
+    });
   },
 
   componentDidMount(){
-    this.props.onReloadQuestions();
+    this.queryDatabase();
+  },
+
+  queryDatabase(){
+    Api.questionsQuery().end(this.onQuestionsReceived);
   },
 
   getNewID(){
-    const {allQuestions} = this.props;
+    const {allQuestions} = this.state;
     const allQuestionsFlat = allQuestions.currentQuestions.concat(allQuestions.archivedQuestions);
     const mostRecentQuestion = _.maxBy(allQuestionsFlat, question => question.id);
     const largestID = mostRecentQuestion !== undefined ? mostRecentQuestion.id : 0;
     return largestID + 1;
   },
 
+  onQuestionsReceived(err, response){
+    if(err){
+      this.setState({loaded: true});
+      return;
+    }
+    const allQuestions = JSON.parse(response.text).questions;
+    this.setState({ loaded: true, allQuestions });
+  },
+
   onEditQuestion(newQuestion, originalQuestion){
-    const {currentQuestions, archivedQuestions} = this.props.allQuestions;
+    const {currentQuestions, archivedQuestions} = this.state.allQuestions;
     const question = {id: this.getNewID(), ...newQuestion};
     const newCurrentQuestions = currentQuestions.filter(question => question.id !== originalQuestion.id).concat(question);
     const newArchivedQuestions = archivedQuestions.concat(originalQuestion);
@@ -42,7 +71,7 @@ export default React.createClass({
   },
 
   onDeleteQuestion(originalQuestion){
-    const {currentQuestions, archivedQuestions} = this.props.allQuestions;
+    const {currentQuestions, archivedQuestions} = this.state.allQuestions;
     const newCurrentQuestions = currentQuestions.filter(question => question.id !== originalQuestion.id);
     const newArchivedQuestions = archivedQuestions.concat(originalQuestion);
     console.log('Archiving the question...');
@@ -51,7 +80,7 @@ export default React.createClass({
   },
 
   render(){
-    const {loaded, allQuestions} = this.props;
+    const {loaded, allQuestions} = this.state;
     const allQuestionsFlat =  allQuestions.currentQuestions.concat(allQuestions.archivedQuestions);
     const originalQuestion = _.find(withStudents(allQuestionsFlat).map(question => withIndicator(question)), question => question.id.toString() === this.props.questionId);
     return (

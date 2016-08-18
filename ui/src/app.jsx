@@ -18,7 +18,6 @@ import RawPage from './ecd/raw_page.jsx';
 import CandidatePage from './ecd/candidate_page.jsx';
 import EvaluatorPage from './ecd/evaluator_page.jsx';
 import * as MessagePopup from './message_popup/index.js';
-import QuestionsLoader from './message_popup/questions_loader.jsx';
 import {challenges, slates} from './challenge/challenges.js';
 
 
@@ -114,25 +113,19 @@ export default React.createClass({
 
   messagePopupAuthorQuestions(query = {}) {
     return (
-      <QuestionsLoader>
-        <MessagePopup.QuestionsPage />
-      </QuestionsLoader>
+      <MessagePopup.QuestionsPage />
     );
   },
 
   messagePopupAuthorQuestionsNew(query = {}){
     return (
-      <QuestionsLoader>
-        <MessagePopup.NewQuestionPage />
-      </QuestionsLoader>
+      <MessagePopup.NewQuestionPage />
     );
   },
 
   messagePopupAuthorQuestionsEdit(questionId, query = {}){
     return  (
-      <QuestionsLoader>
-        <MessagePopup.EditQuestionPage questionId={questionId}/>
-      </QuestionsLoader>
+      <MessagePopup.EditQuestionPage questionId={questionId}/>
     );
   },
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import {shallow} from 'enzyme';
-import sinon from 'sinon';
 import {expect} from 'chai';
 
 import QuestionsPage from './questions_page.jsx';
@@ -11,7 +10,6 @@ import {testQuestions} from '../test_fixtures.js';
 function testProps(props) {
   return {
     allQuestions: testQuestions,
-    onReloadQuestions: sinon.spy(),
     loaded: true,
     ...props
   };
