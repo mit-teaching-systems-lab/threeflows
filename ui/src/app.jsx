@@ -112,21 +112,15 @@ export default React.createClass({
   },
 
   messagePopupAuthorQuestions(query = {}) {
-    return (
-      <MessagePopup.QuestionsPage />
-    );
+    return <MessagePopup.QuestionsPage />;
   },
 
   messagePopupAuthorQuestionsNew(query = {}){
-    return (
-      <MessagePopup.NewQuestionPage />
-    );
+    return <MessagePopup.NewQuestionPage />;
   },
 
   messagePopupAuthorQuestionsEdit(questionId, query = {}){
-    return  (
-      <MessagePopup.EditQuestionPage questionId={questionId}/>
-    );
+    return <MessagePopup.EditQuestionPage questionId={questionId}/>;
   },
 
   cssTank(query = {}) {
