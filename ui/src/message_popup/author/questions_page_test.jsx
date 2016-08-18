@@ -18,27 +18,19 @@ function testProps(props) {
 }
 
 describe('<QuestionsPage />', ()=>{
-  it('renders current questions when loaded', ()=>{
+  it('renders questions when loaded', ()=>{
     const props = testProps();
     const wrapper = shallow(<QuestionsPage {...props} />);
     expect(wrapper.find(QuestionButton)).to.not.have.length(0);
-  });
-  it('does not render current questions when not loaded', ()=>{
-    const props = testProps({loaded: false});
-    const wrapper = shallow(<QuestionsPage {...props} />);
-    expect(wrapper.find(QuestionButton)).to.have.length(0);
-  });
-  it('renders archived questions when loaded', ()=>{
-    const props = testProps();
-    const wrapper = shallow(<QuestionsPage {...props} />);
     expect(wrapper.find(ArchivedQuestionButton)).to.not.have.length(0);
   });
-  it('does not render archived questions when not loaded', ()=>{
+  it('does not render questions when not loaded', ()=>{
     const props = testProps({loaded: false});
     const wrapper = shallow(<QuestionsPage {...props} />);
+    expect(wrapper.find(QuestionButton)).to.have.length(0);
     expect(wrapper.find(ArchivedQuestionButton)).to.have.length(0);
   });
-  it('does not render current questions when none exist', ()=>{
+  it('does not render questions when none exist', ()=>{
     const props = testProps({
       allQuestions: {
         currentQuestions: [],
@@ -47,15 +39,6 @@ describe('<QuestionsPage />', ()=>{
     });
     const wrapper = shallow(<QuestionsPage {...props} />);
     expect(wrapper.find(QuestionButton)).to.have.length(0);
-  });
-  it('does not render archived questions when none exist', ()=>{
-    const props = testProps({
-      allQuestions: {
-        currentQuestions: [],
-        archivedQuestions: []
-      }
-    });
-    const wrapper = shallow(<QuestionsPage {...props} />);
     expect(wrapper.find(ArchivedQuestionButton)).to.have.length(0);
   });
 });
