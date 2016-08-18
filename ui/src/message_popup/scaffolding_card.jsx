@@ -24,12 +24,12 @@ export default React.createClass({
       shouldShowSummary: React.PropTypes.bool.isRequired
     }).isRequired,
     initialEmail: React.PropTypes.string.isRequired,
-    itemsToShow: React.PropTypes.object.isRequired,
+    query: React.PropTypes.object.isRequired,
     onSessionConfigured: React.PropTypes.func.isRequired
   },
   
   getInitialState(){
-    const isSolutionMode = _.has(this.props.itemsToShow, 'solution');
+    const isSolutionMode = _.has(this.props.query, 'solution');
     return ({
       email: this.props.initialEmail,
       sessionLength: 10,
@@ -39,7 +39,8 @@ export default React.createClass({
         shouldShowSummary: this.props.scaffolding.shouldShowSummary,
       },
       selectedIndicatorId: ALL_INDICATORS,
-      isSolutionMode
+      isSolutionMode,
+      responseModeKey: 'mixed'
     });
   },
 
@@ -51,11 +52,29 @@ export default React.createClass({
     return questions;
   },
 
+  // This is not a pure function, it's not idempotent and can include
+  // randomness.  It shouldn't be called within render methods.
+  drawResponseMode(question, scaffolding) {
+    const {responseModeKey} = this.state;
+    if (responseModeKey === 'mixed') return Math.random() > 0.5 ? 'audio' : 'text';
+    if (responseModeKey === 'text') return 'text';
+    if (responseModeKey === 'audio') return 'audio';
+  },
+
+  onResponseModeChanged(event, responseModeKey) {
+    this.setState({ responseModeKey });
+  },
+
   onSave(){
     const {scaffolding, email, selectedIndicatorId} = this.state;
     const questions = this.getQuestions(selectedIndicatorId);
     const questionsForSession = _.shuffle(questions.slice(0, this.state.sessionLength));
-    this.props.onSessionConfigured(scaffolding, email, questionsForSession);
+    this.props.onSessionConfigured({
+      scaffolding,
+      email,
+      questionsForSession,
+      drawResponseMode: this.drawResponseMode
+    });
   },
   
   onIndicatorChanged(event, selectedIndicatorIdText){
@@ -99,16 +118,18 @@ export default React.createClass({
   },
   
   render(){
-    const {itemsToShow} = this.props;
+    const {query} = this.props;
     const {selectedIndicatorId, sessionLength, scaffolding} = this.state;
     const {shouldShowStudentCard, shouldShowSummary, helpType} = scaffolding;
     const questionsLength = this.getQuestions(selectedIndicatorId).length;
 
     const showSlider = true;
-    const showStudentCardsToggle = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'cards') || _.has(itemsToShow, 'basic');
-    const showSummaryToggle = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'summary');
-    const showHelpToggle = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'feedback') || _.has(itemsToShow, 'basic');
-    const showOriginalHelp = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'originalHelp');
+    const showAll = _.has(query, 'all');
+    const showStudentCardsToggle = showAll || _.has(query, 'cards') || _.has(query, 'basic');
+    const showSummaryToggle = showAll || _.has(query, 'summary');
+    const showHelpToggle = showAll || _.has(query, 'feedback') || _.has(query, 'basic');
+    const showOriginalHelp = showAll || _.has(query, 'originalHelp');
+    const showChooseResponseMode = showAll || _.has(query, 'modes');
 
     // This is a workaround for a bug in Slider while we wait for https://github.com/callemall/material-ui/pull/4895 to land
     const sliderKey = [questionsLength, selectedIndicatorId].join('-');
@@ -124,6 +145,8 @@ export default React.createClass({
             <Slider key={sliderKey} value={sessionLength} min={0} max={questionsLength} step={1} onChange={this.onSliderChange}/>
           </div>
         }
+
+        {showChooseResponseMode && this.renderResponseModeChoice()}
         
         <Divider />
         
@@ -210,6 +233,25 @@ export default React.createClass({
                      value={indicator.id.toString()}
                      label={indicator.text} />;
           })}
+        </RadioButtonGroup>
+      </div>
+    );
+  },
+
+  renderResponseModeChoice() {
+    const {responseModeKey} = this.state;
+    return (
+      <div>
+        <div >Response modes:</div>
+        <RadioButtonGroup
+          name="responseMode"
+          valueSelected={responseModeKey}
+          style={{...styles.option, padding: 20 }}
+          onChange={this.onResponseModeChanged}
+        >
+          <RadioButton value="mixed" label="Mixed" />
+          <RadioButton value="text" label="Text" />
+          <RadioButton value="audio" label="Audio" />
         </RadioButtonGroup>
       </div>
     );

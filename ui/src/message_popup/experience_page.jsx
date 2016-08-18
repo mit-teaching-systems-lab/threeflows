@@ -98,13 +98,15 @@ export default React.createClass({
     Routes.navigate(Routes.Home);
   },
   
-  onSaveScaffoldingAndSession(scaffolding, email, questions){
+  onSaveScaffoldingAndSession(scaffoldingSessionParams){
+    const {scaffolding, email, questionsForSession, drawResponseMode} = scaffoldingSessionParams;
     this.setState({
       scaffolding,
       gameSession: {
         email,
-        questions,
+        drawResponseMode,
         sessionId: uuid.v4(),
+        questions: questionsForSession,
         questionsAnswered: 0,
         msResponseTimes: []
       },
@@ -112,12 +114,6 @@ export default React.createClass({
   },
 
   render() {
-    const {gameSession} = this.state;
-    const hasStarted = gameSession !== null;
-    const questionsAnswered = hasStarted ? gameSession.questionsAnswered : 0;
-    const questions = hasStarted ? gameSession.questions : [];
-    const sessionLength = hasStarted ? questions.length : 0;
-    //if (_.has(this.props.query, 'mobilePrototype')) return this.renderMobilePrototype();
     return (
       <div>
         <NavigationAppBar
@@ -129,16 +125,33 @@ export default React.createClass({
               primaryText="Restart game" />
           }
         />
-        {!hasStarted && this.renderInstructions()}
-        {hasStarted && questionsAnswered >= sessionLength && this.renderDone()}
-        {hasStarted && questionsAnswered < sessionLength && (_.has(this.props.query, 'mobilePrototype') ? this.renderMobilePrototype() : this.renderPopupQuestion())}
+        {this.renderMainScreen()}
       </div>
     );
   },
 
+  renderMainScreen() {
+    // configure the game
+    const {gameSession} = this.state;
+    const hasStarted = gameSession !== null;
+    if (!hasStarted) return this.renderInstructions();
+
+    // all done!
+    const questionsAnswered = hasStarted ? gameSession.questionsAnswered : 0;
+    const questions = hasStarted ? gameSession.questions : [];
+    const sessionLength = hasStarted ? questions.length : 0;
+    if (questionsAnswered >= sessionLength) return this.renderDone();
+
+    // text-messaging prototype
+    if (_.has(this.props.query, 'mobilePrototype')) return this.renderMobilePrototype();
+
+    // question screen
+    return this.renderPopupQuestion();
+  },
+
   renderDone() {
     return (
-      <div>
+      <div className="done">
         <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
           <div style={_.merge(_.clone(styles.container), styles.done)}>
             <div style={styles.doneTitle}>You finished!</div>
@@ -159,16 +172,18 @@ export default React.createClass({
 
   renderInstructions() {
     const {scaffolding} = this.state;
+    const {query} = this.props;
+
     return (
       <VelocityTransitionGroup enter={{animation: "callout.pulse", duration: 500}} leave={{animation: "slideUp"}} runOnMount={true}>
-        <div>
+        <div className="instructions">
           <InstructionsCard 
-           itemsToShow={this.props.query}
+           query={query}
            />
           <ScaffoldingCard
             initialEmail={this.context.auth.userProfile.email}
             scaffolding={scaffolding}
-            itemsToShow={this.props.query}
+            query={query}
             onSessionConfigured={this.onSaveScaffoldingAndSession}
            />
         </div>
@@ -178,11 +193,12 @@ export default React.createClass({
   
   renderPopupQuestion() {
     const {scaffolding, gameSession, limitMs} = this.state;
-    const {questions, questionsAnswered} = gameSession;
+    const {questions, questionsAnswered, drawResponseMode} = gameSession;
     const sessionLength = questions.length;
     const question = questions[questionsAnswered];
+
     return (
-      <div style={styles.container}>        
+      <div className="question" style={styles.container}>        
         <LinearProgress color="#EC407A" mode="determinate" value={questionsAnswered} max={sessionLength} />
         <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
           <PopupQuestion
@@ -192,7 +208,8 @@ export default React.createClass({
             limitMs={limitMs}
             onLog={this.onLog}
             onDone={this.onQuestionDone}
-            isLastQuestion={questionsAnswered+1===sessionLength ? true : false}/>
+            drawResponseMode={drawResponseMode}
+            isLastQuestion={(questionsAnswered + 1 === sessionLength)}/>
         </VelocityTransitionGroup>
         <Snackbar
           open={this.state.toastRevision}
@@ -210,7 +227,7 @@ export default React.createClass({
     const sessionLength = questions.length;
     const question = withStudents(questions)[questionsAnswered];
     return ( 
-      <div>
+      <div className="prototype">
         <LinearProgress color="#EC407A" mode="determinate" value={questionsAnswered} max={sessionLength} />
         <MobileInterface
           key={JSON.stringify(question)}
