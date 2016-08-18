@@ -12,24 +12,15 @@ export default React.createClass({
 
   propTypes: {
     questionId: React.PropTypes.string.isRequired,
-    loaded: React.PropTypes.bool,
-    allQuestions: React.PropTypes.object
   },
 
-  getDefaultProps(){
+  getInitialState(){
     return ({
       loaded: false,
       allQuestions: {
         currentQuestions: [],
         archivedQuestions: []
       }
-    });
-  },
-
-  getInitialState(){
-    return ({
-      loaded: this.props.loaded,
-      allQuestions: this.props.allQuestions
     });
   },
 

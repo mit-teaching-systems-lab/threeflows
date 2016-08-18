@@ -8,25 +8,13 @@ import * as Api from '../../helpers/api.js';
 export default React.createClass({
   displayName: 'NewQuestionPage',
 
-  propTypes: {
-    loaded: React.PropTypes.bool,
-    allQuestions: React.PropTypes.object,
-  },
-
-  getDefaultProps(){
-    return({
+  getInitialState(){
+    return ({
       loaded: false,
       allQuestions: {
         currentQuestions: [],
         archivedQuestions: []
       }
-    });
-  },
-
-  getInitialState(){
-    return ({
-      loaded:  this.props.loaded,
-      allQuestions: this.props.allQuestions
     });
   },
 
