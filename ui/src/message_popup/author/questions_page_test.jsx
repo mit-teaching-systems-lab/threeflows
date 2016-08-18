@@ -21,8 +21,8 @@ describe('<QuestionsPage />', ()=>{
   it('renders questions when loaded', ()=>{
     const props = testProps();
     const wrapper = shallow(<QuestionsPage {...props} />);
-    expect(wrapper.find(QuestionButton)).to.not.have.length(0);
-    expect(wrapper.find(ArchivedQuestionButton)).to.not.have.length(0);
+    expect(wrapper.find(QuestionButton)).to.have.length(testQuestions.currentQuestions.length);
+    expect(wrapper.find(ArchivedQuestionButton)).to.have.length(testQuestions.archivedQuestions.length);
   });
   it('does not render questions when not loaded', ()=>{
     const props = testProps({loaded: false});
