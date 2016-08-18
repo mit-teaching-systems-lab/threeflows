@@ -221,7 +221,7 @@ app.get('/server/questions', facultyAuth, function(request, response){
     const {rows} = result;
     console.log(rows);
     response.status(200);
-    if(rows.length === 0) return response.json({});
+    if(rows.length === 0) return response.json({questions: {currentQuestions:[], archivedQuestions: []}});
     return response.json({questions: rows[0].questions});
   });
 });
