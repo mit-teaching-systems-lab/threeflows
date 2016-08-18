@@ -24,13 +24,12 @@ export default React.createClass({
       shouldShowSummary: React.PropTypes.bool.isRequired
     }).isRequired,
     initialEmail: React.PropTypes.string.isRequired,
-    itemsToShow: React.PropTypes.object.isRequired,
-    allowChoosingResponseMode: React.PropTypes.bool.isRequired,
+    query: React.PropTypes.object.isRequired,
     onSessionConfigured: React.PropTypes.func.isRequired
   },
   
   getInitialState(){
-    const isSolutionMode = _.has(this.props.itemsToShow, 'solution');
+    const isSolutionMode = _.has(this.props.query, 'solution');
     return ({
       email: this.props.initialEmail,
       sessionLength: 10,
@@ -119,16 +118,18 @@ export default React.createClass({
   },
   
   render(){
-    const {itemsToShow, allowChoosingResponseMode} = this.props;
+    const {query} = this.props;
     const {selectedIndicatorId, sessionLength, scaffolding} = this.state;
     const {shouldShowStudentCard, shouldShowSummary, helpType} = scaffolding;
     const questionsLength = this.getQuestions(selectedIndicatorId).length;
 
     const showSlider = true;
-    const showStudentCardsToggle = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'cards') || _.has(itemsToShow, 'basic');
-    const showSummaryToggle = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'summary');
-    const showHelpToggle = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'feedback') || _.has(itemsToShow, 'basic');
-    const showOriginalHelp = _.has(itemsToShow, 'all') || _.has(itemsToShow, 'originalHelp');
+    const showAll = _.has(query, 'all');
+    const showStudentCardsToggle = showAll || _.has(query, 'cards') || _.has(query, 'basic');
+    const showSummaryToggle = showAll || _.has(query, 'summary');
+    const showHelpToggle = showAll || _.has(query, 'feedback') || _.has(query, 'basic');
+    const showOriginalHelp = showAll || _.has(query, 'originalHelp');
+    const showChooseResponseMode = showAll || _.has(query, 'modes');
 
     // This is a workaround for a bug in Slider while we wait for https://github.com/callemall/material-ui/pull/4895 to land
     const sliderKey = [questionsLength, selectedIndicatorId].join('-');
@@ -145,7 +146,7 @@ export default React.createClass({
           </div>
         }
 
-        {allowChoosingResponseMode && this.renderResponseModeChoice()}
+        {showChooseResponseMode && this.renderResponseModeChoice()}
         
         <Divider />
         

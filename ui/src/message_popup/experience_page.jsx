@@ -178,13 +178,12 @@ export default React.createClass({
       <VelocityTransitionGroup enter={{animation: "callout.pulse", duration: 500}} leave={{animation: "slideUp"}} runOnMount={true}>
         <div className="instructions">
           <InstructionsCard 
-           itemsToShow={query}
+           query={query}
            />
           <ScaffoldingCard
             initialEmail={this.context.auth.userProfile.email}
             scaffolding={scaffolding}
-            itemsToShow={query}
-            allowChoosingResponseMode={_.has(query, 'modes')}
+            query={query}
             onSessionConfigured={this.onSaveScaffoldingAndSession}
            />
         </div>

@@ -7,12 +7,12 @@ export default React.createClass({
   displayName: "InstructionsCard",
   
   propTypes: {
-    itemsToShow: React.PropTypes.object.isRequired,
+    query: React.PropTypes.object.isRequired,
   },
   
   getInitialState(){
     return ({
-      isSolutionMode: _.has(this.props.itemsToShow, "solution"),
+      isSolutionMode: _.has(this.props.query, "solution"),
     });
   },
   
@@ -28,7 +28,7 @@ export default React.createClass({
         }
         <p style={styles.paragraph}>You may be asked to write, sketch or say your responses aloud.</p>
         <p style={styles.paragraph}>Each question is timed to simulate responding in the moment in the classroom.  Aim to respond to each scenario in about 90 seconds.</p>
-        {_.has(this.props.itemsToShow, "mobilePrototype") &&
+        {_.has(this.props.query, "mobilePrototype") &&
           <p style={styles.paragraph}>You can tap on the icons in the left margin to see more information about the question's students.</p>
         }
         <Divider />
