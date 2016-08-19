@@ -8,10 +8,6 @@ import sinon from 'sinon';
 export default React.createClass({
   displayName: 'TestAuthContainer',
 
-  propTypes: {
-    children: React.PropTypes.element.isRequired
-  },
-
   childContextTypes: AuthContainer.childContextTypes,
 
   getChildContext() {
@@ -26,6 +22,6 @@ export default React.createClass({
   },
 
   render() {
-    return this.props.children;
+    return this.props.children || null;
   }
 });
