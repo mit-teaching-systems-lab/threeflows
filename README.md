@@ -9,6 +9,7 @@ For storing audio files, you'll need keys authorized for an S3 bucket.
 
 #### Run locally
 ```
+$ node -v # should match the engine in package.json
 $ npm install
 $ npm run dev
 ```
