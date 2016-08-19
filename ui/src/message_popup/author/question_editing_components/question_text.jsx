@@ -21,7 +21,7 @@ export default React.createClass({
         <div style={styles.title}>Question Text</div>
         <Divider />
         {originalText !== undefined && <div style={styles.originalQuestionTitle}>Original Question Text</div>}
-        {originalText !== undefined && <div style={styles.originalQuestionText}>{originalText}</div>}
+        {originalText !== undefined && <div className="originalQuestionText" style={styles.originalQuestionText}>{originalText}</div>}
         <TextField 
           id='new-text'
           value={questionText}
