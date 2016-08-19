@@ -7,9 +7,6 @@ import {expect} from 'chai';
 import * as TestFixtures from './test_fixtures.js';
 
 import ScaffoldingCard from './scaffolding_card.jsx';
-import RaisedButton from 'material-ui/RaisedButton';
-import {RadioButtonGroup} from 'material-ui/RadioButton';
-import TextField from 'material-ui/TextField';
 import Toggle from 'material-ui/Toggle';
 import Slider from 'material-ui/Slider';
 
