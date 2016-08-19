@@ -1,5 +1,5 @@
 import React from 'react';
-import {shallow, mount} from 'enzyme';
+import {shallow} from 'enzyme';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
@@ -7,7 +7,6 @@ import {ListItem} from 'material-ui/List';
 import AutoComplete from 'material-ui/AutoComplete';
 
 import Students from './students.jsx';
-import IconButton from 'material-ui/IconButton';
 
 import {testQuestion} from '../../test_fixtures.js';
 import {allStudents} from '../../../data/virtual_school.js';

@@ -7,7 +7,7 @@ import Indicators from './indicators.jsx';
 
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
-import {testQuestion} from '../../test_fixtures.js'
+import {testQuestion} from '../../test_fixtures.js';
 import {withIndicator} from '../../transformations.jsx';
 import {indicators} from '../../../data/indicators.js';
 
