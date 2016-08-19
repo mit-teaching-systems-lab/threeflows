@@ -98,9 +98,12 @@ export default React.createClass({
     this.setState({ elapsedMs: this.state.elapsedMs + ONE_SECOND });
   },
 
+  // For now, this does not log to the server.  Individual response components
+  // are responsible for handling logging about their particular
+  // response types.
   onResponseSubmitted(response:ResponseT) {
     this.clearIntervals();
-    
+
     if (!this.props.scaffolding.shouldShowSummary) return this.onDone();
     if (this.state.responseMode === 'audio') return this.onDone();
     this.setState({response});
@@ -153,6 +156,8 @@ export default React.createClass({
     );
   },
 
+  // Each response is responsible for logging interaction data
+  // to the server.
   renderResponse() {
     const {responseMode, elapsedMs} = this.state;
     const {scaffolding, limitMs, question} = this.props;
