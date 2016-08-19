@@ -20,9 +20,19 @@ describe('<EditingComponent.Examples />', ()=>{
   it('renders the correct good examples text', ()=>{
     const props = testProps();
     const wrapper = shallow(<Examples {...props} />);
-    console.log(wrapper.debug());
     const text = testQuestion.examples.join('\n\n');
     expect(wrapper.find(TextField)).to.have.length(1);
     expect(wrapper.find(TextField).props().value).to.equal(text);
+  });
+  it('renders the correct bad examples text', ()=>{
+    const text = testQuestion.nonExamples.join('\n\n');
+    const props = testProps({
+      type: 'Bad',
+      examplesText: text
+    });
+    const wrapper = shallow(<Examples {...props} />);
+    expect(wrapper.find(TextField)).to.have.length(1);
+    expect(wrapper.find(TextField).props().value).to.equal(text);
+
   });
 });
