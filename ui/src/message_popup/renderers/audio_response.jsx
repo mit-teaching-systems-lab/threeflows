@@ -20,11 +20,13 @@ export default React.createClass({
     question: React.PropTypes.object.isRequired,
     scaffolding: React.PropTypes.object.isRequired,
     limitMs: React.PropTypes.number.isRequired,
+    elapsedMs: React.PropTypes.number.isRequired,
     onLogMessage: React.PropTypes.func.isRequired,
     onResponseSubmitted: React.PropTypes.func.isRequired
   },
 
   onDone(audioUrl) {
+    this.props.onLogMessage('message_popup_audio_response', {audioUrl});
     this.props.onResponseSubmitted({audioUrl});
   },
 
