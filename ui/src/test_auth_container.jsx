@@ -9,7 +9,7 @@ export default React.createClass({
   displayName: 'TestAuthContainer',
 
   propTypes: {
-    children: React.PropTypes.element.isRequired
+    children: React.PropTypes.element
   },
 
   childContextTypes: AuthContainer.childContextTypes,

@@ -1,4 +1,4 @@
-/* flow weak */
+/* @flow weak */
 import _ from 'lodash';
 import {allQuestions} from './questions.js';
 import {allArchivedQuestions} from './author/archived_questions.js';

@@ -6,3 +6,6 @@
 .*/node_modules/react-swipeable-views/src/.*
 .*/node_modules/reqwest/.*
 .*/node_modules/cjson/.*
+
+[libs]
+test/mocha_declarations.js

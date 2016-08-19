@@ -1,21 +1,28 @@
-import React from "react";
+/* @flow weak */
+import _ from 'lodash';
+import React from 'react';
+
 import Toggle from 'material-ui/Toggle';
 import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import TextChangeEvent from '../types/dom_types.js';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import Slider from 'material-ui/Slider';
-import _ from 'lodash';
 
 import {indicators} from '../data/indicators.js';
 import {allQuestions} from './questions.js';
 import {withStudents, questionsForIndicator} from './transformations.jsx';
-
 const ALL_INDICATORS = -1;
 
+/*
+Shows the user configuration options for a session and passes
+the chosen configuration back to `onSessionConfigured`.
+
+Callers can control which options are available
+by querystring options in `query`.
+*/
 export default React.createClass({
-  displayName: "ScaffoldingCard",
+  displayName: 'ScaffoldingCard',
   
   propTypes: {
     scaffolding: React.PropTypes.shape({
@@ -113,8 +120,9 @@ export default React.createClass({
     this.setState({scaffolding});
   },
 
-  onTextChanged({target:{value}}:TextChangeEvent) {
-    this.setState({email: value});
+  onTextChanged(e) {
+    const email = e.target.value;
+    this.setState({email});
   },
   
   render(){
@@ -141,7 +149,7 @@ export default React.createClass({
       
         {showSlider &&
           <div>
-            <div style={styles.optionTitle}>Session Length: {sessionLength} {sessionLength===1 ? "question" : "questions"}</div>
+            <div style={styles.optionTitle}>Session length: {sessionLength} {sessionLength===1 ? "scenario" : "scenarios"}</div>
             <Slider key={sliderKey} value={sessionLength} min={0} max={questionsLength} step={1} onChange={this.onSliderChange}/>
           </div>
         }
@@ -152,7 +160,7 @@ export default React.createClass({
         
         {(showStudentCardsToggle || showHelpToggle || showSummaryToggle || showOriginalHelp) &&
           <div>
-            <div style={styles.optionTitle}>Scaffolding</div>
+            <div style={styles.optionTitle}>Scaffolding:</div>
             <div style={_.merge({ padding: 20 }, styles.option)}>
               {showStudentCardsToggle &&
               <Toggle
@@ -191,6 +199,7 @@ export default React.createClass({
         <Divider />
 
         <TextField
+          name="email"
           style={{width: '100%'}}
           underlineShow={false}
           floatingLabelText="What's your email address?"
@@ -220,7 +229,7 @@ export default React.createClass({
       <div>
         <div style={styles.optionTitle}>Practice scenarios:</div>
         <RadioButtonGroup
-          name="indica"
+          name="indicatorId"
           valueSelected={selectedIndicatorId.toString()}
           onChange={this.onIndicatorChanged}
           style={{...styles.option, padding: 20 }}>
@@ -242,16 +251,16 @@ export default React.createClass({
     const {responseModeKey} = this.state;
     return (
       <div>
-        <div >Response modes:</div>
+        <div >Respond by:</div>
         <RadioButtonGroup
           name="responseMode"
           valueSelected={responseModeKey}
           style={{...styles.option, padding: 20 }}
           onChange={this.onResponseModeChanged}
         >
-          <RadioButton value="mixed" label="Mixed" />
-          <RadioButton value="text" label="Text" />
-          <RadioButton value="audio" label="Audio" />
+          <RadioButton value="text" label="Writing" />
+          <RadioButton value="audio" label="Speaking" />
+          <RadioButton value="mixed" label="Random" />
         </RadioButtonGroup>
       </div>
     );
