@@ -94,6 +94,17 @@ export default React.createClass({
     onDoneCapture: React.PropTypes.func.isRequired
   },
 
+  statics: {
+    isAudioSupported() {
+      const navigator = window.navigator;
+      const getUserMedia = navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia;
+      return getUserMedia !== undefined;
+    }
+  },
+
   componentDidUpdate(prevProps, prevState) {
     if (!prevProps.isRecording && this.props.isRecording) {
       this.startRecording();
