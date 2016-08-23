@@ -12,6 +12,7 @@ import Slider from 'material-ui/Slider';
 import {indicators} from '../data/indicators.js';
 import {allQuestions} from './questions.js';
 import {withStudents, questionsForIndicator} from './transformations.jsx';
+import AudioCapture from '../components/audio_capture.jsx';
 const ALL_INDICATORS = -1;
 
 /*
@@ -37,6 +38,7 @@ export default React.createClass({
   
   getInitialState(){
     const isSolutionMode = _.has(this.props.query, 'solution');
+    const isAudioSupported = AudioCapture.isAudioSupported();
     return ({
       email: this.props.initialEmail,
       sessionLength: 10,
@@ -47,7 +49,7 @@ export default React.createClass({
       },
       selectedIndicatorId: ALL_INDICATORS,
       isSolutionMode,
-      responseModeKey: 'mixed'
+      responseModeKey: (isAudioSupported ? 'mixed' : 'text')
     });
   },
 
@@ -63,9 +65,13 @@ export default React.createClass({
   // randomness.  It shouldn't be called within render methods.
   drawResponseMode(question, scaffolding) {
     const {responseModeKey} = this.state;
-    if (responseModeKey === 'mixed') return Math.random() > 0.5 ? 'audio' : 'text';
+    const isAudioSupported = AudioCapture.isAudioSupported();
+    
+    if (isAudioSupported && responseModeKey === 'mixed') return Math.random() > 0.5 ? 'audio' : 'text';
+    if (isAudioSupported && responseModeKey === 'audio') return 'audio';
     if (responseModeKey === 'text') return 'text';
-    if (responseModeKey === 'audio') return 'audio';
+
+    return 'text';
   },
 
   onResponseModeChanged(event, responseModeKey) {
