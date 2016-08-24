@@ -26,12 +26,14 @@ export default React.createClass({
   displayName: 'QuestionsPage',
 
   propTypes: {
-    loaded: React.PropTypes.bool,
-    allQuestions: React.PropTypes.object
+    loaded: React.PropTypes.bool.isRequired,
+    allQuestions: React.PropTypes.object.isRequired,
+    doNavigate: React.PropTypes.func
   },
 
   getDefaultProps(){
     return ({
+      doNavigate: Routes.navigate,
       loaded: false,
       allQuestions: {
         currentQuestions: [],
@@ -97,9 +99,9 @@ export default React.createClass({
     return {currentQuestions, archivedQuestions};
   },
 
-
   onNewQuestion(){
-    Routes.navigate(Routes.messagePopupAuthorQuestionsNewPath());
+    const url = Routes.messagePopupAuthorQuestionsNewPath();
+    this.props.doNavigate(url);
   },
 
   onQuestionsReceived(err, response){
@@ -162,11 +164,12 @@ export default React.createClass({
           <Divider />
           <div style={styles.questionsContainer}>
             <Paper rounded={false}>
-              {loaded && currentQuestions.map(question => {
-                return (
-                 <QuestionButton question={question} key={question.id} />
-                 );
-              })}
+              {loaded && currentQuestions.map(question => 
+                 <QuestionButton
+                   key={question.id}
+                   question={question}
+                   doNavigate={this.props.doNavigate} />
+              )}
             </Paper>
             <Card style={styles.archivedQuestionsContainer} rounded={false} expanded={this.state.showArchivedQuestions} onExpandChange={function(){this.setState({showArchivedQuestions: !this.state.showArchivedQuestions});}.bind(this)}>
               <CardHeader 
@@ -177,9 +180,9 @@ export default React.createClass({
                 <div>
                   {loaded && archivedQuestions.map(question => 
                     <ArchivedQuestionButton 
+                      key={question.id}
                       question={question}
-                      onTouchQuestion={this.onTouchArchivedQuestion}
-                      key={question.id}/>
+                      onTouchQuestion={this.onTouchArchivedQuestion} />
                   )}
                 </div>
               </CardText>

@@ -87,6 +87,12 @@ threeflows:DATABASE=> CREATE TABLE evaluations (
   timestamp timestamp,
   json jsonb
 );
+threeflows:DATABASE=> CREATE TABLE message_popup_questions (
+  id serial primary key,
+  timestamp timestamp,
+  questions jsonb
+);
+
 ```
 
 ### Database backups

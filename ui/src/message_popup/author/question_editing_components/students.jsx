@@ -22,8 +22,8 @@ export default React.createClass({
 
   propTypes: {
     students: React.PropTypes.array.isRequired,
-    addStudent: React.PropTypes.func.isRequired,
-    removeStudent: React.PropTypes.func.isRequired,
+    onAddStudent: React.PropTypes.func.isRequired,
+    onRemoveStudent: React.PropTypes.func.isRequired,
     availableStudentList: React.PropTypes.array.isRequired,
   },
 
@@ -45,7 +45,7 @@ export default React.createClass({
   },
 
   addAutoStudent(name, value){
-    this.props.addStudent(name);
+    this.props.onAddStudent(name);
   },
 
   isStudentSelectionValid(selection){
@@ -58,11 +58,16 @@ export default React.createClass({
     this.setState({studentText: searchText});
   },
 
+  onRemoveClicked(student) {
+    this.props.onRemoveStudent(student.id); 
+    this.deselectStudent();
+  },
+
   render(){
     const {
       students,
-      addStudent,
-      removeStudent,
+      onAddStudent,
+      onRemoveStudent,
       availableStudentList
     } = this.props;
 
@@ -76,15 +81,18 @@ export default React.createClass({
           <div style={styles.title}>Involved Students</div>
           <Divider />
           <div style={styles.studentButtonSection}>
-            {students.map(student => {
-              return <ListItem
+            {students.map(student =>
+              <ListItem
                 style={styles.studentButton}
                 key={"student-" + student.id}
                 primaryText={student.name} 
                 onTouchTap={this.selectStudent(student.id)}
                 leftIcon={<FaceIcon />}
-                rightIconButton={<IconButton onTouchTap={removeStudent(student.id)}><CloseIcon /></IconButton>}/>;
-            })}
+                rightIconButton={<IconButton onTouchTap={() => onRemoveStudent(student.id)}>
+                  <CloseIcon />
+                </IconButton>}
+              />
+            )}
           </div>
           <div style={styles.studentTextSection}>
             <AutoComplete
@@ -99,7 +107,7 @@ export default React.createClass({
               filter={AutoComplete.fuzzyFilter}
               maxSearchResults={4}
              />
-             <IconButton onTouchTap={function(){addStudent(studentText);}}><AddIcon/></IconButton>
+             <IconButton onTouchTap={() => onAddStudent(studentText)}><AddIcon/></IconButton>
           </div>
         </Paper> 
         {selectedStudent !== null && selectedStudent !== undefined &&
@@ -112,9 +120,7 @@ export default React.createClass({
                 onTouchTap={this.deselectStudent}/>,
               <FlatButton 
                 label="Remove"
-                onTouchTap={function(){
-                  removeStudent(selectedStudent.id)(); 
-                  this.deselectStudent();}.bind(this)}/>
+                onTouchTap={this.onRemoveClicked.bind(this, selectedStudent)}/>
             ]}
             onRequestClose={this.deselectStudent}>
             <div style={styles.studentAttribute}>{`${selectedStudent.grade} ${selectedStudent.gender}, ${selectedStudent.race}`}</div>

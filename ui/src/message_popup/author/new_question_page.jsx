@@ -1,4 +1,3 @@
-/* eslint no-console: "off" */
 import React from 'react';
 import _ from 'lodash';
 
@@ -48,8 +47,6 @@ export default React.createClass({
     const {currentQuestions, archivedQuestions} = this.state.allQuestions;
     const question = {id: this.getNewID(), ...newQuestion};
     const newCurrentQuestions = currentQuestions.concat(question);
-    console.log('Creating new question...');
-    console.log(question);
     Api.saveQuestions({currentQuestions: newCurrentQuestions, archivedQuestions});
   },
 

@@ -1,22 +1,24 @@
 /* @flow weak */
 import React from 'react';
 
+import {ListItem} from 'material-ui/List';
+import SchoolIcon from 'material-ui/svg-icons/social/school';
+
 import {withIndicator} from '../transformations.jsx';
 import * as Routes from '../../routes.js';
 
-import {ListItem} from 'material-ui/List';
-
-import SchoolIcon from 'material-ui/svg-icons/social/school';
 
 export default React.createClass({
   displayName: 'QuestionButton',
 
   propTypes: {
-    question: React.PropTypes.object.isRequired
+    question: React.PropTypes.object.isRequired,
+    doNavigate: React.PropTypes.func.isRequired
   }, 
 
   onItemClicked(){
-    Routes.navigate(Routes.messagePopupAuthorQuestionsEditPath(this.props.question.id));
+    const url = Routes.messagePopupAuthorQuestionsEditPath(this.props.question.id);
+    this.props.doNavigate(url);
   },
 
   render(){

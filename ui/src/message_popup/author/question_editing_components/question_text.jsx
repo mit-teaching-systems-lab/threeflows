@@ -6,7 +6,7 @@ import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';
 
 export default React.createClass({
-  displayName: "QuestionText",
+  displayName: 'QuestionText',
 
   propTypes: {
     originalText: React.PropTypes.string,
@@ -14,20 +14,24 @@ export default React.createClass({
     onQuestionTextChange: React.PropTypes.func.isRequired
   },
 
+  onTextChange(e) {
+    this.props.onQuestionTextChange(e.target.value);
+  },
+
   render(){
-    const {originalText, questionText, onQuestionTextChange} = this.props;
+    const {originalText, questionText} = this.props;
     return (
       <Paper style={styles.container}>
         <div style={styles.title}>Question Text</div>
         <Divider />
         {originalText !== undefined && <div style={styles.originalQuestionTitle}>Original Question Text</div>}
-        {originalText !== undefined && <div style={styles.originalQuestionText}>{originalText}</div>}
+        {originalText !== undefined && <div className="originalQuestionText" style={styles.originalQuestionText}>{originalText}</div>}
         <TextField 
           id='new-text'
           value={questionText}
           fullWidth={true}
           multiLine={true}
-          onChange={onQuestionTextChange}
+          onChange={this.onTextChange}
           floatingLabelText='Type out the question text here.'/>
       </Paper>
       );
