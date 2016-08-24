@@ -208,7 +208,7 @@ app.post('/server/questions', facultyAuth, function(request, response){
 });
 
 app.get('/server/questions', facultyAuth, function(request, response){
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === 'development' && !process.env.DATABASE_URL) {
     return response.json({questions: {currentQuestions:[], archivedQuestions: []}});
   }
 

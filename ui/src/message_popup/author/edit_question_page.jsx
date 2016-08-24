@@ -1,4 +1,3 @@
-/* eslint no-console: "off" */
 import React from 'react';
 import _ from 'lodash';
 
@@ -54,10 +53,6 @@ export default React.createClass({
     const question = {id: this.getNewID(), ...newQuestion};
     const newCurrentQuestions = currentQuestions.filter(question => question.id !== originalQuestion.id).concat(question);
     const newArchivedQuestions = archivedQuestions.concat(originalQuestion);
-    console.log('Replacing...');
-    console.log(originalQuestion);
-    console.log('With...');
-    console.log(question);
     Api.saveQuestions({currentQuestions: newCurrentQuestions, archivedQuestions: newArchivedQuestions});
   },
 
@@ -65,8 +60,6 @@ export default React.createClass({
     const {currentQuestions, archivedQuestions} = this.state.allQuestions;
     const newCurrentQuestions = currentQuestions.filter(question => question.id !== originalQuestion.id);
     const newArchivedQuestions = archivedQuestions.concat(originalQuestion);
-    console.log('Archiving the question...');
-    console.log(originalQuestion);
     Api.saveQuestions({currentQuestions: newCurrentQuestions, archivedQuestions: newArchivedQuestions});
   },
 
