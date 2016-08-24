@@ -14,8 +14,12 @@ export default React.createClass({
     onExamplesChange: React.PropTypes.func.isRequired
   },
 
+  onChange(e) {
+    this.props.onExamplesChange(e.target.value);
+  },
+
   render(){
-    const {type, examplesText, onExamplesChange} = this.props;
+    const {type, examplesText} = this.props;
     return (
       <Paper style={styles.container}>
         <div style={styles.title}>{type} Examples</div>
@@ -29,7 +33,7 @@ export default React.createClass({
           multiLine={true}
           value={examplesText}
           underlineShow={false}
-          onChange={onExamplesChange}/>
+          onChange={this.onChange} />
       </Paper>
       );
   }

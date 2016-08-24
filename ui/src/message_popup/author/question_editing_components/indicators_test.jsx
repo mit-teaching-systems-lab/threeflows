@@ -18,15 +18,14 @@ function testProps(props){
   });
 }
 
-describe('<EditingComponent.Inidicators />', ()=>{
+describe('<Indicators />', ()=>{
   it('renders all the available indicators', ()=>{
     const props = testProps();
     const wrapper = shallow(<Indicators {...props} />);
     expect(wrapper.find(RadioButtonGroup)).to.have.length(1);
     expect(wrapper.find(RadioButton)).to.have.length(indicators.length);
-    wrapper.find(RadioButton).forEach((node) => {
-      expect(node.props().value).to.be.oneOf(indicators.map(indicator => indicator.id.toString()));
-    });
+    const radioButtonValues = wrapper.find(RadioButton).map(w => w.props().value);
+    expect(radioButtonValues).to.have.members(indicators.map(indicator => indicator.id.toString()));
   });
   it('selects the correct initial indicator', ()=>{
     const props = testProps();
@@ -39,6 +38,6 @@ describe('<EditingComponent.Inidicators />', ()=>{
     const newIndicator = indicators[1];
     wrapper.find(RadioButtonGroup).simulate('change', {target: {value: newIndicator.id}});
     expect(props.onIndicatorChange.callCount).to.equal(1);
-    expect(props.onIndicatorChange.firstCall.args).to.deep.equal([{target: {value: newIndicator.id}}]);
+    expect(props.onIndicatorChange.firstCall.args).to.deep.equal([newIndicator.id]);
   });
 });

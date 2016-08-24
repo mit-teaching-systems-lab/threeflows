@@ -4,19 +4,21 @@ import _ from 'lodash';
 import VelocityTransitionGroup from 'velocity-react/velocity-transition-group';
 import 'velocity-animate/velocity.ui';
 
-import * as EditingComponents from './question_editing_components/editing_component.jsx';
-
-import {allStudents} from '../../data/virtual_school.js';
-import {indicators} from '../../data/indicators.js';
-import * as Routes from '../../routes.js';
-
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-
 import ArrowBackIcon from 'material-ui/svg-icons/navigation/arrow-back';
+
+import {allStudents} from '../../data/virtual_school.js';
+import {indicators} from '../../data/indicators.js';
+import * as Routes from '../../routes.js';
+import QuestionText from './question_editing_components/question_text.jsx';
+import Students from './question_editing_components/students.jsx';
+import Examples from './question_editing_components/examples.jsx';
+import Indicators from './question_editing_components/indicators.jsx';
+
 
 export default React.createClass({
   displayName: 'QuestionPage',
@@ -42,23 +44,6 @@ export default React.createClass({
     });
   },
 
-  addStudent(studentName){
-    var availableStudentList = _.clone(this.state.availableStudentList);
-    const student = _.remove(availableStudentList, student => student.name.toLowerCase() === studentName.toLowerCase())[0];
-    if(student !== undefined){
-      this.setState({students: this.state.students.concat(student), availableStudentList});
-    }
-  },
-
-  removeStudent(studentId){
-    return function(){
-      this.setState({
-        students: this.state.students.filter(student => student.id !== studentId), 
-        availableStudentList: this.state.availableStudentList.concat(_.find(allStudents, student => student.id === studentId))
-      });
-    }.bind(this);
-  },
-
   parseExamples(examplesText){
     return examplesText.split('\n\n').map(exampleText => exampleText.trim()).filter(example => example !== '');
   },
@@ -81,24 +66,40 @@ export default React.createClass({
     this.setState({deleteConfirmationOpen: false});
   },
 
+  onAddStudent(studentName){
+    var availableStudentList = _.clone(this.state.availableStudentList);
+    const student = _.remove(availableStudentList, student => student.name.toLowerCase() === studentName.toLowerCase())[0];
+    if(student !== undefined){
+      this.setState({students: this.state.students.concat(student), availableStudentList});
+    }
+  },
+
+  onRemoveStudent(studentId){
+    this.setState({
+      students: this.state.students.filter(student => student.id !== studentId), 
+      availableStudentList: this.state.availableStudentList.concat(_.find(allStudents, student => student.id === studentId))
+    });
+  },
+
   onReturnToQuestions(){
     Routes.navigate(Routes.messagePopupAuthorQuestionsPath());
   },
 
-  onQuestionTextChange(event, value){
-    this.setState({questionText: value});
+  onQuestionTextChange(questionText){
+    this.setState({questionText});
   },
 
-  onGoodExamplesChange(event, text){
-    this.setState({goodExamplesText: text});
+  onGoodExamplesChange(goodExamplesText){
+    this.setState({goodExamplesText});
   },
 
-  onBadExamplesChange(event, text){
-    this.setState({badExamplesText: text});
+  onBadExamplesChange(badExamplesText){
+    this.setState({badExamplesText});
   },
 
-  onIndicatorChange(event, value){
-    this.setState({indicator: _.find(indicators, indicator => indicator.id.toString() === value)});
+  onIndicatorChange(indicatorId){
+    const indicator = _.find(indicators, indicator => indicator.id.toString() === indicatorId);
+    this.setState({indicator});
   },
 
   onEditQuestion(){
@@ -157,28 +158,28 @@ export default React.createClass({
         {loaded &&
           <div style={styles.container}>
             <VelocityTransitionGroup enter={{animation: 'transition.fadeIn'}} runOnMount={true}>
-              <EditingComponents.QuestionText 
+              <QuestionText 
                 originalText={originalQuestion !== undefined ? originalQuestion.text : undefined}
                 questionText={questionText}
                 onQuestionTextChange={this.onQuestionTextChange}
                 />
-              <EditingComponents.Students 
+              <Students 
                 students={students}
-                addStudent={this.addStudent}
-                removeStudent={this.removeStudent}
+                onAddStudent={this.onAddStudent}
+                onRemoveStudent={this.onRemoveStudent}
                 availableStudentList={this.state.availableStudentList}
                 />
-              <EditingComponents.Examples 
+              <Examples 
                 type="Good"
                 examplesText={goodExamplesText}
                 onExamplesChange={this.onGoodExamplesChange}
                 />
-              <EditingComponents.Examples 
+              <Examples 
                 type="Bad"
                 examplesText={badExamplesText}
                 onExamplesChange={this.onBadExamplesChange}
                 />
-              <EditingComponents.Indicators 
+              <Indicators 
                 indicator={indicator}
                 onIndicatorChange={this.onIndicatorChange}
                 />

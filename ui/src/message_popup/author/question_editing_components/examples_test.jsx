@@ -16,7 +16,7 @@ function testProps(props){
   });
 }
 
-describe('<EditingComponent.Examples />', ()=>{
+describe('<Examples />', ()=>{
   it('renders the correct good examples text', ()=>{
     const props = testProps();
     const wrapper = shallow(<Examples {...props} />);

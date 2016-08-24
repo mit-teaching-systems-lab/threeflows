@@ -18,7 +18,7 @@ function testProps(props){
   });
 }
 
-describe('<EditingComponent.QuestionText />', ()=>{
+describe('<QuestionText />', ()=>{
   it('renders the original question text', ()=>{
     const props = testProps();
     const wrapper = shallow(<QuestionText {...props} />);
@@ -36,6 +36,6 @@ describe('<EditingComponent.QuestionText />', ()=>{
     const wrapper = shallow(<QuestionText {...props} />);
     wrapper.find(TextField).simulate('change', { target: { value: testQuestion.text } });
     expect(props.onQuestionTextChange.callCount).to.equal(1);
-    expect(props.onQuestionTextChange.firstCall.args).to.deep.equal([{ target: { value: testQuestion.text } }]);
+    expect(props.onQuestionTextChange.firstCall.args).to.deep.equal([testQuestion.text]);
   });
 });

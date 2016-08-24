@@ -15,14 +15,29 @@ export default React.createClass({
     onIndicatorChange: React.PropTypes.func.isRequired
   },
 
+  onRadioButtonGroupChanged(e) {
+    this.props.onIndicatorChange(e.target.value);
+  },
+
   render(){
-    const {indicator, onIndicatorChange} = this.props;
+    const {indicator} = this.props;
     return (
       <Paper style={styles.container}>
         <div style={styles.title}>Indicator</div>
         <Divider />
-        <RadioButtonGroup style={styles.indicatorRadioGroup} name="indicator" valueSelected={indicator.id.toString()} onChange={onIndicatorChange}>
-          {indicators.map(otherIndicator => <RadioButton key={'indicator-' + otherIndicator.id} value={otherIndicator.id.toString()} label={otherIndicator.text}/>)}
+        <RadioButtonGroup
+          style={styles.indicatorRadioGroup}
+          name="indicator"
+          valueSelected={indicator.id.toString()}
+          onChange={this.onRadioButtonGroupChanged}
+        >
+          {indicators.map(otherIndicator =>
+            <RadioButton
+              key={'indicator-' + otherIndicator.id}
+              value={otherIndicator.id.toString()}
+              label={otherIndicator.text}
+            />
+          )}
         </RadioButtonGroup>
       </Paper>
       );

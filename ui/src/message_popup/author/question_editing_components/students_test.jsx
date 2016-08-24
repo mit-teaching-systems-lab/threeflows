@@ -14,13 +14,13 @@ import {allStudents} from '../../../data/virtual_school.js';
 function testProps(props){
   return ({
     students: testQuestion.students,
-    addStudent: sinon.spy(),
-    removeStudent: sinon.spy(),
+    onAddStudent: sinon.spy(),
+    onRemoveStudent: sinon.spy(),
     availableStudentList: allStudents.filter(student => !testQuestion.students.map(innerStudent => innerStudent.id).includes(student.id))
   });
 }
 
-describe('<EditingComponent.Student />', ()=>{
+describe('<Student />', ()=>{
   it('renders the initial students', ()=>{
     const props = testProps();
     const wrapper = shallow(<Students {...props} />);
