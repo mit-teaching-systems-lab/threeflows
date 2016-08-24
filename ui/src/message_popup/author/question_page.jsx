@@ -11,7 +11,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import ArrowBackIcon from 'material-ui/svg-icons/navigation/arrow-back';
 
-import {allStudents} from '../../data/virtual_school.js';
+import {activeStudents} from '../../data/virtual_school.js';
 import {indicators} from '../../data/indicators.js';
 import * as Routes from '../../routes.js';
 import QuestionText from './question_editing_components/question_text.jsx';
@@ -40,7 +40,7 @@ export default React.createClass({
       goodExamplesText: question !== undefined ? question.examples.join('\n\n') : "",
       badExamplesText: question !== undefined ? question.nonExamples.join('\n\n') : "",
       deleteConfirmationOpen: false,
-      availableStudentList: question !== undefined ? allStudents.filter(student => !question.studentIds.includes(student.id)) : allStudents,
+      availableStudentList: question !== undefined ? activeStudents.filter(student => !question.studentIds.includes(student.id)) : activeStudents,
     });
   },
 
@@ -77,7 +77,7 @@ export default React.createClass({
   onRemoveStudent(studentId){
     this.setState({
       students: this.state.students.filter(student => student.id !== studentId), 
-      availableStudentList: this.state.availableStudentList.concat(_.find(allStudents, student => student.id === studentId))
+      availableStudentList: this.state.availableStudentList.concat(_.find(activeStudents, student => student.id === studentId))
     });
   },
 
