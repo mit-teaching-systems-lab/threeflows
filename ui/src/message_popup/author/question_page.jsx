@@ -10,6 +10,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import ArrowBackIcon from 'material-ui/svg-icons/navigation/arrow-back';
+import * as Colors from 'material-ui/styles/colors';
 
 import {activeStudents} from '../../data/virtual_school.js';
 import {indicators} from '../../data/indicators.js';
@@ -192,12 +193,12 @@ export default React.createClass({
                   label="Cancel"
                   onTouchTap={this.closeDeleteConfirmation}/>,
                 <FlatButton
-                  label="Delete"
+                  label="Archive"
                   style={{color: "#CA2300"}}
                   onTouchTap={this.onDeleteButtonClicked}/>
               ]}
               onRequestClose={this.closeDeleteConfirmation}>
-              Deleting this will archive the deleted question. Are you sure you wish to continue?
+              Players will no longer be shown this question, but you can always restore it later.  Are you sure?
             </Dialog>
           </div>
         }
@@ -216,14 +217,12 @@ export default React.createClass({
               primary={true}
               disabled={!this.saveCheckPassed()}
               onTouchTap={this.onEditQuestion}
-              />
+            />
             <RaisedButton
               style={styles.finalButton}
-              backgroundColor="#CA2300"
-              labelStyle={{color: 'white'}}
-              label="Delete"
+              label="Archive"
               onTouchTap={this.openDeleteConfirmation}
-              />
+            />
           </div>
         }
         {this.props.originalQuestion === undefined &&
