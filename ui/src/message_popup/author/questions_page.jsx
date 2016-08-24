@@ -173,7 +173,7 @@ export default React.createClass({
             </Paper>
             <Card style={styles.archivedQuestionsContainer} rounded={false} expanded={this.state.showArchivedQuestions} onExpandChange={function(){this.setState({showArchivedQuestions: !this.state.showArchivedQuestions});}.bind(this)}>
               <CardHeader 
-                title="Archived/Deleted Questions"
+                title="Archived Questions"
                 actAsExpander={true}
                 showExpandableButton={true}/>
               <CardText expandable={true}>
