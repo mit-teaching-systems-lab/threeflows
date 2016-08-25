@@ -194,7 +194,7 @@ export default React.createClass({
                   onTouchTap={this.closeDeleteConfirmation}/>,
                 <FlatButton
                   label="Archive"
-                  style={{color: "#CA2300"}}
+                  style={{color: Colors.red500}}
                   onTouchTap={this.onDeleteButtonClicked}/>
               ]}
               onRequestClose={this.closeDeleteConfirmation}>
