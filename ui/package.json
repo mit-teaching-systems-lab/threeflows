@@ -39,6 +39,7 @@
     "material-ui": "^0.15.4",
     "node-uuid": "^1.4.7",
     "react": "15.3.0",
+    "react-audio-recorder": "^0.1.0",
     "react-dom": "15.3.0",
     "react-mini-router": "^2.0.0",
     "react-motion": "^0.4.4",
