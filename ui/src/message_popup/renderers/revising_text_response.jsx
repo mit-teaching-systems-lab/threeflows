@@ -41,6 +41,8 @@ export default React.createClass({
     }
   },
 
+  feedbackContainerEl: null,
+  
   logMessage(type) {
     const {initialResponseText, finalResponseText} = this.state;    
     this.props.onLogMessage(type, {
