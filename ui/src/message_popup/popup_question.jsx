@@ -1,6 +1,7 @@
 /* @flow weak */
 import React from 'react';
 import _ from 'lodash';
+import Velocity from 'velocity-react/lib/velocity-animate-shim';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import SetIntervalMixin from '../helpers/set_interval_mixin.js';
 
@@ -73,6 +74,16 @@ export default React.createClass({
       response: null
     };
   },
+
+  // If transitioning between the scenario and being able to respond for the
+  // first time, animate the scrolling to bring the response UI into view.
+  componentDidUpdate(prevProps, prevState) {
+    if (!prevState.allowResponding && this.state.allowResponding && this.responseContainerEl) {
+      Velocity(this.responseContainerEl, 'scroll');
+    }
+  },
+
+  responseContainerEl: null,
 
   // Allow pieces of the UI to log data for particular event types, along
   // with an opaque set of params.
@@ -151,7 +162,9 @@ export default React.createClass({
           student={student}
           question={question}
         />
-        {allowResponding && this.renderResponse()}
+        {allowResponding &&
+          <div ref={el => this.responseContainerEl = el}>{this.renderResponse()}</div>
+        }
       </div>
     );
   },
