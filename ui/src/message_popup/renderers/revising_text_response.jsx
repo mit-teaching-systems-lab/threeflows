@@ -1,7 +1,7 @@
 /* @flow weak */
 import React from 'react';
 import _ from 'lodash';
-import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
+import Velocity from 'velocity-react/lib/velocity-animate-shim';
 
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -30,6 +30,15 @@ export default React.createClass({
       initialResponseText: '',
       finalResponseText: ''
     };
+  },
+
+  // If transitioning between the initial response and revising,
+  // animate the scrolling to bring the feedback UI into view (it may be
+  // offscreen on mobile).
+  componentDidUpdate(prevProps, prevState) {
+    if (!prevState.isRevising && this.state.isRevising && this.feedbackContainerEl) {
+      Velocity(this.feedbackContainerEl, 'scroll');
+    }
   },
 
   logMessage(type) {
@@ -100,7 +109,7 @@ export default React.createClass({
     const seconds = Math.round(elapsedMs / 1000);
 
     return (
-      <div>
+      <div className="RevisingTextResponse">
         <div style={styles.textAreaContainer}>
           <TextField
             id="revising-text-response-textfield"
@@ -125,16 +134,15 @@ export default React.createClass({
           {seconds > 0 && <div style= {styles.ticker}>{seconds}s</div>
           }
         </div>
-        <VelocityTransitionGroup enter={{animation: "slideDown"}} runOnMount={true}>
-          {this.state.isRevising &&
-            <div style={styles.feedbackCard}>
-              <FeedbackCard
-                initialResponseText={initialResponseText}
-                onRevised={this.onRevised}
-                onPassed={this.onPassed}
-                examples={examples}/>  
-            </div>}
-        </VelocityTransitionGroup>
+        {this.state.isRevising &&
+          <div style={styles.feedbackCard} ref={el => this.feedbackContainerEl = el}>
+            <FeedbackCard
+              initialResponseText={initialResponseText}
+              onRevised={this.onRevised}
+              onPassed={this.onPassed}
+              examples={examples}/>  
+          </div>
+        }
         <Snackbar
           open={seconds >= (limitMs/1000)}
           message="Remember, these are supposed to be quick responses."
