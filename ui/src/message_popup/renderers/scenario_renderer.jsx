@@ -51,6 +51,6 @@ const styles = {
     padding: 20
   },
   videoContainer: {
-    height: 480
+    height: 390
   }
 };
