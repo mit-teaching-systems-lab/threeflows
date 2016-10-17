@@ -16,11 +16,17 @@ This builds artifacts and places them in the `ui/build` folder.
 
 
 #### Server
+The server app was developed for the [engine specified in the root package.json](https://github.com/mit-teaching-systems-lab/threeflows/blob/master/package.json#L5).  If you already have node installed, you can check the version with:
+
+```
+$ node -v
+```
+And if you need to install it from scratch, follow the instructions for the current version on the [node.js website](https://nodejs.org/en/).
+
 For storing audio files, you'll need keys authorized for a development S3 bucket.  Ask someone for these.
 
 In another terminal, install dependencies and then start the server:
 ```
-$ node -v # should match the engine in the root package.json
 $ npm install
 $ mkdir tmp
 $ npm run dev
