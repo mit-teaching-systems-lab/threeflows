@@ -20,7 +20,7 @@ For storing audio files, you'll need keys authorized for a development S3 bucket
 
 In another terminal, install dependencies and then start the server:
 ```
-$ node -v # should match the engine in package.json
+$ node -v # should match the engine in the root package.json
 $ npm install
 $ mkdir tmp
 $ npm run dev
