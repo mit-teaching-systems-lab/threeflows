@@ -7,6 +7,7 @@ A small [Express](http://expressjs.com/) server and [React](https://facebook.git
 #### UI
 In another terminal, install dependencies and then start a process that will continually build the UI with hot reloading:
 ```
+$ cd ui
 ui $ npm install
 ui $ mkdir build
 ui $ npm run watch
