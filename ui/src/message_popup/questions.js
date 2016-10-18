@@ -648,6 +648,93 @@ export const doSomethingQuestions:[QuestionT] = [
   }
 ].map(forIndicator(601));
 
+export const playtestQuestions:[QuestionT] = [
+  {
+    studentIds: [],
+    id: 331,
+    text: 'After lunch, you come back to the room and see someone took down the color chart or homework chart and threw it on the floor.  It is not clear who did this. How would you Respond to the class?',
+    examples: [],
+    nonExamples: []
+  },
+  {
+    studentIds: [],
+    id: 332,
+    text: 'During a mini lesson you inadvertently say a phrase that clearly is taken as a sexual innuendo by a small group of students who start laughing out loud.  Others are in the dark or missed it.  You hear them ask, "what?.." How would you Respond to the class?',
+    examples: [],
+    nonExamples: []
+  },
+  {
+    studentIds: [],
+    id: 333,
+    text: 'You are checking homework, and you notice Danny doesn\'t have his homework out and ready.  You write it down on your clipboard without interrupting his Do Now.  You ask his partner where her homework is.  Danny looks up and says loudly, "you didn\'t ask me for my homework--what, it\'s cause I\'m black!" How do you respond to Danny?',
+    examples: [],
+    nonExamples: []
+  },
+  {
+    studentIds: [],
+    id: 334,
+    text: 'It is the first public share of student work.  Students are sharing their thinking maps in small groups.  One student clearly spent more time on his piece and added glitter and neon.  When he begins to share, the most volatile student lets out a laugh, “ohh my god that is sooo gay.” How do you respond to the student?',
+    examples: [],
+    nonExamples: []
+  },
+  {
+    studentIds: [],
+    id: 335,
+    text: 'You are having a class discussion about career paths. All the students are actively engaged in the conversation and taking turns to talk about what they would like to be when they grow up. When it gets to Peter’s turn, he says he would like to become a nurse. At this point, the most volatile student lets out a laugh, “ohh my god that is sooo lame.” How do you respond to the student?',
+    examples: [],
+    nonExamples: []
+  },
+  {
+    studentIds: [],
+    id: 336,
+    text: 'Students are working in small groups of two. Danny and James are working together. You hear Danny call James "stupid" and tells him that his ideas "suck". How do you respond to Danny?',
+    examples: [],
+    nonExamples: []
+  },
+  {
+    studentIds: [],
+    id: 337,
+    text: 'You have started a well planned launch of a lesson where just about every word and idea is critical to the student entry into the problem solving part of the lesson. A student waves his/her hand and asks to go to the bathroom. How do you respond to the student?',
+    examples: [],
+    nonExamples: []
+  },
+  {
+    studentIds: [],
+    id: 338,
+    text: 'It\'s rug time. You transition the class to the rug. One student refuses to leave his seat and starts yelling out negative comments, "I hate this class. The work we do is stupid." How do you respond to the student?',
+    examples: [],
+    nonExamples: []
+  },
+  {
+    studentIds: [],
+    id: 339,
+    text: 'The lesson is going along smoothly. You ask a question and calls on a student, as the student begins to respond, David (another student) then yells out, "You NEVER call on me!" and rips his paper up. How do you respond to David?',
+    examples: [],
+    nonExamples: []
+  },
+  {
+    studentIds: [],
+    id: 340,
+    text: 'The class is actively engaged in a discussion about a time they felt grown up, and as you scan the room, you notice a student has their head down and is staring into space. How do you respond to the student?',
+    examples: [],
+    nonExamples: []
+  },
+  {
+    studentIds: [],
+    id: 341,
+    text: 'Students have just returned to class from special and have started the routine of independent reading. You are passing out the snack for the day - bananas. As you reach one student, she asks, "What can we have if we don\'t like bananas?" You say, "Bananas are the only choice. It\'s bananas or you can wait until lunch." The student yells out "WHAT?! I don\'t like bananas," walks out of her seat, rolls up half the rug, and then starts slamming the door repeatedly. How do you respond to the student?',
+    examples: [],
+    nonExamples: []
+  },
+  {
+    studentIds: [],
+    id: 342,
+    text: 'It\'s the third day of school, a student walks in the middle of the mini lesson and yells, "Ms. I\'m in your class now!" The class bursts out in equal parts "ooooohhhh" and "oh nooooooo"  The newly entering student begins to answer back, "What?" How would you Respond to the class?',
+    examples: [],
+    nonExamples: []
+  },
+].map(forIndicator(601));
+
 
 const justinAndRitaQuestions = [
   {

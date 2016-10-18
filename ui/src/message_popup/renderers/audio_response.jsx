@@ -39,44 +39,53 @@ export default React.createClass({
           reviewing={this.renderReviewing}
           recording={this.renderRecording}
           onDone={this.onDone}
+          onLogMessage={this.props.onLogMessage}
         />
       </div>
     );
   },
 
   renderStart({onRecord}) {
+    const seconds = Math.round(this.props.elapsedMs / 1000);
     return (
       <div>
         <div style={styles.instruction}>Speak directly to the student.</div>
         <RaisedButton key="record" onTouchTap={onRecord} label="Record" secondary={true} />
+        {seconds > 0 && <div style= {styles.ticker}>{seconds}s</div>}
       </div>
     );
   },
 
   renderRecording({onDone}) {
+    const seconds = Math.round(this.props.elapsedMs / 1000);
     return (
       <div>
         <div style={{...styles.instruction, color: Colors.accent1Color}}>Recording...</div>
         <RaisedButton key="done" onTouchTap={onDone} label="Done" primary={true} />
+        {seconds > 0 && <div style= {styles.ticker}>{seconds}s</div>}
       </div>
     );
   },
 
   renderReviewing({blob, downloadUrl, onSubmit, onRetry}) {
+    const seconds = Math.round(this.props.elapsedMs / 1000);
     return (
       <div>
         <div style={styles.instruction}>Review your answer!</div>
         <audio controls={true} src={downloadUrl} />
         <RaisedButton onTouchTap={onRetry} label="Record again" />
         <RaisedButton onTouchTap={onSubmit} label="Submit" primary={true} />
+        {seconds > 0 && <div style= {styles.ticker}>{seconds}s</div>}
       </div>
     );
   },
 
   renderDone({uploadedUrl}) {
+    const seconds = Math.round(this.props.elapsedMs / 1000);
     return (
       <div>
         <RaisedButton label="Done" onTouchTap={this.onDone.bind(this, uploadedUrl)} primary={true} />
+        {seconds > 0 && <div style= {styles.ticker}>{seconds}s</div>}
       </div>
     );
   }
@@ -89,5 +98,10 @@ const styles = {
   },
   instruction: {
     paddingBottom: 5
+  },
+  ticker: {
+    display: 'inline-block',
+    marginLeft: 15,
+    fontSize: 20
   }
 };
