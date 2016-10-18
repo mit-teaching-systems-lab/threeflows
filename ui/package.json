@@ -51,8 +51,7 @@
     "superagent": "^2.0.0",
     "superagent-promise": "^1.1.0",
     "velocity-animate": "^1.2.3",
-    "velocity-react": "^1.1.5",
-    "watchify": "3.7.0"
+    "velocity-react": "^1.1.5"
   },
   "devDependencies": {
     "@kadira/storybook": "^2.2.3",
@@ -71,6 +70,7 @@
     "mocha": "^3.0.2",
     "react-addons-test-utils": "^15.3.0",
     "react-proxy": "^1.1.8",
-    "sinon": "^1.17.5"
+    "sinon": "^1.17.5",
+    "watchify": "^3.7.0"
   }
 }
