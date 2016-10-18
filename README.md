@@ -5,12 +5,10 @@ A small [Express](http://expressjs.com/) server and [React](https://facebook.git
 
 ## Local development
 #### UI
-Install [yarn](https://yarnpkg.com/en/docs/install) for managing dependencies.
-
 In another terminal, install dependencies and then start a process that will continually build the UI with hot reloading:
 ```
 $ cd ui
-ui $ yarn install
+ui $ npm install
 ui $ mkdir build
 ui $ npm run watch
 ```
@@ -23,7 +21,7 @@ For storing audio files, you'll need keys authorized for a development S3 bucket
 In another terminal, install dependencies and then start the server:
 ```
 $ node -v # should match the engine in the root package.json
-$ yarn install
+$ npm install
 $ mkdir tmp
 $ npm run dev
 ```
@@ -126,10 +124,6 @@ Other Heroku docs:
 - [Heroku Node.js Support](https://devcenter.heroku.com/articles/nodejs-support)
 - [Node.js on Heroku](https://devcenter.heroku.com/categories/nodejs)
 - [Best Practices for Node.js Development](https://devcenter.heroku.com/articles/node-best-practices)
-
-### Yarn buildback
-This [buildpack](https://github.com/heroku/heroku-buildpack-nodejs/issues/337#issuecomment-253286196
-) is used to use support yarn in Heroku.
 
 ## Other services
 [Travis](https://travis-ci.org/mit-teaching-systems-lab/threeflows) is setup for CI.  It will run on pull requests and on commits to master.

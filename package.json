@@ -9,7 +9,7 @@
     "dev": "READ_LOCAL_EVIDENCE=true DATABASE_URL=http://localhost:5432 NODE_ENV=development npm run start",
     "start": "node server/index.js",
     "watch": "cd ui && npm run watch && cd ..",
-    "heroku-prebuild": "cd ui && mkdir build && yarn install",
+    "heroku-prebuild": "cd ui && mkdir build && npm install",
     "heroku-postbuild": "cd ui && npm run build",
     "test": "cd ui && npm run test"
   },
