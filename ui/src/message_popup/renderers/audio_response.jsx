@@ -39,6 +39,7 @@ export default React.createClass({
           reviewing={this.renderReviewing}
           recording={this.renderRecording}
           onDone={this.onDone}
+          onLogMessage={this.props.onLogMessage}
         />
       </div>
     );

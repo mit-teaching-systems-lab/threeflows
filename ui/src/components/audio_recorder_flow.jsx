@@ -33,7 +33,8 @@ export default React.createClass({
     processing: React.PropTypes.func,
     saving: React.PropTypes.func,
     done: React.PropTypes.func,
-    onDone: React.PropTypes.func.isRequired
+    onDone: React.PropTypes.func.isRequired,
+    onLogMessage: React.PropTypes.func.isRequired
   },
 
   getInitialState():State {
@@ -76,6 +77,7 @@ export default React.createClass({
   },
 
   onRecordClicked() {
+    this.props.onLogMessage('message_popup_audio_record_clicked');
     this.setState({
       ...this.getInitialState(),
       isRecording: true
@@ -83,6 +85,7 @@ export default React.createClass({
   },
 
   onDoneRecordingClicked() {
+    this.props.onLogMessage('message_popup_audio_done_recording_clicked');
     this.setState({
       isRecording: false,
       haveRecorded: true
@@ -90,17 +93,20 @@ export default React.createClass({
   },
 
   onDoneCapture(blob:Blob) {
+    this.props.onLogMessage('message_popup_audio_on_done_capture');
     var downloadUrl = URL.createObjectURL(blob);
     this.setState({blob, downloadUrl});
   },
 
   onSubmit() {
+    this.props.onLogMessage('message_popup_audio_on_submit');
     this.setState({ uploadState: 'pending' });
     const {blob} = this.state;
     if (blob) this.uploadBlob(blob);
   },
 
   onRetry() {
+    this.props.onLogMessage('message_popup_audio_on_retry');
     this.setState({
       ...this.getInitialState(),
       isRecording: true
@@ -108,6 +114,7 @@ export default React.createClass({
   },
 
   onDoneUploading(event) {
+    this.props.onLogMessage('message_popup_audio_done_uploading');
     const uploadedUrl = JSON.parse(event.target.response).url;
     this.setState({
       uploadedUrl,
