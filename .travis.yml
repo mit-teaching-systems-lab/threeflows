@@ -6,5 +6,9 @@ branches:
   only:
     - master
 
+# via https://github.com/travis-ci/travis-ci/issues/6720
+install:
+  - npm i -g yarn && yarn
+
 before_script:
   - npm run heroku-prebuild
