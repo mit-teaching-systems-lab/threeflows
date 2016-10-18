@@ -50,6 +50,7 @@ export default React.createClass({
 
   onBlobReady(blob) {
     this.props.onDoneCapture(blob);
+    this.recorder.destroy();
     delete this.recorder;
   },
 

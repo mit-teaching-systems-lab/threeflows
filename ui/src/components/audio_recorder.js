@@ -66,8 +66,8 @@ export default class AudioRecorder {
   }
 
   destroy() {
-    this.recordingStream.stop();
-    this.audioContext.close();
+    if (this.recordingStream.stop) this.recordingStream.stop();
+    if (this.audioContext.close) this.audioContext.close();
 
     delete this.buffers;
     delete this.bufferLength;
