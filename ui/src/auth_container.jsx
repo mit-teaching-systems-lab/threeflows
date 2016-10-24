@@ -132,39 +132,41 @@ export default React.createClass({
     const shouldShowWarning = userEmail.length > 10 && !this.validateEmail(userEmail);
 
     return (
-      <div style={{height: '100%', position: 'fixed', backgroundColor: '#ccc'}}>
-        <AppBar
-          title="MIT Teaching Systems Lab"
-          iconElementLeft={
-            <IconButton onTouchTap={this.onDecline}>
-              <NavigationClose />
-            </IconButton>
-          }
-        />
-        <Paper style={{padding: 20}}>
-          <p>Please enter your email address.</p>
-          <p>It will only be used to identify your responses, and not shared or used in any other way.</p>
-          <div style={{marginBottom: 20}}>
-            <TextField
-              name="userEmail"
-              ref={(el) => el && el.focus()}
-              onKeyDown={this.onKeyDown}
-              fullWidth={true}
-              hintText="Your email address"
-              errorText={shouldShowWarning && "Please enter a valid email address."}
-              errorStyle={{color: Colors.orange500}}
-              onChange={this.onTextChanged}
-            />
-          </div>
-          <div>
-            <RaisedButton
-              label="Start"
-              primary={true}
-              onTouchTap={this.onDoneEmail}
-              disabled={!this.validateEmail(userEmail)}
-            />
-          </div>
-        </Paper>
+      <div style={{height: 2000, paddingTop: 20, width: '100%', display: 'flex', justifyContent: 'center', backgroundColor: 'black'}}>
+        <div style={{width: 450}}>
+          <AppBar
+            title="MIT Teaching Systems Lab"
+            iconElementLeft={
+              <IconButton onTouchTap={this.onDecline}>
+                <NavigationClose />
+              </IconButton>
+            }
+          />
+          <Paper style={{padding: 20}}>
+            <p>Please enter your email address.</p>
+            <p>It will only be used to identify your responses, and not shared or used in any other way.</p>
+            <div style={{marginBottom: 20}}>
+              <TextField
+                name="userEmail"
+                ref={(el) => el && el.focus()}
+                onKeyDown={this.onKeyDown}
+                fullWidth={true}
+                hintText="Your email address"
+                errorText={shouldShowWarning && "Please enter a valid email address."}
+                errorStyle={{color: Colors.orange500}}
+                onChange={this.onTextChanged}
+              />
+            </div>
+            <div>
+              <RaisedButton
+                label="Start"
+                primary={true}
+                onTouchTap={this.onDoneEmail}
+                disabled={!this.validateEmail(userEmail)}
+              />
+            </div>
+          </Paper>
+        </div>
       </div>
     );
   }
