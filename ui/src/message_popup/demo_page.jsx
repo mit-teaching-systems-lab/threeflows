@@ -10,7 +10,6 @@ import Divider from 'material-ui/Divider';
 import LinearProgress from 'material-ui/LinearProgress';
 import Snackbar from 'material-ui/Snackbar';
 import MenuItem from 'material-ui/MenuItem';
-import TextField from 'material-ui/TextField';
 
 import PopupQuestion from './popup_question.jsx';
 import type {ResponseT} from './popup_question.jsx';
@@ -20,7 +19,6 @@ import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 import {withStudents} from './transformations.jsx';
 
 import * as Api from '../helpers/api.js';
-import FinalSummaryCard from './final_summary_card.jsx';
 import NavigationAppBar from '../components/navigation_app_bar.jsx';
 
 import MobileInterface from './mobile_prototype/mobile_interface.jsx';
