@@ -238,8 +238,8 @@ function readFile(filename) {
   return function(request, response) {
     const absolutePath = path.join(__dirname, '..', 'ui', 'build', filename);
     console.log(absolutePath);
-    const string = fs.readFileSync(absolutePath);
-    response.end(string);
+    const readStream = fs.createReadStream(absolutePath);
+    readStream.pipe(response);
   }
 }
 app.get('/bundle.js', readFile('bundle.js'));
