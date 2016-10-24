@@ -60,7 +60,14 @@ export default React.createClass({
     onLog: React.PropTypes.func.isRequired,
     onDone: React.PropTypes.func.isRequired,
     isLastQuestion: React.PropTypes.bool.isRequired,
-    drawResponseMode: React.PropTypes.func.isRequired
+    drawResponseMode: React.PropTypes.func.isRequired,
+    shouldScrollToResponse: React.PropTypes.bool
+  },
+
+  getDefaultProps() {
+    return {
+      shouldScrollToResponse: false
+    };
   },
 
   getInitialState: function() {
@@ -78,6 +85,7 @@ export default React.createClass({
   // If transitioning between the scenario and being able to respond for the
   // first time, animate the scrolling to bring the response UI into view.
   componentDidUpdate(prevProps, prevState) {
+    if (!this.props.shouldScrollToResponse) return;
     if (!prevState.allowResponding && this.state.allowResponding && this.responseContainerEl) {
       Velocity(this.responseContainerEl, 'scroll');
     }
