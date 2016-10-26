@@ -41,7 +41,7 @@ export default React.createClass({
       scaffolding: {
         helpType: 'none',
         shouldShowStudentCard: true,
-        shouldShowSummary: true
+        shouldShowSummary: false
       },
       gameSession: null,
       toastRevision: false,
@@ -101,12 +101,6 @@ export default React.createClass({
 
   onSave(){
     const {email} = this.state;  
-    const scaffolding = {
-      helpType: 'none',
-      shouldShowStudentCard: false,
-      shouldShowSummary: false,
-    };
-
     const demoQuestionIds = [
       120,
       305,
@@ -115,7 +109,6 @@ export default React.createClass({
     ];
     const demoQuestions = allQuestions.filter(question => demoQuestionIds.indexOf(question.id) !== -1);
     this.setState({
-      scaffolding,
       gameSession: {
         email,
         drawResponseMode: this.drawResponseMode,
