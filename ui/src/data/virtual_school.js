@@ -372,9 +372,28 @@ const julyStudentsFromMursion = [
   cohortKey: '20160722'
 }));
 
+const demoStudents = [{
+  id: 4001,
+  name: `Danny`,
+  grade: `7th grade`,
+  gender: `male`,
+  race: `African American`,
+  behavior: null,
+  ell: null,
+  learningDisabilities: null,
+  academicPerformance: null,
+  interests: `Plays in a band, sings in the school chorus`,
+  familyBackground: `1 older brother`,
+  ses: null,
+}].map(addFields({
+  isMursion: false,
+  cohortKey: '20161026'
+}));
+
 export const allStudents = initialStudents.concat(
   julyStudentsFromMursion,
-  julyStudentsNotFromMursion
+  julyStudentsNotFromMursion,
+  demoStudents
 );
 
 // Only include the latest cohort of students (others are essentially archived).

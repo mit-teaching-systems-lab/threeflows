@@ -18,7 +18,6 @@ export default React.createClass({
   render() {
     const {scaffolding, student, question} = this.props;
     const {examples, nonExamples} = question;
-
     return (
       <div>
         {scaffolding.shouldShowStudentCard && student &&
