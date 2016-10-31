@@ -60,7 +60,6 @@ export default React.createClass({
 const styles = {
   cardStyles: {
     backgroundColor: '#F1C889',
-    marginTop: 5,
     padding: 10
   },
   name: {

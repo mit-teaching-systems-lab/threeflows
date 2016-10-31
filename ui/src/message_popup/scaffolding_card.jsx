@@ -28,7 +28,6 @@ export default React.createClass({
   propTypes: {
     scaffolding: React.PropTypes.shape({
       helpType: React.PropTypes.string.isRequired,
-      shouldShowStudentCard: React.PropTypes.bool.isRequired,
       shouldShowSummary: React.PropTypes.bool.isRequired
     }).isRequired,
     initialEmail: React.PropTypes.string.isRequired,
@@ -44,7 +43,6 @@ export default React.createClass({
       sessionLength: 10,
       scaffolding: {
         helpType: this.props.scaffolding.helpType,
-        shouldShowStudentCard: this.props.scaffolding.shouldShowStudentCard,
         shouldShowSummary: this.props.scaffolding.shouldShowSummary,
       },
       selectedIndicatorId: ALL_INDICATORS,
@@ -74,6 +72,11 @@ export default React.createClass({
     return 'text';
   },
 
+  // This implementation is static
+  drawStudentCard(question, scaffolding) {
+    return true;
+  },
+
   onResponseModeChanged(event, responseModeKey) {
     this.setState({ responseModeKey });
   },
@@ -86,7 +89,8 @@ export default React.createClass({
       scaffolding,
       email,
       questionsForSession,
-      drawResponseMode: this.drawResponseMode
+      drawResponseMode: this.drawResponseMode,
+      drawStudentCard: this.drawStudentCard
     });
   },
   
@@ -102,12 +106,6 @@ export default React.createClass({
   
   onSliderChange(event, value){
     this.setState({ sessionLength: value });
-  },
-  
-  onStudentCardsToggled(){
-    var scaffolding = {...this.state.scaffolding};
-    scaffolding.shouldShowStudentCard = !scaffolding.shouldShowStudentCard;
-    this.setState({ scaffolding });
   },
   
   onSummaryToggled(){ 
@@ -134,12 +132,11 @@ export default React.createClass({
   render(){
     const {query} = this.props;
     const {selectedIndicatorId, sessionLength, scaffolding} = this.state;
-    const {shouldShowStudentCard, shouldShowSummary, helpType} = scaffolding;
+    const {shouldShowSummary, helpType} = scaffolding;
     const questionsLength = this.getQuestions(selectedIndicatorId).length;
 
     const showSlider = true;
     const showAll = _.has(query, 'all');
-    const showStudentCardsToggle = showAll || _.has(query, 'cards') || _.has(query, 'basic');
     const showSummaryToggle = showAll || _.has(query, 'summary');
     const showHelpToggle = showAll || _.has(query, 'feedback') || _.has(query, 'basic');
     const showOriginalHelp = showAll || _.has(query, 'originalHelp');
@@ -164,17 +161,10 @@ export default React.createClass({
         
         <Divider />
         
-        {(showStudentCardsToggle || showHelpToggle || showSummaryToggle || showOriginalHelp) &&
+        {(showHelpToggle || showSummaryToggle || showOriginalHelp) &&
           <div>
             <div style={styles.optionTitle}>Scaffolding:</div>
             <div style={_.merge({ padding: 20 }, styles.option)}>
-              {showStudentCardsToggle &&
-              <Toggle
-              label="With student cards"
-              labelPosition="right"
-              toggled={shouldShowStudentCard}
-              onToggle={this.onStudentCardsToggled} />
-              }
               {showSummaryToggle &&
               <Toggle
               label="Show summary after each question"
@@ -189,7 +179,7 @@ export default React.createClass({
               toggled={helpType==='feedback'}
               onToggle={this.onHelpToggled} />
               }
-              {(showStudentCardsToggle || showSummaryToggle || showHelpToggle) && showOriginalHelp &&
+              {(showSummaryToggle || showHelpToggle) && showOriginalHelp &&
               <div style={{margin: 10}}><Divider /></div>
               }
               {showOriginalHelp &&

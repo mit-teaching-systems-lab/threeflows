@@ -40,7 +40,6 @@ export default React.createClass({
     return {
       scaffolding: {
         helpType: 'none',
-        shouldShowStudentCard: true,
         shouldShowSummary: false
       },
       gameSession: null,
@@ -71,9 +70,15 @@ export default React.createClass({
   },
 
   drawResponseMode(question, scaffolding) {
-    // Start with text and alternate
+    // Tied to the specific scenarios
     const {questionsAnswered} = this.state.gameSession;
-    return (questionsAnswered % 2 === 0) ? 'text' : 'audio';
+    return ['text', 'text', 'audio', 'audio'][questionsAnswered];
+  },
+
+  drawStudentCard(question, scaffolding) {
+    // Tied to the specific scenarios
+    const {questionsAnswered} = this.state.gameSession;
+    return [true, false, false, true][questionsAnswered];
   },
 
   onLog(type, response:ResponseT) {
@@ -112,6 +117,7 @@ export default React.createClass({
       gameSession: {
         email,
         drawResponseMode: this.drawResponseMode,
+        drawStudentCard: this.drawStudentCard,
         sessionId: uuid.v4(),
         questions: withStudents(demoQuestions),
         questionsAnswered: 0,
@@ -201,7 +207,7 @@ export default React.createClass({
   
   renderPopupQuestion() {
     const {scaffolding, gameSession, limitMs} = this.state;
-    const {questions, questionsAnswered, drawResponseMode} = gameSession;
+    const {questions, questionsAnswered, drawResponseMode, drawStudentCard} = gameSession;
     const sessionLength = questions.length;
     const question = questions[questionsAnswered];
 
@@ -217,6 +223,7 @@ export default React.createClass({
             onLog={this.onLog}
             onDone={this.onQuestionDone}
             drawResponseMode={drawResponseMode}
+            drawStudentCard={drawStudentCard}
             isLastQuestion={(questionsAnswered + 1 === sessionLength)}/>
         </VelocityTransitionGroup>
         <Snackbar

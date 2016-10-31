@@ -558,14 +558,14 @@ export const doSomethingQuestions:[QuestionT] = [
   {
     studentIds: [4001],
     id: 305,
-    text: 'You are checking homework, and you notice Danny doesn\'t have his hw out and ready.  You write it down on your clipboard without interrupting his Do Now.  You ask his partner where her homework is.  Danny looks up and says loudly, "you didn\'t ask me for my homework--what, it\'s cause I\'m black!"',
+    text: 'You are checking homework, and you notice Danny doesn\'t have his homework out and ready.  You write it down on your clipboard without interrupting his Do Now.  You ask his partner where her homework is.  Danny looks up and says loudly, "you didn\'t ask me for my homework--what, it\'s cause I\'m black!"',
     examples: [],
     nonExamples: []
   },
   {
-    studentIds: [2003],
+    studentIds: [4002],
     id: 306,
-    text: 'During a lesson on the rug, you are engaging the class in a Read Aloud, students are clearly engaged.  However, you soon notice Jasmine in the back of the room writing all over her desk top seeming not to be paying attention.',
+    text: 'During a lesson on the rug, you are engaging the class in a Read Aloud, students are clearly engaged.  However, you soon notice Dani in the back of the room writing all over her desk top seeming not to be paying attention.',
     examples: [],
     nonExamples: []
   },
@@ -739,7 +739,7 @@ export const playtestQuestions:[QuestionT] = [
 const justinAndRitaQuestions = [
   {
     id: 3001,
-    studentIds: [],
+    studentIds: [4003],
     youTubeId: 'EvQ1S6-ImRk',
     youTubeParams: {
       end: 124

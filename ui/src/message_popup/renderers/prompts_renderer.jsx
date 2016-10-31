@@ -10,17 +10,18 @@ export default React.createClass({
   displayName: 'PromptsRenderer',
 
   propTypes: {
+    showStudentCard: React.PropTypes.bool.isRequired,
     scaffolding: React.PropTypes.object.isRequired,
     question: React.PropTypes.object.isRequired,
     student: React.PropTypes.object
   },
 
   render() {
-    const {scaffolding, student, question} = this.props;
+    const {scaffolding, showStudentCard, student, question} = this.props;
     const {examples, nonExamples} = question;
     return (
       <div>
-        {scaffolding.shouldShowStudentCard && student &&
+        {showStudentCard && student &&
           <StudentCard useCardStyles={true} student={student} />}
         {scaffolding.helpType === 'hints' && 
           <div style={styles.hintCard}>
@@ -33,7 +34,6 @@ export default React.createClass({
 
 const styles = {
   hintCard: {
-    marginTop: 5,
     padding: 10,
     paddingBottom: 0
   }

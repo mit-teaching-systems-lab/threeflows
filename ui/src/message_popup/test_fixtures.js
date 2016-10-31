@@ -15,11 +15,9 @@ export const testQuestions = {
 };
 export const practiceScaffolding = {
   helpType: 'feedback',
-  shouldShowStudentCard: true,
   shouldShowSummary: true
 };
 export const solutionScaffolding = {
   helpType: 'solution',
-  shouldShowStudentCard: true,
   shouldShowSummary: false
 };

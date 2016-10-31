@@ -50,14 +50,15 @@ export default class AudioRecorder {
   }
 
   _onAudioProcess(event) {
-    // save left and right buffers
-    for(let i = 0; i < 2; i++) {
-      const channel = event.inputBuffer.getChannelData(i);
-      this.buffers[i].push(new Float32Array(channel));
+    if (this.buffers && this.hasOwnProperty('bufferLength')) {
+      // save left and right buffers 
+      for(let i = 0; i < 2; i++) {
+        const channel = event.inputBuffer.getChannelData(i);
+        this.buffers[i].push(new Float32Array(channel));
+      }
+      this.bufferLength += this.bufferSize;
     }
-    this.bufferLength += this.bufferSize;
   }
-
 
   stop(onBlobReady) {
     this.recordingStream.getTracks()[0].stop();

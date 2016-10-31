@@ -374,6 +374,12 @@ const julyStudentsFromMursion = [
 
 const demoStudents = [{
   id: 4001,
+  sketchFab: {
+    id: 'f6548660b118491fbf32d78d5dbc8403',
+    eye: [-3, -20, -6],
+    target: [0.0, 0.01, 0.15]
+  },
+  sketchFabId: '',
   name: `Danny`,
   grade: `7th grade`,
   gender: `male`,
@@ -385,6 +391,37 @@ const demoStudents = [{
   interests: `Plays in a band, sings in the school chorus`,
   familyBackground: `1 older brother`,
   ses: null,
+}, {
+  id: 4002,
+  sketchFab: {
+    id: '127655328fe34d4089cc9e8647645464',
+    eye: [-2, -20, -1],
+    target: [-0.02, 0.00, 0.1]
+  },
+  name: `Dani`,
+  grade: `7th grade`,
+  gender: `female`,
+  race: `Indian`,
+  behavior: null,
+  ell: null,
+  learningDisabilities: null,
+  academicPerformance: null,
+  interests: null,
+  familyBackground: null,
+  ses: null
+}, {
+  id: 4003,
+  name: `Rita`,
+  grade: `7th grade`,
+  gender: `female`,
+  race: `Caucasian`,
+  behavior: null,
+  ell: null,
+  learningDisabilities: `ADHD`,
+  academicPerformance: null,
+  interests: 'Active in theater clubs',
+  familyBackground: null,
+  ses: null
 }].map(addFields({
   isMursion: false,
   cohortKey: '20161026'

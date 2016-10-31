@@ -30,7 +30,6 @@ export default React.createClass({
   propTypes: {
     scaffolding: React.PropTypes.shape({
       helpType: React.PropTypes.string.isRequired,
-      shouldShowStudentCard: React.PropTypes.bool.isRequired,
       shouldShowSummary: React.PropTypes.bool.isRequired,
     }).isRequired,
     question: React.PropTypes.object.isRequired,
@@ -162,14 +161,14 @@ export default React.createClass({
   logData(type, params = {}) {
     const {elapsedMs, initialResponse} = this.state;
     const {question, scaffolding} = this.props;
-    const {shouldShowStudentCard, helpType} = scaffolding;
+    const {helpType} = scaffolding;
     const {finalResponseText} = params;
     const response:RevisingTextResponseT = {
       question,
-      shouldShowStudentCard,
       helpType,
       elapsedMs,
       initialResponseText: initialResponse,
+      didShowStudentCard: true,
       finalResponseText
     };
     this.props.onLog(type, response);
@@ -247,8 +246,7 @@ export default React.createClass({
   },
 
   renderDialogs(){
-    const {scaffolding, question} = this.props;
-    const {shouldShowStudentCard} = scaffolding;
+    const {question} = this.props;
     const {dialog} = this.state;
     const selectedStudent = dialog !== null ? (dialog.type === 'student' ? dialog.student : undefined) : undefined;
     return (
@@ -278,13 +276,13 @@ export default React.createClass({
             open={dialog !== null && dialog.type === 'student'}
             onRequestClose={this.onCloseDialog}>
             <div style={styles.studentAttribute}>{`${selectedStudent.grade} ${selectedStudent.gender}, ${selectedStudent.race}`}</div>
-            {shouldShowStudentCard && selectedStudent.behavior && <div style={styles.studentAttribute}>{selectedStudent.behavior}</div>}
-            {shouldShowStudentCard && selectedStudent.ell && <div style={styles.studentAttribute}>{selectedStudent.ell}</div>}
-            {shouldShowStudentCard && selectedStudent.learningDisabilities && <div style={styles.studentAttribute}>{selectedStudent.learningDisabilities}</div>}
-            {shouldShowStudentCard && selectedStudent.academicPerformance && <div style={styles.studentAttribute}>{selectedStudent.academicPerformance}</div>}
-            {shouldShowStudentCard && selectedStudent.interests && <div style={styles.studentAttribute}>{selectedStudent.interests}</div>}
-            {shouldShowStudentCard && selectedStudent.familyBackground && <div style={styles.studentAttribute}>{selectedStudent.familyBackground}</div>}
-            {shouldShowStudentCard && selectedStudent.ses && <div style={styles.studentAttribute}>{selectedStudent.ses}</div>}
+            {selectedStudent.behavior && <div style={styles.studentAttribute}>{selectedStudent.behavior}</div>}
+            {selectedStudent.ell && <div style={styles.studentAttribute}>{selectedStudent.ell}</div>}
+            {selectedStudent.learningDisabilities && <div style={styles.studentAttribute}>{selectedStudent.learningDisabilities}</div>}
+            {selectedStudent.academicPerformance && <div style={styles.studentAttribute}>{selectedStudent.academicPerformance}</div>}
+            {selectedStudent.interests && <div style={styles.studentAttribute}>{selectedStudent.interests}</div>}
+            {selectedStudent.familyBackground && <div style={styles.studentAttribute}>{selectedStudent.familyBackground}</div>}
+            {selectedStudent.ses && <div style={styles.studentAttribute}>{selectedStudent.ses}</div>}
           </Dialog>
         }
       </div>

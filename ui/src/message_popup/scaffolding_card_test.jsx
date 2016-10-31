@@ -50,7 +50,7 @@ describe('<ScaffoldingCard />', () => {
     expect(wrapper.find('RadioButtonGroup[name="responseMode"]').length).to.equal(1);
 
     expect(wrapper.text()).to.contain('Scaffolding');
-    expect(wrapper.find(Toggle).length).to.equal(3);
+    expect(wrapper.find(Toggle).length).to.equal(2);
     expect(wrapper.find('RadioButtonGroup[name="helpOptions"]').length).to.equal(1);
   });
 });
