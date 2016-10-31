@@ -65,6 +65,7 @@ export default React.createClass({
     api.start();
     api.addEventListener('viewerready', this.onApiLoaded);
     this.api = api;
+    window.api = api;
   },
 
   onApiLoaded() {
