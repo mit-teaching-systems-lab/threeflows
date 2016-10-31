@@ -115,10 +115,10 @@ export default React.createClass({
   onSave(){
     const {email} = this.state;  
     const demoQuestionIds = [
+      120,
+      305,
       306,
-      // 120,
-      // 305,
-      // 3001
+      3001
     ];
     const demoQuestions = allQuestions.filter(question => demoQuestionIds.indexOf(question.id) !== -1);
     this.setState({
