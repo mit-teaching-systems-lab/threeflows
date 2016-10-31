@@ -9,7 +9,6 @@ import * as TestFixtures from './test_fixtures.js';
 import PopupQuestion from './popup_question.jsx';
 import SummaryCard from './summary_card.jsx';
 import ScenarioRenderer from './renderers/scenario_renderer.jsx';
-import PromptsRenderer from './renderers/prompts_renderer.jsx';
 import RevisingTextResponse from './renderers/revising_text_response.jsx';
 import AudioResponse from './renderers/audio_response.jsx';
 
@@ -23,13 +22,13 @@ function testProps(props) {
     onDone: sinon.spy(),
     isLastQuestion: false,
     drawResponseMode: () => 'text',
+    drawStudentCard: () => true,
     ...props
   };
 }
 
 function expectChildElementsIn(wrapper) {
   expect(wrapper.find(ScenarioRenderer).length).to.equal(1);
-  expect(wrapper.find(PromptsRenderer).length).to.equal(1);
   expect(wrapper.find(SummaryCard).length).to.equal(0);
 }
 

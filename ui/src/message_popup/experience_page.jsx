@@ -47,7 +47,6 @@ export default React.createClass({
     return {
       scaffolding: {
         helpType: isSolutionMode ? 'none' : 'feedback',
-        shouldShowStudentCard: isSolutionMode ? _.has(this.props.query, 'cards') : true,
         shouldShowSummary: !isSolutionMode,
       },
       gameSession: null,
@@ -99,12 +98,19 @@ export default React.createClass({
   },
   
   onSaveScaffoldingAndSession(scaffoldingSessionParams){
-    const {scaffolding, email, questionsForSession, drawResponseMode} = scaffoldingSessionParams;
+    const {
+      scaffolding,
+      email,
+      questionsForSession,
+      drawResponseMode,
+      drawStudentCard
+    } = scaffoldingSessionParams;
     this.setState({
       scaffolding,
       gameSession: {
         email,
         drawResponseMode,
+        drawStudentCard,
         sessionId: uuid.v4(),
         questions: questionsForSession,
         questionsAnswered: 0,
@@ -193,7 +199,7 @@ export default React.createClass({
   
   renderPopupQuestion() {
     const {scaffolding, gameSession, limitMs} = this.state;
-    const {questions, questionsAnswered, drawResponseMode} = gameSession;
+    const {questions, questionsAnswered, drawResponseMode, drawStudentCard} = gameSession;
     const sessionLength = questions.length;
     const question = questions[questionsAnswered];
 
@@ -209,6 +215,7 @@ export default React.createClass({
             onLog={this.onLog}
             onDone={this.onQuestionDone}
             drawResponseMode={drawResponseMode}
+            drawStudentCard={drawStudentCard}
             isLastQuestion={(questionsAnswered + 1 === sessionLength)}/>
         </VelocityTransitionGroup>
         <Snackbar

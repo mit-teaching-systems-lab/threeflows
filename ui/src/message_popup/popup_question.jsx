@@ -8,7 +8,6 @@ import SetIntervalMixin from '../helpers/set_interval_mixin.js';
 import type {QuestionT} from './question.js';
 import SummaryCard from './summary_card.jsx';
 import ScenarioRenderer from './renderers/scenario_renderer.jsx';
-import PromptsRenderer from './renderers/prompts_renderer.jsx';
 import RevisingTextResponse from './renderers/revising_text_response.jsx';
 import AudioResponse from './renderers/audio_response.jsx';
 
@@ -18,7 +17,7 @@ export type ResponseT = RevisingTextResponseT | AudioResponseT;
 export type RevisingTextResponseT = {
   question:QuestionT,
   elapsedMs:number,
-  shouldShowStudentCard:boolean,
+  didShowStudentCard:boolean,
   helpType:string,
   initialResponseText:string,
   finalResponseText:string
@@ -26,7 +25,7 @@ export type RevisingTextResponseT = {
 export type AudioResponseT = {
   question:QuestionT,
   elapsedMs:number,
-  shouldShowStudentCard:boolean,
+  didShowStudentCard:boolean,
   helpType:string,
   audioUrl:string
 };
@@ -46,7 +45,6 @@ export default React.createClass({
   propTypes: {
     scaffolding: React.PropTypes.shape({
       helpType: React.PropTypes.string.isRequired,
-      shouldShowStudentCard: React.PropTypes.bool.isRequired,
       shouldShowSummary: React.PropTypes.bool.isRequired
     }).isRequired,
     limitMs: React.PropTypes.number.isRequired,
@@ -61,6 +59,7 @@ export default React.createClass({
     onDone: React.PropTypes.func.isRequired,
     isLastQuestion: React.PropTypes.bool.isRequired,
     drawResponseMode: React.PropTypes.func.isRequired,
+    drawStudentCard: React.PropTypes.func.isRequired,
     shouldScrollToResponse: React.PropTypes.bool
   },
 
@@ -73,9 +72,11 @@ export default React.createClass({
   getInitialState: function() {
     const {question, scaffolding} = this.props;
     const responseMode = this.props.drawResponseMode(question, scaffolding);
+    const willShowStudentCard = this.props.drawStudentCard(question, scaffolding);
 
     return {
       responseMode,
+      willShowStudentCard,
       elapsedMs: 0,
       allowResponding: false,
       response: null
@@ -97,11 +98,12 @@ export default React.createClass({
   // with an opaque set of params.
   logData(type, params = {}) {
     const {question, scaffolding} = this.props;
-    const {elapsedMs} = this.state;
+    const {elapsedMs, willShowStudentCard, responseMode} = this.state;
     const response:Response = {
       question,
       elapsedMs,
-      shouldShowStudentCard: scaffolding.shouldShowStudentCard,
+      didShowStudentCard: willShowStudentCard,
+      responseMode,
       helpType: scaffolding.helpType,
       ...params
     };
@@ -156,19 +158,17 @@ export default React.createClass({
   
   renderQuestion(){
     const {scaffolding, question} = this.props;
-    const {allowResponding} = this.state;
+    const {allowResponding, willShowStudentCard} = this.state;
     const student = _.first(question.students || []);
 
     return ( 
       <div>
         <ScenarioRenderer
-          question={question}
-          onScenarioDone={this.onScenarioDone}
-        />
-        <PromptsRenderer
           scaffolding={scaffolding}
-          student={student}
           question={question}
+          student={student}
+          showStudentCard={willShowStudentCard}
+          onScenarioDone={this.onScenarioDone}
         />
         {allowResponding &&
           <div ref={el => this.responseContainerEl = el}>{this.renderResponse()}</div>

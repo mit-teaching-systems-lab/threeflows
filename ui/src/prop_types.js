@@ -43,3 +43,8 @@ export const Student = React.PropTypes.shape({
   familyBackground: React.PropTypes.string,
   ses: React.PropTypes.string
 });
+
+export const Scaffolding = React.PropTypes.shape({
+  helpType: React.PropTypes.string.isRequired,
+  shouldShowSummary: React.PropTypes.bool.isRequired
+});

@@ -46,7 +46,6 @@ export default React.createClass({
     return {
       scaffolding: {
         helpType: isSolutionMode ? 'none' : 'feedback',
-        shouldShowStudentCard: isSolutionMode ? _.has(this.props.query, 'cards') : true,
         shouldShowSummary: !isSolutionMode,
       },
       gameSession: null,
@@ -87,6 +86,11 @@ export default React.createClass({
     }
   },
 
+  // This implementation is static
+  drawStudentCard(question, scaffolding) {
+    return true;
+  },
+  
   onLog(type, response:ResponseT) {
     Api.logEvidence(type, {
       ...response,
@@ -115,7 +119,6 @@ export default React.createClass({
     const {email} = this.state;  
     const scaffolding = {
       helpType: 'feedback', // feedback, hints or none
-      shouldShowStudentCard: false,
       shouldShowSummary: false,
     };
 
@@ -124,6 +127,7 @@ export default React.createClass({
       gameSession: {
         email,
         drawResponseMode: this.drawResponseMode,
+        drawStudentCard: this.drawStudentCard,
         sessionId: uuid.v4(),
         questions: withStudents(playtestQuestions),
         questionsAnswered: 0,
@@ -227,7 +231,7 @@ export default React.createClass({
   
   renderPopupQuestion() {
     const {scaffolding, gameSession, limitMs} = this.state;
-    const {questions, questionsAnswered, drawResponseMode} = gameSession;
+    const {questions, questionsAnswered, drawResponseMode, drawStudentCard} = gameSession;
     const sessionLength = questions.length;
     const question = questions[questionsAnswered];
 
@@ -243,6 +247,7 @@ export default React.createClass({
             onLog={this.onLog}
             onDone={this.onQuestionDone}
             drawResponseMode={drawResponseMode}
+            drawStudentCard={drawStudentCard}
             isLastQuestion={(questionsAnswered + 1 === sessionLength)}/>
         </VelocityTransitionGroup>
         <Snackbar

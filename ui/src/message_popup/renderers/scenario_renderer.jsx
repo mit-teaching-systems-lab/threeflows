@@ -1,56 +1,103 @@
 /* @flow weak */
 import React from 'react';
-import VideoScenario from './video_scenario.jsx';
 
+
+import * as PropTypes from '../../prop_types.js';
+import PromptsRenderer from './prompts_renderer.jsx';
+import TextModelScenario from './text_model_scenario.jsx';
+import PlainTextQuestion from './plain_text_question.jsx';
+import VideoScenario from './video_scenario.jsx';
 
 // Supports rendering a scenario as text or as a YouTube video.
 export default React.createClass({
   displayName: 'ScenarioRenderer',
 
   propTypes: {
+    scaffolding: PropTypes.Scaffolding.isRequired,
     question: React.PropTypes.object.isRequired,
+    student: PropTypes.Student,
+    showStudentCard: React.PropTypes.bool.isRequired,
     onScenarioDone: React.PropTypes.func.isRequired
   },
 
-  // Text scenarios can be responded to immediately, while
-  // videos need to finish playing first.
+  // Plain text scenarios can be responded to immediately,
+  // others have some delay.
   componentDidMount() {
-    const {question} = this.props;
-    if (question.text) return this.props.onScenarioDone();
+    const scenarioType = this.scenarioType();
+    if (scenarioType === 'plainText') this.props.onScenarioDone();
   },
 
-  onVideoDone() {
-    this.props.onScenarioDone();
+  scenarioType() {
+    const {question, student} = this.props;
+    if (question.text && student && student.sketchFab) return 'textModel';
+    if (question.youTubeId) return 'video';
+    if (question.text) return 'plainText';
   },
 
   render() {
+    return <div>
+      {this.renderScenario()}
+      {this.renderPrompts()}
+    </div>;
+  },
+
+  renderScenario() {
+    const scenarioType = this.scenarioType();
+
+    if (scenarioType === 'textModel') return this.renderTextModel();
+    if (scenarioType === 'video') return this.renderVideo();
+    if (scenarioType === 'plainText') return this.renderText();
+  },
+
+  renderPrompts() {
+    const {question, student, scaffolding, showStudentCard} = this.props;
+    return (
+      <PromptsRenderer
+        scaffolding={scaffolding}
+        showStudentCard={showStudentCard}
+        student={student}
+        question={question}
+      />
+    );
+  },
+
+  renderTextModel() {
+    const {question, student, scaffolding} = this.props;
+
+    return (
+      <TextModelScenario
+        question={question}
+        student={student}
+        modelHeight={styles.textModel.height}
+        scaffolding={scaffolding}
+        onScenarioDone={this.props.onScenarioDone}
+      />
+    );
+  },
+
+  renderVideo() {
     const {question} = this.props;
-    if (question.text) return this.renderText(question.text);
-    if (question.youTubeId) return this.renderVideo(question);
-  },
-
-  renderText(questionText) {
-    return <div style={styles.textQuestion}>{questionText}</div>;
-  },
-
-  renderVideo(question) {
     return (
       <div style={styles.videoContainer}>
         <VideoScenario
           youTubeId={question.youTubeId}
           youTubeParams={question.youTubeParams}
-          onDonePlaying={this.onVideoDone} />
+          onDonePlaying={this.props.onScenarioDone} />
       </div>
     );
+  },
+
+  renderText() {
+    const {question} = this.props;
+    return <PlainTextQuestion question={question} />;
   }
 });
 
 const styles = {
-  textQuestion: {
-    whiteSpace: 'pre-wrap',
-    padding: 20
+  textModel: {
+    height: 230
   },
   videoContainer: {
-    height: 390
+    height: 370
   }
 };
