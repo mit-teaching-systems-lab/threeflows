@@ -394,14 +394,14 @@ const demoStudents = [{
 }, {
   id: 4002,
   sketchFab: {
-    id: '127655328fe34d4089cc9e8647645464',
-    eye: [-2, -20, -1],
-    target: [-0.02, 0.00, 0.1]
+    id: '2106cb61b95c48dc8b506ffb3c1daa6e',
+    eye: [-12, -20, -1],
+    target: [-0.09, -0.05, 0.10]
   },
-  name: `Dani`,
+  name: `Sheena`,
   grade: `7th grade`,
   gender: `female`,
-  race: `Indian`,
+  race: `Asian`,
   behavior: null,
   ell: null,
   learningDisabilities: null,

@@ -51,7 +51,7 @@ export default React.createClass({
       camera: 0,
       ui_stop: 0,
       preload: 1,
-      autospin: 0.01,
+      autospin: 0.015,
       success: this.onSuccess,
       error: this.onError
     });
@@ -65,6 +65,7 @@ export default React.createClass({
     api.start();
     api.addEventListener('viewerready', this.onApiLoaded);
     this.api = api;
+    window.api = api;
   },
 
   onApiLoaded() {

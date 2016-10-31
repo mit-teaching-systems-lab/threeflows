@@ -30,10 +30,18 @@ For public demos.
 export default React.createClass({
   displayName: 'DemoPage',
 
-  propTypes: {},
+  propTypes: {
+    feedbackFormUrl: React.PropTypes.string
+  },
 
   contextTypes: {
     auth: React.PropTypes.object.isRequired
+  },
+
+  getDefaultProps() {
+    return {
+      feedbackFormUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSdC7CrSkmA8Y2ZEmKwuzfeaijMoO-KZMbgEz9Q-Ay2f8u8Klw/viewform'
+    };
   },
 
   getInitialState() {
@@ -107,10 +115,10 @@ export default React.createClass({
   onSave(){
     const {email} = this.state;  
     const demoQuestionIds = [
-      120,
-      305,
       306,
-      3001
+      // 120,
+      // 305,
+      // 3001
     ];
     const demoQuestions = allQuestions.filter(question => demoQuestionIds.indexOf(question.id) !== -1);
     this.setState({
@@ -162,18 +170,38 @@ export default React.createClass({
   },
 
   renderDone() {
+    const {feedbackFormUrl} = this.props;
+
     return (
       <div className="done">
         <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
           <div style={_.merge(_.clone(styles.container), styles.done)}>
-            <div style={styles.doneTitle}>Thanks, you've finished!</div>
-            <div style={styles.doneTitle}>If you're working with a group, turn and share your experience.</div>
+            <div style={styles.doneTitle}>Thanks!</div>
+            <div style={styles.doneTitle}>If you're at a workshop and have a feedback capture grid, please share your thoughts with us!</div>
             <Divider style={{marginTop: 20}} />
-            <div style={{paddingTop: 20, fontSize: 18}}>We'd love to hear from you, please complete this <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSfDuvAqwhhgWZJsGPvog6nrS_cecuqdzX-kMo41Goco1I3tPg/viewform?c=0&w=1">feedback survey</a>!</div>
+            <div style={{paddingTop: 20, fontSize: 18}}>
+              If you ran into this online, we'd love to
+              <a
+                href={feedbackFormUrl}
+              > hear from you</a> too. :)
+            </div>
           </div>
         </VelocityTransitionGroup>
       </div>
     );
+  },
+
+  renderFeedbackForm() {
+    const {feedbackFormUrl} = this.props;
+    if (!feedbackFormUrl) return;
+    
+    return <iframe
+      src={`${feedbackFormUrl}?embedded=true`}
+      width="100%"
+      height={600}
+      frameBorder={0}
+      marginHeight={0}
+      marginWidth={0}>Loading...</iframe>;
   },
 
   renderInstructions() {

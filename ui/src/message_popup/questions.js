@@ -565,7 +565,7 @@ export const doSomethingQuestions:[QuestionT] = [
   {
     studentIds: [4002],
     id: 306,
-    text: 'During a lesson on the rug, you are engaging the class in a Read Aloud, students are clearly engaged.  However, you soon notice Dani in the back of the room writing all over her desk top seeming not to be paying attention.',
+    text: 'During a lesson on the rug, you are engaging the class in a Read Aloud, students are clearly engaged.  However, you soon notice Sheena in the back of the room writing all over her desk top seeming not to be paying attention.',
     examples: [],
     nonExamples: []
   },
