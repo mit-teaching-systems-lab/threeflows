@@ -141,7 +141,6 @@ export default React.createClass({
   },
 
   renderResponsiveFrame(isNotWide) {
-    console.log(isNotWide);
     const outerFrameStyles = (isNotWide)
       ? styles.desktopOuterFrame
       : {};
@@ -150,8 +149,8 @@ export default React.createClass({
       : {};
 
     return (
-      <div style={outerFrameStyles}>
-        <div style={innerFrameStyles}>
+      <div className="outer-frame" style={outerFrameStyles}>
+        <div className="inner-frame" style={innerFrameStyles}>
           <NavigationAppBar
             title="Teacher Moments"
             iconElementLeft={
