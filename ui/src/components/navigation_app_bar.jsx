@@ -23,6 +23,7 @@ export default React.createClass({
   propTypes: {
     title: React.PropTypes.string.isRequired,
     style: React.PropTypes.object,
+    iconElementLeft: React.PropTypes.element,
     iconElementRight: React.PropTypes.element,
     prependMenuItems: React.PropTypes.element
   },
@@ -52,15 +53,15 @@ export default React.createClass({
 
   render() {
     const {userProfile, doLogout} = this.context.auth;
-    const {iconElementRight, prependMenuItems} = this.props;
+    const {iconElementLeft, iconElementRight, prependMenuItems} = this.props;
 
     return (
       <div>
         <AppBar
           title={this.props.title}
           style={this.props.style}
-          iconElementLeft={
-            <IconButton onTouchTap={this.onToggled} >
+          iconElementLeft={iconElementLeft || 
+            <IconButton onTouchTap={this.onToggled}>
               <MenuIcon />
             </IconButton>
           }

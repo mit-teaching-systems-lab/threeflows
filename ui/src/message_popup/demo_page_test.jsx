@@ -1,7 +1,7 @@
 /* @flow weak */
 import React from 'react';
 
-import {render, mount} from 'enzyme';
+import {mount} from 'enzyme';
 import {expect} from 'chai';
 import TestAuthContainer from '../test_auth_container.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -9,6 +9,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import DemoPage from './demo_page.jsx';
 import PopupQuestion from './popup_question.jsx';
 import PlainTextQuestion from './renderers/plain_text_question.jsx';
+import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 
 // Wrap with application context for a full render
 // (eg., theming, authorization).
@@ -24,12 +25,13 @@ function withContext(child) {
 
 describe('<DemoPage />', () => {
   it('renders instructions', () => {    
-    const wrapper = render(withContext(<DemoPage />));
+    const wrapper = mount(withContext(<DemoPage />));
 
     expect(wrapper.find('.instructions').length).to.equal(1);
     expect(wrapper.find('.prototype').length).to.equal(0);
     expect(wrapper.find('.done').length).to.equal(0);
     expect(wrapper.find('.question').length).to.equal(0);
+    expect(wrapper.find(RefreshIcon).length).to.equal(1);
   });
 
   it('transitions to first question', () => {
