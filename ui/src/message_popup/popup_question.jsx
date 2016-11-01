@@ -60,11 +60,13 @@ export default React.createClass({
     isLastQuestion: React.PropTypes.bool.isRequired,
     drawResponseMode: React.PropTypes.func.isRequired,
     drawStudentCard: React.PropTypes.func.isRequired,
+    shouldScrollOnMount: React.PropTypes.bool,
     shouldScrollToResponse: React.PropTypes.bool
   },
 
   getDefaultProps() {
     return {
+      shouldScrollOnMount: true,
       shouldScrollToResponse: false
     };
   },
@@ -81,6 +83,10 @@ export default React.createClass({
       allowResponding: false,
       response: null
     };
+  },
+
+  componentDidMount() {
+    if (this.props.shouldScrollOnMount) window.scrollTo(0, 0);
   },
 
   // If transitioning between the scenario and being able to respond for the
