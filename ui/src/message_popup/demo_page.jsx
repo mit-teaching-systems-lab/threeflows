@@ -9,18 +9,14 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 import LinearProgress from 'material-ui/LinearProgress';
 import Snackbar from 'material-ui/Snackbar';
-import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton';
+import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 
 import PopupQuestion from './popup_question.jsx';
 import type {ResponseT} from './popup_question.jsx';
-
-import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
-
 import {withStudents} from './transformations.jsx';
-
 import * as Api from '../helpers/api.js';
 import NavigationAppBar from '../components/navigation_app_bar.jsx';
-
 import MobileInterface from './mobile_prototype/mobile_interface.jsx';
 import {allQuestions} from './questions.js';
 import AudioCapture from '../components/audio_capture.jsx';
@@ -145,11 +141,10 @@ export default React.createClass({
         <div style={styles.mobile}>
           <NavigationAppBar
             title="Teacher Moments"
-            prependMenuItems={
-              <MenuItem
-                onTouchTap={this.resetExperience}
-                leftIcon={<RefreshIcon />}
-                primaryText="Restart game" />
+            iconElementLeft={
+              <IconButton onTouchTap={this.resetExperience} >
+                <RefreshIcon />
+              </IconButton>
             }
           />
           {this.renderMainScreen()}
