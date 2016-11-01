@@ -23,6 +23,7 @@ import NavigationAppBar from '../components/navigation_app_bar.jsx';
 
 import MobileInterface from './mobile_prototype/mobile_interface.jsx';
 import {allQuestions} from './questions.js';
+import AudioCapture from '../components/audio_capture.jsx';
 
 /*
 For public demos.
@@ -77,8 +78,12 @@ export default React.createClass({
     this.setState(this.getInitialState());
   },
 
+  // Tied to the specific scenarios
+  // but mobile doesn't support audio, so fall back
   drawResponseMode(question, scaffolding) {
-    // Tied to the specific scenarios
+    const isAudioSupported = AudioCapture.isAudioSupported();
+    if (!isAudioSupported) return 'text';
+
     const {questionsAnswered} = this.state.gameSession;
     return ['text', 'text', 'audio', 'audio'][questionsAnswered];
   },
