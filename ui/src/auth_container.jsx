@@ -20,7 +20,8 @@ export default React.createClass({
 
   propTypes: {
     children: React.PropTypes.element.isRequired,
-    localStorageKey: React.PropTypes.string
+    localStorageKey: React.PropTypes.string,
+    isEmailRequired: React.PropTypes.bool.isRequired
   },
 
   childContextTypes: {
@@ -38,8 +39,8 @@ export default React.createClass({
 
   getInitialState() {
     return {
-      userEmail: '',
-      hasConfirmedEmail: false,
+      userEmail: 'unknown@mit.edu',
+      hasConfirmedEmail: !this.props.isEmailRequired,
       isNavigatingAway: false
     };
   },
