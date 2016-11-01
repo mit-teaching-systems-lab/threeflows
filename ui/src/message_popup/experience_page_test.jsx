@@ -7,7 +7,6 @@ import TestAuthContainer from '../test_auth_container.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import ExperiencePage from './experience_page.jsx';
-import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 
 // Wrap with application context for a full render
 // (eg., theming, authorization).

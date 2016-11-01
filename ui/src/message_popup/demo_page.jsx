@@ -4,6 +4,7 @@ import React from 'react';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import 'velocity-animate/velocity.ui';
 import uuid from 'node-uuid';
+import Media from 'react-media';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
@@ -136,9 +137,20 @@ export default React.createClass({
   },
 
   render() {
+    return <Media query="(min-width: 400px) and (min-height: 400px)">{this.renderResponsiveFrame}</Media>;
+  },
+
+  renderResponsiveFrame(isNotWide) {
+    const outerFrameStyles = (isNotWide)
+      ? styles.desktopOuterFrame
+      : {};
+    const innerFrameStyles = (isNotWide)
+      ? styles.desktopInnerFrame
+      : {};
+
     return (
-      <div style={styles.frame}>
-        <div style={styles.mobile}>
+      <div className="outer-frame" style={outerFrameStyles}>
+        <div className="inner-frame" style={innerFrameStyles}>
           <NavigationAppBar
             title="Teacher Moments"
             iconElementLeft={
@@ -287,14 +299,14 @@ export default React.createClass({
 });
 
 const styles = {
-  frame: {
+  desktopOuterFrame: {
     background: 'black',
     paddingTop: 20,
     height: 2000,
     display: 'flex',
     justifyContent: 'center'
   },
-  mobile: {
+  desktopInnerFrame: {
     width: 375,
     height: 667,
     background: 'white',

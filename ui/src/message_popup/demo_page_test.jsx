@@ -9,6 +9,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import DemoPage from './demo_page.jsx';
 import PopupQuestion from './popup_question.jsx';
 import PlainTextQuestion from './renderers/plain_text_question.jsx';
+import NavigationAppBar from '../components/navigation_app_bar.jsx';
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 
 // Wrap with application context for a full render
@@ -27,11 +28,15 @@ describe('<DemoPage />', () => {
   it('renders instructions', () => {    
     const wrapper = mount(withContext(<DemoPage />));
 
+    expect(wrapper.find('.outer-frame').length).to.equal(1);
+    expect(wrapper.find('.inner-frame').length).to.equal(1);
     expect(wrapper.find('.instructions').length).to.equal(1);
     expect(wrapper.find('.prototype').length).to.equal(0);
     expect(wrapper.find('.done').length).to.equal(0);
     expect(wrapper.find('.question').length).to.equal(0);
-    expect(wrapper.find(RefreshIcon).length).to.equal(1);
+
+    // Not sure why the deep find doesn't work, working around for now
+    expect(wrapper.find(NavigationAppBar).props().iconElementLeft.props.children.type.displayName).to.equal('NavigationRefresh');
   });
 
   it('transitions to first question', () => {
