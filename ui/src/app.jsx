@@ -72,7 +72,7 @@ export default React.createClass({
   render(){
     return (
       <MuiThemeProvider muiTheme={this.props.muiTheme}>
-        <AuthContainer>
+        <AuthContainer isEmailRequired={false}>
           {this.renderCurrentRoute()}
         </AuthContainer>
       </MuiThemeProvider>
