@@ -3,9 +3,9 @@ import React from 'react';
 import * as PropTypes from '../../prop_types.js';
 import PlainTextQuestion from './plain_text_question.jsx';
 
-// Render a text scenario with a 3D model from SketchPad
+// Render a text scenario with a 3D model from Sketchfab
 // Requires data set on the student about the id for the 
-// SketchPad model, and about the camera orientation.
+// Sketchfab model, and about the camera orientation.
 export default React.createClass({
   displayName: 'TextModelScenario',
 

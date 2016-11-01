@@ -377,7 +377,8 @@ const demoStudents = [{
   sketchFab: {
     id: 'f6548660b118491fbf32d78d5dbc8403',
     eye: [-3, -20, -6],
-    target: [0.0, 0.01, 0.15]
+    target: [0.0, 0.01, 0.15],
+    fallbackUrl: 'http://tsl-hacking.s3-website-us-east-1.amazonaws.com/teacher-moments/danny.jpg'
   },
   sketchFabId: '',
   name: `Danny`,
@@ -396,7 +397,8 @@ const demoStudents = [{
   sketchFab: {
     id: '2106cb61b95c48dc8b506ffb3c1daa6e',
     eye: [-12, -20, -1],
-    target: [-0.09, -0.05, 0.10]
+    target: [-0.09, -0.05, 0.10],
+    fallbackUrl: 'http://tsl-hacking.s3-website-us-east-1.amazonaws.com/teacher-moments/sheena.jpg'
   },
   name: `Sheena`,
   grade: `7th grade`,
