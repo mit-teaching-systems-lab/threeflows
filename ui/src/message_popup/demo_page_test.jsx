@@ -10,7 +10,6 @@ import DemoPage from './demo_page.jsx';
 import PopupQuestion from './popup_question.jsx';
 import PlainTextQuestion from './renderers/plain_text_question.jsx';
 import NavigationAppBar from '../components/navigation_app_bar.jsx';
-import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 
 // Wrap with application context for a full render
 // (eg., theming, authorization).
