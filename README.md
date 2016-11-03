@@ -35,6 +35,8 @@ The project is built with [Browserify](http://browserify.org/) and uses Babel vi
 
 For static analysis, we're experimenting with [eslint](http://eslint.org/) and [Flow](https://flowtype.org/).  The configuration for eslint uses [eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react) and [babel-eslint](https://github.com/babel/babel-eslint).  None of these tools trigger build failures right now, but can be run locally.
 
+You may also want to check out [react-devtools](https://github.com/facebook/react-devtools), which is a Chrome plugin that is especially helpful for navigating apps and discovering which parts of the product correspond to which React components.
+
 ### Type check with Flow
 This starts a [Flow](https://flowtype.org/) server in the background, and then runs a typecheck once.  There's no watch command right now.
 ```
@@ -59,6 +61,11 @@ This is used in CI, and runs any and all tests in the project including linting,
 ui $ npm run test
 ```
 
+### Sublime setup
+If you're developing in Sublime, here's a recommended setup for niceties like code highlighting and inline lint errors:
+ - [Package Control](https://packagecontrol.io/) for installing Sublime packages
+ - [babel-sublime](https://github.com/babel/babel-sublime) for syntax highlighting
+ - [SublimeLinter-eslint](https://github.com/roadhump/SublimeLinter-eslint) for inline linting (not jshint)
 
 ## Heroku setup
 ### Initial setup
