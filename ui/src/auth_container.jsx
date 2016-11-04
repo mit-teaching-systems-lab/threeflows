@@ -20,8 +20,8 @@ export default React.createClass({
 
   propTypes: {
     children: React.PropTypes.element.isRequired,
-    localStorageKey: React.PropTypes.string,
-    isEmailRequired: React.PropTypes.bool.isRequired
+    isEmailRequired: React.PropTypes.bool.isRequired,
+    localStorageKey: React.PropTypes.string
   },
 
   childContextTypes: {
