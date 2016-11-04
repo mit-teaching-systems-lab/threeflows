@@ -13,7 +13,7 @@ describe('<AuthContainer />', () => {
   });
 
   it('validateEmail', () => {    
-    const wrapper = shallow(<AuthContainer><div /></AuthContainer>);
+    const wrapper = shallow(<AuthContainer isEmailRequired={true}><div /></AuthContainer>);
     expect(wrapper.instance().validateEmail('krob@mit.edu')).to.equal(true);
     expect(wrapper.instance().validateEmail('krob@@@xyz')).to.equal(false);
   });
