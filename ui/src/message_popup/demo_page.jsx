@@ -4,7 +4,6 @@ import React from 'react';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import 'velocity-animate/velocity.ui';
 import uuid from 'node-uuid';
-import Media from 'react-media';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
@@ -13,6 +12,7 @@ import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 
+import ResponsiveFrame from './responsive_frame.jsx';
 import PopupQuestion from './popup_question.jsx';
 import type {ResponseT} from './popup_question.jsx';
 import {withStudents} from './transformations.jsx';
@@ -137,20 +137,9 @@ export default React.createClass({
   },
 
   render() {
-    return <Media query="(min-width: 400px) and (min-height: 400px)">{this.renderResponsiveFrame}</Media>;
-  },
-
-  renderResponsiveFrame(isNotWide) {
-    const outerFrameStyles = (isNotWide)
-      ? styles.desktopOuterFrame
-      : {};
-    const innerFrameStyles = (isNotWide)
-      ? styles.desktopInnerFrame
-      : {};
-
     return (
-      <div className="outer-frame" style={outerFrameStyles}>
-        <div className="inner-frame" style={innerFrameStyles}>
+      <ResponsiveFrame>
+        <div>
           <NavigationAppBar
             title="Teacher Moments"
             iconElementLeft={
@@ -161,7 +150,7 @@ export default React.createClass({
           />
           {this.renderMainScreen()}
         </div>
-      </div>
+      </ResponsiveFrame>
     );
   },
 
