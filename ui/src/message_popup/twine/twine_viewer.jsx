@@ -19,20 +19,17 @@ export default class TwineViewer extends React.Component {
     pid:number,
     onChoice:(passage:TwinePassageT, link:TwineLinkT) => void,
     onDone:() => void,
+    allowUnsafeHtml:bool
   }
 
   render() {
     const {twison, pid} = this.props;
     const passage = _.find(twison.passages, { pid });
 
-    // Remove choices from text.  They're saved inline like [[text->tag]]
-    // and also as data in `links`, so we'll just use `links`.
-    const plainText = passage.text.replace(/\[\[[^\]]*\]\]/g, '');
-
     return (
       <div className="choice" style={styles.container}>        
         <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
-          <div key={pid} style={styles.passageText}>{plainText}</div>
+          <div key={pid} style={styles.passageText}>{this.renderPassage(passage)}</div>
           {_.isUndefined(passage.links)
             ? <div onTouchTap={this.props.onDone} style={styles.twineChoice}>Done</div>
             : <div style={{paddingTop: 10}}>
@@ -51,6 +48,20 @@ export default class TwineViewer extends React.Component {
         </VelocityTransitionGroup>
       </div>
     );
+  }
+
+  renderPassage(passage) {
+    const {allowUnsafeHtml} = this.props;
+
+    // Remove choices from text.  They're saved inline like [[text->tag]]
+    // and also as data in `links`, so we'll just use `links`.
+    const strippedRaw = passage.text.replace(/\[\[[^\]]*\]\]/g, '');
+
+    // Since Twine supports embedding HTML tags,
+    // allow using its contents as untrusted HTML.
+    return (allowUnsafeHtml)
+      ? <div dangerouslySetInnerHTML={{__html: strippedRaw}} /> // eslint-disable-line react/no-danger
+      : strippedRaw; 
   }
 }
 

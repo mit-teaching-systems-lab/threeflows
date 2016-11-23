@@ -3,7 +3,7 @@ import _ from 'lodash';
 import React from 'react';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import 'velocity-animate/velocity.ui';
-import uuid from 'node-uuid';
+import uuid from 'uuid';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
@@ -185,6 +185,7 @@ export default React.createClass({
         pid={pid}
         onChoice={this.onChoice}
         onDone={this.onDone}
+        allowUnsafeHtml={true}
       />
     );
   }

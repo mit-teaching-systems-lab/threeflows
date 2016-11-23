@@ -1,7 +1,7 @@
 export default {
   "passages": [
     {
-      "text": "It's 9th grade geometry.  This is the end part of a lesson on chords, secants, and solving algebraic expressions to solve geometry problems.\n\nStudents are working on goformative.com, working through three or four problems to practice the kinds of problems you just demonstrated on the board.\n\n[[Do nothing->nothing]]\n[[Check in on Alicia->Alicia]]\n[[Check in on Samantha->Samantha]]\n[[Check in on Ken->Ken]]\n[[Check in on Ryan->Ryan]]",
+      "text": "It's 9th grade geometry.  This is the end part of a lesson on chords, secants, and solving algebraic expressions to solve geometry problems.\n\n<img src=\"http://www.regentsprep.org/regents/math/geometry/gp14/PracSegPic3.gif\" style=\"display: block;\"/>\n\nStudents are working on goformative.com, working through three or four problems to practice the kinds of problems you just demonstrated on the board.\n\n[[Do nothing->nothing]]\n[[Check in on Alicia->Alicia]]\n[[Check in on Samantha->Samantha]]\n[[Check in on Ken->Ken]]\n[[Check in on Ryan->Ryan]]",
       "links": [
         {
           "name": "Do nothing",
@@ -33,7 +33,7 @@ export default {
       "pid": "1",
       "position": {
         "x": "512",
-        "y": "300"
+        "y": "299"
       }
     },
     {
