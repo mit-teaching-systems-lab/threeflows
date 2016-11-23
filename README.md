@@ -1,7 +1,7 @@
 # threeflows
 [![Build Status](https://travis-ci.org/mit-teaching-systems-lab/threeflows.svg?branch=master)](https://travis-ci.org/mit-teaching-systems-lab/threeflows)
 
-Practice spaces for teacher preparation programs.  For more information come chat with [https://twitter.com/mit_tsl](@mit_tsl) or visit the [MIT Teaching Systems Lab](http://tsl.mit.edu).
+Practice spaces for teacher preparation programs.  For more information come chat with [@mit_tsl](https://twitter.com/mit_tsl) or visit the [MIT Teaching Systems Lab](http://tsl.mit.edu).
 
 This is a [React](https://facebook.github.io/react/) webapp, and a small [Express](http://expressjs.com/) server.
 Code in both environments is written in [ES6](https://babeljs.io/docs/learn-es2015/).
