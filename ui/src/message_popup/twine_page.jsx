@@ -14,7 +14,6 @@ import ResponsiveFrame from './responsive_frame.jsx';
 import type {ResponseT} from './popup_question.jsx';
 import * as Api from '../helpers/api.js';
 import NavigationAppBar from '../components/navigation_app_bar.jsx';
-import {allQuestions} from './questions.js';
 import Feedback from './feedback.jsx';
 
 /*
@@ -39,8 +38,9 @@ export default React.createClass({
   },
 
   onStartSession(){
-    const {email} = this.state;  
-    const twison = _.find(allQuestions, { id: 4001 });
+    // A particular demo question
+    const twison = {"passages":[{"text":"It's 9th grade geometry.  This is the end part of a lesson on chords, secants, and solving algebraic expressions to solve geometry problems.\n\nStudents are working on goformative.com, working through three or four problems to practice the kinds of problems you just demonstrated on the board.\n\n[[Do nothing->nothing]]\n[[Check in on Alicia->Alicia]]\n[[Check in on Samantha->Samantha]]\n[[Check in on Ken->Ken]]\n[[Check in on Ryan->Ryan]]","links":[{"name":"Do nothing","link":"nothing","pid":"2"},{"name":"Check in on Alicia","link":"Alicia","pid":"3"},{"name":"Check in on Samantha","link":"Samantha","pid":"8"},{"name":"Check in on Ken","link":"Ken","pid":"4"},{"name":"Check in on Ryan","link":"Ryan","pid":"5"}],"name":"Geometry with chords","pid":"1","position":{"x":"512","y":"300"}},{"text":"Really?  You should be helping students.\n\n[[Try again->Geometry with chords]]","links":[{"name":"Try again","link":"Geometry with chords","pid":"1"}],"name":"nothing","pid":"2","position":{"x":"290","y":"475"}},{"text":"Alicia is looking through her notebook.\n\n[[\"What are you looking for?\"]]\n[[\"How's it going?\"]]","links":[{"name":"\"What are you looking for?\"","link":"\"What are you looking for?\"","pid":"6"},{"name":"\"How's it going?\"","link":"\"How's it going?\"","pid":"7"}],"name":"Alicia","pid":"3","position":{"x":"697","y":"482"}},{"text":"Double-click this passage to edit it.","name":"Ken","pid":"4","position":{"x":"875","y":"308"}},{"text":"Double-click this passage to edit it.","name":"Ryan","pid":"5","position":{"x":"962","y":"450"}},{"text":"Double-click this passage to edit it.","name":"\"What are you looking for?\"","pid":"6","position":{"x":"639","y":"644"}},{"text":"Double-click this passage to edit it.","name":"\"How's it going?\"","pid":"7","position":{"x":"789","y":"644"}},{"text":"\"This problem looks wrong,\" she says.\n\n[[\"What's the problem?\"]]\n[[\"What do you mean?\"]]\n[[\"That sounds unlikely.\"]]","links":[{"name":"\"What's the problem?\"","link":"\"What's the problem?\"","pid":"9"},{"name":"\"What do you mean?\"","link":"\"What do you mean?\"","pid":"10"},{"name":"\"That sounds unlikely.\"","link":"\"That sounds unlikely.\"","pid":"11"}],"name":"Samantha","pid":"8","position":{"x":"432","y":"509"}},{"text":"Double-click this passage to edit it.","name":"\"What's the problem?\"","pid":"9","position":{"x":"309","y":"686"}},{"text":"Double-click this passage to edit it.","name":"\"What do you mean?\"","pid":"10","position":{"x":"434","y":"720"}},{"text":"Double-click this passage to edit it.","name":"\"That sounds unlikely.\"","pid":"11","position":{"x":"569","y":"769"}}],"name":"Alicia in Geometry","startnode":"1","creator":"Twine","creator-version":"2.0.11","ifid":"1CB6AE37-3E47-447E-8BB0-AE4FD79D2D9A"};
+    const {email} = this.state;
     this.setState({
       twineSession: {
         email,
@@ -50,20 +50,27 @@ export default React.createClass({
         sessionId: uuid.v4(),
         pid: twison.startnode,
         choicesMade: 0,
-        msResponseTimes: [],
         isFinished: false
       },
     });
   },
 
-  onChoice(elapsedMs) {
+  onChoice(passage, link) {
+    // log
     const prevTwineSession = this.state.twineSession;
-    var twineSession = {
+    this.onLog('twine_choice', {
+      prevTwineSession,
+      passage,
+      choice: link
+    });
+
+    // transition
+    var nextTwineSession = {
       ...prevTwineSession,
-      msResponseTimes: prevTwineSession.concat(elapsedMs),
-      choicesMade: prevTwineSession + 1
+      pid: link.pid,
+      choicesMade: prevTwineSession.choicesMade + 1
     };
-    this.setState({twineSession});
+    this.setState({ twineSession: nextTwineSession });
   },
 
   onLog(type, response:ResponseT) {
@@ -138,19 +145,29 @@ export default React.createClass({
     const {twison, pid} = this.state.twineSession;
     const passage = _.find(twison.passages, { pid });
 
+    // Remove choices from text.  They're saved inline like [[text->tag]]
+    // and also as data in `links`, so we'll just use `links`.
+    const plainText = passage.text.replace(/\[\[[^\]]*\]\]/g, '');
+
     return (
       <div className="choice" style={styles.container}>        
         <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
-          <div>{passage.text}</div>
-          <div>
-            {passage.links.map((link) => {
-              return (
-                <div>
-                  <a onTouchTap={this.onChoice.bind(this, link.pid)}>{link.name}</a>
-                </div>
-              );
-            })}
-          </div>
+          <div style={{padding: 20}}>{plainText}</div>
+          {_.isUndefined(passage.links)
+            ? <div onTouchTap={this.resetExperience} style={styles.twineChoice}>Done</div>
+            : <div>
+              {passage.links.map((link) => {
+                return (
+                  <div
+                    key={link.pid}
+                    style={styles.twineChoice}
+                    onTouchTap={this.onChoice.bind(this, passage, link)}>
+                    {link.name}
+                  </div>
+                );
+              })}
+            </div>
+          }
         </VelocityTransitionGroup>
       </div>
     );
@@ -158,22 +175,6 @@ export default React.createClass({
 });
 
 const styles = {
-  desktopOuterFrame: {
-    background: 'black',
-    paddingTop: 20,
-    height: 2000,
-    display: 'flex',
-    justifyContent: 'center'
-  },
-  desktopInnerFrame: {
-    width: 375,
-    height: 667,
-    background: 'white',
-    border: '1px solid #999'
-  },
-  done: {
-    padding: 20,
-  },
   container: {
     fontSize: 20,
     padding: 0,
@@ -183,9 +184,6 @@ const styles = {
   button: {
     marginTop: 20
   },
-  doneTitle: {
-    marginBottom: 10
-  },
   instructions: {
     paddingLeft: 20,
     paddingRight: 20,
@@ -193,6 +191,11 @@ const styles = {
   paragraph: {
     marginTop: 20,
     marginBottom: 20
+  },
+  twineChoice: {
+    padding: 5,
+    textDecoration: 'underline',
+    cursor: 'pointer',
+    color: 'blue'
   }
-
 };

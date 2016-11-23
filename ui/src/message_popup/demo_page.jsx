@@ -21,6 +21,7 @@ import NavigationAppBar from '../components/navigation_app_bar.jsx';
 import MobileInterface from './mobile_prototype/mobile_interface.jsx';
 import {allQuestions} from './questions.js';
 import AudioCapture from '../components/audio_capture.jsx';
+import Feedback from './feedback.jsx';
 
 /*
 For public demos.
@@ -164,45 +165,10 @@ export default React.createClass({
     const questionsAnswered = hasStarted ? gameSession.questionsAnswered : 0;
     const questions = hasStarted ? gameSession.questions : [];
     const sessionLength = hasStarted ? questions.length : 0;
-    if (questionsAnswered >= sessionLength) return this.renderDone();
+    if (questionsAnswered >= sessionLength) return <Feedback />;
 
     // question screen
     return this.renderPopupQuestion();
-  },
-
-  renderDone() {
-    const {feedbackFormUrl} = this.props;
-
-    return (
-      <div className="done">
-        <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
-          <div style={_.merge(_.clone(styles.container), styles.done)}>
-            <div style={styles.doneTitle}>Thanks!</div>
-            <div style={styles.doneTitle}>If you're at a workshop and have a feedback capture grid, please share your thoughts with us!</div>
-            <Divider style={{marginTop: 20}} />
-            <div style={{paddingTop: 20, fontSize: 18}}>
-              If you ran into this online, we'd love to
-              <a
-                href={feedbackFormUrl}
-              > hear from you</a> too. :)
-            </div>
-          </div>
-        </VelocityTransitionGroup>
-      </div>
-    );
-  },
-
-  renderFeedbackForm() {
-    const {feedbackFormUrl} = this.props;
-    if (!feedbackFormUrl) return;
-    
-    return <iframe
-      src={`${feedbackFormUrl}?embedded=true`}
-      width="100%"
-      height={600}
-      frameBorder={0}
-      marginHeight={0}
-      marginWidth={0}>Loading...</iframe>;
   },
 
   renderInstructions() {
@@ -288,19 +254,7 @@ export default React.createClass({
 });
 
 const styles = {
-  desktopOuterFrame: {
-    background: 'black',
-    paddingTop: 20,
-    height: 2000,
-    display: 'flex',
-    justifyContent: 'center'
-  },
-  desktopInnerFrame: {
-    width: 375,
-    height: 667,
-    background: 'white',
-    border: '1px solid #999'
-  },
+
   done: {
     padding: 20,
   },
