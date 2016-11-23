@@ -53,6 +53,7 @@ export default React.createClass({
     
     '/teachermoments': 'messagePopup',
     '/playtest/:cohortKey': 'messagePopupPlaytest',
+    '/teachermoments/twine': 'messagePopupTwine',
     '/teachermoments/demo': 'messagePopupDemo',
     '/teachermoments/exploration': 'messagePopupExploration',
     '/teachermoments/evaluations/:id': 'messagePopupEvaluation',
@@ -100,6 +101,10 @@ export default React.createClass({
     // Uses a unique key per query string so that navigating between
     // rebuilds the page.
     return <MessagePopup.ExperiencePage key={JSON.stringify(query)} query={query} />;
+  },
+
+  messagePopupTwine(query = {}) {
+    return <MessagePopup.TwinePage key={JSON.stringify(query)} />;
   },
 
   messagePopupDemo(query = {}) {

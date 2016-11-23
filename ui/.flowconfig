@@ -4,6 +4,7 @@
 .*/node_modules/npmconf/test/.*
 .*/node_modules/react-motion/.*
 .*/node_modules/react-swipeable-views/src/.*
+.*/node_modules/react-event-listener/.*
 .*/node_modules/reqwest/.*
 .*/node_modules/cjson/.*
 

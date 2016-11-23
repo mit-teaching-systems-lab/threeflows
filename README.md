@@ -1,7 +1,10 @@
 # threeflows
 [![Build Status](https://travis-ci.org/mit-teaching-systems-lab/threeflows.svg?branch=master)](https://travis-ci.org/mit-teaching-systems-lab/threeflows)
 
-A small [Express](http://expressjs.com/) server and [React](https://facebook.github.io/react/) webapp for doing design sketches of flows through a challenge and pieces of the challenge experience.  Code in both environments is written in [ES6](https://babeljs.io/docs/learn-es2015/).
+Practice spaces for teacher preparation programs.  For more information come chat with [https://twitter.com/mit_tsl](@mit_tsl) or visit the [MIT Teaching Systems Lab](http://tsl.mit.edu).
+
+This is a [React](https://facebook.github.io/react/) webapp, and a small [Express](http://expressjs.com/) server.
+Code in both environments is written in [ES6](https://babeljs.io/docs/learn-es2015/).
 
 ## Local development
 #### UI

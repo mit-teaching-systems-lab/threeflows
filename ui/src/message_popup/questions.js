@@ -735,6 +735,15 @@ export const playtestQuestions:[QuestionT] = [
   },
 ].map(forIndicator(601));
 
+const mathMisconceptionsQuestions = [
+  {
+    id: 2001,
+    studentIds: [],
+    youTubeId: '5iUTUQ3e0_w',
+    examples: [],
+    nonExamples: []
+  }
+].map(forIndicator(801));
 
 const justinAndRitaQuestions = [
   {
@@ -748,16 +757,6 @@ const justinAndRitaQuestions = [
     nonExamples: []
   }
 ].map(forIndicator(701));
-
-const mathMisconceptionsQuestions = [
-  {
-    id: 2001,
-    studentIds: [],
-    youTubeId: '5iUTUQ3e0_w',
-    examples: [],
-    nonExamples: []
-  }
-].map(forIndicator(801));
 
 
 export const allQuestions:[QuestionT] = _.flatten([

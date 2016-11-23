@@ -3,6 +3,7 @@ import _ from 'lodash';
 import type {ResponseLogT} from './types.js';
 import ExperiencePage from './experience_page.jsx';
 import DemoPage from './demo_page.jsx';
+import TwinePage from './twine/twine_page.jsx';
 import PlaytestExperiencePage from './playtest/playtest_experience_page.jsx';
 import ExplorationPage from './exploration_page.jsx';
 import ScoringPage from './scoring_page.jsx';
@@ -29,6 +30,7 @@ export function emailsFromLogs(logs:[ResponseLogT]) {
 export {
   ExperiencePage,
   DemoPage,
+  TwinePage,
   PlaytestExperiencePage,
   ExplorationPage,
   ScoringPage,
