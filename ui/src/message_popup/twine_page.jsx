@@ -175,10 +175,10 @@ export default React.createClass({
     return (
       <div className="choice" style={styles.container}>        
         <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
-          <div style={{padding: 20}}>{plainText}</div>
+          <div key={pid} style={styles.passageText}>{plainText}</div>
           {_.isUndefined(passage.links)
             ? <div onTouchTap={this.resetExperience} style={styles.twineChoice}>Done</div>
-            : <div>
+            : <div style={{paddingTop: 10}}>
               {passage.links.map((link) => {
                 return (
                   <div
@@ -215,9 +215,13 @@ const styles = {
     marginTop: 20,
     marginBottom: 20
   },
+  passageText: {
+    padding: 10,
+    lineHeight: 1.2
+  },
   twineChoice: {
-    padding: 5,
-    textDecoration: 'underline',
+    paddingLeft: 20,
+    paddingTop: 5,
     cursor: 'pointer',
     color: 'blue'
   }
