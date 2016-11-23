@@ -3,11 +3,11 @@ import React from 'react';
 
 import {mount} from 'enzyme';
 import {expect} from 'chai';
-import TestAuthContainer from '../test_auth_container.jsx';
+import TestAuthContainer from '../../test_auth_container.jsx';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import TwinePage from './twine_page.jsx';
-import NavigationAppBar from '../components/navigation_app_bar.jsx';
+import NavigationAppBar from '../../components/navigation_app_bar.jsx';
 
 // Wrap with application context for a full render
 // (eg., theming, authorization).

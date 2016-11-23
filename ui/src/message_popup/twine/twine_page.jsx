@@ -10,11 +10,12 @@ import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 
+import ResponsiveFrame from '../../components/responsive_frame.jsx';
+import * as Api from '../../helpers/api.js';
+import NavigationAppBar from '../../components/navigation_app_bar.jsx';
+import FeedbackForm from '../feedback_form.jsx';
 import {TwisonT, TwinePassageT, TwineLinkT} from './twison_types.js';
-import ResponsiveFrame from './responsive_frame.jsx';
-import * as Api from '../helpers/api.js';
-import NavigationAppBar from '../components/navigation_app_bar.jsx';
-import Feedback from './feedback.jsx';
+import TwineViewer from './twine_viewer.jsx';
 
 
 type StateT = {
@@ -107,6 +108,17 @@ export default React.createClass({
     });
   },
 
+  onDone() {
+    const prevTwineSession = this.state.twineSession;
+    if (prevTwineSession == null) return;
+    this.setState({
+      twineSession: {
+        ...prevTwineSession,
+        isFinished: true
+      }
+    });
+  },
+
   render() {
     return (
       <ResponsiveFrame>
@@ -131,7 +143,7 @@ export default React.createClass({
     if (twineSession == null) return this.renderInstructions();
 
     // all done
-    if (twineSession.isFinished) return <Feedback />;
+    if (twineSession.isFinished) return <FeedbackForm />;
 
     // choice
     return this.renderChoice(twineSession);
@@ -166,33 +178,13 @@ export default React.createClass({
   
   renderChoice(twineSession) {
     const {twison, pid} = twineSession;
-    const passage = _.find(twison.passages, { pid });
-
-    // Remove choices from text.  They're saved inline like [[text->tag]]
-    // and also as data in `links`, so we'll just use `links`.
-    const plainText = passage.text.replace(/\[\[[^\]]*\]\]/g, '');
-
     return (
-      <div className="choice" style={styles.container}>        
-        <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
-          <div key={pid} style={styles.passageText}>{plainText}</div>
-          {_.isUndefined(passage.links)
-            ? <div onTouchTap={this.resetExperience} style={styles.twineChoice}>Done</div>
-            : <div style={{paddingTop: 10}}>
-              {passage.links.map((link) => {
-                return (
-                  <div
-                    key={link.pid}
-                    style={styles.twineChoice}
-                    onTouchTap={this.onChoice.bind(this, passage, link)}>
-                    {link.name}
-                  </div>
-                );
-              })}
-            </div>
-          }
-        </VelocityTransitionGroup>
-      </div>
+      <TwineViewer
+        twison={twison}
+        pid={pid}
+        onChoice={this.onChoice}
+        onDone={this.onDone}
+      />
     );
   }
 });
@@ -214,15 +206,5 @@ const styles = {
   paragraph: {
     marginTop: 20,
     marginBottom: 20
-  },
-  passageText: {
-    padding: 10,
-    lineHeight: 1.2
-  },
-  twineChoice: {
-    paddingLeft: 20,
-    paddingTop: 5,
-    cursor: 'pointer',
-    color: 'blue'
   }
 };

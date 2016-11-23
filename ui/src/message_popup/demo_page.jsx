@@ -12,7 +12,7 @@ import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 
-import ResponsiveFrame from './responsive_frame.jsx';
+import ResponsiveFrame from '../components/responsive_frame.jsx';
 import PopupQuestion from './popup_question.jsx';
 import type {ResponseT} from './popup_question.jsx';
 import {withStudents} from './transformations.jsx';
@@ -21,7 +21,7 @@ import NavigationAppBar from '../components/navigation_app_bar.jsx';
 import MobileInterface from './mobile_prototype/mobile_interface.jsx';
 import {allQuestions} from './questions.js';
 import AudioCapture from '../components/audio_capture.jsx';
-import Feedback from './feedback.jsx';
+import FeedbackForm from './feedback_form.jsx';
 
 /*
 For public demos.
@@ -29,18 +29,8 @@ For public demos.
 export default React.createClass({
   displayName: 'DemoPage',
 
-  propTypes: {
-    feedbackFormUrl: React.PropTypes.string
-  },
-
   contextTypes: {
     auth: React.PropTypes.object.isRequired
-  },
-
-  getDefaultProps() {
-    return {
-      feedbackFormUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSdC7CrSkmA8Y2ZEmKwuzfeaijMoO-KZMbgEz9Q-Ay2f8u8Klw/viewform'
-    };
   },
 
   getInitialState() {
@@ -165,7 +155,7 @@ export default React.createClass({
     const questionsAnswered = hasStarted ? gameSession.questionsAnswered : 0;
     const questions = hasStarted ? gameSession.questions : [];
     const sessionLength = hasStarted ? questions.length : 0;
-    if (questionsAnswered >= sessionLength) return <Feedback />;
+    if (questionsAnswered >= sessionLength) return <FeedbackForm />;
 
     // question screen
     return this.renderPopupQuestion();
