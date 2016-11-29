@@ -156,7 +156,7 @@ export default React.createClass({
         <div className="instructions">
           <div style ={_.merge(_.clone(styles.container), styles.instructions)}>
             <p style={styles.paragraph}>Welcome!</p>
-            <p style={styles.paragraph}>This station is about responding to students in the moment. It is set in the context of a 7th grade classroom.</p>
+            <p style={styles.paragraph}>This station is about responding to students in the moment. It is set in the context of a 9th grade geometry class.</p>
             <p style={styles.paragraph}>This may feel uncomfortable at first, but it's better to get comfortable here than with real students.</p>
             <p style={styles.paragraph}>You'll be asked to make choices as you go.  Aim to respond to each scenario quickly, as if you were in the moment.</p>
             <p style={styles.paragraph}>We'll reflect, debrief and discuss afterward to see what we can learn.</p>
