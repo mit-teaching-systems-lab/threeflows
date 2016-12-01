@@ -6,6 +6,22 @@ Practice spaces for teacher preparation programs.  For more information come cha
 This is a [React](https://facebook.github.io/react/) webapp, and a small [Express](http://expressjs.com/) server.
 Code in both environments is written in [ES6](https://babeljs.io/docs/learn-es2015/).
 
+## Product experience
+
+There are a few different types of cases.  And a variety of representations and approximations can be used.
+
+|                                      | Simple    | Branching |
+| ------------------------------------ |:---------:|:---------:|
+| Representation: text                 | yes       | yes       |
+| Representation: image                | yes       | yes       |
+| Representation: video                | yes       |           |
+| Representation: SketchFab 3D model   | yes       |           |
+| Representation: HTML                 |           | yes       |
+| Approximation: text                  | yes       |           |
+| Approximation: audio                 | yes       |           |
+| Approximation: fixed choice text     |           | yes       |
+
+
 ## Local development
 #### UI
 In another terminal, install dependencies and then start a process that will continually build the UI with hot reloading:
