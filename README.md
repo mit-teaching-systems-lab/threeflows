@@ -6,6 +6,25 @@ Practice spaces for teacher preparation programs.  For more information come cha
 This is a [React](https://facebook.github.io/react/) webapp, and a small [Express](http://expressjs.com/) server.
 Code in both environments is written in [ES6](https://babeljs.io/docs/learn-es2015/).
 
+## Product
+#### Case formats
+- single-shot
+- branching path (using Twine)
+
+#### Representations
+- text
+- video
+- image
+- SketchFab 3D model (desktop web only)
+
+#### Approximations
+- text
+- audio (desktop web only)
+- text multiple choice (Twine )
+
+#### Authorization
+- Basic auth over HTTPS
+
 ## Local development
 #### UI
 In another terminal, install dependencies and then start a process that will continually build the UI with hot reloading:
