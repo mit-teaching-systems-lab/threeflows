@@ -6,24 +6,21 @@ Practice spaces for teacher preparation programs.  For more information come cha
 This is a [React](https://facebook.github.io/react/) webapp, and a small [Express](http://expressjs.com/) server.
 Code in both environments is written in [ES6](https://babeljs.io/docs/learn-es2015/).
 
-## Product
-#### Case formats
-- single-shot
-- branching path (using Twine)
+## Product experience
 
-#### Representations
-- text
-- video
-- image
-- SketchFab 3D model (desktop web only)
+There are a few different types of cases.  And a variety of representations and approximations can be used.
 
-#### Approximations
-- text
-- audio (desktop web only)
-- text multiple choice (Twine )
+|                                      | Simple    | Branching |
+| ------------------------------------ |:---------:|:---------:|
+| Representation: text                 | yes       | yes       |
+| Representation: image                | yes       | yes       |
+| Representation: video                | yes       |           |
+| Representation: SketchFab 3D model   | yes       |           |
+| Representation: HTML                 |           | yes       |
+| Approximation: text                  | yes       |           |
+| Approximation: audio                 | yes       |           |
+| Approximation: fixed choice text     |           | yes       |
 
-#### Authorization
-- Basic auth over HTTPS
 
 ## Local development
 #### UI
