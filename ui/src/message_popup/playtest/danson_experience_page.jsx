@@ -21,7 +21,6 @@ import ResponsiveFrame from '../../components/responsive_frame.jsx';
 import {withStudents} from '../transformations.jsx';
 
 import * as Api from '../../helpers/api.js';
-import FinalSummaryCard from '../final_summary_card.jsx';
 import NavigationAppBar from '../../components/navigation_app_bar.jsx';
 
 import MobileInterface from '../mobile_prototype/mobile_interface.jsx';
@@ -194,7 +193,6 @@ export default React.createClass({
       obj.questionText = audioResponses[i].question.text.length < maxCharPerLine ? audioResponses[i].question.text : audioResponses[i].question.text.substring(0, maxCharPerLine) + ' ...';
       truncatedAudioResponses.push(obj);
     }
-    console.log(audioResponses);
     return (
       <div className="done">
         <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>

@@ -76,6 +76,10 @@ export default React.createClass({
     return ['text', 'text', 'audio', 'audio'][questionsAnswered];
   },
 
+  drawResponsePrompt(question, scaffolding) {
+    return 'Speak directly to the student';
+  },
+
   drawStudentCard(question, scaffolding) {
     // Tied to the specific scenarios
     const {questionsAnswered} = this.state.gameSession;
@@ -118,6 +122,7 @@ export default React.createClass({
       gameSession: {
         email,
         drawResponseMode: this.drawResponseMode,
+        drawResponsePrompt: this.drawResponsePrompt,
         drawStudentCard: this.drawStudentCard,
         sessionId: uuid.v4(),
         questions: withStudents(demoQuestions),
@@ -192,7 +197,7 @@ export default React.createClass({
   
   renderPopupQuestion() {
     const {scaffolding, gameSession, limitMs} = this.state;
-    const {questions, questionsAnswered, drawResponseMode, drawStudentCard} = gameSession;
+    const {questions, questionsAnswered, drawResponseMode, drawResponsePrompt, drawStudentCard} = gameSession;
     const sessionLength = questions.length;
     const question = questions[questionsAnswered];
 
@@ -208,6 +213,7 @@ export default React.createClass({
             onLog={this.onLog}
             onDone={this.onQuestionDone}
             drawResponseMode={drawResponseMode}
+            drawResponsePrompt={drawResponsePrompt}
             drawStudentCard={drawStudentCard}
             isLastQuestion={(questionsAnswered + 1 === sessionLength)}/>
         </VelocityTransitionGroup>

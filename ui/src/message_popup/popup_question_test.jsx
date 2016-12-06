@@ -22,6 +22,7 @@ function testProps(props) {
     onDone: sinon.spy(),
     isLastQuestion: false,
     drawResponseMode: () => 'text',
+    drawResponsePrompt: () => 'Speak directly to the student',
     drawStudentCard: () => true,
     ...props
   };
