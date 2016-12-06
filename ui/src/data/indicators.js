@@ -7,4 +7,5 @@ export const indicators = [
   { id: 601, text: 'Actively responded to inappropriate student behaviors in the moment.' },
   { id: 701, text: 'Encouraged multiple perspectives and solutions to problems.' },
   { id: 801, text: 'Clarified student misconceptions about math content in the moment.' },
+  { id: 901, text: 'Engaged in difficult conversation with parent.' },
 ];

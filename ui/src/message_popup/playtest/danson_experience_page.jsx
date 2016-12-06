@@ -47,6 +47,7 @@ export default React.createClass({
       scaffolding: {
         helpType: isSolutionMode ? 'none' : 'feedback',
         shouldShowSummary: !isSolutionMode,
+        hideTimer: true,
       },
       gameSession: null,
       toastRevision: false,
@@ -91,7 +92,6 @@ export default React.createClass({
       email: this.state.gameSession.email,
       sessionId: this.state.gameSession.sessionId,
       clientTimestampMs: new Date().getTime(),
-      cohortKey: this.props.cohortKey
     });
   },
 
@@ -108,11 +108,12 @@ export default React.createClass({
     this.setState({ gameSession });
   },
 
-  onSave(){
+  onStart(){
     const {email} = this.state;  
     const scaffolding = {
       helpType: 'feedback', // feedback, hints or none
       shouldShowSummary: false,
+      hideTimer: true
     };
 
     this.setState({
@@ -211,7 +212,7 @@ export default React.createClass({
           <div style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-end'}}>
             <RaisedButton
               disabled={this.state.email === ''}
-              onTouchTap={this.onSave}
+              onTouchTap={this.onStart}
               style={styles.button}
               secondary={true}
               label="Start" />
