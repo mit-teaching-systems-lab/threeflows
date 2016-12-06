@@ -59,6 +59,7 @@ const styles = {
     height: 667,
     overflowY: 'scroll',
     background: 'white',
-    border: '1px solid #999'
+    border: '1px solid #999',
+    overflow: 'auto'
   }
 };

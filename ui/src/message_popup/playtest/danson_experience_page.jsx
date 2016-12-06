@@ -90,6 +90,16 @@ export default React.createClass({
   },
   
   onLog(type, response:ResponseT) {
+    if (type === 'message_popup_audio_response') {
+      var {gameSession} = this.state;
+      this.setState({
+        gameSession: {
+          ...gameSession,
+          audioResponses: gameSession.audioResponses.concat(response)
+        }
+      });
+    }
+
     Api.logEvidence(type, {
       ...response,
       name: this.state.gameSession.email,
@@ -130,7 +140,8 @@ export default React.createClass({
         sessionId: uuid.v4(),
         questions: withStudents(dansonQuestions),
         questionsAnswered: 0,
-        msResponseTimes: []
+        msResponseTimes: [],
+        audioResponses: []
       },
     });
   },
@@ -174,19 +185,34 @@ export default React.createClass({
   },
 
   renderDone() {
+    const audioResponses = this.state.gameSession.audioResponses;
+    const truncatedAudioResponses = [];
+    const maxCharPerLine = 120;
+    for(var i = 0; i < audioResponses.length; i++) {
+      var obj = {};
+      obj.audioUrl = audioResponses[i].audioUrl.uploadedUrl;
+      obj.questionText = audioResponses[i].question.text.length < maxCharPerLine ? audioResponses[i].question.text : audioResponses[i].question.text.substring(0, maxCharPerLine) + ' ...';
+      truncatedAudioResponses.push(obj);
+    }
+    console.log(audioResponses);
     return (
       <div className="done">
         <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
-          <div style={_.merge(_.clone(styles.container), styles.done)}>
-            <div style={styles.doneTitle}>
-              <p style={styles.paragraph}>You've finished the simulation. Please return to the form for the post-simulation teacher reflection.</p>
-              <p style={styles.paragraph}>Please <strong>do not close this page</strong>. You will need it for the reflection.</p>
-            </div>
-            <Divider />
-            <FinalSummaryCard 
-              msResponseTimes={this.state.gameSession.msResponseTimes} 
-              limitMs={this.state.limitMs} />
+          <div style={styles.doneTitle}>
+            <p style={styles.paragraph}>You've finished the simulation.</p>
+            <p style={styles.paragraph}><strong>Do not close this page</strong>. You will need it for the reflection.</p>
+            <p style={styles.paragraph}>Please return to the form for the post-simulation reflection.</p>
           </div>
+          <p style={styles.summaryTitle}>Summary</p>
+          <Divider />
+          {truncatedAudioResponses.map((obj, i) =>
+            <div key={i} style ={_.merge(styles.instructions)}>
+              <p style={styles.paragraph}>{obj.questionText}</p>
+              <audio controls={true} src={obj.audioUrl} />
+              <Divider />
+            </div>
+          )}
+          <div style={styles.container} />
         </VelocityTransitionGroup>
       </div>
     );
@@ -297,7 +323,9 @@ const styles = {
     marginTop: 20
   },
   doneTitle: {
-    marginBottom: 10
+    padding: 20,
+    paddingBottom: 0,
+    margin:0,
   },
   instructions: {
     paddingLeft: 20,
@@ -306,6 +334,13 @@ const styles = {
   paragraph: {
     marginTop: 20,
     marginBottom: 20
+  },
+  summaryTitle: {
+    fontSize: 20,
+    padding: 20,
+    paddingBottom: 5,
+    margin: 0,
+    fontWeight: 'bold'
   }
 
 };
