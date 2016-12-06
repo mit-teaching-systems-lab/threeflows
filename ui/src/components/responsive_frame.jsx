@@ -51,13 +51,13 @@ const styles = {
   desktopOuterFrame: {
     background: 'black',
     paddingTop: 20,
-    height: 2000,
     display: 'flex',
     justifyContent: 'center'
   },
   desktopInnerFrame: {
     width: 375,
     height: 667,
+    overflowY: 'scroll',
     background: 'white',
     border: '1px solid #999'
   }
