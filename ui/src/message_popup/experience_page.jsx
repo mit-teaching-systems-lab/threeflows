@@ -103,6 +103,7 @@ export default React.createClass({
       email,
       questionsForSession,
       drawResponseMode,
+      drawResponsePrompt,
       drawStudentCard
     } = scaffoldingSessionParams;
     this.setState({
@@ -110,6 +111,7 @@ export default React.createClass({
       gameSession: {
         email,
         drawResponseMode,
+        drawResponsePrompt,
         drawStudentCard,
         sessionId: uuid.v4(),
         questions: questionsForSession,
@@ -199,7 +201,7 @@ export default React.createClass({
   
   renderPopupQuestion() {
     const {scaffolding, gameSession, limitMs} = this.state;
-    const {questions, questionsAnswered, drawResponseMode, drawStudentCard} = gameSession;
+    const {questions, questionsAnswered, drawResponseMode, drawResponsePrompt, drawStudentCard} = gameSession;
     const sessionLength = questions.length;
     const question = questions[questionsAnswered];
 
@@ -215,6 +217,7 @@ export default React.createClass({
             onLog={this.onLog}
             onDone={this.onQuestionDone}
             drawResponseMode={drawResponseMode}
+            drawResponsePrompt={drawResponsePrompt}
             drawStudentCard={drawStudentCard}
             isLastQuestion={(questionsAnswered + 1 === sessionLength)}/>
         </VelocityTransitionGroup>

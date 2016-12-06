@@ -22,7 +22,8 @@ export default React.createClass({
     limitMs: React.PropTypes.number.isRequired,
     elapsedMs: React.PropTypes.number.isRequired,
     onLogMessage: React.PropTypes.func.isRequired,
-    onResponseSubmitted: React.PropTypes.func.isRequired
+    onResponseSubmitted: React.PropTypes.func.isRequired,
+    responsePrompt: React.PropTypes.node.isRequired
   },
 
   onDone(audioUrl) {
@@ -57,7 +58,7 @@ export default React.createClass({
   renderStart({onRecord}) {
     return (
       <div>
-        <div style={styles.instruction}>Speak directly to the student.</div>
+        <div style={styles.instruction}>{this.props.responsePrompt}</div>
         <RaisedButton key="record" onTouchTap={onRecord} label="Record" secondary={true} />
         {this.renderTimer()}
       </div>

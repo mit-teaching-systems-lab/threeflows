@@ -72,6 +72,10 @@ export default React.createClass({
     return 'text';
   },
 
+  drawResponsePrompt(question, scaffolding) {
+    return 'Speak directly to the student';
+  },
+
   // This implementation is static
   drawStudentCard(question, scaffolding) {
     return true;
@@ -90,6 +94,7 @@ export default React.createClass({
       email,
       questionsForSession,
       drawResponseMode: this.drawResponseMode,
+      drawResponsePrompt: this.drawResponsePrompt,
       drawStudentCard: this.drawStudentCard
     });
   },

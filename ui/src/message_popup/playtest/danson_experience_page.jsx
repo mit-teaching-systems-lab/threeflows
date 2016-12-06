@@ -80,6 +80,10 @@ export default React.createClass({
     return 'audio';
   },
 
+  drawResponsePrompt(question, scaffolding) {
+    return 'Respond to Mrs. Danson';
+  },
+
   // This implementation is static
   drawStudentCard(question, scaffolding) {
     return true;
@@ -122,6 +126,7 @@ export default React.createClass({
         email,
         drawResponseMode: this.drawResponseMode,
         drawStudentCard: this.drawStudentCard,
+        drawResponsePrompt: this.drawResponsePrompt,
         sessionId: uuid.v4(),
         questions: withStudents(dansonQuestions),
         questionsAnswered: 0,
@@ -226,7 +231,7 @@ export default React.createClass({
   
   renderPopupQuestion() {
     const {scaffolding, gameSession, limitMs} = this.state;
-    const {questions, questionsAnswered, drawResponseMode, drawStudentCard} = gameSession;
+    const {questions, questionsAnswered, drawResponseMode, drawStudentCard, drawResponsePrompt} = gameSession;
     const sessionLength = questions.length;
     const question = questions[questionsAnswered];
 
@@ -243,6 +248,7 @@ export default React.createClass({
             onDone={this.onQuestionDone}
             drawResponseMode={drawResponseMode}
             drawStudentCard={drawStudentCard}
+            drawResponsePrompt={drawResponsePrompt}
             isLastQuestion={(questionsAnswered + 1 === sessionLength)}/>
         </VelocityTransitionGroup>
         <Snackbar
