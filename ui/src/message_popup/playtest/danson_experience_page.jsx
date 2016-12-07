@@ -51,7 +51,7 @@ export default React.createClass({
       gameSession: null,
       toastRevision: false,
       limitMs: 90000,
-      email: this.context.auth.userProfile.email
+      email: this.context.auth.userProfile.email === "unknown@mit.edu" ? '' : this.context.auth.userProfile.email
     };
   },
   
