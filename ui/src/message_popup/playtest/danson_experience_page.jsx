@@ -89,7 +89,7 @@ export default React.createClass({
   },
   
   onLog(type, response:ResponseT) {
-    if (type === 'message_popup_audio_response') {
+    if (type === 'message_popup_audio_on_done_capture') {
       var {gameSession} = this.state;
       this.setState({
         gameSession: {
@@ -186,12 +186,19 @@ export default React.createClass({
   renderDone() {
     const audioResponses = this.state.gameSession.audioResponses;
     const truncatedAudioResponses = [];
+    const reviewedQuestions = {};  // Keeps track of reviewedQuestions to ensure we only show the last response if the user does multiple retries.
     const maxCharPerLine = 120;
     for(var i = 0; i < audioResponses.length; i++) {
       var obj = {};
-      obj.audioUrl = audioResponses[i].audioUrl.uploadedUrl;
+      obj.audioUrl = audioResponses[i].blobUrl;
       obj.questionText = audioResponses[i].question.text.length < maxCharPerLine ? audioResponses[i].question.text : audioResponses[i].question.text.substring(0, maxCharPerLine) + ' ...';
-      truncatedAudioResponses.push(obj);
+      var questionId = audioResponses[i].question.id;
+      if(questionId in reviewedQuestions) {
+        truncatedAudioResponses[reviewedQuestions[questionId]] = obj;
+      } else {
+        reviewedQuestions[questionId] = i;
+        truncatedAudioResponses.push(obj);
+      }
     }
     return (
       <div className="done">
