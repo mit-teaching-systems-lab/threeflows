@@ -93,8 +93,8 @@ export default React.createClass({
   },
 
   onDoneCapture(blob:Blob) {
-    this.props.onLogMessage('message_popup_audio_on_done_capture');
     var downloadUrl = URL.createObjectURL(blob);
+    this.props.onLogMessage('message_popup_audio_on_done_capture', {'blobUrl': downloadUrl});
     this.setState({blob, downloadUrl});
   },
 
