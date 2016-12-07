@@ -60,6 +60,7 @@ export default React.createClass({
     isLastQuestion: React.PropTypes.bool.isRequired,
     drawResponseMode: React.PropTypes.func.isRequired,
     drawStudentCard: React.PropTypes.func.isRequired,
+    drawResponsePrompt: React.PropTypes.func.isRequired,
     shouldScrollOnMount: React.PropTypes.bool,
     shouldScrollToResponse: React.PropTypes.bool
   },
@@ -74,10 +75,12 @@ export default React.createClass({
   getInitialState: function() {
     const {question, scaffolding} = this.props;
     const responseMode = this.props.drawResponseMode(question, scaffolding);
+    const responsePrompt = this.props.drawResponsePrompt(question, scaffolding);
     const willShowStudentCard = this.props.drawStudentCard(question, scaffolding);
 
     return {
       responseMode,
+      responsePrompt,
       willShowStudentCard,
       elapsedMs: 0,
       allowResponding: false,
@@ -186,11 +189,12 @@ export default React.createClass({
   // Each response is responsible for logging interaction data
   // to the server.
   renderResponse() {
-    const {responseMode, elapsedMs} = this.state;
+    const {responseMode, elapsedMs, responsePrompt} = this.state;
     const {scaffolding, limitMs, question} = this.props;
     const responseProps = {
       scaffolding,
       question,
+      responsePrompt,
       limitMs,
       elapsedMs,
       onResponseSubmitted: this.onResponseSubmitted,

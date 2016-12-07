@@ -22,7 +22,8 @@ export default React.createClass({
     limitMs: React.PropTypes.number.isRequired,
     elapsedMs: React.PropTypes.number.isRequired,
     onLogMessage: React.PropTypes.func.isRequired,
-    onResponseSubmitted: React.PropTypes.func.isRequired
+    onResponseSubmitted: React.PropTypes.func.isRequired,
+    responsePrompt: React.PropTypes.node.isRequired
   },
 
   onDone(audioUrl) {
@@ -45,47 +46,52 @@ export default React.createClass({
     );
   },
 
-  renderStart({onRecord}) {
+  renderTimer() {
+    if(this.props.scaffolding.hideTimer) return;
+
     const seconds = Math.round(this.props.elapsedMs / 1000);
     return (
+      seconds > 0 && <div style= {styles.ticker}>{seconds}s</div>
+    );
+  },
+
+  renderStart({onRecord}) {
+    return (
       <div>
-        <div style={styles.instruction}>Speak directly to the student.</div>
+        <div style={styles.instruction}>{this.props.responsePrompt}</div>
         <RaisedButton key="record" onTouchTap={onRecord} label="Record" secondary={true} />
-        {seconds > 0 && <div style= {styles.ticker}>{seconds}s</div>}
+        {this.renderTimer()}
       </div>
     );
   },
 
   renderRecording({onDone}) {
-    const seconds = Math.round(this.props.elapsedMs / 1000);
     return (
       <div>
         <div style={{...styles.instruction, color: Colors.accent1Color}}>Recording...</div>
         <RaisedButton key="done" onTouchTap={onDone} label="Done" primary={true} />
-        {seconds > 0 && <div style= {styles.ticker}>{seconds}s</div>}
+        {this.renderTimer()}
       </div>
     );
   },
 
   renderReviewing({blob, downloadUrl, onSubmit, onRetry}) {
-    const seconds = Math.round(this.props.elapsedMs / 1000);
     return (
       <div>
         <div style={styles.instruction}>Review your answer!</div>
         <audio controls={true} src={downloadUrl} />
         <RaisedButton onTouchTap={onRetry} label="Record again" />
         <RaisedButton onTouchTap={onSubmit} label="Submit" primary={true} />
-        {seconds > 0 && <div style= {styles.ticker}>{seconds}s</div>}
+        {this.renderTimer()}
       </div>
     );
   },
 
   renderDone({uploadedUrl}) {
-    const seconds = Math.round(this.props.elapsedMs / 1000);
     return (
       <div>
         <RaisedButton label="Done" onTouchTap={this.onDone.bind(this, uploadedUrl)} primary={true} />
-        {seconds > 0 && <div style= {styles.ticker}>{seconds}s</div>}
+        {this.renderTimer()}
       </div>
     );
   }

@@ -9,40 +9,49 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 import LinearProgress from 'material-ui/LinearProgress';
 import Snackbar from 'material-ui/Snackbar';
-import IconButton from 'material-ui/IconButton';
-import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
+import MenuItem from 'material-ui/MenuItem';
+import TextField from 'material-ui/TextField';
 
-import ResponsiveFrame from '../components/responsive_frame.jsx';
-import PopupQuestion from './popup_question.jsx';
-import type {ResponseT} from './popup_question.jsx';
-import {withStudents} from './transformations.jsx';
-import * as Api from '../helpers/api.js';
-import NavigationAppBar from '../components/navigation_app_bar.jsx';
-import MobileInterface from './mobile_prototype/mobile_interface.jsx';
-import {allQuestions} from './questions.js';
-import AudioCapture from '../components/audio_capture.jsx';
-import FeedbackForm from './feedback_form.jsx';
+import PopupQuestion from '../popup_question.jsx';
+import type {ResponseT} from '../popup_question.jsx';
+
+import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
+import ResponsiveFrame from '../../components/responsive_frame.jsx';
+
+import {withStudents} from '../transformations.jsx';
+
+import * as Api from '../../helpers/api.js';
+import NavigationAppBar from '../../components/navigation_app_bar.jsx';
+
+import MobileInterface from '../mobile_prototype/mobile_interface.jsx';
+import {dansonQuestions} from '../questions.js';
 
 /*
-For public demos.
+Shows the MessagePopup game
 */
 export default React.createClass({
-  displayName: 'DemoPage',
+  displayName: 'MessagePopupExperiencePage',
+
+  propTypes: {
+    query: React.PropTypes.object.isRequired,
+  },
 
   contextTypes: {
     auth: React.PropTypes.object.isRequired
   },
 
   getInitialState() {
+    const isSolutionMode = _.has(this.props.query, 'solution');
     return {
       scaffolding: {
-        helpType: 'none',
-        shouldShowSummary: false
+        helpType: isSolutionMode ? 'none' : 'feedback',
+        shouldShowSummary: !isSolutionMode,
+        hideTimer: true,
       },
       gameSession: null,
       toastRevision: false,
       limitMs: 90000,
-      email: this.context.auth.userProfile.email
+      email: this.context.auth.userProfile.email === "unknown@mit.edu" ? '' : this.context.auth.userProfile.email
     };
   },
   
@@ -66,33 +75,36 @@ export default React.createClass({
     this.setState(this.getInitialState());
   },
 
-  // Tied to the specific scenarios
-  // but mobile doesn't support audio, so fall back
   drawResponseMode(question, scaffolding) {
-    const isAudioSupported = AudioCapture.isAudioSupported();
-    if (!isAudioSupported) return 'text';
-
-    const {questionsAnswered} = this.state.gameSession;
-    return ['text', 'text', 'audio', 'audio'][questionsAnswered];
+    return 'audio';
   },
 
   drawResponsePrompt(question, scaffolding) {
-    return 'Speak directly to the student';
+    return 'Respond to Mrs. Danson';
   },
 
+  // This implementation is static
   drawStudentCard(question, scaffolding) {
-    // Tied to the specific scenarios
-    const {questionsAnswered} = this.state.gameSession;
-    return [true, false, false, true][questionsAnswered];
+    return true;
   },
-
+  
   onLog(type, response:ResponseT) {
+    if (type === 'message_popup_audio_response') {
+      var {gameSession} = this.state;
+      this.setState({
+        gameSession: {
+          ...gameSession,
+          audioResponses: gameSession.audioResponses.concat(response)
+        }
+      });
+    }
+
     Api.logEvidence(type, {
       ...response,
       name: this.state.gameSession.email,
       email: this.state.gameSession.email,
       sessionId: this.state.gameSession.sessionId,
-      clientTimestampMs: new Date().getTime()
+      clientTimestampMs: new Date().getTime(),
     });
   },
 
@@ -109,25 +121,26 @@ export default React.createClass({
     this.setState({ gameSession });
   },
 
-  onSave(){
+  onStart(){
     const {email} = this.state;  
-    const demoQuestionIds = [
-      120,
-      305,
-      306,
-      3001
-    ];
-    const demoQuestions = allQuestions.filter(question => demoQuestionIds.indexOf(question.id) !== -1);
+    const scaffolding = {
+      helpType: 'feedback', // feedback, hints or none
+      shouldShowSummary: false,
+      hideTimer: true
+    };
+
     this.setState({
+      scaffolding,
       gameSession: {
         email,
         drawResponseMode: this.drawResponseMode,
-        drawResponsePrompt: this.drawResponsePrompt,
         drawStudentCard: this.drawStudentCard,
+        drawResponsePrompt: this.drawResponsePrompt,
         sessionId: uuid.v4(),
-        questions: withStudents(demoQuestions),
+        questions: withStudents(dansonQuestions),
         questionsAnswered: 0,
-        msResponseTimes: []
+        msResponseTimes: [],
+        audioResponses: []
       },
     });
   },
@@ -138,10 +151,11 @@ export default React.createClass({
         <div>
           <NavigationAppBar
             title="Teacher Moments"
-            iconElementLeft={
-              <IconButton onTouchTap={this.resetExperience} >
-                <RefreshIcon />
-              </IconButton>
+            prependMenuItems={
+              <MenuItem
+                onTouchTap={this.resetExperience}
+                leftIcon={<RefreshIcon />}
+                primaryText="Restart game" />
             }
           />
           {this.renderMainScreen()}
@@ -160,10 +174,46 @@ export default React.createClass({
     const questionsAnswered = hasStarted ? gameSession.questionsAnswered : 0;
     const questions = hasStarted ? gameSession.questions : [];
     const sessionLength = hasStarted ? questions.length : 0;
-    if (questionsAnswered >= sessionLength) return <FeedbackForm />;
+    if (questionsAnswered >= sessionLength) return this.renderDone();
+
+    // text-messaging prototype
+    if (_.has(this.props.query, 'mobilePrototype')) return this.renderMobilePrototype();
 
     // question screen
     return this.renderPopupQuestion();
+  },
+
+  renderDone() {
+    const audioResponses = this.state.gameSession.audioResponses;
+    const truncatedAudioResponses = [];
+    const maxCharPerLine = 120;
+    for(var i = 0; i < audioResponses.length; i++) {
+      var obj = {};
+      obj.audioUrl = audioResponses[i].audioUrl.uploadedUrl;
+      obj.questionText = audioResponses[i].question.text.length < maxCharPerLine ? audioResponses[i].question.text : audioResponses[i].question.text.substring(0, maxCharPerLine) + ' ...';
+      truncatedAudioResponses.push(obj);
+    }
+    return (
+      <div className="done">
+        <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
+          <div style={styles.doneTitle}>
+            <p style={styles.paragraph}>You've finished the simulation.</p>
+            <p style={styles.paragraph}><strong>Do not close this page</strong>. You will need it for the reflection.</p>
+            <p style={styles.paragraph}>Please return to the form for the post-simulation reflection.</p>
+          </div>
+          <p style={styles.summaryTitle}>Summary</p>
+          <Divider />
+          {truncatedAudioResponses.map((obj, i) =>
+            <div key={i} style ={_.merge(styles.instructions)}>
+              <p style={styles.paragraph}>{obj.questionText}</p>
+              <audio controls={true} src={obj.audioUrl} />
+              <Divider />
+            </div>
+          )}
+          <div style={styles.container} />
+        </VelocityTransitionGroup>
+      </div>
+    );
   },
 
   renderInstructions() {
@@ -172,18 +222,26 @@ export default React.createClass({
         <div className="instructions">
           <div style ={_.merge(_.clone(styles.container), styles.instructions)}>
             <p style={styles.paragraph}>Welcome!</p>
-            <p style={styles.paragraph}>This station is about responding to students in the moment. It is set in the context of a 7th grade classroom.</p>
-            <p style={styles.paragraph}>This may feel uncomfortable at first, but it's better to get comfortable here than with real students.</p>
-            <p style={styles.paragraph}>You may be asked to write or say your responses aloud.</p>
-            <p style={styles.paragraph}>Each question is timed to simulate responding in the moment in the classroom. Aim to respond to each scenario in about 90 seconds.</p>
+            <p style={styles.paragraph}>You will go through a set of scenarios that simulate the conversation between you and Mrs. Danson.</p>
+            <p style={styles.paragraph}>You need to provide an audio response to each prompt. Please respond as quickly as possible (like you would do in a real conversation).</p>
+            <p style={styles.paragraph}>This may feel uncomfortable at first, but it's better to feel uncomfortable here than with a real parent.</p>
             <Divider />
           </div>
         </div>
         <div style={{padding: 20}}>
+          <TextField
+          name="email"
+          style={{width: '100%'}}
+          underlineShow={false}
+          floatingLabelText="What's your email address?"
+          value={this.state.email}
+          onChange={this.onTextChanged}
+          multiLine={true}
+          rows={2}/>
           <div style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-end'}}>
             <RaisedButton
               disabled={this.state.email === ''}
-              onTouchTap={this.onSave}
+              onTouchTap={this.onStart}
               style={styles.button}
               secondary={true}
               label="Start" />
@@ -197,7 +255,7 @@ export default React.createClass({
   
   renderPopupQuestion() {
     const {scaffolding, gameSession, limitMs} = this.state;
-    const {questions, questionsAnswered, drawResponseMode, drawResponsePrompt, drawStudentCard} = gameSession;
+    const {questions, questionsAnswered, drawResponseMode, drawStudentCard, drawResponsePrompt} = gameSession;
     const sessionLength = questions.length;
     const question = questions[questionsAnswered];
 
@@ -213,8 +271,8 @@ export default React.createClass({
             onLog={this.onLog}
             onDone={this.onQuestionDone}
             drawResponseMode={drawResponseMode}
-            drawResponsePrompt={drawResponsePrompt}
             drawStudentCard={drawStudentCard}
+            drawResponsePrompt={drawResponsePrompt}
             isLastQuestion={(questionsAnswered + 1 === sessionLength)}/>
         </VelocityTransitionGroup>
         <Snackbar
@@ -250,7 +308,6 @@ export default React.createClass({
 });
 
 const styles = {
-
   done: {
     padding: 20,
   },
@@ -258,13 +315,15 @@ const styles = {
     fontSize: 20,
     padding: 0,
     margin:0,
-    paddingBottom: 0
+    paddingBottom: 45
   },
   button: {
     marginTop: 20
   },
   doneTitle: {
-    marginBottom: 10
+    padding: 20,
+    paddingBottom: 0,
+    margin:0,
   },
   instructions: {
     paddingLeft: 20,
@@ -273,6 +332,13 @@ const styles = {
   paragraph: {
     marginTop: 20,
     marginBottom: 20
+  },
+  summaryTitle: {
+    fontSize: 20,
+    padding: 20,
+    paddingBottom: 5,
+    margin: 0,
+    fontWeight: 'bold'
   }
 
 };

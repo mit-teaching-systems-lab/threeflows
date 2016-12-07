@@ -17,7 +17,7 @@ export default React.createClass({
 
   getDefaultProps() {
     return {
-      minWidth: 400,
+      minWidth: 450,
       minHeight: 400
     };
   },

@@ -17,6 +17,7 @@ function testProps(props) {
     elapsedMs: 0,
     onLogMessage: sinon.spy(),
     onResponseSubmitted: sinon.spy(),
+    responsePrompt: 'Speak directly to the student',
     ...props
   };
 }
