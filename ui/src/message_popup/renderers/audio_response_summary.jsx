@@ -13,13 +13,13 @@ export default React.createClass({
   displayName: 'AudioResponseSummary',
 
   propTypes: {
-    gameSession: React.PropTypes.object.isRequired,
+    audioResponses: React.PropTypes.array.isRequired,
   },
 
   render() {
     const audioResponses = [];
     const reviewedQuestions = {};  // Keeps track of reviewedQuestions to ensure we only show the last response if the user does multiple retries.
-    this.props.gameSession.audioResponses.map((arObj, i) => {
+    this.props.audioResponses.map((arObj, i) => {
       var obj = {};
       obj.audioUrl = arObj.blobUrl;
       obj.questionText = arObj.question.text;

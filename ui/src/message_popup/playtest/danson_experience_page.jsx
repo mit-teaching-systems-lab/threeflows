@@ -186,7 +186,7 @@ export default React.createClass({
 
   renderDone() {
     return (
-      <AudioResponseSummary gameSession={this.state.gameSession} />
+      <AudioResponseSummary audioResponses={this.state.gameSession.audioResponses} />
     );
   },
 
