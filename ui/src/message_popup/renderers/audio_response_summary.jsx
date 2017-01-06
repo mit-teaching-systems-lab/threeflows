@@ -17,17 +17,19 @@ export default React.createClass({
   },
 
   render() {
+
     const audioResponses = [];
-    const reviewedQuestions = {};  // Keeps track of reviewedQuestions to ensure we only show the last response if the user does multiple retries.
-    this.props.audioResponses.map((arObj, i) => {
+    var lastQuestionId = null;  // For detecting questions with more than one response
+    this.props.audioResponses.map((arObj) => {
       var obj = {};
-      obj.audioUrl = arObj.blobUrl;
-      obj.questionText = arObj.question.text;
       var questionId = arObj.question.id;
-      if(questionId in reviewedQuestions) {
-        audioResponses[reviewedQuestions[questionId]] = obj;
+      if(questionId === lastQuestionId) {
+        var lastObj = audioResponses[audioResponses.length - 1];
+        lastObj.audioUrls.push(arObj.blobUrl);
       } else {
-        reviewedQuestions[questionId] = audioResponses.length;
+        lastQuestionId = questionId;
+        obj.audioUrls = [arObj.blobUrl];
+        obj.questionText = arObj.question.text;
         audioResponses.push(obj);
       }
     });
@@ -45,7 +47,9 @@ export default React.createClass({
           {audioResponses.map((obj, i) =>
             <div key={i} style ={_.merge(styles.instructions)}>
               <ReadMore fulltext={obj.questionText} />
-              <audio controls={true} src={obj.audioUrl} />
+              {obj.audioUrls.map((audioUrl, i) => 
+                <audio key={'audio-url-' + i} controls={true} src={audioUrl} />
+              )}
               <Divider />
             </div>
           )}
