@@ -12,6 +12,12 @@ export default React.createClass({
     charCount: React.PropTypes.node,
   },
 
+  getDefaultProps() {
+    return {
+      charCount: 140
+    };
+  },
+
   getInitialState() {
     return {
       expanded: false
@@ -30,10 +36,8 @@ export default React.createClass({
     });
   },
 
-  render() {
-    var charCount = (this.props.charCount === undefined) ? 140 : this.props.charCount;
-    
-    if (this.props.fulltext.length <= charCount) {
+  render() {    
+    if (this.props.fulltext.length <= this.props.charCount) {
       return <div style={styles.summaryQuestion}>{this.props.fulltext}</div>;
     }
     if(this.state.expanded) {
@@ -45,7 +49,7 @@ export default React.createClass({
     } else {
       return (
         <div style={styles.summaryQuestion}>
-          {this.props.fulltext.substring(0, charCount) + '... '}
+          {this.props.fulltext.substring(0, this.props.charCount) + '... '}
           <a href='#' onClick={this.expand}>read more</a>
         </div>);
     }
