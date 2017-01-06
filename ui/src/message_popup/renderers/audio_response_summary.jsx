@@ -45,7 +45,7 @@ export default React.createClass({
           <p style={styles.summaryTitle}>Summary</p>
           <Divider />
           {audioResponses.map((audioResponse) =>
-            <div key={audioResponse.questionId} style ={_.merge(styles.instructions)}>
+            <div key={audioResponse.questionId} style ={_.merge(styles.instructions, styles.summaryQuestion)}>
               <ReadMore fulltext={audioResponse.questionText} />
               {audioResponse.audioUrls.map((audioUrl, i) => 
                 <audio key={audioResponse.questionId + '-response-' + i} controls={true} src={audioUrl} />
@@ -93,6 +93,12 @@ const styles = {
     paddingBottom: 5,
     margin: 0,
     fontWeight: 'bold'
+  },
+  summaryQuestion: {
+    whiteSpace: 'pre-wrap',
+    fontSize: 16,
+    lineHeight: 1.2,
+    paddingTop: 20,
+    paddingBottom: 10
   }
-
 };
