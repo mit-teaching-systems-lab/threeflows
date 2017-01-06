@@ -20,17 +20,17 @@ export default React.createClass({
 
     const audioResponses = [];
     var lastQuestionId = null;  // For detecting questions with more than one response
-    this.props.audioResponses.map((arObj) => {
-      var obj = {};
-      var questionId = arObj.question.id;
+    this.props.audioResponses.map((originalAudioResponse) => {
+      var audioResponse = {};
+      var questionId = originalAudioResponse.question.id;
       if(questionId === lastQuestionId) {
         var lastObj = audioResponses[audioResponses.length - 1];
-        lastObj.audioUrls.push(arObj.blobUrl);
+        lastObj.audioUrls.push(originalAudioResponse.blobUrl);
       } else {
         lastQuestionId = questionId;
-        obj.audioUrls = [arObj.blobUrl];
-        obj.questionText = arObj.question.text;
-        audioResponses.push(obj);
+        audioResponse.audioUrls = [originalAudioResponse.blobUrl];
+        audioResponse.questionText = originalAudioResponse.question.text;
+        audioResponses.push(audioResponse);
       }
     });
 
@@ -44,11 +44,11 @@ export default React.createClass({
           </div>
           <p style={styles.summaryTitle}>Summary</p>
           <Divider />
-          {audioResponses.map((obj, i) =>
-            <div key={i} style ={_.merge(styles.instructions)}>
-              <ReadMore fulltext={obj.questionText} />
-              {obj.audioUrls.map((audioUrl, i) => 
-                <audio key={'audio-url-' + i} controls={true} src={audioUrl} />
+          {audioResponses.map((audioResponse) =>
+            <div key={audioResponse.questionId} style ={_.merge(styles.instructions)}>
+              <ReadMore fulltext={audioResponse.questionText} />
+              {audioResponse.audioUrls.map((audioUrl, i) => 
+                <audio key={audioResponse.questionId + '-response-' + i} controls={true} src={audioUrl} />
               )}
               <Divider />
             </div>
