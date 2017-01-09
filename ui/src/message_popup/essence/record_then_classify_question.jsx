@@ -55,6 +55,7 @@ export default React.createClass({
     if (!audioResponse && !skipAudioRecording) {
       return (
         <MinimalAudioResponse
+          responsePrompt=""
           recordText="Record"
           onLogMessage={onLogMessage}
           onResponseSubmitted={this.onDoneAudio}

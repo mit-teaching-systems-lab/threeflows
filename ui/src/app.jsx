@@ -114,11 +114,11 @@ export default React.createClass({
   },
 
   alphaPlaytest(query = {}) {
-    return <MessagePopup.EssencePage query={{}}/>;
+    return <MessagePopup.InsubordinationPage query={{}}/>;
   },
 
   dansonPlaytest(query = {}) {
-    return <MessagePopup.DansonExperiencePage query={{}}/>;
+    return <MessagePopup.DansonPage query={{}}/>;
   },
 
   messagePopupPlaytest(cohortKey, query = {}) {

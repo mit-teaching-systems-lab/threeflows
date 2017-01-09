@@ -20,18 +20,23 @@ export default React.createClass({
   propTypes: {
     onLogMessage: React.PropTypes.func.isRequired,
     onResponseSubmitted: React.PropTypes.func.isRequired,
+    forceResponse: React.PropTypes.bool,
+    responsePrompt: React.PropTypes.string,
     recordText: React.PropTypes.string,
     ignoreText: React.PropTypes.string
   },
 
   getDefaultProps() {
     return {
+      forceResponse: false,
+      responsePrompt: 'Respond.',
       recordText: 'Record',
       ignoreText: 'Say nothing'
     };
   },
 
-  onDone(audioUrl) {
+  onDone({uploadedUrl}) {
+    const audioUrl = uploadedUrl;
     this.props.onLogMessage('message_popup_audio_response', {audioUrl});
     this.props.onResponseSubmitted({audioUrl});
   },
@@ -56,12 +61,14 @@ export default React.createClass({
     );
   },
 
-
   renderStart({onRecord}) {
+    const {forceResponse} = this.props;
+
     return (
       <div>
+        <div style={styles.instruction}>{this.props.responsePrompt}</div>
         <RaisedButton key="record" onTouchTap={onRecord} label={this.props.recordText} secondary={true} />
-        <RaisedButton key="ignore" onTouchTap={this.onIgnoreTapped} label={this.props.ignoreText} />
+        {!forceResponse && <RaisedButton key="ignore" onTouchTap={this.onIgnoreTapped} label={this.props.ignoreText} />}
       </div>
     );
   },
@@ -95,10 +102,5 @@ const styles = {
   },
   instruction: {
     paddingBottom: 5
-  },
-  ticker: {
-    display: 'inline-block',
-    marginLeft: 15,
-    fontSize: 20
   }
 };

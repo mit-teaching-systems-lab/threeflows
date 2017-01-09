@@ -1,6 +1,7 @@
 /* @flow weak */
 import _ from 'lodash';
 import React from 'react';
+import uuid from 'uuid';
 
 import Divider from 'material-ui/Divider';
 
@@ -86,15 +87,8 @@ const ScenarioMaker = {
 
 // The top-level page, manages logistics around email, cohorts and questions,
 // and the display of instructions, questions, and summary.
-//
-// Want a new scenario?
-//   define the questions
-//   add interactions for showing questions and responding
-//   add any cohorting to creating questions
-//
-// TODO(kr) factor out email handling
 export default React.createClass({
-  displayName: 'EssencePage',
+  displayName: 'InsubordinationPage',
 
   contextTypes: {
     auth: React.PropTypes.object.isRequired
@@ -108,7 +102,8 @@ export default React.createClass({
     return {
       email,
       cohortKey,
-      questions: null
+      questions: null,
+      sessionId: uuid.v4()
     };
   },
 
@@ -124,16 +119,18 @@ export default React.createClass({
   },
 
   onResetSession() {
-    this.setState({ questions: null });
+    this.setState(this.getInitialState());
   },
 
   onLogMessage(type, response:ResponseT) {
-    const {email, cohortKey} = this.state;
+    const {email, cohortKey, sessionId} = this.state;
     Api.logEvidence(type, {
       ...response,
-      cohortKey,
+      sessionId,
       email,
-      name: email
+      cohortKey,
+      name: email,
+      clientTimestampMs: new Date().getTime(),
     });
   },
 
