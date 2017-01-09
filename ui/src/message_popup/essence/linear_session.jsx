@@ -2,8 +2,6 @@
 import React from 'react';
 import uuid from 'uuid';
 
-import SessionFrame from './session_frame.jsx';
-
 
 // Manages the flow through a list of questions.
 // Starts with `introEl`, then moves through showing `questionEl` for each
@@ -16,7 +14,7 @@ import SessionFrame from './session_frame.jsx';
 // TODO(kr) animations
 // TODO(kr) timing question - has to be done by questionEl
 export default React.createClass({
-  displayName: 'Session',
+  displayName: 'LinearSession',
 
   propTypes: {
     questions: React.PropTypes.array.isRequired,
@@ -39,9 +37,9 @@ export default React.createClass({
   onResponseSubmitted(question, rawResponse) {
     const response = {
       question,
-      response: rawResponse,
       sessionId: this.state.sessionId,
-      clientTimestampMs: new Date().getTime()
+      clientTimestampMs: new Date().getTime(),
+      ...rawResponse
     };
 
     this.props.onLogMessage('on_response_submitted', response);
@@ -51,18 +49,9 @@ export default React.createClass({
   },
 
   render() {
-    return (
-      <SessionFrame onResetSession={this.onResetSession}>
-        {this.renderContent()}
-      </SessionFrame>
-    );
-  },
-
-  renderContent() {
     const {questions} = this.props;
     const {responses} = this.state;
-
-    if (responses.length > questions.length) return this.props.summaryEl(responses);
+    if (responses.length >= questions.length) return this.props.summaryEl(questions, responses);
 
     const question = questions[responses.length];
     return this.props.questionEl(question, this.props.onLogMessage, this.onResponseSubmitted.bind(this, question));

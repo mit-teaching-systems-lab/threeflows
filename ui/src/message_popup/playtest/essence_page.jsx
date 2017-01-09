@@ -2,17 +2,46 @@
 import _ from 'lodash';
 import React from 'react';
 
+import Divider from 'material-ui/Divider';
+
 import * as Api from '../../helpers/api.js';
 import hash from '../../helpers/hash.js';
-import Session from '../essence/intro_with_email.jsx';
+import LinearSession from '../essence/linear_session.jsx';
 import SessionFrame from '../essence/session_frame.jsx';
 import IntroWithEmail from '../essence/intro_with_email.jsx';
 import PlainTextQuestion from '../renderers/plain_text_question.jsx';
 import ChoiceForBehaviorResponse from '../renderers/choice_for_behavior_response.jsx';
+import MinimalAudioResponse from '../renderers/minimal_audio_response.jsx';
+
+type QuestionT = {
+  id:number,
+  condition:string,
+  choices:[string],
+  text:string
+};
+type ResponseT = {
+  choice:string,
+  question:QuestionT
+};
 
 
-// Make questions for an email
-const QuestionMaker = {
+// Make questions for an email, describe choices.
+const ScenarioMaker = {
+  choices() {
+    return [
+      'ignore the behavior',
+      'make eye contact',
+      'make a facial expression or gesture',
+      'make a joke',
+      'encourage the student',
+      'redirect the student to the task',
+      'remind the student of the class rules',
+      'ask the student to stay after class',
+      'send the student to the principal',
+      'call an administrator to class'
+    ];
+  },
+
   // Given an email, return a cohortKey.
   cohortKey(email) {
     const {conditions} = this.data();
@@ -23,10 +52,11 @@ const QuestionMaker = {
     // Read scenario
     const conditions = [{child: 'Jake' }, {child: 'Greg'}, {child: 'Darnell'}, {child: 'DeShawn'}];
     const questionTemplates = [
+      'Students are working independently on a proportions problem set.  You circulate around the room.',
       '${child} is sleeping in class.',
-      'He only picks his head up. He chooses to rest it on his hand and continue to sleep.',
+      'He picks his head up. He chooses to rest it on his hand and continue to sleep.',
       '${child} refuses to do work.',
-      'He refuses to do this as well.'
+      'He refuses.'
     ];
 
     return {conditions, questionTemplates};
@@ -37,17 +67,16 @@ const QuestionMaker = {
   questions(cohortKey) {
     const {conditions, questionTemplates} = this.data();
     const condition = conditions[cohortKey];
-    const questions = questionTemplates.map((template) => {
+    const questions = questionTemplates.map((template, index) => {
       const text = _.template(template)(condition);
-      return {
+      const question:QuestionT = {
         id: hash(text),
         condition: condition,
-        students: [],
-        text: text,
-        examples: [],
-        nonExamples: []
+        choices: (index === 0) ? ['OK'] : this.choices(),
+        text: text
       };
-    });
+      return question;
+    }, this);
 
     return questions;
   }
@@ -55,17 +84,16 @@ const QuestionMaker = {
 
 
 
+
 // The top-level page, manages logistics around email, cohorts and questions,
 // and the display of instructions, questions, and summary.
 //
-// higher-level?
-//   cohortKey
-//   questionsForCohort
-//   introEl
-//   questionEl={this.questionEl}
-//   responseEl={this.responseEl}
-//   summaryEl={this.summaryEl}
-// TODO(kr) factor out email - that's awkward
+// Want a new scenario?
+//   define the questions
+//   add interactions for showing questions and responding
+//   add any cohorting to creating questions
+//
+// TODO(kr) factor out email handling
 export default React.createClass({
   displayName: 'EssencePage',
 
@@ -76,7 +104,7 @@ export default React.createClass({
   getInitialState() {
     const contextEmail = this.context.auth.userProfile.email;
     const email = contextEmail === "unknown@mit.edu" ? '' : contextEmail;
-    const cohortKey = QuestionMaker.cohortKey(email);
+    const cohortKey = ScenarioMaker.cohortKey(email);
 
     return {
       email,
@@ -87,8 +115,8 @@ export default React.createClass({
 
   // Making the cohort and questions is the key bit here.
   onStart(email) {
-    const cohortKey = QuestionMaker.cohortKey(email);
-    const questions = QuestionMaker.questions(cohortKey);
+    const cohortKey = ScenarioMaker.cohortKey(email);
+    const questions = ScenarioMaker.questions(cohortKey);
     this.setState({
       email,
       questions,
@@ -100,7 +128,7 @@ export default React.createClass({
     this.setState({ questions: null });
   },
 
-  onLogMessage(type, response) {
+  onLogMessage(type, response:ResponseT) {
     const {email, cohortKey} = this.state;
     Api.logEvidence(type, {
       ...response,
@@ -122,7 +150,7 @@ export default React.createClass({
     const {questions} = this.state;
     if (!questions) return this.renderIntro();
 
-    return <Session
+    return <LinearSession
       questions={questions}
       questionEl={this.renderQuestionEl}
       summaryEl={this.renderSummaryEl}
@@ -135,7 +163,7 @@ export default React.createClass({
       <IntroWithEmail defaultEmail={this.state.email} onDone={this.onStart}>
         <div>
           <p>Welcome!</p>
-          <p>Imagine you're a middle school math teacher in an urban public school.  Students are working independently on a proportions problem set.</p>
+          <p>Imagine you're a middle school math teacher in an urban public school.</p>
           <p>You will go through a set of scenarios that simulate a conversation between you and a student.</p>
           <p>Provide an audio response to each prompt. Please respond like you would in a real conversation.</p>
         </div>
@@ -143,11 +171,16 @@ export default React.createClass({
     );
   },
 
-  renderQuestionEl(question, onLog, onResponseSubmitted) {
+  renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
     return (
       <div>
         <PlainTextQuestion question={question} />
+        <MinimalAudioResponse
+          onResponseSubmitted={this.onDoneAudio}
+          onLogMessage={onLog}
+        />
         <ChoiceForBehaviorResponse
+          choices={question.choices}
           onLogMessage={onLog}
           onResponseSubmitted={onResponseSubmitted}
         />
@@ -155,66 +188,18 @@ export default React.createClass({
     );
   },
 
-  renderSummaryEl(questions, responses) {
+  renderSummaryEl(questions:[QuestionT], responses:[ResponseT]) {
     return (
-      <div>
-        <div>Thanks!</div>
+      <div style={{padding: 20}}>
+        <div style={{paddingBottom: 20, fontWeight: 'bold'}}>Thanks!  Here are your responses:</div>
         {responses.map((response, i) =>
-          <div>
-            <div>Question: {questions[i]}</div>
-            <div>Response: {response}</div>
+          <div key={i} style={{paddingTop: 10}}>
+            <div>{response.question.text}</div>
+            <div>> {response.choice}</div>
+            <Divider style={{marginTop: 15}} />
           </div>
         )}
       </div>
     );
   }
 });
-
-
-
-
-
-
-
-
-// const styles = {
-//   done: {
-//     padding: 20,
-//   },
-//   container: {
-//     fontSize: 20,
-//     padding: 0,
-//     margin:0,
-//     paddingBottom: 45
-//   },
-//   button: {
-//     marginTop: 20
-//   },
-//   doneTitle: {
-//     padding: 20,
-//     paddingBottom: 0,
-//     margin:0,
-//   },
-//   instructions: {
-//     paddingLeft: 20,
-//     paddingRight: 20,
-//   },
-//   paragraph: {
-//     marginTop: 20,
-//     marginBottom: 20
-//   },
-//   summaryTitle: {
-//     fontSize: 20,
-//     padding: 20,
-//     paddingBottom: 5,
-//     margin: 0,
-//     fontWeight: 'bold'
-//   }
-
-// };
-
-// Want a new scenario?
-//   define the questions
-//   add interactions for showing questions and responding
-//   add any cohorting to creating questions
-

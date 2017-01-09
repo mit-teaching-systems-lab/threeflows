@@ -9,6 +9,7 @@ export default React.createClass({
   displayName: 'ChoiceForBehaviorResponse',
 
   propTypes: {
+    choices: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
     onLogMessage: React.PropTypes.func.isRequired,
     onResponseSubmitted: React.PropTypes.func.isRequired
   },
@@ -19,26 +20,14 @@ export default React.createClass({
   },
 
   render() {
-    const choices = [
-      'ignore the behavior',
-      'make eye contact',
-      'make a facial expression or gesture',
-      'make a joke',
-      'encourage the student',
-      'redirect the student to the task',
-      'remind the student of the class rules',
-      'ask the student to stay after class',
-      'send the student to the principal',
-      'call an administrator to class'
-    ];
-
+    const {choices} = this.props;
     return (
       <div className="ChoiceForBehaviorResponse">
         <div style={styles.textAreaContainer}>
           {choices.map((choice) =>
             <RaisedButton
               key={choice}
-              onTouchTap={this.onChoiceTapped}
+              onTouchTap={this.onChoiceTapped.bind(this, choice)}
               label={choice}
               style={styles.button}
               secondary={false}
