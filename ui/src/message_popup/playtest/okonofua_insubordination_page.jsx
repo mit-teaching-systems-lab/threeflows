@@ -141,7 +141,7 @@ export default React.createClass({
     this.setState({
       gameSession: {
         email,
-        drawResponseMode: () => 'audio',
+        drawResponseMode: () => 'choice-for-behavior',
         drawStudentCard: () => false,
         drawResponsePrompt: () => 'Respond.',
         sessionId: uuid.v4(),
@@ -203,9 +203,9 @@ export default React.createClass({
         <div className="instructions">
           <div style ={_.merge(_.clone(styles.container), styles.instructions)}>
             <p style={styles.paragraph}>Welcome!</p>
-            <p style={styles.paragraph}>Imagine you're a middle school teacher in an urban public school.</p>
+            <p style={styles.paragraph}>Imagine you're a middle school math teacher in an urban public school.  Students are working independently on a proportions problem set.</p>
             <p style={styles.paragraph}>You will go through a set of scenarios that simulate a conversation between you and a student.</p>
-            <p style={styles.paragraph}>You need to provide an audio response to each prompt. Please respond as quickly as possible (like you would do in a real conversation).</p>
+            <p style={styles.paragraph}>Provide an audio response to each prompt. Please respond like you would in a real conversation.</p>
             <Divider />
           </div>
         </div>

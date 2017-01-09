@@ -114,7 +114,7 @@ export default React.createClass({
   },
 
   alphaPlaytest(query = {}) {
-    return <MessagePopup.OkonofuaInsubordinationPage query={{}}/>;
+    return <MessagePopup.EssencePage query={{}}/>;
   },
 
   dansonPlaytest(query = {}) {
