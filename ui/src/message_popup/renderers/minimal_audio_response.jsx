@@ -9,8 +9,9 @@ import AudioRecorderFlow from '../../components/audio_recorder_flow.jsx';
 
 
 /*
-Component that handles recording a minimal audio response, with no review.  It also
-handles saving the wav file to the server, and then ultimately
+Component that handles recording a minimal audio response or responding by doing nothing.
+Users can't review their responses.
+This component also handles saving the wav file to the server, and then ultimately
 passing back a URL to the audio as part of the response.
 */
 export default React.createClass({
@@ -19,18 +20,25 @@ export default React.createClass({
   propTypes: {
     onLogMessage: React.PropTypes.func.isRequired,
     onResponseSubmitted: React.PropTypes.func.isRequired,
-    responsePrompt: React.PropTypes.node
+    recordText: React.PropTypes.string,
+    ignoreText: React.PropTypes.string
   },
 
   getDefaultProps() {
     return {
-      responsePrompt: 'Respond.'
+      recordText: 'Record',
+      ignoreText: 'Say nothing'
     };
   },
-  
+
   onDone(audioUrl) {
     this.props.onLogMessage('message_popup_audio_response', {audioUrl});
     this.props.onResponseSubmitted({audioUrl});
+  },
+
+  onIgnoreTapped() {
+    this.props.onLogMessage('message_popup_audio_ignore');
+    this.props.onResponseSubmitted({ignore: true});
   },
 
   render() {
@@ -52,8 +60,8 @@ export default React.createClass({
   renderStart({onRecord}) {
     return (
       <div>
-        <div style={styles.instruction}>{this.props.responsePrompt}</div>
-        <RaisedButton key="record" onTouchTap={onRecord} label="Record" secondary={true} />
+        <RaisedButton key="record" onTouchTap={onRecord} label={this.props.recordText} secondary={true} />
+        <RaisedButton key="ignore" onTouchTap={this.onIgnoreTapped} label={this.props.ignoreText} />
       </div>
     );
   },
@@ -69,13 +77,14 @@ export default React.createClass({
 
   // TODO(kr) hack
   renderReviewing({blob, downloadUrl, onSubmit, onRetry}) {
-    this.setTimeout(onSubmit, 0);
+    window.setTimeout(onSubmit, 0);
     return null;
   },
 
   // TODO(kr) hack
   renderDone({uploadedUrl}) {
-    this.setTimeout(this.onDone.bind(this, uploadedUrl), 0);
+    window.setTimeout(this.onDone.bind(this, uploadedUrl), 0);
+    return null;
   }
 });
 

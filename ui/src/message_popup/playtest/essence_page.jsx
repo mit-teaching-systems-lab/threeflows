@@ -9,9 +9,8 @@ import hash from '../../helpers/hash.js';
 import LinearSession from '../essence/linear_session.jsx';
 import SessionFrame from '../essence/session_frame.jsx';
 import IntroWithEmail from '../essence/intro_with_email.jsx';
-import PlainTextQuestion from '../renderers/plain_text_question.jsx';
-import ChoiceForBehaviorResponse from '../renderers/choice_for_behavior_response.jsx';
-import MinimalAudioResponse from '../renderers/minimal_audio_response.jsx';
+import ClassifyQuestion from '../essence/classify_question.jsx';
+import RecordThenClassifyQuestion from '../essence/record_then_classify_question.jsx';
 
 type QuestionT = {
   id:number,
@@ -72,7 +71,7 @@ const ScenarioMaker = {
       const question:QuestionT = {
         id: hash(text),
         condition: condition,
-        choices: (index === 0) ? ['OK'] : this.choices(),
+        choices: (index === 0) ? [] : this.choices(),
         text: text
       };
       return question;
@@ -171,21 +170,25 @@ export default React.createClass({
     );
   },
 
+  // Only ask for audio on questions with choices, otherwise let them continue
   renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
-    return (
-      <div>
-        <PlainTextQuestion question={question} />
-        <MinimalAudioResponse
-          onResponseSubmitted={this.onDoneAudio}
-          onLogMessage={onLog}
-        />
-        <ChoiceForBehaviorResponse
-          choices={question.choices}
-          onLogMessage={onLog}
-          onResponseSubmitted={onResponseSubmitted}
-        />
-      </div>
-    );
+    if (question.choices.length === 0) {
+      return <ClassifyQuestion
+        key={question.id}
+        question={question}
+        choices={['OK']}
+        onLogMessage={onLog}
+        onResponseSubmitted={onResponseSubmitted}
+      />;
+    } else {
+      return <RecordThenClassifyQuestion
+        key={question.id}
+        question={question}
+        choices={question.choices}
+        onLogMessage={onLog}
+        onResponseSubmitted={onResponseSubmitted}
+      />;
+    }
   },
 
   renderSummaryEl(questions:[QuestionT], responses:[ResponseT]) {

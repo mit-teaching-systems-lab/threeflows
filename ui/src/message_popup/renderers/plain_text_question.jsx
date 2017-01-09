@@ -8,12 +8,16 @@ export default React.createClass({
 
   propTypes: {
     question: React.PropTypes.object.isRequired,
+    italic: React.PropTypes.bool
   },
 
   render() {
-    const {question} = this.props;
-
-    return <div style={styles.textQuestion}>{question.text}</div>;
+    const {question, italic} = this.props;
+    const mergedStyles = {
+      ...styles.textQuestion,
+      ...(italic) ? { fontStyle: 'italic' } : {}
+    };
+    return <div style={mergedStyles}>{question.text}</div>;
   }
 });
 
