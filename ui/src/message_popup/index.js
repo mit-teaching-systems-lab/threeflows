@@ -6,6 +6,7 @@ import DemoPage from './demo_page.jsx';
 import TwinePage from './twine/twine_page.jsx';
 import PlaytestExperiencePage from './playtest/playtest_experience_page.jsx';
 import DansonExperiencePage from './playtest/danson_experience_page.jsx';
+import OkonofuaInsubordinationPage from './playtest/okonofua_insubordination_page.jsx';
 import ExplorationPage from './exploration_page.jsx';
 import ScoringPage from './scoring_page.jsx';
 import EvaluationViewerPage from './evaluation_viewer_page.jsx';
@@ -34,6 +35,7 @@ export {
   TwinePage,
   PlaytestExperiencePage,
   DansonExperiencePage,
+  OkonofuaInsubordinationPage,
   ExplorationPage,
   ScoringPage,
   EvaluationViewerPage,
