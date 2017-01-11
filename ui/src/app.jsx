@@ -118,7 +118,7 @@ export default React.createClass({
   },
 
   dansonPlaytest(query = {}) {
-    return <MessagePopup.DansonPage query={{}}/>;
+    return <MessagePopup.DansonExperiencePage query={{}}/>;
   },
 
   messagePopupPlaytest(cohortKey, query = {}) {

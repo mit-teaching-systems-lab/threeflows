@@ -5,7 +5,7 @@ import ExperiencePage from './experience_page.jsx';
 import DemoPage from './demo_page.jsx';
 import TwinePage from './twine/twine_page.jsx';
 import PlaytestExperiencePage from './playtest/playtest_experience_page.jsx';
-import DansonPage from './playtest/danson_page.jsx';
+import DansonExperiencePage from './playtest/danson_experience_page.jsx';
 import InsubordinationPage from './playtest/insubordination_page.jsx';
 import ExplorationPage from './exploration_page.jsx';
 import ScoringPage from './scoring_page.jsx';
@@ -34,7 +34,7 @@ export {
   DemoPage,
   TwinePage,
   PlaytestExperiencePage,
-  DansonPage,
+  DansonExperiencePage,
   InsubordinationPage,
   ExplorationPage,
   ScoringPage,
