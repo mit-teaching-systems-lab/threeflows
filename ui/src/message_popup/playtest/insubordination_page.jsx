@@ -35,7 +35,7 @@ const ScenarioMaker = {
       'make a joke',
       'encourage the student',
       'redirect the student to the task',
-      'remind the student of the class rules',
+      'remind the student of class rules',
       'ask the student to stay after class',
       'send the student to the principal',
       'call an administrator to class'
@@ -194,7 +194,7 @@ export default React.createClass({
         <div style={{paddingBottom: 20, fontWeight: 'bold'}}>Thanks!  Here are your responses:</div>
         {responses.map((response, i) =>
           <div key={i} style={{paddingTop: 10}}>
-            <div>{response.question.text}</div>
+            <div>{questions[i].text}</div>
             <div>> {response.choice}</div>
             <Divider style={{marginTop: 15}} />
           </div>

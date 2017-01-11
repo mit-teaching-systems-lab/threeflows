@@ -1,14 +1,13 @@
 /* @flow weak */
 import React from 'react';
+import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
+import 'velocity-animate/velocity.ui';
 
 
 // Manages the flow through a list of questions.
 // Starts with `introEl`, then moves through showing `questionEl` for each
 // question and collecting a response and logging it, then showing
 // `summaryEl` when done.
-//
-// TODO(kr) animations
-// TODO(kr) timing question - has to be done by questionEl
 export default React.createClass({
   displayName: 'LinearSession',
 
@@ -16,7 +15,7 @@ export default React.createClass({
     questions: React.PropTypes.array.isRequired,
     questionEl: React.PropTypes.func.isRequired,
     summaryEl: React.PropTypes.func.isRequired,
-    onLogMessage: React.PropTypes.func.isRequired,
+    onLogMessage: React.PropTypes.func.isRequired
   },
 
   getInitialState() {
@@ -42,7 +41,20 @@ export default React.createClass({
     });
   },
 
+  // Animation wrapper
   render() {
+    return (
+      <VelocityTransitionGroup
+        leave={{animation: "slideUp", duration: 200}}
+        enter={{animation: "slideDown", duration: 200}}
+        runOnMount={true}
+      >
+        {this.renderContent()}
+      </VelocityTransitionGroup>
+    );
+  },
+
+  renderContent() {
     const {questions} = this.props;
     const {responses} = this.state;
     if (responses.length >= questions.length) return this.props.summaryEl(questions, responses);

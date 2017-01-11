@@ -1,7 +1,7 @@
 /* @flow weak */
 import React from 'react';
 
-import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton';
 import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 
 import ResponsiveFrame from '../../components/responsive_frame.jsx';
@@ -23,11 +23,10 @@ export default React.createClass({
         <div>
           <NavigationAppBar
             title="Teacher Moments"
-            prependMenuItems={
-              <MenuItem
-                onTouchTap={this.props.onResetSession}
-                leftIcon={<RefreshIcon />}
-                primaryText="Restart session" />
+            iconElementLeft={
+              <IconButton onTouchTap={this.props.onResetSession} >
+                <RefreshIcon />
+              </IconButton>
             }
           />
           {this.props.children}
