@@ -35,10 +35,8 @@ export default React.createClass({
   render() {
     return (
       <VelocityTransitionGroup enter={{animation: "callout.pulse", duration: 500}} leave={{animation: "slideUp"}} runOnMount={true}>
-        <div className="instructions">
-          <div style ={{...styles.container, ...styles.instructions}}>
-            {this.props.children}
-          </div>
+        <div style={{...styles.container, ...styles.instructions}}>
+          {this.props.children}
         </div>
         <Divider />
         <div style={{padding: 20}}>

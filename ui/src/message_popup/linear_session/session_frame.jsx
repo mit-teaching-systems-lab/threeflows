@@ -19,19 +19,21 @@ export default React.createClass({
 
   render() {
     return (
-      <ResponsiveFrame>
-        <div>
-          <NavigationAppBar
-            title="Teacher Moments"
-            iconElementLeft={
-              <IconButton onTouchTap={this.props.onResetSession} >
-                <RefreshIcon />
-              </IconButton>
-            }
-          />
-          {this.props.children}
-        </div>
-      </ResponsiveFrame>
+      <div className="SessionFrame">
+        <ResponsiveFrame>
+          <div>
+            <NavigationAppBar
+              title="Teacher Moments"
+              iconElementLeft={
+                <IconButton onTouchTap={this.props.onResetSession} >
+                  <RefreshIcon />
+                </IconButton>
+              }
+            />
+            {this.props.children}
+          </div>
+        </ResponsiveFrame>
+      </div>
     );
   }
 });

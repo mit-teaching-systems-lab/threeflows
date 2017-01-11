@@ -7,11 +7,11 @@ import Divider from 'material-ui/Divider';
 
 import * as Api from '../../helpers/api.js';
 import hash from '../../helpers/hash.js';
-import LinearSession from '../essence/linear_session.jsx';
-import SessionFrame from '../essence/session_frame.jsx';
-import IntroWithEmail from '../essence/intro_with_email.jsx';
-import ClassifyQuestion from '../essence/classify_question.jsx';
-import RecordThenClassifyQuestion from '../essence/record_then_classify_question.jsx';
+import LinearSession from '../linear_session/linear_session.jsx';
+import SessionFrame from '../linear_session/session_frame.jsx';
+import IntroWithEmail from '../linear_session/intro_with_email.jsx';
+import ClassifyQuestion from '../linear_session/classify_question.jsx';
+import RecordThenClassifyQuestion from '../linear_session/record_then_classify_question.jsx';
 
 type QuestionT = {
   id:number,
