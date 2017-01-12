@@ -53,6 +53,7 @@ export default React.createClass({
     
     '/teachermoments': 'messagePopup',
     '/playtest/:cohortKey': 'messagePopupPlaytest',
+    '/teachermoments/alpha': 'alphaPlaytest',
     '/teachermoments/danson': 'dansonPlaytest',
     '/teachermoments/twine': 'messagePopupTwine',
     '/teachermoments/demo': 'messagePopupDemo',
@@ -110,6 +111,10 @@ export default React.createClass({
 
   messagePopupDemo(query = {}) {
     return <MessagePopup.DemoPage key={JSON.stringify(query)} />;
+  },
+
+  alphaPlaytest(query = {}) {
+    return <MessagePopup.InsubordinationPage query={{}}/>;
   },
 
   dansonPlaytest(query = {}) {
