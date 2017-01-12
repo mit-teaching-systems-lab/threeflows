@@ -10,7 +10,9 @@ import SessionFrame from '../linear_session/session_frame.jsx';
 import IntroWithEmail from '../linear_session/intro_with_email.jsx';
 import ClassifyQuestion from '../linear_session/classify_question.jsx';
 import RecordThenClassifyQuestion from '../linear_session/record_then_classify_question.jsx';
-import {QuestionT, InsubordinationScenarios} from './insubordination_scenarios.js';
+import {InsubordinationScenarios} from './insubordination_scenarios.js';
+import type {QuestionT} from './insubordination_scenarios.js';
+
 
 
 type ResponseT = {
