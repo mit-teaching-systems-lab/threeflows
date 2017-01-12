@@ -1,87 +1,22 @@
 /* @flow weak */
-import _ from 'lodash';
 import React from 'react';
 import uuid from 'uuid';
 
 import Divider from 'material-ui/Divider';
 
 import * as Api from '../../helpers/api.js';
-import hash from '../../helpers/hash.js';
 import LinearSession from '../linear_session/linear_session.jsx';
 import SessionFrame from '../linear_session/session_frame.jsx';
 import IntroWithEmail from '../linear_session/intro_with_email.jsx';
 import ClassifyQuestion from '../linear_session/classify_question.jsx';
 import RecordThenClassifyQuestion from '../linear_session/record_then_classify_question.jsx';
+import {QuestionT, InsubordinationScenarios} from './insubordination_scenarios.js';
 
-type QuestionT = {
-  id:number,
-  condition:string,
-  choices:[string],
-  text:string
-};
+
 type ResponseT = {
   choice:string,
   question:QuestionT
 };
-
-
-// Make questions for an email, describe choices.
-const ScenarioMaker = {
-  choices() {
-    return [
-      'ignore the behavior',
-      'make eye contact',
-      'make a facial expression or gesture',
-      'make a joke',
-      'encourage the student',
-      'redirect the student to the task',
-      'remind the student of class rules',
-      'ask the student to stay after class',
-      'send the student to the principal',
-      'call an administrator to class'
-    ];
-  },
-
-  // Given an email, return a cohortKey.
-  cohortKey(email) {
-    const {conditions} = this.data();
-    return hash(email) % conditions.length;
-  },
-
-  data() {
-    // Read scenario
-    const conditions = [{child: 'Jake' }, {child: 'Greg'}, {child: 'Darnell'}, {child: 'DeShawn'}];
-    const questionTemplates = [
-      'Students are working independently on a proportions problem set.  You circulate around the room.',
-      '${child} is sleeping in class.',
-      'He picks his head up. He chooses to rest it on his hand and continue to sleep.',
-      '${child} refuses to do work.',
-      'He refuses.'
-    ];
-
-    return {conditions, questionTemplates};
-  },
-
-  // Return questions for cohortKey.
-  // This involves taking description from yaml and making it concrete.
-  questions(cohortKey) {
-    const {conditions, questionTemplates} = this.data();
-    const condition = conditions[cohortKey];
-    const questions = questionTemplates.map((template, index) => {
-      const text = _.template(template)(condition);
-      const question:QuestionT = {
-        id: hash(text),
-        condition: condition,
-        choices: (index === 0) ? [] : this.choices(),
-        text: text
-      };
-      return question;
-    }, this);
-
-    return questions;
-  }
-};
-
 
 
 
@@ -97,7 +32,7 @@ export default React.createClass({
   getInitialState() {
     const contextEmail = this.context.auth.userProfile.email;
     const email = contextEmail === "unknown@mit.edu" ? '' : contextEmail;
-    const cohortKey = ScenarioMaker.cohortKey(email);
+    const cohortKey = InsubordinationScenarios.cohortKey(email);
 
     return {
       email,
@@ -109,8 +44,8 @@ export default React.createClass({
 
   // Making the cohort and questions is the key bit here.
   onStart(email) {
-    const cohortKey = ScenarioMaker.cohortKey(email);
-    const questions = ScenarioMaker.questions(cohortKey);
+    const cohortKey = InsubordinationScenarios.cohortKey(email);
+    const questions = InsubordinationScenarios.questionsFor(cohortKey);
     this.setState({
       email,
       questions,
