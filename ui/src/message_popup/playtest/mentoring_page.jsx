@@ -191,10 +191,11 @@ export default React.createClass({
   },
 
   renderSummaryEl(questions:[QuestionT], responses:[ResponseT]) {
+    const videoUrl = 'https://www.edinnovationlab.com/explore-summit/teaching-at-summit/1-1-mentoring';
     return (
       <div style={{padding: 20}}>
         <div style={{fontWeight: 'bold'}}>Thanks!</div>
-        <div style={{marginTop: 20, marginBottom: 50}}>This scenario was adapted from a <a href="https://www.edinnovationlab.com/explore-summit/teaching-at-summit/1-1-mentoring">video</a> by Summit Public Schools.  If you'd like to see this scenario with a real student, and watch another teacher model the conversation, go <a href="https://www.edinnovationlab.com/explore-summit/teaching-at-summit/1-1-mentoring">check it out!</a>.</div>
+        <div style={{marginTop: 20, marginBottom: 50}}>This scenario was adapted from a <a href={videoUrl}>video</a> by Summit Public Schools.  If you'd like to see this scenario with a real student, and watch another teacher model the conversation, go <a href={videoUrl}>check it out!</a>.</div>
         <div style={{fontWeight: 'bold'}}>Here are your responses:</div>
         {responses.map((response, i) =>
           <div key={i} style={{paddingTop: 10}}>
