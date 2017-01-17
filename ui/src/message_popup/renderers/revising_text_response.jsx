@@ -172,7 +172,7 @@ const styles = {
   // DOM to size its height, and when animating with Velocity it's still hidden
   // and doesn't have its full size yet.
   textareaInner: {
-    border: '1px solid #eee',
+    border: '1px solid #ddd',
     height: 48,
     marginBottom: 0
   },
