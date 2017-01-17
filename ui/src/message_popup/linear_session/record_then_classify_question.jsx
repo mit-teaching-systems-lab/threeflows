@@ -6,9 +6,13 @@ import Divider from 'material-ui/Divider';
 import PlainTextQuestion from '../renderers/plain_text_question.jsx';
 import ChoiceForBehaviorResponse from '../renderers/choice_for_behavior_response.jsx';
 import MinimalAudioResponse from '../renderers/minimal_audio_response.jsx';
+import MinimalTextResponse from '../renderers/minimal_text_response.jsx';
+import AudioCapture from '../../components/audio_capture.jsx';
 
 
-// Record audio, then classify your response
+// Record audio, then classify your response.
+// If audio isn't available (eg., desktop Safari or mobile)
+// then it falls back to text.
 export default React.createClass({
   displayName: 'RecordThenClassifyQuestion',
 
@@ -21,7 +25,8 @@ export default React.createClass({
 
   getInitialState() {
     return {
-      audioResponse: null
+      audioResponse: null,
+      textResponse: null
     };
   },
 
@@ -29,40 +34,36 @@ export default React.createClass({
     this.setState({audioResponse});
   },
 
-  // Include the audioResponse in the fixed-choice response
+  onDoneText(textResponse) {
+    this.setState({textResponse});
+  },
+
+  // Include the audioResponse and textResponse in the fixed-choice response
   onChoiceSelected(response) {
-    const {audioResponse} = this.state;
+    const {audioResponse, textResponse} = this.state;
     this.props.onResponseSubmitted({
       ...response,
-      ...audioResponse
+      ...audioResponse,
+      ...textResponse
     });
   },
 
   render() {
-    const {question} = this.props;
+    const {question, skipAudioRecording} = this.props;
+    const {audioResponse} = this.state;
+
     return (
       <div>
         <PlainTextQuestion question={question} />
-        {this.renderResponseArea()}
+        {(!audioResponse && !skipAudioRecording)
+          ? this.renderOpenEndedResponse()
+          : this.renderClassifyResponse()}
       </div>
     );
   },
   
-  renderResponseArea() {
-    const {question, skipAudioRecording, onLogMessage} = this.props;
-    const {audioResponse} = this.state;
-    
-    if (!audioResponse && !skipAudioRecording) {
-      return (
-        <MinimalAudioResponse
-          responsePrompt=""
-          recordText="Record"
-          onLogMessage={onLogMessage}
-          onResponseSubmitted={this.onDoneAudio}
-        />
-      );
-    }
-
+  renderClassifyResponse() {
+    const {question, onLogMessage} = this.props;
     return (
       <div>
         <Divider style={{margin: 20}} />
@@ -74,5 +75,28 @@ export default React.createClass({
         />
       </div>
     );
+  },
+
+  // Audio, but fall back to text if platform doesn't support it
+  renderOpenEndedResponse() {
+    const {onLogMessage} = this.props;
+    if (AudioCapture.isAudioSupported()) {
+      return (
+        <MinimalAudioResponse
+          responsePrompt=""
+          recordText="Record"
+          onLogMessage={onLogMessage}
+          onResponseSubmitted={this.onDoneAudio}
+        />
+      );
+    } else {
+      return (
+        <MinimalTextResponse
+          responsePrompt=""
+          onLogMessage={onLogMessage}
+          onResponseSubmitted={this.onDoneAudio}
+        />
+      );
+    }
   }
 });
