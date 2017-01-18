@@ -13,23 +13,20 @@ import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
 
 
 
-// Make questions
+// Sourced from https://www.mindsetkit.org/belonging/cues-belonging/quiz-classroom-scenarios
 const Scenarios = {
-  // Sourced from https://www.mindsetkit.org/belonging/cues-belonging/quiz-classroom-scenarios
   questions() {
     const questionTexts = [
       'An administrator emails you in the morning to tell you that you\'ll have a new student in your classroom today.  She says the student\'s name is Madhuvanti and has just moved into town.  Before that class period, Madhuvanti arrives to class a minute before everyone else.'
     ];
 
-    const questions = questionTexts.map((text) => {
+    return questionTexts.map((text) => {
       return {
         id: hash(text),
         condition: 0,
         text: text
       };
     });
-    
-    return questions;
   }
 };
 
@@ -37,8 +34,7 @@ const Scenarios = {
 
 
 
-// The top-level page, manages logistics around email, cohorts and questions,
-// and the display of instructions, questions, and summary.
+// Single-shot scenarios, around belonging mindset.
 export default React.createClass({
   displayName: 'MindsetPage',
 
