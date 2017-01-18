@@ -55,6 +55,7 @@ export default React.createClass({
     '/playtest/:cohortKey': 'messagePopupPlaytest',
     '/teachermoments/alpha': 'alphaPlaytest',
     '/teachermoments/mentoring': 'mentoringPlaytest',
+    '/teachermoments/mindset': 'mindsetPlaytest',
     '/teachermoments/danson': 'dansonPlaytest',
     '/teachermoments/twine': 'messagePopupTwine',
     '/teachermoments/demo': 'messagePopupDemo',
@@ -120,6 +121,10 @@ export default React.createClass({
 
   mentoringPlaytest(query = {}) {
     return <MessagePopup.MentoringPage query={{}}/>;
+  },
+
+  mindsetPlaytest(query = {}) {
+    return <MessagePopup.MindsetPage query={{}}/>;
   },
 
   dansonPlaytest(query = {}) {
