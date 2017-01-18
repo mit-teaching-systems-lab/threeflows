@@ -5,9 +5,7 @@ import Divider from 'material-ui/Divider';
 
 import PlainTextQuestion from '../renderers/plain_text_question.jsx';
 import ChoiceForBehaviorResponse from '../renderers/choice_for_behavior_response.jsx';
-import MinimalAudioResponse from '../renderers/minimal_audio_response.jsx';
-import MinimalTextResponse from '../renderers/minimal_text_response.jsx';
-import AudioCapture from '../../components/audio_capture.jsx';
+import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
 
 
 // Record audio, then classify your response.
@@ -80,23 +78,13 @@ export default React.createClass({
   // Audio, but fall back to text if platform doesn't support it
   renderOpenEndedResponse() {
     const {onLogMessage} = this.props;
-    if (AudioCapture.isAudioSupported()) {
-      return (
-        <MinimalAudioResponse
-          responsePrompt=""
-          recordText="Record"
-          onLogMessage={onLogMessage}
-          onResponseSubmitted={this.onDoneAudio}
-        />
-      );
-    } else {
-      return (
-        <MinimalTextResponse
-          responsePrompt=""
-          onLogMessage={onLogMessage}
-          onResponseSubmitted={this.onDoneAudio}
-        />
-      );
-    }
+    return (
+      <MinimalOpenResponse
+        responsePrompt=""
+        recordText="Respond"
+        onLogMessage={onLogMessage}
+        onResponseSubmitted={this.onDoneAudio}
+      />
+    );
   }
 });
