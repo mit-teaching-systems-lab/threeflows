@@ -1,4 +1,4 @@
-/* @flow weak */
+/* @flow */
 import React from 'react';
 import uuid from 'uuid';
 import hash from '../../helpers/hash.js';
@@ -14,13 +14,19 @@ import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
 type QuestionT = {
   id:number,
   condition:string,
-  choices:[string],
   text:string
 };
 type ResponseT = {
   choice:string,
   question:QuestionT
 };
+type StateT = {
+  email: string,
+  questions: ?[QuestionT],
+  sessionId: string
+};
+declare function onLogT(type: string, payload:any):void;
+declare function onResponseSubmittedT(type: string, response:ResponseT):void;
 
 
 // Make questions
@@ -60,15 +66,17 @@ export default React.createClass({
     const contextEmail = this.context.auth.userProfile.email;
     const email = contextEmail === "unknown@mit.edu" ? '' : contextEmail;
 
-    return {
+    const state:StateT = {
       email,
       questions: null,
       sessionId: uuid.v4()
     };
+
+    return state;
   },
 
   // Making the cohort and questions is the key bit here.
-  onStart(email) {
+  onStart(email:string) {
     const questions = Scenarios.questions();
     this.setState({
       email,
@@ -80,7 +88,7 @@ export default React.createClass({
     this.setState(this.getInitialState());
   },
 
-  onLogMessage(type, response:ResponseT) {
+  onLogMessage(type:string, response:any) {
     const {email, sessionId} = this.state;
     Api.logEvidence(type, {
       ...response,
@@ -124,7 +132,7 @@ export default React.createClass({
     );
   },
 
-  renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
+  renderQuestionEl(question:QuestionT, onLog:onLogT, onResponseSubmitted:onResponseSubmittedT) {
     return (
       <div key={question.id}>
         <PlainTextQuestion question={question} />
