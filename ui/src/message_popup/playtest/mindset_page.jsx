@@ -1,4 +1,4 @@
-/* @flow */
+/* @flow weak */
 import React from 'react';
 import uuid from 'uuid';
 import hash from '../../helpers/hash.js';
@@ -11,22 +11,6 @@ import PlainTextQuestion from '../renderers/plain_text_question.jsx';
 import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
 
 
-type QuestionT = {
-  id:number,
-  condition:string,
-  text:string
-};
-type ResponseT = {
-  choice:string,
-  question:QuestionT
-};
-type StateT = {
-  email: string,
-  questions: ?[QuestionT],
-  sessionId: string
-};
-declare function onLogT(type: string, payload:any):void;
-declare function onResponseSubmittedT(type: string, response:ResponseT):void;
 
 
 // Make questions
@@ -37,7 +21,7 @@ const Scenarios = {
       'An administrator emails you in the morning to tell you that you\'ll have a new student in your classroom today.  She says the student\'s name is Madhuvanti and has just moved into town.  Before that class period, Madhuvanti arrives to class a minute before everyone else.'
     ];
 
-    const questions:[QuestionT] = questionTexts.map((text) => {
+    const questions = questionTexts.map((text) => {
       return {
         id: hash(text),
         condition: 0,
@@ -66,13 +50,11 @@ export default React.createClass({
     const contextEmail = this.context.auth.userProfile.email;
     const email = contextEmail === "unknown@mit.edu" ? '' : contextEmail;
 
-    const state:StateT = {
+    return {
       email,
       questions: null,
       sessionId: uuid.v4()
     };
-
-    return state;
   },
 
   // Making the cohort and questions is the key bit here.
@@ -132,7 +114,7 @@ export default React.createClass({
     );
   },
 
-  renderQuestionEl(question:QuestionT, onLog:onLogT, onResponseSubmitted:onResponseSubmittedT) {
+  renderQuestionEl(question, onLog, onResponseSubmitted) {
     return (
       <div key={question.id}>
         <PlainTextQuestion question={question} />
@@ -144,7 +126,7 @@ export default React.createClass({
     );
   },
 
-  renderSummaryEl(questions:[QuestionT], responses:[ResponseT]) {
+  renderSummaryEl(questions, responses) {
     const quizUrl = 'https://www.mindsetkit.org/belonging/cues-belonging/quiz-classroom-scenarios';
     return (
       <div style={{padding: 20}}>
