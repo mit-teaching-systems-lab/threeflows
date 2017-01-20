@@ -16,8 +16,8 @@ export default React.createClass({
     query: React.PropTypes.shape({
       assignmentId: React.PropTypes.string.isRequired,
       hitId: React.PropTypes.string.isRequired,
-      turkSubmitTo: React.PropTypes.string.isRequired,
-      workerId: React.PropTypes.string.isRequired
+      turkSubmitTo: React.PropTypes.string,
+      workerId: React.PropTypes.string
     }).isRequired,
     experimentFactory: React.PropTypes.func.isRequired
   },
@@ -30,9 +30,10 @@ export default React.createClass({
 
   doEndExperiment() {
     console.log('Submitting...'); // eslint-disable-line no-console
-    const {turkSubmitTo} = this.props.query;
+    const {assignmentId, turkSubmitTo} = this.props.query;
     request
       .post(turkSubmitTo)
+      .send({assignmentId})
       .end();
   },
 
@@ -53,12 +54,18 @@ export default React.createClass({
     this.doEndExperiment();
   },
 
+  // In preview, only assignmentId is provided and it is ASSIGNMENT_ID_NOT_AVAILABLE
   render() {
+    const {assignmentId, workerId} = this.props.query;
+    const userIdentifier = (assignmentId === 'ASSIGNMENT_ID_NOT_AVAILABLE')
+      ? null
+      : workerId;
+
     return (
       <ResponsiveFrame>
         <div style={{padding: 20}}>
           {React.createElement(this.props.experimentFactory, {
-            userIdentifier: this.props.query.workerId,
+            userIdentifier,
             onLogMessage: this.onLogMessage,
             onExperimentDone: this.onExperimentDone
           })}

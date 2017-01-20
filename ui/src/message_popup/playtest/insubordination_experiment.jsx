@@ -12,20 +12,28 @@ import {InsubordinationScenarios} from './insubordination_scenarios.js';
 
 
 
-// And experiment page, handles forming a cohort and displaying the substance of the experiment.
+// An experiment page, handles forming a cohort and displaying the substance of the experiment.
+// Also supports preview of the experiment if `userIdentifier` is null.
 export default React.createClass({
   displayName: 'InsubordinationExperiment',
 
   propTypes: {
-    userIdentifier: React.PropTypes.string.isRequired,
     onLogMessage: React.PropTypes.func.isRequired,
-    onExperimentDone: React.PropTypes.func.isRequired
+    onExperimentDone: React.PropTypes.func.isRequired,
+    userIdentifier: React.PropTypes.string
+  },
+
+  getDefaultProps() {
+    return {
+      userIdentifier: null
+    };
   },
 
   getInitialState() {
     const {userIdentifier} = this.props;
-    const cohortKey = InsubordinationScenarios.cohortKey(userIdentifier);
-    const questions = InsubordinationScenarios.questionsFor(cohortKey);
+    const questions = (userIdentifier)
+      ? InsubordinationScenarios.questionsFor(InsubordinationScenarios.cohortKey(userIdentifier))
+      : null;
 
     return {
       questions,
@@ -43,9 +51,10 @@ export default React.createClass({
   },
 
   render() {
+    const {userIdentifier, onLogMessage} = this.props;
     const {hasStarted, questions} = this.state;
-    const {onLogMessage} = this.props;
-    if (!hasStarted) return this.renderIntro();
+    if (!userIdentifier) return this.renderIntro({ isButtonEnabled: false });
+    if (!hasStarted) return this.renderIntro({ isButtonEnabled: true });
 
     return <LinearSession
       questions={questions}
@@ -55,7 +64,7 @@ export default React.createClass({
     />;
   },
 
-  renderIntro() {
+  renderIntro(options = {}) {
     return (
       <div>
         <div>
@@ -66,6 +75,7 @@ export default React.createClass({
         </div>
         <RaisedButton
           onTouchTap={this.onStart}
+          disabled={!options.isButtonEnabled}
           secondary={true}
           label="Start" />
       </div>
