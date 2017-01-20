@@ -1,7 +1,7 @@
 /* @flow weak */
 import _ from 'lodash';
-import superagent from 'superagent';
 import * as Routes from '../routes.js';
+import superagent from 'superagent';
 import SuperagentPromise from 'superagent-promise';
 const request = SuperagentPromise(superagent, Promise);
 

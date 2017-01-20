@@ -21,7 +21,6 @@ import * as MessagePopup from './message_popup/index.js';
 import {challenges, slates} from './challenge/challenges.js';
 
 
-
 export default React.createClass({
   displayName: 'App',
 
@@ -54,6 +53,7 @@ export default React.createClass({
     '/teachermoments': 'messagePopup',
     '/playtest/:cohortKey': 'messagePopupPlaytest',
     '/teachermoments/alpha': 'alphaPlaytest',
+    '/teachermoments/turk-0000': 'turk0000',
     '/teachermoments/mentoring': 'mentoringPlaytest',
     '/teachermoments/mindset': 'mindsetPlaytest',
     '/teachermoments/danson': 'dansonPlaytest',
@@ -117,6 +117,14 @@ export default React.createClass({
 
   alphaPlaytest(query = {}) {
     return <MessagePopup.InsubordinationPage query={{}}/>;
+  },
+
+  turk0000(query = {}) {
+    return (
+      <MessagePopup.MTurkPage
+        query={query}
+        experimentFactory={MessagePopup.InsubordinationExperiment} />
+    );
   },
 
   mentoringPlaytest(query = {}) {

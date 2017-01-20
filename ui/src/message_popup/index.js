@@ -9,6 +9,9 @@ import DansonExperiencePage from './playtest/danson_experience_page.jsx';
 import InsubordinationPage from './playtest/insubordination_page.jsx';
 import MentoringPage from './playtest/mentoring_page.jsx';
 import MindsetPage from './playtest/mindset_page.jsx';
+import MTurkPage from './playtest/mturk_page.jsx';
+import InsubordinationExperiment from './playtest/insubordination_experiment.jsx';
+
 import ExplorationPage from './exploration_page.jsx';
 import ScoringPage from './scoring_page.jsx';
 import EvaluationViewerPage from './evaluation_viewer_page.jsx';
@@ -40,6 +43,8 @@ export {
   InsubordinationPage,
   MentoringPage,
   MindsetPage,
+  InsubordinationExperiment,
+  MTurkPage,
   ExplorationPage,
   ScoringPage,
   EvaluationViewerPage,
