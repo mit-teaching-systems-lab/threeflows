@@ -4,8 +4,9 @@
   "version": "0.1.0",
   "main": "bundle.js",
   "scripts": {
-    "build": "cp *.html build && browserify -t [babelify] src/main.jsx -o build/bundle.js",
-    "watch": "npm run build && watchify -t [babelify] -p livereactload src/main.jsx -o build/bundle.js",
+    "build": "cp *.html build && NODE_ENV=production browserify -t [babelify] -g [envify --NODE_ENV 'production'] src/main.jsx | uglifyjs -c -m > build/bundle.js",
+    "build-dev": "cp *.html build && browserify -t [babelify] src/main.jsx -o build/bundle.js",
+    "watch": "npm run build-dev && watchify -t [babelify] -p livereactload src/main.jsx -o build/bundle.js",
     "flow-quiet": "flow; test $? -eq 0 -o $? -eq 2",
     "lint-quiet": "eslint --fix --ext jsx --ext js -c .eslintrc src; exit 0",
     "lint": "eslint --ext jsx --ext js -c .eslintrc src",
@@ -59,6 +60,7 @@
     "babel-plugin-react-transform": "^2.0.2",
     "babel-register": "^6.11.6",
     "chai": "^3.5.0",
+    "envify": "^4.0.0",
     "enzyme": "^2.6.0",
     "eslint": "^2.13.0",
     "eslint-config-airbnb": "^9.0.1",
@@ -71,6 +73,7 @@
     "react-addons-test-utils": "^15.4.0",
     "react-proxy": "^1.1.8",
     "sinon": "^1.17.5",
+    "uglify": "^0.1.5",
     "watchify": "^3.7.0"
   }
 }
