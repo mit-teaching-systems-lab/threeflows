@@ -123,7 +123,7 @@ export default React.createClass({
 
   render() {
     return (
-      <div>
+      <div style={{backgroundColor: 'white'}}>
         <NavigationAppBar
           title="Teacher Moments"
           prependMenuItems={
