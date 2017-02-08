@@ -90,6 +90,10 @@ export default React.createClass({
   drawStudentCard(question, scaffolding) {
     return true;
   },
+
+  drawResponsePrompt(question, scaffolding) {
+    return '';
+  },
   
   onLog(type, response:ResponseT) {
     Api.logEvidence(type, {
@@ -128,6 +132,7 @@ export default React.createClass({
         email,
         drawResponseMode: this.drawResponseMode,
         drawStudentCard: this.drawStudentCard,
+        drawResponsePrompt: this.drawResponsePrompt,
         sessionId: uuid.v4(),
         questions: withStudents(playtestQuestions),
         questionsAnswered: 0,
@@ -231,7 +236,7 @@ export default React.createClass({
   
   renderPopupQuestion() {
     const {scaffolding, gameSession, limitMs} = this.state;
-    const {questions, questionsAnswered, drawResponseMode, drawStudentCard} = gameSession;
+    const {questions, questionsAnswered, drawResponseMode, drawStudentCard, drawResponsePrompt} = gameSession;
     const sessionLength = questions.length;
     const question = questions[questionsAnswered];
 
@@ -248,6 +253,7 @@ export default React.createClass({
             onDone={this.onQuestionDone}
             drawResponseMode={drawResponseMode}
             drawStudentCard={drawStudentCard}
+            drawResponsePrompt={drawResponsePrompt}
             isLastQuestion={(questionsAnswered + 1 === sessionLength)}/>
         </VelocityTransitionGroup>
         <Snackbar
