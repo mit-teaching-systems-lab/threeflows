@@ -59,6 +59,7 @@ export default React.createClass({
     '/teachermoments/danson': 'dansonPlaytest',
     '/teachermoments/twine': 'messagePopupTwine',
     '/teachermoments/demo': 'messagePopupDemo',
+    '/teachermoments/sub': 'messagePopupPairs',
     '/teachermoments/exploration': 'messagePopupExploration',
     '/teachermoments/evaluations/:id': 'messagePopupEvaluation',
     '/teachermoments/scoring': 'messagePopupScoring',
@@ -137,6 +138,10 @@ export default React.createClass({
 
   dansonPlaytest(query = {}) {
     return <MessagePopup.DansonExperiencePage query={{}}/>;
+  },
+
+  messagePopupPairs(query = {}) {
+    return <MessagePopup.PairsExperiencePage query={{}}/>;
   },
 
   messagePopupPlaytest(cohortKey, query = {}) {
