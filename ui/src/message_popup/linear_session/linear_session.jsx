@@ -29,13 +29,13 @@ export default React.createClass({
   },
 
   // Mixes in question to payload
-  onLogMessage(question, type, rawResponse) {
+  onLogMessageWithQuestion(question, type, rawResponse) {
     this.props.onLogMessage(type, {...rawResponse, question});
   },
 
   // Logs and transitions
   onResponseSubmitted(question, response) {
-    this.onLogMessage('on_response_submitted', response);
+    this.onLogMessageWithQuestion(question, 'on_response_submitted', response);
     this.setState({
       responses: this.state.responses.concat(response)
     });
@@ -62,7 +62,7 @@ export default React.createClass({
     const question = questions[responses.length];
     return (
       <div key={question.id}>
-        {this.props.questionEl(question, this.onLogMessage.bind(this, question), this.onResponseSubmitted.bind(this, question))}
+        {this.props.questionEl(question, this.onLogMessageWithQuestion.bind(this, question), this.onResponseSubmitted.bind(this, question))}
       </div>
     );
   }
