@@ -11,6 +11,7 @@ import MentoringPage from './playtest/mentoring_page.jsx';
 import MindsetPage from './playtest/mindset_page.jsx';
 import MTurkPage from './playtest/mturk_page.jsx';
 import InsubordinationExperiment from './playtest/insubordination_experiment.jsx';
+import PairsExperiencePage from './playtest/pairs_experience_page.jsx';
 
 import ExplorationPage from './exploration_page.jsx';
 import ScoringPage from './scoring_page.jsx';
@@ -44,6 +45,7 @@ export {
   MentoringPage,
   MindsetPage,
   InsubordinationExperiment,
+  PairsExperiencePage,
   MTurkPage,
   ExplorationPage,
   ScoringPage,
