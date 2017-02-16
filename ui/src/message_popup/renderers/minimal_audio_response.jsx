@@ -76,8 +76,9 @@ export default React.createClass({
   renderRecording({onDone}) {
     return (
       <div>
-        <div style={{...styles.instruction, color: Colors.accent1Color}}>Recording...</div>
+        <div style={styles.instruction}></div>
         <RaisedButton key="done" onTouchTap={onDone} label="Done" primary={true} />
+        <div style={{...styles.recordingMessage, color: Colors.accent1Color}}>Recording...</div>
       </div>
     );
   },
@@ -102,5 +103,8 @@ const styles = {
   },
   instruction: {
     paddingBottom: 5
+  },
+  recordingMessage: {
+    paddingTop: 10
   }
 };
