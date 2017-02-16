@@ -124,10 +124,9 @@ export default React.createClass({
     this.props.onDone({uploadedUrl});
   },
 
-  // Log error and halt
+  // Log error (user flow will halt)
   onErrorUploading(event) {
     this.props.onLogMessage('message_popup_audio_error_uploading');
-    this.setState({ uploadState: 'error' });
     console.error('AudioRecorderFlow.onErrorUploading', event); // eslint-disable-line no-console
   },
 
