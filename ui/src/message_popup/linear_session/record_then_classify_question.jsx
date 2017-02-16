@@ -18,7 +18,8 @@ export default React.createClass({
     question: React.PropTypes.object.isRequired,
     onLogMessage: React.PropTypes.func.isRequired,
     onResponseSubmitted: React.PropTypes.func.isRequired,
-    skipAudioRecording: React.PropTypes.bool
+    skipAudioRecording: React.PropTypes.bool,
+    forceResponse: React.PropTypes.bool
   },
 
   getInitialState() {
@@ -29,11 +30,27 @@ export default React.createClass({
   },
 
   onDoneAudio(audioResponse) {
-    this.setState({audioResponse});
+    if(this.props.question.choices.length > 0) {
+      this.setState({audioResponse});
+      return;
+    } 
+    const {textResponse} = this.state;
+    this.props.onResponseSubmitted({
+      ...audioResponse,
+      ...textResponse
+    });
   },
 
   onDoneText(textResponse) {
-    this.setState({textResponse});
+    if(this.props.question.choices.length > 0) {
+      this.setState({textResponse}); 
+      return;
+    }
+    const {audioResponse} = this.state;
+    this.props.onResponseSubmitted({
+      ...audioResponse,
+      ...textResponse
+    });
   },
 
   // Include the audioResponse and textResponse in the fixed-choice response
@@ -77,12 +94,13 @@ export default React.createClass({
 
   // Audio, but fall back to text if platform doesn't support it
   renderOpenEndedResponse() {
-    const {onLogMessage} = this.props;
+    const {onLogMessage, forceResponse} = this.props;
     return (
       <MinimalOpenResponse
         responsePrompt=""
         recordText="Respond"
         onLogMessage={onLogMessage}
+        forceResponse={forceResponse}
         onResponseSubmitted={this.onDoneAudio}
       />
     );
