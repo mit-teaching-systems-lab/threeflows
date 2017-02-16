@@ -30,27 +30,11 @@ export default React.createClass({
   },
 
   onDoneAudio(audioResponse) {
-    if(this.props.question.choices.length > 0) {
-      this.setState({audioResponse});
-      return;
-    } 
-    const {textResponse} = this.state;
-    this.props.onResponseSubmitted({
-      ...audioResponse,
-      ...textResponse
-    });
+    this.setState({audioResponse});
   },
 
   onDoneText(textResponse) {
-    if(this.props.question.choices.length > 0) {
-      this.setState({textResponse}); 
-      return;
-    }
-    const {audioResponse} = this.state;
-    this.props.onResponseSubmitted({
-      ...audioResponse,
-      ...textResponse
-    });
+    this.setState({textResponse});
   },
 
   // Include the audioResponse and textResponse in the fixed-choice response
