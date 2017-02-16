@@ -15,7 +15,7 @@ export default React.createClass({
   },
 
   onChoiceTapped(choice) {
-    this.props.onLogMessage({choice});
+    this.props.onLogMessage('message_popup_choice_for_behavior_response', {choice});
     this.props.onResponseSubmitted({choice});
   },
 
