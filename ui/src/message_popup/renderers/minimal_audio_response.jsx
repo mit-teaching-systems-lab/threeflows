@@ -35,10 +35,10 @@ export default React.createClass({
     };
   },
 
-  onDone({uploadedUrl}) {
+  onDone({uploadedUrl, downloadUrl}) {
     const audioUrl = uploadedUrl;
     this.props.onLogMessage('message_popup_audio_response', {audioUrl});
-    this.props.onResponseSubmitted({audioUrl});
+    this.props.onResponseSubmitted({audioUrl, downloadUrl});
   },
 
   onIgnoreTapped() {

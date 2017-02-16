@@ -6,6 +6,7 @@ import DemoPage from './demo_page.jsx';
 import TwinePage from './twine/twine_page.jsx';
 import PlaytestExperiencePage from './playtest/playtest_experience_page.jsx';
 import DansonExperiencePage from './playtest/danson_experience_page.jsx';
+import DansonExperiencePage2 from './playtest/danson_experience_page2.jsx';
 import InsubordinationPage from './playtest/insubordination_page.jsx';
 import MentoringPage from './playtest/mentoring_page.jsx';
 import MindsetPage from './playtest/mindset_page.jsx';
@@ -41,6 +42,7 @@ export {
   TwinePage,
   PlaytestExperiencePage,
   DansonExperiencePage,
+  DansonExperiencePage2,
   InsubordinationPage,
   MentoringPage,
   MindsetPage,

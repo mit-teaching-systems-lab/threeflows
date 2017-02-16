@@ -18,7 +18,8 @@ export default React.createClass({
     question: React.PropTypes.object.isRequired,
     onLogMessage: React.PropTypes.func.isRequired,
     onResponseSubmitted: React.PropTypes.func.isRequired,
-    skipAudioRecording: React.PropTypes.bool
+    skipAudioRecording: React.PropTypes.bool,
+    forceResponse: React.PropTypes.bool
   },
 
   getInitialState() {
@@ -77,12 +78,13 @@ export default React.createClass({
 
   // Audio, but fall back to text if platform doesn't support it
   renderOpenEndedResponse() {
-    const {onLogMessage} = this.props;
+    const {onLogMessage, forceResponse} = this.props;
     return (
       <MinimalOpenResponse
         responsePrompt=""
         recordText="Respond"
         onLogMessage={onLogMessage}
+        forceResponse={forceResponse}
         onResponseSubmitted={this.onDoneAudio}
       />
     );

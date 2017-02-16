@@ -117,11 +117,12 @@ export default React.createClass({
   onDoneUploading(event) {
     this.props.onLogMessage('message_popup_audio_done_uploading');
     const uploadedUrl = JSON.parse(event.target.response).url;
+    const {downloadUrl} = this.state;
     this.setState({
       uploadedUrl,
       uploadState: 'done',
     });
-    this.props.onDone({uploadedUrl});
+    this.props.onDone({uploadedUrl, downloadUrl});
   },
 
   // Log error (user flow will halt)
