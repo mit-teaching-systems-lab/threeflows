@@ -11,9 +11,11 @@ import DansonLinearSession from '../linear_session/danson_linear_session.jsx';
 import SessionFrame from '../linear_session/session_frame.jsx';
 import IntroWithEmail from '../linear_session/intro_with_email.jsx';
 import RecordThenClassifyQuestion from '../linear_session/record_then_classify_question.jsx';
-import {InsubordinationScenarios} from './danson_scenarios.js';
+import {DansonScenarios} from './danson_scenarios.js';
 import type {QuestionT} from './danson_scenarios.js';
 import ReadMore from '../renderers/read_more.jsx';
+import PlainTextQuestion from '../renderers/plain_text_question.jsx';
+import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
 
 
 
@@ -45,7 +47,7 @@ export default React.createClass({
   },
 
   onStart(email) {
-    const questions = InsubordinationScenarios.questions();
+    const questions = DansonScenarios.questions();
     this.setState({
       email,
       questions
@@ -100,15 +102,31 @@ export default React.createClass({
     );
   },
 
-  // Only ask for audio on questions with choices, otherwise let them continue
   renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
-    return <RecordThenClassifyQuestion
+
+    if (question.choices.length > 0) {
+      return <RecordThenClassifyQuestion
         key={question.id}
         question={question}
+        choices={question.choices}
         onLogMessage={onLog}
         onResponseSubmitted={onResponseSubmitted}
         forceResponse={true}
       />;
+    } else {
+      return (
+        <div>
+        <PlainTextQuestion question={question} />
+          <MinimalOpenResponse
+            responsePrompt=""
+            recordText="Respond"
+            onLogMessage={onLog}
+            forceResponse={true}
+            onResponseSubmitted={onResponseSubmitted}
+          /> 
+        </div>
+      ); 
+    }
   },
 
   renderSummaryEl(questions:[QuestionT], responses:[ResponseT]) {

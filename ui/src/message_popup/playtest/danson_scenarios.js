@@ -10,7 +10,7 @@ export type QuestionT = {
 
 
 // Make questions and choices.
-export const InsubordinationScenarios = {
+export const DansonScenarios = {
   choices() {
     return [];
   },
