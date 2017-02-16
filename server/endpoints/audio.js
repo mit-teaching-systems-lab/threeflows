@@ -54,7 +54,16 @@ function get(s3) {
       Key: getAudioKey(request, id)
     };
     console.log('Reading from S3...');
-    s3.getObject(params).createReadStream().pipe(response);
+    try {
+      s3.getObject(params).createReadStream().pipe(response);
+      return;
+    }
+    catch (err) {
+      console.log('Error reading from S3: ', err);
+      response.status(503);
+      response.json({});
+      return;
+    }
   }
 }
 

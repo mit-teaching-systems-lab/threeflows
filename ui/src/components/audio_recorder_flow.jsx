@@ -54,6 +54,7 @@ export default React.createClass({
     const xhr = new XMLHttpRequest();
     xhr.open('POST', url);
     xhr.onload = this.onDoneUploading;
+    xhr.onerror = this.onErrorUploading;
     xhr.send(blob);
   },
 
@@ -121,6 +122,13 @@ export default React.createClass({
       uploadState: 'done',
     });
     this.props.onDone({uploadedUrl});
+  },
+
+  // Log error and halt
+  onErrorUploading(event) {
+    this.props.onLogMessage('message_popup_audio_error_uploading');
+    this.setState({ uploadState: 'error' });
+    console.error('AudioRecorderFlow.onErrorUploading', event); // eslint-disable-line no-console
   },
 
   render() {
