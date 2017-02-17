@@ -7,10 +7,12 @@ import LinearSession from '../linear_session/linear_session.jsx';
 import SessionFrame from '../linear_session/session_frame.jsx';
 import IntroWithEmail from '../linear_session/intro_with_email.jsx';
 import PlainTextQuestion from '../renderers/plain_text_question.jsx';
+import ReactQuestion from '../renderers/react_question.jsx';
+
 import ChoiceForBehaviorResponse from '../renderers/choice_for_behavior_response.jsx';
 import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
-import type {QuestionT} from './pairs_scenario.js';
-import {PairsScenario} from './pairs_scenario.js';
+import type {QuestionT} from './pairs_scenario.jsx';
+import {PairsScenario} from './pairs_scenario.jsx';
 
 
 
@@ -133,7 +135,10 @@ export default React.createClass({
           background: '#09407d',
           color: 'white'
         }}>{question.type}</b>
-        <PlainTextQuestion question={{text: question.el}} />
+        {(question.el)
+          ? <ReactQuestion el={question.el} />
+          : <PlainTextQuestion question={question} />
+        }
         {interactionEl}
       </div>
     );
