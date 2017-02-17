@@ -104,7 +104,7 @@ export default React.createClass({
         <div>
           <p>Welcome!</p>
           <p>This is an interactive case study simulating a small part of a high school computer science lesson.</p>
-          <p>You'll review the context of the lesson briefly, share what you anticipate about the lesson, and then try it out!  Afterward you'll reflect before heading back to debrief with the group.</p>
+          <p>You'll review the context of the lesson briefly, share what you anticipate about the lesson, and then try it out!  Afterward you'll reflect before heading back to debrief with the group or share online.</p>
         </div>
       </IntroWithEmail>
     );

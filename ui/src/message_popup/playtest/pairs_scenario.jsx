@@ -264,13 +264,15 @@ slides.push({ type: 'Reflect', text:
 `Did you notice any social dynamics between students related to race, ethnicity, gender or class?
 `, ask: true, force: true});
 
-slides.push({ type: 'Reflect', text:
-`Finally, pick one student group to talk about during the group discussion.
-
-In the group, you'll be asked to describe what you noticed, any assumptions you made, and how that shaped your interactions with students.
-
-Feel free to take a minute or two to think about that, and then head on back!
-`});
+slides.push({ type: 'Reflect', el:
+<div>
+  <div>Finally, pick one student group to talk about during the group discussion.</div>
+  <br />
+  <div>In the group, you'll be asked to describe what you noticed, any assumptions you made, and how that shaped your interactions with students.</div>
+  <br />
+  <div>Feel free to take a minute or two to think about that, and then head on back!  If you're working online you can connect with other folks at <a target="_blank" href="https://twitter.com/search?q=%23CSforAllCaseStudies">#CSForAllCaseStudies</a>.</div>
+</div>
+});
 
 
 
