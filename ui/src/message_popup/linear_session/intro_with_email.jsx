@@ -32,6 +32,11 @@ export default React.createClass({
     this.props.onDone(this.state.email);
   },
 
+  onSubmit(e) {
+    e.preventDefault();
+    this.onDone();
+  },
+
   render() {
     return (
       <VelocityTransitionGroup enter={{animation: "callout.pulse", duration: 500}} leave={{animation: "slideUp"}} runOnMount={true}>
@@ -40,23 +45,25 @@ export default React.createClass({
         </div>
         <Divider />
         <div style={{padding: 20}}>
-          <TextField
-          name="email"
-          style={{width: '100%'}}
-          underlineShow={false}
-          floatingLabelText="What's your email address?"
-          value={this.state.email}
-          onChange={this.onTextChanged}
-          multiLine={true}
-          rows={2}/>
-          <div style={styles.buttonRow}>
-            <RaisedButton
-              disabled={this.state.email === ''}
-              onTouchTap={this.onDone}
-              style={styles.button}
-              secondary={true}
-              label="Start" />
-          </div>    
+          <form onSubmit={this.onSubmit}>
+            <TextField
+              name="email"
+              style={{width: '100%'}}
+              underlineShow={false}
+              floatingLabelText="What's your email address?"
+              value={this.state.email}
+              onChange={this.onTextChanged}
+              rows={2} />
+            <div style={styles.buttonRow}>
+              <RaisedButton
+                disabled={this.state.email === ''}
+                onTouchTap={this.onDone}
+                type="submit"
+                style={styles.button}
+                secondary={true}
+                label="Start" />
+            </div>    
+          </form>
         </div>
       </VelocityTransitionGroup>
     );
