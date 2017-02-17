@@ -5,13 +5,20 @@ import React from 'react';
 This file defines the content for the scenario around substituting a CS class.
 */
 
-export type QuestionT = {
+type TextQuestionT = {
   type:string, // Used as a label
-  text:?string, // Contents of slide
-  el:?any, // Contents of slide
+  text:string,
   ask:?bool, // Ask for open-ended user response?
   force:?bool // Force the user to respond?
 };
+type ReactQuestionT = {
+  type:string, // Used as a label
+  el:any, // React node
+  ask:?bool, // Ask for open-ended user response?
+  force:?bool // Force the user to respond?
+};
+export type QuestionT = TextQuestionT | ReactQuestionT;
+
 
 const slides:[QuestionT] = [];
 

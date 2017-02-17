@@ -135,10 +135,8 @@ export default React.createClass({
           background: '#09407d',
           color: 'white'
         }}>{question.type}</b>
-        {(question.el)
-          ? <ReactQuestion el={question.el} />
-          : <PlainTextQuestion question={question} />
-        }
+        {question.el && <ReactQuestion el={question.el} />}
+        {question.text && <PlainTextQuestion question={{text: question.text}} />}
         {interactionEl}
       </div>
     );
