@@ -52,6 +52,7 @@ export default React.createClass({
     
     '/teachermoments': 'messagePopup',
     '/playtest/:cohortKey': 'messagePopupPlaytest',
+    '/teachermoments/bias': 'biasHome',
     '/teachermoments/alpha': 'alphaPlaytest',
     '/teachermoments/turk-0000': 'turk0000',
     '/teachermoments/mentoring': 'mentoringPlaytest',
@@ -127,6 +128,11 @@ export default React.createClass({
         query={query}
         experimentFactory={MessagePopup.InsubordinationExperiment} />
     );
+  },
+
+  // Home page for bias project, from website, reachout, etc.
+  biasHome(query = {}) {
+    return this.messagePopupPairs(query);
   },
 
   mentoringPlaytest(query = {}) {
