@@ -48,6 +48,7 @@ export default React.createClass({
     '/teachermoments/twine': 'messagePopupTwine',
     '/teachermoments/demo': 'messagePopupDemo',
     '/teachermoments/sub': 'messagePopupPairs',
+    '/teachermoments/darius': 'messagePopupDarius',
 
     // Prototype authoring UIs
     '/teachermoments/author/questions' : 'messagePopupAuthorQuestions',
@@ -126,6 +127,10 @@ export default React.createClass({
 
   messagePopupPairs(query = {}) {
     return <MessagePopup.PairsExperiencePage query={{}}/>;
+  },
+
+  messagePopupDarius(query = {}) {
+    return <MessagePopup.DariusExperiencePage query={{}}/>;
   },
 
   dansonPlaytest2(query = {}) {
