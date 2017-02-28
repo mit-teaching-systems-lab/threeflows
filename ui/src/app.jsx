@@ -9,9 +9,6 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import AuthContainer from './auth_container.jsx';
 import VirtualSchoolPage from './virtual_school/virtual_school_page.jsx';
 import HomePage from './home_page.jsx';
-import RawPage from './ecd/raw_page.jsx';
-import CandidatePage from './ecd/candidate_page.jsx';
-import EvaluatorPage from './ecd/evaluator_page.jsx';
 import * as MessagePopup from './message_popup/index.js';
 
 
@@ -36,10 +33,9 @@ export default React.createClass({
 
   routes: {
     '/': 'home',
-    '/virtual_school': 'virtualSchool',
 
+    // Variations on learning experiences
     '/message_popup*': 'messagePopupRedirect',
-    
     '/teachermoments': 'messagePopup',
     '/playtest/:cohortKey': 'messagePopupPlaytest',
     '/teachermoments/bias': 'biasHome',
@@ -52,16 +48,14 @@ export default React.createClass({
     '/teachermoments/twine': 'messagePopupTwine',
     '/teachermoments/demo': 'messagePopupDemo',
     '/teachermoments/sub': 'messagePopupPairs',
-    '/teachermoments/exploration': 'messagePopupExploration',
-    '/teachermoments/evaluations/:id': 'messagePopupEvaluation',
-    '/teachermoments/scoring': 'messagePopupScoring',
+
+    // Prototype authoring UIs
     '/teachermoments/author/questions' : 'messagePopupAuthorQuestions',
     '/teachermoments/author/questions/new' : 'messagePopupAuthorQuestionsNew',
     '/teachermoments/author/questions/:id' : 'messagePopupAuthorQuestionsEdit',
-    
-    '/ecd/raw': 'ecdRaw',
-    '/ecd/candidate': 'ecdCandidate',
-    '/ecd/evaluator': 'ecdEvaluator'
+
+    // Other stuff
+    '/virtual_school': 'virtualSchool',
   },
 
   /*eslint-disable react/sort-comp */
@@ -144,18 +138,6 @@ export default React.createClass({
     return <MessagePopup.PlaytestExperiencePage key={JSON.stringify(query)} cohortKey={cohortKey} query={{}}/>;
   },
   
-  messagePopupExploration(query = {}) {
-    return <MessagePopup.ExplorationPage query={query} />;
-  },
-
-  messagePopupScoring(query = {}) {
-    return <MessagePopup.ScoringPage query={query} />;
-  },
-
-  messagePopupEvaluation(evaluationId) {
-    return <MessagePopup.EvaluationViewerPage evaluationId={evaluationId} />;
-  },
-
   messagePopupAuthorQuestions(query = {}) {
     return <MessagePopup.QuestionsPage />;
   },
@@ -170,18 +152,6 @@ export default React.createClass({
 
   virtualSchool(query = {}) {
     return <VirtualSchoolPage query={query} />;
-  },
-
-  ecdRaw(query = {}) {
-    return <RawPage query={query} />;
-  },
-
-  ecdCandidate(query = {}) {
-    return <CandidatePage candidateEmail={query.email} />;
-  },
-
-  ecdEvaluator(query = {}) {
-    return <EvaluatorPage evaluatorEmail={query.email} />;
   }
   /*eslint-enable react/sort-comp */
 });
