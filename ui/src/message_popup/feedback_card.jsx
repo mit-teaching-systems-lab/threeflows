@@ -4,41 +4,41 @@ import _ from 'lodash';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Divider from 'material-ui/Divider';
-import TextChangeEvent from '../types/dom_types.js';
+
 
 /*
 This shows a feedback card after the user first presses save
 */
-export default React.createClass({
-  displayName: 'FeedbackCard',
+export class FeedbackCard {
+  static displayName = 'FeedbackCard';
 
-  propTypes: {
+  static propTypes = {
     initialResponseText: React.PropTypes.string.isRequired,
     onRevised: React.PropTypes.func.isRequired,
     onPassed: React.PropTypes.func.isRequired,
     examples: React.PropTypes.array.isRequired
-  },
+  };
 
-  getInitialState(){
+  getInitialState() {
     var example = _.shuffle(this.props.examples)[0];
     const initialResponseText = this.props.initialResponseText;
     return ({
       finalResponseText: initialResponseText,
       example: example
     });
-  },
+  }
   
-  onTextChanged({target:{value}}:TextChangeEvent){
+  onTextChanged({target:{value}}:{target: {value: string}}){
     this.setState({ finalResponseText: value });
-  },
+  }
   
   onRevise(){
     this.props.onRevised(this.state.finalResponseText);
-  },
+  }
   
   onPass(){
     this.props.onPassed();
-  },
+  }
 
   render() {
     const {initialResponseText} = this.props;
@@ -77,7 +77,7 @@ export default React.createClass({
       </div>
     </div>);
   }
-});
+}
 
 const styles = {
   exampleBox: {

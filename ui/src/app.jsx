@@ -1,24 +1,18 @@
 /* @flow weak */
 import React from 'react';
-import _ from 'lodash';
 import {RouterMixin} from 'react-mini-router';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
-import * as PropTypes from './prop_types.js';
 import AuthContainer from './auth_container.jsx';
-import ChallengePage from './challenge/challenge_page.jsx';
-import HomePage from './home/home_page.jsx';
-import SlatePage from './slate/slate_page.jsx';
-import CSSTankPage from './csstank/csstank_page.jsx';
 import VirtualSchoolPage from './virtual_school/virtual_school_page.jsx';
+import HomePage from './home_page.jsx';
 import RawPage from './ecd/raw_page.jsx';
 import CandidatePage from './ecd/candidate_page.jsx';
 import EvaluatorPage from './ecd/evaluator_page.jsx';
 import * as MessagePopup from './message_popup/index.js';
-import {challenges, slates} from './challenge/challenges.js';
 
 
 export default React.createClass({
@@ -27,13 +21,11 @@ export default React.createClass({
   mixins: [RouterMixin],
 
   propTypes: {
-    challenges: React.PropTypes.arrayOf(PropTypes.Challenge),
     muiTheme: React.PropTypes.object
   },
 
   getDefaultProps() {
     return {
-      challenges: challenges,
       muiTheme: getMuiTheme()
     };
   },
@@ -45,8 +37,6 @@ export default React.createClass({
   routes: {
     '/': 'home',
     '/virtual_school': 'virtualSchool',
-    
-    '/challenge/:id': 'challenge',
 
     '/message_popup*': 'messagePopupRedirect',
     
@@ -70,9 +60,7 @@ export default React.createClass({
     
     '/ecd/raw': 'ecdRaw',
     '/ecd/candidate': 'ecdCandidate',
-    '/ecd/evaluator': 'ecdEvaluator',
-    '/slate/:id': 'slate',
-    '/csstank': 'cssTank',
+    '/ecd/evaluator': 'ecdEvaluator'
   },
 
   /*eslint-disable react/sort-comp */
@@ -86,17 +74,12 @@ export default React.createClass({
     );
   },
 
+  home(query = {}) {
+    return <HomePage />;
+  },
+
   notFound(path) {
-    return <div>Could not find {path}...</div>;
-  },
-
-  home() {
-    return <HomePage challenges={this.props.challenges} />;
-  },
-
-  challenge(id) {
-    const challenge = _.find(this.props.challenges, (challenge) => challenge.id === _.toInteger(id));
-    return <ChallengePage challenge={challenge} user={this.state.user} />;
+    return <HomePage />;
   },
 
   messagePopupRedirect(remainingPath, query = {}) {
@@ -177,15 +160,6 @@ export default React.createClass({
 
   messagePopupAuthorQuestionsEdit(questionId, query = {}){
     return <MessagePopup.EditQuestionPage questionId={questionId}/>;
-  },
-
-  cssTank(query = {}) {
-    return <CSSTankPage query={query} />;
-  },
-
-  slate(id, query = {}) {
-    const slate = _.find(slates, (slate) => slate.id === _.toInteger(id));
-    return <SlatePage slate={slate} query={query} />;
   },
 
   virtualSchool(query = {}) {

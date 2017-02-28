@@ -15,9 +15,6 @@ export function newTab(url:string):void {
 Path definitions
 */
 export const Home = '/';
-export function challengePath(id:number):string {
-  return `/challenge/${id}`;
-}
 
 export function virtualSchoolPath():string {
   return '/virtual_school';
@@ -59,10 +56,6 @@ export function messagePopupUploadWavPath() {
   return '/teachermoments/wav';
 }
 
-export function doSomethingPath() {
-  return '/do_something';
-}
-
 export function ecdRaw() {
   return '/ecd/raw';
 }
@@ -80,29 +73,4 @@ export function evidencePath({app, type, version}:EvidencePathT):string {
 }
 export function evaluationPath({app, type, version}:EvidencePathT):string {
   return `/server/evaluations/${app}/${type}/${version}`;
-}
-
-/* External links */
-export function chatRoom(room:string):string {
-  return `https://mittsl.slack.com/messages/${room}/`;
-}
-
-export function chatMessage(user:string):string {
-  return `https://mittsl.slack.com/messages/@${user}/`;
-}
-
-export function videoFor(challengeName:string) {
-  return `https://appear.in/${encodeURIComponent(challengeName)}`;
-}
-
-export function embeddedDriveList(driveFolderId:string) {
-  return `https://drive.google.com/embeddedfolderview?id=${driveFolderId}#list`;
-}
-
-export function driveFolder(driveFolderId:string) {
-  return `https://drive.google.com/drive/folders/${driveFolderId}`;
-}
-
-export function googleCalendar() {
-  return 'https://calendar.google.com/';
 }
