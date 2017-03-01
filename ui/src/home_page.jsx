@@ -43,10 +43,12 @@ export default React.createClass({
           <h2><a style={styles.nolink} href="http://tsl.mit.edu/practice-spaces-for-teacher-preparation/">Practice spaces for teacher preparation programs</a></h2>
           <div style={styles.quote}>
             "We conclude that, in the program we studied, prospective teachers have fewer opportunities to engage in approximations that focus on contingent, interactive practice than do novices in the other two professions we studied."
-            Grossman et al. (<a href="https://cset.stanford.edu/sites/default/files/files/documents/publications/Grossman-TeachingPracticeACross-ProfessionalPerspective.pdf">2009</a>)
           </div>
-          <div><a href="http://tsl.mit.edu">Lab website</a></div>
-          <div><a href="https://github.com/mit-teaching-systems-lab">Source code</a></div>
+          <div>Grossman et al. (<a target="_blank" href="https://cset.stanford.edu/sites/default/files/files/documents/publications/Grossman-TeachingPracticeACross-ProfessionalPerspective.pdf">2009</a>)</div>
+          <div style={styles.links}>
+            <div><a href="http://tsl.mit.edu">Lab website</a></div>
+            <div><a href="https://github.com/mit-teaching-systems-lab">Source code</a></div>
+          </div>
         </div>
         <div style={styles.logoBlock}>
           <a href="http://tsl.mit.edu">
@@ -84,8 +86,10 @@ const styles = {
     margin: 20
   },
   quote: {
-    fontStyle: 'italic',
-    marginBottom: 20
+    fontStyle: 'italic'
+  },
+  links: {
+    marginTop: 20
   },
   nolink: {
     textDecoration: 'none',
