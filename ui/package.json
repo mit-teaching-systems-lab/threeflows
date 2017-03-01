@@ -46,6 +46,7 @@
     "rollbar-browser": "^1.9.3",
     "superagent": "^2.0.0",
     "superagent-promise": "^1.1.0",
+    "uglifyify": "^3.0.4",
     "velocity-animate": "^1.2.3",
     "velocity-react": "^1.1.5"
   },
@@ -67,8 +68,6 @@
     "react-addons-test-utils": "^15.4.0",
     "react-proxy": "^1.1.8",
     "sinon": "^1.17.5",
-    "uglify-js": "^2.8.4",
-    "uglifyify": "^3.0.4",
     "watchify": "^3.7.0"
   }
 }
