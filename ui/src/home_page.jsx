@@ -54,7 +54,7 @@ export default React.createClass({
           <a href="http://tsl.mit.edu">
             <img
               style={styles.logo}
-              src="http://tsl.mit.edu/wp-content/uploads/2016/10/cropped-teachingsystemslab_equalfocuslogo_blkteal-for-web.png" />
+              src="https://tsl-public.s3.amazonaws.com/threeflows/teacher-moments-tsl-logo.png" />
           </a>
         </div>
       </div>
