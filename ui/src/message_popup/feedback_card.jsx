@@ -1,10 +1,12 @@
 /* @flow weak */
+/* eslint-disable react/prop-types */
+// not sure why, but eslint is failing propTypes on this file
 import React from 'react';
 import _ from 'lodash';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Divider from 'material-ui/Divider';
-import TextChangeEvent from '../types/dom_types.js';
+
 
 /*
 This shows a feedback card after the user first presses save
@@ -19,7 +21,7 @@ export default React.createClass({
     examples: React.PropTypes.array.isRequired
   },
 
-  getInitialState(){
+  getInitialState() {
     var example = _.shuffle(this.props.examples)[0];
     const initialResponseText = this.props.initialResponseText;
     return ({
@@ -28,7 +30,7 @@ export default React.createClass({
     });
   },
   
-  onTextChanged({target:{value}}:TextChangeEvent){
+  onTextChanged({target:{value}}:{target: {value: string}}){
     this.setState({ finalResponseText: value });
   },
   

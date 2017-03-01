@@ -1,1 +1,0 @@
-export type TextChangeEvent = {target: {value: string}};
