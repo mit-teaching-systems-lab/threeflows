@@ -2,30 +2,36 @@
 import React from 'react';
 
 import IconButton from 'material-ui/IconButton';
-import DescriptionIcon from 'material-ui/svg-icons/action/description';
+import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 
-import NavigationAppBar from './components/navigation_app_bar.jsx';
-import ResponsiveFrame from './components/responsive_frame.jsx';
+import NavigationAppBar from '../components/navigation_app_bar.jsx';
+import ResponsiveFrame from '../components/responsive_frame.jsx';
+import * as Routes from '../routes.js';
 
 
 
+// Frame for the Home page screens, with nav bar, logo and layout.
 export default React.createClass({
-  displayName: 'HomePage',
+  displayName: 'HomeFrame',
 
-  onTappedDoc(e) {
-    window.location = 'http://tsl.mit.edu';
+  propTypes: {
+    children: React.PropTypes.node
+  },
+
+  onTappedMenu(e) {
+    Routes.navigate('/');
   },
 
   render() {
     return (
-      <div className="HomePage">
+      <div className="HomeFrame">
         <ResponsiveFrame>
           <div style={styles.page}>
             <NavigationAppBar
               title="Teacher Moments"
               iconElementLeft={
-                <IconButton onTouchTap={this.onTappedDoc} >
-                  <DescriptionIcon />
+                <IconButton onTouchTap={this.onTappedMenu} >
+                  <RefreshIcon />
                 </IconButton>
               }
             />
@@ -37,18 +43,13 @@ export default React.createClass({
   },
 
   renderContent() {
+    const {children} = this.props;
+
     return (
       <div style={styles.content}>
         <div style={styles.textBlock}>
           <h2><a style={styles.nolink} href="http://tsl.mit.edu/practice-spaces-for-teacher-preparation/">Practice spaces for teacher preparation programs</a></h2>
-          <div style={styles.quote}>
-            "We conclude that, in the program we studied, prospective teachers have fewer opportunities to engage in approximations that focus on contingent, interactive practice than do novices in the other two professions we studied."
-          </div>
-          <div>Grossman et al. (<a target="_blank" href="https://cset.stanford.edu/sites/default/files/files/documents/publications/Grossman-TeachingPracticeACross-ProfessionalPerspective.pdf">2009</a>)</div>
-          <div style={styles.links}>
-            <div><a href="http://tsl.mit.edu">Lab website</a></div>
-            <div><a href="https://github.com/mit-teaching-systems-lab">Source code</a></div>
-          </div>
+          {children}
         </div>
         <div style={styles.logoBlock}>
           <a href="http://tsl.mit.edu">
@@ -79,17 +80,9 @@ const styles = {
     margin: 20,
     marginTop: 0
   },
-  logoBlock: {
-  },
   logo: {
     width: '80%',
     margin: 20
-  },
-  quote: {
-    fontStyle: 'italic'
-  },
-  links: {
-    marginTop: 20
   },
   nolink: {
     textDecoration: 'none',

@@ -9,13 +9,12 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 import LinearProgress from 'material-ui/LinearProgress';
 import Snackbar from 'material-ui/Snackbar';
-import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton';
+import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 
 import PopupQuestion from './popup_question.jsx';
 import * as Routes from '../routes';
 import type {ResponseT} from './popup_question.jsx';
-
-import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 
 import {withStudents} from './transformations.jsx';
 
@@ -25,11 +24,12 @@ import InstructionsCard from './instructions_card.jsx';
 import NavigationAppBar from '../components/navigation_app_bar.jsx';
 
 import MobileInterface from './mobile_prototype/mobile_interface.jsx';
-
 import ScaffoldingCard from './scaffolding_card.jsx';
+import ResponsiveFrame from '../components/responsive_frame.jsx';
+
 
 /*
-Shows the MessagePopup game
+Shows the MessagePopup game, supporting options for the chat-based interface as well.
 */
 export default React.createClass({
   displayName: 'MessagePopupExperiencePage',
@@ -123,18 +123,19 @@ export default React.createClass({
 
   render() {
     return (
-      <div style={{backgroundColor: 'white'}}>
-        <NavigationAppBar
-          title="Teacher Moments"
-          prependMenuItems={
-            <MenuItem
-              onTouchTap={this.resetExperience}
-              leftIcon={<RefreshIcon />}
-              primaryText="Restart game" />
-          }
-        />
-        {this.renderMainScreen()}
-      </div>
+      <ResponsiveFrame>
+        <div style={{display: 'flex', flexDirection: 'column', height: 667}}>
+          <NavigationAppBar
+            title="Teacher Moments"
+            iconElementLeft={
+              <IconButton onTouchTap={this.resetExperience} >
+                <RefreshIcon />
+              </IconButton>
+            }
+          />
+          {this.renderMainScreen()}
+        </div>
+      </ResponsiveFrame>
     );
   },
 
@@ -237,7 +238,7 @@ export default React.createClass({
     const sessionLength = questions.length;
     const question = withStudents(questions)[questionsAnswered];
     return ( 
-      <div className="prototype">
+      <div className="prototype" style={{flex: 1}}>
         <LinearProgress color="#EC407A" mode="determinate" value={questionsAnswered} max={sessionLength} />
         <MobileInterface
           key={JSON.stringify(question)}

@@ -8,7 +8,6 @@ import Divider from 'material-ui/Divider';
 import IconButton from 'material-ui/IconButton';
 import FlatButton from 'material-ui/FlatButton';
 import Paper from 'material-ui/Paper';
-import MenuItem from 'material-ui/MenuItem';
 import Dialog from 'material-ui/Dialog';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 
@@ -140,15 +139,12 @@ export default React.createClass({
       <div>
         <NavigationAppBar
           title="Message PopUp Questions"
-          iconElementRight={<IconButton onTouchTap={this.onNewQuestion}><AddIcon /></IconButton>}
-          prependMenuItems={
-            <div>
-              <MenuItem
-                onTouchTap={this.onNewQuestion}
-                leftIcon={<ChatBubbleOutlineIcon />}
-                primaryText="New Question" />
-            </div>
+          iconElementLeft={
+            <IconButton onTouchTap={this.onNewQuestion} >
+              <ChatBubbleOutlineIcon />
+            </IconButton>
           }
+          iconElementRight={<IconButton onTouchTap={this.onNewQuestion}><AddIcon /></IconButton>}
           />
         <div style={styles.container}>
           <div style={styles.searchbar}>
