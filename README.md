@@ -1,28 +1,24 @@
-# threeflows
 [![Build Status](https://travis-ci.org/mit-teaching-systems-lab/threeflows.svg?branch=master)](https://travis-ci.org/mit-teaching-systems-lab/threeflows)
+# Practice spaces for teacher preparation programs
 
-Practice spaces for teacher preparation programs.  For more information come chat with [@mit_tsl](https://twitter.com/mit_tsl) or visit the [MIT Teaching Systems Lab](http://tsl.mit.edu).
+> "We conclude that, in the program we studied, prospective teachers have fewer opportunities to engage in approximations that focus on contingent, interactive practice than do novices in the other two professions we studied."
+Grossman et al. ([2009](https://cset.stanford.edu/sites/default/files/files/documents/publications/Grossman-TeachingPracticeACross-ProfessionalPerspective.pdf))
 
+
+- [Demos](https://threeflows.herokuapp.com)
+- [Read more](http://tsl.mit.edu/practice-spaces-for-teacher-preparation/)
+- ["Playful Rehearsal" talk](https://www.youtube.com/watch?v=ncGmf1OK9oQ&feature=youtu.be) ([slides](http://web.mit.edu/~xtalks/Reich-xtalk-11-10-16.pdf))
+- [Academic publications](http://tsl.mit.edu/publications/)
+
+For more information come chat with [@mit_tsl](https://twitter.com/mit_tsl) or visit the [MIT Teaching Systems Lab](http://tsl.mit.edu).
+
+## Diagram and example scenarios
+![diagram](https://s3-us-west-2.amazonaws.com/tsl-public/teacher-moments-diagram.png)
+
+## Local software development
 This is a [React](https://facebook.github.io/react/) webapp, and a small [Express](http://expressjs.com/) server.
 Code in both environments is written in [ES6](https://babeljs.io/docs/learn-es2015/).
 
-## Product experience
-
-There are a few different types of cases.  And a variety of representations and approximations can be used.
-
-|                                      | Simple    | Branching |
-| ------------------------------------ |:---------:|:---------:|
-| Representation: text                 | yes       | yes       |
-| Representation: image                | yes       | yes       |
-| Representation: video                | yes       |           |
-| Representation: SketchFab 3D model   | yes       |           |
-| Representation: HTML                 |           | yes       |
-| Approximation: text                  | yes       |           |
-| Approximation: audio                 | yes       |           |
-| Approximation: fixed choice text     |           | yes       |
-
-
-## Local development
 #### UI
 In another terminal, install dependencies and then start a process that will continually build the UI with hot reloading:
 ```
