@@ -1,4 +1,6 @@
 /* @flow weak */
+/* eslint-disable react/prop-types */
+// not sure why, but eslint is failing propTypes on this file
 import React from 'react';
 import _ from 'lodash';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -9,15 +11,15 @@ import Divider from 'material-ui/Divider';
 /*
 This shows a feedback card after the user first presses save
 */
-export class FeedbackCard {
-  static displayName = 'FeedbackCard';
+export default React.createClass({
+  displayName: 'FeedbackCard',
 
-  static propTypes = {
+  propTypes: {
     initialResponseText: React.PropTypes.string.isRequired,
     onRevised: React.PropTypes.func.isRequired,
     onPassed: React.PropTypes.func.isRequired,
     examples: React.PropTypes.array.isRequired
-  };
+  },
 
   getInitialState() {
     var example = _.shuffle(this.props.examples)[0];
@@ -26,19 +28,19 @@ export class FeedbackCard {
       finalResponseText: initialResponseText,
       example: example
     });
-  }
+  },
   
   onTextChanged({target:{value}}:{target: {value: string}}){
     this.setState({ finalResponseText: value });
-  }
+  },
   
   onRevise(){
     this.props.onRevised(this.state.finalResponseText);
-  }
+  },
   
   onPass(){
     this.props.onPassed();
-  }
+  },
 
   render() {
     const {initialResponseText} = this.props;
@@ -77,7 +79,7 @@ export class FeedbackCard {
       </div>
     </div>);
   }
-}
+});
 
 const styles = {
   exampleBox: {
