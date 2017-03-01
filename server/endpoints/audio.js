@@ -1,4 +1,3 @@
-const {getDomain} = require('../domain.js');
 const dateFns = require('date-fns');
 var uuid = require('uuid');
 
@@ -10,12 +9,6 @@ function getAudioKey(request, id) {
     `${id}.wav`
   ].join('/');
 }
-
-
-function getUrl(request, id) {
-  const domain = getDomain(request);
-  return `${domain}/teachermoments/wav/${id}.wav`;
-};
 
 function post(s3) {
   return (request, response) => {
@@ -30,7 +23,6 @@ function post(s3) {
       Bucket: 'message-popup',
       Key: getAudioKey(request, id)
     };    
-    const url = getUrl(request, id);
     console.log('Writing to S3...');
     s3.putObject(params, function(err, data) {
       if (err) {
@@ -40,34 +32,12 @@ function post(s3) {
       }
 
       response.status(201);
-      return response.json({ url, id });
+      return response.json({id});
     });
   }
 }
 
 
-function get(s3) {
-  return (request, response) => {
-    const {id} = request.params;
-    var params = {
-      Bucket: 'message-popup',
-      Key: getAudioKey(request, id)
-    };
-    console.log('Reading from S3...');
-    try {
-      s3.getObject(params).createReadStream().pipe(response);
-      return;
-    }
-    catch (err) {
-      console.log('Error reading from S3: ', err);
-      response.status(503);
-      response.json({});
-      return;
-    }
-  }
-}
-
 module.exports = {
-  get,
   post
 };

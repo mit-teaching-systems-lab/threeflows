@@ -1,6 +1,4 @@
 //@flow
-import querystring from 'querystring';
-
 /*
 Navigation functions
 */
@@ -54,15 +52,6 @@ export function messagePopupAuthorQuestionsNewPath(){
 
 export function messagePopupUploadWavPath() {
   return '/teachermoments/wav';
-}
-
-export function ecdRaw() {
-  return '/ecd/raw';
-}
-
-export function ecdCandidate(email:string) {
-  const queryString = querystring.stringify({email});
-  return `/ecd/candidate?${queryString}`;
 }
 
 

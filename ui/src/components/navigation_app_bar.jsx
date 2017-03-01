@@ -7,7 +7,6 @@ import MenuItem from 'material-ui/MenuItem';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import HomeIcon from 'material-ui/svg-icons/action/home';
-import AssessmentIcon from 'material-ui/svg-icons/action/assessment';
 import ChatBubble from 'material-ui/svg-icons/communication/chat-bubble-outline';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 import SchoolIcon from 'material-ui/svg-icons/social/school';
@@ -78,9 +77,7 @@ export default React.createClass({
           <Divider />
           <MenuItem onTouchTap={this.onNavigationTapped.bind(this, Routes.messagePopupPracticePath())} leftIcon={<ChatBubble />} primaryText="Practice" />
           <MenuItem onTouchTap={this.onNavigationTapped.bind(this, Routes.messagePopupSolutionPath())} leftIcon={<ChatBubble />} primaryText="Solution" />
-          <MenuItem onTouchTap={this.onNavigationTapped.bind(this, Routes.messagePopupScoringPath())} leftIcon={<ChatBubble />} primaryText="Scoring" />
           <Divider />
-          <MenuItem onTouchTap={this.onNavigationTapped.bind(this, Routes.ecdRaw())} leftIcon={<AssessmentIcon />} primaryText="Raw data" />
           {userProfile &&
             <div>
               <Divider />

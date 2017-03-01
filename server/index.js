@@ -21,7 +21,6 @@ app.use(enforceHTTPS);
 const s3 = createS3Client();
 
 
-
 // https redirect
 function enforceHTTPS(request, response, next) {
   if (process.env.NODE_ENV === 'development') return next();
@@ -40,16 +39,16 @@ function sendUnauthorized(res) {
   return res.send(401);
 };
 
-function facultyAuth(req, res, next) {
+function questionAuthoringAuth(req, res, next) {
   if (process.env.NODE_ENV === 'development') return next();
 
-  const {FACULTY_USERNAME, FACULTY_PASSWORD} = process.env;
-  if (!FACULTY_USERNAME) return sendUnauthorized(res);
-  if (!FACULTY_PASSWORD) return sendUnauthorized(res);
+  const {QUESTION_AUTHORING_USERNAME, QUESTION_AUTHORING_PASSWORD} = process.env;
+  if (!QUESTION_AUTHORING_USERNAME) return sendUnauthorized(res);
+  if (!QUESTION_AUTHORING_PASSWORD) return sendUnauthorized(res);
 
   var user = basicAuth(req);
   console.log({user});
-  if (user && user.name === FACULTY_USERNAME && user.pass === FACULTY_PASSWORD) return next();
+  if (user && user.name === QUESTION_AUTHORING_USERNAME && user.pass === QUESTION_AUTHORING_PASSWORD) return next();
   
   return sendUnauthorized(res);
 };
@@ -121,67 +120,7 @@ function tellSlack(text) {
 }
 
 
-app.get('/server/evidence', facultyAuth, function(request, response) {
-  if (process.env.NODE_ENV === 'development' && process.env.READ_LOCAL_EVIDENCE) {
-    return readFile('../../tmp/query.json')(request, response);
-  }
-
-  queryDatabase('SELECT * FROM evidence ORDER BY timestamp DESC', [], function(err, result) {
-    if (err) {
-      console.log({ error: err });
-      return response.status(500);
-    }
-
-    const {rows} = result;
-    console.log(`Returning ${rows.length} records.`);
-    response.status(200);
-    return response.json({rows});
-  });
-});
-
-app.post('/server/evaluations/:app/:type/:version', facultyAuth, function(request, response) {
-  const timestamp = Math.floor(new Date().getTime() / 1000);
-  const {app, type, version} = request.params;
-  const payload = JSON.stringify(request.body);
-  const values = [app, type, version, timestamp, payload];
-
-  tellSlackAboutEvaluations(request.params, request.body);
-
-  if (!process.env.DATABASE_URL) {
-    console.log('No database.');
-    response.status(204);
-    return response.json({});
-  }
-
-  const sql = `
-    INSERT INTO evaluations(app, type, version, timestamp, json)
-    VALUES ($1,$2,$3,to_timestamp($4),$5)`;
-  queryDatabase(sql, values, function(err, result) {
-    if (err) {
-      console.log({ error: err });
-      return response.status(500);
-    }
-    console.log(JSON.stringify(result));
-    response.status(201);
-    return response.json({});  
-  });
-});
-
-app.get('/server/evaluations', facultyAuth, function(request, response) {
-  queryDatabase('SELECT * FROM evaluations ORDER BY timestamp DESC', [], function(err, result) {
-    if (err) {
-      console.log({ error: err });
-      return response.status(500);
-    }
-
-    const {rows} = result;
-    console.log(`Returning ${rows.length} records.`);
-    response.status(200);
-    return response.json({rows});
-  });
-});
-
-app.post('/server/questions', facultyAuth, function(request, response){
+app.post('/server/questions', questionAuthoringAuth, function(request, response){
   const timestamp = Math.floor(new Date().getTime() / 1000);
   const questions = JSON.stringify(request.body);
   const values = [timestamp, questions];
@@ -207,7 +146,7 @@ app.post('/server/questions', facultyAuth, function(request, response){
 
 });
 
-app.get('/server/questions', facultyAuth, function(request, response){
+app.get('/server/questions', questionAuthoringAuth, function(request, response){
   if (process.env.NODE_ENV === 'development' && !process.env.DATABASE_URL) {
     return response.json({questions: {currentQuestions:[], archivedQuestions: []}});
   }
@@ -228,7 +167,6 @@ app.get('/server/questions', facultyAuth, function(request, response){
 
 
 
-app.get('/teachermoments/wav/(:id).wav', facultyAuth, AudioEndpoints.get(s3));
 app.post('/teachermoments/wav', AudioEndpoints.post(s3));
 
 
