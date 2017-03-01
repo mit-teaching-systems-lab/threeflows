@@ -1,3 +1,4 @@
+const {getDomain} = require('../domain.js');
 const dateFns = require('date-fns');
 var uuid = require('uuid');
 
@@ -9,6 +10,11 @@ function getAudioKey(request, id) {
     `${id}.wav`
   ].join('/');
 }
+
+function getUrl(request, id) {
+  const domain = getDomain(request);
+  return `${domain}/teachermoments/wav/${id}.wav`;
+};
 
 function post(s3) {
   return (request, response) => {
@@ -23,6 +29,7 @@ function post(s3) {
       Bucket: 'message-popup',
       Key: getAudioKey(request, id)
     };    
+    const url = getUrl(request, id);
     console.log('Writing to S3...');
     s3.putObject(params, function(err, data) {
       if (err) {
@@ -32,7 +39,7 @@ function post(s3) {
       }
 
       response.status(201);
-      return response.json({id});
+      return response.json({ url, id });
     });
   }
 }
