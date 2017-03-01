@@ -1,0 +1,2 @@
+# Fetch data about the last few audio responses from Heroku on the command line (requires credentials).
+heroku pg:psql --command "SELECT json->'name', json->'audioUrl' FROM evidence WHERE type='message_popup_audio_response' ORDER BY id DESC LIMIT 10;"
