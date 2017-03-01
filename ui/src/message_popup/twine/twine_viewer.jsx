@@ -57,11 +57,29 @@ export default class TwineViewer extends React.Component {
     // and also as data in `links`, so we'll just use `links`.
     const strippedRaw = passage.text.replace(/\[\[[^\]]*\]\]/g, '');
 
+    // Look for the magic "end of thread" string and replace it with a more inviting one.
+    if (strippedRaw === 'Double-click this passage to edit it.') {
+      return this.renderEndOfThreadMessage();
+    }
+
     // Since Twine supports embedding HTML tags,
     // allow using its contents as untrusted HTML.
     return (allowUnsafeHtml)
       ? <div dangerouslySetInnerHTML={{__html: strippedRaw}} /> // eslint-disable-line react/no-danger
       : strippedRaw; 
+  }
+
+  renderEndOfThreadMessage() {
+    return (
+      <div>
+        <div>Write more scenarios using <a href='https://twinery.org/'>Twine's</a> visual editor, and then view them in Teacher Moments!</div>
+        <div style={{marginTop: 20}}>
+          <a href='https://twinery.org/'>
+            <img src='https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/twine-diagram.png' width='100%' />
+          </a>
+        </div>
+      </div>
+    );
   }
 }
 

@@ -9,7 +9,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 import LinearProgress from 'material-ui/LinearProgress';
 import Snackbar from 'material-ui/Snackbar';
-import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton';
 import TextField from 'material-ui/TextField';
 
 import PopupQuestion from '../popup_question.jsx';
@@ -146,11 +146,10 @@ export default React.createClass({
       <div>
         <NavigationAppBar
           title="Teacher Moments"
-          prependMenuItems={
-            <MenuItem
-              onTouchTap={this.resetExperience}
-              leftIcon={<RefreshIcon />}
-              primaryText="Restart game" />
+          iconElementLeft={
+            <IconButton onTouchTap={this.resetExperience} >
+              <RefreshIcon />
+            </IconButton>
           }
         />
         {this.renderMainScreen()}

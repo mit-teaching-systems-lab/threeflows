@@ -211,7 +211,7 @@ export default React.createClass({
     const {scaffolding, question} = this.props;
     const {helpType} = scaffolding;
     return (
-      <div>
+      <div className="MobileInterface" style={styles.container}>
         <div style={styles.textBody}>
           <TextBody 
             question={this.props.question}
@@ -292,19 +292,22 @@ export default React.createClass({
 
 
 const styles = {
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%'
+  },
   textBody: {
-    position: 'absolute',
     top: 69,
     bottom: 144,
     width: '100%',
-    overflowY: 'scroll'
+    flex: 5
   },
   textFooter:{
-    position: 'absolute',
-    bottom: 0,
     paddingBottom: 15,
+    backgroundColor: '#ffffff',
     width: '100%',
-    backgroundColor: '#ffffff'
+    flex: 1
   },    
   studentAttribute: {
     fontSize: 14,

@@ -7,9 +7,7 @@ import MenuItem from 'material-ui/MenuItem';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import HomeIcon from 'material-ui/svg-icons/action/home';
-import ChatBubble from 'material-ui/svg-icons/communication/chat-bubble-outline';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
-import SchoolIcon from 'material-ui/svg-icons/social/school';
 
 import * as Routes from '../routes.js';
 
@@ -23,8 +21,7 @@ export default React.createClass({
     title: React.PropTypes.string.isRequired,
     style: React.PropTypes.object,
     iconElementLeft: React.PropTypes.element,
-    iconElementRight: React.PropTypes.element,
-    prependMenuItems: React.PropTypes.element
+    iconElementRight: React.PropTypes.element
   },
 
   contextTypes: {
@@ -52,7 +49,7 @@ export default React.createClass({
 
   render() {
     const {userProfile, doLogout} = this.context.auth;
-    const {iconElementLeft, iconElementRight, prependMenuItems} = this.props;
+    const {iconElementLeft, iconElementRight} = this.props;
 
     return (
       <div>
@@ -71,12 +68,7 @@ export default React.createClass({
           open={this.state.isOpen}
           onRequestChange={(isOpen) => this.setState({isOpen})}
         >
-          {<MenuItem leftIcon={<HomeIcon />} onTouchTap={this.onNavigationTapped.bind(this, '/')} primaryText="Home" />}
-          <MenuItem onTouchTap={this.onNavigationTapped.bind(this, Routes.virtualSchoolPath())} leftIcon={<SchoolIcon />} primaryText="Virtual school" />
-          {prependMenuItems && <div onClick={this.doCloseDrawer}>{prependMenuItems}</div>}
-          <Divider />
-          <MenuItem onTouchTap={this.onNavigationTapped.bind(this, Routes.messagePopupPracticePath())} leftIcon={<ChatBubble />} primaryText="Practice" />
-          <MenuItem onTouchTap={this.onNavigationTapped.bind(this, Routes.messagePopupSolutionPath())} leftIcon={<ChatBubble />} primaryText="Solution" />
+          <MenuItem leftIcon={<HomeIcon />} onTouchTap={this.onNavigationTapped.bind(this, '/')} primaryText="Home" />
           <Divider />
           {userProfile &&
             <div>

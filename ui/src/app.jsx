@@ -8,7 +8,8 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import AuthContainer from './auth_container.jsx';
 import VirtualSchoolPage from './virtual_school/virtual_school_page.jsx';
-import HomePage from './home_page.jsx';
+import HomePage from './home/home_page.jsx';
+import DemosPage from './home/demos_page.jsx';
 import * as MessagePopup from './message_popup/index.js';
 
 
@@ -33,30 +34,35 @@ export default React.createClass({
 
   routes: {
     '/': 'home',
+    '/demos': 'demos',
 
-    // Variations on learning experiences
-    '/message_popup*': 'messagePopupRedirect',
-    '/teachermoments': 'messagePopup',
-    '/playtest/:cohortKey': 'messagePopupPlaytest',
+    // Included in /demos, shared externally, or used in playtests
+    '/teachermoments/original': 'messagePopup',
     '/teachermoments/bias': 'biasHome',
     '/teachermoments/alpha': 'alphaPlaytest',
-    '/teachermoments/turk-0000': 'turk0000',
     '/teachermoments/mentoring': 'mentoringPlaytest',
     '/teachermoments/mindset': 'mindsetPlaytest',
-    '/teachermoments/danson': 'dansonPlaytest',
     '/teachermoments/danson2': 'dansonPlaytest2',
     '/teachermoments/twine': 'messagePopupTwine',
     '/teachermoments/demo': 'messagePopupDemo',
     '/teachermoments/sub': 'messagePopupPairs',
     '/teachermoments/darius': 'messagePopupDarius',
+    '/teachermoments/chat': 'chatPrototype',
+
+    // Deprecated experiences
+    '/playtest/:cohortKey': 'messagePopupPlaytest',
+    '/teachermoments/danson': 'dansonPlaytest',
+
+    // Mechanical Turk experiment
+    '/teachermoments/turk-0000': 'turk0000',
 
     // Prototype authoring UIs
     '/teachermoments/author/questions' : 'messagePopupAuthorQuestions',
     '/teachermoments/author/questions/new' : 'messagePopupAuthorQuestionsNew',
     '/teachermoments/author/questions/:id' : 'messagePopupAuthorQuestionsEdit',
 
-    // Other stuff
-    '/virtual_school': 'virtualSchool',
+    // Other
+    '/virtual_school': 'virtualSchool'
   },
 
   /*eslint-disable react/sort-comp */
@@ -75,17 +81,21 @@ export default React.createClass({
   },
 
   notFound(path) {
-    return <HomePage />;
+    window.location = '/';
   },
 
-  messagePopupRedirect(remainingPath, query = {}) {
-    window.location = `/teachermoments${remainingPath}`;
+  demos(query = {}) {
+    return <DemosPage />;
   },
 
   messagePopup(query = {}) {
     // Uses a unique key per query string so that navigating between
     // rebuilds the page.
     return <MessagePopup.ExperiencePage key={JSON.stringify(query)} query={query} />;
+  },
+
+  chatPrototype(query = {}) {
+    return this.messagePopup({...query, mobilePrototype: true});
   },
 
   messagePopupTwine(query = {}) {
