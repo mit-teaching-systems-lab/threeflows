@@ -15,6 +15,7 @@ const STATES = {
   ERROR: 'error'
 };
 export default class AudioRecorder {
+  // flow is disabled
   state: string;
   buffers: ?[[number]];
   bufferLength: number;
