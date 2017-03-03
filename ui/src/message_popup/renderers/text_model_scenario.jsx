@@ -49,7 +49,7 @@ export default React.createClass({
     this.client.init(sketchFab.id, {
       autostart: 1,
       camera: 0,
-      ui_stop: 0,
+      ui_stop: 0, // eslint-disable-line camelcase
       preload: 1,
       autospin: 0.015,
       success: this.onSuccess,

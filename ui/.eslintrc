@@ -25,6 +25,7 @@
     "no-unused-vars": ["error", {
       "args": "none"
     }],
+    "camelcase": ["error",  { "properties": "always" }],
     "no-use-before-define": "off",
     "eol-last": "off",
     "react/prefer-stateless-function": "off",
