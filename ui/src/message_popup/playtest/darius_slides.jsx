@@ -32,7 +32,7 @@ slides.push({ type: 'Overview', el:
   <div>Finally, you'll reflect on your experience.</div>
   <br />
   <div>5. Discussion</div>
-  <div>When you're all done here, head back to the classroom to rejoin the group.  If you're online, connect with others at <a target="_blank" href="https://twitter.com/search?q=%23CSforAllCaseStudies">#CSForAllCaseStudies</a>.</div>
+  <div>When you're all done here, head back to the classroom to rejoin the group.  If you're online, connect with others at <a target="_blank" href="https://twitter.com/search?q=%23TeacherPracticeSpaces">#TeacherPracticeSpaces</a>.</div>
 </div>
 });
 
@@ -156,7 +156,7 @@ slides.push({ type: 'Reflect', el:
   <br />
   <div>In the group, you'll be asked to describe what you noticed, any assumptions you made, and how that shaped your interactions with the student.</div>
   <br />
-  <div>Feel free to take a minute or two to think about that, and then head on back!  If you're working online you can connect with other folks at <a target="_blank" href="https://twitter.com/search?q=%23CSforAllCaseStudies">#CSForAllCaseStudies</a>.</div>
+  <div>Feel free to take a minute or two to think about that, and then head on back!  If you're working online you can connect with other folks at <a target="_blank" href="https://twitter.com/search?q=%23TeacherPracticeSpaces">#TeacherPracticeSpaces</a>.</div>
 </div>
 });
 
