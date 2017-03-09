@@ -6,12 +6,14 @@ import * as Api from '../../helpers/api.js';
 import LinearSession from '../linear_session/linear_session.jsx';
 import SessionFrame from '../linear_session/session_frame.jsx';
 import IntroWithEmail from '../linear_session/intro_with_email.jsx';
-
 import MixedQuestion from '../renderers/mixed_question.jsx';
+
+import LikertResponse from '../linear_session/likert_response.jsx';
+import OpenThenClassifyResponse from '../linear_session/open_then_classify_response.jsx';
 import ChoiceForBehaviorResponse from '../renderers/choice_for_behavior_response.jsx';
 import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
-import type {QuestionT} from './pairs_scenario.jsx';
-import {PairsScenario} from './pairs_scenario.jsx';
+import {ExperimentOneScenarios} from './discipline_scenarios.jsx';
+import type {QuestionT} from './discipline_scenarios.jsx';
 
 
 
@@ -22,26 +24,22 @@ type ResponseT = {
 
 
 
-// The top-level page, manages logistics around email, cohorts and questions,
-// and the display of instructions, questions, and summary.
-//
-// This is a CS scenario around pair programming dynamics.
+/*
+Adapted from Okonofua 2016
+http://www.pnas.org/content/113/19/5221.full.pdf
+http://www.pnas.org/content/suppl/2016/04/21/1523698113.DCSupplemental/pnas.201523698SI.pdf#nameddest=STXT
+*/
 export default React.createClass({
-  displayName: 'PairsExperiencePage',
-
-  propTypes: {
-    query: React.PropTypes.object.isRequired
-  },
+  displayName: 'DisciplinePage',
 
   contextTypes: {
     auth: React.PropTypes.object.isRequired
   },
 
-  // Cohort comes from URL
   getInitialState() {
     const contextEmail = this.context.auth.userProfile.email;
     const email = contextEmail === "unknown@mit.edu" ? '' : contextEmail;
-    const cohortKey = this.props.query.cohort || 'default';
+    const cohortKey = ExperimentOneScenarios.cohortKey(email);
 
     return {
       email,
@@ -51,13 +49,14 @@ export default React.createClass({
     };
   },
 
-  // Making questions from the cohort
+  // Making the cohort and questions is the key bit here.
   onStart(email) {
-    const {cohortKey} = this.state;
-    const questions = PairsScenario.questionsFor(cohortKey);
+    const cohortKey = ExperimentOneScenarios.cohortKey(email);
+    const questions = ExperimentOneScenarios.questionsFor(cohortKey);
     this.setState({
       email,
-      questions
+      questions,
+      cohortKey
     });
   },
 
@@ -100,38 +99,57 @@ export default React.createClass({
   renderIntro() {
     return (
       <IntroWithEmail defaultEmail={this.state.email} onDone={this.onStart}>
-        <div>
-          <p>Welcome!</p>
-          <p>This is an interactive case study simulating a small part of a high school computer science lesson.</p>
-          <p>You'll review the context of the lesson briefly, share what you anticipate about the lesson, and then try it out!  Afterward you'll reflect before heading back to debrief with the group or share online.</p>
-        </div>
+        {ExperimentOneScenarios.renderIntro()}
       </IntroWithEmail>
     );
   },
 
-  // Show overview and context, ask for open response for scenario.
+  // Only ask for audio on questions with choices, otherwise let them continue
   renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
-    const interactionEl = (question.ask)
-      ? <MinimalOpenResponse
-          forceResponse={question.force || false}
-          responsePrompt=""
-          recordText="Click then speak"
-          ignoreText="Move on"
-          onLogMessage={onLog}
-          onResponseSubmitted={onResponseSubmitted}
-        />
-      : <ChoiceForBehaviorResponse
-          choices={['OK']}
-          onLogMessage={onLog}
-          onResponseSubmitted={onResponseSubmitted}
-        />;
-
     return (
-      <div key={JSON.stringify(question)}>
+      <div>
         <MixedQuestion question={question} />
-        {interactionEl}
+        {this.renderInteractionEl(question, onLog, onResponseSubmitted)}
       </div>
     );
+  },
+
+  renderInteractionEl(question, onLog, onResponseSubmitted) {
+    const key = JSON.stringify(question);
+    if (question.likert) {
+      return <LikertResponse
+        key={key}
+        onLogMessage={onLog}
+        onResponseSubmitted={onResponseSubmitted}
+      />;
+    }
+
+    if (question.open) {
+      return <MinimalOpenResponse
+        key={key}
+        responsePrompt=""
+        recordText="Click then speak"
+        onLogMessage={onLog}
+        forceResponse={true}
+        onResponseSubmitted={onResponseSubmitted}
+      />;
+    }
+
+    if (question.choices && question.choices.length > 0) {
+      return <OpenThenClassifyResponse
+        key={key}
+        choices={question.choices}
+        onLogMessage={onLog}
+        onResponseSubmitted={onResponseSubmitted}
+      />;
+    }
+
+    return <ChoiceForBehaviorResponse
+      key={key}
+      choices={['OK']}
+      onLogMessage={onLog}
+      onResponseSubmitted={onResponseSubmitted}
+    />;
   },
 
   renderSummaryEl(questions:[QuestionT], responses:[ResponseT]) {

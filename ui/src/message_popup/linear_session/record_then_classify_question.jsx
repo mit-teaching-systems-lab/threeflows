@@ -1,16 +1,11 @@
 /* @flow weak */
 import React from 'react';
 
-import Divider from 'material-ui/Divider';
-
 import PlainTextQuestion from '../renderers/plain_text_question.jsx';
-import ChoiceForBehaviorResponse from '../renderers/choice_for_behavior_response.jsx';
-import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
+import OpenThenClassifyResponse from './open_then_classify_response.jsx';
 
 
-// Record audio, then classify your response.
-// If audio isn't available (eg., desktop Safari or mobile)
-// then it falls back to text.
+// Render plain question with OpenThenClassifyResponse.
 export default React.createClass({
   displayName: 'RecordThenClassifyQuestion',
 
@@ -22,71 +17,26 @@ export default React.createClass({
     forceResponse: React.PropTypes.bool
   },
 
-  getInitialState() {
-    return {
-      audioResponse: null,
-      textResponse: null
-    };
-  },
-
-  onDoneAudio(audioResponse) {
-    this.setState({audioResponse});
-  },
-
-  onDoneText(textResponse) {
-    this.setState({textResponse});
-  },
-
-  // Include the audioResponse and textResponse in the fixed-choice response
-  onChoiceSelected(response) {
-    const {audioResponse, textResponse} = this.state;
-    this.props.onResponseSubmitted({
-      ...response,
-      ...audioResponse,
-      ...textResponse
-    });
-  },
-
   render() {
-    const {question, skipAudioRecording} = this.props;
-    const {audioResponse} = this.state;
+    const {
+      question,
+      onLogMessage,
+      onResponseSubmitted,
+      skipAudioRecording,
+      forceResponse
+    } = this.props;
 
     return (
       <div>
         <PlainTextQuestion question={question} />
-        {(!audioResponse && !skipAudioRecording)
-          ? this.renderOpenEndedResponse()
-          : this.renderClassifyResponse()}
-      </div>
-    );
-  },
-  
-  renderClassifyResponse() {
-    const {question, onLogMessage} = this.props;
-    return (
-      <div>
-        <Divider style={{margin: 20}} />
-        <div style={{paddingTop: 20, paddingLeft: 20}}>Which best describes your response?</div>  
-        <ChoiceForBehaviorResponse
+        <OpenThenClassifyResponse
           choices={question.choices}
           onLogMessage={onLogMessage}
-          onResponseSubmitted={this.onChoiceSelected}
+          onResponseSubmitted={onResponseSubmitted}
+          skipAudioRecording={skipAudioRecording}
+          forceResponse={forceResponse}
         />
       </div>
-    );
-  },
-
-  // Audio, but fall back to text if platform doesn't support it
-  renderOpenEndedResponse() {
-    const {onLogMessage, forceResponse} = this.props;
-    return (
-      <MinimalOpenResponse
-        responsePrompt=""
-        recordText="Respond"
-        onLogMessage={onLogMessage}
-        forceResponse={forceResponse}
-        onResponseSubmitted={this.onDoneAudio}
-      />
     );
   }
 });

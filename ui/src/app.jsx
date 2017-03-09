@@ -40,6 +40,7 @@ export default React.createClass({
     '/teachermoments/original': 'messagePopup',
     '/teachermoments/bias': 'biasHome',
     '/teachermoments/alpha': 'alphaPlaytest',
+    '/teachermoments/discipline': 'disciplinePlaytest',
     '/teachermoments/mentoring': 'mentoringPlaytest',
     '/teachermoments/mindset': 'mindsetPlaytest',
     '/teachermoments/danson2': 'dansonPlaytest2',
@@ -108,6 +109,10 @@ export default React.createClass({
 
   alphaPlaytest(query = {}) {
     return <MessagePopup.InsubordinationPage query={{}}/>;
+  },
+
+  disciplinePlaytest(query = {}) {
+    return <MessagePopup.DisciplinePage query={{}}/>;
   },
 
   turk0000(query = {}) {
