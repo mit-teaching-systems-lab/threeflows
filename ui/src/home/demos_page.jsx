@@ -29,6 +29,7 @@ export default React.createClass({
         <List>
           {this.renderScenarioItem(<a href="/teachermoments/sub">Computer science substitute</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/danson2">Parent meeting</a>)}
+          {this.renderScenarioItem(<a href="/teachermoments/discipline">Middle school classroom management</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/original">Choose your skill</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/darius">Darius</a>)}
         </List>
