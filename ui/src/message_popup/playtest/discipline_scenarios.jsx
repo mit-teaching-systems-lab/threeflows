@@ -1,7 +1,7 @@
 /* @flow weak */
 import React from 'react';
 import hash from '../../helpers/hash.js';
-
+import * as CommonBeliefsSurvey from '../surveys/common_beliefs_survey.js';
 
 // Adapted from Okonofua 2016, Experiment #1
 
@@ -31,7 +31,7 @@ function capitalize(pronoun:string) {
 }
 
 function slidesForStudent(nameWithPronouns:NameWithPronounsT) {
-  const slides:[QuestionT] = [];
+  var slides:[QuestionT] = [];
   const {name, he, him, his} = nameWithPronouns;
   const choices = [
     'Assign detention',
@@ -39,6 +39,7 @@ function slidesForStudent(nameWithPronouns:NameWithPronounsT) {
     'Involve an administrator',
     'Rearrange classroom to accommodate student',
     `Talk with ${name} about ${his} behavior`,
+    'Say nothing',
     'Other'
   ];
 
@@ -150,9 +151,9 @@ Let's shift to reflecting on the lesson.
   slides.push({ type: 'Reflect', text:
 `Before heading back to the group, we have three questions about what you experienced in this simulation.
 
-After that, you'll have a minute to think about the first group discussion question before heading back.
+After that, we'll ask you to fill out a survey.
 
-Also, for now please hold questions or feedback about this activity itself.  We'll ask for that at the end.
+Also, for now please hold questions or feedback about this activity itself.
 `});
 
   slides.push({ type: 'Reflect', text:
@@ -166,6 +167,20 @@ Also, for now please hold questions or feedback about this activity itself.  We'
   slides.push({ type: 'Reflect', text:
 `Did you notice anything about the student's race, ethnicity, gender or class?
 `, open: true});
+
+  slides.push({ type: 'Reflect', text:
+`Thanks!
+
+Please help answer a few survey questions as well.
+`});
+
+  slides = slides.concat(CommonBeliefsSurvey.questions.map((question) => {
+    return {
+      type: 'Survey',
+      text: question,
+      likert: true
+    };
+  }));
 
   slides.push({ type: 'Reflect', el:
   <div>
