@@ -13,7 +13,8 @@ export default React.createClass({
 
   propTypes: {
     questions: React.PropTypes.array.isRequired,
-    questionEl: React.PropTypes.func.isRequired,
+    questionEl: React.PropTypes.func,
+    nextQuestionEl: React.PropTypes.func,
     summaryEl: React.PropTypes.func.isRequired,
     onLogMessage: React.PropTypes.func.isRequired
   },
@@ -55,6 +56,13 @@ export default React.createClass({
   },
 
   renderContent() {
+    if(this.props.nextQuestionEl !== undefined) {
+      return this.props.nextQuestionEl(this.props.questions, 
+      this.state.responses, 
+      this.onLogMessageWithQuestion, 
+      this.onResponseSubmitted);
+    }
+
     const {questions} = this.props;
     const {responses} = this.state;
     if (responses.length >= questions.length) return this.props.summaryEl(questions, responses);

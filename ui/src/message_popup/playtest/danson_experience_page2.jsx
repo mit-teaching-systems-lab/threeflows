@@ -7,7 +7,7 @@ import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import Divider from 'material-ui/Divider';
 
 import * as Api from '../../helpers/api.js';
-import DansonLinearSession from '../linear_session/danson_linear_session.jsx';
+import LinearSession from '../linear_session/linear_session.jsx';
 import SessionFrame from '../linear_session/session_frame.jsx';
 import IntroWithEmail from '../linear_session/intro_with_email.jsx';
 import RecordThenClassifyQuestion from '../linear_session/record_then_classify_question.jsx';
@@ -81,9 +81,9 @@ export default React.createClass({
     const {questions} = this.state;
     if (!questions) return this.renderIntro();
 
-    return <DansonLinearSession
+    return <LinearSession
       questions={questions}
-      questionEl={this.renderQuestionEl}
+      nextQuestionEl={this.renderNextQuestionEl}
       summaryEl={this.renderSummaryEl}
       onLogMessage={this.onLogMessage}
     />;
@@ -102,28 +102,55 @@ export default React.createClass({
     );
   },
 
-  renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
+  renderNextQuestionEl(questions:[QuestionT], responses:[ResponseT], onLog, onResponseSubmitted) {
+    const allQuestions = questions.slice();
+
+    if(responses.length >= 3) {
+      const thirdQuestionIndex = 2;
+      const allChoices = allQuestions[thirdQuestionIndex].choices;
+      const selectedChoice = responses[thirdQuestionIndex].choice;
+      if(selectedChoice === allChoices[0] || selectedChoice === allChoices[1]) {
+        // Skip the next question if one of the top two choices were selected
+        allQuestions.splice(thirdQuestionIndex + 1, 1);
+      } else if(selectedChoice === allChoices[2]) {
+        // Show the next question but skip the following one if the third choice was selected
+        allQuestions.splice(thirdQuestionIndex + 2, 1);
+      } else {
+        // Skip the next 2 questions if the 4th or 5th choices were selected
+        allQuestions.splice(thirdQuestionIndex + 1, 2);
+      }
+    }
+
+    if (responses.length >= allQuestions.length) return this.renderSummaryEl(allQuestions, responses);
+
+    const question = allQuestions[responses.length];
 
     if (question.choices.length > 0) {
-      return <RecordThenClassifyQuestion
-        key={question.id}
-        question={question}
-        choices={question.choices}
-        onLogMessage={onLog}
-        onResponseSubmitted={onResponseSubmitted}
-        forceResponse={true}
-      />;
+      return (
+        <div key={question.id}>
+          <RecordThenClassifyQuestion
+            key={question.id}
+            question={question}
+            choices={question.choices}
+            onLogMessage={onLog.bind(null, question)}
+            onResponseSubmitted={onResponseSubmitted.bind(null, question)}
+            forceResponse={true}
+          />
+        </div>
+      );
     } else {
       return (
-        <div>
-        <PlainTextQuestion question={question} />
-          <MinimalOpenResponse
-            responsePrompt=""
-            recordText="Respond"
-            onLogMessage={onLog}
-            forceResponse={true}
-            onResponseSubmitted={onResponseSubmitted}
-          /> 
+        <div key={question.id}>
+          <div>
+          <PlainTextQuestion question={question} />
+            <MinimalOpenResponse
+              responsePrompt=""
+              recordText="Respond"
+              onLogMessage={onLog.bind(null, question)}
+              forceResponse={true}
+              onResponseSubmitted={onResponseSubmitted.bind(null, question)}
+            /> 
+          </div>
         </div>
       ); 
     }
