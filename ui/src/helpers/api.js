@@ -29,15 +29,23 @@ export function logEvaluation(type, record) {
 
 // For now, this fires and forgets and does not retry or
 // notify the user on success or failure.
+// It also mixes in some global params.
 export function logEvidence(type, record) {
+  const extendedRecord = {
+    ...record,
+    GLOBAL: {
+      clientTimestampMs: new Date().getTime(),
+      location: window.location.toString()
+    }
+  };
   request
     .post(Routes.evidencePath({
       app: 'threeflows',
       type: type,
-      version: 2
+      version: 3
     }))
     .set('Content-Type', 'application/json')
-    .send(record)
+    .send(extendedRecord)
     .end();
 }
 

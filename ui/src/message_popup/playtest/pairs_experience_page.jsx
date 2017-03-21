@@ -3,6 +3,7 @@ import React from 'react';
 import uuid from 'uuid';
 
 import * as Api from '../../helpers/api.js';
+import hash from '../../helpers/hash.js';
 import LinearSession from '../linear_session/linear_session.jsx';
 import SessionFrame from '../linear_session/session_frame.jsx';
 import IntroWithEmail from '../linear_session/intro_with_email.jsx';
@@ -30,11 +31,18 @@ export default React.createClass({
   displayName: 'PairsExperiencePage',
 
   propTypes: {
-    query: React.PropTypes.object.isRequired
+    query: React.PropTypes.object.isRequired,
+    isForMeredith: React.PropTypes.bool,
   },
 
   contextTypes: {
     auth: React.PropTypes.object.isRequired
+  },
+
+  getDefaultProps() {
+    return {
+      isForMeredith: false
+    };
   },
 
   // Cohort comes from URL
@@ -54,10 +62,15 @@ export default React.createClass({
   // Making questions from the cohort
   onStart(email) {
     const {cohortKey} = this.state;
-    const questions = PairsScenario.questionsFor(cohortKey);
+    const {isForMeredith} = this.props;
+    const questions = (isForMeredith)
+      ? PairsScenario.meredithQuestionsFor(cohortKey)
+      : PairsScenario.questionsFor(cohortKey);
+    const questionsHash = hash(JSON.stringify(questions));
     this.setState({
       email,
-      questions
+      questions,
+      questionsHash
     });
   },
 
@@ -66,14 +79,15 @@ export default React.createClass({
   },
 
   onLogMessage(type, response:ResponseT) {
-    const {email, cohortKey, sessionId} = this.state;
+    const {email, cohortKey, sessionId, questionsHash} = this.state;
+    
     Api.logEvidence(type, {
       ...response,
       sessionId,
       email,
       cohortKey,
-      name: email,
-      clientTimestampMs: new Date().getTime(),
+      questionsHash,
+      name: email
     });
   },
 
@@ -98,12 +112,17 @@ export default React.createClass({
   },
 
   renderIntro() {
+    const {isForMeredith} = this.props;
+    const afterwardText = (isForMeredith)
+      ? "Afterward you'll reflect and bring one part of the reflection to share in class on Thursday."
+      : "Afterward you'll reflect before heading back to debrief with the group or share online.";
     return (
       <IntroWithEmail defaultEmail={this.state.email} onDone={this.onStart}>
         <div>
           <p>Welcome!</p>
           <p>This is an interactive case study simulating a small part of a high school computer science lesson.</p>
-          <p>You'll review the context of the lesson briefly, share what you anticipate about the lesson, and then try it out!  Afterward you'll reflect before heading back to debrief with the group or share online.</p>
+          <p>You'll review the context of the lesson briefly, share what you anticipate about the lesson, and then try it out!  {afterwardText}</p>
+          <p>Please use <a href="https://www.google.com/chrome/">Chrome</a> on a laptop or desktop computer.</p>
         </div>
       </IntroWithEmail>
     );
@@ -135,10 +154,12 @@ export default React.createClass({
   },
 
   renderSummaryEl(questions:[QuestionT], responses:[ResponseT]) {
+    const {isForMeredith} = this.props;
+
     return (
       <div style={{padding: 20}}>
         <div>Thanks!</div>
-        <div style={{paddingTop: 20}}>You can close the computer and head on back to the group.</div>
+        {!isForMeredith && <div style={{paddingTop: 20}}>You can close the computer and head on back to the group.</div>}
       </div>
     );
   }
