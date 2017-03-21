@@ -49,6 +49,7 @@ export default React.createClass({
     '/teachermoments/sub': 'messagePopupPairs',
     '/teachermoments/darius': 'messagePopupDarius',
     '/teachermoments/chat': 'chatPrototype',
+    '/teachermoments/thursday': 'messagePopupMeredith',
 
     // Deprecated experiences
     '/playtest/:cohortKey': 'messagePopupPlaytest',
@@ -141,7 +142,11 @@ export default React.createClass({
   },
 
   messagePopupPairs(query = {}) {
-    return <MessagePopup.PairsExperiencePage query={{}}/>;
+    return <MessagePopup.PairsExperiencePage query={query} />;
+  },
+
+  messagePopupMeredith(query = {}) {
+    return <MessagePopup.PairsExperiencePage query={query} isForMeredith={true} />;
   },
 
   messagePopupDarius(query = {}) {

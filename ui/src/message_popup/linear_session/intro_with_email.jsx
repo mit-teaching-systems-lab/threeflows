@@ -75,7 +75,7 @@ const styles = {
     fontSize: 20,
     padding: 0,
     margin:0,
-    paddingBottom: 45
+    paddingBottom: 20
   },
   instructions: {
     paddingLeft: 20,
