@@ -40,7 +40,7 @@ function slidesForSetting(setting:SettingT) {
     <br />
     <div>5. Discussion</div>
       {(setting === 'meredith')
-        ? <div>For Thursday, you'll bring one part of the reflection to share in class.</div>
+        ? <div>For Tuesday 4/4, you'll bring one part of the reflection to share in class.</div>
         : <div>When you're all done here, head back to the classroom to rejoin the group.  If you're online, connect with others at <a target="_blank" href="https://twitter.com/search?q=%23https://twitter.com/search?q=%23TeacherPracticeSpaces">#TeacherPracticeSpaces</a>.</div>}
   </div>
   });
@@ -259,7 +259,7 @@ Let's shift to reflecting on the lesson.
     slides.push({ type: 'Reflect', text:
 `Before you finish, we have three questions about what you experienced in this simulation.
 
-After that, take a minute to write down what you'll share in class on Thursday.
+After that, take a minute to write down what you'll share in class on Tuesday 4/4.
 
 Also, for now please hold questions or feedback about this activity itself.
 `});

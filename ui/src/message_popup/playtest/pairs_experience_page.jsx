@@ -114,7 +114,7 @@ export default React.createClass({
   renderIntro() {
     const {isForMeredith} = this.props;
     const afterwardText = (isForMeredith)
-      ? "Afterward you'll reflect and bring one part of the reflection to share in class on Thursday."
+      ? "Afterward you'll reflect and bring one part of the reflection to share in class on Tuesday 4/4."
       : "Afterward you'll reflect before heading back to debrief with the group or share online.";
     return (
       <IntroWithEmail defaultEmail={this.state.email} onDone={this.onStart}>
