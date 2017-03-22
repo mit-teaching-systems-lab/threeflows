@@ -50,6 +50,8 @@ export default React.createClass({
     '/teachermoments/darius': 'messagePopupDarius',
     '/teachermoments/chat': 'chatPrototype',
     '/teachermoments/tuesday': 'messagePopupMeredith',
+    '/teachermoments/thursday': 'messagePopupMeredith',
+    '/teachermoments/csfair': 'messagePopupCsFair',
 
     // Deprecated experiences
     '/playtest/:cohortKey': 'messagePopupPlaytest',
@@ -146,6 +148,10 @@ export default React.createClass({
 
   messagePopupMeredith(query = {}) {
     return <MessagePopup.PairsExperiencePage query={query} isForMeredith={true} />;
+  },
+
+  messagePopupCsFair(query = {}) {
+    return <MessagePopup.CsFairExperiencePage query={query} />;
   },
 
   messagePopupDarius(query = {}) {
