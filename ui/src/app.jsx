@@ -49,7 +49,7 @@ export default React.createClass({
     '/teachermoments/sub': 'messagePopupPairs',
     '/teachermoments/darius': 'messagePopupDarius',
     '/teachermoments/chat': 'chatPrototype',
-    '/teachermoments/thursday': 'messagePopupMeredith',
+    '/teachermoments/tuesday': 'messagePopupMeredith',
 
     // Deprecated experiences
     '/playtest/:cohortKey': 'messagePopupPlaytest',
