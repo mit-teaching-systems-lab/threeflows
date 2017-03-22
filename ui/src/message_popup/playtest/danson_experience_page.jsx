@@ -69,6 +69,32 @@ export default React.createClass({
     });
   },
 
+  onGetNextQuestion(questions:[QuestionT], responses:[ResponseT]) {
+    const allQuestions = questions.slice();
+
+    if(responses.length >= 3) {
+      const thirdQuestionIndex = 2;
+      const allChoices = allQuestions[thirdQuestionIndex].choices;
+      const selectedChoice = responses[thirdQuestionIndex].choice;
+      if(selectedChoice === allChoices[0] || selectedChoice === allChoices[1]) {
+        // Skip the next question if one of the top two choices were selected
+        allQuestions.splice(thirdQuestionIndex + 1, 1);
+      } else if(selectedChoice === allChoices[2]) {
+        // Show the next question but skip the following one if the third choice was selected
+        allQuestions.splice(thirdQuestionIndex + 2, 1);
+      } else {
+        // Skip the next 2 questions if the 4th or 5th choices were selected
+        allQuestions.splice(thirdQuestionIndex + 1, 2);
+      }
+    }
+
+    if (responses.length >= allQuestions.length) {
+      return null;
+    }
+    
+    return allQuestions[responses.length];
+  },
+
   render() {
     return (
       <SessionFrame onResetSession={this.onResetSession}>
@@ -84,6 +110,7 @@ export default React.createClass({
     return <DansonLinearSession
       questions={questions}
       questionEl={this.renderQuestionEl}
+      getNextQuestion={this.getNextQuestion}
       summaryEl={this.renderSummaryEl}
       onLogMessage={this.onLogMessage}
     />;
