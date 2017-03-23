@@ -14,8 +14,20 @@ export default React.createClass({
   propTypes: {
     questions: React.PropTypes.array.isRequired,
     questionEl: React.PropTypes.func.isRequired,
+    getNextQuestion: React.PropTypes.func,
     summaryEl: React.PropTypes.func.isRequired,
     onLogMessage: React.PropTypes.func.isRequired
+  },
+
+  getDefaultProps() {
+    return {
+      getNextQuestion(questions, responses) {
+        if (responses.length >= questions.length) {
+          return null;
+        }
+        return questions[responses.length];          
+      }
+    };
   },
 
   getInitialState() {
@@ -57,9 +69,12 @@ export default React.createClass({
   renderContent() {
     const {questions} = this.props;
     const {responses} = this.state;
-    if (responses.length >= questions.length) return this.props.summaryEl(questions, responses);
 
-    const question = questions[responses.length];
+    const question = this.props.getNextQuestion(questions, responses);
+    if (question === null) {
+      return this.props.summaryEl(questions, responses);      
+    }
+
     return (
       <div key={question.id}>
         {this.props.questionEl(question, this.onLogMessageWithQuestion.bind(this, question), this.onResponseSubmitted.bind(this, question))}
