@@ -15,7 +15,8 @@ export default React.createClass({
     forceResponse: React.PropTypes.bool,
     responsePrompt: React.PropTypes.string,
     recordText: React.PropTypes.string,
-    ignoreText: React.PropTypes.string
+    ignoreText: React.PropTypes.string,
+    autoFocus: React.PropTypes.bool
   },
 
   getDefaultProps() {
@@ -23,7 +24,8 @@ export default React.createClass({
       forceResponse: false,
       responsePrompt: 'Speak directly to the student.',
       recordText: 'Respond',
-      ignoreText: 'Say nothing'
+      ignoreText: 'Say nothing',
+      autoFocus: true
     };
   },
 
@@ -50,7 +52,7 @@ export default React.createClass({
   },
 
   render() {
-    const {responsePrompt, forceResponse, recordText, ignoreText} = this.props;
+    const {responsePrompt, forceResponse, recordText, ignoreText, autoFocus} = this.props;
     const {responseText} = this.state;
    
     return (
@@ -64,7 +66,7 @@ export default React.createClass({
             underlineShow={false}
             multiLine={true}
             rows={2}
-            autoFocus={true}
+            autoFocus={autoFocus}
             value={responseText}
             onChange={this.onTextChanged}
           />
