@@ -43,7 +43,7 @@ export default React.createClass({
     '/teachermoments/discipline': 'disciplinePlaytest',
     '/teachermoments/mentoring': 'mentoringPlaytest',
     '/teachermoments/mindset': 'mindsetPlaytest',
-    '/teachermoments/danson': 'dansonPlaytest',
+    '/teachermoments/danson2': 'dansonPlaytest2',
     '/teachermoments/twine': 'messagePopupTwine',
     '/teachermoments/demo': 'messagePopupDemo',
     '/teachermoments/sub': 'messagePopupPairs',
@@ -53,6 +53,7 @@ export default React.createClass({
 
     // Deprecated experiences
     '/playtest/:cohortKey': 'messagePopupPlaytest',
+    '/teachermoments/danson': 'dansonPlaytest',
 
     // Mechanical Turk experiment
     '/teachermoments/turk-0000': 'turk0000',
@@ -150,6 +151,10 @@ export default React.createClass({
 
   messagePopupDarius(query = {}) {
     return <MessagePopup.DariusExperiencePage query={{}}/>;
+  },
+
+  dansonPlaytest2(query = {}) {
+    return <MessagePopup.DansonExperiencePage2 query={{}}/>;
   },
 
   messagePopupPlaytest(cohortKey, query = {}) {
