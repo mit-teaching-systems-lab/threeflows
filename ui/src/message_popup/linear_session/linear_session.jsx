@@ -70,10 +70,11 @@ export default React.createClass({
     const {questions} = this.props;
     const {responses} = this.state;
 
-    const question = this.props.getNextQuestion(questions, responses);
-    if (question === null) {
+    if (this.props.getNextQuestion === undefined || this.props.getNextQuestion(questions, responses) === null) {
       return this.props.summaryEl(questions, responses);      
     }
+    
+    const question = this.props.getNextQuestion(questions, responses);
 
     return (
       <div key={question.id}>

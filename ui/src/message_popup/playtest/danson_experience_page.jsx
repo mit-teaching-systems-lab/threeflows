@@ -110,7 +110,7 @@ export default React.createClass({
     return <DansonLinearSession
       questions={questions}
       questionEl={this.renderQuestionEl}
-      getNextQuestion={this.getNextQuestion}
+      getNextQuestion={this.onGetNextQuestion}
       summaryEl={this.renderSummaryEl}
       onLogMessage={this.onLogMessage}
     />;
