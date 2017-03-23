@@ -26,9 +26,7 @@ function scoreTotals(scoreResponse) {
 
 // Return a string summarizing their responses and reflections as pre-formatted text.
 // This is similar to the React component, just for copying to the clipboard or emailing.
-function clipboardText(responses) {
-  const {scoreResponses, reflectionResponses} = filterResponses(responses);
-
+function clipboardText(scoreResponses, reflectionResponses) {
   var lines = [].concat([
     '---- Student projects ----'
   ]);
@@ -87,8 +85,6 @@ export default React.createClass({
     responses: React.PropTypes.array.isRequired
   },
 
-  statics: {clipboardText},
-  
   // Allow copy to the clipboard
   componentDidMount() {
     new Clipboard('.copy-to-clipboard-button > button');
@@ -96,7 +92,8 @@ export default React.createClass({
 
   render() {
     const {responses} = this.props;
-    const text = clipboardText(responses);
+    const {scoreResponses, reflectionResponses} = filterResponses(responses);
+    const text = clipboardText(scoreResponses, reflectionResponses);
     const copyButtonEl = <RaisedButton
       style={{margin: 30, marginLeft: 10}}
       type="button"

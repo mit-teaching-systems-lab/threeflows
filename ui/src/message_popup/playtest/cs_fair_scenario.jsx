@@ -58,10 +58,25 @@ const scores:[ScoreT] = [
 ];
 
 
-type ProjectT = {
+type ImageProjectT = {
   label:string,
-  el:any
+  img:string,
+  a:string,
+  b:string,
+  c:string,
+  d:string,
+  e:string
 };
+type VideoProjectT = {
+  label:string,
+  video:string,
+  a:string,
+  b:string,
+  c:string,
+  d:string,
+  e:string
+};
+type ProjectT = VideoProjectT | ImageProjectT;
 const projects:{A:ProjectT, E:ProjectT, C:ProjectT, D:ProjectT} = {
   A: {
     label: 'A',
@@ -90,12 +105,12 @@ Purpose: The purpose of this device is to communicate with others by text, calls
 Function: The iPhone 6s works more efficiently and more intuitively. This iPhone includes an A9 chip that brings a new level of performance. It's not only a faster experience, but a better one. It also boosts graphics performance by 90 percent compared to the previous generation. The iPhone 6s also has a M9 motion coprocessor which improves performance and battery life.
 
 In the video I made about the iPhone 6s, I explained and showed the two new features that came with the iPhone 6s. The first feature was the 3D touch, which allows you to do the thing you love to do faster. By applying pressure on the screen with your finger, it gives you an option to do shortcuts. For example if you apply pressure on the camera app, the app will give an option to where you can either take selfies, video, picture or slo mo, instead of clicking on the app and swiping left and right. The second feature is the live wallpaper which allows your wallpaper to move by pressing on the screen.`,
-  b: 'To make my iPhone 6s video, I went to the Sprint store to take a short clip showing the features of the iPhone 6s. After that, I put the video into an app called iMovie which allows you to edit videos and put audio into it. After I finished editing the video I added background music; the music I used comes with the app. When I was done editing the sound volume for my background music, I recorded myself explaining the two new features of the iPhones 6s and showed how it works.',
-  c:
+    b: 'To make my iPhone 6s video, I went to the Sprint store to take a short clip showing the features of the iPhone 6s. After that, I put the video into an app called iMovie which allows you to edit videos and put audio into it. After I finished editing the video I added background music; the music I used comes with the app. When I was done editing the sound volume for my background music, I recorded myself explaining the two new features of the iPhones 6s and showed how it works.',
+    c:
 `Benefit: The iPhone 6s can be beneficial. This device has an A9 chip which makes the iPhone two times faster than the previous iPhones. This is iPhone has 3D touch, which allows people to peek by pressure touch into apps such as mails, instagram, the camera app, etc. The iPhone has a 12-megapixel camera that captures detailed and sharp photos. This iPhone comes with Live Photos, a setting that allows you to take a moment before and after a pictures and it sets in motion by just a press of a finger. It takes 4k videos, which is four times the resolution of 1080p HD video. The iPhone 6s is constructed from 7000 Aluminum which makes it stronger and immune to bending like the iPhone 6. The iPhone 6s can come in 4 different colors, silver, gold, space grey, and rose gold. These are some of the benefits that the iPhone 6s and iPhone 6s Plus have.
 
 Disadvantages: There are also disadvantages that the iPhone 6s has. One of the drawbacks is that the iPhone 6s is thicker and heavier than the previous iPhones, the iPhone 6s is 14 grams more than the iPhone 6 while the iPhone 6s plus is 20 grams more than the iPhone 6 plus. It also has a smaller battery size which also changes the battery life. Another downside of this device is the price, the iPhone 6s with 16GB is $649.00, 64GB is $749.00, and with 128GB is $849.00. The iPhone 6s Plus with 16GB is $749.00, 64GB is $849.00, and 128GB is $949.00. These are some of the problems that the iPhone 6s and iPhone 6s plus have.`,
-  d:
+    d:
 `The iPhone 6s does not transform data but it can consume and produce data. It consumes data by receiving messages, calls, and watching videos. Producing data can be sending messages, mails, and calls. The iPhone 6s has storage concerns especially if it comes with a 16GB which is not enough space for an iPhone 6s because there is apps that can take up space and the 4K video takes massive amounts of data. Getting a 64GB or 128GB iPhone would be better.
 
 People think that the Apple devices are more secure than any other devices but there are different security problems that are still out there. There are apps that allow you to steal user's data and collect passwords. The big issue about this app is that the app is in the app store, which is supposed to be pre-screened by the Apple staff for harmful apps.
@@ -103,7 +118,7 @@ People think that the Apple devices are more secure than any other devices but t
 There are also privacy concerns, for example the iPhone 6s catches audio when Siri is activated, and can record audio and video before taking a live photo.
 
 Apple's new feature "Hey Siri" allows you to activate Siri at any time by saying the phrase, which means that the audio has to be on at all time.`,
-  e:
+    e:
 `Description of the Iphone 6s
 URL: http://www.apple.com/shop/buy-iphone/iphone6s
 Article Title: Iphone 6s
