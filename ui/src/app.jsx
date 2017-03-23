@@ -50,7 +50,6 @@ export default React.createClass({
     '/teachermoments/darius': 'messagePopupDarius',
     '/teachermoments/chat': 'chatPrototype',
     '/teachermoments/tuesday': 'messagePopupMeredith',
-    '/teachermoments/thursday': 'messagePopupMeredith',
     '/teachermoments/csfair': 'messagePopupCsFair',
 
     // Deprecated experiences

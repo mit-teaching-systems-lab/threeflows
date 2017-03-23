@@ -24,15 +24,15 @@ function scoreTotals(scoreResponse) {
   return {total, totalMax};
 }
 
-function clipboardText(scoreResponses, reflectionResponses) {
-  var lines = [];
+// Return a string summarizing their responses and reflections as pre-formatted text.
+// This is similar to the React component, just for copying to the clipboard or emailing.
+function clipboardText(responses) {
+  const {scoreResponses, reflectionResponses} = filterResponses(responses);
 
-  lines = lines.concat([
+  var lines = [].concat([
     '---- Student projects ----'
   ]);
-
   lines = lines.concat(scoreResponses.map(projectText));
-
   lines = lines.concat([
     '',
     '---- Reflection questions ----',
@@ -48,6 +48,7 @@ function clipboardText(scoreResponses, reflectionResponses) {
   return lines.join("\n");
 }
 
+// String describing scores and feedback for a student project
 function projectText(scoreResponse, i) {
   const introLines = [
     `Student: ${scoreResponse.studentName}`,
@@ -75,20 +76,9 @@ function projectText(scoreResponse, i) {
 
 
 /*
-Summary:
-(to paste into discussion forum)
-Reflection
-Responses
-Overall
-
-Data:
-       white 
-    male   female
-A    X        Y
-B    X        Y
-C
-D
-E
+This doesn't show anything about aggregate responses or scores, and is only focused on individual
+responses during this user's session.  It summarizes their feedback to student projects and their reflection questions,
+and allows them to copy it all as text (eg., for a discussion forum or chat).
 */
 export default React.createClass({
   displayName: 'CsFairSummary',
@@ -97,22 +87,16 @@ export default React.createClass({
     responses: React.PropTypes.array.isRequired
   },
 
-  statics: {
-    // Render as pre-formatted text
-    clipboardText(responses) {
-      const {scoreResponses, reflectionResponses} = filterResponses(responses);
-      return clipboardText(scoreResponses, reflectionResponses);
-    }
-  },
-
+  statics: {clipboardText},
+  
+  // Allow copy to the clipboard
   componentDidMount() {
     new Clipboard('.copy-to-clipboard-button > button');
   },
 
   render() {
     const {responses} = this.props;
-    const {scoreResponses, reflectionResponses} = filterResponses(responses);
-    const text = clipboardText(scoreResponses, reflectionResponses);
+    const text = clipboardText(responses);
     const copyButtonEl = <RaisedButton
       style={{margin: 30, marginLeft: 10}}
       type="button"
