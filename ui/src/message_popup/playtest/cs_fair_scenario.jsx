@@ -4,26 +4,27 @@ import hash from '../../helpers/hash.js';
 
 
 type TextQuestionT = {
-  type:string, // Used as a label
-  text:string,
-  ask:?bool, // Ask for open-ended user response?
-  force:?bool, // Force the user to respond?
-  textResponse:?bool
+  type:string,
+  text:string
 };
 type ReactQuestionT = {
-  type:string, // Used as a label
-  el:any, // React node
-  ask:?bool, // Ask for open-ended user response?
-  force:?bool // Force the user to respond?
+  type:string,
+  el:any
 };
-type ScoreQuestionT = {
+type TextResponseQuestionT = {
+  type:string,
+  text:string,
+  textResponse:?bool
+};
+
+type ScoresQuestionT = {
   type:string,
   text:string,
   scores:[ScoreT],
   studentName:string,
   projectLabel:string
 }
-export type QuestionT = TextQuestionT | ReactQuestionT | ScoreQuestionT;
+export type QuestionT = TextQuestionT | ReactQuestionT | ScoresQuestionT | TextResponseQuestionT;
 
 
 function renderIntroEl() {
@@ -59,7 +60,12 @@ const scores:[ScoreT] = [
   { label: 'Finding and Evaluating Information', key: 'finding', max: 1 }
 ];
 
-const projects = {
+
+type ProjectT = {
+  label:string,
+  el:any
+};
+const projects:{A:ProjectT, E:ProjectT, C:ProjectT, D:ProjectT} = {
   A: { label: 'A', el: 
     <div>
       <img alt="Loading artifact..." src="https://tsl-public.s3.amazonaws.com/threeflows/csfair-a.png" width="100%" height="448" />
@@ -364,7 +370,7 @@ Improvise how you would act as a teacher in those moments.  Click and speak alou
 Ready to start?
 `});
 
-  slides = slides.concat(interactionSlides(students.A, projects.A));
+  slides = slides.concat(interactionSlides(students.A, projects.A));  
   slides = slides.concat(interactionSlides(students.E, projects.E));
   slides = slides.concat(interactionSlides(students.C, projects.C));
   slides = slides.concat(interactionSlides(students.D, projects.D));

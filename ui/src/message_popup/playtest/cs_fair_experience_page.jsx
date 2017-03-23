@@ -121,7 +121,7 @@ export default React.createClass({
   renderInteractionEl(question:QuestionT, onLog, onResponseSubmitted) {
     const key = JSON.stringify(question);
 
-    if (question.scores) {
+    if (question.scores && question.studentName && question.projectLabel) {
       return <CsFairScoreResponse
         key={key}
         scores={question.scores}
@@ -132,14 +132,21 @@ export default React.createClass({
       />;
     }
 
-    if (question.textResponse) {
+    if (question.textResponse && question.text) {
       return <MinimalTextResponse
         key={key}
         forceResponse={true}
         responsePrompt="Your thoughts:"
         recordText="Submit"
         onLogMessage={onLog}
-        onResponseSubmitted={(response) => onResponseSubmitted({...response, isTextResponse: true, questionText: question.text})}
+        onResponseSubmitted={(response) => {
+          const questionText = question.text || ''; // flow bug
+          return onResponseSubmitted({
+            ...response,
+            questionText,
+            isTextResponse: true
+          });
+        }}
       />;
     }
 
