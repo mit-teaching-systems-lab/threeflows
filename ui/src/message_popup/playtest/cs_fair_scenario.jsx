@@ -212,7 +212,7 @@ ${studentName}: Hello!  Let me know what questions you have once you get a chanc
 // Overall sequence of projects is: High, Low, Medium, Medium
 // The intent is that the last two are best for detecting bias.
 function slidesFor(cohortKey) {
-  const students = cohorts[cohortKey];
+  const students:CohortT = cohorts[cohortKey];
 
   var slides:[QuestionT] = [];
   slides.push({ type: 'Overview', el:
@@ -360,7 +360,13 @@ Also, for now please hold questions or feedback about this activity itself.
 // These are the comparisons we're curious about detecting bias in:
 // for C: white female/black female
 // for D: asian male/hispanic male
-const cohorts = [
+type CohortT = {
+  A: string,
+  E: string,
+  C: string,
+  D: string
+};
+const cohorts:[CohortT] = [
   { A: 'Sofía', E: 'Connor', C: 'Emily', D: 'Shinji' },
   { A: 'Sofía', E: 'Connor', C: 'Emily', D: 'Carlos' },
   { A: 'Sofía', E: 'Connor', C: 'Lakisha', D: 'Shinji' },
