@@ -361,10 +361,10 @@ Also, for now please hold questions or feedback about this activity itself.
 // for C: white female/black female
 // for D: asian male/hispanic male
 const cohorts = [
-  { A: 'Sofía', B: 'Connor', C: 'Emily', D: 'Shinji' },
-  { A: 'Sofía', B: 'Connor', C: 'Emily', D: 'Carlos' },
-  { A: 'Sofía', B: 'Connor', C: 'Lakisha', D: 'Shinji' },
-  { A: 'Sofía', B: 'Connor', C: 'Lakisha', D: 'Carlos' }
+  { A: 'Sofía', E: 'Connor', C: 'Emily', D: 'Shinji' },
+  { A: 'Sofía', E: 'Connor', C: 'Emily', D: 'Carlos' },
+  { A: 'Sofía', E: 'Connor', C: 'Lakisha', D: 'Shinji' },
+  { A: 'Sofía', E: 'Connor', C: 'Lakisha', D: 'Carlos' }
 ];
 
 export const CsFairScenario = {
