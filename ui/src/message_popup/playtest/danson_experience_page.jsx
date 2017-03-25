@@ -7,7 +7,7 @@ import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import Divider from 'material-ui/Divider';
 
 import * as Api from '../../helpers/api.js';
-import DansonLinearSession from '../linear_session/danson_linear_session.jsx';
+import LinearSession from '../linear_session/linear_session.jsx';
 import SessionFrame from '../linear_session/session_frame.jsx';
 import IntroWithEmail from '../linear_session/intro_with_email.jsx';
 import RecordThenClassifyQuestion from '../linear_session/record_then_classify_question.jsx';
@@ -107,7 +107,7 @@ export default React.createClass({
     const {questions} = this.state;
     if (!questions) return this.renderIntro();
 
-    return <DansonLinearSession
+    return <LinearSession
       questions={questions}
       questionEl={this.renderQuestionEl}
       getNextQuestion={this.onGetNextQuestion}
