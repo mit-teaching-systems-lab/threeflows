@@ -44,6 +44,7 @@ export default React.createClass({
     '/teachermoments/mentoring': 'mentoringPlaytest',
     '/teachermoments/mindset': 'mindsetPlaytest',
     '/teachermoments/danson': 'dansonPlaytest',
+    '/teachermoments/valpha': 'VideoAlphaPlaytest',
     '/teachermoments/twine': 'messagePopupTwine',
     '/teachermoments/demo': 'messagePopupDemo',
     '/teachermoments/sub': 'messagePopupPairs',
@@ -143,6 +144,10 @@ export default React.createClass({
 
   dansonPlaytest(query = {}) {
     return <MessagePopup.DansonExperiencePage query={{}}/>;
+  },
+
+  VideoAlphaPlaytest(query = {}) {
+    return <MessagePopup.VideoAlphaExperiencePage query={{}}/>;
   },
 
   messagePopupPairs(query = {}) {
