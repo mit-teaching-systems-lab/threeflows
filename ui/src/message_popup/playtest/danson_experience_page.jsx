@@ -70,6 +70,8 @@ export default React.createClass({
   },
 
   onGetNextQuestion(questions:[QuestionT], responses:[ResponseT]) {
+    // This function removes questions that will not be shown to the user based on the user's prior choices.
+    
     const allQuestions = questions.slice();
 
     if(responses.length >= 3) {

@@ -8,8 +8,8 @@ import * as Api from '../../helpers/api.js';
 import LinearSession from '../linear_session/linear_session.jsx';
 import SessionFrame from '../linear_session/session_frame.jsx';
 import IntroWithEmail from '../linear_session/intro_with_email.jsx';
-import {VideoAlphaScenarios} from './vido_alpha_scenarios.js';
-import type {QuestionT} from './vido_alpha_scenarios.js';
+import {VideoAlphaScenarios} from './video_alpha_scenarios.js';
+import type {QuestionT} from './video_alpha_scenarios.js';
 import YouTube from 'react-youtube';
 import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
 
