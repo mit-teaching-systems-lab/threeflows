@@ -44,7 +44,28 @@ function post(s3) {
   }
 }
 
+// There's no authorization check here
+function streamAudioFileFromS3(params, request, response) {
+  const {s3, id} = params;
+  var s3Params = {
+    Bucket: 'message-popup',
+    Key: getAudioKey(request, id)
+  };
+  console.log('Reading from S3...');
+  try {
+    s3.getObject(s3Params).createReadStream().pipe(response);
+    return;
+  }
+  catch (err) {
+    console.log('Error reading from S3: ', err);
+    response.status(503);
+    response.json({});
+    return;
+  }
+}
+
 
 module.exports = {
-  post
+  post,
+  streamAudioFileFromS3
 };

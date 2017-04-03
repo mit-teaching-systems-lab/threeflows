@@ -63,6 +63,10 @@ export default React.createClass({
     '/teachermoments/author/questions/new' : 'messagePopupAuthorQuestionsNew',
     '/teachermoments/author/questions/:id' : 'messagePopupAuthorQuestionsEdit',
 
+    // Reviewing endpoints
+    '/teachermoments/review/:key': 'messagePopupReviewLogin',
+    '/teachermoments/review_link': 'messagePopupReview',
+
     // Other
     '/virtual_school': 'virtualSchool'
   },
@@ -167,12 +171,20 @@ export default React.createClass({
     return <MessagePopup.QuestionsPage />;
   },
 
-  messagePopupAuthorQuestionsNew(query = {}){
+  messagePopupAuthorQuestionsNew(query = {}) {
     return <MessagePopup.NewQuestionPage />;
   },
 
-  messagePopupAuthorQuestionsEdit(questionId, query = {}){
+  messagePopupAuthorQuestionsEdit(questionId, query = {}) {
     return <MessagePopup.EditQuestionPage questionId={questionId}/>;
+  },
+
+  messagePopupReviewLogin(reviewKey, query = {}) {
+    return <MessagePopup.ReviewLoginPage reviewKey={reviewKey} />;
+  },
+
+  messagePopupReview(query = {}) {
+    return <MessagePopup.ReviewPage token={query.token} />;
   },
 
   virtualSchool(query = {}) {

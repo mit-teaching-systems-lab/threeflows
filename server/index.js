@@ -8,7 +8,11 @@ var request = require('superagent');
 var basicAuth = require('basic-auth');
 var pg = require('pg');
 var AudioEndpoints = require('./endpoints/audio.js');
+var ReviewEndpoint = require('./endpoints/review.js');
+var ReviewLoginEndpoint = require('./endpoints/review_login.js');
 var createS3Client = require('./s3_client.js');
+var createMailgunEnv = require('./mailgun_env.js');
+
 
 // create and configure server
 var app = express();
@@ -19,7 +23,7 @@ app.use(enforceHTTPS);
 
 // external services
 const s3 = createS3Client();
-
+const mailgunEnv = createMailgunEnv();
 
 // https redirect
 function enforceHTTPS(request, response, next) {
@@ -57,7 +61,10 @@ function questionAuthoringAuth(req, res, next) {
 // api routes
 // helper for db connection pooling
 function queryDatabase(text, values, cb) {
-  pg.connect(process.env.DATABASE_URL +'?ssl=true', function(err, client, done) {
+  const connectionUrl = (process.env.NODE_ENV === 'development')
+    ? process.env.DATABASE_URL
+    : process.env.DATABASE_URL +'?ssl=true';
+  pg.connect(connectionUrl, function(err, client, done) {
     client.query(text, values, function(err, result) {
       done();
       cb(err, result);
@@ -166,8 +173,14 @@ app.get('/server/questions', questionAuthoringAuth, function(request, response){
 });
 
 
-
+// Write audio responses
 app.post('/teachermoments/wav', AudioEndpoints.post(s3));
+
+
+// Related to the read path for reviewing responses, and for fetching audio files
+app.post('/server/reviews/create', ReviewLoginEndpoint.createReview({queryDatabase, mailgunEnv}));
+app.get('/server/reviews', ReviewEndpoint.getReview({queryDatabase}));
+app.get('/teachermoments/wav/(:id).wav', ReviewEndpoint.getAudioFile({queryDatabase, s3}));
 
 
 

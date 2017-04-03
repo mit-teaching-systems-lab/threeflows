@@ -99,8 +99,7 @@ $ heroku addons:create heroku-postgresql:hobby-dev
 
 Seed the database:
 ```
-$ heroku pg:psql
-threeflows:DATABASE=> CREATE TABLE evidence (
+CREATE TABLE evidence (
   id serial primary key,
   app text,
   type text,
@@ -108,7 +107,7 @@ threeflows:DATABASE=> CREATE TABLE evidence (
   timestamp timestamp,
   json jsonb
 );
-threeflows:DATABASE=> CREATE TABLE evaluations (
+CREATE TABLE evaluations (
   id serial primary key,
   app text,
   type text,
@@ -116,10 +115,27 @@ threeflows:DATABASE=> CREATE TABLE evaluations (
   timestamp timestamp,
   json jsonb
 );
-threeflows:DATABASE=> CREATE TABLE message_popup_questions (
+
+CREATE TABLE message_popup_questions (
   id serial primary key,
   timestamp timestamp,
   questions jsonb
+);
+
+CREATE TABLE reviews (
+  id serial primary key,
+  timestamp timestamp,
+  review_key text,
+  access_code text
+);
+
+CREATE TABLE review_tokens (
+  id serial primary key,
+  timestamp timestamp,
+  review_id integer,
+  email_address text,
+  hid text,
+  token text
 );
 
 ```

@@ -18,6 +18,8 @@ import QuestionsPage from './author/questions_page.jsx';
 import EditQuestionPage from './author/edit_question_page.jsx';
 import NewQuestionPage from './author/new_question_page.jsx';
 
+import ReviewLoginPage from './review/review_login_page.jsx';
+import ReviewPage from './review/review_page.jsx';
 
 export {
   ExperiencePage,
@@ -37,4 +39,6 @@ export {
   QuestionsPage,
   EditQuestionPage,
   NewQuestionPage,
+  ReviewLoginPage,
+  ReviewPage
 };
