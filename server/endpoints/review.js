@@ -132,7 +132,7 @@ module.exports = {
 
         // Stream the audio file from S3
         const {id} = request.params;
-        streamAudioFileFromS3({s3, id}, request, response);
+        insecureStreamAudioFileFromS3({s3, id}, request, response);
       });
     }
   }

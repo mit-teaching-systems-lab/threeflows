@@ -45,7 +45,7 @@ function post(s3) {
 }
 
 // There's no authorization check here
-function streamAudioFileFromS3(params, request, response) {
+function insecureStreamAudioFileFromS3(params, request, response) {
   const {s3, id} = params;
   var s3Params = {
     Bucket: 'message-popup',
@@ -67,5 +67,5 @@ function streamAudioFileFromS3(params, request, response) {
 
 module.exports = {
   post,
-  streamAudioFileFromS3
+  insecureStreamAudioFileFromS3
 };
