@@ -7,7 +7,7 @@ const qs = require('querystring');
 const request = require('superagent');
 const crypto = require('crypto');
 const {getDomain} = require('../domain.js');
-const {streamAudioFileFromS3} = require('./audio.js');
+const {insecureStreamAudioFileFromS3} = require('./audio.js');
 
 function createDatabaseTimestamp() {
   return Math.floor(new Date().getTime() / 1000);
