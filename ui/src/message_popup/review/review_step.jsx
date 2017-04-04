@@ -37,7 +37,7 @@ export default React.createClass({
     const audioUrlWithTokens = Api.audioUrlWithTokens(audioUrl, token, emailAddress);
     const questionText = row.question.text;
     return (
-      <div key={audioUrlWithTokens}>
+      <div key={audioUrlWithTokens} className="ReviewStep" style={styles.container}>
         <ReadMore fulltext={questionText}/>
         {this.renderAudioOnDemand(audioUrlWithTokens)}
       </div>
@@ -65,7 +65,11 @@ export default React.createClass({
 });
 
 const styles = {
+  container: {
+    marginBottom: 20
+  },
   button: {
-    marginTop: 20
+    marginTop: 20,
+    marginLeft: 20
   }
 };
