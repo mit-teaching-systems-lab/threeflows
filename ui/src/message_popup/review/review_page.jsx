@@ -5,7 +5,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Divider from 'material-ui/Divider';
 
-import * as Routes from '../../routes.js';
 import SessionFrame from '../linear_session/session_frame.jsx';
 import * as Api from '../../helpers/api.js';
 import ReviewStep from './review_step.jsx';
