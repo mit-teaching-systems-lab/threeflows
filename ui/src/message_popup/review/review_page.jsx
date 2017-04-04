@@ -139,6 +139,7 @@ export default React.createClass({
               <div key={audioUrlWithTokens}>
                 <ReadMore fulltext={questionText}/>
                 <audio
+                  key={audioUrlWithTokens}
                   controls={true}
                   src={audioUrlWithTokens}
                   style={{paddingTop: 10, paddingBottom: 20}} />
