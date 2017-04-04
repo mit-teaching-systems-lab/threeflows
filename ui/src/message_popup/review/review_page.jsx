@@ -3,11 +3,12 @@ import React from 'react';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import Divider from 'material-ui/Divider';
 
 import * as Routes from '../../routes.js';
 import SessionFrame from '../linear_session/session_frame.jsx';
 import * as Api from '../../helpers/api.js';
-import ReadMore from '../renderers/read_more.jsx';
+import ReviewStep from './review_step.jsx';
 
 
 const STATUS = {
@@ -24,7 +25,7 @@ export default React.createClass({
   displayName: 'ReviewPage',
 
   propTypes: {
-    token: React.PropTypes.string.isRequired
+    token: React.PropTypes.string.isRequired,
   },
 
   getInitialState() {
@@ -32,13 +33,14 @@ export default React.createClass({
       emailAddress: '',
       lastStatus: STATUS.READY,
       responseBody: null,
-      error: null
+      error: null,
+      showDebugging: false
     };
   },
 
   // Remove key in querystring from URL bar
   componentDidMount() {
-    Routes.navigate(window.location.pathname, true);
+    window.history.replaceState({}, window.document.title, window.location.pathname);
   },
 
   onResetSession() {
@@ -80,6 +82,11 @@ export default React.createClass({
       lastStatus: STATUS.ERROR,
       error: err
     });
+  },
+
+  onDebugTapped() {
+    console.log('onDebugTapped', this.state); // eslint-disable-line no-console
+    this.setState({ showDebugging: true });
   },
 
   render() {
@@ -124,30 +131,32 @@ export default React.createClass({
   },
 
   renderViewing() {
-    const {responseBody} = this.state;
+    const {responseBody, showDebugging} = this.state;
     return (
       <div style={styles.container}>
-        <div style={styles.instructions}>Here's a summary of your responses:</div>
-        <div>
-          {responseBody.filter(row => row.audio_url).map((row) => {
-            const audioUrl = row.audio_url;
+        <div>Here's a summary of your responses:</div>
+        <div style={styles.responsesContainer}>
+          {responseBody.map((row) => {            
             const {token} = this.props;
             const {emailAddress} = this.state;
-            const audioUrlWithTokens = Api.audioUrlWithTokens(audioUrl, token, emailAddress);
-            const questionText = row.question.text;
             return (
-              <div key={audioUrlWithTokens}>
-                <ReadMore fulltext={questionText}/>
-                <audio
-                  key={audioUrlWithTokens}
-                  controls={true}
-                  src={audioUrlWithTokens}
-                  style={{paddingTop: 10, paddingBottom: 20}} />
-              </div>
+              <ReviewStep
+                key={JSON.stringify(row)}
+                token={token}
+                emailAddress={emailAddress}
+                row={row}
+              />
             );
           }, this)}
         </div>
-        <pre>{JSON.stringify(responseBody, null, 2)}</pre>
+        <Divider />
+        {showDebugging
+          ? <pre>{JSON.stringify(responseBody, null, 2)}</pre>
+          : <RaisedButton
+              onTouchTap={this.onDebugTapped}
+              style={styles.button}
+              label="Debug" />
+        }
       </div>
     );
   },
@@ -167,9 +176,6 @@ const styles = {
   container: {
     margin: 20
   },
-  instructions: {
-    marginBottom: 20
-  },
   textField: {
     width: '100%'
   },
@@ -180,5 +186,9 @@ const styles = {
   },
   button: {
     marginTop: 20
+  },
+  responsesContainer: {
+    marginTop: 40,
+    marginBottom: 40
   }
 };
