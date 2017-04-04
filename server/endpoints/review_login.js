@@ -13,6 +13,9 @@ function createDatabaseTimestamp() {
   return Math.floor(new Date().getTime() / 1000);
 }
 
+// For communicating without using plain email address in querystrings.
+// This is used client side as well, and so this is more obfuscation than
+// security.
 function hashedEmail(emailAddress) {
   const shasum = crypto.createHash('sha256');
   shasum.update(emailAddress);
@@ -20,6 +23,8 @@ function hashedEmail(emailAddress) {
 }
 
 // Creates a new review token and inserts it into the db.
+// This will grant the emailAddress access to their user data
+// for a limited time window.
 // Calls back with {token}
 function createReviewToken(params, cb) {
   const {queryDatabase, reviewRow, emailAddress} = params;
@@ -40,7 +45,8 @@ function createReviewToken(params, cb) {
 }
 
 
-// Sends email with a login link.
+// Sends email with a login link that has a token valid for a limited time window.
+// The user will also have to confirm email address again to gain access.
 // Calls back with { status: 'ok' }
 function sendAuthenticationEmail(params, cb) {
   const {domain, emailAddress, token, mailgunEnv} = params;
@@ -63,7 +69,7 @@ function sendAuthenticationEmail(params, cb) {
 }
 
 
-// Render email into an HTML string
+// Render email into an HTML string.  Template is originally from litmus.
 function renderEmail(params) {
   const {link} = params;
   const templateFilename = path.join(__dirname, '/review.html.mustache');
@@ -99,6 +105,9 @@ function sendEmail(env, info, html, cb) {
 
 
 module.exports = {
+  // Takes a reviewKey and an access code, given in person or out of band of this system.
+  // The learner can give those along with their email address to generate a login token for
+  // a limited time window, that is sent to their email address as an authentication check.
   createReview({mailgunEnv, queryDatabase}) {
     return (request, response) => {
       const reviewKey = request.body.review_key;

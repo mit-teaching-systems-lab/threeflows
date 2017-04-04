@@ -13,8 +13,10 @@ function createDatabaseTimestamp() {
   return Math.floor(new Date().getTime() / 1000);
 }
 
-// Calls back with {reviewTokenRow}, which may be null
-// TODO(kr) log access attempt in db
+// Gatekeeper authorizing whether (token, hid) pair
+// is within valid time window where we should allow them access
+// to learner data for the hid.
+// Calls back with {reviewTokenRow}, which may be null.
 function getReviewTokenRow(params, cb) {
   const {queryDatabase, token, hid} = params;
   const timestamp = createDatabaseTimestamp();
@@ -36,7 +38,8 @@ function getReviewTokenRow(params, cb) {
 }
 
 
-// Get all responses from all sessions for a (user, scenario) pair.
+// Get all responses from all sessions for an (emailAddress, locationUrl) pair,
+// sorted in the order they were logged.  Calls back with {rows} of db rows.
 function getResponseRows(params, cb) {
   const {queryDatabase, emailAddress, locationUrl} = params;
 
@@ -66,7 +69,9 @@ function getResponseRows(params, cb) {
 
 
 module.exports = {
-  getReview({queryDatabase}) {
+  // Returns user data describing responses, if (token, hid) pair is valid
+  // and within time window.
+  sensitiveGetReview({queryDatabase}) {
     return (request, response) => {
       const {token, hid} = request.query;
 
@@ -110,7 +115,9 @@ module.exports = {
     }
   },
 
-  getAudioFile({queryDatabase, s3}) {
+  // Streams an audio file of user recordings from S3, if (token, hid) pair
+  // is valid and within time window.
+  sensitiveGetAudioFile({queryDatabase, s3}) {
     return (request, response) => {
       const {token, hid} = request.query;
 

@@ -179,8 +179,8 @@ app.post('/teachermoments/wav', AudioEndpoints.post(s3));
 
 // Related to the read path for reviewing responses, and for fetching audio files
 app.post('/server/reviews/create', ReviewLoginEndpoint.createReview({queryDatabase, mailgunEnv}));
-app.get('/server/reviews', ReviewEndpoint.getReview({queryDatabase}));
-app.get('/teachermoments/wav/(:id).wav', ReviewEndpoint.getAudioFile({queryDatabase, s3}));
+app.get('/server/reviews', ReviewEndpoint.sensitiveGetReview({queryDatabase}));
+app.get('/teachermoments/wav/(:id).wav', ReviewEndpoint.sensitiveGetAudioFile({queryDatabase, s3}));
 
 
 
