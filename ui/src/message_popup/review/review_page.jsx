@@ -68,7 +68,6 @@ export default React.createClass({
   },
 
   onReceivedReview(response) {
-    console.log('onReceivedReview', response);
     this.setState({
       lastStatus: STATUS.VIEWING,
       responseBody: response.body
@@ -76,7 +75,7 @@ export default React.createClass({
   },
 
   onError(err) {
-    console.log('onError', err);
+    console.log('onError', err); //eslint-disable-line no-console
     this.setState({
       lastStatus: STATUS.ERROR,
       error: err
