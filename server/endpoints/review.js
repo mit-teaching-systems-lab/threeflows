@@ -153,8 +153,7 @@ module.exports = {
         }
 
         // 403 back
-        const {reviewTokenRow} = result;
-        if (!reviewTokenRow) {
+        if (!result || !result.reviewTokenRow) {
           console.log('getAudio: unauthorized', JSON.stringify({token, hid}));
           response.status(403);
           response.json({ status: 'unauthorized' });
