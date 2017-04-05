@@ -6,7 +6,7 @@
   },
   "main": "server/index.js",
   "scripts": {
-    "dev": "READ_LOCAL_EVIDENCE=true DATABASE_URL=http://localhost:5432 NODE_ENV=development npm run start",
+    "dev": "READ_LOCAL_EVIDENCE=true IS_SENSITIVE_REVIEWING_ENABLED=true DATABASE_URL=http://localhost:5432 NODE_ENV=development npm run start",
     "start": "node server/index.js",
     "watch": "cd ui && npm run watch && cd ..",
     "heroku-prebuild": "cd ui && mkdir build && npm install",
