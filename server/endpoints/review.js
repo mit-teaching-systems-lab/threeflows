@@ -9,6 +9,12 @@ const crypto = require('crypto');
 const {getDomain} = require('../domain.js');
 const {insecureStreamAudioFileFromS3} = require('./audio.js');
 
+
+// Global kill switch for sensitive reviews, overridding all other settings.
+function isSensitiveReviewingEnabled() {
+  return (process.env.IS_SENSITIVE_REVIEWING_ENABLED.toLowerCase() === 'true');
+}
+
 function createDatabaseTimestamp() {
   return Math.floor(new Date().getTime() / 1000);
 }
@@ -16,8 +22,16 @@ function createDatabaseTimestamp() {
 // Gatekeeper authorizing whether (token, hid) pair
 // is within valid time window where we should allow them access
 // to learner data for the hid.
+// Also requires ENABLE_REVIEWS environment variable to equal 'true',
+// as a global switch.
+//
 // Calls back with {reviewTokenRow}, which may be null.
 function getReviewTokenRow(params, cb) {
+  if (!isSensitiveReviewingEnabled()) {
+    console.log('getReviewTokenRow: not isSensitiveReviewingEnabled');
+    return cb(null, null);
+  }
+
   const {queryDatabase, token, hid} = params;
   const timestamp = createDatabaseTimestamp();
   const values = [token, hid, timestamp];
@@ -30,7 +44,10 @@ function getReviewTokenRow(params, cb) {
       AND to_timestamp($3) < (timestamp + INTERVAL '24 hours')
     ORDER BY id ASC LIMIT 1`;
   queryDatabase(sql, values, (err, result) => {
-    if (err) return cb(err);
+    if (err) {
+      console.log('getReviewTokenRow: error', JSON.stringify(err));
+      return cb(err);
+    }
 
     const reviewTokenRow = result.rows[0];
     cb(null, {reviewTokenRow});
@@ -59,7 +76,7 @@ function getResponseRows(params, cb) {
   queryDatabase(sql, values, (err, result) => {
     if (err) {
       console.log('getResponseRows: error', JSON.stringify(err));
-      return response.status(500);
+      return cb(err);
     }
 
     const {rows} = result;
@@ -69,6 +86,8 @@ function getResponseRows(params, cb) {
 
 
 module.exports = {
+  isSensitiveReviewingEnabled,
+
   // Returns user data describing responses, if (token, hid) pair is valid
   // and within time window.
   sensitiveGetReview({queryDatabase}) {
@@ -78,16 +97,17 @@ module.exports = {
       // Are the token and hid valid and within the time window?
       getReviewTokenRow({queryDatabase, token, hid}, function(err, result){
         if (err) {
-          console.log({ error: err });
-          return response.status(500);
+          console.log('sensitiveGetReview: error on getReviewTokenRow', JSON.stringify(err));
+          response.status(500);
+          response.json({ status: 'error' });
+          return;
         }
 
         // 403 back
-        const {reviewTokenRow} = result;
-        if (!reviewTokenRow) {
+        if (!result || !result.reviewTokenRow) {
           console.log('getReview: unauthorized', JSON.stringify({token, hid}));
           response.status(403);
-          response.json({ status: 'unauthorized', token, hid });
+          response.json({ status: 'unauthorized' });
           return;
         }
         
@@ -96,13 +116,15 @@ module.exports = {
         const locationUrl = `${domain}/teachermoments/tuesday`;
 
         // Return results
-        const emailAddress = reviewTokenRow.email_address;
+        const emailAddress = result.reviewTokenRow.email_address;
         const getParams = {queryDatabase, emailAddress, locationUrl};
         console.log('getReview: sending data...', JSON.stringify(getParams));
         getResponseRows(getParams, (err, result) => {
           if (err) {
             console.log('getReview: error', JSON.stringify(err));
-            return response.status(500);
+            response.status(500);
+            reponse.json({ status: 'error' });
+            return;
           }
 
           const {rows} = result;
@@ -125,7 +147,9 @@ module.exports = {
       getReviewTokenRow({queryDatabase, token, hid}, function(err, result){
         if (err) {
           console.log('getAudio: error', JSON.stringify(err));
-          return response.status(500);
+          response.status(500);
+          response.json({ status: 'error' });
+          return;
         }
 
         // 403 back
@@ -133,7 +157,7 @@ module.exports = {
         if (!reviewTokenRow) {
           console.log('getAudio: unauthorized', JSON.stringify({token, hid}));
           response.status(403);
-          response.json({ status: 'unauthorized', token, hid });
+          response.json({ status: 'unauthorized' });
           return;
         }
 

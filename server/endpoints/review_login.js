@@ -7,7 +7,7 @@ const path = require('path');
 const qs = require('querystring');
 const request = require('superagent');
 const crypto = require('crypto');
-
+const {isSensitiveReviewingEnabled} = require('./review.js');
 
 function createDatabaseTimestamp() {
   return Math.floor(new Date().getTime() / 1000);
@@ -114,6 +114,14 @@ module.exports = {
       const accessCode = request.body.access_code;
       const emailAddress = request.body.email_address;
 
+      // Check global kill switch
+      if (!isSensitiveReviewingEnabled()) {
+        console.log('createReview: not isSensitiveReviewingEnabled');
+        response.status(403);
+        response.json({ error: 'unauthorized' });
+        return;
+      }
+
       // Do reviewKey and accessCode match?
       const values = [reviewKey, accessCode];
       queryDatabase('SELECT * FROM reviews WHERE review_key=$1 and access_code=$2 ORDER BY id ASC LIMIT 1', values, function(err, result){
@@ -123,13 +131,12 @@ module.exports = {
         }
 
         // 403 back
-        // TODO(kr) log access attempt in db
         const {rows} = result;
         const reviewRow = rows[0];
         if (!reviewRow) {
           console.log('createReview: unauthorized', JSON.stringify({reviewKey, accessCode, emailAddress}, null, 2));
           response.status(403);
-          response.json({ status: 'unauthorized', reviewKey, accessCode, emailAddress });
+          response.json({ error: 'unauthorized' });
           return;
         }
 
