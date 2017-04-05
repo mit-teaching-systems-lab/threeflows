@@ -1,5 +1,13 @@
 const pg = require('pg');
 
+// This script can be used to grab a snapshot of the database and
+// print it in a JSON format that can be used for offline analysis.
+// Note that not all data is stored in the database (eg., audio files
+// are in S3).
+//
+// Example usage:
+//   NODE_ENV=development node scripts/clone.js > ~/analysis/2017-04-05.json
+
 
 // query via connection pool
 function queryDatabase(text, values, cb) {
