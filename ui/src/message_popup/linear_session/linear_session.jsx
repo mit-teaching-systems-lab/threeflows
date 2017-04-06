@@ -14,13 +14,9 @@ export default React.createClass({
   propTypes: {
     questions: React.PropTypes.array.isRequired,
     questionEl: React.PropTypes.func.isRequired,
-    getNextQuestion: React.PropTypes.func,
     summaryEl: React.PropTypes.func.isRequired,
-    onLogMessage: React.PropTypes.func.isRequired
-  },
-
-  getDefaultProps() {
-    return {getNextQuestion: this.getNextQuestion};
+    onLogMessage: React.PropTypes.func.isRequired,
+    getNextQuestion: React.PropTypes.func
   },
 
   getInitialState() {
@@ -29,7 +25,7 @@ export default React.createClass({
     };
   },
 
-  getNextQuestion(questions, responses) {
+  defaultGetNextQuestion(questions, responses) {
     if (responses.length >= questions.length) {
       return null;
     }
@@ -70,7 +66,9 @@ export default React.createClass({
     const {questions} = this.props;
     const {responses} = this.state;
 
-    const question = this.props.getNextQuestion && this.props.getNextQuestion(questions, responses);
+    const question = (this.props.getNextQuestion)
+      ? this.props.getNextQuestion(questions, responses)
+      : this.defaultGetNextQuestion(questions, responses);
 
     if (!question) {
       return this.props.summaryEl(questions, responses);
