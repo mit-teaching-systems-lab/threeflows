@@ -57,7 +57,6 @@ function questionAuthoringAuth(req, res, next) {
   return sendUnauthorized(res);
 };
 
-
 // api routes
 // helper for db connection pooling
 function queryDatabase(text, values, cb) {
@@ -71,6 +70,7 @@ function queryDatabase(text, values, cb) {
     });
   });
 };
+
 
 // This endpoint that receives all evidence.
 // The payload is determined by the type, but for now it only

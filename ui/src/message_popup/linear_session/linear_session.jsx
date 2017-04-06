@@ -5,8 +5,8 @@ import 'velocity-animate/velocity.ui';
 
 
 // Manages the flow through a list of questions.
-// Starts with `introEl`, then moves through showing `questionEl` for each
-// question and collecting a response and logging it, then showing
+// Moves through showing `questionEl` for each question and 
+// collecting a response and logging it, then showing
 // `summaryEl` when done.
 export default React.createClass({
   displayName: 'LinearSession',
@@ -14,14 +14,26 @@ export default React.createClass({
   propTypes: {
     questions: React.PropTypes.array.isRequired,
     questionEl: React.PropTypes.func.isRequired,
+    getNextQuestion: React.PropTypes.func,
     summaryEl: React.PropTypes.func.isRequired,
     onLogMessage: React.PropTypes.func.isRequired
+  },
+
+  getDefaultProps() {
+    return {getNextQuestion: this.getNextQuestion};
   },
 
   getInitialState() {
     return {
       responses: []
     };
+  },
+
+  getNextQuestion(questions, responses) {
+    if (responses.length >= questions.length) {
+      return null;
+    }
+    return questions[responses.length];
   },
 
   onResetSession() {
@@ -57,9 +69,13 @@ export default React.createClass({
   renderContent() {
     const {questions} = this.props;
     const {responses} = this.state;
-    if (responses.length >= questions.length) return this.props.summaryEl(questions, responses);
 
-    const question = questions[responses.length];
+    const question = this.props.getNextQuestion && this.props.getNextQuestion(questions, responses);
+
+    if (!question) {
+      return this.props.summaryEl(questions, responses);
+    }
+
     return (
       <div key={question.id}>
         {this.props.questionEl(question, this.onLogMessageWithQuestion.bind(this, question), this.onResponseSubmitted.bind(this, question))}
