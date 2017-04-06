@@ -21,6 +21,41 @@ describe('<LinearSession />', ()=>{
     expect(wrapper.find(VelocityTransitionGroup)).to.have.length(1);
   });
 
+  it('respects getNextQuestion prop and passes that through to questionEl', ()=>{
+    const props = {
+      questions: InsubordinationScenarios.questionsFor(0),
+      questionEl: sinon.spy(),
+      summaryEl: sinon.spy(),
+      getNextQuestion: (questions, responses) => {
+        return 'foo';
+      },
+      onLogMessage: sinon.spy()
+    };
+    const wrapper = shallow(<LinearSession {...props} />);
+    expect(wrapper.find(VelocityTransitionGroup)).to.have.length(1);
+
+    expect(props.questionEl.getCalls().length).to.equal(1);
+    const renderCall = props.questionEl.getCall(0);
+    expect(renderCall.args.length).to.equal(3);
+    expect(renderCall.args[0]).to.equal('foo');
+  });
+
+  it('provides default getNextQuestion', ()=>{
+    const props = {
+      questions: ['bar', 'baz'],
+      questionEl: sinon.spy(),
+      summaryEl: sinon.spy(),
+      onLogMessage: sinon.spy()
+    };
+    const wrapper = shallow(<LinearSession {...props} />);
+    expect(wrapper.find(VelocityTransitionGroup)).to.have.length(1);
+
+    expect(props.questionEl.getCalls().length).to.equal(1);
+    const renderCall = props.questionEl.getCall(0);
+    expect(renderCall.args.length).to.equal(3);
+    expect(renderCall.args[0]).to.equal('bar');
+  });
+
   it('takes responses, logs them and updates state', ()=>{
     const props = {
       questions: InsubordinationScenarios.questionsFor(0),
