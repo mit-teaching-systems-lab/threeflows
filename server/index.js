@@ -57,19 +57,20 @@ function questionAuthoringAuth(req, res, next) {
   return sendUnauthorized(res);
 };
 
-
 // api routes
 // helper for db connection pooling
 function queryDatabase(text, values, cb) {
-  var addSSL = process.env.NODE_ENV === 'development' ? '' : '?ssl=true';
-  pg.connect(process.env.DATABASE_URL + addSSL, function(err, client, done) {
-    console.log(err)
+  const connectionUrl = (process.env.NODE_ENV === 'development')
+    ? process.env.DATABASE_URL
+    : process.env.DATABASE_URL +'?ssl=true';
+  pg.connect(connectionUrl, function(err, client, done) {
     client.query(text, values, function(err, result) {
       done();
       cb(err, result);
     });
   });
 };
+
 
 // This endpoint that receives all evidence.
 // The payload is determined by the type, but for now it only
