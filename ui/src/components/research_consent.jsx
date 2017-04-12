@@ -53,8 +53,9 @@ export default React.createClass({
       <div className="explain-consent" style={styles.container}>
         <div style={styles.instructions}>
           <b>Consent for research</b>
-          <p>Educators and researchers in the <a target="_blank" href="http://tsl.mit.edu/">MIT Teaching Systems Lab</a> would like to use your responses here to improve this experience and learn how to better prepare teachers.</p>
+          <p>Educators and researchers in the <a target="_blank" href="http://tsl.mit.edu/">MIT Teaching Systems Lab</a> would like to include your responses in research about improving this experience and learning how to better prepare teachers for the classroom.</p>
           <p>All data you enter is protected by <a target="_blank" href={Routes.readMoreAboutConsent()}>MIT's IRB review procedures</a>.  None of your personal information will be shared.</p>
+          <p>More details are available in the consent form itself.</p>
         </div>
         <div style={styles.buttonRow}>
           <RaisedButton
