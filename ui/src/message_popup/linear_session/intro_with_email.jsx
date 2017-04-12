@@ -43,31 +43,33 @@ export default React.createClass({
   render() {
     return (
       <VelocityTransitionGroup enter={{animation: "callout.pulse", duration: 500}} leave={{animation: "slideUp"}} runOnMount={true}>
-        <div style={styles.instructions}>
-          {this.props.children}
-        </div>
-        <Divider />
-        <div style={{...styles.instructions, padding: 20}}>
-          <div>All data you enter is protected by <a target="_blank" href={Routes.readMoreAboutConsent()}>MIT's IRB review procedures</a>.  No personal information will be shared, and your responses can only be used for research if you consent afterward.</div>
-          <form onSubmit={this.onSubmit}>
-            <TextField
-              name="email"
-              style={{width: '100%'}}
-              underlineShow={false}
-              floatingLabelText="What's your email address?"
-              value={this.state.email}
-              onChange={this.onTextChanged}
-              rows={2} />
-            <div style={styles.buttonRow}>
-              <RaisedButton
-                disabled={this.state.email === ''}
-                onTouchTap={this.onDone}
-                type="submit"
-                style={styles.button}
-                secondary={true}
-                label="Start" />
-            </div>    
-          </form>
+        <div>
+          <div style={styles.instructions}>
+            {this.props.children}
+          </div>
+          <Divider />
+          <div style={{...styles.instructions, padding: 20}}>
+            <div>All data you enter is protected by <a target="_blank" href={Routes.readMoreAboutConsent()}>MIT's IRB review procedures</a>.  No personal information will be shared, and your responses can only be used for research if you consent afterward.</div>
+            <form onSubmit={this.onSubmit}>
+              <TextField
+                name="email"
+                style={{width: '100%'}}
+                underlineShow={false}
+                floatingLabelText="What's your email address?"
+                value={this.state.email}
+                onChange={this.onTextChanged}
+                rows={2} />
+              <div style={styles.buttonRow}>
+                <RaisedButton
+                  disabled={this.state.email === ''}
+                  onTouchTap={this.onDone}
+                  type="submit"
+                  style={styles.button}
+                  secondary={true}
+                  label="Start" />
+              </div>    
+            </form>
+          </div>
         </div>
       </VelocityTransitionGroup>
     );
