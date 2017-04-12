@@ -13,7 +13,7 @@ import ChoiceForBehaviorResponse from '../renderers/choice_for_behavior_response
 import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
 import type {QuestionT} from './pairs_scenario.jsx';
 import {PairsScenario} from './pairs_scenario.jsx';
-
+import ResearchConsent from '../../components/research_consent.jsx';
 
 
 type ResponseT = {
@@ -106,7 +106,7 @@ export default React.createClass({
     return <LinearSession
       questions={questions}
       questionEl={this.renderQuestionEl}
-      summaryEl={this.renderSummaryEl}
+      summaryEl={this.renderClosingEl}
       onLogMessage={this.onLogMessage}
     />;
   },
@@ -153,14 +153,8 @@ export default React.createClass({
     );
   },
 
-  renderSummaryEl(questions:[QuestionT], responses:[ResponseT]) {
-    const {isForMeredith} = this.props;
-
-    return (
-      <div style={{padding: 20}}>
-        <div>Thanks!</div>
-        {!isForMeredith && <div style={{paddingTop: 20}}>You can close the computer and head on back to the group.</div>}
-      </div>
-    );
+  renderClosingEl(questions:[QuestionT], responses:[ResponseT]) {
+    const {email} = this.state;
+    return <ResearchConsent email={email} onLogMessage={this.onLogMessage} />;
   }
 });
