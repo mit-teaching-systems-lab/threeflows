@@ -54,6 +54,10 @@ export function messagePopupUploadWavPath() {
   return '/teachermoments/wav';
 }
 
+export function readMoreAboutConsent() {
+  return 'https://couhes.mit.edu/';
+}
+
 
 /* Services */
 type EvidencePathT = {app:string, type:string, version:number};
