@@ -30,16 +30,16 @@ export default React.createClass({
           {this.renderScenarioItem(<a href="/teachermoments/sub">Computer science substitute</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/csfair">Computer science projects</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/danson">Parent meeting</a>)}
-          {this.renderScenarioItem(<a href="/teachermoments/discipline">Middle school classroom management</a>)}
+        </List>
+        <h3 style={styles.header}>Earlier prototypes</h3>
+        <List>
           {this.renderScenarioItem(<a href="/teachermoments/original">Choose your skill</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/darius">Darius</a>)}
-        </List>
-        <h3 style={styles.header}>Early prototypes</h3>
-        <List>
+          {this.renderScenarioItem(<a href="/teachermoments/discipline">Middle school classroom management</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/mentoring">Mentoring session</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/alpha">Mini: Tired in class</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/mindset">Mini: New student</a>)}
-          {this.renderScenarioItem(<a href="/teachermoments/twine">Twine: Greeting students</a>)}
+          {this.renderScenarioItem(<a href="/teachermoments/twine">Twine integration: Greeting students</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/demo">Technical demo</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/chat">Chat-based interface</a>)}
         </List>
