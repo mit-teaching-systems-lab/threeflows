@@ -31,8 +31,10 @@ export default React.createClass({
   displayName: 'PairsExperiencePage',
 
   propTypes: {
-    query: React.PropTypes.object.isRequired,
-    isForMeredith: React.PropTypes.bool,
+    query: React.PropTypes.shape({
+      p: React.PropTypes.string
+    }).isRequired,
+    isForMeredith: React.PropTypes.bool
   },
 
   contextTypes: {
@@ -63,9 +65,12 @@ export default React.createClass({
   onStart(email) {
     const {cohortKey} = this.state;
     const {isForMeredith} = this.props;
-    const questions = (isForMeredith)
+    const allQuestions = (isForMeredith)
       ? PairsScenario.meredithQuestionsFor(cohortKey)
       : PairsScenario.questionsFor(cohortKey);
+
+    const startQuestionIndex = this.props.query.p || 0; // for testing or demoing
+    const questions = allQuestions.slice(startQuestionIndex);
     const questionsHash = hash(JSON.stringify(questions));
     this.setState({
       email,
