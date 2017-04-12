@@ -20,5 +20,6 @@ describe('<ResearchConsent />', ()=>{
     const props = createProps();
     const wrapper = shallow(<ResearchConsent {...props} />);
     expect(wrapper.find('.explain-consent').length).to.equal(1);
+    expect(wrapper.find(RaisedButton).length).to.equal(2);
   });
 });
