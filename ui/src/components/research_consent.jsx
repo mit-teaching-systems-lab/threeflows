@@ -50,23 +50,21 @@ export default React.createClass({
 
   renderAsk() {
     return (
-      <div style={styles.container}>
+      <div className="explain-consent" style={styles.container}>
         <div style={styles.instructions}>
           <b>Consent for research</b>
           <p>Educators and researchers in the <a target="_blank" href="http://tsl.mit.edu/">MIT Teaching Systems Lab</a> would like to use your responses here to improve this experience and learn how to better prepare teachers.</p>
           <p>All data you enter is protected by <a target="_blank" href={Routes.readMoreAboutConsent()}>MIT's IRB review procedures</a>.  None of your personal information will be shared.</p>
         </div>
-        <form onSubmit={this.onSubmit}>
-          <div style={styles.buttonRow}>
-            <RaisedButton
-              onTouchTap={this.onContinue}
-              secondary={true}
-              label="Show consent form" />
-            <RaisedButton
-              onTouchTap={this.onDecline}
-              label="Decline" />
-          </div>    
-        </form>
+        <div style={styles.buttonRow}>
+          <RaisedButton
+            onTouchTap={this.onContinue}
+            secondary={true}
+            label="Show consent form" />
+          <RaisedButton
+            onTouchTap={this.onDecline}
+            label="Decline" />
+        </div>
       </div>
     );
   },
