@@ -47,7 +47,7 @@ export default React.createClass({
           {this.props.children}
         </div>
         <Divider />
-        <div style={{padding: 20}}>
+        <div style={{...styles.instructions, padding: 20}}>
           <div>All data you enter is protected by <a target="_blank" href={Routes.readMoreAboutConsent()}>MIT's IRB review procedures</a>.  No personal information will be shared, and your responses can only be used for research if you consent afterward.</div>
           <form onSubmit={this.onSubmit}>
             <TextField
