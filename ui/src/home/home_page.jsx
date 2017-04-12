@@ -11,6 +11,7 @@ export default React.createClass({
   displayName: 'HomePage',
 
   onTryItTapped(e) {
+    e.preventDefault();
     Routes.navigate('/demos');
   },
 
