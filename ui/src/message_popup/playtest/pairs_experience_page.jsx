@@ -32,6 +32,7 @@ export default React.createClass({
 
   propTypes: {
     query: React.PropTypes.shape({
+      cohort: React.PropTypes.string,
       p: React.PropTypes.string
     }).isRequired,
     isForMeredith: React.PropTypes.bool
