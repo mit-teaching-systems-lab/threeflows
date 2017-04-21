@@ -68,7 +68,14 @@ export default React.createClass({
 
   onScenarioDone() {
     this.setState({recording: true});
-    this.onLogMessage('finished_playing_scenario');
+    
+    Api.logEvidence('finished_playing_scenario', {
+      name: this.state.gameSession.email,
+      email: this.state.gameSession.email,
+      sessionId: this.state.gameSession.sessionId,
+      clientTimestampMs: new Date().getTime(),
+      cohortKey: this.props.cohortKey
+    });
   },
 
   onRecordingDone(onResponseSubmitted, response) {
