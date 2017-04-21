@@ -153,21 +153,15 @@ export default React.createClass({
   },
 
   renderResponseEl(onLog, onResponseSubmitted) {
-    if (this.state.recording) {
-      return (
-        <VelocityTransitionGroup enter={{animation: "slideDown"}} runOnMount={true}>
-          <MinimalOpenResponse
-            responsePrompt=""
-            recordText="Respond"
-            onLogMessage={onLog}
-            forceResponse={true}
-            onResponseSubmitted={this.onRecordingDone.bind(this, onResponseSubmitted)}
-          />
-        </VelocityTransitionGroup>
-        );
-    } else {
-      return null;
-    }
+    return (
+      <MinimalOpenResponse
+        responsePrompt=""
+        recordText="Respond"
+        onLogMessage={onLog}
+        forceResponse={true}
+        onResponseSubmitted={this.onRecordingDone.bind(this, onResponseSubmitted)}
+      />
+    );
   },
 
   renderSummaryEl(questions:[QuestionT], responses:[ResponseT]) {
