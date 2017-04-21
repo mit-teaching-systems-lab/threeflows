@@ -68,6 +68,7 @@ export default React.createClass({
 
   onScenarioDone() {
     this.setState({recording: true});
+    this.onLogMessage('finished_playing_scenario');
   },
 
   onRecordingDone(onResponseSubmitted, response) {
