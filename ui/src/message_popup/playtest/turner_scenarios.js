@@ -11,7 +11,7 @@ export type QuestionT = {
 
 
 // Make questions and choices.
-export const VideoAlphaScenarios = {
+export const TurnerScenarios = {
   choices() {
     return [];
   },
@@ -22,17 +22,12 @@ export const VideoAlphaScenarios = {
       {
         youTubeId: 'EvQ1S6-ImRk',
         start: 0,
-        end: 5
+        end: 2
       },
       {
         youTubeId: 'hAwnBNsgDvg',
         start: 0,
-        end: 5
-      },
-      {
-        youTubeId: 'Whxl2tzzt_0',
-        start: 0,
-        end: 5
+        end: 2
       }
     ];
   },
