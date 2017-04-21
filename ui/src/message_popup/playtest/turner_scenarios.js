@@ -20,34 +20,22 @@ export const TurnerScenarios = {
     // Read scenario
     return [
       {
-        youTubeId: '8iP4KahH5e8',
-        start: 0,
-        end: 7
+        youTubeId: 'DXdWPArayr8'
       },
       {
-        youTubeId: '8iP4KahH5e8',
-        start: 8,
-        end: 21
+        youTubeId: 'EPeEgD3EnAY'
       },
       {
-        youTubeId: '8iP4KahH5e8',
-        start: 21,
-        end: 48
+        youTubeId: 'Nk1a4MUn45I'
       },
       {
-        youTubeId: '8iP4KahH5e8',
-        start: 49,
-        end: 63
+        youTubeId: 'ugUEfqG_AQc'
       },
       {
-        youTubeId: '8iP4KahH5e8',
-        start: 63,
-        end: 68
+        youTubeId: 'z2P6WEojD1s'
       },
       {
-        youTubeId: '8iP4KahH5e8',
-        start: 69,
-        end: 83
+        youTubeId: 'jzEOiaIlxN4'
       }
     ];
   },

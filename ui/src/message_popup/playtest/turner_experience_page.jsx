@@ -153,15 +153,22 @@ export default React.createClass({
   },
 
   renderResponseEl(onLog, onResponseSubmitted) {
-    return (
-      <MinimalOpenResponse
-        responsePrompt=""
-        recordText="Respond"
-        onLogMessage={onLog}
-        forceResponse={true}
-        onResponseSubmitted={this.onRecordingDone.bind(this, onResponseSubmitted)}
-      />
-    );
+    if(this.state.recording) {
+      return (
+        <VelocityTransitionGroup enter={{animation: "slideDown"}} runOnMount={true}>
+          <MinimalOpenResponse
+            responsePrompt="Not Yet Recording"
+            recordText="Respond"
+            onLogMessage={onLog}
+            forceResponse={true}
+            onResponseSubmitted={this.onRecordingDone.bind(this, onResponseSubmitted)}
+          />
+        </VelocityTransitionGroup>
+      );
+    } else {
+      return null;
+    }
+      
   },
 
   renderSummaryEl(questions:[QuestionT], responses:[ResponseT]) {
@@ -185,7 +192,7 @@ export default React.createClass({
                     width: '100%',
                     playerVars: { // https://developers.google.com/youtube/player_parameters
                       autoplay: 0,
-                      controls: 0,
+                      controls: 1,
                       rel: 0,
                       showinfo: 0,
                       start: questions[i].start,
