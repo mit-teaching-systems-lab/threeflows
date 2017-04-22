@@ -113,7 +113,7 @@ module.exports = {
         
         // TODO(kr) generalize this and include this in `review` table
         const domain = getDomain(request);
-        const locationUrl = `${domain}/teachermoments/tuesday`;
+        const locationUrl = `${domain}/teachermoments/sub?group=css`;
 
         // Return results
         const emailAddress = result.reviewTokenRow.email_address;
