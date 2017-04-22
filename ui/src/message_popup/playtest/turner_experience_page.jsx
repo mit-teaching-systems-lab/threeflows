@@ -73,8 +73,7 @@ export default React.createClass({
       name: this.state.gameSession.email,
       email: this.state.gameSession.email,
       sessionId: this.state.gameSession.sessionId,
-      clientTimestampMs: new Date().getTime(),
-      cohortKey: this.props.cohortKey
+      clientTimestampMs: new Date().getTime()
     });
   },
 
