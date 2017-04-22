@@ -29,7 +29,7 @@ export default React.createClass({
   getDefaultProps() {
     return {
       idlePrompt: "Not Recording",
-      idleText: "Record",
+      idleText: "Respond",
       recordingPrompt: "Recording...",
       recordingText: "Done",
       uploadingPrompt: "Saving...",
@@ -39,9 +39,9 @@ export default React.createClass({
 
   getInitialState() {
     return {
-      endedScenario: false,
-      endedRecording: false,
-      endedUpload: false,
+      haveShownScenario: false,
+      haveRecorded: false,
+      haveUploaded: false,
     };
 
   },
@@ -52,17 +52,22 @@ export default React.createClass({
     this.props.onResponseSubmitted({audioUrl, downloadUrl});
   },
 
+  onSkipScenario() {
+    // this.youtubePlayer.internalPlayer.pauseVideo();
+    this.onDoneScenario();
+  },
+
   onDoneScenario() {
-    this.setState({endedScenario: true});
+    this.setState({haveShownScenario: true});
   },
 
   onDoneRecording() {
-    this.setState({endedRecording: true});
+    this.setState({haveRecorded: true});
   },
 
   render() {
     console.log('rendering InstantResponseScenario');
-    if(!this.state.endedScenario) {
+    if(!this.state.haveShownScenario) {
       return (
         <div>
           <div>
@@ -75,11 +80,11 @@ export default React.createClass({
       );
     }
 
-    if(!this.state.endedRecording) {
+    if(!this.state.haveRecorded) {
       return (
         <div>
           <div>
-            {this.renderScenario(false)}
+            {this.renderImage()}
           </div>
           <div>
             {this.renderRecorder(true)}
@@ -88,11 +93,11 @@ export default React.createClass({
       );
     }
 
-    if(!this.state.endedUpload) {
+    if(!this.state.haveUploaded) {
       return (
         <div>
           <div>
-            {this.renderScenario(false)}
+            {this.renderImage()}
           </div>
           <div>
             {this.renderUploader()}
@@ -118,11 +123,12 @@ export default React.createClass({
   renderScenario(autoplay) {
     // If autoplay is true, start playing the video immediately. Return video
     const question = this.props.question;
-    console.log("showing scenario. autoplay =" + autoplay);
+    console.log("showing scenario");
     return (
       <div>
         <div style={styles.videoContainer}>
           <YouTube
+            ref={(videoPlayer) => { this.youtubePlayer = videoPlayer;}}
             videoId={question.youTubeId}
             onEnd={this.onDoneScenario}
             opts={{
@@ -138,8 +144,18 @@ export default React.createClass({
               }
             }} 
           />
+          <div style={styles.invisible}>
+            { /* Todo (Kes): This is a hack to minimize wait time on first image display */ }
+            {this.renderImage()}
+          </div>
         </div>
       </div>
+    );
+  },
+
+  renderImage() {
+    return (
+      <img style={styles.imageContainer} src="https://www.dropbox.com/s/jfru86qp15tw2q0/turner4b.png?raw=1" alt="Jennifer Turner" />
     );
   },
 
@@ -157,7 +173,7 @@ export default React.createClass({
     return (
       <div style={styles.buttonContainer}>
         <div style={styles.instruction}>{this.props.idlePrompt}</div>
-        <RaisedButton key="record" onTouchTap={this.onDoneRecording} label={this.props.idleText} primary={true}/>
+        <RaisedButton key="record" onTouchTap={this.onSkipScenario} label={this.props.idleText} primary={true}/>
       </div>
     );
   },
@@ -226,5 +242,11 @@ const styles = {
   },
   videoContainer: {
     height: 230
+  },
+  imageContainer: {
+    height: 230
+  },
+  invisible: {
+    display: 'none'
   }
 };

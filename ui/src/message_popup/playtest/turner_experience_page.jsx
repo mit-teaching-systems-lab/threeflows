@@ -92,8 +92,6 @@ export default React.createClass({
   },
 
   render() {
-    console.log("----------");
-    console.log(this.state.recording);
     return (
       <SessionFrame onResetSession={this.onResetSession}>
         {this.renderContent()}
