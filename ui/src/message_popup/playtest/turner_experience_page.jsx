@@ -12,6 +12,7 @@ import {TurnerScenarios} from './turner_scenarios.js';
 import type {QuestionT} from './turner_scenarios.js';
 import YouTube from 'react-youtube';
 import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
+import InstantResponseScenario from '../renderers/instant_response_scenario.jsx';
 
 
 type ResponseT = {
@@ -91,6 +92,8 @@ export default React.createClass({
   },
 
   render() {
+    console.log("----------");
+    console.log(this.state.recording);
     return (
       <SessionFrame onResetSession={this.onResetSession}>
         {this.renderContent()}
@@ -125,15 +128,22 @@ export default React.createClass({
   },
 
   renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
+    // return (
+    //   <div>
+    //     <div>
+    //       {this.renderScenarioEl(question)}
+    //     </div>
+    //     <div>
+    //       {this.renderResponseEl(onLog, onResponseSubmitted)}
+    //     </div>
+    //   </div>
+    // ); 
     return (
-      <div>
-        <div>
-          {this.renderScenarioEl(question)}
-        </div>
-        <div>
-          {this.renderResponseEl(onLog, onResponseSubmitted)}
-        </div>
-      </div>
+      <InstantResponseScenario 
+        onLogMessage={onLog}
+        onResponseSubmitted={this.onRecordingDone.bind(this, onResponseSubmitted)}
+        question={question}
+      />
     ); 
   },
 
