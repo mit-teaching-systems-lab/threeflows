@@ -1,11 +1,9 @@
 /* @flow weak */
 import React from 'react';
 
-import RaisedButton from 'material-ui/RaisedButton';
 import YouTube from 'react-youtube';
 
 import * as Routes from '../../routes.js';
-import type {QuestionT} from '../playtest/turner_scenarios.js';
 import InstantAudioRecorder from './instant_audio_recorder.jsx';
 
 
