@@ -71,7 +71,6 @@ export default React.createClass({
     return (
       <div style={styles.videoContainer}>
         <YouTube
-          ref={(videoPlayer) => { this.youtubePlayer = videoPlayer;}}
           videoId={question.youTubeId}
           onEnd={this.onDoneScenario}
           opts={{
