@@ -17,7 +17,6 @@ export const TurnerScenarios = {
   },
 
   data() {
-    // Read scenario
     return [
       {
         youTubeId: 'DXdWPArayr8'
