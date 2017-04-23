@@ -35,6 +35,7 @@ export default React.createClass({
   },
 
   onDoneScenario() {
+    this.props.onLogMessage('finished_playing_scenario');
     this.setState({haveShownScenario: true});
   },
 
