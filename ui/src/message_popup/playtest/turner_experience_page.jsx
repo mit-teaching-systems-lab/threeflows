@@ -11,7 +11,7 @@ import IntroWithEmail from '../linear_session/intro_with_email.jsx';
 import {TurnerScenarios} from './turner_scenarios.js';
 import type {QuestionT} from './turner_scenarios.js';
 import YouTube from 'react-youtube';
-import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
+import InstantResponseScenario from '../renderers/instant_response_scenario.jsx';
 
 
 type ResponseT = {
@@ -59,18 +59,6 @@ export default React.createClass({
     const {email, sessionId} = this.state;
     Api.logEvidence(type, {
       ...response,
-      sessionId,
-      email,
-      name: email,
-      clientTimestampMs: new Date().getTime(),
-    });
-  },
-
-  onScenarioDone() {
-    this.setState({recording: true});
-
-    const {email, sessionId} = this.state;
-    Api.logEvidence('finished_playing_scenario', {
       sessionId,
       email,
       name: email,
@@ -126,66 +114,21 @@ export default React.createClass({
 
   renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
     return (
-      <div>
-        <div>
-          {this.renderScenarioEl(question)}
-        </div>
-        <div>
-          {this.renderResponseEl(onLog, onResponseSubmitted)}
-        </div>
-      </div>
+      <InstantResponseScenario 
+        onLogMessage={onLog}
+        onResponseSubmitted={this.onRecordingDone.bind(this, onResponseSubmitted)}
+        question={question}
+      />
     ); 
-  },
-
-  renderScenarioEl(question) {
-    return (
-      <div style={styles.videoContainer}>
-        <YouTube
-          videoId={question.youTubeId}
-          onEnd={this.onScenarioDone}
-          opts={{
-            height: '100%',
-            width: '100%',
-            playerVars: { // https://developers.google.com/youtube/player_parameters
-              autoplay: 1,
-              controls: 0,
-              rel: 0,
-              showinfo: 0,
-              start: question.start,
-              end: question.end
-            }
-          }} 
-        />
-      </div>
-    );    
-  },
-
-  renderResponseEl(onLog, onResponseSubmitted) {
-    if(this.state.recording) {
-      return (
-        <VelocityTransitionGroup enter={{animation: "slideDown"}} runOnMount={true}>
-          <MinimalOpenResponse
-            responsePrompt="Not Yet Recording"
-            recordText="Respond"
-            onLogMessage={onLog}
-            forceResponse={true}
-            onResponseSubmitted={this.onRecordingDone.bind(this, onResponseSubmitted)}
-          />
-        </VelocityTransitionGroup>
-      );
-    } else {
-      return null;
-    }
-      
   },
 
   renderSummaryEl(questions:[QuestionT], responses:[ResponseT]) {
     return (
-      <div className="done">
+      <div>
         <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
           <div style={styles.doneTitle}>
             <p style={styles.paragraph}>You've finished the simulation.</p>
-            <p style={styles.paragraph}><strong>Do not close this page</strong>. You will need it for the reflection.</p>
+            <p style={styles.paragraph}><strong>Do not close this page</strong>. You will need it for the next reflection.</p>
             <p style={styles.paragraph}>Please return to the form for the post-simulation reflection.</p>
           </div>
           <p style={styles.summaryTitle}>Summary</p>
@@ -210,7 +153,7 @@ export default React.createClass({
                 />
               </div>
               <p style={styles.responseLabel}>Your Response:</p>
-              <audio key={'response-' + i} controls={true} src={response.audioResponse.downloadUrl} style={{paddingTop: 0, paddingBottom: 20}}/>
+              <audio key={'response-' + i} controls={true} src={response.downloadUrl} style={{paddingTop: 0, paddingBottom: 20}}/>
             </div>
           
           )}
@@ -222,17 +165,11 @@ export default React.createClass({
 });
 
 const styles = {
-  done: {
-    padding: 20,
-  },
   container: {
     fontSize: 20,
     padding: 0,
     margin:0,
     paddingBottom: 45
-  },
-  button: {
-    marginTop: 20
   },
   doneTitle: {
     padding: 20,
