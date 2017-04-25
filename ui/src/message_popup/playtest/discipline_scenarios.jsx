@@ -94,7 +94,7 @@ Our district believes in the use of graduated discipline to ensure severe punish
 
   // Anticipate
   slides.push({ type: 'Anticipate', text:
-  `Before you being, we have three questions about what you anticipate.
+  `Before you begin, we have three questions about what you anticipate.
   `});
 
   slides.push({ type: 'Anticipate', text:
