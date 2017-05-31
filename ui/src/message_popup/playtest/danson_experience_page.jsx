@@ -1,10 +1,6 @@
 /* @flow weak */
-import _ from 'lodash';
 import React from 'react';
 import uuid from 'uuid';
-import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
-
-import Divider from 'material-ui/Divider';
 
 import * as Api from '../../helpers/api.js';
 import LinearSession from '../linear_session/linear_session.jsx';
@@ -13,7 +9,6 @@ import IntroWithEmail from '../linear_session/intro_with_email.jsx';
 import RecordThenClassifyQuestion from '../linear_session/record_then_classify_question.jsx';
 import {DansonScenarios} from './danson_scenarios.js';
 import type {QuestionT} from './danson_scenarios.js';
-import ReadMore from '../renderers/read_more.jsx';
 import PlainTextQuestion from '../renderers/plain_text_question.jsx';
 import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
 import MinimalTextResponse from '../renderers/minimal_text_response.jsx';
@@ -21,12 +16,10 @@ import MixedQuestion from '../renderers/mixed_question.jsx';
 import ChoiceForBehaviorResponse from '../renderers/choice_for_behavior_response.jsx';
 import * as Routes from '../../routes.js';
 
-
 type ResponseT = {
   choice:string,
   question:QuestionT
 };
-
 
 
 // The top-level page, manages logistics around email, questions,
@@ -76,22 +69,6 @@ export default React.createClass({
     // This function removes questions that will not be shown to the user based on the user's prior choices.
     
     const allQuestions = questions.slice();
-
-    // if(responses.length >= 3) {
-    //   const thirdQuestionIndex = 2;
-    //   const allChoices = allQuestions[thirdQuestionIndex].choices;
-    //   const selectedChoice = responses[thirdQuestionIndex].choice;
-    //   if(selectedChoice === allChoices[0] || selectedChoice === allChoices[1]) {
-    //     // Skip the next question if one of the top two choices were selected
-    //     allQuestions.splice(thirdQuestionIndex + 1, 1);
-    //   } else if(selectedChoice === allChoices[2]) {
-    //     // Show the next question but skip the following one if the third choice was selected
-    //     allQuestions.splice(thirdQuestionIndex + 2, 1);
-    //   } else {
-    //     // Skip the next 2 questions if the 4th or 5th choices were selected
-    //     allQuestions.splice(thirdQuestionIndex + 1, 2);
-    //   }
-    // }
 
     if (responses.length >= allQuestions.length) {
       return null;
