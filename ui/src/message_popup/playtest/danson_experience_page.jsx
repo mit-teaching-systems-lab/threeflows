@@ -22,6 +22,12 @@ import ChoiceForBehaviorResponse from '../renderers/choice_for_behavior_response
 import * as Routes from '../../routes.js';
 import ReadMore from '../renderers/read_more.jsx';
 
+export type NextQuestionT = {
+  id:number,
+  question:QuestionT,
+  responses:[ResponseT]
+};
+
 // The top-level page, manages logistics around email, questions,
 // and the display of instructions, questions, and summary.
 export default React.createClass({
@@ -74,7 +80,8 @@ export default React.createClass({
       return null;
     }
     
-    return allQuestions[responses.length];
+    const question = allQuestions[responses.length];
+    return {id: question.id, question:question, responses:responses};
   },
 
   render() {
@@ -112,7 +119,8 @@ export default React.createClass({
     );
   },
 
-  renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
+  renderQuestionEl(nextQuestion:NextQuestionT, onLog, onResponseSubmitted) {
+    const {question, responses} = nextQuestion;
 
     if (question.stage === 'scenario') {
       if (question.choices.length > 0) {
@@ -166,7 +174,7 @@ export default React.createClass({
             onLogMessage={onLog}
             onResponseSubmitted={onResponseSubmitted}
           />
-          {this.renderScenarioResponsesEl(this.state.questions, question.responses)}
+          {this.renderScenarioResponsesEl(this.state.questions, responses)}
         </div>
       );
     }
