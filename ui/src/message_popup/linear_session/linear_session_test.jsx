@@ -37,7 +37,7 @@ describe('<LinearSession />', ()=>{
     expect(props.questionEl.getCalls().length).to.equal(1);
     const renderCall = props.questionEl.getCall(0);
     expect(renderCall.args.length).to.equal(3);
-    expect(renderCall.args[0]).to.deep.equal({'foo': 'bar', 'allResponses': []});
+    expect(renderCall.args[0]).to.deep.equal({'foo': 'bar', 'responses': []});
   });
 
   it('provides default getNextQuestion', ()=>{
@@ -53,7 +53,7 @@ describe('<LinearSession />', ()=>{
     expect(props.questionEl.getCalls().length).to.equal(1);
     const renderCall = props.questionEl.getCall(0);
     expect(renderCall.args.length).to.equal(3);
-    expect(renderCall.args[0]).to.deep.equal({'foo': 'bar', 'allResponses': []});
+    expect(renderCall.args[0]).to.deep.equal({'foo': 'bar', 'responses': []});
   });
 
   it('takes responses, logs them and updates state', ()=>{

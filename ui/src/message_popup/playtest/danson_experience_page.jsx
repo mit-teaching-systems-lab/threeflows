@@ -166,7 +166,7 @@ export default React.createClass({
             onLogMessage={onLog}
             onResponseSubmitted={onResponseSubmitted}
           />
-          {this.renderScenarioResponsesEl(this.state.questions, question.allResponses)}
+          {this.renderScenarioResponsesEl(this.state.questions, question.responses)}
         </div>
       );
     }

@@ -74,7 +74,7 @@ export default React.createClass({
       return this.props.summaryEl(questions, responses);
     }
 
-    question.allResponses = responses;
+    question.responses = responses;
 
     return (
       <div key={question.id}>

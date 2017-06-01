@@ -13,7 +13,7 @@ export type QuestionT = {
   text:string,
   type:string, // A string that gets displayed as the page heading
   stage:string, // one of 'info', 'prereflect', 'scenario', 'postreflect'
-  allResponses:[ResponseT]
+  responses:[ResponseT]
 };
 
 // Make questions and choices
@@ -147,7 +147,7 @@ Despite Brian's difficult history, he is always upbeat and many people gain pers
         text: slide.text,
         type: slide.type,
         stage: slide.stage,
-        allResponses: []
+        responses: []
       };
       return question;
     }, this);
