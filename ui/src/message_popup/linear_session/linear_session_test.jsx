@@ -27,7 +27,7 @@ describe('<LinearSession />', ()=>{
       questionEl: sinon.spy(),
       summaryEl: sinon.spy(),
       getNextQuestion: (questions, responses) => {
-        return 'foo';
+        return {'foo': 'bar'};
       },
       onLogMessage: sinon.spy()
     };
@@ -37,12 +37,12 @@ describe('<LinearSession />', ()=>{
     expect(props.questionEl.getCalls().length).to.equal(1);
     const renderCall = props.questionEl.getCall(0);
     expect(renderCall.args.length).to.equal(3);
-    expect(renderCall.args[0]).to.equal('foo');
+    expect(renderCall.args[0]).to.deep.equal({'foo': 'bar', 'allResponses': []});
   });
 
   it('provides default getNextQuestion', ()=>{
     const props = {
-      questions: ['bar', 'baz'],
+      questions: [{'foo': 'bar'}, {'foo': 'baz'}],
       questionEl: sinon.spy(),
       summaryEl: sinon.spy(),
       onLogMessage: sinon.spy()
@@ -53,7 +53,7 @@ describe('<LinearSession />', ()=>{
     expect(props.questionEl.getCalls().length).to.equal(1);
     const renderCall = props.questionEl.getCall(0);
     expect(renderCall.args.length).to.equal(3);
-    expect(renderCall.args[0]).to.equal('bar');
+    expect(renderCall.args[0]).to.deep.equal({'foo': 'bar', 'allResponses': []});
   });
 
   it('takes responses, logs them and updates state', ()=>{
