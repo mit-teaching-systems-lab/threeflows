@@ -74,6 +74,8 @@ export default React.createClass({
       return this.props.summaryEl(questions, responses);
     }
 
+    question.allResponses = responses;
+
     return (
       <div key={question.id}>
         {this.props.questionEl(question, this.onLogMessageWithQuestion.bind(this, question), this.onResponseSubmitted.bind(this, question))}

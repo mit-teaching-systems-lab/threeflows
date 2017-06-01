@@ -1,6 +1,10 @@
 /* @flow weak */
+import _ from 'lodash';
 import React from 'react';
 import uuid from 'uuid';
+import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
+
+import Divider from 'material-ui/Divider';
 
 import * as Api from '../../helpers/api.js';
 import LinearSession from '../linear_session/linear_session.jsx';
@@ -15,6 +19,7 @@ import MinimalTextResponse from '../renderers/minimal_text_response.jsx';
 import MixedQuestion from '../renderers/mixed_question.jsx';
 import ChoiceForBehaviorResponse from '../renderers/choice_for_behavior_response.jsx';
 import * as Routes from '../../routes.js';
+import ReadMore from '../renderers/read_more.jsx';
 
 type ResponseT = {
   choice:string,
@@ -113,6 +118,7 @@ export default React.createClass({
   },
 
   renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
+
     if (question.stage === 'scenario') {
       if (question.choices.length > 0) {
         return <RecordThenClassifyQuestion
@@ -165,6 +171,7 @@ export default React.createClass({
             onLogMessage={onLog}
             onResponseSubmitted={onResponseSubmitted}
           />
+          {this.renderScenarioResponsesEl(this.state.questions, question.allResponses)}
         </div>
       );
     }
@@ -183,13 +190,36 @@ export default React.createClass({
 
   },
 
-  renderSummaryEl(questions:[QuestionT], responses:[ResponseT]) {
+  renderScenarioResponsesEl(questions:[QuestionT], responses:[ResponseT]) {
     let firstScenarioIndex = 0;
     for(; firstScenarioIndex < questions.length; firstScenarioIndex++) {
       if(questions[firstScenarioIndex].stage === 'scenario') {
         break;
       }
     }
+
+    return (
+      <div className="done">
+        <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
+          <p style={styles.summaryTitle}>Simulation Summary</p>
+          <Divider />
+
+          {questions.filter((question, i) => {
+            return question.stage === 'scenario';
+          }).map((question, i) => 
+            <div key={"question-" + (i + firstScenarioIndex)} style ={_.merge(styles.instructions, styles.summaryQuestion)}>
+              <ReadMore fulltext={questions[i + firstScenarioIndex].text}/>
+              <audio key={'response-' + (i + firstScenarioIndex)} controls={true} src={responses[i + firstScenarioIndex].audioResponse.downloadUrl} style={{paddingTop: 10, paddingBottom: 20}}/>
+              <Divider />
+            </div>
+          )}
+          <div style={styles.container} />
+        </VelocityTransitionGroup>
+      </div> 
+    );
+  },
+
+  renderSummaryEl(questions:[QuestionT], responses:[ResponseT]) {
     return (
       
       <div className="done">
