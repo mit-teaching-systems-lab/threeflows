@@ -186,11 +186,18 @@ export default React.createClass({
   },
 
   renderScenarioResponsesEl(questions:[QuestionT], responses:[ResponseT]) {
-    let firstScenarioIndex = 0;
-    for(; firstScenarioIndex < questions.length; firstScenarioIndex++) {
-      if(questions[firstScenarioIndex].stage === 'scenario') {
-        break;
+    const responsesEl = [];
+    for(let i = 0; i < questions.length; i++) {
+      if(questions[i].stage !== 'scenario') {
+        continue;
       }
+      responsesEl.push(
+        <div key={"question-" + i} style ={_.merge(styles.instructions, styles.summaryQuestion)}>
+          <ReadMore fulltext={questions[i].text}/>
+          <audio key={'response-' + i} controls={true} src={responses[i].audioResponse.downloadUrl} style={{paddingTop: 10, paddingBottom: 20}}/>
+          <Divider />
+        </div>
+      );
     }
 
     return (
@@ -198,16 +205,7 @@ export default React.createClass({
         <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
           <p style={styles.summaryTitle}>Simulation Summary</p>
           <Divider />
-
-          {questions.filter((question, i) => {
-            return question.stage === 'scenario';
-          }).map((question, i) => 
-            <div key={"question-" + (i + firstScenarioIndex)} style ={_.merge(styles.instructions, styles.summaryQuestion)}>
-              <ReadMore fulltext={questions[i + firstScenarioIndex].text}/>
-              <audio key={'response-' + (i + firstScenarioIndex)} controls={true} src={responses[i + firstScenarioIndex].audioResponse.downloadUrl} style={{paddingTop: 10, paddingBottom: 20}}/>
-              <Divider />
-            </div>
-          )}
+          {responsesEl}
           <div style={styles.container} />
         </VelocityTransitionGroup>
       </div> 

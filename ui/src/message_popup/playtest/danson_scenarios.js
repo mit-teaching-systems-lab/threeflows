@@ -3,7 +3,8 @@ import hash from '../../helpers/hash.js';
 
 export type ResponseT = {
   choice:string,
-  question:QuestionT
+  question:QuestionT,
+  audioResponse:{downloadUrl:string}
 };
 
 export type QuestionT = {
