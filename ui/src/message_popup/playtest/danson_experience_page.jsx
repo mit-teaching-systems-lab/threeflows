@@ -22,7 +22,7 @@ import ChoiceForBehaviorResponse from '../renderers/choice_for_behavior_response
 import * as Routes from '../../routes.js';
 import ReadMore from '../renderers/read_more.jsx';
 
-export type NextQuestionT = {
+type NextQuestionT = {
   id:number,
   question:QuestionT,
   responses:[ResponseT]
