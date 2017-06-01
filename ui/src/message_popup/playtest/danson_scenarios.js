@@ -12,8 +12,7 @@ export type QuestionT = {
   choices:[string],
   text:string,
   type:string, // A string that gets displayed as the page heading
-  stage:string, // one of 'info', 'prereflect', 'scenario', 'postreflect'
-  responses:[ResponseT]
+  stage:string // one of 'info', 'prereflect', 'scenario', 'postreflect'
 };
 
 // Make questions and choices
@@ -135,7 +134,6 @@ Despite Brian's difficult history, he is always upbeat and many people gain pers
     });
 
     return slides;
-
   },
 
   // Return questions
@@ -146,8 +144,7 @@ Despite Brian's difficult history, he is always upbeat and many people gain pers
         choices: [],
         text: slide.text,
         type: slide.type,
-        stage: slide.stage,
-        responses: []
+        stage: slide.stage
       };
       return question;
     }, this);
