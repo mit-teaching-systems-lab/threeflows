@@ -13,6 +13,7 @@ import IntroWithEmail from '../linear_session/intro_with_email.jsx';
 import RecordThenClassifyQuestion from '../linear_session/record_then_classify_question.jsx';
 import {DansonScenarios} from './danson_scenarios.js';
 import type {QuestionT} from './danson_scenarios.js';
+import type {ResponseT} from './danson_scenarios.js';
 import PlainTextQuestion from '../renderers/plain_text_question.jsx';
 import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
 import MinimalTextResponse from '../renderers/minimal_text_response.jsx';
@@ -20,12 +21,6 @@ import MixedQuestion from '../renderers/mixed_question.jsx';
 import ChoiceForBehaviorResponse from '../renderers/choice_for_behavior_response.jsx';
 import * as Routes from '../../routes.js';
 import ReadMore from '../renderers/read_more.jsx';
-
-type ResponseT = {
-  choice:string,
-  question:QuestionT
-};
-
 
 // The top-level page, manages logistics around email, questions,
 // and the display of instructions, questions, and summary.

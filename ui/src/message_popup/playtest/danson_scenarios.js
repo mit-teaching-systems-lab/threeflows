@@ -1,13 +1,18 @@
 /* @flow weak */
 import hash from '../../helpers/hash.js';
 
+export type ResponseT = {
+  choice:string,
+  question:QuestionT
+};
 
 export type QuestionT = {
   id:number,
   choices:[string],
   text:string,
   type:string, // A string that gets displayed as the page heading
-  stage:string // one of 'info', 'prereflect', 'scenario', 'postreflect'
+  stage:string, // one of 'info', 'prereflect', 'scenario', 'postreflect'
+  allResponses:[ResponseT]
 };
 
 // Make questions and choices
@@ -140,7 +145,8 @@ Despite Brian's difficult history, he is always upbeat and many people gain pers
         choices: [],
         text: slide.text,
         type: slide.type,
-        stage: slide.stage
+        stage: slide.stage,
+        allResponses: []
       };
       return question;
     }, this);
