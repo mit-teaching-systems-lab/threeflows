@@ -135,7 +135,7 @@ export default React.createClass({
       } else {
         return (
           <div>
-          <PlainTextQuestion question={question} />
+            <PlainTextQuestion question={question} />
             <MinimalOpenResponse
               responsePrompt=""
               recordText="Respond"
