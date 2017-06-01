@@ -30,6 +30,8 @@ export default React.createClass({
     if (this.timeout) window.clearTimeout(this.timeout);
   },
 
+  timeout: null,
+
   onDelayFinished() {
     this.setState({ hasRendered: true });
   },
