@@ -13,18 +13,20 @@ import IntroWithEmail from '../linear_session/intro_with_email.jsx';
 import RecordThenClassifyQuestion from '../linear_session/record_then_classify_question.jsx';
 import {DansonScenarios} from './danson_scenarios.js';
 import type {QuestionT} from './danson_scenarios.js';
-import ReadMore from '../renderers/read_more.jsx';
+import type {ResponseT} from './danson_scenarios.js';
 import PlainTextQuestion from '../renderers/plain_text_question.jsx';
 import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
+import MinimalTextResponse from '../renderers/minimal_text_response.jsx';
+import MixedQuestion from '../renderers/mixed_question.jsx';
+import ChoiceForBehaviorResponse from '../renderers/choice_for_behavior_response.jsx';
+import * as Routes from '../../routes.js';
+import ReadMore from '../renderers/read_more.jsx';
 
-
-
-type ResponseT = {
-  choice:string,
-  question:QuestionT
+type NextQuestionT = {
+  id:number,
+  question:QuestionT,
+  responses:[ResponseT]
 };
-
-
 
 // The top-level page, manages logistics around email, questions,
 // and the display of instructions, questions, and summary.
@@ -74,27 +76,12 @@ export default React.createClass({
     
     const allQuestions = questions.slice();
 
-    if(responses.length >= 3) {
-      const thirdQuestionIndex = 2;
-      const allChoices = allQuestions[thirdQuestionIndex].choices;
-      const selectedChoice = responses[thirdQuestionIndex].choice;
-      if(selectedChoice === allChoices[0] || selectedChoice === allChoices[1]) {
-        // Skip the next question if one of the top two choices were selected
-        allQuestions.splice(thirdQuestionIndex + 1, 1);
-      } else if(selectedChoice === allChoices[2]) {
-        // Show the next question but skip the following one if the third choice was selected
-        allQuestions.splice(thirdQuestionIndex + 2, 1);
-      } else {
-        // Skip the next 2 questions if the 4th or 5th choices were selected
-        allQuestions.splice(thirdQuestionIndex + 1, 2);
-      }
-    }
-
     if (responses.length >= allQuestions.length) {
       return null;
     }
     
-    return allQuestions[responses.length];
+    const question = allQuestions[responses.length];
+    return {id: question.id, question:question, responses:responses};
   },
 
   render() {
@@ -122,64 +109,131 @@ export default React.createClass({
     return (
       <IntroWithEmail defaultEmail={this.state.email} onDone={this.onStart}>
         <div>
-            <p>Welcome!</p>
-            <p>You will go through a set of scenarios that simulate the conversation between you and Mrs. Danson.</p>
-            <p>You need to provide an audio response to each prompt. Please respond as quickly as possible (like you would do in a real conversation).</p>
-            <p>This may feel uncomfortable at first, but it's better to feel uncomfortable here than with a real parent.</p>
+          <p>Welcome!</p>
+          <p>You will go through a couple of activities that are designed to make you better prepared for a potentially difficult parent-teacher conference you might experience as a new teacher.</p>
+          <p>You need to use a computer/laptop that has a mic because you will need to do audio recordings.</p>
+          <p>This simulation is based on work that has been done by Professor Benjamin Dotger at Syracuse University as documented in his book: "I Had No Idea" Clinical Simulations for Teacher Development.</p>
+          <p>This activity would take about 30minutes.</p>
         </div>
       </IntroWithEmail>
     );
   },
 
-  renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
+  renderQuestionEl(nextQuestion:NextQuestionT, onLog, onResponseSubmitted) {
+    const {question, responses} = nextQuestion;
 
-    if (question.choices.length > 0) {
-      return <RecordThenClassifyQuestion
-        key={question.id}
-        question={question}
-        choices={question.choices}
-        onLogMessage={onLog}
-        onResponseSubmitted={onResponseSubmitted}
-        forceResponse={true}
-      />;
-    } else {
-      return (
-        <div>
-        <PlainTextQuestion question={question} />
-          <MinimalOpenResponse
-            responsePrompt=""
-            recordText="Respond"
-            onLogMessage={onLog}
-            forceResponse={true}
-            onResponseSubmitted={onResponseSubmitted}
-          /> 
-        </div>
-      ); 
+    if (question.stage === 'scenario') {
+      if (question.choices.length > 0) {
+        return <RecordThenClassifyQuestion
+          key={question.id}
+          question={question}
+          choices={question.choices}
+          onLogMessage={onLog}
+          onResponseSubmitted={onResponseSubmitted}
+          forceResponse={true}
+        />;
+      } else {
+        return (
+          <div>
+            <PlainTextQuestion question={question} />
+            <MinimalOpenResponse
+              responsePrompt=""
+              recordText="Respond"
+              onLogMessage={onLog}
+              forceResponse={true}
+              onResponseSubmitted={onResponseSubmitted}
+            /> 
+          </div>
+        ); 
+      }
     }
+
+    if (question.stage === 'prereflect') {
+      return (
+        <div key={JSON.stringify(question)}>
+          <MixedQuestion question={question} />
+          <MinimalTextResponse
+            forceResponse={true}
+            responsePrompt="Your Answer"
+            recordText="NEXT"
+            onLogMessage={onLog}
+            onResponseSubmitted={onResponseSubmitted}
+          />
+        </div>
+      );
+    }
+
+    if (question.stage === 'postreflect') {
+      return (
+        <div key={JSON.stringify(question)}>
+          <MixedQuestion question={question} />
+          <MinimalTextResponse
+            forceResponse={true}
+            responsePrompt="Your Answer"
+            recordText="NEXT"
+            onLogMessage={onLog}
+            onResponseSubmitted={onResponseSubmitted}
+          />
+          {this.renderScenarioResponsesEl(this.state.questions, responses)}
+        </div>
+      );
+    }
+
+    // info
+    return (
+      <div key={JSON.stringify(question)}>
+        <MixedQuestion question={question} />
+        <ChoiceForBehaviorResponse
+          choices={['NEXT']}
+          onLogMessage={onLog}
+          onResponseSubmitted={onResponseSubmitted}
+        />
+      </div>
+    );
+
+  },
+
+  renderScenarioResponsesEl(questions:[QuestionT], responses:[ResponseT]) {
+    const responsesEl = [];
+    for(let i = 0; i < questions.length; i++) {
+      if(questions[i].stage !== 'scenario') {
+        continue;
+      }
+      responsesEl.push(
+        <div key={"question-" + i} style ={_.merge(styles.instructions, styles.summaryQuestion)}>
+          <ReadMore fulltext={questions[i].text}/>
+          <audio key={'response-' + i} controls={true} src={responses[i].audioResponse.downloadUrl} style={{paddingTop: 10, paddingBottom: 20}}/>
+          <Divider />
+        </div>
+      );
+    }
+
+    return (
+      <div className="done">
+        <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
+          <p style={styles.summaryTitle}>Simulation Summary</p>
+          <Divider />
+          {responsesEl}
+          <div style={styles.container} />
+        </VelocityTransitionGroup>
+      </div> 
+    );
   },
 
   renderSummaryEl(questions:[QuestionT], responses:[ResponseT]) {
     return (
+      
       <div className="done">
-        <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
-          <div style={styles.doneTitle}>
-            <p style={styles.paragraph}>You've finished the simulation.</p>
-            <p style={styles.paragraph}><strong>Do not close this page</strong>. You will need it for the reflection.</p>
-            <p style={styles.paragraph}>Please return to the form for the post-simulation reflection.</p>
-          </div>
-          <p style={styles.summaryTitle}>Summary</p>
-          <Divider />
-
-          {responses.map((response, i) => 
-            <div key={"question-" + i} style ={_.merge(styles.instructions, styles.summaryQuestion)}>
-              <ReadMore fulltext={questions[i].text}/>
-              <audio key={'response-' + i} controls={true} src={response.audioResponse.downloadUrl} style={{paddingTop: 10, paddingBottom: 20}}/>
-              <Divider />
-            </div>
-          
-          )}
-          <div style={styles.container} />
-        </VelocityTransitionGroup>
+        <b style={{
+          display: 'block',
+          padding: '15px 20px 15px',
+          background: '#09407d',
+          color: 'white'
+        }}>Done</b>
+        <div style={styles.doneTitle}>
+          <p style={styles.paragraph}>You have now completed the simulation and personal reflections</p>
+          <p style={styles.paragraph}><a href={Routes.Home}>Back to Home</a></p>
+        </div>
       </div> 
     );
   }
