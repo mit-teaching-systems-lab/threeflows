@@ -95,7 +95,7 @@ export default React.createClass({
 
   renderImage() {
     return (
-      <img style={styles.imageContainer} src="https://www.dropbox.com/s/jfru86qp15tw2q0/turner4b.png?raw=1" alt="Jennifer Turner" />
+      <img style={styles.imageContainer} src="https://tsl-public.s3.amazonaws.com/threeflows/turner4b.png" alt="Jennifer Turner" />
     );
   },
 
