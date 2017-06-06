@@ -154,7 +154,7 @@ export default React.createClass({
             onLogMessage={onLog}
             onResponseSubmitted={onResponseSubmitted}
           />
-          {this.renderScenarioResponsesEl(this.state.questions, responses)}
+          {this.renderScenarioResponsesEl(this.state.questions, responses, onLog)}
         </div>
       );
     }
@@ -191,11 +191,12 @@ export default React.createClass({
     );
   },
 
-  renderScenarioResponsesEl(questions:[QuestionT], responses:[ResponseT]) {
+  renderScenarioResponsesEl(questions:[QuestionT], responses:[ResponseT], onLog) {
     return (
       <VideoSummary
         questions={questions}
         responses={responses}
+        onLogMessage={onLog}
         delayRenderingMs={500} /> 
     );
   }

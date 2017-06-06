@@ -39,6 +39,14 @@ export default React.createClass({
     this.setState({haveShownScenario: true});
   },
 
+  onPauseVideo(question) {
+    this.props.onLogMessage('instant_response_scenario_pause_video', {question});
+  },
+
+  onPlayVideo(question) {
+    this.props.onLogMessage('instant_response_scenario_play_video', {question});
+  },
+
   render() {
     if(!this.state.haveShownScenario) {
       return (
@@ -83,10 +91,12 @@ export default React.createClass({
               start: question.start,
               end: question.end
             }
-          }} 
+          }}
+          onPause={this.onPauseVideo.bind(this, question)}
+          onPlay={this.onPlayVideo.bind(this, question)}
         />
         <div style={styles.invisible}>
-          { /* Todo (Kes): This is a hack to minimize wait time on first image display */ }
+          { /* This is a hack to minimize wait time on first image display */ }
           {this.renderImage()}
         </div>
       </div>
