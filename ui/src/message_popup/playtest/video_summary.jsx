@@ -10,6 +10,7 @@ export default React.createClass({
   propTypes: {
     questions: React.PropTypes.array.isRequired,
     responses: React.PropTypes.array.isRequired,
+    onLogMessage: React.PropTypes.func.isRequired,
     delayRenderingMs: React.PropTypes.number
   },
 
@@ -34,6 +35,14 @@ export default React.createClass({
 
   onDelayFinished() {
     this.setState({ hasRendered: true });
+  },
+
+  onPlayAudio(question, response) {
+    this.props.onLogMessage('video_summary_play_audio', {question, response});
+  },
+
+  onPlayVideo(question) {
+    this.props.onLogMessage('video_summary_play_video', {question});
   },
 
   render() {
@@ -74,11 +83,17 @@ export default React.createClass({
                   start: questions[i].start,
                   end: questions[i].end
                 }
-              }} 
+              }}
+              onPlay={this.onPlayVideo.bind(this, questions[i])}
             />
           </div>
           <p style={styles.responseLabel}>Your Response:</p>
-          <audio key={'response-' + i} controls={true} src={responses[i].downloadUrl} style={{paddingTop: 0, paddingBottom: 20}}/>
+          <audio 
+            key={'response-' + i} 
+            onPlay={this.onPlayAudio.bind(this, questions[i], responses[i])} 
+            controls={true} 
+            src={responses[i].downloadUrl} 
+            style={{paddingTop: 0, paddingBottom: 20}}/>
         </div>
       );
     }

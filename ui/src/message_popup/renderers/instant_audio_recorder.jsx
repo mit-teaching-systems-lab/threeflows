@@ -11,6 +11,11 @@ type State = {
   uploadedUrl: ?string
 };
 
+/*
+This file is very similar to audio_recorder_flow.jsx. The main difference in terms 
+of functionality is that this component begins recording as soon as it gets rendered. 
+The main difference in terms of the code is that this component has fewer states.
+*/
 export default React.createClass({
   displayName: 'InstantAudioRecorder',
 
