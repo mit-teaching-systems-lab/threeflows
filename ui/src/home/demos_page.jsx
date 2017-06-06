@@ -29,7 +29,8 @@ export default React.createClass({
         <List>
           {this.renderScenarioItem(<a href="/teachermoments/sub">Computer science substitute</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/csfair">Computer science projects</a>)}
-          {this.renderScenarioItem(<a href="/teachermoments/danson">Parent meeting</a>)}
+          {this.renderScenarioItem(<a href="/teachermoments/danson">Danson parent meeting, via Dotger 2010</a>)}
+          {this.renderScenarioItem(<a href="/teachermoments/turner">Turner parent meeting, via Dotger 2010</a>)}
         </List>
         <h3 style={styles.header}>Early prototypes</h3>
         <List>
