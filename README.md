@@ -173,3 +173,14 @@ Other Heroku docs:
 [Travis](https://travis-ci.org/mit-teaching-systems-lab/threeflows) is setup for CI.  It will run on pull requests and on commits to master.
 
 On merging to master, Travis will trigger a build.  If that build passes, Heroku will deploy the app on its own.
+
+## Creating a new simulation
+In order to create a new simulation or scenarios, you need to follow these steps:
+
+- **Create Experience Page:** Create an experience page (in `ui/src/message_popup/playtest` folder) to implement and connect the key components of your simulation such as the welcome page, the scenarios, and the summary page. In this experience page, you can use linear_session.jsx to step through all the questions, responses, and reviews that make up your scenarios. You can look at some of the other experience pages to get a better understanding of how this works. For example, danson_experience_page.jsx is for the [Lori Danson simulation](https://threeflows.herokuapp.com/teachermoments/danson) which consists of a background context, reflection questions, text scenarios and audio responses. turner_experience_page.jsx is for the [Jennifer Turner simulation](https://threeflows.herokuapp.com/teachermoments/turner), which has a similar structure as the Lori Danson simulation except that it consists of video scenarios and the audio recording begins immediately the scenario ends instead of requiring the user to click a button. There are other simulations that include a review after each response, multiple choice responses, and likert-scale responses.
+
+- **Create Scenarios:** For many of the current simulations, the actual scenarios are contained in a separate file in the same folder as the experience page. The name of these files typically end in `_scenarios.js`. For example, the scenarios for `turner_experience_page.jsx` are contained in `turner_scenarios.js`. The scenarios get imported in the experience page.
+
+- **Configure URL**: The URL for the simulations are configured in `ui/src/message_popup/index.js`. This is where you configure a URL that points to your experience page. Note that it requires you to configure a URL at the top of the file and then export your experience page at the bottom of the file.
+
+- **Implement Logger and Data store**: If you follow a similar format to what we currently have in other experience pages and reuse existing components, your data will be stored in our current data stores i.e., postgres database for text and log messages, and Amazon S3 for audio recordings.
