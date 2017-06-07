@@ -9,7 +9,7 @@ export default class AudioRecorder {
   bufferSize: number;
   audioContext: ?AudioContext;
   sampleRate: number;
-  recorder: ?Object;
+  processor: ?Object;
   recordingStream: ?Object;
   getUserMedia: ?Object;
 
@@ -40,12 +40,12 @@ export default class AudioRecorder {
     const audioSource = audioContext.createMediaStreamSource(stream);
     audioSource.connect(gain);
 
-    const recorder = audioContext.createScriptProcessor(bufferSize, 2, 2);
-    recorder.onaudioprocess = this._onAudioProcess.bind(this);
-    gain.connect(recorder);
-    recorder.connect(audioContext.destination);
+    const processor = audioContext.createScriptProcessor(bufferSize, 2, 2);
+    processor.onaudioprocess = this._onAudioProcess.bind(this);
+    gain.connect(processor);
+    processor.connect(audioContext.destination);
 
-    this.recorder = recorder;
+    this.processor = processor;
     this.recordingStream = stream;
   }
 
@@ -61,7 +61,14 @@ export default class AudioRecorder {
   }
 
   stop(onBlobReady) {
-    this.recordingStream.getTracks()[0].stop();
+    // Guard for if the various stages of initialization aren't completed yet
+    if (!this.processor) return;
+    if (!this.recordingStream) return;
+    const audioTracks = this.recordingStream.getTracks();
+    if (audioTracks.length === 0) return;
+
+    // Stop actively recording, encode the data and pass it back
+    audioTracks[0].stop();
     const audioData = encodeWAV(this.buffers, this.bufferLength, this.sampleRate);
     onBlobReady(audioData);
   }
@@ -70,6 +77,7 @@ export default class AudioRecorder {
     if (this.recordingStream.stop) this.recordingStream.stop();
     if (this.audioContext.close) this.audioContext.close();
 
+    delete this.processor;
     delete this.buffers;
     delete this.bufferLength;
     delete this.bufferSize;
