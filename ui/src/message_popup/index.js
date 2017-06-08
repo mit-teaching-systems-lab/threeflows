@@ -5,6 +5,7 @@ import TwinePage from './twine/twine_page.jsx';
 import PlaytestExperiencePage from './playtest/playtest_experience_page.jsx';
 import DansonExperiencePage from './playtest/danson_experience_page.jsx';
 import TurnerExperiencePage from './playtest/turner_experience_page.jsx';
+import VideoAlphaExperiencePage from './playtest/video_alpha_experience_page.jsx';
 import InsubordinationPage from './playtest/insubordination_page.jsx';
 import DisciplinePage from './playtest/discipline_page.jsx';
 import MentoringPage from './playtest/mentoring_page.jsx';
@@ -28,6 +29,7 @@ export {
   TwinePage,
   PlaytestExperiencePage,
   DansonExperiencePage,
+  VideoAlphaExperiencePage,
   TurnerExperiencePage,
   InsubordinationPage,
   DisciplinePage,
