@@ -24,10 +24,11 @@ function post(s3) {
     ].join('_');
     console.log(`Received ${request.body.length} bytes of audio.`);
 
+    var key = getAudioKey(request, id);
     var params = {
       Body: request.body,
-      Bucket: 'message-popup',
-      Key: getAudioKey(request, id)
+      Bucket: s3.config.bucket,
+      Key: key
     };    
     const url = getUrl(request, id);
     console.log('Writing to S3...');
@@ -48,7 +49,7 @@ function post(s3) {
 function insecureStreamAudioFileFromS3(params, request, response) {
   const {s3, id} = params;
   var s3Params = {
-    Bucket: 'message-popup',
+    Bucket: s3.config.bucket,
     Key: getAudioKey(request, id)
   };
   console.log('Reading from S3...');
