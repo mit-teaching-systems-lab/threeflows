@@ -53,6 +53,7 @@ export default React.createClass({
     '/teachermoments/darius': 'messagePopupDarius',
     '/teachermoments/chat': 'chatPrototype',
     '/teachermoments/csfair': 'messagePopupCsFair',
+    '/teachermoments/bubblesort': 'messagePopupBubbleSort',
 
     // Specific cohorts
     '/teachermoments/csp': 'messagePopupCSP',
@@ -128,6 +129,10 @@ export default React.createClass({
 
   disciplinePlaytest(query = {}) {
     return <MessagePopup.DisciplinePage query={{}}/>;
+  },
+
+  messagePopupBubbleSort(query = {}) {
+    return <MessagePopup.BubbleSortExperiencePage query={{}}/>;
   },
 
   turk0000(query = {}) {
