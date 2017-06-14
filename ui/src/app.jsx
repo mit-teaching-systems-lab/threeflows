@@ -152,11 +152,11 @@ export default React.createClass({
   },
 
   dansonPlaytest(query = {}) {
-    return <MessagePopup.DansonExperiencePage query={{}}/>;
+    return <MessagePopup.DansonExperiencePage query={query} />;
   },
 
   TurnerPlaytest(query = {}) {
-    return <MessagePopup.TurnerExperiencePage query={{}}/>;
+    return <MessagePopup.TurnerExperiencePage query={query} />;
   },
 
   messagePopupPairs(query = {}) {
