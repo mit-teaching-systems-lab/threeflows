@@ -10,7 +10,6 @@ import IntroWithEmail from '../linear_session/intro_with_email.jsx';
 
 import MixedQuestion from '../renderers/mixed_question.jsx';
 import ChoiceForBehaviorResponse from '../renderers/choice_for_behavior_response.jsx';
-import OpenThenClassifyResponse from '../linear_session/open_then_classify_response.jsx';
 import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
 import type {QuestionT} from './pairs_scenario.jsx';
 import {BubbleSortScenario} from './bubble_sort_scenario.jsx';
