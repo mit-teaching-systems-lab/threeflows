@@ -27,6 +27,12 @@ type NextQuestionT = {
 export default React.createClass({
   displayName: 'TurnerExperiencePage',
 
+  propTypes: {
+    query: React.PropTypes.shape({
+      p: React.PropTypes.string
+    }).isRequired
+  },
+
   contextTypes: {
     auth: React.PropTypes.object.isRequired
   },
@@ -44,7 +50,9 @@ export default React.createClass({
   },
 
   onStart(email) {
-    const questions = TurnerScenarios.questions();
+    const startQuestionIndex = this.props.query.p || 0; // for testing or demoing
+    const allQuestions = TurnerScenarios.questions();
+    const questions = allQuestions.slice(startQuestionIndex);
     this.setState({
       email,
       questions,
