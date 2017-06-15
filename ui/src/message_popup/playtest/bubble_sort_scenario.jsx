@@ -17,11 +17,11 @@ function choicesFor(cohortKey) {
     'Encourage the behavior',
     'Ignore the behavior',
     'Make a facial expression or gesture',
-    'Make a joke about what the student said',
-    'Stop teaching and wait for student to get silent',
+    'Make a joke about it',
+    'Stop teaching and wait',
     'Redirect student to their task',
     'Remind student of the class rules',
-    'Ask the student after the class',
+    'Ask the student to meet after class',
     'Send the student to the principal',
     'Call an administrator to the class'
   ];
@@ -53,21 +53,31 @@ function slidesFor(cohortKey) {
 
 // Context
   slides.push({ type: 'Context', text:
-`You're teaching a high school course called Computer Science Principles, using the code.org curriculum.  Here's the overall course sequence:
+`You're teaching a high school course on Computer Science Principles.  It focuses on topics like:
 
-1. The Internet
-2. Digital Information
-3. > Algorithms and Programming <
-4. Big data and privacy
-5. Building apps
+- The Internet
+- Digital Information
+- Algorithms and Programming
+- Big data and privacy
+- Building apps
 
-You're working on Unit 3 right now.
+You're working on algorithms with students right now.
 `});
 
   slides.push({ type: 'Context', text:
-`Students have finished a group activity for Unit 3 and after some struggle you've now managed to gather their attention to the board to close the lesson.
+`In the lesson today, students are learning about sorting algorithms.
 
-You begin describing the first sorting algorithm, bubble sort, on the whiteboard.
+First, you'll start by giving a description of a sorting algorithm to the whole class and show it on the board.
+
+Then, students break up into groups and act out that sorting algorithm physically.
+
+Next, they come back as a whole class and discuss the efficiency of the algorithm.
+
+Finally, they'll write a paragraph describing how the algorithm works.
+`});
+
+  slides.push({ type: 'Context', text:
+`The first sorting algorithm you'll show them is bubble sort.
 
 As background, bubble sort is an algorithm for sorting items in a list. It's simple to understand and easy to learn and program, but isn't the most efficient or best known solution for sorting. It isn't ever used by programmers with more expert knowledge.
 
@@ -86,6 +96,7 @@ Darryl is one of the students in your class. He comes to the class everyday, but
 "Our district believes in the use of graduated discipline to ensure severe punishments, such as exclusion from the learning environment, are reserved for credible threats to the safety of others. The goal of all discipline responses is to ensure students understand the school's behavior expectations, repair the harm caused by their choice of behavior, and identify how to prevent the problem in the future. When repeated or serious behavior incidents occur, each school's multidisciplinary team will conduct a functional behavior assessment for students to identify needs for academic and behavior support."
 `});
 
+
 // Anticipate
   slides.push({ type: 'Anticipate', text:
 `Before you begin, we have three questions about what you anticipate.
@@ -93,15 +104,11 @@ Darryl is one of the students in your class. He comes to the class everyday, but
 
   slides.push({ type: 'Anticipate', text:
 `After skimming the lesson plan, what do you anticipate might happen during this class?
-`, open: true});
-
-  slides.push({ type: 'Anticipate', text:
-`What's are some best case and worst case scenarios for students during this lesson?
-`, open: true});
+`, force: true, open: true});
 
   slides.push({ type: 'Anticipate', text:
 `What would success for students look like during this period?
-`, open: true});
+`, force: true, open: true});
 
 
 // Try it!
@@ -128,7 +135,7 @@ Ready to start?
 
   slides.push({ type: 'Try it!', text:
 `What's a common teacher response to this situation that would be a bad choice?
-`, open: true});
+`, open: true, force: true});
 
   slides.push({ type: 'Try it!', text:
 `As you are explaining, Darryl shouts from his seat.
@@ -142,7 +149,7 @@ Darryl: "Bubble sort is a terrible algorithm, no one ever uses it!"
 
   slides.push({ type: 'Try it!', text:
 `What's a common teacher response to this situation that would be a bad choice?
-`, open: true});
+`, open: true, force: true});
 
   slides.push({ type: 'Try it!', text:
 `Darryl walks up to another student's seat and starts talking about a videogame.
@@ -156,7 +163,7 @@ Darryl: "Did you checkout the new version of Overwatch? We should play it at my 
 
   slides.push({ type: 'Try it!', text:
 `What's a common teacher response to this situation that would be a bad choice?
-`, open: true});
+`, open: true, force: true});
 
 
 // Reflect
@@ -174,11 +181,11 @@ Also, for now please hold questions or feedback about this activity itself.  We'
 
   slides.push({ type: 'Reflect', text:
 `During the simulation, how did you think about your role as a teacher?
-`, open: true});
+`, force: true, open: true});
 
   slides.push({ type: 'Reflect', text:
 `How well did the scenario line up with your actual experience?
-`, open: true});
+`, force: true, open: true});
 
   slides.push({ type: 'Reflect', el:
     <div>

@@ -135,7 +135,7 @@ export default React.createClass({
         responsePrompt=""
         recordText="Click then speak"
         onLogMessage={onLog}
-        forceResponse={true}
+        forceResponse={question.force || false}
         onResponseSubmitted={onResponseSubmitted}
       />;
     }
