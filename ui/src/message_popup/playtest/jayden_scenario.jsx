@@ -42,11 +42,11 @@ function slidesFor(cohortKey) {
 `});
 
   slides.push({ type: 'Context', text:
-`You're currently in the middle of the semester.
+`You're currently in the fourth week of the semester.
 
-You've noticed one of your students, Jayden, is not participating in class discussion as much as they used to and has taken on passive roles during in-class activities.
+You've noticed one of your students, Jayden, is not participating in class discussion as much as they did at first and has taken on passive roles during in-class activities.
 
-Over the past month, Jayden has submitted homework assignments late and incomplete, causing their overall grade to drop from a B to a low C.
+Jayden has also submitted a few homework assignments late and incomplete, causing their overall grade to drop from a B to a low C.
 
 `});
 
