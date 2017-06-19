@@ -8,9 +8,7 @@ import LinearSession from '../linear_session/linear_session.jsx';
 import SessionFrame from '../linear_session/session_frame.jsx';
 import IntroWithEmail from '../linear_session/intro_with_email.jsx';
 
-import MixedQuestion from '../renderers/mixed_question.jsx';
-import ChoiceForBehaviorResponse from '../renderers/choice_for_behavior_response.jsx';
-import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
+import QuestionInterpreter from '../renderers/question_interpreter.jsx';
 import type {QuestionT} from './pairs_scenario.jsx';
 import {BubbleSortScenario} from './bubble_sort_scenario.jsx';
 import ResearchConsent from '../../components/research_consent.jsx';
@@ -117,44 +115,11 @@ export default React.createClass({
     );
   },
 
-  // Show overview and context, ask for open response for scenario.
   renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
-    return (
-      <div>
-        <MixedQuestion question={question} />
-        {this.renderInteractionEl(question, onLog, onResponseSubmitted)}
-      </div>
-    );
-  },
-
-  renderInteractionEl(question, onLog, onResponseSubmitted) {
-    const key = JSON.stringify(question);
-    if (question.open) {
-      return <MinimalOpenResponse
-        key={key}
-        responsePrompt=""
-        recordText="Click then speak"
-        onLogMessage={onLog}
-        forceResponse={question.force || false}
-        onResponseSubmitted={onResponseSubmitted}
-      />;
-    }
-
-    if (question.choices && question.choices.length > 0) {
-      return <ChoiceForBehaviorResponse
-        key={key}
-        choices={question.choices}
-        onLogMessage={onLog}
-        onResponseSubmitted={onResponseSubmitted}
-      />;
-    }
-
-    return <ChoiceForBehaviorResponse
-      key={key}
-      choices={['OK']}
-      onLogMessage={onLog}
-      onResponseSubmitted={onResponseSubmitted}
-    />;
+    return <QuestionInterpreter
+      question={question}
+      onLog={onLog}
+      onResponseSubmitted={onResponseSubmitted} />;
   },
 
   renderClosingEl(questions:[QuestionT], responses:[ResponseT]) {

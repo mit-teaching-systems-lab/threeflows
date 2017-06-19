@@ -115,12 +115,11 @@ export default React.createClass({
     );
   },
 
-  // Show overview and context, ask for open response for scenario.
   renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
     return <QuestionInterpreter
-        question={question}
-        onLog={onLog}
-        onResponseSubmitted={onResponseSubmitted} />;
+      question={question}
+      onLog={onLog}
+      onResponseSubmitted={onResponseSubmitted} />;
   },
 
   renderClosingEl(questions:[QuestionT], responses:[ResponseT]) {
