@@ -15,6 +15,7 @@ import PairsExperiencePage from './playtest/pairs_experience_page.jsx';
 import DariusExperiencePage from './playtest/darius_experience_page.jsx';
 import CsFairExperiencePage from './playtest/cs_fair_experience_page.jsx';
 import BubbleSortExperiencePage from './playtest/bubble_sort_experience_page.jsx';
+import JaydenExperiencePage from './playtest/jayden_experience_page.jsx';
 
 import QuestionsPage from './author/questions_page.jsx';
 import EditQuestionPage from './author/edit_question_page.jsx';
@@ -35,6 +36,7 @@ export {
   MentoringPage,
   MindsetPage,
   BubbleSortExperiencePage,
+  JaydenExperiencePage,
   InsubordinationExperiment,
   PairsExperiencePage,
   DariusExperiencePage,

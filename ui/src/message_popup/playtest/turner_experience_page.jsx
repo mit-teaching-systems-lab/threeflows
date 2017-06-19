@@ -117,7 +117,7 @@ export default React.createClass({
           <p>You will go through a couple of activities that are designed to make you better prepared for a potentially difficult parent-teacher conference you might experience as a new teacher.</p>
           <p>You need to use a computer/laptop that has a mic because you will need to do audio recordings.</p>
           <p>This simulation is based on work that has been done by Professor Benjamin Dotger at Syracuse University as documented in his book: "I Had No Idea" Clinical Simulations for Teacher Development.</p>
-          <p>This activity would take about 30minutes.</p>
+          <p>This activity would take about 30 minutes.</p>
         </div>
       </IntroWithEmail>
     );

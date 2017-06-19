@@ -10,7 +10,7 @@ import IntroWithEmail from '../linear_session/intro_with_email.jsx';
 
 import QuestionInterpreter from '../renderers/question_interpreter.jsx';
 import type {QuestionT} from './pairs_scenario.jsx';
-import {BubbleSortScenario} from './bubble_sort_scenario.jsx';
+import JaydenScenario from './jayden_scenario.jsx';
 import ResearchConsent from '../../components/research_consent.jsx';
 
 type ResponseT = {
@@ -22,7 +22,7 @@ type ResponseT = {
 
 // This is a scenario around bubble sort and classroom management.
 export default React.createClass({
-  displayName: 'BubbleSortExperiencePage',
+  displayName: 'JaydenExperiencePage',
 
   propTypes: {
     query: React.PropTypes.shape({
@@ -52,7 +52,7 @@ export default React.createClass({
   // Making questions from the cohort
   onStart(email) {
     const {cohortKey} = this.state;
-    const allQuestions = BubbleSortScenario.questionsFor(cohortKey);
+    const allQuestions = JaydenScenario.questionsFor(cohortKey);
 
     const startQuestionIndex = this.props.query.p || 0; // for testing or demoing
     const questions = allQuestions.slice(startQuestionIndex);
@@ -107,8 +107,8 @@ export default React.createClass({
       <IntroWithEmail defaultEmail={this.state.email} onDone={this.onStart}>
         <div>
           <p>Welcome!</p>
-          <p>This is an interactive case study simulating a small part of a high school computer science lesson.</p>
-          <p>You'll review the context of the lesson briefly, share what you anticipate about the lesson, and then try it out!  Afterward you'll reflect before heading back to debrief with the group or share online.</p>
+          <p>This is an interactive case study simulating a conversation with a high school computer science student.</p>
+          <p>You'll review the context on the scenario, share what you anticipate will happen, and then try it out!  Afterward you'll reflect before heading back to debrief with the group or share online.</p>
           <p>Please use <a href="https://www.google.com/chrome/">Chrome</a> on a laptop or desktop computer.</p>
         </div>
       </IntroWithEmail>
