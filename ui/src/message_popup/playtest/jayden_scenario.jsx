@@ -44,11 +44,11 @@ function slidesFor(cohortKey) {
   slides.push({ type: 'Context', text:
 `You’re currently at the end of the first month of the year.
 
-You’ve noticed one of your students, Jayden, is not participating in class discussion as much as he used to and has taken on passive roles during in-class activities.
+You’ve noticed one of your students, Jayden, is not participating in class discussion as much as did at the beginning of the semester and has taken on passive roles during in-class activities.
 `});
 
   slides.push({ type: 'Context', text:
-`In response to Jayden's recent behavior and academic performance, you've decided to engage Jayden'in a one-on-one discussion outside of class to learn more about what's going on.
+`In response to Jayden's recent behavior and academic performance, you've decided to engage Jayden in a one-on-one discussion outside of class to learn more about what's going on.
 `});
 
 
