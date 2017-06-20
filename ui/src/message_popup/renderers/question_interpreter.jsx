@@ -27,14 +27,14 @@ export default React.createClass({
     );
   },
 
-  renderInteractionEl(question, onLog, onResponseSubmitted) {
+  renderInteractionEl(question, onLogMessage, onResponseSubmitted) {
     const key = JSON.stringify(question);
     if (question.open) {
       return <MinimalOpenResponse
         key={key}
         responsePrompt=""
         recordText="Click then speak"
-        onLogMessage={onLog}
+        onLogMessage={onLogMessage}
         forceResponse={question.force || false}
         onResponseSubmitted={onResponseSubmitted}
       />;
@@ -44,7 +44,7 @@ export default React.createClass({
       return <ChoiceForBehaviorResponse
         key={key}
         choices={question.choices}
-        onLogMessage={onLog}
+        onLogMessage={onLogMessage}
         onResponseSubmitted={onResponseSubmitted}
       />;
     }
@@ -52,7 +52,7 @@ export default React.createClass({
     return <ChoiceForBehaviorResponse
       key={key}
       choices={['OK']}
-      onLogMessage={onLog}
+      onLogMessage={onLogMessage}
       onResponseSubmitted={onResponseSubmitted}
     />;
   }
