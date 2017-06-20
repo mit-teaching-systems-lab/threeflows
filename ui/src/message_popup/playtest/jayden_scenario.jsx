@@ -38,20 +38,17 @@ function slidesFor(cohortKey) {
 
 // Context
   slides.push({ type: 'Context', text:
-`In this scenario, you are teaching AP Computer Science Principles in high school.
+`In this scenario, you are teaching AP Computer Science Principles to a class of mostly 11th and 12th graders.
 `});
 
   slides.push({ type: 'Context', text:
-`You're currently in the fourth week of the semester.
+`You’re currently at the end of the first month of the year.
 
-You've noticed one of your students, Jayden, is not participating in class discussion as much as they did at first and has taken on passive roles during in-class activities.
-
-Jayden has also submitted a few homework assignments late and incomplete, causing their overall grade to drop from a B to a low C.
-
+You’ve noticed one of your students, Jayden, is not participating in class discussion as much as did at the beginning of the semester and has taken on passive roles during in-class activities.
 `});
 
   slides.push({ type: 'Context', text:
-`In response to Jayden's recent behavior and academic performance, you've decided to engage Jayden'in a one-on-one discussion outside of class to learn more about what's going on.
+`In response to Jayden's recent behavior and academic performance, you've decided to engage Jayden in a one-on-one discussion outside of class to learn more about what's going on.
 `});
 
 
@@ -61,11 +58,15 @@ Jayden has also submitted a few homework assignments late and incomplete, causin
 `});
 
   slides.push({ type: 'Anticipate', text:
-`What do you anticipate will actually happen during the one-on-one?
+`What are your initial thoughts about what may be going on with Jayden? What’s informing these thoughts?
 `, force: true, open: true});
 
   slides.push({ type: 'Anticipate', text:
-`What would be the first thing you’d say to Jayden?
+`What are your goals for your one-on-one with Jayden?
+`, force: true, open: true});
+
+  slides.push({ type: 'Anticipate', text:
+`What do you anticipate will actually happen during the one-on-one?
 `, force: true, open: true});
 
 
@@ -82,7 +83,7 @@ Ready to start?
 `});
 
   slides.push({ type: 'Try it!', text:
-`Jayden: "So what's up?"
+`Jayden: Why are we meeting? Am I in trouble?"
 `, open: true, force: true});
 
   slides.push({ type: 'Try it!', text:
