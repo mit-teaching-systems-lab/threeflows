@@ -55,6 +55,8 @@ export default React.createClass({
     '/teachermoments/csfair': 'messagePopupCsFair',
     '/teachermoments/bubblesort': 'messagePopupBubbleSort',
     '/teachermoments/jayden': 'jaydenScenario',
+    '/teachermoments/smith': 'smithScenario',
+
 
     // Specific cohorts
     '/teachermoments/csp': 'messagePopupCSP',
@@ -134,6 +136,10 @@ export default React.createClass({
 
   jaydenScenario(query = {}) {
     return <MessagePopup.JaydenExperiencePage query={{}}/>;
+  },
+
+  smithScenario(query = {}) {
+    return <MessagePopup.SmithExperiencePage query={query} />;
   },
 
   messagePopupBubbleSort(query = {}) {
