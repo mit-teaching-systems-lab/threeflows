@@ -11,11 +11,10 @@ import * as Api from '../../helpers/api.js';
 import LinearSession from '../linear_session/linear_session.jsx';
 import SessionFrame from '../linear_session/session_frame.jsx';
 import IntroWithEmail from '../linear_session/intro_with_email.jsx';
-import {SmithScenarios} from './smithTurner_scenarios.jsx';
+import {smithScenarios} from './smithTurner_scenarios.jsx';
 import type {QuestionT} from './smithTurner_scenarios.jsx';
 import type {ResponseT} from './smithTurner_scenarios.jsx';
 import VideoSummary from './video_summary.jsx';
-import InstantResponseScenario from '../renderers/instant_response_scenario.jsx';
 import MinimalTextResponse from '../renderers/minimal_text_response.jsx';
 import MixedQuestion from '../renderers/mixed_question.jsx';
 import ChoiceForBehaviorResponse from '../renderers/choice_for_behavior_response.jsx';
@@ -24,7 +23,6 @@ import * as Routes from '../../routes.js';
 type NextQuestionT = {
   id:number,
   question:QuestionT,
-  responses:[ResponseT]
 };
 
 // The top-level page, manages logistics around email, questions,
@@ -56,7 +54,7 @@ export default React.createClass({
 
   onStart(email) {
     const startQuestionIndex = this.props.query.p || 0; // for testing or demoing
-    const allQuestions = SmithScenarios.questions();
+    const allQuestions = smithScenarios.questions();
     const questions = allQuestions.slice(startQuestionIndex);
     this.setState({
       email,
@@ -78,11 +76,6 @@ export default React.createClass({
       name: email,
       clientTimestampMs: new Date().getTime(),
     });
-  },
-
-  onRecordingDone(onResponseSubmitted, response) {
-    this.setState({recording: false});
-    onResponseSubmitted(response);
   },
 
   onGetNextQuestion(questions:[QuestionT], responses:[ResponseT]) {
@@ -129,7 +122,7 @@ export default React.createClass({
   },
 
   renderQuestionEl(nextQuestion:NextQuestionT, onLog, onResponseSubmitted) {
-    const {question, responses} = nextQuestion;
+    const {question} = nextQuestion;
 
 
     if (question.stage === 'scene') {
@@ -140,7 +133,6 @@ export default React.createClass({
             allowUnsafeHtml={true}
             forceResponse={true}
             responsePrompt="Notes:"
-            recordText="NEXT"
             onLogMessage={onLog}
             onResponseSubmitted={onResponseSubmitted}
           />
