@@ -13,26 +13,33 @@ export default React.createClass({
   displayName: 'AudioResponseSummary',
 
   propTypes: {
-    audioResponses: React.PropTypes.array.isRequired,
+    responses: React.PropTypes.array.isRequired,
+  },
+
+  // Supports text or audio
+  computeSummaryItems() {
+    const {responses} = this.props;
+
+    return _.compact(responses.map((response) => {
+      const questionId = response.question.id;
+      const questionText = response.question.text;
+
+      if (response.audioResponse) {
+        const audioUrl = response.audioResponse.downloadUrl;
+        return {questionId, questionText, audioUrl};
+      }
+
+      if (response.textResponse) {
+        const {responseText} = response.textResponse;
+        return {questionId, questionText, responseText};
+      }
+
+      return null;
+    }));
   },
 
   render() {
-
-    const audioResponses = [];
-    var lastQuestionId = null;  // For detecting questions with more than one response
-    this.props.audioResponses.map((originalAudioResponse) => {
-      var audioResponse = {};
-      var questionId = originalAudioResponse.question.id;
-      if(questionId === lastQuestionId) {
-        var lastObj = audioResponses[audioResponses.length - 1];
-        lastObj.audioUrls.push(originalAudioResponse.blobUrl);
-      } else {
-        lastQuestionId = questionId;
-        audioResponse.audioUrls = [originalAudioResponse.blobUrl];
-        audioResponse.questionText = originalAudioResponse.question.text;
-        audioResponses.push(audioResponse);
-      }
-    });
+    const audioSummaryItems = this.computeSummaryItems();
 
     return (
       <div className="done">
@@ -44,15 +51,17 @@ export default React.createClass({
           </div>
           <p style={styles.summaryTitle}>Summary</p>
           <Divider />
-          {audioResponses.map((audioResponse) =>
-            <div key={audioResponse.questionId} style ={_.merge(styles.instructions, styles.summaryQuestion)}>
-              <ReadMore fulltext={audioResponse.questionText} />
-              {audioResponse.audioUrls.map((audioUrl, i) => 
-                <audio key={audioResponse.questionId + '-response-' + i} controls={true} src={audioUrl} />
-              )}
-              <Divider />
-            </div>
-          )}
+          {audioSummaryItems.map((audioSummaryItem, index) => {
+            const {audioUrl, responseText, questionText} = audioSummaryItem;
+            return (
+              <div key={index} style ={_.merge(styles.instructions, styles.summaryQuestion)}>
+                <ReadMore fulltext={questionText} />
+                {audioUrl && <audio controls={true} src={audioUrl} />}
+                {responseText && <i style={styles.paragraph}>{responseText}</i>}
+                <Divider />
+              </div>
+            );
+          })}
           <div style={styles.container} />
         </VelocityTransitionGroup>
       </div> 
@@ -84,6 +93,7 @@ const styles = {
     paddingRight: 20,
   },
   paragraph: {
+    display: 'block',
     marginTop: 20,
     marginBottom: 20
   },

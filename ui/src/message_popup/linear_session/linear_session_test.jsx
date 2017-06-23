@@ -56,7 +56,7 @@ describe('<LinearSession />', ()=>{
     expect(renderCall.args[0]).to.equal('bar');
   });
 
-  it('takes responses, logs them and updates state', ()=>{
+  it('takes responses, logs them with question merged, and updates state', ()=>{
     const props = {
       questions: InsubordinationScenarios.questionsFor(0),
       questionEl: sinon.spy(),
@@ -64,8 +64,11 @@ describe('<LinearSession />', ()=>{
       onLogMessage: sinon.spy()
     };
     const wrapper = shallow(<LinearSession {...props} />);
-    wrapper.instance().onResponseSubmitted({}, 'black_box_response');
-    expect(wrapper.instance().state.responses).to.deep.equal(['black_box_response']);
+    wrapper.instance().onResponseSubmitted({ q: 'bar' }, { foo: 'black_box_response' });
+    expect(wrapper.instance().state.responses).to.deep.equal([{
+      question: { q: 'bar' },
+      foo: 'black_box_response'
+    }]);
     expect(props.onLogMessage.callCount).to.equal(1);
   });
 });
