@@ -127,14 +127,6 @@ Before heading back to the group, let's shift to reflecting on what happened.
 `Would you do anything differently if a similar situation arose with another student?  Please elaborate.
 `, force: true, open: true});
 
-  slides.push({ type: 'Reflect', el:
-    <div>
-      <div>Finally, pick one moment to talk about during the group discussion.</div>
-      <br />
-      <div>Feel free to take a minute or two to think about that, and then head on back!  If you're working online you can connect with other folks at <a target="_blank" href="https://twitter.com/search?q=%23https://twitter.com/search?q=%23TeacherPracticeSpaces">#TeacherPracticeSpaces</a>.</div>
-    </div>
-  });
-
   return slides;
 }
 

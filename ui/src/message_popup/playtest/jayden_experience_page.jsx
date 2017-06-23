@@ -11,7 +11,7 @@ import IntroWithEmail from '../linear_session/intro_with_email.jsx';
 import QuestionInterpreter from '../renderers/question_interpreter.jsx';
 import type {QuestionT} from './pairs_scenario.jsx';
 import JaydenScenario from './jayden_scenario.jsx';
-import ResearchConsent from '../../components/research_consent.jsx';
+import AudioResponseSummary from '../renderers/audio_response_summary.jsx';
 
 type ResponseT = {
   choice:string,
@@ -123,7 +123,6 @@ export default React.createClass({
   },
 
   renderClosingEl(questions:[QuestionT], responses:[ResponseT]) {
-    const {email} = this.state;
-    return <ResearchConsent email={email} onLogMessage={this.onLogMessage} />;
+    return <AudioResponseSummary responses={responses} />;
   }
 });

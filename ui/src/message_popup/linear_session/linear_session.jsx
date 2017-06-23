@@ -32,20 +32,26 @@ export default React.createClass({
     return questions[responses.length];
   },
 
+  mergedResponse(rawResponse, question) {
+    return {...rawResponse, question};
+  },
+
   onResetSession() {
     this.setState(this.getInitialState());
   },
 
   // Mixes in question to payload
   onLogMessageWithQuestion(question, type, rawResponse) {
-    this.props.onLogMessage(type, {...rawResponse, question});
+    const mergedResponse = this.mergedResponse(rawResponse, question);
+    this.props.onLogMessage(type, mergedResponse);
   },
 
   // Logs and transitions
-  onResponseSubmitted(question, response) {
-    this.onLogMessageWithQuestion(question, 'on_response_submitted', response);
+  onResponseSubmitted(question, rawResponse) {
+    this.onLogMessageWithQuestion(question, 'on_response_submitted', rawResponse);
+    const mergedResponse = this.mergedResponse(rawResponse, question);
     this.setState({
-      responses: this.state.responses.concat(response)
+      responses: this.state.responses.concat(mergedResponse)
     });
   },
 
