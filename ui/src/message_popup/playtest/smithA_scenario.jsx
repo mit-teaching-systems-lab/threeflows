@@ -2,7 +2,7 @@
 import React from 'react';
 
 /*
-This file defines the content for the scenario around bubble sort.
+This file defines the content for the scenario around detecting microaggressions.
 */
 
 export type QuestionT = {
