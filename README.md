@@ -38,6 +38,51 @@ $ node -v
 ```
 And if you need to install it from scratch, follow the instructions for the current version on the [node.js website](https://nodejs.org/en/).
 
+[Install Postgres](https://devcenter.heroku.com/articles/heroku-postgresql#set-up-postgres-on-mac).
+
+Seed the database:
+```
+CREATE TABLE evidence (
+  id serial primary key,
+  app text,
+  type text,
+  version integer,
+  timestamp timestamp,
+  json jsonb
+);
+CREATE TABLE evaluations (
+  id serial primary key,
+  app text,
+  type text,
+  version integer,
+  timestamp timestamp,
+  json jsonb
+);
+
+CREATE TABLE message_popup_questions (
+  id serial primary key,
+  timestamp timestamp,
+  questions jsonb
+);
+
+CREATE TABLE reviews (
+  id serial primary key,
+  timestamp timestamp,
+  review_key text,
+  access_code text
+);
+
+CREATE TABLE review_tokens (
+  id serial primary key,
+  timestamp timestamp,
+  review_id integer,
+  email_address text,
+  hid text,
+  token text
+);
+
+```
+
 For storing audio files, you'll need keys authorized for a development S3 bucket.  Ask someone for these.
 
 In another terminal, install dependencies and then start the server:
@@ -95,49 +140,6 @@ Make sure you have [Node.js](http://nodejs.org/) and the [Heroku Toolbelt](https
 Create the database:
 ```
 $ heroku addons:create heroku-postgresql:hobby-dev
-```
-
-Seed the database:
-```
-CREATE TABLE evidence (
-  id serial primary key,
-  app text,
-  type text,
-  version integer,
-  timestamp timestamp,
-  json jsonb
-);
-CREATE TABLE evaluations (
-  id serial primary key,
-  app text,
-  type text,
-  version integer,
-  timestamp timestamp,
-  json jsonb
-);
-
-CREATE TABLE message_popup_questions (
-  id serial primary key,
-  timestamp timestamp,
-  questions jsonb
-);
-
-CREATE TABLE reviews (
-  id serial primary key,
-  timestamp timestamp,
-  review_key text,
-  access_code text
-);
-
-CREATE TABLE review_tokens (
-  id serial primary key,
-  timestamp timestamp,
-  review_id integer,
-  email_address text,
-  hid text,
-  token text
-);
-
 ```
 
 ### Database backups
