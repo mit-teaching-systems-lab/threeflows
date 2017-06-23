@@ -1,41 +1,22 @@
-/* 
-Scenarios page for the Mr. Smith Microaggression simulation
-Code adapted from the Turner_scenarios.js file
-MIT Teaching Systems Lab
- */
+/* @flow weak */
 import React from 'react';
 
-
-export type ResponseT = {
-  choice:string,
-  question:QuestionT,
-  downloadUrl:string
-};
+/*
+This file defines the content for the scenario around bubble sort.
+*/
 
 export type QuestionT = {
-  id:number,
-  start: number,
-  end: number,
-  type:string, // A string that gets displayed as the page heading
-  stage:string // one of 'info', 'prereflect', 'scenario', 'postreflect'
+  type:string, // Used as a label
+  text:string,
+  open:?bool, // Ask for open-ended user response
+  choices:?bool // Forced-choice response
 };
 
 
-// Make questions and choices.
-export const smithScenarios = {
-  choices() {
-    return [];
-  },
+function slidesFor(cohortKey) {
+  const slides:[QuestionT] = [];
 
-  getSlides() {
-    const slides:[QuestionT] = [];
-
-
-// -----------------------------------------------------
-// OVERVIEW
-// -----------------------------------------------------
-
-    slides.push({type: 'Overview', stage: 'info', el: 
+  slides.push({ type: 'Overview', el:
     <div>
     <div>1. Set Context</div>
     <div>Imagine yourself as a teacher situated in the context of the particular school, classroom and subject.</div>
@@ -54,10 +35,9 @@ export const smithScenarios = {
   </div>
   });
 
-  // -----------------------------------------------------
-  //Context
-  // -----------------------------------------------------
-    slides.push({type: 'Context', stage: 'info', text: 
+
+// Context
+    slides.push({type: 'Context', text: 
       `Imagine you're a teacher at a suburban high school. Your friend and colleague, Mr. Smith, asks you to sit in and observe his CS class for a day.
 
 The class, taught by Mr. Smith, has 6 students. The demographics of the class are as follows:
@@ -65,7 +45,8 @@ The class, taught by Mr. Smith, has 6 students. The demographics of the class ar
       5 Male Students
       1 Female Student
       4 White Students (3 Male, 1 Female)
-      2 African American Students (2 Male)`  });
+      2 African American Students (2 Male)`
+  });
 
 
 
@@ -73,7 +54,7 @@ The class, taught by Mr. Smith, has 6 students. The demographics of the class ar
   // BACKGROUND
   // -----------------------------------------------------
 
-    slides.push({type: 'Background', stage: 'info', text: 
+    slides.push({type: 'Background', text: 
       `Mr. Smith will be teaching a class on encoding and sending formatted text. 
 
 In doing so, his students will be working with the standard internet encoding protocol, ASCII. The class will be using pair programming to complete a project developing their own protocol for sending formatted (i.e bold, italicized, etc.) text. 
@@ -81,7 +62,7 @@ In doing so, his students will be working with the standard internet encoding pr
       `
     });
 
-    slides.push({type: 'Background', stage: 'info', el: 
+    slides.push({type: 'Background', el: 
 <div>
   <div>Useful Knowledge:</div>
   <br />
@@ -93,14 +74,13 @@ In doing so, his students will be working with the standard internet encoding pr
   <br />
   <div>If you don't entirely understand all the details of this lesson, that's just fine!  Accepting that uncertainty and doing your best within it is exactly what we're looking for.</div>
 </div> 
-
     });
 
   // -----------------------------------------------------
   // Try it! 
   // -----------------------------------------------------
 
-    slides.push({type: 'Try it!', stage: 'info', text: 
+    slides.push({type: 'Try it!', text: 
       `When you're ready, you'll progress through a set of scenes which span a single lesson in Mr. Smith’s class. 
 
 For each slide, take notes of what you are observing. Use both the images and text to get a feel for each scene. What did you notice? Was there anything worth mentioning to Mr. Smith? Think of these as personal notes you would jot down while observing the class. Remember, at the end you will be giving feedback to Mr. Smith! 
@@ -108,23 +88,23 @@ For each slide, take notes of what you are observing. Use both the images and te
 Try not to spend too much time on any one slide. There will be plenty of time to reflect at the end! 
 
 Okay! Ready to start?`
-
     });
 
 
-    slides.push({type: 'Try it!', stage: 'scene', el:
+    slides.push({type: 'Try it!', el:
     <div>
       <div>Mr. Smith is addressing the students at the beginning of the class: </div>
       <div> <img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/smith-scenario/MA-SmithIntro.jpg" style={{display: 'block', width: '90%', margin: 20}} /> </div> 
 
       <div>Mr. Smith: "Good morning Everyone! Today we’ll doing some pair programming work around encoding and sending formatted text. Molly and Cody, you’ll be a group. Jamal, you are working with Kevin. Tim with George…” </div>
     
-    </div>
+    </div>,
+    write: true
     });
 
 
 
-    slides.push({type: 'Try it!', stage: 'scene', el:
+    slides.push({type: 'Try it!', el:
   <div>
     <div>Molly and Cody are beginnning to work on the assignment: </div>
     <br />
@@ -135,12 +115,13 @@ Okay! Ready to start?`
     <div>Cody: “Easy. So the Internet Simulator is just going to allow us to test our protocol, allowing us to use ASCII as if we were communicating on the internet. You remember how we did that? To make it simpler, just think of it as texting on the internet.”</div>
     <br />
     <div>Molly: “I know. We used it last class.”</div>
-  </div>
+  </div>,
+  write: true
 });
 
 
 
-    slides.push({type: 'Try it!', stage: 'scene', el:
+    slides.push({type: 'Try it!', el:
   <div>
     <div>Jamal and Kevin sit down to work together:</div>
     <br />
@@ -154,10 +135,12 @@ Okay! Ready to start?`
     <br />
     <div>Kevin: “Yeah, let’s get this binary thing over with.”</div>
   </div>
+  ,
+  write: true
   });
 
 
-    slides.push({type: 'Try it!', stage: 'scene', el:
+    slides.push({type: 'Try it!', el:
 <div> 
   <div>Tim and George are working on the assignment:</div>
   <br />
@@ -170,10 +153,12 @@ Okay! Ready to start?`
 <div>Tim: “I’m not following you at all. How’d you do that?”</div>
 <br />
 <div>George: “Here, watch.”</div>
-</div>
+</div>,
+  write: true
   });
 
-    slides.push({type: 'Try it!', stage: 'scene', el:
+
+    slides.push({type: 'Try it!', el:
   <div>  
     <div>Molly and Cody are working on the assignment:</div>
     <br />
@@ -186,13 +171,13 @@ Okay! Ready to start?`
     <div>Cody: "You haven’t done this before? Why did you decide to take this class?"</div>
     <br />
   <div>Molly: “I dunno. I wanted to try it out.”</div>
-</div>
+</div>,
+  write: true
   });
 
 
 
-
-    slides.push({type: 'Try it!', stage: 'scene', el:
+    slides.push({type: 'Try it!', el:
 <div>   
   <div>Kevin and Jamal are working on the project:</div>
   <br />
@@ -205,10 +190,11 @@ Okay! Ready to start?`
   <div>Jamal: “No not yet. Really want to though.”</div>
   <br />
   <div>Kevin: “You have to. It’s just as good. Next, try sending it in bold.”</div>
-</div>
+</div>,
+  write: true
   });
 
-    slides.push({type: 'Try it!', stage: 'scene', el:
+    slides.push({type: 'Try it!', el:
 <div>   
   <div>Mr. Smith is holding group discussion at the end of class:</div>
   <div><img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/smith-scenario/MA-SmithGroup2.jpg" style={{display: 'block', width: '90%', margin: 20}} /></div>
@@ -222,10 +208,11 @@ Okay! Ready to start?`
   <div>Tim: “It includes both capital and lowercase letters, which is nice.”</div>
   <br />
   <div>Mr. Smith: “That’s great! It is cool isn’t it? Thanks for sharing, Tim.” </div>
-</div>
+</div>,
+  write: true
 });
 
-    slides.push({type: 'Try it!', stage: 'info', text:
+    slides.push({type: 'Try it!', text:
 `
 That's the end of the class! Take a moment to reflect on how you felt the class went overall.
 ` 
@@ -233,16 +220,17 @@ That's the end of the class! Take a moment to reflect on how you felt the class 
 });
     
 
-    slides.push({type: 'Try it!', stage: 'smithResponse', text:
+    slides.push({type: 'Try it!', text:
 `Once the students have left, your friend Mr. Smith comes up to you and asks for your thoughts. What feedback would you give him about what you observed?
- `
+ `,
+  write: true
 
 });
     // ---------------------------------
     // PAUSE 
     // ---------------------------------
 
-    slides.push({type: 'PAUSE!', stage: 'info', text:
+    slides.push({type: 'PAUSE!', text:
   `PAUSE HERE
 
 
@@ -253,7 +241,7 @@ Pause here and return to the group. We will continue with this part of the simul
     // Round TWO
     // ---------------------------------
 
-    slides.push({type: 'Try it! - Lenses', stage: 'info', el:
+    slides.push({type: 'Try it! - Lenses', el:
     <div>
     <div>You will now have the chance to re-observe Mr. Smith's earlier class. For this viewing, Mr. Smith has specifically asked you to focus on student engagement and equity.</div>
     <br />
@@ -266,19 +254,21 @@ Pause here and return to the group. We will continue with this part of the simul
     </div>
     });
 
-    slides.push({type: 'Try it!', stage: 'scene', el:
+
+    slides.push({type: 'Try it!', el:
     <div>
       <div>Mr. Smith is addressing the students at the beginning of the class: </div>
       <div> <img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/smith-scenario/MA-SmithIntro.jpg" style={{display: 'block', width: '90%', margin: 20}} /> </div> 
 
       <div>Mr. Smith: "Good morning Everyone! Today we’ll doing some pair programming work around encoding and sending formatted text. Molly and Cody, you’ll be a group. Jamal, you are working with Kevin. Tim with George…” </div>
     
-    </div>
+    </div>,
+    write: true
     });
 
 
 
-    slides.push({type: 'Try it!', stage: 'scene', el:
+    slides.push({type: 'Try it!', el:
   <div>
     <div>Molly and Cody are beginnning to work on the assignment: </div>
     <br />
@@ -289,12 +279,13 @@ Pause here and return to the group. We will continue with this part of the simul
     <div>Cody: “Easy. So the Internet Simulator is just going to allow us to test our protocol, allowing us to use ASCII as if we were communicating on the internet. You remember how we did that? To make it simpler, just think of it as texting on the internet.”</div>
     <br />
     <div>Molly: “I know. We used it last class.”</div>
-  </div>
+  </div>,
+  write: true
 });
 
 
 
-    slides.push({type: 'Try it!', stage: 'scene', el:
+    slides.push({type: 'Try it!', el:
   <div>
     <div>Jamal and Kevin sit down to work together:</div>
     <br />
@@ -308,10 +299,12 @@ Pause here and return to the group. We will continue with this part of the simul
     <br />
     <div>Kevin: “Yeah, let’s get this binary thing over with.”</div>
   </div>
+  ,
+  write: true
   });
 
 
-    slides.push({type: 'Try it!', stage: 'scene', el:
+    slides.push({type: 'Try it!', el:
 <div> 
   <div>Tim and George are working on the assignment:</div>
   <br />
@@ -324,10 +317,12 @@ Pause here and return to the group. We will continue with this part of the simul
 <div>Tim: “I’m not following you at all. How’d you do that?”</div>
 <br />
 <div>George: “Here, watch.”</div>
-</div>
+</div>,
+  write: true
   });
 
-    slides.push({type: 'Try it!', stage: 'scene', el:
+
+    slides.push({type: 'Try it!', el:
   <div>  
     <div>Molly and Cody are working on the assignment:</div>
     <br />
@@ -340,13 +335,13 @@ Pause here and return to the group. We will continue with this part of the simul
     <div>Cody: "You haven’t done this before? Why did you decide to take this class?"</div>
     <br />
   <div>Molly: “I dunno. I wanted to try it out.”</div>
-</div>
+</div>,
+  write: true
   });
 
 
 
-
-    slides.push({type: 'Try it!', stage: 'scene', el:
+    slides.push({type: 'Try it!', el:
 <div>   
   <div>Kevin and Jamal are working on the project:</div>
   <br />
@@ -359,10 +354,11 @@ Pause here and return to the group. We will continue with this part of the simul
   <div>Jamal: “No not yet. Really want to though.”</div>
   <br />
   <div>Kevin: “You have to. It’s just as good. Next, try sending it in bold.”</div>
-</div>
+</div>,
+  write: true
   });
 
-    slides.push({type: 'Try it!', stage: 'scene', el:
+    slides.push({type: 'Try it!', el:
 <div>   
   <div>Mr. Smith is holding group discussion at the end of class:</div>
   <div><img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/smith-scenario/MA-SmithGroup2.jpg" style={{display: 'block', width: '90%', margin: 20}} /></div>
@@ -376,10 +372,11 @@ Pause here and return to the group. We will continue with this part of the simul
   <div>Tim: “It includes both capital and lowercase letters, which is nice.”</div>
   <br />
   <div>Mr. Smith: “That’s great! It is cool isn’t it? Thanks for sharing, Tim.” </div>
-</div>
+</div>,
+  write: true
 });
 
-    slides.push({type: 'Try it!', stage: 'info', text:
+    slides.push({type: 'Try it!', text:
 `
 That's the end of the class! Take a moment to reflect on how you felt the class went overall.
 ` 
@@ -387,22 +384,18 @@ That's the end of the class! Take a moment to reflect on how you felt the class 
 });
     
 
-    slides.push({type: 'Try it!', stage: 'smithResponse', text:
+    slides.push({type: 'Try it!', text:
 `Once the students have left, your friend Mr. Smith comes up to you and asks for your thoughts. What feedback would you give him about what you observed?
- `
+ `,
+  write: true
 
 });
+  return slides;
+}
 
 
-    return slides;
-
-  },
-
-  // Return questions.
-  questions() {
-    const allQuestions = this.getSlides();
-
-
-    return allQuestions;
+export const smithScenarioA = {
+  questionsFor(cohortKey) {
+    return slidesFor(cohortKey);
   }
 };

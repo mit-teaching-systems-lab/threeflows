@@ -133,6 +133,7 @@ export default React.createClass({
             allowUnsafeHtml={true}
             forceResponse={true}
             responsePrompt="Notes:"
+            recordText="NEXT"
             onLogMessage={onLog}
             onResponseSubmitted={onResponseSubmitted}
           />
