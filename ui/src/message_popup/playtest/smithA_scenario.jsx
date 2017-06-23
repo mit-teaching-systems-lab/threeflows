@@ -31,7 +31,7 @@ function slidesFor(cohortKey) {
     <div>Pause for a brief group discussion before resuming.</div>
     <br />
     <div>5. Lenses</div>
-    <div>Try another set of scenes, this time from a new perspective.</div>
+    <div>Try the scenes again, this time from a new perspective.</div>
   </div>
   });
 
