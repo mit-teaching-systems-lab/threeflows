@@ -41,14 +41,14 @@ export default React.createClass({
     }
 
     if (question.write) {
-        return <MinimalTextResponse
-          forceResponse={true}
-          responsePrompt="Notes:"
-          recordText="Next"
-          onLogMessage={onLogMessage}
-          onResponseSubmitted={onResponseSubmitted}
-        />;
-      }
+      return <MinimalTextResponse
+        forceResponse={true}
+        responsePrompt="Notes:"
+        recordText="Next"
+        onLogMessage={onLogMessage}
+        onResponseSubmitted={onResponseSubmitted}
+      />;
+    }
 
 
     if (question.choices && question.choices.length > 0) {
