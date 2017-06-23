@@ -125,19 +125,19 @@ export default React.createClass({
   },
 
   alphaPlaytest(query = {}) {
-    return <MessagePopup.InsubordinationPage query={{}}/>;
+    return <MessagePopup.InsubordinationPage query={query}/>;
   },
 
   disciplinePlaytest(query = {}) {
-    return <MessagePopup.DisciplinePage query={{}}/>;
+    return <MessagePopup.DisciplinePage query={query} />;
   },
 
   jaydenScenario(query = {}) {
-    return <MessagePopup.JaydenExperiencePage query={{}}/>;
+    return <MessagePopup.JaydenExperiencePage query={query} />;
   },
 
   messagePopupBubbleSort(query = {}) {
-    return <MessagePopup.BubbleSortExperiencePage query={{}}/>;
+    return <MessagePopup.BubbleSortExperiencePage query={query} />;
   },
 
   turk0000(query = {}) {
