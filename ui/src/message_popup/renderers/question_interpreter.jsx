@@ -4,6 +4,7 @@ import React from 'react';
 import MixedQuestion from '../renderers/mixed_question.jsx';
 import ChoiceForBehaviorResponse from '../renderers/choice_for_behavior_response.jsx';
 import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
+import MinimalTextResponse from '../renderers/minimal_text_response.jsx';
 import AudioCapture from '../../components/audio_capture.jsx';
 
 
@@ -43,6 +44,17 @@ export default React.createClass({
         onResponseSubmitted={onResponseSubmitted}
       />;
     }
+
+    if (question.write) {
+      return <MinimalTextResponse
+        forceResponse={true}
+        responsePrompt="Notes:"
+        recordText="Next"
+        onLogMessage={onLogMessage}
+        onResponseSubmitted={onResponseSubmitted}
+      />;
+    }
+
 
     if (question.choices && question.choices.length > 0) {
       return <ChoiceForBehaviorResponse
