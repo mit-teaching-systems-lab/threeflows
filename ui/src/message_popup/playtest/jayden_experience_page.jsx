@@ -123,6 +123,10 @@ export default React.createClass({
   },
 
   renderClosingEl(questions:[QuestionT], responses:[ResponseT]) {
-    return <AudioResponseSummary responses={responses} />;
+    return (
+      <AudioResponseSummary responses={responses}>
+        You've finished the simulation. Congrats! Below, you'll find your responses to the anticipate questions, the scenes with Jayden, and the reflection questions. Take time now to review your responses before returning to group discussion.
+      </AudioResponseSummary>
+    );
   }
 });

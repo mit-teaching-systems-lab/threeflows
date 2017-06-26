@@ -14,6 +14,7 @@ export default React.createClass({
 
   propTypes: {
     responses: React.PropTypes.array.isRequired,
+    children: React.PropTypes.node
   },
 
   // Supports text or audio
@@ -39,15 +40,14 @@ export default React.createClass({
   },
 
   render() {
+    const {children} = this.props;
     const audioSummaryItems = this.computeSummaryItems();
 
     return (
       <div className="done">
         <VelocityTransitionGroup enter={{animation: "slideDown"}} leave={{animation: "slideUp"}} runOnMount={true}>
           <div style={styles.doneTitle}>
-            <p style={styles.paragraph}>You've finished the simulation.</p>
-            <p style={styles.paragraph}><strong>Do not close this page</strong>. You will need it for the reflection.</p>
-            <p style={styles.paragraph}>Please return to the form for the post-simulation reflection.</p>
+            <p style={styles.paragraph}>{children || null}</p>
           </div>
           <p style={styles.summaryTitle}>Summary</p>
           <Divider />
