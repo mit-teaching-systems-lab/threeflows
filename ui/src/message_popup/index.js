@@ -17,6 +17,8 @@ import CsFairExperiencePage from './playtest/cs_fair_experience_page.jsx';
 import BubbleSortExperiencePage from './playtest/bubble_sort_experience_page.jsx';
 import JaydenExperiencePage from './playtest/jayden_experience_page.jsx';
 import SmithExperiencePageA from './playtest/smithA_experience_page.jsx';
+import EcsExperiencePage from './playtest/ecs_experience_page.jsx';
+
 
 import QuestionsPage from './author/questions_page.jsx';
 import EditQuestionPage from './author/edit_question_page.jsx';
@@ -43,6 +45,7 @@ export {
   PairsExperiencePage,
   DariusExperiencePage,
   CsFairExperiencePage,
+  EcsExperiencePage,
   MTurkPage,
   QuestionsPage,
   EditQuestionPage,
