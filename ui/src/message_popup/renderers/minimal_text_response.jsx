@@ -16,7 +16,8 @@ export default React.createClass({
     responsePrompt: React.PropTypes.string,
     recordText: React.PropTypes.string,
     ignoreText: React.PropTypes.string,
-    autoFocus: React.PropTypes.bool
+    autoFocus: React.PropTypes.bool,
+    textHeight: React.PropTypes.number
   },
 
   getDefaultProps() {
@@ -25,7 +26,8 @@ export default React.createClass({
       responsePrompt: 'Speak directly to the student.',
       recordText: 'Respond',
       ignoreText: 'Say nothing',
-      autoFocus: true
+      autoFocus: true,
+      textHeight: 48
     };
   },
 
@@ -52,7 +54,14 @@ export default React.createClass({
   },
 
   render() {
-    const {responsePrompt, forceResponse, recordText, ignoreText, autoFocus} = this.props;
+    const {
+      responsePrompt,
+      forceResponse,
+      recordText,
+      ignoreText,
+      autoFocus,
+      textHeight
+    } = this.props;
     const {responseText} = this.state;
    
     return (
@@ -62,7 +71,7 @@ export default React.createClass({
           <TextField
             id="minimal-text-response-text-field"
             style={styles.textField}
-            textareaStyle={styles.textareaInner}
+            textareaStyle={{...styles.textareaInner, height: textHeight}}
             underlineShow={false}
             multiLine={true}
             rows={2}
@@ -93,7 +102,6 @@ const styles = {
   // and doesn't have its full size yet.
   textareaInner: {
     border: '1px solid #ddd',
-    height: 48,
     marginBottom: 0
   },
   buttonRow: {
