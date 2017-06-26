@@ -1,3 +1,5 @@
+This file is an instruction set for working with git and Github projects generally. Within are instruction on how to go from modified local files to a pushing a branch to origin and making a pull request.
+
 ---------------------------------------
 
   ### Find out what's changed
