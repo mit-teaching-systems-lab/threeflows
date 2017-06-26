@@ -38,7 +38,7 @@ function slidesFor(cohortKey) {
 
 // Context
   slides.push({type: 'Context', text: 
-      `Imagine you're a teacher at a suburban high school. Your friend and colleague, Mr. Smith, asks you to sit in and observe his CS class for a day.
+      `Imagine you're a teacher at a suburban high school. Your friend and experienced colleague, Mr. Smith, asks you to sit in and observe his CS class for a day.
 
 The class, taught by Mr. Smith, has 6 students. The demographics of the class are as follows:
 
@@ -153,6 +153,10 @@ Okay! Ready to start?`
 <div>Tim: “I’m not following you at all. How’d you do that?”</div>
 <br />
 <div>George: “Here, watch.”</div>
+<br />
+<div>Mr. Smith: "George, why don't you try explaining what you're doing to Tim?"</div>
+<br />
+<div>George: "Sure Mr. Smith. Okay Tim, so to modify that part first I..."</div>
 </div>,
   write: true
   });
@@ -317,6 +321,10 @@ Pause here and return to the group. We will continue with this part of the simul
 <div>Tim: “I’m not following you at all. How’d you do that?”</div>
 <br />
 <div>George: “Here, watch.”</div>
+<br />
+<div>Mr. Smith: "George, why don't you try explaining what you're doing to Tim?"</div>
+<br />
+<div>George: "Sure Mr. Smith. Okay Tim, so to modify that part first I..."</div>
 </div>,
   write: true
   });
