@@ -57,6 +57,7 @@ export default React.createClass({
     '/teachermoments/bubblesort': 'messagePopupBubbleSort',
     '/teachermoments/jayden': 'jaydenScenario',
     '/teachermoments/smithA': 'smithScenarioA',
+    '/teachermoments/smithB': 'smithScenarioB',
     '/teachermoments/ecs': 'ecsScenario',
 
 
@@ -143,6 +144,10 @@ export default React.createClass({
 
   smithScenarioA(query = {}) {
     return <MessagePopup.SmithExperiencePageA query={{}}/>;
+  },
+
+  smithScenarioB(query = {}) {
+    return <MessagePopup.SmithExperiencePageB query={{}}/>;
   },
 
 
