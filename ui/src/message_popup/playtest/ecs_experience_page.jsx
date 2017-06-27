@@ -35,7 +35,8 @@ export default React.createClass({
   propTypes: {
     query: React.PropTypes.shape({
       cohort: React.PropTypes.string,
-      p: React.PropTypes.string
+      p: React.PropTypes.string,
+      text: React.PropTypes.string
     }).isRequired,
     isForMeredith: React.PropTypes.bool
   },
@@ -144,8 +145,9 @@ export default React.createClass({
 
   renderInteractionEl(question, onLogMessage, onResponseSubmitted) {
     const key = JSON.stringify(question);
+    const forceText = this.props.query.text || false;
 
-    if (question.ask) {
+    if (question.ask && !forceText) {
       const buttonText = AudioCapture.isAudioSupported()
         ? "Click then speak"
         : "Respond";
@@ -154,6 +156,16 @@ export default React.createClass({
         forceResponse={question.force || false}
         responsePrompt=""
         recordText={buttonText}
+        ignoreText="Move on"
+        onLogMessage={onLogMessage}
+        onResponseSubmitted={onResponseSubmitted}
+        />;
+    } else if (question.ask && forceText) {
+      return <MinimalTextResponse
+        key={key}
+        forceResponse={question.force || false}
+        responsePrompt=""
+        recordText="Respond"
         ignoreText="Move on"
         onLogMessage={onLogMessage}
         onResponseSubmitted={onResponseSubmitted}
