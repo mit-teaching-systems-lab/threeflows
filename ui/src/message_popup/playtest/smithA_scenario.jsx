@@ -156,7 +156,7 @@ Okay! Ready to start?`
 <br />
 <div>Mr. Smith: "George, why don't you try explaining what you're doing to Tim?"</div>
 <br />
-<div>George: "Sure Mr. Smith. Okay Tim, so to modify that part first I..."</div>
+<div>George: "Sure Mr. Smith. Okay Tim, so first we define the protocol we want to use in the simulator using this tool here."</div>
 </div>,
   write: true
   });
@@ -324,7 +324,7 @@ Pause here and return to the group. We will continue with this part of the simul
 <br />
 <div>Mr. Smith: "George, why don't you try explaining what you're doing to Tim?"</div>
 <br />
-<div>George: "Sure Mr. Smith. Okay Tim, so to modify that part first I..."</div>
+<div>George: "Sure Mr. Smith. Okay Tim, so first we define the protocol we want to use in the simulator using this tool here."</div>
 </div>,
   write: true
   });
