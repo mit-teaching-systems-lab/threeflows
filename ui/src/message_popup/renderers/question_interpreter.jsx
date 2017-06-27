@@ -47,6 +47,7 @@ export default React.createClass({
 
     if (question.write) {
       return <MinimalTextResponse
+        key={key}
         forceResponse={true}
         responsePrompt="Notes:"
         recordText="Next"
