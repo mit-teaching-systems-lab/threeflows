@@ -41,11 +41,14 @@ function slidesFor(cohortKey) {
       `Imagine you're a teacher at a suburban high school. Your friend and experienced colleague, Mr. Smith, asks you to sit in and observe his CS class for a day.
 
 The class, taught by Mr. Smith, has 6 students. The demographics of the class are as follows:
-
-      5 Male Students
-      1 Female Student
-      4 White Students (3 Male, 1 Female)
-      2 African American Students (2 Male)`
+  
+  Cody: White Male
+  George: White Male
+  Jamal: African American Male
+  Kevin: African American Male
+  Molly: White Female
+  Tim: White Male
+`
   });
 
 
@@ -156,7 +159,7 @@ Okay! Ready to start?`
 <br />
 <div>Mr. Smith: "George, why don't you try explaining what you're doing to Tim?"</div>
 <br />
-<div>George: "Sure Mr. Smith. Okay Tim, so first we define the protocol we want to use in the simulator using this tool here."</div>
+<div>George: "Sure, Mr. Smith. Okay Tim. First, we define the protocol we want to use in the simulator using this tool here."</div>
 </div>,
   write: true
   });
@@ -260,26 +263,25 @@ Pause here and return to the group. We will continue with this part of the simul
 
 
   slides.push({type: 'Set Context - Lenses', text:
-`The new class being taught by Mr. Smith also has 6 students. The demographics of the class are as follows:
+`The new class being taught by Mr. Smith also has 6 students. The names and demographics of the class are as follows:
 
-  4 Male Students
-  2 Female Students
+  Ashley: White Female
+  Jasmine: African American Female
+  Jimmy: White Male
+  Jose: Hispanic Male
+  Li: Asian American Male
+  Mark: White Male
 
-  3 White Students (2 Male, 1 Female)
-  1 African American Student (Female)
-  1 Asian Student (Male)
-  1 Hispanic/Latino Student (Male)
 ` 
 });
 
   slides.push({type: 'Set Context - Lenses', text:
 `
-Once again use both the images and text to get a feel for each scene. What did you notice?  Anything worth mentioning to Mr. Smith?
+Use both the images and text to get a feel for each scene. What did you notice?  Anything worth mentioning to Mr. Smith?
 
-Try not to spend too much time on any one slide, there will be plenty of time to reflect at the end! 
+Note that these next scenes contain a lot of CS specific language. Don't worry if you do not understand the technical jargon. Try focusing on the interactions and images themselves. 
 
-
-Okay! Go!
+Ready? Okay! Go!
 ` 
 });
 
@@ -308,11 +310,11 @@ Okay! Go!
     <br />
     <div>Ashley: "Well we could..."</div>
     <br />
-    <div>Mark: "I've got it! Here's our solution. We can add a captial letter indicator bit which when added to the end of a letter tells us if it's a capital!"</div>
+    <div>Mark: "I've got it! Here's our solution. We can add a captial letter indicator which when added to the end of a letter tells us if it's a capital!"</div>
     <br />
-    <div>Ashley: "Okay, but then how would you distinquish that bit from the others?"</div>
+    <div>Ashley: "Okay, but then how would you distinguish that indicator from the rest of the binary?"</div>
     <br />
-    <div>Mark: "I see what you're saying, but I don't know how to solve that. I think we should just go with it, and maybe it'll be close enough and Mr. Smith show us how to tell it apart."</div>
+    <div>Mark: "I see what you're saying, but I don't know how to solve that. I think we should just go with it, and maybe it'll be close enough that Mr. Smith will show us how to tell it apart."</div>
   </div>, write: true
   });
 
@@ -322,11 +324,11 @@ Okay! Go!
   <div>
     <div>Jimmy and Lee dicuss the question:</div>
     <div><img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/smith-scenario/SmithB-Partner2.jpg" style={{display: 'block', width: '90%', margin: 20}} /></div>
-    <div>Jimmy: "Well my idea wasn't right. You've gotta be good at this. What do you think Lee?"</div>
+    <div>Jimmy: "Well my idea wasn't right. You've gotta be good at this. What do you think, Lee?"</div>
     <br />
-    <div>Lee: "I don't know about that. As far as the question goes, I'm not sure you were actually wrong. What if capital letters are binary 27-52?"</div>
+    <div>Li: "I don't know about that. As far as the question goes, I'm not sure you were actually wrong. What if capital letters are binary 27-52?"</div>
     <br />
-    <div>Jimmy: "Oh you're right! And we could start the aphabet at ten. That would leave us room for numbers zero to nine which should be all the numbers we need! See, I knew you'd be good at this!"</div>
+    <div>Jimmy: "Oh you're right! And we could start the alphabet at ten. That would leave us room for numbers zero to nine, which should be all the numbers we need! See, I knew you'd be good at this!"</div>
   </div>, write: true
   });
 
@@ -336,9 +338,9 @@ Okay! Go!
   <div>
     <div>Mr. Smith returns the class to discussion:</div>
     <div><img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/smith-scenario/SmithB-Class2.jpg" style={{display: 'block', width: '90%', margin: 20}} /></div>
-    <div>Mr. Smith: "So what did you all come up with in your groups? Lee?"</div>
+    <div>Mr. Smith: "What did you all come up with in your groups? Li?"</div>
     <br />
-    <div>Lee: "Jimmy and I realized that we can use his original idea. We only need numbers zero to nine, which we can map to binary zero to nine. Then, the 26 letters of the alphabet can map to binary 10-35, and the 26 captial letters can map to 36-61."</div>
+    <div>Li: "Jimmy and I realized that we can use his original idea. We only need numbers zero to nine, which we can map to binary zero to nine. Then, the 26 letters of the alphabet can map to binary 10-35, and the 26 captial letters can map to 36-61."</div>
     <br />
     <div>Mr. Smith: "That's a great fix guys!"</div>
   </div>, write: true
@@ -351,7 +353,7 @@ Okay! Go!
   <div>
     <div>Mr. Smith hosts class discussion:</div>
     <div><img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/smith-scenario/SmithB-Class3.jpg" style={{display: 'block', width: '90%', margin: 20}} /></div>
-    <div>Mr. Smith: "Taking the encoding scheme you developed with your partner, how many bits does your encoding scheme require? For example, how many bits would it take your encoding scheme to send the word "soccer"? Jose?</div>
+    <div>Mr. Smith: "Taking the encoding scheme you developed with your partner, how many bits does your encoding scheme require? For example, how many bits would it take your encoding scheme to send the word 'soccer'? Jose?"</div>
     <br />
     <div>Jose: "Oh. I'm not sure."</div>
     <br />
@@ -368,11 +370,11 @@ Okay! Go!
   <div>
     <div>Mr. Smith discusses homework with the class:</div>
     <div><img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/smith-scenario/SmithB-class4focus.jpg" style={{display: 'block', width: '90%', margin: 20}} /></div>
-    <div>Mr. Smith: "We didn't get as far as I would have liked today, so I will be assigning the rest of the in-class assignment as homework. I just want to make sure that everyone has access to all the necessary resources at home to complete the assignment. Jasmine, Jose. Do you have everything you need?"</div>
+    <div>Mr. Smith: "We didn't get as far as I would have liked today, so I will be assigning the rest of the in-class assignment as homework. I just want to make sure that everyone has access to all the necessary resources at home to complete the assignment. Jasmine, Jose - do you have everything you need?"</div>
     <br />
-    <div>Jose: "yeah..."</div>
+    <div>Jose: "Yeah..."</div>
     <br />
-    <div>Jasmine: "Yes Mr. Smith."</div>
+    <div>Jasmine: "Yes, Mr. Smith."</div>
   </div>, write: true
   });
 
