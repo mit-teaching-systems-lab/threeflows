@@ -259,7 +259,7 @@ Pause here and return to the group. We will continue with this part of the simul
     });
 
 
-slides.push({type: 'Set Context - Lenses', text:
+  slides.push({type: 'Set Context - Lenses', text:
 `The new class being taught by Mr. Smith also has 6 students. The demographics of the class are as follows:
 
   4 Male Students
@@ -284,97 +284,97 @@ Okay! Go!
 });
 
 
-slides.push({type: 'Try it! - Lenses', el:
-<div>
-<div>Mr. Smith hosts class discussion:</div>
-<div><img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/smith-scenario/SmithB-class1.jpg" style={{display: 'block', width: '90%', margin: 20}} /></div>
-<div>Mr. Smith: "If it were up to you, how would you go about encoding text to binary?"</div>
-<br />
-<div>Jimmy: "You mean like write letters in binary? Couldn't you just make 'a' equal to '1' and so on?"</div>
-<br />
-<div>Mr. Smith: "That's an interesting idea, but then how would you deal with numbers and capital letters?"</div>
-<br />
-<div>Jimmy: "I'm not sure. Hadn't thought of that."</div>
-<br />
-<div>Mr. Smith: "Why doesn't everyone take a few minutes to dicuss and jot down ideas with your partners?"</div>
-</div>, write: true
-});
+  slides.push({type: 'Try it! - Lenses', el:
+  <div>
+    <div>Mr. Smith hosts class discussion:</div>
+    <div><img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/smith-scenario/SmithB-class1.jpg" style={{display: 'block', width: '90%', margin: 20}} /></div>
+    <div>Mr. Smith: "If it were up to you, how would you go about encoding text to binary?"</div>
+    <br />
+    <div>Jimmy: "You mean like write letters in binary? Couldn't you just make 'a' equal to '1' and so on?"</div>
+    <br />
+    <div>Mr. Smith: "That's an interesting idea, but then how would you deal with numbers and capital letters?"</div>
+    <br />
+    <div>Jimmy: "I'm not sure. Hadn't thought of that."</div>
+    <br />
+    <div>Mr. Smith: "Why doesn't everyone take a few minutes to dicuss and jot down ideas with your partners?"</div>
+  </div>, write: true
+  });
 
-slides.push({type: 'Try it! - Lenses', el:
-<div>
-<div>Ashley and Mark discuss the question:</div>
-<div><img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/smith-scenario/SmithB-Partner1.jpg" style={{display: 'block', width: '90%', margin: 20}} /></div>
-<div>Mark: "Got any ideas?"</div>
-<br />
-<div>Ashley: "Well we could..."</div>
-<br />
-<div>Mark: "I've got it! Here's our solution. We can add a captial letter indicator bit which when added to the end of a letter tells us if it's a capital!"</div>
-<br />
-<div>Ashley: "Okay, but then how would you distinquish that bit from the others?"</div>
-<br />
-<div>Mark: "I see what you're saying, but I don't know how to solve that. I think we should just go with it, and maybe it'll be close enough and Mr. Smith show us how to tell it apart."</div>
-</div>, write: true
-});
-
-
-
-slides.push({type: 'Try it! - Lenses', el:
-<div>
-<div>Jimmy and Lee dicuss the question:</div>
-<div><img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/smith-scenario/SmithB-Partner2.jpg" style={{display: 'block', width: '90%', margin: 20}} /></div>
-<div>Jimmy: "Well my idea wasn't right. You've gotta be good at this. What do you think Lee?"</div>
-<br />
-<div>Lee: "I don't know about that. As far as the question goes, I'm not sure you were actually wrong. What if capital letters are binary 27-52?"</div>
-<br />
-<div>Jimmy: "Oh you're right! And we could start the aphabet at ten. That would leave us room for numbers zero to nine which should be all the numbers we need! See, I knew you'd be good at this!"</div>
-</div>, write: true
-});
+  slides.push({type: 'Try it! - Lenses', el:
+  <div>
+    <div>Ashley and Mark discuss the question:</div>
+    <div><img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/smith-scenario/SmithB-Partner1.jpg" style={{display: 'block', width: '90%', margin: 20}} /></div>
+    <div>Mark: "Got any ideas?"</div>
+    <br />
+    <div>Ashley: "Well we could..."</div>
+    <br />
+    <div>Mark: "I've got it! Here's our solution. We can add a captial letter indicator bit which when added to the end of a letter tells us if it's a capital!"</div>
+    <br />
+    <div>Ashley: "Okay, but then how would you distinquish that bit from the others?"</div>
+    <br />
+    <div>Mark: "I see what you're saying, but I don't know how to solve that. I think we should just go with it, and maybe it'll be close enough and Mr. Smith show us how to tell it apart."</div>
+  </div>, write: true
+  });
 
 
 
-slides.push({type: 'Try it! - Lenses', el:
-<div>
-<div>Mr. Smith returns the class to discussion:</div>
-<div><img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/smith-scenario/SmithB-Class2.jpg" style={{display: 'block', width: '90%', margin: 20}} /></div>
-<div>Mr. Smith: "So what did you all come up with in your groups? Lee?"</div>
-<br />
-<div>Lee: "Jimmy and I realized that we can use his original idea. We only need numbers zero to nine, which we can map to binary zero to nine. Then, the 26 letters of the alphabet can map to binary 10-35, and the 26 captial letters can map to 36-61."</div>
-<br />
-<div>Mr. Smith: "That's a great fix guys!"</div>
-</div>, write: true
-});
+  slides.push({type: 'Try it! - Lenses', el:
+  <div>
+    <div>Jimmy and Lee dicuss the question:</div>
+    <div><img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/smith-scenario/SmithB-Partner2.jpg" style={{display: 'block', width: '90%', margin: 20}} /></div>
+    <div>Jimmy: "Well my idea wasn't right. You've gotta be good at this. What do you think Lee?"</div>
+    <br />
+    <div>Lee: "I don't know about that. As far as the question goes, I'm not sure you were actually wrong. What if capital letters are binary 27-52?"</div>
+    <br />
+    <div>Jimmy: "Oh you're right! And we could start the aphabet at ten. That would leave us room for numbers zero to nine which should be all the numbers we need! See, I knew you'd be good at this!"</div>
+  </div>, write: true
+  });
 
 
 
-
-slides.push({type: 'Try it! - Lenses', el:
-<div>
-<div>Mr. Smith hosts class discussion:</div>
-<div><img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/smith-scenario/SmithB-Class3.jpg" style={{display: 'block', width: '90%', margin: 20}} /></div>
-<div>Mr. Smith: "Taking the encoding scheme you developed with your partner, how many bits does your encoding scheme require? For example, how many bits would it take your encoding scheme to send the word "soccer"? Jose?</div>
-<br />
-<div>Jose: "Oh. I'm not sure."</div>
-<br />
-<div>Mr. Smith: "Come on, try it out!"</div>
-<br />
-<div>Jose: "About 70 I think?"</div>
-</div>, write: true
-});
+  slides.push({type: 'Try it! - Lenses', el:
+  <div>
+    <div>Mr. Smith returns the class to discussion:</div>
+    <div><img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/smith-scenario/SmithB-Class2.jpg" style={{display: 'block', width: '90%', margin: 20}} /></div>
+    <div>Mr. Smith: "So what did you all come up with in your groups? Lee?"</div>
+    <br />
+    <div>Lee: "Jimmy and I realized that we can use his original idea. We only need numbers zero to nine, which we can map to binary zero to nine. Then, the 26 letters of the alphabet can map to binary 10-35, and the 26 captial letters can map to 36-61."</div>
+    <br />
+    <div>Mr. Smith: "That's a great fix guys!"</div>
+  </div>, write: true
+  });
 
 
 
 
-slides.push({type: 'Try it! - Lenses', el:
-<div>
-<div>Mr. Smith discusses homework with the class:</div>
-<div><img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/smith-scenario/SmithB-class4focus.jpg" style={{display: 'block', width: '90%', margin: 20}} /></div>
-<div>Mr. Smith: "We didn't get as far as I would have liked today, so I will be assigning the rest of the in-class assignment as homework. I just want to make sure that everyone has access to all the necessary resources at home to complete the assignment. Jasmine, Jose. Do you have everything you need?"</div>
-<br />
-<div>Jose: "yeah..."</div>
-<br />
-<div>Jasmine: "Yes Mr. Smith."</div>
-</div>, write: true
-});
+  slides.push({type: 'Try it! - Lenses', el:
+  <div>
+    <div>Mr. Smith hosts class discussion:</div>
+    <div><img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/smith-scenario/SmithB-Class3.jpg" style={{display: 'block', width: '90%', margin: 20}} /></div>
+    <div>Mr. Smith: "Taking the encoding scheme you developed with your partner, how many bits does your encoding scheme require? For example, how many bits would it take your encoding scheme to send the word "soccer"? Jose?</div>
+    <br />
+    <div>Jose: "Oh. I'm not sure."</div>
+    <br />
+    <div>Mr. Smith: "Come on, try it out!"</div>
+    <br />
+    <div>Jose: "About 70 I think?"</div>
+  </div>, write: true
+  });
+
+
+
+
+  slides.push({type: 'Try it! - Lenses', el:
+  <div>
+    <div>Mr. Smith discusses homework with the class:</div>
+    <div><img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/smith-scenario/SmithB-class4focus.jpg" style={{display: 'block', width: '90%', margin: 20}} /></div>
+    <div>Mr. Smith: "We didn't get as far as I would have liked today, so I will be assigning the rest of the in-class assignment as homework. I just want to make sure that everyone has access to all the necessary resources at home to complete the assignment. Jasmine, Jose. Do you have everything you need?"</div>
+    <br />
+    <div>Jose: "yeah..."</div>
+    <br />
+    <div>Jasmine: "Yes Mr. Smith."</div>
+  </div>, write: true
+  });
 
 
 
