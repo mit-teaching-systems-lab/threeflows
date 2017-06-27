@@ -17,6 +17,7 @@ import CsFairExperiencePage from './playtest/cs_fair_experience_page.jsx';
 import BubbleSortExperiencePage from './playtest/bubble_sort_experience_page.jsx';
 import JaydenExperiencePage from './playtest/jayden_experience_page.jsx';
 import SmithExperiencePageA from './playtest/smithA_experience_page.jsx';
+import SmithExperiencePageB from './playtest/smithB_experience_page.jsx';
 import EcsExperiencePage from './playtest/ecs_experience_page.jsx';
 
 
@@ -41,6 +42,7 @@ export {
   BubbleSortExperiencePage,
   JaydenExperiencePage,
   SmithExperiencePageA,
+  SmithExperiencePageB,
   InsubordinationExperiment,
   PairsExperiencePage,
   DariusExperiencePage,
