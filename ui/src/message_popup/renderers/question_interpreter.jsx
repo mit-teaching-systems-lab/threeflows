@@ -5,7 +5,9 @@ import MixedQuestion from '../renderers/mixed_question.jsx';
 import ChoiceForBehaviorResponse from '../renderers/choice_for_behavior_response.jsx';
 import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
 import MinimalTextResponse from '../renderers/minimal_text_response.jsx';
+import LongTextResponse from '../renderers/long_text_response.jsx';
 import AudioCapture from '../../components/audio_capture.jsx';
+import MinimalTimedView from '../renderers/minimal_timed_view.jsx';
 
 
 // This renders a question and an interaction.
@@ -50,6 +52,28 @@ export default React.createClass({
         key={key}
         forceResponse={true}
         responsePrompt="Notes:"
+        recordText="Next"
+        onLogMessage={onLogMessage}
+        onResponseSubmitted={onResponseSubmitted}
+      />;
+    }
+
+
+if (question.writeLong) {
+      return <LongTextResponse
+        key={key}
+        forceResponse={true}
+        responsePrompt="Notes:"
+        recordText="Next"
+        onLogMessage={onLogMessage}
+        onResponseSubmitted={onResponseSubmitted}
+      />;
+    }
+
+
+    if (question.timed) {
+      return <MinimalTimedView
+        key={key}
         recordText="Next"
         onLogMessage={onLogMessage}
         onResponseSubmitted={onResponseSubmitted}
