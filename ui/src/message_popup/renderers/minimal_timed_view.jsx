@@ -1,7 +1,5 @@
 /* @flow weak */
 import React from 'react';
-
-import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
 var sceneTimer;
@@ -13,9 +11,7 @@ export default React.createClass({
   propTypes: {
     onLogMessage: React.PropTypes.func.isRequired,
     onResponseSubmitted: React.PropTypes.func.isRequired,
-
-    autoFocus: React.PropTypes.bool,
-    textHeight: React.PropTypes.number
+    recordText: React.PropTypes.string,
   },
 
   getDefaultProps() {
@@ -56,12 +52,8 @@ export default React.createClass({
 
   render() {
     const {
-      recordText,
-      timerLength,
-      autoFocus,
-      textHeight
+      recordText
     } = this.props;
-    const {responseText} = this.state;
    
     return (
       <div className="MinimalTimedView" style={styles.container}>

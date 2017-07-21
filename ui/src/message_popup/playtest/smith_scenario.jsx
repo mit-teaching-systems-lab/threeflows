@@ -197,7 +197,7 @@ What did you notice? Take notes below!
   });
 
 
-    slides.push({type: 'Try it!', text:
+  slides.push({type: 'Try it!', text:
 `
 ` , writeLong: true
 

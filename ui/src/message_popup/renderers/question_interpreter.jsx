@@ -59,7 +59,7 @@ export default React.createClass({
     }
 
 
-if (question.writeLong) {
+    if (question.writeLong) {
       return <LongTextResponse
         key={key}
         forceResponse={true}
