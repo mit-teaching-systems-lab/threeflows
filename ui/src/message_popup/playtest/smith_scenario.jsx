@@ -398,7 +398,7 @@ What did you notice? Take notes below!
     <br />
     <div>Ashley: "Well we could..."</div>
     <br />
-    <div>Mark: "I've got it! Here's our solution. We can add a captial letter indicator which when added to the end of a letter tells us if it's a capital!"</div>
+    <div>Mark: "I've got it! Here's our solution. We can add a capital letter indicator which when added to the end of a letter tells us if it's a capital!"</div>
     <br />
     <div>Ashley: "Okay, but then how would you distinguish that indicator from the rest of the binary?"</div>
     <br />
@@ -419,9 +419,9 @@ What did you notice? Take notes below!
 
   slides.push({type: 'Try it! - Lenses', el:
   <div>
-    <div>Jimmy and Lee dicuss the question:</div>
+    <div>Jimmy and Li dicuss the question:</div>
     <div><img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/smith-scenario/SmithB-Partner2.jpg" style={{display: 'block', width: '90%', margin: 20}} /></div>
-    <div>Jimmy: "Well my idea wasn't right. You've gotta be good at this. What do you think, Lee?"</div>
+    <div>Jimmy: "Well my idea wasn't right. You've gotta be good at this. What do you think, Li?"</div>
     <br />
     <div>Li: "I don't know about that. As far as the question goes, I'm not sure you were actually wrong. What if capital letters are binary 27-52?"</div>
     <br />
@@ -494,7 +494,7 @@ What did you notice? Take notes below!
   <div>
     <div>Mr. Smith discusses homework with the class:</div>
     <div><img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/smith-scenario/SmithB-class4focus.jpg" style={{display: 'block', width: '90%', margin: 20}} /></div>
-    <div>Mr. Smith: "We didn't get as far as I would have liked today, so I will be assigning the rest of the in-class assignment as homework. I just want to make sure that everyone has access to all the necessary resources at home to complete the assignment. Jasmine, Jose - do you have everything you need?"</div>
+    <div>Mr. Smith: "You have all done an amazing job today on this activity. For homework there is an online project I would like you all to begin working on. It will give you an opportunity to take what you've done today and apply it. With that, I just want to make sure that everyone has access to all the necessary resources at home to complete the assignment. Jasmine, Jose - do you have everything you need?"</div>
     <br />
     <div>Jose: "Yeah..."</div>
     <br />
