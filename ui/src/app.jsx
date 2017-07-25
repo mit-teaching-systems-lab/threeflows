@@ -58,7 +58,7 @@ export default React.createClass({
     '/teachermoments/jayden': 'jaydenScenario',
     '/teachermoments/smithA': 'smithScenarioA',
     '/teachermoments/smithB': 'smithScenarioB',
-    '/teachermoments/smith': 'smithScenario',
+    '/teachermoments/smithFacilitated': 'smithScenario',
     '/teachermoments/ecs': 'ecsScenario',
 
 
