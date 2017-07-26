@@ -2,9 +2,7 @@
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 
-var sceneTimer;
-
-// This response supports responding with text.
+// This response supports timed auto advance to next slide
 export default React.createClass({
   displayName: 'MinimalTimedView',
 
@@ -23,29 +21,22 @@ export default React.createClass({
   },
 
 
-  getInitialState() {
-    sceneTimer = setTimeout(this.onTimer, 25000);
-    return {
-      responseText: 'type here!'
-    };
+  componentDidMount() {
+    this.sceneTimer = setTimeout(this.onTimer, 25000);
   },
 
-  onTextChanged(e) {
-    const responseText = e.target.value;
-    this.setState({responseText});
+  componentWillUnmount(){
+    clearTimeout(this.sceneTimer);
   },
 
   onTimer() {
-    const {responseText} = this.state;
-    this.props.onLogMessage('message_popup_text_response', {responseText});
+    this.props.onLogMessage('timer_auto_advance_response');
     this.props.onResponseSubmitted({ignore: true});
   },
 
 
   onSkipTapped() {
-    clearTimeout(sceneTimer);
-    const {responseText} = this.state;
-    this.props.onLogMessage('message_popup_text_response', {responseText});
+    this.props.onLogMessage('timer_auto_advance_response', {skipTapped: true});
     this.props.onResponseSubmitted({ignore: true});
   },
 
@@ -71,18 +62,4 @@ const styles = {
     paddingBottom: 5,
     margin: 20
   },
-  textField: {
-    width: '100%'
-  },
-  // Fixing the height to two rows large, since TextField reflects on the
-  // DOM to size its height, and when animating with Velocity it's still hidden
-  // and doesn't have its full size yet.
-  textareaInner: {
-    border: '1px solid #ddd',
-    marginBottom: 0
-  },
-  buttonRow: {
-    // margin: 20,
-    marginTop: 10
-  }
 };
