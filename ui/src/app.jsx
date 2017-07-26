@@ -56,8 +56,10 @@ export default React.createClass({
     '/teachermoments/csfair': 'messagePopupCsFair',
     '/teachermoments/bubblesort': 'messagePopupBubbleSort',
     '/teachermoments/jayden': 'jaydenScenario',
+    '/teachermoments/rosa': 'rosaScenario',
     '/teachermoments/smithA': 'smithScenarioA',
     '/teachermoments/smithB': 'smithScenarioB',
+    '/teachermoments/smith': 'smithScenario',
     '/teachermoments/ecs': 'ecsScenario',
 
 
@@ -141,6 +143,9 @@ export default React.createClass({
     return <MessagePopup.JaydenExperiencePage query={query} />;
   },
 
+  rosaScenario(query = {}) {
+    return <MessagePopup.RosaExperiencePage query={query} />;
+  },
 
   smithScenarioA(query = {}) {
     return <MessagePopup.SmithExperiencePageA query={{}}/>;
@@ -150,6 +155,9 @@ export default React.createClass({
     return <MessagePopup.SmithExperiencePageB query={{}}/>;
   },
 
+  smithScenario(query = {}) {
+    return <MessagePopup.SmithExperiencePage query={{}}/>;
+  },
 
   messagePopupBubbleSort(query = {}) {
     return <MessagePopup.BubbleSortExperiencePage query={query} />;

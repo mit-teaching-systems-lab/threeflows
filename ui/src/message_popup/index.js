@@ -16,8 +16,10 @@ import DariusExperiencePage from './playtest/darius_experience_page.jsx';
 import CsFairExperiencePage from './playtest/cs_fair_experience_page.jsx';
 import BubbleSortExperiencePage from './playtest/bubble_sort_experience_page.jsx';
 import JaydenExperiencePage from './playtest/jayden_experience_page.jsx';
+import RosaExperiencePage from './playtest/rosa_experience_page.jsx';
 import SmithExperiencePageA from './playtest/smithA_experience_page.jsx';
 import SmithExperiencePageB from './playtest/smithB_experience_page.jsx';
+import SmithExperiencePage from './playtest/smith_experience_page.jsx';
 import EcsExperiencePage from './playtest/ecs_experience_page.jsx';
 
 
@@ -41,8 +43,10 @@ export {
   MindsetPage,
   BubbleSortExperiencePage,
   JaydenExperiencePage,
+  RosaExperiencePage,
   SmithExperiencePageA,
   SmithExperiencePageB,
+  SmithExperiencePage,
   InsubordinationExperiment,
   PairsExperiencePage,
   DariusExperiencePage,
