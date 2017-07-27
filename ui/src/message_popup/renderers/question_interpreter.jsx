@@ -8,14 +8,23 @@ import MinimalTextResponse from '../renderers/minimal_text_response.jsx';
 import AudioCapture from '../../components/audio_capture.jsx';
 
 
-// This renders a question and an interaction.
+// This renders a question and an interaction, and strives towards being a
+// general-purpose interpreter that over time ends up converging towards shared
+// data structures/components across different scenarios.
 export default React.createClass({
   displayName: 'QuestionInterpreter',
   
   propTypes: {
     question: React.PropTypes.object.isRequired,
     onLog: React.PropTypes.func.isRequired,
-    onResponseSubmitted: React.PropTypes.func.isRequired
+    onResponseSubmitted: React.PropTypes.func.isRequired,
+    forceText: React.PropTypes.bool
+  },
+
+  getDefaultProps() {
+    return {
+      forceText: false
+    };
   },
 
   render() {
@@ -30,19 +39,35 @@ export default React.createClass({
 
   renderInteractionEl(question, onLogMessage, onResponseSubmitted) {
     const key = JSON.stringify(question);
+    const {forceText} = this.props;
 
+    // Open response with audio by default, falling back to text if unavailable, and
+    // allowing text responses to be forced.
     if (question.open) {
-      const buttonText = AudioCapture.isAudioSupported()
-        ? "Click then speak"
-        : "Respond";
-      return <MinimalOpenResponse
-        key={key}
-        responsePrompt=""
-        recordText={buttonText}
-        onLogMessage={onLogMessage}
-        forceResponse={question.force || false}
-        onResponseSubmitted={onResponseSubmitted}
-      />;
+      if (forceText) {
+        return <MinimalTextResponse
+          key={key}
+          forceResponse={question.force || false}
+          responsePrompt=""
+          recordText="Respond"
+          ignoreText="Move on"
+          onLogMessage={onLogMessage}
+          onResponseSubmitted={onResponseSubmitted}
+          />;
+      } else {
+        const buttonText = AudioCapture.isAudioSupported()
+          ? "Click then speak"
+          : "Respond";
+        return <MinimalOpenResponse
+          key={key}
+          forceResponse={question.force || false}
+          responsePrompt=""
+          recordText={buttonText}
+          ignoreText="Move on"
+          onLogMessage={onLogMessage}
+          onResponseSubmitted={onResponseSubmitted}
+          />;
+      }
     }
 
     if (question.write) {
