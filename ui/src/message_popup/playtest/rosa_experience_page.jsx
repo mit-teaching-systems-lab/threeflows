@@ -1,6 +1,7 @@
 /* @flow weak */
 import React from 'react';
 import uuid from 'uuid';
+import _ from 'lodash';
 
 import * as Api from '../../helpers/api.js';
 import hash from '../../helpers/hash.js';
@@ -27,7 +28,8 @@ export default React.createClass({
   propTypes: {
     query: React.PropTypes.shape({
       cohort: React.PropTypes.string,
-      p: React.PropTypes.string
+      p: React.PropTypes.string,
+      text: React.PropTypes.string
     }).isRequired
   },
 
@@ -116,9 +118,11 @@ export default React.createClass({
   },
 
   renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
+    const forceText = _.has(this.props.query, 'text');
     return <QuestionInterpreter
       question={question}
       onLog={onLog}
+      forceText={forceText}
       onResponseSubmitted={onResponseSubmitted} />;
   },
 
