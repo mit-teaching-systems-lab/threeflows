@@ -110,7 +110,7 @@ export default React.createClass({
         <div>
           <p>Welcome!</p>
           <p>This is an interactive case study simulating a conversation with a high school computer science student.</p>
-          <p>You'll review the context on the scenario, share what you anticipate will happen, and then try it out!  Afterward you'll reflect before heading back to debrief with the group or share online.</p>
+          <p>You'll review the context on the scenario, share what you anticipate will happen, and then try it out!  Afterward you'll reflect on your experience with the simulation.</p>
           <p>Please use <a href="https://www.google.com/chrome/">Chrome</a> on a laptop or desktop computer.</p>
         </div>
       </IntroWithEmail>
@@ -129,7 +129,7 @@ export default React.createClass({
   renderClosingEl(questions:[QuestionT], responses:[ResponseT]) {
     return (
       <AudioResponseSummary responses={responses}>
-        You've finished the simulation. Congrats! Below, you'll find your responses to the anticipate questions, the scenes with Rosa, and the reflection questions. Take time now to review your responses before returning to group discussion.
+        You've finished the simulation. Congrats! Below, you'll find your responses to the anticipate questions, the scenes with Rosa, and the reflection questions.
       </AudioResponseSummary>
     );
   }

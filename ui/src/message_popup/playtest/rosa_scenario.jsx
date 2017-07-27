@@ -116,7 +116,7 @@ Ready to start?
   slides.push({ type: 'Reflect', text:
 `That's the end of the simulation.  Thanks!
 
-Before heading back to the group, let's shift to reflecting on what happened.
+Let's shift to reflecting on what happened.
 `});
 
   slides.push({ type: 'Reflect', text:
