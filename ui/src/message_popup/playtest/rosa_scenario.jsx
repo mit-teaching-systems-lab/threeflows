@@ -29,6 +29,9 @@ function slidesFor(cohortKey) {
     <br />
     <div>4. Reflect</div>
     <div>Finally, you'll reflect on your experience.</div>
+    <br />
+    <div>5. Discussion</div>
+    <div>A facilitated discussion of this scenario will happen during ECS on Friday, July 28th.</div>
   </div>
   });
 
@@ -45,7 +48,7 @@ Before the semester, initial enrollments for your class showed that more boys th
 `});
 
   slides.push({ type: 'Context', text:
-`The semester has started and the deadline for students to make changes to their class schedule is a couple days away. Before the start of class one day, you overhear Rosa tell one of her classmates that she wants to switch out of your class. You are disappointed to hear this because Rosa is a strong student, excels at math, and is one of the few students of color in your class.
+`The semester has started and the deadline for students to make changes to their class schedule is a couple days away. Before the start of class one day, you overhear Rosa tell one of her classmates that she wants to switch out of your class. You are disappointed to hear this because Rosa is a strong student, excels at math, and is one of only two Latinas in your class.
 `});
 
   slides.push({ type: 'Context', text:
@@ -85,7 +88,7 @@ Ready to start?
 `});
 
   slides.push({ type: 'Try it!', text:
-`Rosa: “Is everything ok?”
+`Rosa: “Why did you want me to stay after class?”
 `, open: true, force: true});
 
   slides.push({ type: 'Try it!', text:
