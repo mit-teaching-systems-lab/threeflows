@@ -34,6 +34,7 @@
     "browserify": "^13.0.1",
     "clipboard": "^1.6.1",
     "envify": "^4.0.0",
+    "es6-promise": "^4.1.1",
     "jsdom": "^9.8.0",
     "lodash": "^4.13.1",
     "material-ui": "^0.16.3",
