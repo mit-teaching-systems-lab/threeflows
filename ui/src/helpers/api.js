@@ -2,6 +2,9 @@
 import * as Routes from '../routes.js';
 import superagent from 'superagent';
 import SuperagentPromise from 'superagent-promise';
+
+import ES6Promise from 'es6-promise';
+ES6Promise.polyfill();
 const request = SuperagentPromise(superagent, Promise);
 import crypto from 'crypto';
 import qs from 'querystring';
