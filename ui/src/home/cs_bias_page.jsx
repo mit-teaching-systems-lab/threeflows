@@ -29,9 +29,10 @@ export default React.createClass({
         <img width="95%" style={{padding: 10}} src="https://mit-teaching-systems-lab.github.io/unconscious-bias/assets/cycle.jpg" />
         <h3 style={styles.header}>Equity in computer science</h3>
         <List>
-          {this.renderScenarioItem(<a href="/teachermoments/original">Bias in facilitating pair work</a>)}
-          {this.renderScenarioItem(<a href="/teachermoments/darius">Talking with a student considering dropping</a>)}
-          {this.renderScenarioItem(<a href="/teachermoments/discipline">Noticing student belonging in class</a>)}
+          {this.renderScenarioItem(<a href="/teachermoments/sub?frombias">Bias in facilitating pair work</a>)}
+          {this.renderScenarioItem(<a href="/teachermoments/rosa?frombias">Checking in with a student</a>)}
+          {this.renderScenarioItem(<a href="/teachermoments/jayden?frombias">Talking with a student considering dropping the course</a>)}
+          {this.renderScenarioItem(<a href="/teachermoments/smithB">Noticing student belonging in class</a>)}
         </List>
         <h3 style={styles.header}>Parent conversations</h3>
         <List>
