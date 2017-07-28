@@ -25,7 +25,7 @@ export default React.createClass({
   renderScenarios() {
     return (
       <div>
-        <p>These interactive case studies can be used to seed conversation during in-person workshops, as homework to see class discussions, or within online PLCs.</p>
+        <p>These interactive case studies can be used to seed conversation during in-person workshops, as homework to seed class discussions, or within online PLCs.</p>
         <img width="95%" style={{padding: 10}} src="https://mit-teaching-systems-lab.github.io/unconscious-bias/assets/cycle.jpg" />
         <h3 style={styles.header}>Equity in computer science</h3>
         <List>
