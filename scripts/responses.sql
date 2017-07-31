@@ -2,7 +2,20 @@
 SELECT DISTINCT json->>'email'
   FROM evidence
   WHERE 1=1
-   AND json->'GLOBAL'->>'location' = 'https://threeflows.herokuapp.com/teachermoments/tuesday'
+   AND json->'GLOBAL'->>'location' IN (
+    'https://threeflows.herokuapp.com/teachermoments/tuesday',
+    'https://threeflows.herokuapp.com/teachermoments/smithA',
+    'https://threeflows.herokuapp.com/teachermoments/smithB',
+    'https://threeflows.herokuapp.com/teachermoments/sub?group=css',
+    'https://threeflows.herokuapp.com/teachermoments/sub?group=caf',
+    'https://threeflows.herokuapp.com/teachermoments/sub?group=playtest',
+    'https://threeflows.herokuapp.com/teachermoments/sub',
+    'https://threeflows.herokuapp.com/teachermoments/ecs',
+    'https://threeflows.herokuapp.com/teachermoments/ecs?text',
+    'https://threeflows.herokuapp.com/teachermoments/rosa?ecs&text',
+    'https://threeflows.herokuapp.com/teachermoments/rosa?ecs',
+    'https://threeflows.herokuapp.com/teachermoments/jayden'
+  )
   ORDER BY json->>'email' ASC;
 
 
