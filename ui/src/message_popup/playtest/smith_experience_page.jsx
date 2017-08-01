@@ -107,8 +107,8 @@ export default React.createClass({
       <IntroWithEmail defaultEmail={this.state.email} onDone={this.onStart}>
         <div>
           <p>Welcome!</p>
-          <p>This is an interactive case study simulating a small part of a high school computer science lesson.</p>
-          <p>You'll review the context of the lesson briefly, share what you anticipate about the lesson, and then try it out!  Afterward you'll reflect before heading back to debrief with the group or share online.</p>
+          <p>This is an interactive case study simulating the observation of a high school computer science classroom.</p>
+          <p>You'll review the context of the lesson briefly, and then get to try it out! Note that the simulation is split into two parts. After each part you'll be given the chance to reflect with the group or share online.</p>
           <p>Please use <a href="https://www.google.com/chrome/">Chrome</a> on a laptop or desktop computer.</p>
         </div>
       </IntroWithEmail>

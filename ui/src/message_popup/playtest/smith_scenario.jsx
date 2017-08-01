@@ -102,7 +102,7 @@ Okay! Ready to start?`
       <div>Mr. Smith: "Good morning Everyone! Today we’ll doing some pair programming work around encoding and sending formatted text. Molly and Cody, you’ll be a group. Jamal, you are working with Kevin. Tim with George…” </div>
     
     </div>,
-    TimedAutoAdvance: true
+    timedAutoAdvance: true
     });
 
 
@@ -130,7 +130,7 @@ What did you notice? Take notes below!
     <br />
     <div>Molly: “I know. We used it last class.”</div>
   </div>,
-  TimedAutoAdvance: true
+  timedAutoAdvance: true
 });
 
 
@@ -160,7 +160,7 @@ What did you notice? Take notes below!
     <div>Kevin: “Yeah, let’s get this binary thing over with.”</div>
   </div>
   ,
-  TimedAutoAdvance: true
+  timedAutoAdvance: true
   });
 
 
@@ -193,7 +193,7 @@ What did you notice? Take notes below!
 <br />
 <div>George: "Sure, Mr. Smith. Okay Tim. First, we define the protocol we want to use in the simulator using this tool here."</div>
 </div>,
-  TimedAutoAdvance: true
+  timedAutoAdvance: true
   });
 
 
@@ -224,7 +224,7 @@ What did you notice? Take notes below!
     <br />
   <div>Molly: “I dunno. I wanted to try it out.”</div>
 </div>,
-  TimedAutoAdvance: true
+  timedAutoAdvance: true
   });
 
 
@@ -254,7 +254,7 @@ What did you notice? Take notes below!
   <br />
   <div>Kevin: “You have to. It’s just as good. Next, try sending it in bold.”</div>
 </div>,
-  TimedAutoAdvance: true
+  timedAutoAdvance: true
   });
 
 
@@ -285,7 +285,7 @@ What did you notice? Take notes below!
   <br />
   <div>Mr. Smith: “That’s great! It is cool isn’t it? Thanks for sharing, Tim.” </div>
 </div>,
-  TimedAutoAdvance: true
+  timedAutoAdvance: true
 });
 
 
@@ -376,7 +376,7 @@ Ready? Okay! Go!
     <div>Jimmy: "I'm not sure. Hadn't thought of that."</div>
     <br />
     <div>Mr. Smith: "Why doesn't everyone take a few minutes to dicuss and jot down ideas with your partners?"</div>
-  </div>, TimedAutoAdvance: true
+  </div>, timedAutoAdvance: true
   });
 
 
@@ -403,7 +403,7 @@ What did you notice? Take notes below!
     <div>Ashley: "Okay, but then how would you distinguish that indicator from the rest of the binary?"</div>
     <br />
     <div>Mark: "I see what you're saying, but I don't know how to solve that. I think we should just go with it, and maybe it'll be close enough that Mr. Smith will show us how to tell it apart."</div>
-  </div>, TimedAutoAdvance: true
+  </div>, timedAutoAdvance: true
   });
 
 
@@ -426,7 +426,7 @@ What did you notice? Take notes below!
     <div>Li: "I don't know about that. As far as the question goes, I'm not sure you were actually wrong. What if capital letters are binary 27-52?"</div>
     <br />
     <div>Jimmy: "Oh you're right! And we could start the alphabet at ten. That would leave us room for numbers zero to nine, which should be all the numbers we need! See, I knew you'd be good at this!"</div>
-  </div>, TimedAutoAdvance: true
+  </div>, timedAutoAdvance: true
   });
 
 
@@ -449,7 +449,7 @@ What did you notice? Take notes below!
     <div>Li: "Jimmy and I realized that we can use his original idea. We only need numbers zero to nine, which we can map to binary zero to nine. Then, the 26 letters of the alphabet can map to binary 10-35, and the 26 captial letters can map to 36-61."</div>
     <br />
     <div>Mr. Smith: "That's a great fix guys!"</div>
-  </div>, TimedAutoAdvance: true
+  </div>, timedAutoAdvance: true
   });
 
 
@@ -474,7 +474,7 @@ What did you notice? Take notes below!
     <div>Mr. Smith: "Come on, try it out!"</div>
     <br />
     <div>Jose: "About 70 I think?"</div>
-  </div>, TimedAutoAdvance: true
+  </div>, timedAutoAdvance: true
   });
 
 
@@ -499,7 +499,7 @@ What did you notice? Take notes below!
     <div>Jose: "Yeah..."</div>
     <br />
     <div>Jasmine: "Yes, Mr. Smith."</div>
-  </div>, TimedAutoAdvance: true
+  </div>, timedAutoAdvance: true
   });
 
 

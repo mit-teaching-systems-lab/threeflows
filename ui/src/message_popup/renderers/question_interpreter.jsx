@@ -71,7 +71,7 @@ export default React.createClass({
     }
 
 
-    if (question.TimedAutoAdvance) {
+    if (question.timedAutoAdvance) {
       return <MinimalTimedView
         key={key}
         recordText="Next"
