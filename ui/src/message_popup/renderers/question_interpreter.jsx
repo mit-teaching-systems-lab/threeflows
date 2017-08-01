@@ -6,6 +6,7 @@ import ChoiceForBehaviorResponse from '../renderers/choice_for_behavior_response
 import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
 import MinimalTextResponse from '../renderers/minimal_text_response.jsx';
 import AudioCapture from '../../components/audio_capture.jsx';
+import MinimalTimedView from '../renderers/minimal_timed_view.jsx';
 
 
 // This renders a question and an interaction, and strives towards being a
@@ -75,6 +76,29 @@ export default React.createClass({
         key={key}
         forceResponse={true}
         responsePrompt="Notes:"
+        recordText="Next"
+        onLogMessage={onLogMessage}
+        onResponseSubmitted={onResponseSubmitted}
+      />;
+    }
+
+
+    if (question.notes) {
+      return <MinimalTextResponse
+        key={key}
+        textHeight={192}
+        forceResponse={true}
+        responsePrompt="Notes:"
+        recordText="Next"
+        onLogMessage={onLogMessage}
+        onResponseSubmitted={onResponseSubmitted}
+      />;
+    }
+
+
+    if (question.timedAutoAdvance) {
+      return <MinimalTimedView
+        key={key}
         recordText="Next"
         onLogMessage={onLogMessage}
         onResponseSubmitted={onResponseSubmitted}
