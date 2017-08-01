@@ -29,6 +29,9 @@ export default React.createClass({
     clearTimeout(this.sceneTimer);
   },
 
+  sceneTimer: (null: ?number),
+  
+
   onTimer() {
     this.props.onLogMessage('timer_auto_advance_response');
     this.props.onResponseSubmitted({ignore: true});
