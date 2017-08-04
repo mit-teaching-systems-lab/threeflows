@@ -13,9 +13,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import PeopleIcon from 'material-ui/svg-icons/social/people';
-import Paper from 'material-ui/Paper';
-
+import Divider from 'material-ui/Divider';
 
 import QuestionInterpreter from '../renderers/question_interpreter.jsx';
 import type {QuestionT} from './pairs_scenario.jsx';
@@ -216,14 +214,13 @@ export default React.createClass({
   renderJumpAhead() {
     return (
       <div style={{marginTop: 200}}>
-        <Paper style={{margin: 5, padding: 20}} zDepth={1} >
-          <div>If the rest of your group has already finished, jump to the discussion round.</div>
-          <div style={{margin: 5}}><PeopleIcon /><PeopleIcon /><PeopleIcon /></div>
+        <Divider />
+        <div style={{margin: 35}}>
+          <div style={{paddingBottom: 20}}>If the rest of your group has already finished, jump to the discussion round.</div>
           <RaisedButton
             label="Start discussion round"
-            primary={true}
             onTouchTap={this.onReviewTapped} />
-        </Paper>
+        </div>
       </div>
     );
   },
