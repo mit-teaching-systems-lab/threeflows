@@ -62,6 +62,8 @@ export default React.createClass({
     return [cohortKey, bucketId].join(':');
   },
 
+  // Could make this smarter and have it coordinate across different users to
+  // allow them all to advance n minutes after the first session started.
   shouldAllowJumpAhead() {
     return true;
   },
