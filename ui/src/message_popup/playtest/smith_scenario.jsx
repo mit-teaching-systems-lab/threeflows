@@ -13,25 +13,33 @@ export type QuestionT = {
 };
 
 
-function slidesFor(cohortKey) {
+
+function slidesFor(cohortKey, isFacilitated) {
   const slides:[QuestionT] = [];
+
 
   slides.push({ type: 'Overview', el:
     <div>
     <div>1. Set Context</div>
-    <div>Imagine yourself as a teacher situated in the context of the particular school, classroom and subject.</div>
+    <div>Imagine yourself as an observer in a highschool computer science classroom taught by a fellow teacher. Your role is to observe your fellow teacher and give feedback to the best of your ability.</div>
     <br />
     <div>2. Background</div>
-    <div>A little bit of background information on the lesson being taught.</div>
+    <div>You'll receive a bit of background information on the lesson being taught.</div>
     <br />
     <div>3. Try it!</div>
     <div>When you're ready, you'll go through a set of short scenes that simulate moments in the classroom. Note what you observe.</div>
     <br />
-    <div>4. PAUSE!</div>
-    <div>Pause for a brief group discussion before resuming.</div>
+    {(isFacilitated)
+      ? <div>
+        <div>4. PAUSE!</div>
+       <div>After the first set of scenes, pause for a brief group discussion before resuming.</div></div>
+      : <div>
+        <div>4. Reflect</div>
+       <div>After the first set of scenes you'll get a chance to reflect on what you observed before moving on.</div>
+       </div>}
     <br />
     <div>5. Lenses</div>
-    <div>You will go through another set of scenes, this time with a new focus.</div>
+    <div>Finally, you'll be given a second set of scenes to observe. This time you'll be asked to view the classroom interactions with a more specific focus.</div>
   </div>
   });
 
@@ -107,10 +115,7 @@ Okay! Ready to start?`
 
 
   slides.push({type: 'Try it!', text:
-`
-What did you notice? Take notes below!
-` , notes: true
-
+`What did you notice? Take notes below!` , notes: true
 });
 
 
@@ -165,8 +170,7 @@ What did you notice? Take notes below!
 
 
   slides.push({type: 'Try it!', text:
-`
-` , notes: true
+`` , notes: true
 
 });
 
@@ -198,8 +202,7 @@ What did you notice? Take notes below!
 
 
   slides.push({type: 'Try it!', text:
-`
-` , notes: true
+`` , notes: true
 
 });
 
@@ -229,8 +232,7 @@ What did you notice? Take notes below!
 
 
   slides.push({type: 'Try it!', text:
-`
-` , notes: true
+`` , notes: true
 
 });
 
@@ -260,8 +262,7 @@ What did you notice? Take notes below!
 
 
   slides.push({type: 'Try it!', text:
-`
-` , notes: true
+`` , notes: true
 
 });
 
@@ -290,36 +291,67 @@ What did you notice? Take notes below!
 
 
   slides.push({type: 'Try it!', text:
-`
-` , notes: true
+`` , notes: true
 
 });
 
 
-  slides.push({type: 'Try it!', text:
+
+  if (isFacilitated) {
+    slides.push({type: 'Try it!', text:
+    `That's the end of the class! Take a moment to reflect on how you felt the class went overall.` 
+
+    });
+        
+
+    slides.push({type: 'Try it!', text:
+    `Once the students have left, your friend Mr. Smith comes up to you and asks for your thoughts. What feedback would you give him about what you observed?`, notes: true
+    });
+
+    slides.push({type: 'PAUSE!', text:
+    `PAUSE HERE
+
+
+    Pause here and return to the group. We will continue with this part of the simulation after a brief group discussion. 
+    `});
+  }
+
+  else {
+    slides.push({type: 'Reflect', text:
+    ` That's the end of the class! You will now get a chance to reflect on what you observed.
+    ` 
+    });
+
+    slides.push({type: 'Reflect', text:
+    `How do you feel the class went overall?`, notes: true 
+    });
+
+    slides.push({type: 'Reflect', text:
+    `How did different students experience the class?`, notes: true 
+    });
+
+    slides.push({type: 'Reflect', text:
+    `How did Mr. Smith's actions impact the students' experience?`, notes: true 
+    });
+
+    slides.push({type: 'Reflect', text:
+    `Once the students have left, your friend Mr. Smith comes up to you and asks for your thoughts. What feedback would you give him about what you observed?`, notes: true
+    });
+  }
+
+
+
+
+  slides.push({type: 'Class #2', text:
 `
-That's the end of the class! Take a moment to reflect on how you felt the class went overall.
+
+Take a moment and collect yourself. It's time for class #2! 
+
 ` 
 
 });
-    
-
-  slides.push({type: 'Try it!', text:
-`Once the students have left, your friend Mr. Smith comes up to you and asks for your thoughts. What feedback would you give him about what you observed?
- `,
-  notes: true
-
-});
-    // ---------------------------------
-    // PAUSE 
-    // ---------------------------------
-
-  slides.push({type: 'PAUSE!', text:
-  `PAUSE HERE
 
 
-Pause here and return to the group. We will continue with this part of the simulation after a brief group discussion. 
-`});
 
     // ---------------------------------
     // Round TWO
@@ -348,7 +380,6 @@ Pause here and return to the group. We will continue with this part of the simul
   Jose: Hispanic Male
   Li: Asian American Male
   Mark: White Male
-
 ` 
 });
 
@@ -380,10 +411,8 @@ Ready? Okay! Go!
   });
 
 
-  slides.push({type: 'Try it!', text:
-`
-What did you notice? Take notes below!
-` , notes: true
+  slides.push({type: 'Try it! - Lenses', text:
+`What did you notice? Take notes below!` , notes: true
 
 });
 
@@ -407,9 +436,8 @@ What did you notice? Take notes below!
   });
 
 
-  slides.push({type: 'Try it!', text:
-`
-` , notes: true
+  slides.push({type: 'Try it! - Lenses', text:
+`` , notes: true
 
 });
 
@@ -430,9 +458,8 @@ What did you notice? Take notes below!
   });
 
 
-  slides.push({type: 'Try it!', text:
-`
-` , notes: true
+  slides.push({type: 'Try it! - Lenses', text:
+`` , notes: true
 
 });
 
@@ -453,9 +480,8 @@ What did you notice? Take notes below!
   });
 
 
-  slides.push({type: 'Try it!', text:
-`
-` , notes: true
+  slides.push({type: 'Try it! - Lenses', text:
+`` , notes: true
 
 });
 
@@ -478,9 +504,8 @@ What did you notice? Take notes below!
   });
 
 
-  slides.push({type: 'Try it!', text:
-`
-` , notes: true
+  slides.push({type: 'Try it! - Lenses', text:
+`` , notes: true
 
 });
 
@@ -503,28 +528,53 @@ What did you notice? Take notes below!
   });
 
 
-  slides.push({type: 'Try it!', text:
-`
-` , notes: true
-
-});
-
-
-
   slides.push({type: 'Try it! - Lenses', text:
-`
-That's the end of the class! Take a moment to reflect on how you felt the class went overall.
-` 
+`` , notes: true
 
 });
-    
 
-  slides.push({type: 'Try it! - Lenses', text:
-`At the end of the second class, Mr. Smith again comes up to you and asks for your thoughts. What feedback would you give him about what you observed?
- `,
-  notes: true
 
-});
+
+  if (isFacilitated) {
+    slides.push({type: 'Try it! - Lenses', text:
+    `
+    That's the end of the class! Take a moment to reflect on how you felt the class went overall.
+    ` 
+    });
+        
+
+    slides.push({type: 'Try it! - Lenses', text:
+    `At the end of the second class, Mr. Smith again comes up to you and asks for your thoughts. What feedback would you give him about what you observed?`,
+      notes: true
+    });
+  }
+
+
+  else {
+    slides.push({type: 'Reflect - Lenses', text:
+    ` That's the end of the class! You will now get a chance to reflect on what you observed.` 
+    });
+
+
+    slides.push({type: 'Reflect - Lenses', text:
+    `How do you feel the class went overall?`, notes: true 
+    });
+
+    slides.push({type: 'Reflect - Lenses', text:
+    `Did you notice any social dynamics between students related to race/ethnicity/gender/class?`, notes: true 
+    });
+
+    slides.push({type: 'Reflect - Lenses', text:
+    `How are the interactions impacting the confidence of the students involved and their motivation to learn?`, notes: true 
+    });
+
+    slides.push({type: 'Reflect - Lenses', text:
+    `At the end of the second class, Mr. Smith again comes up to you and asks for your thoughts. What would you say to Mr. Smith?`, notes: true
+    });
+  }
+
+
+
 
 
   return slides;
@@ -532,7 +582,7 @@ That's the end of the class! Take a moment to reflect on how you felt the class 
 
 
 export const smithScenario = {
-  questionsFor(cohortKey) {
-    return slidesFor(cohortKey);
+  questionsFor(cohortKey, isFacilitated) {
+    return slidesFor(cohortKey, isFacilitated);
   }
 };

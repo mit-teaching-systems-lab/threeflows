@@ -28,12 +28,23 @@ export default React.createClass({
     query: React.PropTypes.shape({
       cohort: React.PropTypes.string,
       p: React.PropTypes.string
-    }).isRequired
+    }).isRequired,
+    facilitated: React.PropTypes.bool.isRequired
   },
 
   contextTypes: {
     auth: React.PropTypes.object.isRequired
   },
+
+
+
+
+  getDefaultProps() {
+    return {
+      facilitated: false
+    };
+  },
+
 
   // Cohort comes from URL
   getInitialState() {
@@ -52,8 +63,8 @@ export default React.createClass({
   // Making questions from the cohort
   onStart(email) {
     const {cohortKey} = this.state;
-    const allQuestions = smithScenario.questionsFor(cohortKey);
-
+    const {facilitated} = this.props;
+    const allQuestions = smithScenario.questionsFor(cohortKey, (facilitated));
     const startQuestionIndex = this.props.query.p || 0; // for testing or demoing
     const questions = allQuestions.slice(startQuestionIndex);
     const questionsHash = hash(JSON.stringify(questions));
