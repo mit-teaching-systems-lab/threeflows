@@ -48,6 +48,17 @@ export default React.createClass({
     };
   },
 
+  // This is the key for a "game session we want to later review."
+  // It's built from (cohort, bucket), so that each of those has its own
+  // scene number space (the number is used for ordering and is user-facing).
+  //
+  // This means that if the same team code plays again later, the number of
+  // responses will keep growing over time (as opposed to "start a new game").
+  applesKey() {
+    const {cohortKey, bucketId} = this.state;
+    return [cohortKey, bucketId].join(':');
+  },
+
   onCohortKeyChanged(e) {
     this.setState({ cohortKey: e.target.value });
   },
@@ -76,17 +87,15 @@ export default React.createClass({
   },
 
   onLogMessage(type, response) {
-    const {cohortKey, bucketId, sessionId, questionsHash} = this.state;
+    const {cohortKey, sessionId, questionsHash} = this.state;
     
     // Watch for a particular message, then add in the applesKey and double-log
     // it, stripping out all the identifiers from the log message so we can read it
     // back later safely anonymized.
     //
-    // The appleKey is built from (cohort, bucket), so that each of those has its own
-    // scene number space (the number is used for ordering and is user-facing).
     if (type === 'anonymized_apples_to_apples_partial') {
       Api.logApplesText({
-        applesKey: [cohortKey, bucketId].join(':'),
+        applesKey: this.applesKey(),
         sceneNumber: response.sceneNumber,
         sceneText: response.question.text,
         anonymizedText: response.anonymizedText
@@ -183,8 +192,7 @@ export default React.createClass({
   },
 
   renderClosingEl(questions:[QuestionT], responses:[ResponseT]) {
-    const {cohortKey} = this.state;
-    return <HMTCAGroupReview applesKey={cohortKey} />;
+    return <HMTCAGroupReview applesKey={this.applesKey()} />;
   }
 });
 
