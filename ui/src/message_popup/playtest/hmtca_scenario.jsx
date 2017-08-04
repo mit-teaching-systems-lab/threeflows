@@ -45,13 +45,13 @@ function slidesFor(cohortKey, bucketId) {
   const slides:[QuestionT] = [];
 
   if (bucketId === 201) {
-    slides.push({ type: 'Hello!', text: 'Does this work?' });
-    slides.push({ type: 'Hello!', text: 'Jose is watching YouTube.', applesSceneNumber: 1 });
-    slides.push({ type: 'Hello!', text: 'Samir puts his head down.', applesSceneNumber: 2 });
+    slides.push({ text: 'Does this work?' });
+    slides.push({ text: 'Jose is watching YouTube.', applesSceneNumber: 1 });
+    slides.push({ text: 'Samir puts his head down.', applesSceneNumber: 2 });
   } else {
-    slides.push({ type: 'Hello!', text: 'These scenarios are...' });
-    slides.push({ type: 'Hello!', text: 'Jose is watching YouTube.', applesSceneNumber: 1 });
-    slides.push({ type: 'Hello!', text: 'Samir puts his head down.', applesSceneNumber: 2 });
+    slides.push({ text: 'These scenarios are...' });
+    slides.push({ text: 'Jose is watching YouTube.', applesSceneNumber: 1 });
+    slides.push({ text: 'Samir puts his head down.', applesSceneNumber: 2 });
   }
 
   return slides;

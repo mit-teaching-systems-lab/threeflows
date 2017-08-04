@@ -13,6 +13,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import PeopleIcon from 'material-ui/svg-icons/social/people';
+import Paper from 'material-ui/Paper';
+
 
 import QuestionInterpreter from '../renderers/question_interpreter.jsx';
 import type {QuestionT} from './pairs_scenario.jsx';
@@ -44,6 +47,7 @@ export default React.createClass({
     return {
       cohortKey: this.props.query.cohort || '',
       bucketId: HMTCAScenarios.BUCKETS[0].id.toString(),
+      didSkipAhead: false,
       questions: null,
       sessionId: uuid.v4()
     };
@@ -58,6 +62,10 @@ export default React.createClass({
   applesKey() {
     const {cohortKey, bucketId} = this.state;
     return [cohortKey, bucketId].join(':');
+  },
+
+  shouldAllowJumpAhead() {
+    return true;
   },
 
   onCohortKeyChanged(e, menuItemKey, cohortKey) {
@@ -85,6 +93,10 @@ export default React.createClass({
 
   onResetSession() {
     this.setState(this.getInitialState());
+  },
+
+  onReviewTapped() {
+    this.setState({didSkipAhead: true});
   },
 
   onLogMessage(type, response) {
@@ -120,8 +132,9 @@ export default React.createClass({
   },
 
   renderContent() {
-    const {questions} = this.state;
+    const {questions, didSkipAhead} = this.state;
     if (!questions) return this.renderIntro();
+    if (didSkipAhead) return this.renderGroupReview();
 
     return <LinearSession
       questions={questions}
@@ -188,14 +201,38 @@ export default React.createClass({
 
   renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
     const forceText = _.has(this.props.query, 'text');
-    return <QuestionInterpreter
-      question={question}
-      onLog={onLog}
-      forceText={forceText}
-      onResponseSubmitted={onResponseSubmitted} />;
+    return (
+      <div>
+        <QuestionInterpreter
+          question={question}
+          onLog={onLog}
+          forceText={forceText}
+          onResponseSubmitted={onResponseSubmitted} />
+        {this.shouldAllowJumpAhead() && this.renderJumpAhead()}
+      </div>
+    );
+  },
+
+  renderJumpAhead() {
+    return (
+      <div style={{marginTop: 200}}>
+        <Paper style={{margin: 5, padding: 20}} zDepth={1} >
+          <div>If the rest of your group has already finished, jump to the discussion round.</div>
+          <div style={{margin: 5}}><PeopleIcon /><PeopleIcon /><PeopleIcon /></div>
+          <RaisedButton
+            label="Start discussion round"
+            primary={true}
+            onTouchTap={this.onReviewTapped} />
+        </Paper>
+      </div>
+    );
   },
 
   renderClosingEl(questions:[QuestionT], responses:[ResponseT]) {
+    return this.renderGroupReview();
+  },
+
+  renderGroupReview() {
     return <HMTCAGroupReview applesKey={this.applesKey()} />;
   }
 });

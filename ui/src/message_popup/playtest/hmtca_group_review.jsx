@@ -22,6 +22,8 @@ export default React.createClass({
     };
   },
 
+  // This is where we could add a timer using setInterval to repeatedly call the
+  // method that refreshes the responses (and then add a componentWillUnmount to cleanup).
   componentDidMount() {
     this.refreshResponses();
   },
@@ -60,15 +62,12 @@ export default React.createClass({
                 />
                 <CardText>
               <div style={styles.cardContainer}>
-                {sceneToResponses[sceneNumber].map((applesResponse) => {
-                  const anonymizedText = applesResponse['anonymized_text'];
-                  return (
-                    <Paper
-                      key={anonymizedText}
-                      style={styles.responseCard}
-                      zDepth={3}>{anonymizedText}</Paper>
-                  );
-                })}
+                {_.uniq(_.map(sceneToResponses[sceneNumber], 'anonymized_text')).map(anonymizedText => 
+                  <Paper
+                    key={anonymizedText}
+                    style={styles.responseCard}
+                    zDepth={3}>{anonymizedText}</Paper>
+                )}
               </div>
               </CardText>
               </Card>
