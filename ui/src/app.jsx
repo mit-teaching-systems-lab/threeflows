@@ -57,7 +57,6 @@ export default React.createClass({
     '/teachermoments/bubblesort': 'messagePopupBubbleSort',
     '/teachermoments/jayden': 'jaydenScenario',
     '/teachermoments/rosa': 'rosaScenario',
-    '/teachermoments/smithA': 'smithScenarioA',
     '/teachermoments/smithB': 'smithScenarioB',
     '/teachermoments/smithFacilitated': 'smithScenario',
     '/teachermoments/ecs': 'ecsScenario',
@@ -145,10 +144,6 @@ export default React.createClass({
 
   rosaScenario(query = {}) {
     return <MessagePopup.RosaExperiencePage query={query} />;
-  },
-
-  smithScenarioA(query = {}) {
-    return <MessagePopup.SmithExperiencePageA query={{}}/>;
   },
 
   smithScenarioB(query = {}) {
