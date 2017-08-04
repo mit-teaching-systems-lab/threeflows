@@ -10,9 +10,8 @@ import SessionFrame from '../linear_session/session_frame.jsx';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import 'velocity-animate/velocity.ui';
 import RaisedButton from 'material-ui/RaisedButton';
-import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';
-
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
 import QuestionInterpreter from '../renderers/question_interpreter.jsx';
 import type {QuestionT} from './pairs_scenario.jsx';
@@ -35,19 +34,15 @@ export default React.createClass({
   propTypes: {
     query: React.PropTypes.shape({
       cohort: React.PropTypes.string,
-      p: React.PropTypes.string,
-      text: React.PropTypes.string,
-      review: React.PropTypes.string
+      p: React.PropTypes.string
     }).isRequired
   },
 
-  // Cohort comes from URL
+  // User types cohort for team
   getInitialState() {
-    const isReviewing = this.props.query.review === 'true' || false;
-
     return {
-      cohortKey: '',
-      isReviewing,
+      cohortKey: this.props.query.cohort || '',
+      bucketId: HMTCAScenarios.BUCKETS[0].id.toString(),
       questions: null,
       sessionId: uuid.v4()
     };
@@ -57,11 +52,15 @@ export default React.createClass({
     this.setState({ cohortKey: e.target.value });
   },
 
+  onBucketChanged(e) {
+    this.setState({ bucketId: e.target.value });
+  },
+
   // Making questions from the cohort
   onStart(e) {
     e.preventDefault();
-    const {cohortKey} = this.state;
-    const allQuestions = HMTCAScenarios.questionsFor(cohortKey);
+    const {cohortKey, bucketId} = this.state;
+    const allQuestions = HMTCAScenarios.questionsFor(cohortKey, parseInt(bucketId, 10));
 
     const startQuestionIndex = this.props.query.p || 0; // for testing or demoing
     const questions = allQuestions.slice(startQuestionIndex);
@@ -77,14 +76,17 @@ export default React.createClass({
   },
 
   onLogMessage(type, response) {
-    const {cohortKey, sessionId, questionsHash} = this.state;
+    const {cohortKey, bucketId, sessionId, questionsHash} = this.state;
     
     // Watch for a particular message, then add in the applesKey and double-log
     // it, stripping out all the identifiers from the log message so we can read it
     // back later safely anonymized.
+    //
+    // The appleKey is built from (cohort, bucket), so that each of those has its own
+    // scene number space (the number is used for ordering and is user-facing).
     if (type === 'anonymized_apples_to_apples_partial') {
       Api.logApplesText({
-        applesKey: cohortKey,
+        applesKey: [cohortKey, bucketId].join(':'),
         sceneNumber: response.sceneNumber,
         sceneText: response.question.text,
         anonymizedText: response.anonymizedText
@@ -121,37 +123,52 @@ export default React.createClass({
 
 
   renderIntro() {
+    const {bucketId} = this.state;
     return (
       <VelocityTransitionGroup enter={{animation: "callout.pulse", duration: 500}} leave={{animation: "slideUp"}} runOnMount={true}>
-        <div>
+        <form onSubmit={this.onStart}>
           <div style={styles.instructions}>
             <p>Welcome!</p>
-            <p>...</p>
+            <p>This is an online practice space made just for HMTCA.</p>
           </div>
-          <Divider />
-          <div style={{...styles.instructions, padding: 20}}>
-            <div>... consent phrase and information goes here ...</div>
-            <form onSubmit={this.onStart}>
-              <div style={styles.buttonRow}>
-                <TextField
-                  name="cohortKey"
-                  style={{width: '100%'}}
-                  underlineShow={false}
-                  floatingLabelText="What's your team code?"
-                  value={this.state.cohortKey}
-                  onChange={this.onCohortKeyChanged}
-                  rows={2} />
-                <RaisedButton
-                  disabled={this.state.cohortKey === ''}
-                  onTouchTap={this.onStart}
-                  type="submit"
-                  style={styles.button}
-                  secondary={true}
-                  label="Start" />
-              </div>    
-            </form>
+          <div style={styles.instructions}>
+            <div>
+              <TextField
+                name="cohortKey"
+                style={{width: '100%', marginBottom: 15}}
+                underlineShow={true}
+                floatingLabelText="What's your team's code?"
+                floatingLabelFixed={true}
+                value={this.state.cohortKey}
+                onChange={this.onCohortKeyChanged}
+                rows={2} />
+            </div>
+            <div>What would you like to practice?</div>
+            <RadioButtonGroup
+              style={{margin: 10}}
+              name="bucket"
+              valueSelected={bucketId}
+              onChange={this.onBucketChanged}
+            >
+              {HMTCAScenarios.BUCKETS.map(bucket =>
+                <RadioButton
+                  key={bucket.id.toString()}
+                  value={bucket.id.toString()}
+                  style={{fontSize: 14}}
+                  label={bucket.text}
+                />
+              )}
+            </RadioButtonGroup>
+            <p>In this practice space, you'll have to improvise and adapt to make the best of the situation.  Some scenarios might not exactly match your grade level and subject.</p>
+            <RaisedButton
+              disabled={this.state.cohortKey === ''}
+              onTouchTap={this.onStart}
+              type="submit"
+              style={styles.button}
+              secondary={true}
+              label="Start" />
           </div>
-        </div>
+        </form>
       </VelocityTransitionGroup>
     );
   },
@@ -179,11 +196,6 @@ const styles = {
     paddingLeft: 20,
     paddingRight: 20,
     paddingBottom: 10
-  },
-  buttonRow: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'flex-end'
   },
   button: {
     marginTop: 20

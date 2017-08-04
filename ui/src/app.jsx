@@ -65,7 +65,6 @@ export default React.createClass({
     // For HMTCA, with practice space and reviewing UI
     '/teachermoments/hmtca': 'hmtcaScenario',
 
-
     // Specific cohorts
     '/teachermoments/csp': 'messagePopupCSP',
     '/teachermoments/tuesday': 'messagePopupMeredith',

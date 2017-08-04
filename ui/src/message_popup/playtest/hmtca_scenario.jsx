@@ -9,19 +9,35 @@ export type QuestionT = {
 };
 
 
-function slidesFor(cohortKey) {
+// Different categories for classroom management
+const BUCKETS = [
+  { id: 201, text: 'Students refusing to work' },
+  { id: 202, text: 'Disrespect towards teachers' },
+  { id: 203, text: 'Disrespect towards females' },
+  { id: 204, text: 'Combination of the above' }
+];
+
+
+function slidesFor(cohortKey, bucketId) {
   const slides:[QuestionT] = [];
 
-  slides.push({ type: 'Hello!', text: 'Does this work?' });
-  slides.push({ type: 'Hello!', text: 'Jose is watching YouTube.', applesSceneNumber: 0 });
-  slides.push({ type: 'Hello!', text: 'Samir puts his head down.', applesSceneNumber: 1 });
+  if (bucketId === 201) {
+    slides.push({ type: 'Hello!', text: 'Does this work?' });
+    slides.push({ type: 'Hello!', text: 'Jose is watching YouTube.', applesSceneNumber: 1 });
+    slides.push({ type: 'Hello!', text: 'Samir puts his head down.', applesSceneNumber: 2 });
+  } else {
+    slides.push({ type: 'Hello!', text: 'These scenarios are...' });
+    slides.push({ type: 'Hello!', text: 'Jose is watching YouTube.', applesSceneNumber: 1 });
+    slides.push({ type: 'Hello!', text: 'Samir puts his head down.', applesSceneNumber: 2 });
+  }
 
   return slides;
 }
 
 
 export default {
-  questionsFor(cohortKey) {
-    return slidesFor(cohortKey);
+  BUCKETS,
+  questionsFor(cohortKey, bucketId) {
+    return slidesFor(cohortKey, bucketId);
   }
 };

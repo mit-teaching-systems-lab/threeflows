@@ -29,6 +29,11 @@ export default React.createClass({
         sceneNumber: this.props.applesSceneNumber,
         anonymizedText: response.responseText
       });
+    } else if (type === 'message_popup_text_ignore') {
+      this.props.onLogMessage('anonymized_apples_to_apples_partial', {
+        sceneNumber: this.props.applesSceneNumber,
+        anonymizedText: "(Move on)"
+      });
     }
   },
 

@@ -40,16 +40,18 @@ export default React.createClass({
     const {hasLoaded, applesResponses} = this.state;
     if (!hasLoaded) return <div>Loading...</div>;
 
+    // Use scene number for ordering, but then just number then naturally
     const sceneToResponses = _.groupBy(applesResponses, 'scene_number');
     return (
       <div>
         <div style={styles.instructions}>Scroll through and play!</div>
-        <div>{Object.keys(sceneToResponses).map((sceneNumber) => {
+        <div>{_.sortBy(Object.keys(sceneToResponses)).map((sceneNumber, index) => {
+          if (sceneNumber === 'null') return;
           return (
             <div key={sceneNumber}>
               <Card>
                 <CardTitle
-                  title={`Scene #${sceneNumber}`}
+                  title={`Scene #${index + 1}`}
                   subtitle={sceneToResponses[sceneNumber][0]['scene_text']}
                 />
                 <CardText>
@@ -76,9 +78,8 @@ export default React.createClass({
 
 const styles = {
   instructions: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginLeft: 10,
+    fontSize: 18,
+    marginLeft: 15,
     marginTop: 30,
     marginBottom: 30
   },
@@ -89,9 +90,10 @@ const styles = {
   responseCard: {
     minHeight: 200,
     flex: 1,
-    margin: 10,
     textAlign: 'left',
-    padding: 5,
+    marginBottom: 15,
+    marginTop: 15,
+    padding: 15,
     display: 'inline-block'
   }
 };
