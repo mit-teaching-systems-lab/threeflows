@@ -6,4 +6,4 @@ module.exports = function createS3Client() {
     ? JSON.parse(fs.readFileSync('./tmp/aws_message_popup.json'))
     : JSON.parse(process.env.MESSAGE_POPUP_S3_CONFIG_JSON);
   return new AWS.S3(awsConfig); 
-}
+};

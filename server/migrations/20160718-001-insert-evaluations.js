@@ -19,7 +19,7 @@ function queryDatabase(text, values, cb) {
       cb(err, result);
     });
   });
-};
+}
 
 
 // read dump from disk
@@ -47,7 +47,7 @@ function insertEach(rows, callback) {
       if (err) return callback(err);
       console.log('Inserted.');
       callback(null, result);
-    })
+    });
   });
 }
 
@@ -65,8 +65,7 @@ function main() {
 
       if (remaining === 0) {
         console.log('Done.');
-        process.exit(0);
-        return;
+        process.exit(0); // eslint-disable-line no-process-exit
       }
     });
   });

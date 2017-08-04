@@ -61,6 +61,8 @@ export default React.createClass({
     '/teachermoments/smithFacilitated': 'smithScenario',
     '/teachermoments/ecs': 'ecsScenario',
 
+    // For HMTCA, with practice space and reviewing UI
+    '/teachermoments/hmtca': 'hmtcaScenario',
 
     // Specific cohorts
     '/teachermoments/csp': 'messagePopupCSP',
@@ -209,6 +211,10 @@ export default React.createClass({
 
   messagePopupDarius(query = {}) {
     return <MessagePopup.DariusExperiencePage query={{}}/>;
+  },
+
+  hmtcaScenario(query = {}) {
+    return <MessagePopup.HMTCAExperiencePage query={query} />;
   },
 
   messagePopupPlaytest(cohortKey, query = {}) {

@@ -11,7 +11,8 @@
     "watch": "cd ui && npm run watch && cd ..",
     "heroku-prebuild": "cd ui && mkdir build && npm install",
     "heroku-postbuild": "cd ui && npm run build",
-    "test": "cd ui && npm run test"
+    "lint": "eslint --ext jsx --ext js -c server/.eslintrc server",
+    "test": "npm run lint && cd ui && npm run test"
   },
   "dependencies": {
     "aws-sdk": "^2.4.8",
@@ -30,6 +31,8 @@
   "license": "MIT",
   "devDependencies": {
     "babel-plugin-react-transform": "^2.0.2",
+    "eslint": "^4.3.0",
+    "eslint-plugin-node": "^5.1.1",
     "livereactload": "^2.2.3",
     "react-proxy": "^1.1.8"
   }

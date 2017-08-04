@@ -1,11 +1,3 @@
-const dateFns = require('date-fns');
-const uuid = require('uuid');
-const Mustache = require('mustache');
-const fs = require('fs');
-const path = require('path');
-const qs = require('querystring');
-const request = require('superagent');
-const crypto = require('crypto');
 const {getDomain} = require('../domain.js');
 const {insecureStreamAudioFileFromS3} = require('./audio.js');
 
@@ -123,7 +115,7 @@ module.exports = {
           if (err) {
             console.log('getReview: error', JSON.stringify(err));
             response.status(500);
-            reponse.json({ status: 'error' });
+            response.json({ status: 'error' });
             return;
           }
 
@@ -134,7 +126,7 @@ module.exports = {
           return;
         });
       });
-    }
+    };
   },
 
   // Streams an audio file of user recordings from S3, if (token, hid) pair
@@ -164,6 +156,6 @@ module.exports = {
         const {id} = request.params;
         insecureStreamAudioFileFromS3({s3, id}, request, response);
       });
-    }
+    };
   }
 };

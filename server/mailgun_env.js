@@ -1,5 +1,4 @@
 var fs = require('fs');
-var AWS = require('aws-sdk');
 
 module.exports = function createMailgunEnv() {
   if (process.env.NODE_ENV === 'development') {
@@ -13,4 +12,4 @@ module.exports = function createMailgunEnv() {
     MAILGUN_API_KEY: process.env.MAILGUN_API_KEY,
     MAILGUN_DOMAIN: process.env.MAILGUN_DOMAIN
   };
-}
+};

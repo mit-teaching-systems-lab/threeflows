@@ -18,6 +18,7 @@ export default React.createClass({
   },
 
   render() {
+    const {children, onResetSession} = this.props;
     return (
       <div className="SessionFrame">
         <ResponsiveFrame>
@@ -25,12 +26,12 @@ export default React.createClass({
             <NavigationAppBar
               title="Teacher Moments"
               iconElementLeft={
-                <IconButton onTouchTap={this.props.onResetSession} >
+                <IconButton onTouchTap={onResetSession} >
                   <RefreshIcon />
                 </IconButton>
               }
             />
-            {this.props.children}
+            {children}
           </div>
         </ResponsiveFrame>
       </div>
