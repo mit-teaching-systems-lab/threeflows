@@ -21,6 +21,7 @@ import SmithExperiencePageA from './playtest/smithA_experience_page.jsx';
 import SmithExperiencePageB from './playtest/smithB_experience_page.jsx';
 import SmithExperiencePage from './playtest/smith_experience_page.jsx';
 import EcsExperiencePage from './playtest/ecs_experience_page.jsx';
+import HMTCAExperiencePage from './playtest/hmtca_experience_page.jsx';
 
 
 import QuestionsPage from './author/questions_page.jsx';
@@ -57,5 +58,6 @@ export {
   EditQuestionPage,
   NewQuestionPage,
   ReviewLoginPage,
-  ReviewPage
+  ReviewPage,
+  HMTCAExperiencePage
 };

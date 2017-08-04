@@ -1,6 +1,4 @@
 var express = require('express');
-var url = require('url');
-var _ = require('lodash')
 var fs = require('fs');
 var path = require('path');
 var bodyParser = require('body-parser');
@@ -9,6 +7,7 @@ var basicAuth = require('basic-auth');
 var pg = require('pg');
 var AudioEndpoints = require('./endpoints/audio.js');
 var ReviewEndpoint = require('./endpoints/review.js');
+var ApplesEndpoint = require('./endpoints/apples.js');
 var ReviewLoginEndpoint = require('./endpoints/review_login.js');
 var createS3Client = require('./s3_client.js');
 var createMailgunEnv = require('./mailgun_env.js');
@@ -41,7 +40,7 @@ function enforceHTTPS(request, response, next) {
 function sendUnauthorized(res) {
   res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
   return res.send(401);
-};
+}
 
 function questionAuthoringAuth(req, res, next) {
   if (process.env.NODE_ENV === 'development') return next();
@@ -55,7 +54,7 @@ function questionAuthoringAuth(req, res, next) {
   if (user && user.name === QUESTION_AUTHORING_USERNAME && user.pass === QUESTION_AUTHORING_PASSWORD) return next();
   
   return sendUnauthorized(res);
-};
+}
 
 // api routes
 // helper for db connection pooling
@@ -69,7 +68,7 @@ function queryDatabase(text, values, cb) {
       cb(err, result);
     });
   });
-};
+}
 
 
 // This endpoint that receives all evidence.
@@ -104,10 +103,6 @@ app.post('/server/evidence/:app/:type/:version', function(request, response) {
   });
 });
 
-function tellSlackAboutEvaluations(params, body) {
-  return tellSlack('Got evaluation.');
-}
-
 function tellSlackAboutEvidence(params, body) {
   return tellSlack('Got evidence.');
 }
@@ -119,7 +114,7 @@ function tellSlack(text) {
     .post(url)
     .send({
       username: "robo-coach",
-      icon_emoji: ":robot_face:",
+      icon_emoji: ":robot_face:", // eslint-disable-line camelcase
       text: text
     })
     .set('Accept', 'application/json')
@@ -141,16 +136,15 @@ app.post('/server/questions', questionAuthoringAuth, function(request, response)
     INSERT INTO message_popup_questions(timestamp, questions)
     VALUES (to_timestamp($1), $2)`;
 
-    queryDatabase(sql, values, function(err, result){
-      if(err) {
-        console.log({ error: err });
-        return response.status(500);
-      }
-      console.log(JSON.stringify(result));
-      response.status(201);
-      return response.json({});
-    });
-
+  queryDatabase(sql, values, function(err, result){
+    if(err) {
+      console.log({ error: err });
+      return response.status(500);
+    }
+    console.log(JSON.stringify(result));
+    response.status(201);
+    return response.json({});
+  });
 });
 
 app.get('/server/questions', questionAuthoringAuth, function(request, response){
@@ -183,6 +177,9 @@ app.get('/server/reviews', ReviewEndpoint.sensitiveGetReview({queryDatabase}));
 app.get('/teachermoments/wav/(:id).wav', ReviewEndpoint.sensitiveGetAudioFile({queryDatabase, s3}));
 
 
+// Read anonymized responses for Apples-to-Apples style group reviewing
+app.get('/server/apples/:key', ApplesEndpoint.sensitiveGetApples({queryDatabase}));
+
 
 // serve static HTML
 function readFile(filename) {
@@ -191,11 +188,11 @@ function readFile(filename) {
     console.log(absolutePath);
     const readStream = fs.createReadStream(absolutePath);
     readStream.pipe(response);
-  }
+  };
 }
 app.get('/bundle.js', readFile('bundle.js'));
 app.get('/playtest.html', readFile('playtest.html'));
-app.get('/favicon.ico', (request, response) => { response.status(404).end() });
+app.get('/favicon.ico', (request, response) => { response.status(404).end(); });
 app.get('*', readFile('index.html'));
 
 

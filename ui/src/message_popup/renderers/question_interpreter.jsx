@@ -7,6 +7,7 @@ import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
 import MinimalTextResponse from '../renderers/minimal_text_response.jsx';
 import AudioCapture from '../../components/audio_capture.jsx';
 import MinimalTimedView from '../renderers/minimal_timed_view.jsx';
+import ApplesTextResponse from '../renderers/apples_text_response.jsx';
 
 
 // This renders a question and an interaction, and strives towards being a
@@ -71,6 +72,20 @@ export default React.createClass({
       }
     }
 
+    // Double-log for reading back safely during group reviews
+    if (question.applesSceneNumber !== undefined) {
+      return <ApplesTextResponse
+        key={key}
+        applesSceneNumber={question.applesSceneNumber}
+        forceResponse={question.force || false}
+        responsePrompt=""
+        recordText="Respond"
+        ignoreText="Move on"
+        onLogMessage={onLogMessage}
+        onResponseSubmitted={onResponseSubmitted}
+        />;
+    }
+
     if (question.write) {
       return <MinimalTextResponse
         key={key}
@@ -81,7 +96,6 @@ export default React.createClass({
         onResponseSubmitted={onResponseSubmitted}
       />;
     }
-
 
     if (question.notes) {
       return <MinimalTextResponse

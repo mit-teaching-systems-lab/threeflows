@@ -54,8 +54,21 @@ export function logEvidence(type, record) {
     .end();
 }
 
+// Log evidence for an Apples-to-Apples style response, just plain text
+// associated with a particular key.
+export function logApplesText(params) {
+  const {applesKey, sceneNumber, sceneText, anonymizedText} = params;
+  return logEvidence('anonymized_apples_to_apples', {applesKey, sceneNumber, sceneText, anonymizedText});
+}
 
-//Query for questions
+// Query for responses for doing Apples-to-Apples style reviewing for a particular `applesKey`
+export function getApples(applesKey) {
+  return request
+    .get(`/server/apples/${applesKey}`)
+    .set('Content-Type', 'application/json');
+}
+
+// Query for questions
 export function questionsQuery() {
   return request
     .get('/server/questions')

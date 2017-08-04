@@ -1,5 +1,4 @@
 const {getDomain} = require('../domain.js');
-const dateFns = require('date-fns');
 const uuid = require('uuid');
 const Mustache = require('mustache');
 const fs = require('fs');
@@ -170,6 +169,6 @@ module.exports = {
           });
         });
       });
-    }
+    };
   }
 };

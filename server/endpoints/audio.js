@@ -14,7 +14,7 @@ function getAudioKey(request, id) {
 function getUrl(request, id) {
   const domain = getDomain(request);
   return `${domain}/teachermoments/wav/${id}.wav`;
-};
+}
 
 function post(s3) {
   return (request, response) => {
@@ -42,7 +42,7 @@ function post(s3) {
       response.status(201);
       return response.json({ url, id });
     });
-  }
+  };
 }
 
 // There's no authorization check here
