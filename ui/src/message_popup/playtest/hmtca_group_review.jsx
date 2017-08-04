@@ -23,6 +23,10 @@ export default React.createClass({
   },
 
   componentDidMount() {
+    this.refreshResponses();
+  },
+
+  refreshResponses() {
     const {applesKey} = this.props;
     Api.getApples(applesKey).end(this.onResponsesReceived);
   },
