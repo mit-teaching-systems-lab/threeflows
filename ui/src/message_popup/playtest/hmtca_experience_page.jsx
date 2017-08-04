@@ -10,8 +10,9 @@ import SessionFrame from '../linear_session/session_frame.jsx';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import 'velocity-animate/velocity.ui';
 import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
 import QuestionInterpreter from '../renderers/question_interpreter.jsx';
 import type {QuestionT} from './pairs_scenario.jsx';
@@ -59,8 +60,8 @@ export default React.createClass({
     return [cohortKey, bucketId].join(':');
   },
 
-  onCohortKeyChanged(e) {
-    this.setState({ cohortKey: e.target.value });
+  onCohortKeyChanged(e, menuItemKey, cohortKey) {
+    this.setState({cohortKey});
   },
 
   onBucketChanged(e) {
@@ -141,17 +142,6 @@ export default React.createClass({
             <p>This is an online practice space made just for HMTCA.</p>
           </div>
           <div style={styles.instructions}>
-            <div>
-              <TextField
-                name="cohortKey"
-                style={{width: '100%', marginBottom: 15}}
-                underlineShow={true}
-                floatingLabelText="What's your team's code?"
-                floatingLabelFixed={true}
-                value={this.state.cohortKey}
-                onChange={this.onCohortKeyChanged}
-                rows={2} />
-            </div>
             <div>What would you like to practice?</div>
             <RadioButtonGroup
               style={{margin: 10}}
@@ -168,6 +158,20 @@ export default React.createClass({
                 />
               )}
             </RadioButtonGroup>
+          </div>
+          <div style={styles.instructions}>
+            <SelectField
+              maxHeight={250}
+              style={{width: '100%'}}
+              floatingLabelText="Select your team code"
+              value={this.state.cohortKey}
+              onChange={this.onCohortKeyChanged}
+            >
+              <MenuItem key={''} value={''} primaryText={''} />
+              {HMTCAScenarios.TEAM_CODES.map(code => <MenuItem key={code} value={code} primaryText={code} />)}
+            </SelectField>
+          </div>
+          <div style={styles.instructions}>
             <p>In this practice space, you'll have to improvise and adapt to make the best of the situation.  Some scenarios might not exactly match your grade level and subject.</p>
             <RaisedButton
               disabled={this.state.cohortKey === ''}

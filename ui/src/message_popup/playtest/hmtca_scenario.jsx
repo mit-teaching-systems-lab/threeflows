@@ -1,4 +1,6 @@
 /* @flow weak */
+import _ from 'lodash';
+
 
 // This file defines the content for the HMTCA scenarios.
 // Note: This only supports text scenes right now.
@@ -16,6 +18,27 @@ const BUCKETS = [
   { id: 203, text: 'Disrespect towards females' },
   { id: 204, text: 'Combination of the above' }
 ];
+
+const TEAM_CODES = _.sortBy([
+  'mango',
+  'lemon',
+  'papaya',
+  'apple',
+  'guava',
+  'banana',
+  'nectarine',
+  'peach',
+  'blueberry',
+  'strawberry',
+  'grape',
+  'pineapple',
+  'pear',
+  'cherry',
+  'watermelon',
+  'kiwi',
+  'coconut',
+  'blackberry'
+]);
 
 
 function slidesFor(cohortKey, bucketId) {
@@ -37,6 +60,7 @@ function slidesFor(cohortKey, bucketId) {
 
 export default {
   BUCKETS,
+  TEAM_CODES,
   questionsFor(cohortKey, bucketId) {
     return slidesFor(cohortKey, bucketId);
   }
