@@ -43,9 +43,35 @@ const TEAM_CODES = _.sortBy([
 
 function slidesFor(cohortKey, bucketId) {
   const slides:[QuestionT] = [];
+  slides.push({ text: `1. Practice
+
+You're about to be presented with several different situations with students based on the selection you made on the previous screen.
+
+After you click "Practice," you'll see your first scene involving student(s) and you’ll type how you'd respond to the student(s) in the moment. Once you finished your response to the first scene, another scene will appear and you’ll type your response to that scene. This process will continue until you’ve read and responded to six (6) different scenes.
+`});
+
+  slides.push({ text: `2. Reflect and Discuss
+
+Once you’ve responded to all the scenes, you’ll come back as a group and discuss your responses in the vein of apples-to-apples. Basically, one person will be the “owner” of the first scene and will review the responses to the scene with the group and then select their preferred response based on the group’s feedback and their own preferences. The next person will “own” the second scene and will repeat the process as described above. You will do this until everyone has had a turn “owning” a scene.
+`});
+
+
+  slides.push({ text: `3. Connect to Personal Experience
+
+Once all members of your team have had a chance to “own” a scene, you will debrief as a team by discussing your personal experiences with students engaging in the behavior you selected at the beginning.
+
+
+
+4. Return to Large Group Discussion
+
+Once 60 minutes elapses, you will return to the all-school discussion.
+
+
+`});
+
 
   if (bucketId === 201) {
-    slides.push({ text: 'Students Refusing to do Work'});
+    slides.push({ text: 'Students Refusing to do Work:'});
     
     slides.push({ text: 'Students are using Chromebooks to work on individual projects in class. As you walk around the classroom, you notice Jose watching a music video on YouTube instead of doing work.', applesSceneNumber: 1 });
     
@@ -64,7 +90,7 @@ Now class has started and you’ve asked students to turn in their assignments. 
 
 
   else if (bucketId === 202) {
-    slides.push({ text: 'Disrespect Towards Teachers'});
+    slides.push({ text: 'Disrespect Towards Teachers:'});
     
     slides.push({ text: 'You’re teaching ELA. You’re in the middle of discussing Romeo and Juliet when Carlos interrupts you without raising his hand and says, “Why does any of this matter? How is Shakespeare going to help me get a job? Stop wasting our time!”', applesSceneNumber: 1});
     
@@ -81,7 +107,7 @@ Now class has started and you’ve asked students to turn in their assignments. 
 
 
   else if (bucketId === 203) {
-    slides.push({ text: 'Disrespect Towards Female Students'});
+    slides.push({ text: 'Disrespect Towards Female Students:'});
     
     slides.push({ text: 'It’s March and students are starting to receive their college acceptance letters. You are teaching Physics and you hear Amy talk about getting accepted to MIT. Another student, Mike, responds to her by saying, “You only got accepted to MIT because you’re a girl.”', applesSceneNumber: 1});
     
