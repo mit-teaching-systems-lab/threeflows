@@ -14,7 +14,7 @@ export type QuestionT = {
 
 
 
-function slidesFor(cohortKey, isFacilitated) {
+function slidesFor(cohortKey, options) {
   const slides:[QuestionT] = [];
 
 
@@ -29,7 +29,7 @@ function slidesFor(cohortKey, isFacilitated) {
     <div>3. Try it!</div>
     <div>When you're ready, you'll go through a set of short scenes that simulate moments in the classroom. Note what you observe.</div>
     <br />
-    {(isFacilitated)
+    {(options.isFacilitated)
       ? <div>
         <div>4. PAUSE!</div>
        <div>After the first set of scenes, pause for a brief group discussion before resuming.</div></div>
@@ -297,7 +297,7 @@ Okay! Ready to start?`
 
 
 
-  if (isFacilitated) {
+  if (options.isFacilitated) {
     slides.push({type: 'Try it!', text:
     `That's the end of the class! Take a moment to reflect on how you felt the class went overall.` 
 
@@ -535,7 +535,7 @@ Ready? Okay! Go!
 
 
 
-  if (isFacilitated) {
+  if (options.isFacilitated) {
     slides.push({type: 'Try it! - Lenses', text:
     `
     That's the end of the class! Take a moment to reflect on how you felt the class went overall.
@@ -582,7 +582,7 @@ Ready? Okay! Go!
 
 
 export const smithScenario = {
-  questionsFor(cohortKey, isFacilitated) {
-    return slidesFor(cohortKey, isFacilitated);
+  questionsFor(cohortKey, options) {
+    return slidesFor(cohortKey, options);
   }
 };

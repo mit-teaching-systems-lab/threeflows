@@ -64,7 +64,7 @@ export default React.createClass({
   onStart(email) {
     const {cohortKey} = this.state;
     const {facilitated} = this.props;
-    const allQuestions = smithScenario.questionsFor(cohortKey, (facilitated));
+    const allQuestions = smithScenario.questionsFor(cohortKey, {isFacilitated: facilitated});
     const startQuestionIndex = this.props.query.p || 0; // for testing or demoing
     const questions = allQuestions.slice(startQuestionIndex);
     const questionsHash = hash(JSON.stringify(questions));
