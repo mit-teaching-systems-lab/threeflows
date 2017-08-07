@@ -58,7 +58,8 @@ export default React.createClass({
     '/teachermoments/jayden': 'jaydenScenario',
     '/teachermoments/rosa': 'rosaScenario',
     '/teachermoments/smithB': 'smithScenarioB',
-    '/teachermoments/smithFacilitated': 'smithScenario',
+    '/teachermoments/smithFacilitated': 'smithFacilitatedScenario',
+    '/teachermoments/smith': 'smithScenario',
     '/teachermoments/ecs': 'ecsScenario',
 
     // For HMTCA, with practice space and reviewing UI
@@ -153,7 +154,11 @@ export default React.createClass({
   },
 
   smithScenario(query = {}) {
-    return <MessagePopup.SmithExperiencePage query={{}}/>;
+    return <MessagePopup.SmithExperiencePage query={query} facilitated={false} />;
+  },
+
+  smithFacilitatedScenario(query = {}) {
+    return <MessagePopup.SmithExperiencePage query={query} facilitated={true} />;
   },
 
   messagePopupBubbleSort(query = {}) {
