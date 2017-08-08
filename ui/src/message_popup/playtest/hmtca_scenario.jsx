@@ -1,5 +1,6 @@
 /* @flow weak */
 import _ from 'lodash';
+import React from 'react';
 
 
 // This file defines the content for the HMTCA scenarios.
@@ -47,31 +48,49 @@ function addInAppleSceneNumber(slide, index) {
 
 function slidesFor(cohortKey, bucketId) {
   var slides:[QuestionT] = [];
-  slides.push({ text: `1. Practice
+  slides.push({ el: 
+    <div>
+    <div><b>PART 1: Practice Individually</b> (20 Minutes)</div>
+    <br />
+    <ul>
+      <li>Read through 6 separate scenes and type your response to each scene.</li>
+      <li>Wait for your group to finish. Move on to Part 2 after 20 minutes.</li>
+    </ul>
+    </div>
+  });
 
-You're about to be presented with several different situations with students based on the selection you made on the previous screen.
+  slides.push({ el: 
+    <div>
+    <div><b>PART 2: Round-robin Discussion</b> (20 Minutes)</div>
+    <br />
+    <ul>
+      <li>Pick a facilitator to start the discussion. Rotate facilitators for each scene.</li>
+      <li>The facilitator reads through the submitted responses to a scene and asks the group: <i>Which responses would help de-escalate the situation?</i></li>
+      <li>The group chimes in, sharing stories from their own teaching experience.</li>
+      <li>The facilitator wraps up the discussion for their scene by summarizing key takeaways.</li>
+      <li>Move on to Part 3 after 20 minutes.</li>
+    </ul>
+    </div>
 
-After you click "Practice," you'll see your first scene involving student(s) and you’ll type how you'd respond to the student(s) in the moment. Once you finished your response to the first scene, another scene will appear and you’ll type your response to that scene. This process will continue until you’ve read and responded to six (6) different scenes.
-`});
-
-  slides.push({ text: `2. Reflect and Discuss
-
-Once you’ve responded to all the scenes, you’ll come back as a group and discuss your responses in the vein of apples-to-apples. Basically, one person will be the “owner” of the first scene and will review the responses to the scene with the group and then select their preferred response based on the group’s feedback and their own preferences. The next person will “own” the second scene and will repeat the process as described above. You will do this until everyone has had a turn “owning” a scene.
-`});
-
-
-  slides.push({ text: `3. Connect to Personal Experience
-
-Once all members of your team have had a chance to “own” a scene, you will debrief as a team by discussing your personal experiences with students engaging in the behavior you selected at the beginning.
-
-
-
-4. Return to Large Group Discussion
-
-Once 60 minutes elapses, you will return to the all-school discussion.
+  });
 
 
-`});
+  slides.push({ el:
+    <div>
+    <div><b>PART 3: Group Discussion on Bias</b> (15 Minutes)</div>
+    <br />
+    <ul>
+      <li>Close your computers and discuss as a team: <i>What classroom management situations would be most impacted by a teacher's assumptions about race, ethnicity, or gender?</i></li>
+      <li>Each team will be asked to share their responses with the whole group after.</li>
+    </ul>
+    </div>
+  });
+
+
+  slides.push({ text:`Ready to begin?
+
+The next slide will show you the first of six scenes in the category you chose. For each scene, simulate how you’d respond to the student(s) in the moment. Type your response in the textbox located below each scene.`});
+
 
   const refusingWorkSlides = [
     { text: 'Students are using Chromebooks to work on individual projects in class. As you walk around the classroom, you notice Jose watching a music video on YouTube instead of doing work.' },
@@ -133,23 +152,20 @@ Lisa looks away, visibly angry.
 
   if (bucketId === 201) {
 
-    slides.push({ text: 'Students Refusing to do Work:'});
-
     slides = slides.concat(refusingWorkSlides.map(addInAppleSceneNumber));
     
   } 
 
 
   else if (bucketId === 202) {
-    slides.push({ text: 'Disrespect Towards Teachers:'});
     
     slides = slides.concat(teacherDisrespect.map(addInAppleSceneNumber));
-    
+
   }
 
 
   else if (bucketId === 203) {
-    slides.push({ text: 'Disrespect Towards Female Students:'});
+
     
     slides = slides.concat(maleFemaleDisrespect.map(addInAppleSceneNumber));
 
@@ -157,7 +173,7 @@ Lisa looks away, visibly angry.
 
 
   else {
-    slides.push({ text: 'Mix'});
+
     const scenes = []
       .concat(refusingWorkSlides.slice(0,2))
       .concat(teacherDisrespect.slice(0,2))
@@ -165,6 +181,7 @@ Lisa looks away, visibly angry.
 
     slides = slides.concat(scenes.map(addInAppleSceneNumber));
   }
+
 
   return slides;
 }
