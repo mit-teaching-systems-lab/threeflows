@@ -1,4 +1,4 @@
-/* @flow weak */
+// TODO(kr) flow typing disabled because of error in refreshTimer typing
 import React from 'react';
 import _ from 'lodash';
 
