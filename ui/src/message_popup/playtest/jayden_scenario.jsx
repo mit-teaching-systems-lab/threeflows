@@ -44,7 +44,7 @@ function slidesFor(cohortKey) {
   slides.push({ type: 'Context', text:
 `You’re currently at the end of the first month of the year.
 
-You’ve noticed one of your students, Jayden, is not participating in class discussion as much as he did at the beginning of the semester and has taken on passive roles during in-class activities.
+You’ve noticed one of your students, Jayden, an African-American young man in 11th grade, is not participating in class discussion as much as he did at the beginning of the semester and has taken on passive roles during in-class activities.
 `});
 
   slides.push({ type: 'Context', text:
