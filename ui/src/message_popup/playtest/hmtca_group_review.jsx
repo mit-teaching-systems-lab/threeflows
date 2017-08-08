@@ -1,4 +1,4 @@
-/* @flow weak */
+// TODO(kr) flow typing disabled because of error in refreshTimer typing
 import React from 'react';
 import _ from 'lodash';
 
@@ -26,7 +26,14 @@ export default React.createClass({
   // method that refreshes the responses (and then add a componentWillUnmount to cleanup).
   componentDidMount() {
     this.refreshResponses();
+    this.refreshTimer = setInterval(this.refreshResponses,5000);
   },
+
+  componentWillUnmount(){
+    clearInterval(this.refreshTimer);
+  },
+
+  refreshTimer: (null: ?number),
 
   refreshResponses() {
     const {applesKey} = this.props;
