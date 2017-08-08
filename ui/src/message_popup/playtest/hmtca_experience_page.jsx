@@ -14,6 +14,7 @@ import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
+import TextField from 'material-ui/TextField';
 
 import QuestionInterpreter from '../renderers/question_interpreter.jsx';
 import type {QuestionT} from './pairs_scenario.jsx';
@@ -44,6 +45,7 @@ export default React.createClass({
   getInitialState() {
     return {
       cohortKey: this.props.query.cohort || '',
+      identifier: '',
       bucketId: HMTCAScenarios.BUCKETS[0].id.toString(),
       didSkipAhead: false,
       questions: null,
@@ -70,6 +72,10 @@ export default React.createClass({
 
   onCohortKeyChanged(e, menuItemKey, cohortKey) {
     this.setState({cohortKey});
+  },
+
+  onIdentifierChanged(e) {
+    this.setState({ identifier: e.target.value });
   },
 
   onBucketChanged(e) {
@@ -100,12 +106,16 @@ export default React.createClass({
   },
 
   onLogMessage(type, response) {
-    const {cohortKey, sessionId, questionsHash} = this.state;
+    const {
+      identifier,
+      cohortKey,
+      sessionId,
+      questionsHash
+    } = this.state;
     
     // Watch for a particular message, then add in the applesKey and double-log
     // it, stripping out all the identifiers from the log message so we can read it
     // back later safely anonymized.
-    //
     if (type === 'anonymized_apples_to_apples_partial') {
       Api.logApplesText({
         applesKey: this.applesKey(),
@@ -119,7 +129,8 @@ export default React.createClass({
       ...response,
       sessionId,
       cohortKey,
-      questionsHash
+      questionsHash,
+      identifier
     });
   },
 
@@ -150,11 +161,21 @@ export default React.createClass({
     return (
       <VelocityTransitionGroup enter={{animation: "callout.pulse", duration: 500}} leave={{animation: "slideUp"}} runOnMount={true}>
         <form onSubmit={this.onStart}>
-          <div style={styles.instructions}>
-            <p>Welcome!</p>
-            <p>This is an online practice space made just for HMTCA.</p>
+          <div style={{...styles.instructions, marginBottom: 15}}>
+            <p>Welcome!  This is an online practice space made just for HMTCA.</p>
           </div>
           <div style={styles.instructions}>
+            <div>What's your anonymous identifier?</div>
+            <TextField
+              name="identifier"
+              style={{width: '100%', marginBottom: 20}}
+              underlineShow={true}
+              hintText="orange-surprised-dolphin-73"
+              value={this.state.identifier}
+              onChange={this.onIdentifierChanged}
+              rows={1} />
+          </div>
+          <div style={{...styles.instructions, paddingBottom: 0}}>
             <div>What would you like to practice?</div>
             <RadioButtonGroup
               style={{margin: 10}}
@@ -187,7 +208,7 @@ export default React.createClass({
           <div style={styles.instructions}>
             <p>In this practice space, you'll have to improvise and adapt to make the best of the situation.  Some scenarios might not exactly match your grade level and subject.</p>
             <RaisedButton
-              disabled={this.state.cohortKey === ''}
+              disabled={this.state.cohortKey === '' || this.state.identifier === ''}
               onTouchTap={this.onStart}
               type="submit"
               style={styles.button}
