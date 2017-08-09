@@ -5,6 +5,7 @@ import _ from 'lodash';
 import * as Api from '../../helpers/api.js';
 import Paper from 'material-ui/Paper';
 import {Card, CardTitle, CardText} from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton';
 
 
 // For reviewing responses as a group.
@@ -12,7 +13,8 @@ export default React.createClass({
   displayName: 'HMTCAGroupReview',
 
   propTypes: {
-    applesKey: React.PropTypes.string
+    applesKey: React.PropTypes.string.isRequired,
+    onDone: React.PropTypes.func.isRequired
   },
 
   getInitialState() {
@@ -38,6 +40,10 @@ export default React.createClass({
   refreshResponses() {
     const {applesKey} = this.props;
     Api.getApples(applesKey).end(this.onResponsesReceived);
+  },
+
+  onButtonTapped() {
+    this.props.onDone();
   },
 
   onResponsesReceived(err, response){
@@ -81,6 +87,11 @@ export default React.createClass({
             </div>
           );
         })}</div>
+        <div>
+          <RaisedButton
+            label="ok!"
+            onTouchTap={this.onButtonTapped} />
+        </div>
       </div>
     );
   }

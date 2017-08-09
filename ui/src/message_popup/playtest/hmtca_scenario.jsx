@@ -59,34 +59,6 @@ function slidesFor(cohortKey, bucketId) {
     </div>
   });
 
-  slides.push({ el: 
-    <div>
-    <div><b>PART 2: Round-robin Discussion</b> (20 Minutes)</div>
-    <br />
-    <ul>
-      <li>Pick a facilitator to start the discussion. Rotate facilitators for each scene.</li>
-      <li>The facilitator reads through the submitted responses to a scene and asks the group: <i>Which responses would help de-escalate the situation?</i></li>
-      <li>The group chimes in, sharing stories from their own teaching experience.</li>
-      <li>The facilitator wraps up the discussion for their scene by summarizing key takeaways.</li>
-      <li>Move on to Part 3 after 20 minutes.</li>
-    </ul>
-    </div>
-
-  });
-
-
-  slides.push({ el:
-    <div>
-    <div><b>PART 3: Group Discussion on Bias</b> (15 Minutes)</div>
-    <br />
-    <ul>
-      <li>Close your computers and discuss as a team: <i>What classroom management situations would be most impacted by a teacher's assumptions about race, ethnicity, or gender?</i></li>
-      <li>Each team will be asked to share their responses with the whole group after.</li>
-    </ul>
-    </div>
-  });
-
-
   slides.push({ text:`Ready to begin?
 
 The next slide will show you the first of six scenes in the category you chose. For each scene, simulate how you’d respond to the student(s) in the moment. Type your response in the textbox located below each scene.`});
@@ -187,8 +159,11 @@ Lisa looks away, visibly angry.
 
 If you’ve finished early, wait for your whole group to finish before proceeding to group discussion.`});
 
+
   return slides;
 }
+
+
 
 
 export default {

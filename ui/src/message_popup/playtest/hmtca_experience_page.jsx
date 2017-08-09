@@ -47,7 +47,9 @@ export default React.createClass({
       cohortKey: this.props.query.cohort || '',
       identifier: '',
       bucketId: HMTCAScenarios.BUCKETS[0].id.toString(),
-      didSkipAhead: false,
+      isDonePractice: false,
+      isDoneGroupInstructions: false,
+      isDoneReview: false,
       questions: null,
       sessionId: uuid.v4()
     };
@@ -101,8 +103,12 @@ export default React.createClass({
     this.setState(this.getInitialState());
   },
 
-  onReviewTapped() {
-    this.setState({didSkipAhead: true});
+  onStartGroupReview() {
+    this.setState({ isDoneGroupInstructions: true});
+  },
+
+  onReviewDone() {
+    this.setState({ isDoneReview: true });
   },
 
   onLogMessage(type, response) {
@@ -143,9 +149,11 @@ export default React.createClass({
   },
 
   renderContent() {
-    const {questions, didSkipAhead} = this.state;
+    const {questions, isDonePractice, isDoneGroupInstructions, isDoneReview} = this.state;
     if (!questions) return this.renderIntro();
-    if (didSkipAhead) return this.renderGroupReview();
+    if (isDonePractice) return this.renderGroupInstructions();
+    if (isDoneGroupInstructions) return this.renderGroupReview();
+    if (isDoneGroupInstructions && isDoneReview) return this.renderFinalInstructions();
 
     return <LinearSession
       questions={questions}
@@ -154,7 +162,6 @@ export default React.createClass({
       onLogMessage={this.onLogMessage}
     />;
   },
-
 
   renderIntro() {
     const {bucketId} = this.state;
@@ -249,11 +256,40 @@ export default React.createClass({
   },
 
   renderClosingEl(questions:[QuestionT], responses:[ResponseT]) {
-    return this.renderGroupReview();
+    return this.renderGroupInstructions();
+  },
+
+  renderGroupInstructions() {
+    return (
+      <div style={{...styles.instructions, margin: 20}}>
+        <div>
+          <div><b>PART 2: Round-robin Discussion</b> (20 Minutes)</div>
+          <br />
+          <ul>
+            <li>Pick a facilitator to start the discussion. Rotate facilitators for each scene.</li>
+            <li>The facilitator reads through the submitted responses to a scene and asks the group: <i>Which responses would help de-escalate the situation?</i></li>
+            <li>The group chimes in, sharing stories from their own teaching experience.</li>
+            <li>The facilitator wraps up the discussion for their scene by summarizing key takeaways.</li>
+            <li>Move on to Part 3 after 20 minutes.</li>
+          </ul>
+        </div>
+        <div>
+          <RaisedButton
+            label="ok!"
+            onTouchTap={this.onStartGroupReview} />
+        </div>
+      </div>
+    );
   },
 
   renderGroupReview() {
-    return <HMTCAGroupReview applesKey={this.applesKey()} />;
+    return <HMTCAGroupReview
+      applesKey={this.applesKey()}
+      onDone={this.onReviewDone} />;
+  },
+
+  renderFinalInstructions() {
+    return <div>final instructions!  edit me :)</div>;
   }
 });
 
