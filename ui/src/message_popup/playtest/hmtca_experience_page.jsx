@@ -310,8 +310,11 @@ export default React.createClass({
   renderFinalInstructions() {
     return (
       <div style={styles.instructions}>
-        <p><b>PART 3: Group Discussion</b></p>
-        <p>...edit me...</p>
+        <p><b>PART 3: Group discussion on bias</b> (15 Minutes)</p>
+        <ul>
+            <li>Close your computers and discuss as a team: <i>What classroom management situations would be most impacted by a teacher's assumptions about race, ethnicity, or gender?</i></li>
+            <li>Each team will be asked to share their responses with the whole group after.</li>
+          </ul>
       </div>
     );
   }
