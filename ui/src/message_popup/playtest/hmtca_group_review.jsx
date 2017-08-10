@@ -87,9 +87,10 @@ export default React.createClass({
             </div>
           );
         })}</div>
-        <div>
+        <div style={{margin: 20}}>
           <RaisedButton
-            label="ok!"
+            label="Start Part #3"
+            secondary={true}
             onTouchTap={this.onButtonTapped} />
         </div>
       </div>

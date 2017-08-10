@@ -29,6 +29,14 @@ type ResponseT = {
 };
 
 
+// These parts are the different phases of the online experience.
+const Parts = {
+  PRACTICE: 'PRACTICE',
+  GROUP_INSTRUCTIONS: 'GROUP_INSTRUCTIONS',
+  GROUP_REVIEW: 'GROUP_REVIEW',
+  FINAL_INSTRUCTIONS: 'FINAL_INSTRUCTIONS'
+};
+
 
 // This is the flow for the HMTCA breakout session
 export default React.createClass({
@@ -47,11 +55,9 @@ export default React.createClass({
       cohortKey: this.props.query.cohort || '',
       identifier: '',
       bucketId: HMTCAScenarios.BUCKETS[0].id.toString(),
-      isDonePractice: false,
-      isDoneGroupInstructions: false,
-      isDoneReview: false,
       questions: null,
-      sessionId: uuid.v4()
+      sessionId: uuid.v4(),
+      currentPart: Parts.PRACTICE
     };
   },
 
@@ -103,12 +109,16 @@ export default React.createClass({
     this.setState(this.getInitialState());
   },
 
-  onStartGroupReview() {
-    this.setState({ isDoneGroupInstructions: true});
+  onShowGroupInstructions() {
+    this.setState({ currentPart: Parts.GROUP_INSTRUCTIONS });
   },
 
-  onReviewDone() {
-    this.setState({ isDoneReview: true });
+  onStartGroupReview() {
+    this.setState({ currentPart: Parts.GROUP_REVIEW });
+  },
+
+  onGroupReviewDone() {
+    this.setState({ currentPart: Parts.FINAL_INSTRUCTIONS });
   },
 
   onLogMessage(type, response) {
@@ -149,18 +159,20 @@ export default React.createClass({
   },
 
   renderContent() {
-    const {questions, isDonePractice, isDoneGroupInstructions, isDoneReview} = this.state;
-    if (!questions) return this.renderIntro();
-    if (isDonePractice) return this.renderGroupInstructions();
-    if (isDoneGroupInstructions) return this.renderGroupReview();
-    if (isDoneGroupInstructions && isDoneReview) return this.renderFinalInstructions();
+    const {questions, currentPart} = this.state;
+    if (currentPart === Parts.PRACTICE) {
+      if (!questions) return this.renderIntro();
+      return <LinearSession
+        questions={questions}
+        questionEl={this.renderQuestionEl}
+        summaryEl={this.renderPauseEl}
+        onLogMessage={this.onLogMessage}
+      />;
+    }
 
-    return <LinearSession
-      questions={questions}
-      questionEl={this.renderQuestionEl}
-      summaryEl={this.renderClosingEl}
-      onLogMessage={this.onLogMessage}
-    />;
+    if (currentPart === Parts.GROUP_INSTRUCTIONS) return this.renderGroupInstructions();
+    if (currentPart === Parts.GROUP_REVIEW) return this.renderGroupReview();
+    if (currentPart === Parts.FINAL_INSTRUCTIONS) return this.renderFinalInstructions();
   },
 
   renderIntro() {
@@ -248,20 +260,27 @@ export default React.createClass({
         <div style={{margin: 35}}>
           <div style={{paddingBottom: 20}}>If the rest of your group has already finished, jump to the discussion round.</div>
           <RaisedButton
-            label="Start discussion round"
-            onTouchTap={this.onReviewTapped} />
+            label="Start phase #2"
+            onTouchTap={this.onShowGroupInstructions} />
         </div>
       </div>
     );
   },
 
-  renderClosingEl(questions:[QuestionT], responses:[ResponseT]) {
-    return this.renderGroupInstructions();
+  renderPauseEl(questions:[QuestionT], responses:[ResponseT]) {
+    return (
+      <div style={{margin: 20}}>
+        <div style={{paddingBottom: 20}}>If you’ve finished early, wait for your whole group to finish before proceeding to group discussion.</div>
+        <RaisedButton
+          label="Start phase #2"
+          onTouchTap={this.onShowGroupInstructions} />
+      </div>
+    );
   },
 
   renderGroupInstructions() {
     return (
-      <div style={{...styles.instructions, margin: 20}}>
+      <div style={{margin: 20}}>
         <div>
           <div><b>PART 2: Round-robin Discussion</b> (20 Minutes)</div>
           <br />
@@ -285,11 +304,16 @@ export default React.createClass({
   renderGroupReview() {
     return <HMTCAGroupReview
       applesKey={this.applesKey()}
-      onDone={this.onReviewDone} />;
+      onDone={this.onGroupReviewDone} />;
   },
 
   renderFinalInstructions() {
-    return <div>final instructions!  edit me :)</div>;
+    return (
+      <div style={styles.instructions}>
+        <p><b>PART 3: Group Discussion</b></p>
+        <p>...edit me...</p>
+      </div>
+    );
   }
 });
 
