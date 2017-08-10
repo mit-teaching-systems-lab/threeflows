@@ -29,6 +29,14 @@ type ResponseT = {
 };
 
 
+// These parts are the different phases of the online experience.
+const Parts = {
+  PRACTICE: 'PRACTICE',
+  GROUP_INSTRUCTIONS: 'GROUP_INSTRUCTIONS',
+  GROUP_REVIEW: 'GROUP_REVIEW',
+  FINAL_INSTRUCTIONS: 'FINAL_INSTRUCTIONS'
+};
+
 
 // This is the flow for the HMTCA breakout session
 export default React.createClass({
@@ -47,9 +55,9 @@ export default React.createClass({
       cohortKey: this.props.query.cohort || '',
       identifier: '',
       bucketId: HMTCAScenarios.BUCKETS[0].id.toString(),
-      didSkipAhead: false,
       questions: null,
-      sessionId: uuid.v4()
+      sessionId: uuid.v4(),
+      currentPart: Parts.PRACTICE
     };
   },
 
@@ -101,8 +109,16 @@ export default React.createClass({
     this.setState(this.getInitialState());
   },
 
-  onReviewTapped() {
-    this.setState({didSkipAhead: true});
+  onShowGroupInstructions() {
+    this.setState({ currentPart: Parts.GROUP_INSTRUCTIONS });
+  },
+
+  onStartGroupReview() {
+    this.setState({ currentPart: Parts.GROUP_REVIEW });
+  },
+
+  onGroupReviewDone() {
+    this.setState({ currentPart: Parts.FINAL_INSTRUCTIONS });
   },
 
   onLogMessage(type, response) {
@@ -143,18 +159,21 @@ export default React.createClass({
   },
 
   renderContent() {
-    const {questions, didSkipAhead} = this.state;
-    if (!questions) return this.renderIntro();
-    if (didSkipAhead) return this.renderGroupReview();
+    const {questions, currentPart} = this.state;
+    if (currentPart === Parts.PRACTICE) {
+      if (!questions) return this.renderIntro();
+      return <LinearSession
+        questions={questions}
+        questionEl={this.renderQuestionEl}
+        summaryEl={this.renderPauseEl}
+        onLogMessage={this.onLogMessage}
+      />;
+    }
 
-    return <LinearSession
-      questions={questions}
-      questionEl={this.renderQuestionEl}
-      summaryEl={this.renderClosingEl}
-      onLogMessage={this.onLogMessage}
-    />;
+    if (currentPart === Parts.GROUP_INSTRUCTIONS) return this.renderGroupInstructions();
+    if (currentPart === Parts.GROUP_REVIEW) return this.renderGroupReview();
+    if (currentPart === Parts.FINAL_INSTRUCTIONS) return this.renderFinalInstructions();
   },
-
 
   renderIntro() {
     const {bucketId} = this.state;
@@ -241,19 +260,63 @@ export default React.createClass({
         <div style={{margin: 35}}>
           <div style={{paddingBottom: 20}}>If the rest of your group has already finished, jump to the discussion round.</div>
           <RaisedButton
-            label="Start discussion round"
-            onTouchTap={this.onReviewTapped} />
+            label="Start phase #2"
+            onTouchTap={this.onShowGroupInstructions} />
         </div>
       </div>
     );
   },
 
-  renderClosingEl(questions:[QuestionT], responses:[ResponseT]) {
-    return this.renderGroupReview();
+  renderPauseEl(questions:[QuestionT], responses:[ResponseT]) {
+    return (
+      <div style={{margin: 20}}>
+        <div style={{paddingBottom: 20}}>If you’ve finished early, wait for your whole group to finish before proceeding to group discussion.</div>
+        <RaisedButton
+          label="Start phase #2"
+          onTouchTap={this.onShowGroupInstructions} />
+      </div>
+    );
+  },
+
+  renderGroupInstructions() {
+    return (
+      <div style={{margin: 20}}>
+        <div>
+          <div><b>PART 2: Round-robin Discussion</b> (20 Minutes)</div>
+          <br />
+          <ul>
+            <li>Pick a facilitator to start the discussion. Rotate facilitators for each scene.</li>
+            <li>The facilitator reads through the submitted responses to a scene and asks the group: <i>Which responses would help de-escalate the situation?</i></li>
+            <li>The group chimes in, sharing stories from their own teaching experience.</li>
+            <li>The facilitator wraps up the discussion for their scene by summarizing key takeaways.</li>
+            <li>Move on to Part 3 after 20 minutes.</li>
+          </ul>
+        </div>
+        <div>
+          <RaisedButton
+            label="ok!"
+            onTouchTap={this.onStartGroupReview} />
+        </div>
+      </div>
+    );
   },
 
   renderGroupReview() {
-    return <HMTCAGroupReview applesKey={this.applesKey()} />;
+    return <HMTCAGroupReview
+      applesKey={this.applesKey()}
+      onDone={this.onGroupReviewDone} />;
+  },
+
+  renderFinalInstructions() {
+    return (
+      <div style={styles.instructions}>
+        <p><b>PART 3: Group discussion on bias</b> (15 Minutes)</p>
+        <ul>
+            <li>Close your computers and discuss as a team: <i>What classroom management situations would be most impacted by a teacher's assumptions about race, ethnicity, or gender?</i></li>
+            <li>Each team will be asked to share their responses with the whole group after.</li>
+          </ul>
+      </div>
+    );
   }
 });
 

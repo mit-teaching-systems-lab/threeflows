@@ -59,34 +59,6 @@ function slidesFor(cohortKey, bucketId) {
     </div>
   });
 
-  slides.push({ el: 
-    <div>
-    <div><b>PART 2: Round-robin Discussion</b> (20 Minutes)</div>
-    <br />
-    <ul>
-      <li>Pick a facilitator to start the discussion. Rotate facilitators for each scene.</li>
-      <li>The facilitator reads through the submitted responses to a scene and asks the group: <i>Which responses would help de-escalate the situation?</i></li>
-      <li>The group chimes in, sharing stories from their own teaching experience.</li>
-      <li>The facilitator wraps up the discussion for their scene by summarizing key takeaways.</li>
-      <li>Move on to Part 3 after 20 minutes.</li>
-    </ul>
-    </div>
-
-  });
-
-
-  slides.push({ el:
-    <div>
-    <div><b>PART 3: Group Discussion on Bias</b> (15 Minutes)</div>
-    <br />
-    <ul>
-      <li>Close your computers and discuss as a team: <i>What classroom management situations would be most impacted by a teacher's assumptions about race, ethnicity, or gender?</i></li>
-      <li>Each team will be asked to share their responses with the whole group after.</li>
-    </ul>
-    </div>
-  });
-
-
   slides.push({ text:`Ready to begin?
 
 The next slide will show you the first of six scenes in the category you chose. For each scene, simulate how you’d respond to the student(s) in the moment. Type your response in the textbox located below each scene.`});
@@ -95,7 +67,7 @@ The next slide will show you the first of six scenes in the category you chose. 
   const refusingWorkSlides = [
     { text: 'Students are using Chromebooks to work on individual projects in class. As you walk around the classroom, you notice Jose watching a music video on YouTube instead of doing work.' },
     
-    { text: 'An ELA teacher is leading a discussion on Othello. Julia, a student that usually sits in the second or third row of desks, has chosen to sit in the back today. About 15 minutes into your discussion, you notice Julia has spent most of the class with her head down and writing feverishly on a piece of paper. As you continue the discussion, you gradually start moving toward Julia and see what looks like Algebra homework.' },
+    { text: 'You are an ELA teacher and leading a discussion on Othello. Julia, a student that usually sits in the second or third row of desks, has chosen to sit in the back today. About 15 minutes into your discussion, you notice Julia has spent most of the class with her head down and writing feverishly on a piece of paper. As you continue the discussion, you gradually start moving toward Julia and see what looks like Algebra homework.' },
 
     { text: 'You have a flexible cell phone policy in your class. Rosario and Fabiola typically sit next to each other during class but they’ve decided to sit on separate sides of the classroom today. As you’re going through your lecture, you notice Rosario and Fabiola have their heads down for most of the class and it appears they’re doing something on their phones. As class continues, you notice that only one of them has their head down at a time and when one looks up, the other’s head comes down. You suspect they may be arguing over text.'},
 
@@ -182,13 +154,10 @@ Lisa looks away, visibly angry.
     slides = slides.concat(scenes.map(addInAppleSceneNumber));
   }
 
-
-  slides.push({ text: `Pause:
-
-If you’ve finished early, wait for your whole group to finish before proceeding to group discussion.`});
-
   return slides;
 }
+
+
 
 
 export default {
