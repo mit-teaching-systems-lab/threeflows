@@ -10,7 +10,6 @@ import SessionFrame from '../linear_session/session_frame.jsx';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import 'velocity-animate/velocity.ui';
 import RaisedButton from 'material-ui/RaisedButton';
-import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
@@ -176,7 +175,6 @@ export default React.createClass({
   },
 
   renderIntro() {
-    const {bucketId} = this.state;
     return (
       <VelocityTransitionGroup enter={{animation: "callout.pulse", duration: 500}} leave={{animation: "slideUp"}} runOnMount={true}>
         <form onSubmit={this.onStart}>
@@ -194,25 +192,8 @@ export default React.createClass({
               onChange={this.onIdentifierChanged}
               rows={1} />
           </div>
-          <div style={{...styles.instructions, paddingBottom: 0}}>
-            <div>What would you like to practice?</div>
-            <RadioButtonGroup
-              style={{margin: 10}}
-              name="bucket"
-              valueSelected={bucketId}
-              onChange={this.onBucketChanged}
-            >
-              {HMTCAScenarios.BUCKETS.map(bucket =>
-                <RadioButton
-                  key={bucket.id.toString()}
-                  value={bucket.id.toString()}
-                  style={{fontSize: 14}}
-                  label={bucket.text}
-                />
-              )}
-            </RadioButtonGroup>
-          </div>
           <div style={styles.instructions}>
+            <div>What is your team code?</div>
             <SelectField
               maxHeight={250}
               style={{width: '100%'}}
