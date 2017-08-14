@@ -53,7 +53,6 @@ export default React.createClass({
     return {
       cohortKey: this.props.query.cohort || '',
       identifier: '',
-      bucketId: HMTCAScenarios.BUCKETS[0].id.toString(),
       questions: null,
       sessionId: uuid.v4(),
       currentPart: Parts.PRACTICE
@@ -61,14 +60,14 @@ export default React.createClass({
   },
 
   // This is the key for a "game session we want to later review."
-  // It's built from (cohort, bucket), so that each of those has its own
+  // It's built from (cohort), so that each of those has its own
   // scene number space (the number is used for ordering and is user-facing).
   //
   // This means that if the same team code plays again later, the number of
   // responses will keep growing over time (as opposed to "start a new game").
   applesKey() {
-    const {cohortKey, bucketId} = this.state;
-    return [cohortKey, bucketId].join(':');
+    const {cohortKey} = this.state;
+    return [cohortKey].join(':');
   },
 
   // Could make this smarter and have it coordinate across different users to
@@ -85,15 +84,11 @@ export default React.createClass({
     this.setState({ identifier: e.target.value });
   },
 
-  onBucketChanged(e) {
-    this.setState({ bucketId: e.target.value });
-  },
-
   // Making questions from the cohort
   onStart(e) {
     e.preventDefault();
-    const {cohortKey, bucketId} = this.state;
-    const allQuestions = HMTCAScenarios.questionsFor(cohortKey, parseInt(bucketId, 10));
+    const {cohortKey} = this.state;
+    const allQuestions = HMTCAScenarios.questionsFor(cohortKey);
 
     const startQuestionIndex = this.props.query.p || 0; // for testing or demoing
     const questions = allQuestions.slice(startQuestionIndex);

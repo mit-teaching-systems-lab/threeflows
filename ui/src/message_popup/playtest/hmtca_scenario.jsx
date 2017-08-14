@@ -12,10 +12,6 @@ export type QuestionT = {
 };
 
 
-// Different categories for classroom management
-const BUCKETS = [
-  { id: 201, text: 'Students refusing to work' },
-];
 
 const TEAM_CODES = _.sortBy([
   'blackberry',
@@ -54,7 +50,7 @@ function addInAppleSceneNumber(slide, index) {
   return {...slide, applesSceneNumber: index + 1};
 }
 
-function slidesFor(cohortKey, bucketId) {
+function slidesFor(cohortKey) {
   var slides:[QuestionT] = [];
   slides.push({ el: 
     <div>
@@ -87,9 +83,6 @@ Johnny: “You’re just being a bitch because you’re on your period.” `},
 
 
 
-
-
-
   slides = slides.concat(selectedSlides.map(addInAppleSceneNumber));
     
 
@@ -100,9 +93,8 @@ Johnny: “You’re just being a bitch because you’re on your period.” `},
 
 
 export default {
-  BUCKETS,
   TEAM_CODES,
-  questionsFor(cohortKey, bucketId) {
-    return slidesFor(cohortKey, bucketId);
+  questionsFor(cohortKey) {
+    return slidesFor(cohortKey);
   }
 };
