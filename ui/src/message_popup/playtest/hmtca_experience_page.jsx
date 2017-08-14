@@ -10,7 +10,6 @@ import SessionFrame from '../linear_session/session_frame.jsx';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import 'velocity-animate/velocity.ui';
 import RaisedButton from 'material-ui/RaisedButton';
-import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
@@ -54,7 +53,6 @@ export default React.createClass({
     return {
       cohortKey: this.props.query.cohort || '',
       identifier: '',
-      bucketId: HMTCAScenarios.BUCKETS[0].id.toString(),
       questions: null,
       sessionId: uuid.v4(),
       currentPart: Parts.PRACTICE
@@ -62,14 +60,14 @@ export default React.createClass({
   },
 
   // This is the key for a "game session we want to later review."
-  // It's built from (cohort, bucket), so that each of those has its own
+  // It's built from (cohort), so that each of those has its own
   // scene number space (the number is used for ordering and is user-facing).
   //
   // This means that if the same team code plays again later, the number of
   // responses will keep growing over time (as opposed to "start a new game").
   applesKey() {
-    const {cohortKey, bucketId} = this.state;
-    return [cohortKey, bucketId].join(':');
+    const {cohortKey} = this.state;
+    return [cohortKey].join(':');
   },
 
   // Could make this smarter and have it coordinate across different users to
@@ -86,15 +84,11 @@ export default React.createClass({
     this.setState({ identifier: e.target.value });
   },
 
-  onBucketChanged(e) {
-    this.setState({ bucketId: e.target.value });
-  },
-
   // Making questions from the cohort
   onStart(e) {
     e.preventDefault();
-    const {cohortKey, bucketId} = this.state;
-    const allQuestions = HMTCAScenarios.questionsFor(cohortKey, parseInt(bucketId, 10));
+    const {cohortKey} = this.state;
+    const allQuestions = HMTCAScenarios.questionsFor(cohortKey);
 
     const startQuestionIndex = this.props.query.p || 0; // for testing or demoing
     const questions = allQuestions.slice(startQuestionIndex);
@@ -176,7 +170,6 @@ export default React.createClass({
   },
 
   renderIntro() {
-    const {bucketId} = this.state;
     return (
       <VelocityTransitionGroup enter={{animation: "callout.pulse", duration: 500}} leave={{animation: "slideUp"}} runOnMount={true}>
         <form onSubmit={this.onStart}>
@@ -194,25 +187,8 @@ export default React.createClass({
               onChange={this.onIdentifierChanged}
               rows={1} />
           </div>
-          <div style={{...styles.instructions, paddingBottom: 0}}>
-            <div>What would you like to practice?</div>
-            <RadioButtonGroup
-              style={{margin: 10}}
-              name="bucket"
-              valueSelected={bucketId}
-              onChange={this.onBucketChanged}
-            >
-              {HMTCAScenarios.BUCKETS.map(bucket =>
-                <RadioButton
-                  key={bucket.id.toString()}
-                  value={bucket.id.toString()}
-                  style={{fontSize: 14}}
-                  label={bucket.text}
-                />
-              )}
-            </RadioButtonGroup>
-          </div>
           <div style={styles.instructions}>
+            <div>What is your team code?</div>
             <SelectField
               maxHeight={250}
               style={{width: '100%'}}
@@ -225,7 +201,7 @@ export default React.createClass({
             </SelectField>
           </div>
           <div style={styles.instructions}>
-            <p>In this practice space, you'll have to improvise and adapt to make the best of the situation.  Some scenarios might not exactly match your grade level and subject.</p>
+            <p>In this practice space, you'll have to improvise and adapt to make the best of the situation. Some scenarios might not exactly match your grade level and subject.</p>
             <RaisedButton
               disabled={this.state.cohortKey === '' || this.state.identifier === ''}
               onTouchTap={this.onStart}
@@ -270,9 +246,9 @@ export default React.createClass({
   renderPauseEl(questions:[QuestionT], responses:[ResponseT]) {
     return (
       <div style={{margin: 20}}>
-        <div style={{paddingBottom: 20}}>If you’ve finished early, wait for your whole group to finish before proceeding to group discussion.</div>
+        <div style={{paddingBottom: 20}}>If you’ve made it to this screen, you’ve finished responding to all the scenes. If you’ve finished early, wait for your whole group to finish before proceeding to Part 2. Once your whole group has finished, click on “Start Part 2.”</div>
         <RaisedButton
-          label="Start phase #2"
+          label="Start Part #2"
           onTouchTap={this.onShowGroupInstructions} />
       </div>
     );
@@ -282,15 +258,13 @@ export default React.createClass({
     return (
       <div style={{margin: 20}}>
         <div>
-          <div><b>PART 2: Round-robin Discussion</b> (20 Minutes)</div>
+          <div><b>PART 2: Round-robin discussion</b> (20 minutes)</div>
           <br />
-          <ul>
-            <li>Pick a facilitator to start the discussion. Rotate facilitators for each scene.</li>
-            <li>The facilitator reads through the submitted responses to a scene and asks the group: <i>Which responses would help de-escalate the situation?</i></li>
-            <li>The group chimes in, sharing stories from their own teaching experience.</li>
-            <li>The facilitator wraps up the discussion for their scene by summarizing key takeaways.</li>
-            <li>Move on to Part 3 after 20 minutes.</li>
-          </ul>
+          <div>For Part 2, you will initially be taken to a screen where you can see the anonymized responses of everyone in your team to all 4 scenes. Once you’re on this screen, your team will choose one person to facilitate discussion around the responses to the first scene. The facilitator’s role is to summarize briefly the similarities/differences in how people responded. They will then lead the team in deciding which response or combination of responses would best de-escalate the situation as described in the scene. A great question to start discussion is: <i>Which responses would help de-escalate this situation?</i></div>
+          <br />
+          <div>Once you’ve finished discussing the first scene, select a new facilitator to lead the discussion for the second scene. Repeat this process until you’ve finished discussing all 4 scenes or 20 minutes have elapsed (whichever comes first). At this point, move on to Part 3.</div>
+          <br />
+          <div>Ready to start?</div>
         </div>
         <div>
           <RaisedButton
@@ -310,11 +284,11 @@ export default React.createClass({
   renderFinalInstructions() {
     return (
       <div style={styles.instructions}>
-        <p><b>PART 3: Group discussion on bias</b> (15 Minutes)</p>
-        <ul>
-            <li>Close your computers and discuss as a team: <i>What classroom management situations would be most impacted by a teacher's assumptions about race, ethnicity, or gender?</i></li>
-            <li>Each team will be asked to share their responses with the whole group after.</li>
-          </ul>
+        <p><b>PART 3: Group discussion on bias</b> (15 minutes)</p>
+        <br />
+        <div>Part 3 is a team discussion, so close your computers. As a team, discuss your responses to the following question: <i>What classroom management situations would be most impacted by a teacher's assumptions about race, ethnicity, or gender?</i></div>
+        <br />
+        <div>Once you’ve discussed for 15 minutes, you will return to full group discussion. Each team will be asked to share what they discussed during Parts 2 and 3 with the large group.</div>
       </div>
     );
   }
