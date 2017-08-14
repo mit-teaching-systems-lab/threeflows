@@ -58,29 +58,32 @@ function slidesFor(cohortKey, bucketId) {
   var slides:[QuestionT] = [];
   slides.push({ el: 
     <div>
-    <div><b>PART 1: Practice Individually</b> (20 Minutes)</div>
+    <div><b>PART 1: Practice Individually</b> (10 minutes)</div>
     <br />
-    <ul>
-      <li>Read through 6 separate scenes and type your response to each scene.</li>
-      <li>Wait for your group to finish. Move on to Part 2 after 20 minutes.</li>
-    </ul>
+    <div>In Part 1, you’ll read through 4 separate classroom management scenes and type how you’d respond to each scene.</div>
+    <br />
+    <div>For each scene, simulate how you’d respond to the student(s) in the moment and type your response in the textbox located below the scene. </div>
+    <br />
+    <div>Once you’re finished with your responses, wait for your group to finish. You will move on to Part 2 after 10 minutes. Clicking on “Ok” will take you to your first scene. Ready?</div>
     </div>
   });
 
-  slides.push({ text:`Ready to begin?
+  const selectedSlides = [
 
-The next slide will show you the first of six scenes in the category you chose. For each scene, simulate how you’d respond to the student(s) in the moment. Type your response in the textbox located below each scene.`});
+    { text: 'You’re walking around the classroom going desk-to-desk taking your students’ assignments. You arrive at William’s desk and he doesn’t acknowledge your presence, keeping his head down and staring at his phone. You tell William, “It’s time to hand in your paper.” William doesn’t respond. You ask William if he completed his paper, to which he mutters under his breath without looking up, “Fuck off.”'},
 
-    const selectedSlides = [
-    { text: 'You have a flexible cell phone policy in your class. Rosario and Fabiola typically sit next to each other during class but they’ve decided to sit on separate sides of the classroom today. As you’re going through your lecture, you notice Rosario and Fabiola have their heads down for most of the class and it appears they’re doing something on their phones. As class continues, you notice that only one of them has their head down at a time and when one looks up, the other’s head comes down. You suspect they may be arguing over text.'},
+    { text: `Students are working on their group projects in class today. You overhear one group discussing their project and this exchange unfolds between Krystal and Johnny:
 
-    { text: 'Two weeks ago, you assigned a group project in class. Currently, there’s about a week left before students have to submit their assignments. After class ends this day, one of your students, Mark, comes up to you and says, “Hey my group is doing fine on the group project but I’m having to do extra work because Tyshawn doesn’t do anything and doesn’t offer to do anything. It’s super frustrating. Are you going to give us all the same grade or are you going to give Tyshawn the grade he deserves?”'},
+Johnny: “Why was 6 afraid of 7? Because 7 ate 9!”
+
+Krystal: “That’s a stupid joke.”
+
+Johnny: “You’re just being a bitch because you’re on your period.” `},
     
-    { text: `In the morning, you check your email for the first time in the day since before you went to sleep last night. You see an email from Drew and it arrived at 11:00pm last night after you had gone to bed. In the email he said he’s confused about the assignment and is stuck.
+    { text: 'You are a history teacher and you’re teaching a lesson on the Women’s Suffrage Movement. Jamika has her head down and is scrolling through her phone. A classmate sitting next to Jamika taps her on the shoulder and says, “Pay attention.” Jamika responds by saying, “I’m not paying attention to this whitewashed crap. Where are the black people?”'},
 
-Now class has started and you’ve asked students to turn in their assignments. Drew raises his hand and in front of everybody says, “I didn’t do the assignment because you never responded to my email.”`},
-    
-    { text: 'You are a history teacher and you’re teaching a lesson on the Women’s Suffrage Movement. Jamika has her head down and is scrolling through her phone. A classmate sitting next to Jamika taps her on the shoulder and says, “Pay attention.” Jamika responds by saying, “I’m not paying attention to this whitewashed crap. Where are the black people?”'}];
+    { text: 'It’s March and students are starting to receive their college acceptance letters. You are teaching Physics and you hear Amy talk about getting accepted to MIT. Another student, Mike, responds to her by saying, “You only got accepted to MIT because you’re a girl.”'}];
+
 
 //   const refusingWorkSlides = [
 //     { text: 'Students are using Chromebooks to work on individual projects in class. As you walk around the classroom, you notice Jose watching a music video on YouTube instead of doing work.' },
