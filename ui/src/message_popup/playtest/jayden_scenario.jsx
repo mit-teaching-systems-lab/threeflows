@@ -116,10 +116,6 @@ Before heading back to the group, let's shift to reflecting on what happened.
 `, force: true, open: true});
 
   slides.push({ type: 'Reflect', text:
-`How effective do you think you were in responding to Jayden's statements?
-`, force: true, open: true});
-
-  slides.push({ type: 'Reflect', text:
 `How would you support Jayden following this conversation?
 `, force: true, open: true});
 
