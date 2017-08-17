@@ -260,7 +260,9 @@ export default React.createClass({
         <div>
           <div><b>PART 2: Round-robin discussion</b> (20 minutes)</div>
           <br />
-          <div>For Part 2, you will initially be taken to a screen where you can see the anonymized responses of everyone in your team to all 4 scenes. Once you’re on this screen, your team will choose one person to facilitate discussion around the responses to the first scene. The facilitator’s role is to summarize briefly the similarities/differences in how people responded. They will then lead the team in deciding which response or combination of responses would best de-escalate the situation as described in the scene. A great question to start discussion is: <i>Which responses would help de-escalate this situation?</i></div>
+          <div>For Part 2, you will initially be taken to a screen where you can see the anonymized responses of everyone in your team to all 4 scenes. Once you’re on this screen, your team will choose one person to facilitate discussion around the responses to the first scene. The facilitator’s role is to work with the team to unpack the scene and the responses, and figure out how to best de-escalate the situation. Some questions to consider during discussion include:</div>
+          <br />
+          <div><i>What’s happening in this scene? How would this response impact the student? How can we best de-escalate the situation?</i></div>
           <br />
           <div>Once you’ve finished discussing the first scene, select a new facilitator to lead the discussion for the second scene. Repeat this process until you’ve finished discussing all 4 scenes or 20 minutes have elapsed (whichever comes first). At this point, move on to Part 3.</div>
           <br />
@@ -286,7 +288,11 @@ export default React.createClass({
       <div style={styles.instructions}>
         <p><b>PART 3: Group discussion on bias</b> (15 minutes)</p>
         <br />
-        <div>Part 3 is a team discussion, so close your computers. As a team, discuss your responses to the following question: <i>What classroom management situations would be most impacted by a teacher's assumptions about race, ethnicity, or gender?</i></div>
+        <div>Part 3 is a team discussion, so you won't need your computers. As a team, discuss your responses to the following questions:</div>
+        <br />
+        <div><i>What classroom management situations would be most impacted by a teacher's assumptions about race, ethnicity, or gender?</i></div>
+        <br />
+        <div><i>How would a teacher’s assumptions impact their students in these situations?</i></div>
         <br />
         <div>Once you’ve discussed for 15 minutes, you will return to full group discussion. Each team will be asked to share what they discussed during Parts 2 and 3 with the large group.</div>
       </div>
