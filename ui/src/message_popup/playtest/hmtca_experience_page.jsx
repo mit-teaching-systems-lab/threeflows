@@ -44,7 +44,8 @@ export default React.createClass({
   propTypes: {
     query: React.PropTypes.shape({
       cohort: React.PropTypes.string,
-      p: React.PropTypes.string
+      p: React.PropTypes.string,
+      workshop: React.PropTypes.string
     }).isRequired
   },
 
@@ -53,6 +54,7 @@ export default React.createClass({
     return {
       cohortKey: this.props.query.cohort || '',
       identifier: '',
+      workshop: this.props.query.workshop || 'defaultWorkshop',
       questions: null,
       sessionId: uuid.v4(),
       currentPart: Parts.PRACTICE
@@ -60,14 +62,17 @@ export default React.createClass({
   },
 
   // This is the key for a "game session we want to later review."
-  // It's built from (cohort), so that each of those has its own
+  // It's built from (cohort, workshop), so that each cohort of those has its own
   // scene number space (the number is used for ordering and is user-facing).
   //
   // This means that if the same team code plays again later, the number of
   // responses will keep growing over time (as opposed to "start a new game").
+  //
+  // Different workshop sessions on different days can use URLs to different workshop
+  // values for isolation.
   applesKey() {
-    const {cohortKey} = this.state;
-    return [cohortKey].join(':');
+    const {cohortKey, workshop} = this.state;
+    return [cohortKey, workshop].join(':');
   },
 
   // Could make this smarter and have it coordinate across different users to
