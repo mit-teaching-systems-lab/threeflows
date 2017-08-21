@@ -56,7 +56,6 @@ export default React.createClass({
   },
 
   render() {
-    var responseNum = 1;
     const {hasLoaded, applesResponses} = this.state;
     if (!hasLoaded) return <div>Loading...</div>;
 
@@ -74,19 +73,21 @@ export default React.createClass({
                   title={`Scene #${index + 1}`}
                   subtitle={sceneToResponses[sceneNumber][0]['scene_text']}
                 />
-                {responseNum = 1};
                 <CardText>
               <div style={styles.cardContainer}>
-                {_.uniq(_.map(sceneToResponses[sceneNumber], 'anonymized_text')).map(anonymizedText => 
-                  <Paper
-                    key={anonymizedText}
-                    style={styles.responseCard}
-                    zDepth={3}>
-                    {`Response #${responseNum ++}: 
+                {_.uniq(_.map(sceneToResponses[sceneNumber], 'anonymized_text')).map((anonymizedText, index) => {
+                  const responseLetter = String.fromCharCode('A'.charCodeAt() + index);
 
-
-                    ${anonymizedText}`}</Paper>
-                )}
+                  return (
+                    <Paper
+                      key={anonymizedText}
+                      style={styles.responseCard}
+                      zDepth={3}>
+                      <div>{`Response ${responseLetter}:`}</div>
+                      <div style={{padding: 10}}>{anonymizedText}</div>
+                    </Paper>
+                  );
+                })}
               </div>
               </CardText>
               </Card>
