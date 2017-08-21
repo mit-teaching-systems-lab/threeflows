@@ -75,12 +75,19 @@ export default React.createClass({
                 />
                 <CardText>
               <div style={styles.cardContainer}>
-                {_.uniq(_.map(sceneToResponses[sceneNumber], 'anonymized_text')).map(anonymizedText => 
-                  <Paper
-                    key={anonymizedText}
-                    style={styles.responseCard}
-                    zDepth={3}>{anonymizedText}</Paper>
-                )}
+                {_.uniq(_.map(sceneToResponses[sceneNumber], 'anonymized_text')).map((anonymizedText, index) => {
+                  const responseLetter = String.fromCharCode('A'.charCodeAt() + index);
+
+                  return (
+                    <Paper
+                      key={anonymizedText}
+                      style={styles.responseCard}
+                      zDepth={3}>
+                      <div>{`Response ${responseLetter}:`}</div>
+                      <div style={{padding: 10}}>{anonymizedText}</div>
+                    </Paper>
+                  );
+                })}
               </div>
               </CardText>
               </Card>
