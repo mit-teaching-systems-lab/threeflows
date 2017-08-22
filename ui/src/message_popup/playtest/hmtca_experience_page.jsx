@@ -187,7 +187,7 @@ export default React.createClass({
               name="identifier"
               style={{width: '100%', marginBottom: 20}}
               underlineShow={true}
-              hintText="orange-surprised-dolphin-73"
+              hintText="Jubilant Otter"
               value={this.state.identifier}
               onChange={this.onIdentifierChanged}
               rows={1} />
@@ -263,15 +263,18 @@ export default React.createClass({
     return (
       <div style={{margin: 20}}>
         <div>
-          <div><b>PART 2: Round-robin discussion</b> (20 minutes)</div>
+          <div><b>PART 2: Review, discuss, and capture</b> (20 minutes)</div>
           <br />
-          <div>For Part 2, you will initially be taken to a screen where you can see the anonymized responses of everyone in your team to all 4 scenes. Once you’re on this screen, your team will choose one person to facilitate discussion around the responses to the first scene. The facilitator’s role is to work with the team to unpack the scene and the responses, and figure out how to best de-escalate the situation. Some questions to consider during discussion include:</div>
+          <div>For Part 2, go through each scene as a group.  For each scene, review the responses and discuss them as a group.</div>
           <br />
-          <div><i>What’s happening in this scene? How would this response impact the student? How can we best de-escalate the situation?</i></div>
+          <i style={{margin: 10, display: 'block'}}>How can our responses impact the student and how can we de-escalate the situation?</i>
           <br />
-          <div>Once you’ve finished discussing the first scene, select a new facilitator to lead the discussion for the second scene. Repeat this process until you’ve finished discussing all 4 scenes or 20 minutes have elapsed (whichever comes first). At this point, move on to Part 3.</div>
+          <div>Capture the main points of your discussion on the poster board, to share it out with the whole group after.</div>
+          <br />
+          <div>At the end of 20 minutes move on to part 3.</div>
           <br />
           <div>Ready to start?</div>
+          <br />
         </div>
         <div>
           <RaisedButton
@@ -291,15 +294,15 @@ export default React.createClass({
   renderFinalInstructions() {
     return (
       <div style={styles.instructions}>
-        <p><b>PART 3: Group discussion on bias</b> (15 minutes)</p>
+        <p><b>PART 3: Discuss assumptions and capture</b> (15 minutes)</p>
         <br />
-        <div>Part 3 is a team discussion, so you won't need your computers. As a team, discuss your responses to the following questions:</div>
+        <div>Part 3 is a group discussion, you won't work on your computers.</div>
         <br />
-        <div><i>What classroom management situations would be most impacted by a teacher's assumptions about race, ethnicity, or gender?</i></div>
+        <i style={{margin: 10, display: 'block'}}>What assumptions might we make about students based on their gender, race or ethnicity and how might these influence classroom management?</i>
         <br />
-        <div><i>How would a teacher’s assumptions impact their students in these situations?</i></div>
+        <div>Capture the main points of your discussion on the poster board, to share it out with the whole group after.</div>
         <br />
-        <div>Once you’ve discussed for 15 minutes, you will return to full group discussion. Each team will be asked to share what they discussed during Parts 2 and 3 with the large group.</div>
+        <div>We'll come knock at the door and get you when it's time to come back to the group.</div>
       </div>
     );
   }
