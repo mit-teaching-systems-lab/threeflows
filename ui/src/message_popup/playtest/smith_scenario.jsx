@@ -125,7 +125,7 @@ Okay! Ready to start?`
 
   slides.push({type: 'Try it!', el:
   <div>
-    <div>Molly and Cody are beginning to work on the assignment: </div>
+    <div>Molly and Cody are beginning to work on the assignment while Mr. Smith works with another pair of students: </div>
     <br />
     <div><img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/smith-scenario/MA-M%26C.jpg" style={{display: 'block', width: '90%', margin: 20}} /></div>
     <br />
@@ -193,7 +193,7 @@ Okay! Ready to start?`
 <br />
 <div>George: “Here, watch.”</div>
 <br />
-<div>Mr. Smith: "George, why don't you try explaining what you're doing to Tim?"</div>
+<div>Mr. Smith: "George, do you mind explaining as you go so we can follow?”</div>
 <br />
 <div>George: "Sure, Mr. Smith. Okay Tim. First, we define the protocol we want to use in the simulator using this tool here."</div>
 </div>,
@@ -248,7 +248,7 @@ Okay! Ready to start?`
   <br />
   <div><img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/smith-scenario/MA-M%26K2.jpg" style={{display: 'block', width: '90%', margin: 20}} /></div>
   <br />
-  <div>Jamal: “Let’s send, ‘I am Groot.’”</div>
+  <div>Jamal: “For our first test let’s send, ‘I am Groot.’”</div>
   <br />
   <div>Kevin: “Hahaha yeah! What a great movie. Have you seen the new one?”</div>
   <br />
@@ -493,13 +493,17 @@ Ready? Okay! Go!
   <div>
     <div>Mr. Smith hosts class discussion:</div>
     <div><img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/smith-scenario/SmithB-Class3.jpg" style={{display: 'block', width: '90%', margin: 20}} /></div>
-    <div>Mr. Smith: "Taking the encoding scheme you developed with your partner, how many bits does your encoding scheme require? For example, how many bits would it take your encoding scheme to send the word 'soccer'? Jose?"</div>
+    <div>Mr. Smith: "Taking the encoding scheme you developed with your partner, how many bits does it require? Jose, how many bits would your scheme use to send the word “soccer?”</div>
     <br />
-    <div>Jose: "Oh. I'm not sure."</div>
+    <div>Jose: "Ummm I'm not sure."</div>
     <br />
-    <div>Mr. Smith: "Come on, try it out!"</div>
+    <div>Mr. Smith: "Well let’s break it down. How many does it use to send one letter?”</div>
     <br />
-    <div>Jose: "About 70 I think?"</div>
+    <div>Jose: "About 11 I think?"</div>
+    <br />
+    <div>Mr. Smith: “If it takes 11 to send one letter, how many then for the full word?”</div>
+    <br />
+    <div>Jose: “Oh. Then 66 I guess.”</div>
   </div>, timedAutoAdvance: true
   });
 
