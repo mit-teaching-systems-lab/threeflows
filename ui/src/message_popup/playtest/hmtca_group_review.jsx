@@ -63,7 +63,7 @@ export default React.createClass({
     const sceneToResponses = _.groupBy(applesResponses, 'scene_number');
     return (
       <div>
-        <div style={styles.instructions}>Scroll through and play!</div>
+        <div style={styles.instructions}>Scroll through, discuss and capture.</div>
         <div>{_.sortBy(Object.keys(sceneToResponses)).map((sceneNumber, index) => {
           if (sceneNumber === 'null') return;
           return (
