@@ -19,7 +19,7 @@ export default React.createClass({
       <div>
         <div style={styles.container}>
           <div>Your notes:</div>
-          <ul>{pastNotes.map(note => <li style={{}}>{note}</li>)}</ul>
+          <ul>{pastNotes.map(note => <li key={note} style={{}}>{note}</li>)}</ul>
         </div>
         {children}
       </div>
