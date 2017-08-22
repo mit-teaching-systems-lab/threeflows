@@ -8,7 +8,7 @@ import MinimalTextResponse from '../renderers/minimal_text_response.jsx';
 import AudioCapture from '../../components/audio_capture.jsx';
 import MinimalTimedView from '../renderers/minimal_timed_view.jsx';
 import ApplesTextResponse from '../renderers/apples_text_response.jsx';
-
+import ResponseWithPastNotes from '../renderers/response_with_past_notes.jsx';
 
 // This renders a question and an interaction, and strives towards being a
 // general-purpose interpreter that over time ends up converging towards shared
@@ -107,6 +107,21 @@ export default React.createClass({
         onLogMessage={onLogMessage}
         onResponseSubmitted={onResponseSubmitted}
       />;
+    }
+
+    if (question.feedback && question.pastNotes) {
+      return (
+        <ResponseWithPastNotes key={key} pastNotes={question.pastNotes}>
+          <MinimalTextResponse
+            textHeight={192}
+            forceResponse={true}
+            responsePrompt="Feedback to Mr. Smith:"
+            recordText="Next"
+            onLogMessage={onLogMessage}
+            onResponseSubmitted={onResponseSubmitted}
+          />
+        </ResponseWithPastNotes>
+      );
     }
 
 

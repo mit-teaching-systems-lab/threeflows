@@ -305,7 +305,7 @@ Okay! Ready to start?`
         
 
     slides.push({type: 'Try it!', text:
-    `Once the students have left, your friend Mr. Smith comes up to you and asks for your thoughts. What feedback would you give him about what you observed?`, notes: true
+    `Once the students have left, your friend Mr. Smith comes up to you and asks for your thoughts. What feedback would you give him about what you observed?`, feedback: true
     });
 
     slides.push({type: 'PAUSE!', text:
@@ -545,7 +545,7 @@ Ready? Okay! Go!
 
     slides.push({type: 'Try it! - Lenses', text:
     `At the end of the second class, Mr. Smith again comes up to you and asks for your thoughts. What feedback would you give him about what you observed?`,
-      notes: true
+      feedback: true
     });
   }
 

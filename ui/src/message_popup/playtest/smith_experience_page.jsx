@@ -1,6 +1,7 @@
 /* @flow weak */
 import React from 'react';
 import uuid from 'uuid';
+import _ from 'lodash';
 
 import * as Api from '../../helpers/api.js';
 import hash from '../../helpers/hash.js';
@@ -60,6 +61,32 @@ export default React.createClass({
     };
   },
 
+  getNextQuestion(questions, responses) {
+    if (responses.length >= questions.length) {
+      return null;
+    }
+    const question = questions[responses.length];
+
+    // Special case for reviewing past notes when giving feedback.
+    if (question.feedback) {
+      const pastNotes = this.getNotesBeforeFeedbackIndex(questions, responses, responses.length);
+      return {...question, pastNotes};
+    }
+
+    return question;
+  },
+
+  // Returns an array of past notes for review as part of a feedback question.
+  // This looks at all `notes` responses prior to `feedbackQuestionIndex`, only 
+  // looking back until a previous `feedback` question, since there may be multiple
+  // in the same scenario.
+  getNotesBeforeFeedbackIndex(questions, responses, feedbackQuestionIndex) {
+    const lastFeedbackIndex = _.findLastIndex(questions, 'feedback', feedbackQuestionIndex - 1);
+    const startIndex = (lastFeedbackIndex === -1) ? 0 : lastFeedbackIndex + 1;
+    const noteResponses = responses.slice(startIndex, feedbackQuestionIndex).filter(response => response.question.notes && response.responseText !== undefined);
+    return noteResponses.map(response => response.responseText);
+  },
+
   // Making questions from the cohort
   onStart(email) {
     const {cohortKey} = this.state;
@@ -106,6 +133,7 @@ export default React.createClass({
 
     return <LinearSession
       questions={questions}
+      getNextQuestion={this.getNextQuestion}
       questionEl={this.renderQuestionEl}
       summaryEl={this.renderClosingEl}
       onLogMessage={this.onLogMessage}
