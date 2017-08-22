@@ -318,7 +318,7 @@ Okay! Ready to start?`
 
   else {
     slides.push({type: 'Reflect', text:
-    ` That's the end of the class! You will now get a chance to reflect on what you observed.
+    `That's the end of the class! You will now get a chance to reflect on what you observed.
     ` 
     });
 
@@ -542,7 +542,7 @@ Ready? Okay! Go!
   if (options.isFacilitated) {
     slides.push({type: 'Try it! - Lenses', text:
     `
-    That's the end of the class! Take a moment to reflect on how you felt the class went overall.
+That's the end of the class! Take a moment to reflect on how you felt the class went overall.
     ` 
     });
         
@@ -556,7 +556,7 @@ Ready? Okay! Go!
 
   else {
     slides.push({type: 'Reflect - Lenses', text:
-    ` That's the end of the class! You will now get a chance to reflect on what you observed.` 
+    `That's the end of the class! You will now get a chance to reflect on what you observed.` 
     });
 
 
