@@ -43,6 +43,7 @@ export default React.createClass({
     const key = JSON.stringify(question);
     const {forceText} = this.props;
 
+
     // Open response with audio by default, falling back to text if unavailable, and
     // allowing text responses to be forced.
     if (question.open) {
@@ -80,7 +81,8 @@ export default React.createClass({
         forceResponse={question.force || false}
         responsePrompt=""
         recordText="Respond"
-        ignoreText="Move on"
+        textHeight={96}
+        ignoreText="Ignore"
         onLogMessage={onLogMessage}
         onResponseSubmitted={onResponseSubmitted}
         />;
