@@ -7,17 +7,17 @@ import Divider from 'material-ui/Divider';
 import ReadMore from './read_more.jsx';
 
 /*
-Component that displays the summary of audio responses.
+Component that displays the summary of responses, either audio or text.
 */
 export default React.createClass({
-  displayName: 'AudioResponseSummary',
+  displayName: 'ResponseSummary',
 
   propTypes: {
     responses: React.PropTypes.array.isRequired,
     children: React.PropTypes.node
   },
 
-  // Supports text or audio
+  // Supports audio and two forms of text response.
   computeSummaryItems() {
     const {responses} = this.props;
 
@@ -32,6 +32,11 @@ export default React.createClass({
 
       if (response.textResponse) {
         const {responseText} = response.textResponse;
+        return {questionId, questionText, responseText};
+      }
+
+      if (response.responseText) {
+        const {responseText} = response;
         return {questionId, questionText, responseText};
       }
 

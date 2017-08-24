@@ -12,7 +12,7 @@ import IntroWithEmail from '../linear_session/intro_with_email.jsx';
 import QuestionInterpreter from '../renderers/question_interpreter.jsx';
 import type {QuestionT} from './pairs_scenario.jsx';
 import JaydenScenario from './jayden_scenario.jsx';
-import AudioResponseSummary from '../renderers/audio_response_summary.jsx';
+import ResponseSummary from '../renderers/response_summary.jsx';
 
 type ResponseT = {
   choice:string,
@@ -51,10 +51,16 @@ export default React.createClass({
     };
   },
 
+  shouldForceText() {
+    return _.has(this.props.query, 'text');
+  },
+
   // Making questions from the cohort
   onStart(email) {
     const {cohortKey} = this.state;
-    const allQuestions = JaydenScenario.questionsFor(cohortKey);
+    const allQuestions = JaydenScenario.questionsFor(cohortKey, {
+      forceText: this.shouldForceText()
+    });
 
     const startQuestionIndex = this.props.query.p || 0; // for testing or demoing
     const questions = allQuestions.slice(startQuestionIndex);
@@ -118,19 +124,18 @@ export default React.createClass({
   },
 
   renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
-    const forceText = _.has(this.props.query, 'text');
     return <QuestionInterpreter
       question={question}
       onLog={onLog}
-      forceText={forceText}
+      forceText={this.shouldForceText()}
       onResponseSubmitted={onResponseSubmitted} />;
   },
 
   renderClosingEl(questions:[QuestionT], responses:[ResponseT]) {
     return (
-      <AudioResponseSummary responses={responses}>
+      <ResponseSummary responses={responses}>
         You've finished the simulation. Congrats! Below, you'll find your responses to the anticipate questions, the scenes with Jayden, and the reflection questions. Take time now to review your responses before returning to group discussion.
-      </AudioResponseSummary>
+      </ResponseSummary>
     );
   }
 });
