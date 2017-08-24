@@ -12,8 +12,11 @@ export type QuestionT = {
   choices:?bool // Forced-choice response
 };
 
+function lineAboutResponseMode(options) {
+  return (options && options.forceText) ? '' : "\nClick and speak aloud the words you'd say to the student.\n";
+}
 
-function slidesFor(cohortKey) {
+function questionsFor(cohortKey, options) {
   const slides:[QuestionT] = [];
 
   slides.push({ type: 'Overview', el:
@@ -75,10 +78,7 @@ You’ve noticed one of your students, Jayden, an African-American young man in 
 `When you're ready, you'll go through a set of scenes that simulate the conversation between you and Jayden.
 
 Improvise how you would act as a teacher, even if you don't have all the right answers or know the perfect thing to say.
-
-Click and speak aloud the words you'd say to the student.
-
-
+${lineAboutResponseMode(options)}
 Ready to start?
 `});
 
@@ -128,7 +128,6 @@ Before heading back to the group, let's shift to reflecting on what happened.
 
 
 export default {
-  questionsFor(cohortKey) {
-    return slidesFor(cohortKey);
-  }
+  questionsFor,
+  lineAboutResponseMode
 };
