@@ -28,7 +28,8 @@ export default React.createClass({
   propTypes: {
     query: React.PropTypes.shape({
       cohort: React.PropTypes.string,
-      p: React.PropTypes.string
+      p: React.PropTypes.string,
+      consent: React.PropTypes.string
     }).isRequired,
     facilitated: React.PropTypes.bool.isRequired
   },
@@ -163,6 +164,37 @@ export default React.createClass({
 
   renderClosingEl(questions:[QuestionT], responses:[ResponseT]) {
     const {email} = this.state;
+    const {consent} = this.props.query;
+    if (consent && consent.toLowerCase() === 'false') {
+      return (
+        <div>
+          <b style={styles.doneTitle}>Done</b>
+          <div style={styles.doneText}>
+            <p style={styles.paragraph}>Thanks!  You've finished the scenario.</p>
+            <p style={styles.paragraph}>When everyone's finished, we'll come together to do a final group discussion so be ready to share and discuss.</p>
+          </div>
+        </div>
+      );      
+    }
+
     return <ResearchConsent email={email} onLogMessage={this.onLogMessage} />;
   }
 });
+
+const styles = {
+  doneTitle: {
+    display: 'block',
+    padding: '15px 20px 15px',
+    background: '#09407d',
+    color: 'white'
+  },
+  doneText: {
+    padding: 20,
+    paddingBottom: 0,
+    margin:0,
+  },
+  paragraph: {
+    marginTop: 20,
+    marginBottom: 20
+  }
+};
