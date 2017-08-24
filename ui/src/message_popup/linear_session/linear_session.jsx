@@ -36,10 +36,6 @@ export default React.createClass({
     return {...rawResponse, question};
   },
 
-  onResetSession() {
-    this.setState(this.getInitialState());
-  },
-
   // Mixes in question to payload
   onLogMessageWithQuestion(question, type, rawResponse) {
     const mergedResponse = this.mergedResponse(rawResponse, question);

@@ -120,10 +120,6 @@ export default React.createClass({
     });
   },
 
-  onResetSession() {
-    this.setState(this.getInitialState());
-  },
-
   onLogMessage(type, response:ResponseT) {
     const {email, cohortKey, sessionId} = this.state;
     Api.logEvidence(type, {
@@ -138,7 +134,7 @@ export default React.createClass({
 
   render() {
     return (
-      <SessionFrame onResetSession={this.onResetSession}>
+      <SessionFrame>
         {this.renderContent()}
       </SessionFrame>
     );
