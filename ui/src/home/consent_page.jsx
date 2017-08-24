@@ -11,10 +11,6 @@ import ResearchConsent from '../components/research_consent.jsx';
 export default React.createClass({
   displayName: 'ConsentPage',
 
-  onResetSession(e) {
-    window.location.reload();
-  },
-
   onLogMessage(type, response) {
     const email = 'unknown@mit.edu';
     
@@ -28,7 +24,7 @@ export default React.createClass({
 
   render() {
     return (
-      <SessionFrame onResetSession={this.onResetSession}>
+      <SessionFrame>
         <ResearchConsent onLogMessage={this.onLogMessage} />
       </SessionFrame>
     );

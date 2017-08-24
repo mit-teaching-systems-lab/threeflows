@@ -104,10 +104,6 @@ export default React.createClass({
     });
   },
 
-  onResetSession() {
-    this.setState(this.getInitialState());
-  },
-
   onShowGroupInstructions() {
     this.setState({ currentPart: Parts.GROUP_INSTRUCTIONS });
   },
@@ -151,7 +147,7 @@ export default React.createClass({
 
   render() {
     return (
-      <SessionFrame onResetSession={this.onResetSession}>
+      <SessionFrame>
         {this.renderContent()}
       </SessionFrame>
     );

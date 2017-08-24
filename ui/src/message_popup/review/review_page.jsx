@@ -42,10 +42,6 @@ export default React.createClass({
     window.history.replaceState({}, window.document.title, window.location.pathname);
   },
 
-  onResetSession() {
-    this.setState(this.getInitialState());
-  },
-
   onEmailAddressChanged(e) {
     this.setState({ emailAddress: e.target.value });
   },
@@ -90,7 +86,7 @@ export default React.createClass({
 
   render() {
     return (
-      <SessionFrame onResetSession={this.onResetSession}>
+      <SessionFrame>
         {this.renderContent()}
       </SessionFrame>
     );

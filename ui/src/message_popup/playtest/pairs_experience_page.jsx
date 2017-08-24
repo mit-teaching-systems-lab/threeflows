@@ -80,10 +80,6 @@ export default React.createClass({
     });
   },
 
-  onResetSession() {
-    this.setState(this.getInitialState());
-  },
-
   onLogMessage(type, response:ResponseT) {
     const {email, cohortKey, sessionId, questionsHash} = this.state;
     
@@ -99,7 +95,7 @@ export default React.createClass({
 
   render() {
     return (
-      <SessionFrame onResetSession={this.onResetSession}>
+      <SessionFrame>
         {this.renderContent()}
       </SessionFrame>
     );

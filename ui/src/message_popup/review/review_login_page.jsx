@@ -82,7 +82,7 @@ export default React.createClass({
 
   render() {
     return (
-      <SessionFrame onResetSession={this.onResetSession}>
+      <SessionFrame>
         {this.renderContent()}
       </SessionFrame>
     );
