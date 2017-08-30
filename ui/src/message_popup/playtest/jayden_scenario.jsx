@@ -99,7 +99,7 @@ Ready to start?
 `, open: true, force: true});
 
   slides.push({ type: 'Try it!', text:
-`Jayden: "I don’t really see people like me working with computers anyways."
+`Jayden: "I don’t really see people who look like me working with computers anyways."
 `, open: true, force: true});
 
 
