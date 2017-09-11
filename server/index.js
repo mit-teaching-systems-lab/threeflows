@@ -63,6 +63,9 @@ function queryDatabase(text, values, cb) {
     ? process.env.DATABASE_URL
     : process.env.DATABASE_URL +'?ssl=true';
   pg.connect(connectionUrl, function(err, client, done) {
+    if (err) {
+      throw new Error('pg.connect failed: ' + JSON.stringify({connectionUrl, err}, null, 2));
+    }
     client.query(text, values, function(err, result) {
       done();
       cb(err, result);
