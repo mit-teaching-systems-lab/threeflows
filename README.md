@@ -42,6 +42,8 @@ And if you need to install it from scratch, follow the instructions for the curr
 
 Seed the database:
 ```
+CREATE DATABASE "teacher-moments-db";
+\c teacher-moments-db;
 CREATE TABLE evidence (
   id serial primary key,
   app text,
