@@ -6,13 +6,13 @@
   "scripts": {
     "build": "cp *.html build && NODE_ENV=production browserify -t [babelify] -g [envify --NODE_ENV 'production'] src/main.jsx | uglifyjs -c -m > build/bundle.js",
     "build-dev": "cp *.html build && browserify -t [babelify] src/main.jsx -o build/bundle.js",
-    "watch": "npm run build-dev && watchify -t [babelify] -p livereactload src/main.jsx -o build/bundle.js",
+    "watch": "yarn run build-dev && watchify -t [babelify] -p livereactload src/main.jsx -o build/bundle.js",
     "flow-quiet": "flow; test $? -eq 0 -o $? -eq 2",
     "lint-quiet": "eslint --fix --ext jsx --ext js -c .eslintrc src; exit 0",
     "lint": "eslint --ext jsx --ext js -c .eslintrc src",
-    "mocha-watch": "npm run mocha -- --watch",
+    "mocha-watch": "yarn run mocha -- --watch",
     "mocha": "mocha --check-leaks --require test/setup.js --compilers jsx:babel-register",
-    "test": "npm run lint && flow && npm run mocha",
+    "test": "yarn run lint && flow && yarn run mocha",
     "storybook": "start-storybook -p 9001"
   },
   "repository": {
