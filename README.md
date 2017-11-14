@@ -78,15 +78,7 @@ CREATE TABLE review_tokens (
 );
 
 ```
-
 For storing audio files, you'll need keys authorized for a development S3 bucket.  Ask someone for these.
-
-In another terminal, install dependencies and then start the server:
-```
-$ npm install
-$ mkdir tmp
-$ npm run dev
-```
 
 Now you can play around with the app locally!
 
@@ -102,25 +94,25 @@ You may also want to check out [react-devtools](https://github.com/facebook/reac
 ### Type check with Flow
 This starts a [Flow](https://flowtype.org/) server in the background, and then runs a typecheck once.  There's no watch command right now.
 ```
-ui $ npm run flow-quiet
+ui $ yarn run flow-quiet
 ```
 
 ### Lint and fixup with eslint
 ```
-ui $ npm run lint-quiet
+ui $ yarn run lint-quiet
 ```
 
 ### Run Mocha tests
 This project uses Mocha, with Chai's expect-style assertions, and Enzyme for some React testing utilities.  Tests are co-located with source code in the same folder, distinguished by a `_test.jsx` extension.  To run a process that watches and continually re-runs the tests:
 
 ```
-ui $ npm run mocha-watch
+ui $ yarn run mocha-watch
 ```
 
 ### Run all tests
 This is used in CI, and runs any and all tests in the project including linting, typechecks and actual tests.
 ```
-ui $ npm run test
+ui $ yarn run test
 ```
 
 ### Sublime setup
