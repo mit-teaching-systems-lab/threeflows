@@ -11,6 +11,7 @@ import VirtualSchoolPage from './virtual_school/virtual_school_page.jsx';
 import HomePage from './home/home_page.jsx';
 import DemosPage from './home/demos_page.jsx';
 import CsBiasPage from './home/cs_bias_page.jsx';
+import EquityPage from './home/equity_page.jsx';
 import ConsentPage from './home/consent_page.jsx';
 import * as MessagePopup from './message_popup/index.js';
 
@@ -40,6 +41,9 @@ export default React.createClass({
     '/consent': 'consent',
     '/bias': 'biasHome',
 
+    // For CSS workshop
+    '/equity': 'equityPage',
+    
     // Included in /demos, shared externally, or used in playtests
     '/teachermoments/original': 'messagePopup',
     '/teachermoments/alpha': 'alphaPlaytest',
@@ -220,6 +224,10 @@ export default React.createClass({
 
   hmtcaScenario(query = {}) {
     return <MessagePopup.HMTCAExperiencePage query={query} />;
+  },
+
+  equityPage(query = {}) {
+    return <EquityPage query={query} />;
   },
 
   messagePopupPlaytest(cohortKey, query = {}) {
