@@ -6,11 +6,16 @@ import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 import {List} from 'material-ui/List';
 import * as muiColors from 'material-ui/styles/colors.js';
-
+import * as Routes from '../../routes.js';
 
 // CSS Equity Workshop home page
 export default React.createClass({
   displayName: 'EquityPage',
+
+  onClicked(href, e) {
+    Routes.navigate(href);
+    e.preventDefault();
+  },
 
   render() {
     return (
@@ -29,7 +34,7 @@ export default React.createClass({
         <Divider style={{marginTop: 30, marginBottom: 30}} />
         <div style={styles.header}>Inclusive excellence</div>
         <List style={{display: 'flex'}}>
-          {this.renderScenarioItem("/teachermoments/hmtca?equity", '1: Gendered or racialized student comments', '"Climate"', muiColors.red500)}
+          {this.renderScenarioItem("/equity/climate?equity", '1: Gendered or racialized student comments', '"Climate"', muiColors.red500)}
           {this.renderScenarioItem("/teachermoments/smithB", '2: Noticing student belonging in the classroom', '"Mr. Smith"', muiColors.red500)}
           {this.renderScenarioItem("/teachermoments/sub?frombias", '3: Positioning students in the classroom', '"Lego pairs"', muiColors.red500)}
         </List>
@@ -49,7 +54,7 @@ export default React.createClass({
   renderScenarioItem(href, linkText, text, backgroundColor) {
     return (
       <Paper zDepth={3} style={{flex: 1, marginRight: 20, marginLeft: 10, backgroundColor}}>
-        <a style={{padding: 30, display: 'inline-block', textDecoration: 'none', color: '#333'}} href={href}>
+        <a style={{padding: 30, display: 'inline-block', textDecoration: 'none', color: '#333'}} href={href} onClick={this.onClicked.bind(this, href)} >
           <div style={{height: 180, alignItems: 'flex-start', justifyContent: 'space-between', display: 'flex', flexDirection: 'column'}}>
             <div style={{color: '#eee', fontSize: 24, fontWeight: 'bold', marginBottom: 10}}>{linkText}</div>
             <div style={{color: '#eee', fontSize: 18}}>{text}</div>

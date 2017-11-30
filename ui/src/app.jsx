@@ -11,9 +11,11 @@ import VirtualSchoolPage from './virtual_school/virtual_school_page.jsx';
 import HomePage from './home/home_page.jsx';
 import DemosPage from './home/demos_page.jsx';
 import CsBiasPage from './home/cs_bias_page.jsx';
-import FairPage from './message_popup/equity/fair_page.jsx';
 import ConsentPage from './home/consent_page.jsx';
 import * as MessagePopup from './message_popup/index.js';
+
+import FairPage from './message_popup/equity/fair_page.jsx';
+import ClimatePage from './message_popup/equity/climate_page.jsx';
 
 
 export default React.createClass({
@@ -44,6 +46,7 @@ export default React.createClass({
     // For CSS workshop
     '/equity': 'fairPage',
     '/equity/fair': 'fairPage',
+    '/equity/climate': 'climatePage',
     
     // Included in /demos, shared externally, or used in playtests
     '/teachermoments/original': 'messagePopup',
@@ -229,6 +232,10 @@ export default React.createClass({
 
   fairPage(query = {}) {
     return <FairPage query={query} />;
+  },
+
+  climatePage(query = {}) {
+    return <ClimatePage query={query} />;
   },
 
   messagePopupPlaytest(cohortKey, query = {}) {
