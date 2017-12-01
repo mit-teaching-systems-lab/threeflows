@@ -3,6 +3,7 @@ import React from 'react';
 import uuid from 'uuid';
 import _ from 'lodash';
 
+import TextField from 'material-ui/TextField';
 import * as Api from '../../helpers/api.js';
 import hash from '../../helpers/hash.js';
 import LinearSession from '../linear_session/linear_session.jsx';
@@ -51,9 +52,9 @@ export default React.createClass({
   // User types cohort for team
   getInitialState() {
     return {
-      cohortKey: 'EQUITY_DEMO',
-      identifier: 'EQUITY_DEMO:' + uuid.v4(),
-      workshop: this.props.query.workshop || 'defaultWorkshop',
+      cohortKey: '',
+      identifier: 'PAPER_PROTOTYPE_IDENTIFIER:' + uuid.v4(),
+      workshop: 'PAPER_PROTOTYPE_PAGE' + (this.props.query.workshop || 'defaultWorkshop'),
       questions: null,
       sessionId: uuid.v4(),
       currentPart: Parts.PRACTICE
@@ -88,8 +89,8 @@ export default React.createClass({
     };
   },
 
-  onCohortKeyChanged(e, menuItemKey, cohortKey) {
-    this.setState({cohortKey});
+  onCohortKeyChanged(e) {
+    this.setState({cohortKey: e.target.value});
   },
 
   onIdentifierChanged(e) {
@@ -192,9 +193,21 @@ export default React.createClass({
           <div style={styles.instructions}>
             <p>In this practice space, you'll have to improvise and adapt to make the best of the situation. Some scenarios might not exactly match your grade level and subject.</p>
           </div>
+          <div style={{...styles.instructions, marginTop: 40}}>
+            <div>What is your group code?</div>
+            <TextField
+              name="cohortKey"
+              style={{width: '100%', marginBottom: 20}}
+              underlineShow={true}
+              hintText="edu231@css"
+              value={this.state.cohortKey}
+              onChange={this.onCohortKeyChanged}
+              rows={1} />
+          </div>
           <div style={styles.instructions}>
             <RaisedButton
               onTouchTap={this.onStart}
+              disabled={this.state.cohortKey === ''}
               type="submit"
               style={styles.button}
               secondary={true}

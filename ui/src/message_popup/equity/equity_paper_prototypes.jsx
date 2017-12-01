@@ -75,7 +75,7 @@ export function toSlides(prototype) {
       <div><b>2: Read scenario</b></div>
       <div style={style}>{scenario}</div>
     </div>
-  , force: true, open: true});
+  , force: true, open: true, applesSceneNumber: 1});
 
   slides.push({ el: 
     <div>
