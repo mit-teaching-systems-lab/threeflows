@@ -138,7 +138,6 @@ export default React.createClass({
     // it, stripping out all the identifiers from the log message so we can read it
     // back later safely anonymized.
     if (type === 'anonymized_apples_to_apples_partial') {
-      console.log('anon', response);
       Api.logApplesText({
         applesKey: this.applesKey(),
         sceneNumber: response.sceneNumber,
