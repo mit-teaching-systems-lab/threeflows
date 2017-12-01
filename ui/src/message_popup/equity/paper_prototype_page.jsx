@@ -187,11 +187,12 @@ export default React.createClass({
           <div style={styles.instructions}>
             <p>Welcome!  This is an online practice space adapted from a paper prototype.</p>
           </div>
+          <div style={{marginLeft: 30}}><img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/paper-prototypes-crumpled.png" width={202} height={140} /></div>
           <div style={styles.instructions}>
-            <p>You can use this in partners, with one person playing the teacher candidate and the other the coach.  Or you can use it individually and then discuss in small groups afterward.</p>
+            <p>You can use this in partners, with one person playing the teacher candidate and the other the coach.  Or you could try it individually and then discuss afterward.</p>
           </div>
           <div style={styles.instructions}>
-            <p>In this practice space, you'll have to improvise and adapt to make the best of the situation. Some scenarios might not exactly match your grade level and subject.</p>
+            <p>In this practice space, you'll have to improvise and adapt to make the best of the situation. It might not exactly match your grade level and subject.</p>
           </div>
           <div style={{...styles.instructions, marginTop: 40}}>
             <div>What is your group code?</div>

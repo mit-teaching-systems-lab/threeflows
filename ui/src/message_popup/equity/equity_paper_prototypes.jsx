@@ -67,15 +67,11 @@ export function toSlides(prototype) {
     <div>
       <div><b>1: Read context</b></div>
       <div style={style}>{context}</div>
+      <div style={{marginTop: 30}}>What are you anticipating?</div>
     </div>
   , force: true, open: true});
 
-  slides.push({ text: scenario, el: 
-    <div>
-      <div><b>2: Read scenario</b></div>
-      <div style={style}>{scenario}</div>
-    </div>
-  , applesSceneNumber: 1});
+  slides.push({ text: scenario, applesSceneNumber: 1});
 
   slides.push({ el: 
     <div>
