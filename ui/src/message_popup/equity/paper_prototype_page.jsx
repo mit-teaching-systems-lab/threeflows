@@ -138,6 +138,7 @@ export default React.createClass({
     // it, stripping out all the identifiers from the log message so we can read it
     // back later safely anonymized.
     if (type === 'anonymized_apples_to_apples_partial') {
+      console.log('anon', response);
       Api.logApplesText({
         applesKey: this.applesKey(),
         sceneNumber: response.sceneNumber,
@@ -282,6 +283,8 @@ export default React.createClass({
         <i style={{margin: 10, display: 'block'}}>What assumptions might we make about students based on their gender, race or ethnicity and how might these influence how we interpret and respond to situations?</i>
         <br />
         <div>If you have time, capture the main points of your discussion on the poster board, to share it out with the whole group after.</div>
+        <br />
+        <div>If you're online, connect with others at <a target="_blank" href="https://twitter.com/search?q=%23TeacherPracticeSpaces">#TeacherPracticeSpaces</a>.</div>
       </div>
     );
   }

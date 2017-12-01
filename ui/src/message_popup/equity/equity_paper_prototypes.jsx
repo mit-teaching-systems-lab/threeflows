@@ -70,12 +70,12 @@ export function toSlides(prototype) {
     </div>
   , force: true, open: true});
 
-  slides.push({ el: 
+  slides.push({ text: scenario, el: 
     <div>
       <div><b>2: Read scenario</b></div>
       <div style={style}>{scenario}</div>
     </div>
-  , force: true, open: true, applesSceneNumber: 1});
+  , applesSceneNumber: 1});
 
   slides.push({ el: 
     <div>
