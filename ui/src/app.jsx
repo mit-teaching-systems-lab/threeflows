@@ -14,8 +14,10 @@ import CsBiasPage from './home/cs_bias_page.jsx';
 import ConsentPage from './home/consent_page.jsx';
 import * as MessagePopup from './message_popup/index.js';
 
+// equity
 import FairPage from './message_popup/equity/fair_page.jsx';
 import ClimatePage from './message_popup/equity/climate_page.jsx';
+import PaperPrototypePage from './message_popup/equity/paper_prototype_page.jsx';
 
 
 export default React.createClass({
@@ -47,6 +49,7 @@ export default React.createClass({
     '/equity': 'fairPage',
     '/equity/fair': 'fairPage',
     '/equity/climate': 'climatePage',
+    '/equity/paper/:key': 'paperPrototypePage',
     
     // Included in /demos, shared externally, or used in playtests
     '/teachermoments/original': 'messagePopup',
@@ -236,6 +239,10 @@ export default React.createClass({
 
   climatePage(query = {}) {
     return <ClimatePage query={query} />;
+  },
+
+  paperPrototypePage(prototypeKey, query = {}) {
+    return <PaperPrototypePage prototypeKey={prototypeKey} query={query} />;
   },
 
   messagePopupPlaytest(cohortKey, query = {}) {

@@ -24,6 +24,6 @@ describe('<FairPage />', () => {
 
   it('renders Paper for each practice space', () => {
     const wrapper = shallow(<FairPage />);
-    expect(wrapper.find(Paper).length).to.equal(6);
+    expect(wrapper.find(Paper).length).to.equal(7);
   });
 });
