@@ -10,7 +10,7 @@ import {List, ListItem} from 'material-ui/List';
 describe('<DemosPage />', () => {
   it('renders', () => {
     const wrapper = shallow(<DemosPage />);
-    expect(wrapper.find(List).length).to.equal(2);
-    expect(wrapper.find(ListItem).length).to.equal(13);
+    expect(wrapper.find(List).length).to.equal(3);
+    expect(wrapper.find(ListItem).length).to.equal(18);
   });
 });

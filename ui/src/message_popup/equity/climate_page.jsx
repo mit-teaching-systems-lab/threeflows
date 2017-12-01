@@ -10,10 +10,6 @@ import SessionFrame from '../linear_session/session_frame.jsx';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import 'velocity-animate/velocity.ui';
 import RaisedButton from 'material-ui/RaisedButton';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import Divider from 'material-ui/Divider';
-import TextField from 'material-ui/TextField';
 
 import QuestionInterpreter from '../renderers/question_interpreter.jsx';
 import type {QuestionT} from '../playtest/pairs_scenario.jsx';

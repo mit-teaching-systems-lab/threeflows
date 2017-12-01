@@ -1,8 +1,6 @@
 /* @flow weak */
 import React from 'react';
 
-import RaisedButton from 'material-ui/RaisedButton';
-import AppBar from 'material-ui/AppBar';
 import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 import {List} from 'material-ui/List';
