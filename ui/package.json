@@ -4,8 +4,8 @@
   "version": "0.1.0",
   "main": "bundle.js",
   "scripts": {
-    "build": "cp *.html build && NODE_ENV=production browserify -t [babelify] -g [envify --NODE_ENV 'production'] src/main.jsx | uglifyjs -c -m > build/bundle.js",
-    "build-dev": "cp *.html build && browserify -t [babelify] src/main.jsx -o build/bundle.js",
+    "build": "mkdir -p build && cp *.html build && NODE_ENV=production browserify -t [babelify] -g [envify --NODE_ENV 'production'] src/main.jsx | uglifyjs -c -m > build/bundle.js",
+    "build-dev": "mkdir -p build && cp *.html build && browserify -t [babelify] src/main.jsx -o build/bundle.js",
     "watch": "yarn run build-dev && watchify -t [babelify] -p livereactload src/main.jsx -o build/bundle.js",
     "flow-quiet": "flow; test $? -eq 0 -o $? -eq 2",
     "lint-quiet": "eslint --fix --ext jsx --ext js -c .eslintrc src; exit 0",

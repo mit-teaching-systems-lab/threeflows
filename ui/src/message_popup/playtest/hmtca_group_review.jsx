@@ -13,6 +13,7 @@ export default React.createClass({
   displayName: 'HMTCAGroupReview',
 
   propTypes: {
+    prompt: React.PropTypes.string.isRequired,
     applesKey: React.PropTypes.string.isRequired,
     onDone: React.PropTypes.func.isRequired
   },
@@ -56,6 +57,7 @@ export default React.createClass({
   },
 
   render() {
+    const {prompt} = this.props;
     const {hasLoaded, applesResponses} = this.state;
     if (!hasLoaded) return <div>Loading...</div>;
 
@@ -63,7 +65,7 @@ export default React.createClass({
     const sceneToResponses = _.groupBy(applesResponses, 'scene_number');
     return (
       <div>
-        <div style={styles.instructions}>Scroll through, discuss and capture.</div>
+        <div style={styles.instructions}>{prompt}</div>
         <div>{_.sortBy(Object.keys(sceneToResponses)).map((sceneNumber, index) => {
           if (sceneNumber === 'null') return;
           return (

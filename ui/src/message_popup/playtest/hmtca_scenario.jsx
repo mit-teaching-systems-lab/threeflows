@@ -50,9 +50,9 @@ function addInAppleSceneNumber(slide, index) {
   return {...slide, applesSceneNumber: index + 1};
 }
 
-function slidesFor(cohortKey) {
+function slidesFor(cohortKey, options = {}) {
   var slides:[QuestionT] = [];
-  slides.push({ el: 
+  slides.push(options.firstSlide || { el: 
     <div>
     <div><b>PART 1: Practice Individually</b> (10 minutes)</div>
     <br />
@@ -94,7 +94,7 @@ Johnny: “You’re just being a bitch because you’re on your period.” `},
 
 export default {
   TEAM_CODES,
-  questionsFor(cohortKey) {
-    return slidesFor(cohortKey);
+  questionsFor(cohortKey, options = {}) {
+    return slidesFor(cohortKey, options);
   }
 };

@@ -15,7 +15,12 @@ export default React.createClass({
   },
 
   onTappedItem(linkEl) {
-    Routes.navigate(linkEl.props.href);
+    const href = linkEl.props.href;
+    if (href.indexOf('http') === 0) {
+      window.location = href;
+    } else {
+      Routes.navigate(href);
+    }
   },
 
   render() {
@@ -25,12 +30,20 @@ export default React.createClass({
   renderScenarios() {
     return (
       <div>
-        <h3 style={styles.header}>Scenarios</h3>
+        <h3 style={styles.header}>Equity and bias</h3>
         <List>
-          {this.renderScenarioItem(<a href="/teachermoments/sub">Computer science substitute</a>)}
+          {this.renderScenarioItem(<a href="/equity/climate?fromequity">Gendered or racialized student comments</a>)}
+          {this.renderScenarioItem(<a href="/teachermoments/smith?fromequity">Noticing student belonging in the classroom</a>)}
+          {this.renderScenarioItem(<a href="/teachermoments/sub?fromequity">Positioning students in the classroom</a>)}
+          {this.renderScenarioItem(<a href="/teachermoments/rosa?fromequity">Talking about identity</a>)}
+          {this.renderScenarioItem(<a href="https://swipe-right-for-cs.herokuapp.com/play?fromequity">Connecting student strengths to academics</a>)}
+          {this.renderScenarioItem(<a href="/teachermoments/jayden?fromequity">Encouraging student growth</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/csfair">Computer science projects</a>)}
-          {this.renderScenarioItem(<a href="/teachermoments/danson">Danson parent meeting, via Dotger 2010</a>)}
-          {this.renderScenarioItem(<a href="/teachermoments/turner">Turner parent meeting, via Dotger 2010</a>)}
+        </List>
+        <List>
+        <h3 style={styles.header}>Parent conversations</h3>
+          {this.renderScenarioItem(<a href="/teachermoments/danson?frombias">Supporting a special needs student</a>)}
+          {this.renderScenarioItem(<a href="/teachermoments/turner?frombias">Parent doesn't value school</a>)}
         </List>
         <h3 style={styles.header}>Early prototypes</h3>
         <List>

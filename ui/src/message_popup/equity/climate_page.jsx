@@ -10,15 +10,11 @@ import SessionFrame from '../linear_session/session_frame.jsx';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import 'velocity-animate/velocity.ui';
 import RaisedButton from 'material-ui/RaisedButton';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-import Divider from 'material-ui/Divider';
-import TextField from 'material-ui/TextField';
 
 import QuestionInterpreter from '../renderers/question_interpreter.jsx';
-import type {QuestionT} from './pairs_scenario.jsx';
-import HMTCAScenarios from './hmtca_scenario.jsx';
-import HMTCAGroupReview from './hmtca_group_review.jsx';
+import type {QuestionT} from '../playtest/pairs_scenario.jsx';
+import HMTCAScenarios from '../playtest/hmtca_scenario.jsx';
+import HMTCAGroupReview from '../playtest/hmtca_group_review.jsx';
 
 type ResponseT = {
   choice:string,
@@ -37,9 +33,9 @@ const Parts = {
 };
 
 
-// This is the flow for the HMTCA breakout session
+// Adapte from HMTCA
 export default React.createClass({
-  displayName: 'HMTCAExperiencePage',
+  displayName: 'ClimagePage',
 
   propTypes: {
     query: React.PropTypes.shape({
@@ -52,8 +48,8 @@ export default React.createClass({
   // User types cohort for team
   getInitialState() {
     return {
-      cohortKey: this.props.query.cohort || '',
-      identifier: '',
+      cohortKey: 'EQUITY_DEMO',
+      identifier: 'EQUITY_DEMO:' + uuid.v4(),
       workshop: this.props.query.workshop || 'defaultWorkshop',
       questions: null,
       sessionId: uuid.v4(),
@@ -75,10 +71,18 @@ export default React.createClass({
     return [cohortKey, workshop].join(':');
   },
 
-  // Could make this smarter and have it coordinate across different users to
-  // allow them all to advance n minutes after the first session started.
-  shouldAllowJumpAhead() {
-    return true;
+  firstSlide() {
+    return { el: 
+      <div>
+      <div><b>PART 1: Practice Individually</b></div>
+      <br />
+      <div>In Part 1, you’ll read through 4 separate classroom management scenes and type how you’d respond to each scene.</div>
+      <br />
+      <div>For each scene, simulate how you’d respond to the student(s) in the moment and type your response in the textbox located below the scene. </div>
+      <br />
+      <div>Once you’re finished with your responses, You'll review how people have responded and discuss.  Clicking on “Ok” will take you to your first scene. Ready?</div>
+      </div>
+    };
   },
 
   onCohortKeyChanged(e, menuItemKey, cohortKey) {
@@ -93,7 +97,7 @@ export default React.createClass({
   onStart(e) {
     e.preventDefault();
     const {cohortKey} = this.state;
-    const allQuestions = HMTCAScenarios.questionsFor(cohortKey);
+    const allQuestions = HMTCAScenarios.questionsFor(cohortKey, { firstSlide: this.firstSlide() });
 
     const startQuestionIndex = this.props.query.p || 0; // for testing or demoing
     const questions = allQuestions.slice(startQuestionIndex);
@@ -174,37 +178,17 @@ export default React.createClass({
     return (
       <VelocityTransitionGroup enter={{animation: "callout.pulse", duration: 500}} leave={{animation: "slideUp"}} runOnMount={true}>
         <form onSubmit={this.onStart}>
-          <div style={{...styles.instructions, marginBottom: 15}}>
-            <p>Welcome!  This is an online practice space made just for HMTCA.</p>
+          <div style={styles.instructions}>
+            <p>Welcome!  This is an online practice space about managing classroom climate.</p>
           </div>
           <div style={styles.instructions}>
-            <div>What's your anonymous identifier?</div>
-            <TextField
-              name="identifier"
-              style={{width: '100%', marginBottom: 20}}
-              underlineShow={true}
-              hintText="Jubilant Otter"
-              value={this.state.identifier}
-              onChange={this.onIdentifierChanged}
-              rows={1} />
-          </div>
-          <div style={styles.instructions}>
-            <div>What is your team code?</div>
-            <SelectField
-              maxHeight={250}
-              style={{width: '100%'}}
-              floatingLabelText="Select your team code"
-              value={this.state.cohortKey}
-              onChange={this.onCohortKeyChanged}
-            >
-              <MenuItem key={''} value={''} primaryText={''} />
-              {HMTCAScenarios.TEAM_CODES.map(code => <MenuItem key={code} value={code} primaryText={code} />)}
-            </SelectField>
+            <p>It was designed to be used by a small group working in-person, each with their own computer.  This version has been adapted to work with a group on one computer.</p>
           </div>
           <div style={styles.instructions}>
             <p>In this practice space, you'll have to improvise and adapt to make the best of the situation. Some scenarios might not exactly match your grade level and subject.</p>
+          </div>
+          <div style={styles.instructions}>
             <RaisedButton
-              disabled={this.state.cohortKey === '' || this.state.identifier === ''}
               onTouchTap={this.onStart}
               type="submit"
               style={styles.button}
@@ -225,21 +209,6 @@ export default React.createClass({
           onLog={onLog}
           forceText={forceText}
           onResponseSubmitted={onResponseSubmitted} />
-        {this.shouldAllowJumpAhead() && this.renderJumpAhead()}
-      </div>
-    );
-  },
-
-  renderJumpAhead() {
-    return (
-      <div style={{marginTop: 200}}>
-        <Divider />
-        <div style={{margin: 35}}>
-          <div style={{paddingBottom: 20}}>If the rest of your group has already finished, jump to the discussion round.</div>
-          <RaisedButton
-            label="Start phase #2"
-            onTouchTap={this.onShowGroupInstructions} />
-        </div>
       </div>
     );
   },
@@ -247,9 +216,10 @@ export default React.createClass({
   renderPauseEl(questions:[QuestionT], responses:[ResponseT]) {
     return (
       <div style={{margin: 20}}>
-        <div style={{paddingBottom: 20}}>If you’ve made it to this screen, you’ve finished responding to all the scenes. If you’ve finished early, wait for your whole group to finish before proceeding to Part 2. Once your whole group has finished, click on “Start Part 2.”</div>
+        <div style={{paddingBottom: 20}}>That's the end of Part 1.  Click to proceeed.</div>
         <RaisedButton
           label="Start Part #2"
+          secondary={true}
           onTouchTap={this.onShowGroupInstructions} />
       </div>
     );
@@ -259,15 +229,11 @@ export default React.createClass({
     return (
       <div style={{margin: 20}}>
         <div>
-          <div><b>PART 2: Review, discuss, and capture</b> (20 minutes)</div>
+          <div><b>PART 2: Review, discuss, and capture</b></div>
           <br />
           <div>For Part 2, go through each scene as a group.  For each scene, review the responses and discuss them as a group.</div>
           <br />
           <i style={{margin: 10, display: 'block'}}>How can our responses impact the student and how can we de-escalate the situation?</i>
-          <br />
-          <div>Capture the main points of your discussion on the poster board, to share it out with the whole group after.</div>
-          <br />
-          <div>At the end of 20 minutes move on to part 3.</div>
           <br />
           <div>Ready to start?</div>
           <br />
@@ -283,7 +249,7 @@ export default React.createClass({
 
   renderGroupReview() {
     return <HMTCAGroupReview
-      prompt="Scroll through, discuss and capture."
+      prompt="Scroll through and discuss."
       applesKey={this.applesKey()}
       onDone={this.onGroupReviewDone} />;
   },
@@ -291,15 +257,13 @@ export default React.createClass({
   renderFinalInstructions() {
     return (
       <div style={styles.instructions}>
-        <p><b>PART 3: Discuss assumptions and capture</b> (15 minutes)</p>
+        <p><b>PART 3: Discuss assumptions</b></p>
         <br />
         <div>Part 3 is a group discussion, you won't work on your computers.</div>
         <br />
         <i style={{margin: 10, display: 'block'}}>What assumptions might we make about students based on their gender, race or ethnicity and how might these influence classroom management?</i>
         <br />
-        <div>Capture the main points of your discussion on the poster board, to share it out with the whole group after.</div>
-        <br />
-        <div>We'll come knock at the door and get you when it's time to come back to the group.</div>
+        <div>If you have time, capture the main points of your discussion on the poster board, to share it out with the whole group after.</div>
       </div>
     );
   }
@@ -312,7 +276,7 @@ const styles = {
     margin:0,
     paddingLeft: 20,
     paddingRight: 20,
-    paddingBottom: 10
+    paddingBottom: 0
   },
   button: {
     marginTop: 20

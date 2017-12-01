@@ -14,6 +14,9 @@ import CsBiasPage from './home/cs_bias_page.jsx';
 import ConsentPage from './home/consent_page.jsx';
 import * as MessagePopup from './message_popup/index.js';
 
+import FairPage from './message_popup/equity/fair_page.jsx';
+import ClimatePage from './message_popup/equity/climate_page.jsx';
+
 
 export default React.createClass({
   displayName: 'App',
@@ -40,6 +43,11 @@ export default React.createClass({
     '/consent': 'consent',
     '/bias': 'biasHome',
 
+    // For CSS workshop
+    '/equity': 'fairPage',
+    '/equity/fair': 'fairPage',
+    '/equity/climate': 'climatePage',
+    
     // Included in /demos, shared externally, or used in playtests
     '/teachermoments/original': 'messagePopup',
     '/teachermoments/alpha': 'alphaPlaytest',
@@ -220,6 +228,14 @@ export default React.createClass({
 
   hmtcaScenario(query = {}) {
     return <MessagePopup.HMTCAExperiencePage query={query} />;
+  },
+
+  fairPage(query = {}) {
+    return <FairPage query={query} />;
+  },
+
+  climatePage(query = {}) {
+    return <ClimatePage query={query} />;
   },
 
   messagePopupPlaytest(cohortKey, query = {}) {
