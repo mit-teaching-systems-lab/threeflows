@@ -32,12 +32,12 @@ export default React.createClass({
           {this.renderScenarioItem(<a href="/teachermoments/sub?frombias">Bias in facilitating pair work</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/rosa?frombias">Checking in with a student</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/jayden?frombias">Talking with a student considering dropping the course</a>)}
-          {this.renderScenarioItem(<a href="/teachermoments/smithB">Noticing student belonging in class</a>)}
+          {this.renderScenarioItem(<a href="/teachermoments/smith?frombias">Noticing student belonging in class</a>)}
         </List>
         <h3 style={styles.header}>Parent conversations</h3>
         <List>
-          {this.renderScenarioItem(<a href="/teachermoments/danson">Supporting a special needs student</a>)}
-          {this.renderScenarioItem(<a href="/teachermoments/turner">Parent doesn't value school</a>)}
+          {this.renderScenarioItem(<a href="/teachermoments/danson?frombias">Supporting a special needs student</a>)}
+          {this.renderScenarioItem(<a href="/teachermoments/turner?frombias">Parent doesn't value school</a>)}
         </List>
         <div style={{marginTop: 50}}>New idea?  Reach out at <a href="https://twitter.com/mit_tsl">@mit_tsl</a>.</div>
       </div>
