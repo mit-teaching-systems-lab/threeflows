@@ -19,24 +19,18 @@ For more information come chat with [@mit_tsl](https://twitter.com/mit_tsl) or v
 This is a [React](https://facebook.github.io/react/) webapp, and a small [Express](http://expressjs.com/) server.
 Code in both environments is written in [ES6](https://babeljs.io/docs/learn-es2015/).
 
-#### UI
-In another terminal, install dependencies and then start a process that will continually build the UI with hot reloading:
+To develop locally:
 ```
-$ cd ui
-ui $ npm install
-ui $ mkdir build
-ui $ npm run watch
+$ yarn install
+$ yarn start
 ```
-This builds artifacts and places them in the `ui/build` folder.
 
+This will both run the server and a process that will continually build the UI, writing the output of both to stdout in parallel.
 
 #### Server
-The server app was developed for the [engine specified in the root package.json](https://github.com/mit-teaching-systems-lab/threeflows/blob/master/package.json#L5).  If you already have node installed, you can check the version with:
+The server app was developed for the [engine specified in the root package.json](https://github.com/mit-teaching-systems-lab/threeflows/blob/master/package.json#L5).
 
-```
-$ node -v
-```
-And if you need to install it from scratch, follow the instructions for the current version on the [node.js website](https://nodejs.org/en/).
+If you already have node installed, you can check the version with `node -v`.  If you need to install node from scratch, follow the instructions for the current version on the [node.js website](https://nodejs.org/en/).
 
 [Install Postgres](https://devcenter.heroku.com/articles/heroku-postgresql#set-up-postgres-on-mac).
 
@@ -84,15 +78,7 @@ CREATE TABLE review_tokens (
 );
 
 ```
-
 For storing audio files, you'll need keys authorized for a development S3 bucket.  Ask someone for these.
-
-In another terminal, install dependencies and then start the server:
-```
-$ npm install
-$ mkdir tmp
-$ npm run dev
-```
 
 Now you can play around with the app locally!
 
@@ -108,25 +94,25 @@ You may also want to check out [react-devtools](https://github.com/facebook/reac
 ### Type check with Flow
 This starts a [Flow](https://flowtype.org/) server in the background, and then runs a typecheck once.  There's no watch command right now.
 ```
-ui $ npm run flow-quiet
+ui $ yarn run flow-quiet
 ```
 
 ### Lint and fixup with eslint
 ```
-ui $ npm run lint-quiet
+ui $ yarn run lint-quiet
 ```
 
 ### Run Mocha tests
 This project uses Mocha, with Chai's expect-style assertions, and Enzyme for some React testing utilities.  Tests are co-located with source code in the same folder, distinguished by a `_test.jsx` extension.  To run a process that watches and continually re-runs the tests:
 
 ```
-ui $ npm run mocha-watch
+ui $ yarn run mocha-watch
 ```
 
 ### Run all tests
 This is used in CI, and runs any and all tests in the project including linting, typechecks and actual tests.
 ```
-ui $ npm run test
+ui $ yarn run test
 ```
 
 ### Sublime setup
