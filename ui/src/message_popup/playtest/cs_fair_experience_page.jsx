@@ -9,7 +9,7 @@ import SessionFrame from '../linear_session/session_frame.jsx';
 import IntroWithEmail from '../linear_session/intro_with_email.jsx';
 
 import MixedQuestion from '../renderers/mixed_question.jsx';
-import ChoiceForBehaviorResponse from '../renderers/choice_for_behavior_response.jsx';
+import OkResponse from '../responses/ok_response.jsx';
 import CsFairScoreResponse from '../renderers/cs_fair_score_response.jsx';
 import CsFairSummary from './cs_fair_summary.jsx';
 import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
@@ -139,8 +139,7 @@ export default React.createClass({
       return (
         <div key={key}>
           <CsFairProject project={question.project} />
-          <ChoiceForBehaviorResponse
-            choices={['OK']}
+          <OkResponse
             onLogMessage={onLog}
             onResponseSubmitted={onResponseSubmitted} />
         </div>
@@ -192,9 +191,8 @@ export default React.createClass({
     }
 
     // Move along
-    return <ChoiceForBehaviorResponse
+    return <OkResponse
       key={key}
-      choices={['OK']}
       onLogMessage={onLog}
       onResponseSubmitted={onResponseSubmitted}
     />;

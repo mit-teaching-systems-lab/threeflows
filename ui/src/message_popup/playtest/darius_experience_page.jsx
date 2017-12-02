@@ -9,7 +9,7 @@ import IntroWithEmail from '../linear_session/intro_with_email.jsx';
 import PlainTextQuestion from '../renderers/plain_text_question.jsx';
 import ReactQuestion from '../renderers/react_question.jsx';
 
-import ChoiceForBehaviorResponse from '../renderers/choice_for_behavior_response.jsx';
+import ForcedChoiceResponse from '../responses/forced_choice_response.jsx';
 import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
 import type {QuestionT} from './pairs_scenario.jsx';
 import {DariusSlides} from './darius_slides.jsx';
@@ -109,7 +109,7 @@ export default React.createClass({
           onLogMessage={onLog}
           onResponseSubmitted={onResponseSubmitted}
         />
-      : <ChoiceForBehaviorResponse
+      : <ForcedChoiceResponse
           choices={['OK']}
           onLogMessage={onLog}
           onResponseSubmitted={onResponseSubmitted}

@@ -12,6 +12,9 @@ Grossman et al. ([2009](https://cset.stanford.edu/sites/default/files/files/docu
 
 For more information come chat with [@mit_tsl](https://twitter.com/mit_tsl) or visit the [MIT Teaching Systems Lab](http://tsl.mit.edu).
 
+## Design notes
+Draft quality [design notes](design-notes.md).
+
 ## Diagram and example scenarios
 ![diagram](https://s3-us-west-2.amazonaws.com/tsl-public/teacher-moments-diagram.png)
 

@@ -9,7 +9,7 @@ import SessionFrame from '../linear_session/session_frame.jsx';
 import IntroWithEmail from '../linear_session/intro_with_email.jsx';
 
 import MixedQuestion from '../renderers/mixed_question.jsx';
-import ChoiceForBehaviorResponse from '../renderers/choice_for_behavior_response.jsx';
+import OkResponse from '../responses/ok_response.jsx';
 import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
 import type {QuestionT} from './pairs_scenario.jsx';
 import {PairsScenario} from './pairs_scenario.jsx';
@@ -141,8 +141,7 @@ export default React.createClass({
           onLogMessage={onLog}
           onResponseSubmitted={onResponseSubmitted}
         />
-      : <ChoiceForBehaviorResponse
-          choices={['OK']}
+      : <OkResponse
           onLogMessage={onLog}
           onResponseSubmitted={onResponseSubmitted}
         />;

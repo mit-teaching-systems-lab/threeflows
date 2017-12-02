@@ -10,7 +10,7 @@ import MixedQuestion from '../renderers/mixed_question.jsx';
 
 import LikertResponse from '../linear_session/likert_response.jsx';
 import OpenThenClassifyResponse from '../linear_session/open_then_classify_response.jsx';
-import ChoiceForBehaviorResponse from '../renderers/choice_for_behavior_response.jsx';
+import OkResponse from '../responses/ok_response.jsx';
 import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
 import {ExperimentOneScenarios} from './discipline_scenarios.jsx';
 import type {QuestionT} from './discipline_scenarios.jsx';
@@ -140,9 +140,8 @@ export default React.createClass({
       />;
     }
 
-    return <ChoiceForBehaviorResponse
+    return <OkResponse
       key={key}
-      choices={['OK']}
       onLogMessage={onLog}
       onResponseSubmitted={onResponseSubmitted}
     />;
