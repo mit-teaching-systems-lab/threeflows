@@ -87,7 +87,7 @@ export default React.createClass({
   renderMoreInfo() {
     return (
       <div>
-        <div style={styles.header}>Play some more!</div>
+        <div style={styles.header}>Play more</div>
         <div style={styles.links}>
           <a style={styles.link} href="/demos">Try other practice spaces!</a>
           <div style={styles.link}><a href="http://tsl.mit.edu/practice-spaces-for-teacher-preparation/">Game-based practice spaces</a></div>
@@ -95,7 +95,7 @@ export default React.createClass({
           <div style={styles.link}><a href="https://github.com/mit-teaching-systems-lab/threeflows">github.com/mit-teaching-systems-lab</a></div>
         </div>
         <Divider style={{marginTop: 30, marginBottom: 30}} />
-        <div style={styles.header}>Read more!</div>
+        <div style={styles.header}>Read more</div>
         <div style={styles.links}>
           <div style={styles.link}>Using Online Practice Spaces to Investigate Challenges in Enacting Principles of Equitable Computer Science Teaching (<a href="https://osf.io/preprints/socarxiv/ygazx/">Robinson and Reich, forthcoming</a>)</div>
           <div style={styles.link}>Using "Teacher Moments" as an Online Practice Space for Parent-Teacher Conference Simulation in Preservice Teacher Education (<a href="https://osf.io/preprints/socarxiv/9y5cd/">Owho-Ovuakporie 2017</a>)</div>
@@ -103,6 +103,12 @@ export default React.createClass({
           <div style={styles.link}>Designing and Using Clinical Simulations to Prepare Teachers for Culturally Responsive Teaching (<a href="http://etd.library.vanderbilt.edu/available/etd-03022016-165211/unrestricted/Self.pdf">Self 2016</a>)</div>
           <div style={styles.link}><a href="http://blogs.edweek.org/edweek/edtechresearcher/2017/03/helping_teachers_surface_and_address_bias_with_online_practice_spaces.html">Helping Teachers Surface and Address Bias with Online Practice Spaces</a></div>
           <div style={styles.link}><a href="https://mit-teaching-systems-lab.github.io/unconscious-bias/">Bias in teaching</a></div>
+        </div>
+        <div style={styles.header}>Read whole books</div>
+        <div style={styles.links}>
+          <div style={styles.link}>Stuck in the Shallow End: Education, Race and Computing (<a href="https://mitpress.mit.edu/books/stuck-shallow-end">Margolis 2010</a>)</div>
+          <div style={styles.link}>Start Where You Are, But Don’t Stay There: Understanding Diversity, Opportunity Gaps, and Teaching in Today’s Classrooms  (<a href="https://eric.ed.gov/?id=ED515443">Milner 2010</a>)</div>
+          <div style={styles.link}>Culturally Sustaining Pedagogies: Teaching and Learning for Justice in a Changing World (<a href="https://www.tcpress.com/culturally-sustaining-pedagogies-9780807758335">Paris and Alim 2017</a>)</div>
         </div>
         <Divider style={{marginTop: 30, marginBottom: 30}} />
         <div style={{marginTop: 20}}>
