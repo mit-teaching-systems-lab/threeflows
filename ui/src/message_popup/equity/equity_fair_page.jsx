@@ -8,9 +8,10 @@ import * as muiColors from 'material-ui/styles/colors.js';
 import * as Routes from '../../routes.js';
 
 
-// Equity Workshop home page
+// Equity Workshop home page.  Intended for use in an in-person workshop,
+// or as a landing page that can be shared publicly.
 export default React.createClass({
-  displayName: 'EquityPage',
+  displayName: 'EquityFairPage',
 
   onClicked(href) {
     if (href.indexOf('http') === 0) {
@@ -28,23 +29,15 @@ export default React.createClass({
   render() {
     return (
       <div style={styles.page}>
-        {this.renderScenarios()}
-      </div>
-    );
-  },
-
-  renderScenarios() {
-    return (
-      <div style={styles.content}>
-      <div style={{marginTop: 20}}>
-        <a href="http://tsl.mit.edu">
-          <img
-            style={styles.logo}
-            src="https://tsl-public.s3.amazonaws.com/threeflows/teacher-moments-tsl-logo.png" />
-        </a>
-      </div>
-      <Divider style={{marginTop: 20, marginBottom: 30}} />
-      <h2>Equity practice spaces</h2>
+        <div style={styles.content}>
+          <a href="http://tsl.mit.edu">
+            <img
+              style={styles.logo}
+              src="https://tsl-public.s3.amazonaws.com/threeflows/teacher-moments-tsl-logo.png" />
+          </a>
+        </div>
+        <Divider style={{marginTop: 30, marginBottom: 30}} />
+        <h2>Equity practice spaces</h2>
         <p style={{marginTop: 10, marginBottom: 20}}>These interactive case studies can be used to spark conversation during in-person workshops, as homework to seed work in class, or within online PLCs.  They can be used for initial exposure to challenges teachers face in classrooms, or as formative assessments.</p>
         <div>
          <div style={styles.themes}>Themes:</div>
@@ -53,26 +46,47 @@ export default React.createClass({
             <li style={styles.themes}>Seeing the whole student</li>
           </ul>
         </div>
-        <div style={{marginTop: 40}}>Question or new idea?  Reach out at <b>krob@mit.edu</b> or <a href="https://twitter.com/mit_tsl">@mit_tsl</a>.</div>
-        <Divider style={{marginTop: 40, marginBottom: 30}} />
-        <List style={styles.list}>
-          {this.renderScenarioItem("/equity/climate?fromequity", '1: Gendered or racialized student comments', '"Climate"', muiColors.red400)}
-          {this.renderScenarioItem("/teachermoments/smith?fromequity", '2: Noticing student belonging in the classroom', '"Mr. Smith"', muiColors.blueGrey500)}
-        </List>
-        <List style={styles.list}>
-          {this.renderScenarioItem("/teachermoments/sub?fromequity", '3: Positioning students in the classroom', '"Lego pairs"', muiColors.green500)}
-          {this.renderScenarioItem("/teachermoments/rosa?fromequity", '4: Talking about identity', '"Rosa"', muiColors.indigo400)}
-        </List>
-        <List style={styles.list}>
-          {this.renderScenarioItem("https://swipe-right-for-cs.herokuapp.com/play?fromequity", '5: Connecting student strengths to academics', '"Swipe Right for CS"', muiColors.brown400)}
-          {this.renderScenarioItem("/teachermoments/jayden?fromequity", '6: Encouraging student growth', '"Jayden"', muiColors.orange700)}
-        </List>
+        <div style={{marginTop: 40, marginBottom: 30}}>Question or new idea?  Reach out at <b>krob@mit.edu</b> or <a href="https://twitter.com/mit_tsl">@mit_tsl</a>.</div>
+        {this.renderPanels()}
+        {this.renderMoreInfo()}
+      </div>
+    );
+  },
+
+  renderPanels() {
+    const scholasticaBlue = '#0B3662'; // from their website
+    return (
+      <div>
         <Divider style={{marginTop: 30, marginBottom: 30}} />
         <List style={styles.list}>
-          {this.renderScenarioItem("/equity/paper/tom-absent?text", 'Prototype: Assumptions about students', '"Tom absent"', '#0B3662')}
+          {this.renderPanel("/equity/climate?fromequity", '1: Gendered or racialized student comments', '"Climate"', muiColors.red400)}
+          {this.renderPanel("/teachermoments/smith?fromequity", '2: Noticing student belonging in the classroom', '"Mr. Smith"', muiColors.blueGrey500)}
+        </List>
+        <List style={styles.list}>
+          {this.renderPanel("/teachermoments/sub?fromequity", '3: Positioning students in the classroom', '"Lego pairs"', muiColors.green500)}
+          {this.renderPanel("/teachermoments/rosa?fromequity", '4: Talking about identity', '"Rosa"', muiColors.indigo400)}
+        </List>
+        <List style={styles.list}>
+          {this.renderPanel("https://swipe-right-for-cs.herokuapp.com/play?fromequity", '5: Connecting student strengths to academics', '"Swipe Right for CS"', muiColors.brown400)}
+          {this.renderPanel("/teachermoments/jayden?fromequity", '6: Encouraging student growth', '"Jayden"', muiColors.orange700)}
+        </List>
+        <List style={styles.list}>
+          {this.renderPanel("/teachermoments/turner?fromequity", '7: High expecations with parents', '"Jennifer Turner"', muiColors.deepPurple500)}
           <div style={{flex: 1}} />
         </List>
         <Divider style={{marginTop: 30, marginBottom: 30}} />
+        <List style={styles.list}>
+          {this.renderPanel("/equity/paper/tom-absent?fromequity&text", 'Prototype: Talking ', '"Tom absent"', scholasticaBlue)}
+          {this.renderPanel("/teachermoments/darius?fromequity", 'Prototype: Student concerns about equity', '"Darius"', muiColors.grey700)}
+        </List>
+        <Divider style={{marginTop: 30, marginBottom: 30}} />
+      </div>
+    );
+  },
+
+  renderMoreInfo() {
+    return (
+      <div>
         <div style={styles.header}>Play some more!</div>
         <div style={styles.links}>
           <a style={styles.link} href="/demos">Try other practice spaces!</a>
@@ -102,7 +116,7 @@ export default React.createClass({
     );
   },
 
-  renderScenarioItem(href, linkText, text, backgroundColor) {
+  renderPanel(href, linkText, text, backgroundColor) {
     return (
       <Paper zDepth={3} style={{flex: 1, margin: 15, backgroundColor}}>
         <div style={{cursor: 'pointer', padding: 30, display: 'inline-block', textDecoration: 'none', color: '#333'}} onClick={this.onClicked.bind(this, href)}>
@@ -118,16 +132,15 @@ export default React.createClass({
 
 const styles = {
   page: {
-    width: 800,
+    width: 740,
     marginLeft: 'auto',
     marginRight: 'auto',
     marginTop: 20,
-    marginBottom: 20
+    marginBottom: 20,
+    padding: 30,
+    backgroundColor: 'white'
   },
   content: {
-    padding: 30,
-    paddingTop: 10,
-    backgroundColor: 'white'
   },
   quote: {
     fontStyle: 'italic'

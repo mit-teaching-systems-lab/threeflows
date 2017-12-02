@@ -10,7 +10,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 // For reviewing responses as a group.
 export default React.createClass({
-  displayName: 'HMTCAGroupReview',
+  displayName: 'GroupReview',
 
   propTypes: {
     prompt: React.PropTypes.string.isRequired,

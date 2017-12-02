@@ -14,7 +14,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import QuestionInterpreter from '../renderers/question_interpreter.jsx';
 import type {QuestionT} from '../playtest/pairs_scenario.jsx';
 import HMTCAScenarios from '../playtest/hmtca_scenario.jsx';
-import HMTCAGroupReview from '../playtest/hmtca_group_review.jsx';
+import GroupReview from '../review/group_review.jsx';
 
 type ResponseT = {
   choice:string,
@@ -33,7 +33,7 @@ const Parts = {
 };
 
 
-// Adapte from HMTCA
+// Adapted from HMTCA session, for use in other workshops or as a public demo.
 export default React.createClass({
   displayName: 'ClimagePage',
 
@@ -248,7 +248,7 @@ export default React.createClass({
   },
 
   renderGroupReview() {
-    return <HMTCAGroupReview
+    return <GroupReview
       prompt="Scroll through and discuss."
       applesKey={this.applesKey()}
       onDone={this.onGroupReviewDone} />;

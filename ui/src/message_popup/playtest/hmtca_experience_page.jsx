@@ -18,7 +18,7 @@ import TextField from 'material-ui/TextField';
 import QuestionInterpreter from '../renderers/question_interpreter.jsx';
 import type {QuestionT} from './pairs_scenario.jsx';
 import HMTCAScenarios from './hmtca_scenario.jsx';
-import HMTCAGroupReview from './hmtca_group_review.jsx';
+import GroupReview from '../review/group_review.jsx';
 
 type ResponseT = {
   choice:string,
@@ -282,7 +282,7 @@ export default React.createClass({
   },
 
   renderGroupReview() {
-    return <HMTCAGroupReview
+    return <GroupReview
       prompt="Scroll through, discuss and capture."
       applesKey={this.applesKey()}
       onDone={this.onGroupReviewDone} />;
