@@ -63,19 +63,15 @@ export function toSlides(prototype) {
 
 
   var slides = [];
-  slides.push({ type: 'Introduction', el: 
+  slides.push({ el: 
     <div>
-      <div>1. Read context</div>
-      <div>Imagine yourself in the particular school and classroom.  You won't know all the answers, and will have to improvise and adapt to make the best of the situation.</div>
+      <div><b>PART 1: Practice Individually</b></div>
       <br />
-      <div>2. Anticipate</div>
-      <div>Before starting the simulation, answer a few questions about what might happen.  You shouldn't have an in-depth understanding, but do your best to anticipate what might happen.</div>
+      <div>In Part 1, you’ll read through a few scenes and type how you’d respond to each scene.</div>
       <br />
-      <div>3. Try it!</div>
-      <div>When you're ready, you'll go through a set of short scenes that simulate interactions between you and a student.</div>
+      <div>For each scene, simulate how you’d respond to the student(s) in the moment and type your response in the textbox located below the scene. </div>
       <br />
-      <div>4. Reflect</div>
-      <div>Finally, you'll reflect on your experience and then discuss in your group.</div>
+      <div>Once you’re finished with your responses, You'll review how people have responded and discuss.  Clicking on “Ok” will take you to your first scene. Ready?</div>
     </div>
   });
 
