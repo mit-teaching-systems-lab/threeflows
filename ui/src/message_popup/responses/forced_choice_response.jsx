@@ -1,7 +1,7 @@
 /* @flow weak */
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
-import {ResponseTypes} from '../../data/data.js';
+import {ResponseTypes} from '../data/response_types.js';
 
 
 // This response allows choosing from a set of responses.
