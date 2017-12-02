@@ -14,7 +14,7 @@ import ConsentPage from './home/consent_page.jsx';
 import * as MessagePopup from './message_popup/index.js';
 
 // equity
-import FairPage from './message_popup/equity/fair_page.jsx';
+import EquityFairPage from './message_popup/equity/equity_fair_page.jsx';
 import ClimatePage from './message_popup/equity/climate_page.jsx';
 import PaperPrototypePage from './message_popup/equity/paper_prototype_page.jsx';
 
@@ -45,7 +45,7 @@ export default React.createClass({
     '/demos': 'demos',
     '/consent': 'consent',
     '/bias': 'biasHome',
-    '/equity': 'fairPage',
+    '/equity': 'equityFairPage',
 
     // Stable and publicly shared practice spaces 
     '/teachermoments/danson': 'dansonPlaytest',
@@ -255,8 +255,8 @@ export default React.createClass({
     return <MessagePopup.HMTCAExperiencePage query={query} />;
   },
 
-  fairPage(query = {}) {
-    return <FairPage query={query} />;
+  equityFairPage(query = {}) {
+    return <EquityFairPage query={query} />;
   },
 
   climatePage(query = {}) {
