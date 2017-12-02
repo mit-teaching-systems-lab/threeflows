@@ -6,7 +6,7 @@ import Divider from 'material-ui/Divider';
 
 import LinearSession from '../linear_session/linear_session.jsx';
 import RaisedButton from 'material-ui/RaisedButton';
-import ClassifyQuestion from '../linear_session/classify_question.jsx';
+import QuestionInterpreter from '../renderers/question_interpreter.jsx';
 import RecordThenClassifyQuestion from '../linear_session/record_then_classify_question.jsx';
 import {InsubordinationScenarios} from './insubordination_scenarios.js';
 
@@ -85,10 +85,9 @@ export default React.createClass({
   // Only ask for audio on questions with choices, otherwise let them continue
   renderQuestionEl(question, onLog, onResponseSubmitted) {
     if (question.choices.length === 0) {
-      return <ClassifyQuestion
+      return <QuestionInterpreter
         key={question.id}
         question={question}
-        choices={['OK']}
         onLogMessage={onLog}
         onResponseSubmitted={onResponseSubmitted}
       />;

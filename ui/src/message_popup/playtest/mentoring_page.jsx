@@ -10,7 +10,7 @@ import * as Api from '../../helpers/api.js';
 import LinearSession from '../linear_session/linear_session.jsx';
 import SessionFrame from '../linear_session/session_frame.jsx';
 import IntroWithEmail from '../linear_session/intro_with_email.jsx';
-import ClassifyQuestion from '../linear_session/classify_question.jsx';
+import QuestionInterpreter from '../renderers/question_interpreter.jsx';
 import RecordThenClassifyQuestion from '../linear_session/record_then_classify_question.jsx';
 
 
@@ -168,10 +168,9 @@ export default React.createClass({
   // Only ask for audio on questions with choices, otherwise let them continue
   renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
     if (question.choices.length === 0) {
-      return <ClassifyQuestion
+      return <QuestionInterpreter
         key={question.id}
         question={question}
-        choices={['OK']}
         onLogMessage={onLog}
         onResponseSubmitted={onResponseSubmitted}
       />;

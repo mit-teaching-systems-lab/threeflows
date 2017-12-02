@@ -18,7 +18,7 @@ import PlainTextQuestion from '../renderers/plain_text_question.jsx';
 import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
 import MinimalTextResponse from '../renderers/minimal_text_response.jsx';
 import MixedQuestion from '../renderers/mixed_question.jsx';
-import ChoiceForBehaviorResponse from '../renderers/choice_for_behavior_response.jsx';
+import OkResponse from '../responses/ok_response.jsx';
 import * as Routes from '../../routes.js';
 import ReadMore from '../renderers/read_more.jsx';
 
@@ -187,8 +187,8 @@ export default React.createClass({
     return (
       <div key={JSON.stringify(question)}>
         <MixedQuestion question={question} />
-        <ChoiceForBehaviorResponse
-          choices={['NEXT']}
+        <OkResponse
+          label="NEXT"
           onLogMessage={onLog}
           onResponseSubmitted={onResponseSubmitted}
         />

@@ -2,7 +2,8 @@
 import React from 'react';
 
 import MixedQuestion from '../renderers/mixed_question.jsx';
-import ChoiceForBehaviorResponse from '../renderers/choice_for_behavior_response.jsx';
+import ForcedChoiceResponse from '../responses/forced_choice_response.jsx';
+import OkResponse from '../responses/ok_response.jsx';
 import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
 import MinimalTextResponse from '../renderers/minimal_text_response.jsx';
 import AudioCapture from '../../components/audio_capture.jsx';
@@ -138,7 +139,7 @@ export default React.createClass({
 
 
     if (question.choices && question.choices.length > 0) {
-      return <ChoiceForBehaviorResponse
+      return <ForcedChoiceResponse
         key={key}
         choices={question.choices}
         onLogMessage={onLogMessage}
@@ -146,9 +147,8 @@ export default React.createClass({
       />;
     }
 
-    return <ChoiceForBehaviorResponse
+    return <OkResponse
       key={key}
-      choices={['OK']}
       onLogMessage={onLogMessage}
       onResponseSubmitted={onResponseSubmitted}
     />;

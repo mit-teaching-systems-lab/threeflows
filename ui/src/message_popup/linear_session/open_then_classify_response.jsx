@@ -3,7 +3,7 @@ import React from 'react';
 
 import Divider from 'material-ui/Divider';
 
-import ChoiceForBehaviorResponse from '../renderers/choice_for_behavior_response.jsx';
+import ForcedChoiceResponse from '../responses/forced_choice_response.jsx';
 import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
 
 
@@ -65,7 +65,7 @@ export default React.createClass({
       <div>
         <Divider style={{margin: 20}} />
         <div style={{paddingTop: 20, paddingLeft: 20}}>Which best describes your response?</div>  
-        <ChoiceForBehaviorResponse
+        <ForcedChoiceResponse
           choices={choices}
           onLogMessage={onLogMessage}
           onResponseSubmitted={this.onChoiceSelected}
