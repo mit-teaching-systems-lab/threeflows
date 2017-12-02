@@ -10,6 +10,7 @@ Generally, these are closer to simulations than games, with a focus on enacting 
 
 ### Context, Anticipate, Enact, Reflect
 
+
 ### Other Building blocks
 #### Add-ons
 - authentication: ask for email, via email, ask for anonymous identifier
