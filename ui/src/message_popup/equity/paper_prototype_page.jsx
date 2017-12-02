@@ -14,9 +14,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 import QuestionInterpreter from '../renderers/question_interpreter.jsx';
 import type {QuestionT} from '../playtest/pairs_scenario.jsx';
-import {toSlides, CSSPaperPrototypes, SeedPaperPrototypes} from './equity_paper_prototypes.jsx';
-import HMTCAGroupReview from '../playtest/hmtca_group_review.jsx';
-// TODO(kr) refactor
+import {toSlides, CSSPaperPrototypes, SeedPaperPrototypes} from './paper_prototype_scenarios.jsx';
+import GroupReview from '../review/group_review.jsx';
 
 
 type ResponseT = {
@@ -36,7 +35,8 @@ const Parts = {
 };
 
 
-// For showing minimal paper prototypes
+// For showing minimal paper prototypes.
+// This was adapted from HMTCAExperiencePage
 export default React.createClass({
   displayName: 'PaperPrototypePage',
 
@@ -89,19 +89,9 @@ export default React.createClass({
     };
   },
 
-  onCohortKeyChanged(e) {
-    this.setState({cohortKey: e.target.value});
-  },
-
-  onIdentifierChanged(e) {
-    this.setState({ identifier: e.target.value });
-  },
-
   // Making questions from the cohort
-  onStart(e) {
-    e.preventDefault();
+  doStart() {
     const {prototypeKey} = this.props;
-    // const {cohortKey} = this.state;
     const prototype = _.find([].concat(CSSPaperPrototypes).concat(SeedPaperPrototypes), { key: prototypeKey });
     const allQuestions = toSlides(prototype);
 
@@ -112,6 +102,26 @@ export default React.createClass({
       questions,
       questionsHash
     });
+  },
+
+  onCohortKeyChanged(e) {
+    this.setState({cohortKey: e.target.value});
+  },
+
+  onIdentifierChanged(e) {
+    this.setState({ identifier: e.target.value });
+  },
+
+  onNoGroupCode(e) {
+    e.preventDefault();
+    const cohortKey = 'DEMO_COHORT';
+    this.setState({cohortKey});
+    this.doStart();
+  },
+
+  onStart(e) {
+    e.preventDefault();
+    this.doStart();
   },
 
   onShowGroupInstructions() {
@@ -200,19 +210,24 @@ export default React.createClass({
               name="cohortKey"
               style={{width: '100%', marginBottom: 20}}
               underlineShow={true}
-              hintText="edu231@css"
+              hintText="example: edu5252"
               value={this.state.cohortKey}
               onChange={this.onCohortKeyChanged}
               rows={1} />
           </div>
-          <div style={styles.instructions}>
+          <div style={{...styles.instructions, marginBottom: 40}}>
             <RaisedButton
               onTouchTap={this.onStart}
-              disabled={this.state.cohortKey === ''}
               type="submit"
+              disabled={this.state.cohortKey === ''}
               style={styles.button}
               secondary={true}
               label="Start" />
+            <RaisedButton
+              onTouchTap={this.onNoGroupCode}
+              type="submit"
+              style={styles.button}
+              label="I don't have a group code" />
           </div>
         </form>
       </VelocityTransitionGroup>
@@ -252,7 +267,7 @@ export default React.createClass({
           <br />
           <div>For Part 2, go through each scene as a group.  For each scene, review the responses and discuss them as a group.</div>
           <br />
-          <i style={{margin: 10, display: 'block'}}>What does inclusive excellence look like in a K12 classroom?  How can we see the whole student in these situations?</i>
+          <i style={{margin: 10, display: 'block'}}>What does equity look like in a K12 classroom for students?  How can we see the whole student in these situations?</i>
           <br />
           <div>Ready to start?</div>
           <br />
@@ -267,7 +282,7 @@ export default React.createClass({
   },
 
   renderGroupReview() {
-    return <HMTCAGroupReview
+    return <GroupReview
       prompt="Scroll through and discuss."
       applesKey={this.applesKey()}
       onDone={this.onGroupReviewDone} />;

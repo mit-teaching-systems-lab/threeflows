@@ -47,7 +47,7 @@ export default React.createClass({
     '/bias': 'biasHome',
     '/equity': 'equityFairPage',
 
-    // Stable and publicly shared practice spaces 
+    // Stable, field tested, publicly shared practice spaces
     '/teachermoments/danson': 'dansonPlaytest',
     '/teachermoments/turner': 'TurnerPlaytest',
     '/teachermoments/sub': 'messagePopupPairs',

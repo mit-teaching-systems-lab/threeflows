@@ -38,7 +38,7 @@ export const SeedPaperPrototypes = [
 export const CSSPaperPrototypes = [
   {
     key: 'tom-absent',
-    context: `Tom is missing a lot of school.  The techer has participation and attendance policies that includes points.  Tom's grade is affected due to missed points for attendance.  Tom has not communicated with his teazcher and there's been no communication from home.`,
+    context: `Tom is missing a lot of school.  The teacher has participation and attendance policies that includes points.  Tom's grade is affected due to missed points for attendance.  Tom has not communicated with his teacher and there's been no communication from home.`,
     scenario: `Tom comes to school after missing two weeks and asks the teacher, "How can I get my grade up?"`,
     coaching: `What assumptions about Tom did you make?`,
     debrief: `Improvements: grade level might be good, a statement about teacher's history with the student.  First, inquire about why he's been gone to check your assumptions.  Second, give students choice and agency over the solution.`
@@ -63,29 +63,46 @@ export function toSlides(prototype) {
 
 
   var slides = [];
-  slides.push({ el: 
+  slides.push({ type: 'Introduction', el: 
     <div>
-      <div><b>1: Read context</b></div>
-      <div style={style}>{context}</div>
-      <div style={{marginTop: 30}}>What are you anticipating?</div>
+      <div>1. Read context</div>
+      <div>Imagine yourself in the particular school and classroom.  You won't know all the answers, and will have to improvise and adapt to make the best of the situation.</div>
+      <br />
+      <div>2. Anticipate</div>
+      <div>Before starting the simulation, answer a few questions about what might happen.  You shouldn't have an in-depth understanding, but do your best to anticipate what might happen.</div>
+      <br />
+      <div>3. Try it!</div>
+      <div>When you're ready, you'll go through a set of short scenes that simulate interactions between you and a student.</div>
+      <br />
+      <div>4. Reflect</div>
+      <div>Finally, you'll reflect on your experience and then discuss in your group.</div>
     </div>
-  , force: true, open: true});
+  });
 
-  slides.push({ text: scenario, applesSceneNumber: 1});
+  slides.push({
+    type: '1. Read context',
+    el: <div style={style}>{context}</div>
+  });
 
-  slides.push({ el: 
-    <div>
-      <div><b>3: Ask this question to kick off coaching or discussion</b></div>
-      <div style={style}>{coaching}</div>
-    </div>
-  , force: true, open: true});
+  slides.push({
+    type: '2. Anticipate',
+    force: true,
+    open: true,
+    el: <div style={style}>What are you anticipating?</div>,
+  });
 
-  slides.push({ el: 
-    <div>
-      <div><b>4: Debrief together</b></div>
-      <div style={style}>How could we improve this prototype?</div>
-    </div>
-  , force: true, open: true});
+  slides.push({
+    type: '3. Try it!',
+    applesSceneNumber: 1,
+    text: scenario
+  });
+
+  slides.push({
+    type: '4. Reflect',
+    force: true,
+    open: true,
+    el: <div style={style}>{coaching}</div>
+  });
 
   return slides;
 }
