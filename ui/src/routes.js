@@ -14,10 +14,6 @@ Path definitions
 */
 export const Home = '/';
 
-export function virtualSchoolPath():string {
-  return '/virtual_school';
-}
-
 export function messagePopupPracticePath() {
   return '/teachermoments';
 }

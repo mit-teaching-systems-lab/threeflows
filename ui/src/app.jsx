@@ -7,7 +7,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import AuthContainer from './auth_container.jsx';
-import VirtualSchoolPage from './virtual_school/virtual_school_page.jsx';
 import HomePage from './home/home_page.jsx';
 import DemosPage from './home/demos_page.jsx';
 import CsBiasPage from './home/cs_bias_page.jsx';
@@ -40,49 +39,40 @@ export default React.createClass({
   },
 
   routes: {
+    // ------ STABLE AND PUBLICLY SHARED ----- //
+    // Landing pages
     '/': 'home',
     '/demos': 'demos',
     '/consent': 'consent',
     '/bias': 'biasHome',
-
-    // For CSS workshop
     '/equity': 'fairPage',
-    '/equity/fair': 'fairPage',
+
+    // Stable and publicly shared practice spaces 
+    '/teachermoments/danson': 'dansonPlaytest',
+    '/teachermoments/turner': 'TurnerPlaytest',
+    '/teachermoments/sub': 'messagePopupPairs',
+    '/teachermoments/jayden': 'jaydenScenario',
+    '/teachermoments/rosa': 'rosaScenario',
+    '/teachermoments/smith': 'smithScenario',
+    '/teachermoments/smithFacilitated': 'smithFacilitatedScenario',
+    '/teachermoments/smithB': 'smithScenarioB',
     '/equity/climate': 'climatePage',
     '/equity/paper/:key': 'paperPrototypePage',
-    
-    // Included in /demos, shared externally, or used in playtests
+
+    // Practice spaces that are viewable from a
+    // link (eg /demos), have been shared externally, or have been
+    // used in playtests.
+    '/teachermoments/csfair': 'messagePopupCsFair',
     '/teachermoments/original': 'messagePopup',
     '/teachermoments/alpha': 'alphaPlaytest',
     '/teachermoments/discipline': 'disciplinePlaytest',
     '/teachermoments/mentoring': 'mentoringPlaytest',
     '/teachermoments/mindset': 'mindsetPlaytest',
-    '/teachermoments/danson': 'dansonPlaytest',
-    '/teachermoments/turner': 'TurnerPlaytest',
-    '/teachermoments/twine': 'messagePopupTwine',
     '/teachermoments/demo': 'messagePopupDemo',
-    '/teachermoments/sub': 'messagePopupPairs',
     '/teachermoments/darius': 'messagePopupDarius',
-    '/teachermoments/chat': 'chatPrototype',
-    '/teachermoments/csfair': 'messagePopupCsFair',
-    '/teachermoments/bubblesort': 'messagePopupBubbleSort',
-    '/teachermoments/jayden': 'jaydenScenario',
-    '/teachermoments/rosa': 'rosaScenario',
-    '/teachermoments/smithB': 'smithScenarioB',
-    '/teachermoments/smithFacilitated': 'smithFacilitatedScenario',
-    '/teachermoments/smith': 'smithScenario',
-    '/teachermoments/ecs': 'ecsScenario',
+    
 
-    // For HMTCA, with practice space and reviewing UI
-    '/teachermoments/hmtca': 'hmtcaScenario',
-
-    // Specific cohorts
-    '/teachermoments/csp': 'messagePopupCSP',
-    '/teachermoments/tuesday': 'messagePopupMeredith',
-
-    // Deprecated experiences
-    '/playtest/:cohortKey': 'messagePopupPlaytest',
-
+    // ------ EXPERIMENTS AND PROTOTYPES ----- //
     // Mechanical Turk experiment
     '/teachermoments/turk-0000': 'turk0000',
 
@@ -91,12 +81,44 @@ export default React.createClass({
     '/teachermoments/author/questions/new' : 'messagePopupAuthorQuestionsNew',
     '/teachermoments/author/questions/:id' : 'messagePopupAuthorQuestionsEdit',
 
-    // Reviewing endpoints
+    // Chat-based experience
+    '/teachermoments/chat': 'chatPrototype',
+
+    // Twine-based authoring
+    '/teachermoments/twine': 'messagePopupTwine',
+
+    // Other prototype scenarios
+    '/teachermoments/bubblesort': 'messagePopupBubbleSort',
+
+
+
+    // ------ FROZEN ----- //
+    // These are for particular workshops and are not
+    // in active development or use.  We should build on top of them,
+    // convert them to public demos, or remove them.
+
+    // For HMTCA, with practice space and reviewing UI
+    // Frozen (use ClimatePage for demos)
+    '/teachermoments/hmtca': 'hmtcaScenario',
+
+    // Reviewing endpoints for listening to your own responses
+    // via email authentication.  Originally used in a field test for 11.125
+    // but a mostly generic capability for audio responses.
     '/teachermoments/review/:key': 'messagePopupReviewLogin',
     '/teachermoments/review_link': 'messagePopupReview',
 
-    // Other
-    '/virtual_school': 'virtualSchool'
+    // From an ECS workshop, modified from the Pairs scenario
+    '/teachermoments/ecs': 'ecsScenario',
+
+    // For 11.125 field test, modified from the Pairs scenario
+    '/teachermoments/tuesday': 'messagePopupMeredith',
+
+    // For a field test with Mobile CSP
+    '/teachermoments/csp': 'messagePopupCSP',
+    
+    // ------ DEPRECATED ----- //
+    // Deprecated experiences
+    '/playtest/:cohortKey': 'messagePopupPlaytest',
   },
 
   /*eslint-disable react/sort-comp */
@@ -269,10 +291,6 @@ export default React.createClass({
 
   messagePopupReview(query = {}) {
     return <MessagePopup.ReviewPage token={query.token} />;
-  },
-
-  virtualSchool(query = {}) {
-    return <VirtualSchoolPage query={query} />;
   }
   /*eslint-enable react/sort-comp */
 });

@@ -1,6 +1,14 @@
 # Design notes
 Notes on design.
 
+## Refactoring
+1. Refactor into Scene/Response
+2. Organize by practice space
+3. Mark and isolate experimental prototypes
+4. Refactor into two reusable formats: paper prototypes
+5. Factor out "addons"
+6. Authoring
+
 
 ## Reusable formats for practice spaces
 Generally, these are closer to simulations than games, with a focus on enacting teaching decisions in-the-moment.
@@ -44,6 +52,7 @@ These formats have been created for a particular workshop or course.
 
 ## Prototypes and experiments
 ### Scenarios
+Chat-based interfaces
 Running experiments on Mechanical Turk
 Answering surveys
 Rendering 3D models
@@ -60,8 +69,14 @@ Scenario authoring (blocks)
 
 
 
+## Data storage
+log: {type, params}
+see ResponseTypes
+see also injection of global and session values
 
-## Software design
+
+
+## UI software design
 From smaller to larger.
 
 Interaction log (data.js)
@@ -77,7 +92,7 @@ Slide/Question
 
 QuestionInterpreter
 
-LinearSession
+LinearSession (rework to be key-based with getQuestion)
 
 Page
 
