@@ -71,8 +71,9 @@ export default React.createClass({
   // Different workshop sessions on different days can use URLs to different workshop
   // values for isolation.
   applesKey() {
+    const {prototypeKey} = this.props;
     const {cohortKey, workshop} = this.state;
-    return [cohortKey, workshop].join(':');
+    return [prototypeKey, cohortKey, workshop].join(':');
   },
 
   firstSlide() {
@@ -199,10 +200,10 @@ export default React.createClass({
           </div>
           <div style={{marginLeft: 30}}><img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/paper-prototypes-crumpled.png" width={202} height={140} /></div>
           <div style={styles.instructions}>
-            <p>You can use this in partners, with one person playing the teacher candidate and the other the coach.  Or you could try it individually and then discuss afterward.</p>
+            <p>In this practice space, you'll have to improvise to make the best of the situation. It might not exactly match your grade level and subject.</p>
           </div>
           <div style={styles.instructions}>
-            <p>In this practice space, you'll have to improvise and adapt to make the best of the situation. It might not exactly match your grade level and subject.</p>
+            <p>Try it in partners or try it individually and discuss afterward.</p>
           </div>
           <div style={{...styles.instructions, marginTop: 40}}>
             <div>What is your group code?</div>
@@ -235,7 +236,7 @@ export default React.createClass({
   },
 
   renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
-    const forceText = _.has(this.props.query, 'text');
+    const forceText = true; // because of the text reviews after
     return (
       <div>
         <QuestionInterpreter
