@@ -164,7 +164,7 @@ export default React.createClass({
       <Paper zDepth={3} style={{flex: 1, margin: 15, backgroundColor}}>
         <div style={{cursor: 'pointer', padding: 30, display: 'inline-block', textDecoration: 'none', color: '#333'}} onClick={this.onClicked.bind(this, href)}>
           <div style={{height: 180, alignItems: 'flex-start', justifyContent: 'space-between', display: 'flex', flexDirection: 'column'}}>
-            <div style={{color: '#eee', fontSize: 24, fontWeight: 'bold', marginBottom: 10}}>{linkText}</div>
+            <div style={{color: '#eee', fontSize: 24, marginBottom: 10}}>{linkText}</div>
             <div style={{color: '#eee', fontSize: 18}}>{text}</div>
           </div>
         </div>
