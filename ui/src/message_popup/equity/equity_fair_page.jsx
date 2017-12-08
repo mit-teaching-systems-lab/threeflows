@@ -58,6 +58,7 @@ export default React.createClass({
     return (
       <div>
         <Divider style={{marginTop: 30, marginBottom: 30}} />
+        <div style={styles.header}>Field-tested practice spaces</div>
         <List style={styles.list}>
           {this.renderPanel("/equity/climate?fromequity", '1: Gendered or racialized student comments', '"Climate"', muiColors.red400)}
           {this.renderPanel("/teachermoments/smith?fromequity", '2: Noticing student belonging in the classroom', '"Mr. Smith"', muiColors.blueGrey500)}
@@ -71,13 +72,40 @@ export default React.createClass({
           {this.renderPanel("/teachermoments/jayden?fromequity", '6: Encouraging student growth', '"Jayden"', muiColors.orange700)}
         </List>
         <List style={styles.list}>
-          {this.renderPanel("/teachermoments/turner?fromequity", '7: High expecations with parents', '"Jennifer Turner"', muiColors.deepPurple500)}
+          {this.renderPanel("/teachermoments/turner?fromequity", '7: High expecations with parents', '"Jennifer Turner" (Dotger 2013)', muiColors.deepPurple500)}
           <div style={{flex: 1}} />
         </List>
         <Divider style={{marginTop: 30, marginBottom: 30}} />
+        <div style={styles.header}>Paper prototypes: MIT</div>
         <List style={styles.list}>
-          {this.renderPanel("/equity/paper/tom-absent?fromequity&text", 'Prototype: Talking ', '"Tom absent"', scholasticaBlue)}
-          {this.renderPanel("/teachermoments/darius?fromequity", 'Prototype: Student concerns about equity', '"Darius"', muiColors.grey700)}
+          {this.renderPanel("/equity/paper/group-unfair?fromequity", 'Prototype: Coaching students about group work', '"Mark and Tyshawn"', muiColors.grey700)}
+          {this.renderPanel("/equity/paper/mixing-languages?fromequity", 'Prototype: Languages in the classroom', '"Rosario"', muiColors.grey700)}
+        </List>
+        <List style={styles.list}>
+          {this.renderPanel("/equity/paper/cell-posters?fromequity", 'Prototype: Facilitating group work', '"Lexi and Angel"', muiColors.grey700)}
+          {this.renderPanel("/equity/paper/coordinates-privilege?fromequity", 'Prototype: Facilitating group work', '"Huey and Noah"', muiColors.grey700)}
+        </List>
+        <List style={styles.list}>
+          {this.renderPanel("/equity/paper/asian-population-growth?fromequity", 'Prototype: Comments about nationality', '"Population growth"', muiColors.grey700)}
+          {this.renderPanel("/equity/paper/maria-absent?fromequity", 'Prototype: Late to class', '"Maria"', muiColors.grey700)}
+        </List>
+        <List style={styles.list}>
+          {this.renderPanel("/teachermoments/darius?fromequity", 'Prototype: Student concerns about equity', '"Darius" (Self 2016)', muiColors.grey700)}
+          <div style={{flex: 1}} />
+        </List>
+        <Divider style={{marginTop: 30, marginBottom: 30}} />
+        <div style={styles.header}>Paper prototypes: College of St. Scholastica</div>
+        <List style={styles.list}>
+          {this.renderPanel("/equity/paper/tom-absent?fromequity", 'Prototype: Equity within policies', '"Tom absent"', scholasticaBlue)}
+          {this.renderPanel("/equity/paper/inclusion-special-ed?fromequity", 'Prototype: Talking about inclusion with colleagues', '"Mr. Johnson"', scholasticaBlue)}
+        </List>
+        <List style={styles.list}>
+          {this.renderPanel("/equity/paper/math-questions?fromequity", 'Prototype: Academic classroom culture', '"Shawna"', scholasticaBlue)}
+          {this.renderPanel("/equity/paper/bethany-conference-ela?fromequity", 'Prototype: Parent conference about grades (ELA)', '"Bethany, 10th grade ELA"', scholasticaBlue)}
+        </List>
+        <List style={styles.list}>
+          {this.renderPanel("/equity/paper/bethany-conference-elementary-science?fromequity", 'Prototype: Parent conference about grades (science)', '"Bethany, 7th grade science"', scholasticaBlue)}
+          <div style={{flex: 1}} />
         </List>
         <Divider style={{marginTop: 30, marginBottom: 30}} />
       </div>
@@ -169,7 +197,8 @@ const styles = {
   header: {
     margin: 0,
     marginBottom: 0,
-    fontSize: 20
+    fontSize: 20,
+    marginTop: 30
   },
   links: {
     display: 'flex',
