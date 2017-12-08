@@ -95,7 +95,7 @@ export default React.createClass({
           <div style={styles.link}><a href="https://github.com/mit-teaching-systems-lab/threeflows">github.com/mit-teaching-systems-lab</a></div>
         </div>
         <Divider style={{marginTop: 30, marginBottom: 30}} />
-        <div style={styles.header}>Read more</div>
+        <div style={styles.header}>Read more papers</div>
         <div style={styles.links}>
           <div style={styles.link}>Using Online Practice Spaces to Investigate Challenges in Enacting Principles of Equitable Computer Science Teaching (<a href="https://osf.io/preprints/socarxiv/ygazx/">Robinson and Reich, forthcoming</a>)</div>
           <div style={styles.link}>Using "Teacher Moments" as an Online Practice Space for Parent-Teacher Conference Simulation in Preservice Teacher Education (<a href="https://osf.io/preprints/socarxiv/9y5cd/">Owho-Ovuakporie 2017</a>)</div>
@@ -104,11 +104,20 @@ export default React.createClass({
           <div style={styles.link}><a href="http://blogs.edweek.org/edweek/edtechresearcher/2017/03/helping_teachers_surface_and_address_bias_with_online_practice_spaces.html">Helping Teachers Surface and Address Bias with Online Practice Spaces</a></div>
           <div style={styles.link}><a href="https://mit-teaching-systems-lab.github.io/unconscious-bias/">Bias in teaching</a></div>
         </div>
-        <div style={styles.header}>Read whole books</div>
-        <div style={styles.links}>
-          <div style={styles.link}>Stuck in the Shallow End: Education, Race and Computing (<a href="https://mitpress.mit.edu/books/stuck-shallow-end">Margolis 2010</a>)</div>
-          <div style={styles.link}>Start Where You Are, But Don’t Stay There: Understanding Diversity, Opportunity Gaps, and Teaching in Today’s Classrooms  (<a href="https://eric.ed.gov/?id=ED515443">Milner 2010</a>)</div>
-          <div style={styles.link}>Culturally Sustaining Pedagogies: Teaching and Learning for Justice in a Changing World (<a href="https://www.tcpress.com/culturally-sustaining-pedagogies-9780807758335">Paris and Alim 2017</a>)</div>
+        <div style={styles.header}>Read more books</div>
+        <div style={{display: 'flex', flexDirection: 'row', width: '95%', padding: 20}}>
+          <a style={{paddingRight: 10}} href="https://mitpress.mit.edu/books/stuck-shallow-end">
+            <img width="159" height="240" src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/equity_fair/stuck.jpg" />
+          </a>
+          <a style={{paddingRight: 10}} href="https://eric.ed.gov/?id=ED515443">
+            <img width="160" height="240" src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/equity_fair/start.jpg" />
+          </a>
+          <a style={{paddingRight: 10}} href="https://www.amazon.com/Had-No-Idea-Simulations-Development/dp/1623961955">
+            <img width="186" height="240" src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/equity_fair/noidea.jpg" />
+          </a>
+          <a style={{paddingRight: 10}} href="https://www.tcpress.com/culturally-sustaining-pedagogies-9780807758335">
+            <img width="162" height="240" src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/equity_fair/csp.jpg" />
+          </a>
         </div>
         <Divider style={{marginTop: 30, marginBottom: 30}} />
         <div style={{marginTop: 20}}>
