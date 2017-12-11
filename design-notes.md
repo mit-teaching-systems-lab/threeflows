@@ -29,11 +29,11 @@ Generally, these are closer to simulations than games, with a focus on enacting 
 #### Response types
 flags               Interaction
 ---------------------------------------------------------------
-(default)           ChoiceForBehaviorResponse
-choices             ChoiceForBehaviorResponse
+(default)           OkResponse
+choices             ForcedChoiceResponse
 likert              LikertResponse
-timedAutoAdvance    MinimalTimedView
-feedback/pastNotes  ResponseWithPastNotes
+timedAutoAdvance    TimedAutoAdvanceResponse
+feedback/pastNotes  ResponseWithNotes
 notes               MinimalTextResponse
 write               MinimalTextResponse
 applesSceneNumber   ApplesTextResponse, MinimalTextResponse
