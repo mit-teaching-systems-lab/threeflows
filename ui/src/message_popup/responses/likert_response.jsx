@@ -1,7 +1,7 @@
 /* @flow weak */
 import React from 'react';
-
 import RaisedButton from 'material-ui/RaisedButton';
+import {ResponseTypes} from '../data/response_types.js';
 
 
 // This response allows choosing a Likert response with labels
@@ -29,8 +29,9 @@ export default React.createClass({
   },
 
   onChoiceTapped(choice) {
-    const {choices} = this.props;
-    this.props.onLogMessage('message_popup_likert_response', {choice, choices});
+    const choices = this.props.choices || [];
+    const response = ResponseTypes.LIKERT_RESPONSE;
+    this.props.onLogMessage(response.type, response.params({choice, choices}));
     this.props.onResponseSubmitted({choice, choices});
   },
 
