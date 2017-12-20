@@ -88,7 +88,7 @@ export default React.createClass({
       return <QuestionInterpreter
         key={question.id}
         question={question}
-        onLogMessage={onLog}
+        onLog={onLog}
         onResponseSubmitted={onResponseSubmitted}
       />;
     } else {
