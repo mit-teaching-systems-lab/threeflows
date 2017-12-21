@@ -25,7 +25,7 @@ export default React.createClass({
         <div style={styles.quote}>
           "We conclude that, in the program we studied, prospective teachers have fewer opportunities to engage in approximations that focus on contingent, interactive practice than do novices in the other two professions we studied."
         </div>
-        <div>Grossman et al. (<a target="_blank" href="https://cset.stanford.edu/sites/default/files/files/documents/publications/Grossman-TeachingPracticeACross-ProfessionalPerspective.pdf">2009</a>)</div>
+        <div>Grossman et al. (<a target="_blank" href="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/grossman-et-al-2009.pdf">2009</a>)</div>
         <div style={styles.links}>
           <RaisedButton
             onTouchTap={this.onTryItTapped}
