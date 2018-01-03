@@ -8,7 +8,7 @@ import SessionFrame from '../linear_session/session_frame.jsx';
 import IntroWithEmail from '../linear_session/intro_with_email.jsx';
 import MixedQuestion from '../renderers/mixed_question.jsx';
 
-import LikertResponse from '../linear_session/likert_response.jsx';
+import LikertResponse from '../responses/likert_response.jsx';
 import OpenThenClassifyResponse from '../linear_session/open_then_classify_response.jsx';
 import OkResponse from '../responses/ok_response.jsx';
 import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
