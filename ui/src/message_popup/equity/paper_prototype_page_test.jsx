@@ -2,12 +2,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {shallow} from 'enzyme';
-// import {expect} from 'chai';
-
+import withContext from '../../../test/with_context.jsx';
 import PaperPrototypePage from './paper_prototype_page.jsx';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import TestAuthContainer from '../../test_auth_container.jsx';
-// import Paper from 'material-ui/Paper';
 
 
 describe('#doStart', () => {
@@ -35,11 +31,7 @@ describe('#doStart', () => {
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(
-    <MuiThemeProvider>
-      <TestAuthContainer>
-        <PaperPrototypePage prototypeKey="cell-posters" query={{}} />
-      </TestAuthContainer>
-    </MuiThemeProvider>
-  , div);
+  ReactDOM.render(withContext(
+    <PaperPrototypePage prototypeKey="cell-posters" query={{}} />
+  ), div);
 });

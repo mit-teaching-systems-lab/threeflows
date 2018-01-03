@@ -7,9 +7,9 @@ import OkResponse from '../responses/ok_response.jsx';
 import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
 import MinimalTextResponse from '../renderers/minimal_text_response.jsx';
 import AudioCapture from '../../components/audio_capture.jsx';
-import MinimalTimedView from '../renderers/minimal_timed_view.jsx';
+import TimedAutoAdvanceResponse from '../responses/timed_auto_advance_response.jsx';
 import ApplesTextResponse from '../renderers/apples_text_response.jsx';
-import ResponseWithPastNotes from '../renderers/response_with_past_notes.jsx';
+import ResponseWithPastNotes from '../responses/response_with_past_notes.jsx';
 
 // This renders a question and an interaction, and strives towards being a
 // general-purpose interpreter that over time ends up converging towards shared
@@ -129,7 +129,7 @@ export default React.createClass({
 
 
     if (question.timedAutoAdvance) {
-      return <MinimalTimedView
+      return <TimedAutoAdvanceResponse
         key={key}
         recordText="Next"
         onLogMessage={onLogMessage}

@@ -15,3 +15,9 @@ ResponseTypes.LIKERT_RESPONSE = {
   type: 'message_popup_likert_response',
   params(p:LikertResponseParamsT):LikertResponseParamsT { return p; }
 };
+
+type TimedAutoAdvanceResponseParamsT = {skipTapped?:true};
+ResponseTypes.TIMED_AUTO_ADVANCE_RESPONSE = {
+  type: 'timer_auto_advance_response',
+  params(p:TimedAutoAdvanceResponseParamsT):TimedAutoAdvanceResponseParamsT { return p; }
+};

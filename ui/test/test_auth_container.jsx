@@ -1,6 +1,6 @@
 /* @flow weak */
 import React from 'react';
-import AuthContainer from './auth_container.jsx';
+import AuthContainer from '../src/auth_container.jsx';
 import sinon from 'sinon';
 
 

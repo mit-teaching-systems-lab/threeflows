@@ -296,17 +296,19 @@ Okay! Ready to start?`
 });
 
 
+  const giveFeedbackSlide = {
+    type: 'Reflect',
+    text: `Once the students have left, your friend Mr. Smith comes up to you and asks for your thoughts. What feedback would you give him about what you observed?`,
+    feedback: true
+  };
 
   if (options.isFacilitated) {
     slides.push({type: 'Try it!', text:
     `That's the end of the class! Take a moment to reflect on how you felt the class went overall.` 
 
     });
-        
 
-    slides.push({type: 'Try it!', text:
-    `Once the students have left, your friend Mr. Smith comes up to you and asks for your thoughts. What feedback would you give him about what you observed?`, feedback: true
-    });
+    slides.push(giveFeedbackSlide);
 
     slides.push({type: 'PAUSE!', text:
     `PAUSE HERE
@@ -334,9 +336,7 @@ Okay! Ready to start?`
     `How did Mr. Smith's actions impact the students' experience?`, notes: true 
     });
 
-    slides.push({type: 'Reflect', text:
-    `Once the students have left, your friend Mr. Smith comes up to you and asks for your thoughts. What feedback would you give him about what you observed?`, notes: true
-    });
+    slides.push(giveFeedbackSlide);
   }
 
 

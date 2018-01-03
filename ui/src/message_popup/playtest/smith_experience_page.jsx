@@ -39,8 +39,6 @@ export default React.createClass({
   },
 
 
-
-
   getDefaultProps() {
     return {
       facilitated: false

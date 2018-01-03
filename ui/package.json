@@ -69,6 +69,7 @@
     "livereactload": "^2.2.3",
     "mocha": "^3.0.2",
     "react-proxy": "^1.1.8",
+    "react-test-renderer": "15.4.2",
     "sinon": "^1.17.5",
     "watchify": "^3.7.0"
   }
