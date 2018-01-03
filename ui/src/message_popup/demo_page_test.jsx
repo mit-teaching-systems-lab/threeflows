@@ -3,25 +3,13 @@ import React from 'react';
 
 import {mount} from 'enzyme';
 import {expect} from 'chai';
-import TestAuthContainer from '../test_auth_container.jsx';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import withContext from '../../test/with_context.jsx';
 
 import DemoPage from './demo_page.jsx';
 import PopupQuestion from './popup_question.jsx';
 import PlainTextQuestion from './renderers/plain_text_question.jsx';
 import NavigationAppBar from '../components/navigation_app_bar.jsx';
 
-// Wrap with application context for a full render
-// (eg., theming, authorization).
-function withContext(child) {
-  return (
-    <MuiThemeProvider>
-      <TestAuthContainer>
-        {child}
-      </TestAuthContainer>
-    </MuiThemeProvider>
-  );
-}
 
 describe('<DemoPage />', () => {
   it('renders instructions', () => {    

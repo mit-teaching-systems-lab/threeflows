@@ -33,7 +33,7 @@ flags               Interaction
 choices             ForcedChoiceResponse
 likert              LikertResponse
 timedAutoAdvance    TimedAutoAdvanceResponse
-feedback/pastNotes  ResponseWithNotes
+feedback/pastNotes  ResponseWithPastNotes
 notes               MinimalTextResponse
 write               MinimalTextResponse
 applesSceneNumber   ApplesTextResponse, MinimalTextResponse
