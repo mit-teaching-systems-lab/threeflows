@@ -42,8 +42,10 @@ export default React.createClass({
         <div>
          <div style={styles.themes}>Themes:</div>
           <ul>
-            <li style={styles.themes}>Inclusive excellence</li>
+            <li style={styles.themes}>Creating inclusiveness and belonging</li>
             <li style={styles.themes}>Seeing the whole student</li>
+            <li style={styles.themes}>Surfacing assumptions and bias</li>
+            <li style={styles.themes}>Disrupting privilege and power</li>
           </ul>
         </div>
         <div style={{marginTop: 40, marginBottom: 30}}>Question or new idea?  Reach out at <b>krob@mit.edu</b> or <a href="https://twitter.com/mit_tsl">@mit_tsl</a>.</div>
