@@ -78,7 +78,7 @@ export default React.createClass({
 
     return (
       <div key={question.id}>
-        {this.props.questionEl(question, this.onLogMessageWithQuestion.bind(this, question), this.onResponseSubmitted.bind(this, question))}
+        {this.props.questionEl(question, this.onLogMessageWithQuestion.bind(this, question), this.onResponseSubmitted.bind(this, question), {responses})}
       </div>
     );
   }

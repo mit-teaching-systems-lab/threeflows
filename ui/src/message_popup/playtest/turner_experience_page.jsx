@@ -16,11 +16,6 @@ import MixedQuestion from '../renderers/mixed_question.jsx';
 import OkResponse from '../responses/ok_response.jsx';
 import * as Routes from '../../routes.js';
 
-type NextQuestionT = {
-  id:number,
-  question:QuestionT,
-  responses:[ResponseT]
-};
 
 // The top-level page, manages logistics around email, questions,
 // and the display of instructions, questions, and summary.
@@ -76,14 +71,6 @@ export default React.createClass({
     onResponseSubmitted(response);
   },
 
-  onGetNextQuestion(questions:[QuestionT], responses:[ResponseT]) {
-    if (responses.length >= questions.length) {
-      return null;
-    }
-    const question = questions[responses.length];
-    return {id: question.id, question:question, responses:responses};
-  },
-
   render() {
     return (
       <SessionFrame>
@@ -99,7 +86,6 @@ export default React.createClass({
     return <LinearSession
       questions={questions}
       questionEl={this.renderQuestionEl}
-      getNextQuestion={this.onGetNextQuestion}
       summaryEl={this.renderSummaryEl}
       onLogMessage={this.onLogMessage}
     />;
@@ -119,8 +105,8 @@ export default React.createClass({
     );
   },
 
-  renderQuestionEl(nextQuestion:NextQuestionT, onLog, onResponseSubmitted) {
-    const {question, responses} = nextQuestion;
+  renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted, options = {}) {
+    const {responses} = options;
 
     if (question.stage === 'scenario') {
       return (

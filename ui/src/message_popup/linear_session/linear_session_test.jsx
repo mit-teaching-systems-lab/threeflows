@@ -36,8 +36,9 @@ describe('<LinearSession />', ()=>{
 
     expect(props.questionEl.getCalls().length).to.equal(1);
     const renderCall = props.questionEl.getCall(0);
-    expect(renderCall.args.length).to.equal(3);
-    expect(renderCall.args[0]).to.equal('foo');
+    expect(renderCall.args.length).to.equal(4);
+    expect(renderCall.args[0]).to.equal('foo'); // passes question
+    expect(renderCall.args[3]).to.deep.equal({ responses: [] }); // passes options:{responses}
   });
 
   it('provides default getNextQuestion', ()=>{
@@ -52,8 +53,9 @@ describe('<LinearSession />', ()=>{
 
     expect(props.questionEl.getCalls().length).to.equal(1);
     const renderCall = props.questionEl.getCall(0);
-    expect(renderCall.args.length).to.equal(3);
-    expect(renderCall.args[0]).to.equal('bar');
+    expect(renderCall.args.length).to.equal(4);
+    expect(renderCall.args[0]).to.equal('bar'); // passes question
+    expect(renderCall.args[3]).to.deep.equal({ responses: [] }); // passes options:{responses}
   });
 
   it('takes responses, logs them with question merged, and updates state', ()=>{
