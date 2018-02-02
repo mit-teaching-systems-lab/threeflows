@@ -18,6 +18,10 @@ import EquityFairPage from './message_popup/equity/equity_fair_page.jsx';
 import ClimatePage from './message_popup/equity/climate_page.jsx';
 import PaperPrototypePage from './message_popup/equity/paper_prototype_page.jsx';
 
+//authentication
+import LoginPage from './LoginPage.js';
+import EmailLinkLoginPage from './EmailLinkLoginPage.js';
+
 
 export default React.createClass({
   displayName: 'App',
@@ -46,6 +50,9 @@ export default React.createClass({
     '/consent': 'consent',
     '/bias': 'biasHome',
     '/equity': 'equityFairPage',
+    '/login': 'loginPage',
+    '/login_from_email': 'emailLinkLoginPage',
+
 
     // Stable, field tested, publicly shared practice spaces
     '/teachermoments/danson': 'dansonPlaytest',
@@ -291,6 +298,14 @@ export default React.createClass({
 
   messagePopupReview(query = {}) {
     return <MessagePopup.ReviewPage token={query.token} />;
+  },
+
+  loginPage(query = {}) {
+    return <LoginPage query={query} />;
+  },
+
+  emailLinkLoginPage(query = {}) {
+    return <EmailLinkLoginPage query={query} />;
   }
   /*eslint-enable react/sort-comp */
 });
