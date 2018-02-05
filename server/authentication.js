@@ -15,7 +15,7 @@ function enforceHTTPS(request, response, next) {
 
 function getDomain(request) {
   return (process.env.NODE_ENV === 'development')
-    ? 'http://localhost:3000'
+    ? 'http://localhost:5000'
     : `https://${request.headers.host}`;
 }
 
@@ -107,7 +107,6 @@ function createLinkAndEmail(pool, mailgunEnv, email, domain) {
 
 function insertLink(pool, email, domain) {
   const linkToken = uuid.v4();
-  //TODO: what should link look like???
   const link = `${domain}/login_from_email?${qs.stringify({linkToken})}`;
   console.log('inserting link: ', link);
 

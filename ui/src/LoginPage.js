@@ -46,7 +46,7 @@ class LoginPage extends Component {
     const email = this.state.email;
     return (
       <div className='LoginPage'>
-        <h2> Welcome to the Swipe Right for CS Researcher Portal</h2>
+        <h2> Welcome to the Teacher Moments Researcher Portal</h2>
         <h3>{this.state.message}</h3>
         <form name="loginForm" onSubmit={this.onSubmit}>
           <div className='LoginPage-Block'>
