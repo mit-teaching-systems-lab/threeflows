@@ -1,24 +1,32 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import {ResponseTypes} from '../data/response_types.js';
 
 
 // This response allows choosing from a set of responses.
-export default React.createClass({
-  displayName: 'ForcedChoiceResponse',
+export default class extends React.Component {
+  props: {
+    choices: Array<string>,
+    onLogMessage: Function,
+    onResponseSubmitted: Function,
+  };
 
-  propTypes: {
-    choices: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-    onLogMessage: React.PropTypes.func.isRequired,
-    onResponseSubmitted: React.PropTypes.func.isRequired
-  },
+  static displayName = 'ForcedChoiceResponse';
 
-  onChoiceTapped(choice) {
+  static propTypes = {
+    choices: PropTypes.arrayOf(PropTypes.string).isRequired,
+    onLogMessage: PropTypes.func.isRequired,
+    onResponseSubmitted: PropTypes.func.isRequired
+  };
+
+  onChoiceTapped = (choice) => {
     const response = ResponseTypes.FORCED_CHOICE_RESPONSE;
     this.props.onLogMessage(response.type, response.params({choice}));
     this.props.onResponseSubmitted({choice});
-  },
+  };
 
   render() {
     const {choices} = this.props;
@@ -38,7 +46,7 @@ export default React.createClass({
       </div>
     );
   }
-});
+}
 
 const styles = {
   textAreaContainer: {

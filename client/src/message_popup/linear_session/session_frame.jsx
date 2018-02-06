@@ -1,16 +1,18 @@
 /* @flow weak */
 import React from 'react';
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
 
 import ResponsiveFrame from '../../components/responsive_frame.jsx';
 import NavigationAppBar from '../../components/navigation_app_bar.jsx';
 
 
 // The frame for an entire session, with responsiveness and menus.
-export default React.createClass({
+export default createReactClass({
   displayName: 'SessionFrame',
 
   propTypes: {
-    children: React.PropTypes.node
+    children: PropTypes.node
   },
 
   render() {

@@ -1,5 +1,8 @@
-/* @flow weak */
 import _ from 'lodash';
+
+/* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import uuid from 'uuid';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
@@ -30,31 +33,32 @@ type NextQuestionT = {
 
 // The top-level page, manages logistics around email, questions,
 // and the display of instructions, questions, and summary.
-export default React.createClass({
-  displayName: 'DansonExperiencePage',
+export default class extends React.Component {
+  static displayName = 'DansonExperiencePage';
 
-  propTypes: {
-    query: React.PropTypes.shape({
-      p: React.PropTypes.string
+  static propTypes = {
+    query: PropTypes.shape({
+      p: PropTypes.string
     }).isRequired
-  },
+  };
 
-  contextTypes: {
-    auth: React.PropTypes.object.isRequired
-  },
+  static contextTypes = {
+    auth: PropTypes.object.isRequired
+  };
 
-  getInitialState() {
-    const contextEmail = this.context.auth.userProfile.email;
+  constructor(props, context) {
+    super(props, context);
+    const contextEmail = context.auth.userProfile.email;
     const email = contextEmail === "unknown@mit.edu" ? '' : contextEmail;
 
-    return {
+    this.state = {
       email,
       questions: null,
       sessionId: uuid.v4()
     };
-  },
+  }
 
-  onStart(email) {
+  onStart = (email) => {
     const startQuestionIndex = this.props.query.p || 0; // for testing or demoing
     const allQuestions = DansonScenarios.questions();
     const questions = allQuestions.slice(startQuestionIndex);
@@ -62,9 +66,9 @@ export default React.createClass({
       email,
       questions
     });
-  },
+  };
 
-  onLogMessage(type, response:ResponseT) {
+  onLogMessage = (type, response:ResponseT) => {
     const {email, sessionId} = this.state;
     Api.logEvidence(type, {
       ...response,
@@ -73,9 +77,9 @@ export default React.createClass({
       name: email,
       clientTimestampMs: new Date().getTime(),
     });
-  },
+  };
 
-  onGetNextQuestion(questions:[QuestionT], responses:[ResponseT]) {
+  onGetNextQuestion = (questions:[QuestionT], responses:[ResponseT]) => {
     // This function removes questions that will not be shown to the user based on the user's prior choices.
     
     const allQuestions = questions.slice();
@@ -86,7 +90,7 @@ export default React.createClass({
     
     const question = allQuestions[responses.length];
     return {id: question.id, question:question, responses:responses};
-  },
+  };
 
   render() {
     return (
@@ -94,9 +98,9 @@ export default React.createClass({
         {this.renderContent()}
       </SessionFrame>
     );
-  },
+  }
 
-  renderContent() {
+  renderContent = () => {
     const {questions} = this.state;
     if (!questions) return this.renderIntro();
 
@@ -107,9 +111,9 @@ export default React.createClass({
       summaryEl={this.renderSummaryEl}
       onLogMessage={this.onLogMessage}
     />;
-  },
+  };
 
-  renderIntro() {
+  renderIntro = () => {
     return (
       <IntroWithEmail defaultEmail={this.state.email} onDone={this.onStart}>
         <div>
@@ -121,9 +125,9 @@ export default React.createClass({
         </div>
       </IntroWithEmail>
     );
-  },
+  };
 
-  renderQuestionEl(nextQuestion:NextQuestionT, onLog, onResponseSubmitted) {
+  renderQuestionEl = (nextQuestion:NextQuestionT, onLog, onResponseSubmitted) => {
     const {question, responses} = nextQuestion;
 
     if (question.stage === 'scenario') {
@@ -195,9 +199,9 @@ export default React.createClass({
       </div>
     );
 
-  },
+  };
 
-  renderScenarioResponsesEl(questions:[QuestionT], responses:[ResponseT]) {
+  renderScenarioResponsesEl = (questions:[QuestionT], responses:[ResponseT]) => {
     const responsesEl = [];
     for(let i = 0; i < questions.length; i++) {
       if(questions[i].stage !== 'scenario') {
@@ -222,9 +226,9 @@ export default React.createClass({
         </VelocityTransitionGroup>
       </div> 
     );
-  },
+  };
 
-  renderSummaryEl(questions:[QuestionT], responses:[ResponseT]) {
+  renderSummaryEl = (questions:[QuestionT], responses:[ResponseT]) => {
     return (
       
       <div className="done">
@@ -240,8 +244,8 @@ export default React.createClass({
         </div>
       </div> 
     );
-  }
-});
+  };
+}
 
 const styles = {
   done: {

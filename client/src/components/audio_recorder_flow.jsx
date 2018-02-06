@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 
 import React from 'react';
+import createReactClass from 'create-react-class';
 import AudioCapture from './audio_capture.jsx';
 
 type State = {
@@ -24,7 +25,7 @@ The presentation can be configured with the props below,
 corresponding to each state.
 
 */
-export default React.createClass({
+export default createReactClass({
   displayName: 'AudioRecorderFlow',
 
   propTypes: {

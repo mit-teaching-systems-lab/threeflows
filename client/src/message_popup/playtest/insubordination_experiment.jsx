@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import uuid from 'uuid';
 
@@ -14,41 +16,47 @@ import {InsubordinationScenarios} from './insubordination_scenarios.js';
 
 // An experiment page, handles forming a cohort and displaying the substance of the experiment.
 // Also supports preview of the experiment if `userIdentifier` is null.
-export default React.createClass({
-  displayName: 'InsubordinationExperiment',
+export default class extends React.Component {
+  props: {
+    onLogMessage: Function,
+    onExperimentDone: Function,
+    userIdentifier?: string,
+  };
 
-  propTypes: {
-    onLogMessage: React.PropTypes.func.isRequired,
-    onExperimentDone: React.PropTypes.func.isRequired,
-    userIdentifier: React.PropTypes.string
-  },
+  state: *;
+  static displayName = 'InsubordinationExperiment';
 
-  getDefaultProps() {
-    return {
-      userIdentifier: null
-    };
-  },
+  static propTypes = {
+    onLogMessage: PropTypes.func.isRequired,
+    onExperimentDone: PropTypes.func.isRequired,
+    userIdentifier: PropTypes.string
+  };
 
-  getInitialState() {
-    const {userIdentifier} = this.props;
+  static defaultProps = {
+    userIdentifier: null
+  };
+
+  constructor(props) {
+    super(props);
+    const {userIdentifier} = props;
     const questions = (userIdentifier)
       ? InsubordinationScenarios.questionsFor(InsubordinationScenarios.cohortKey(userIdentifier))
       : null;
 
-    return {
+    this.state = {
       questions,
       hasStarted: false,
       experimentUuid: uuid.v4()
     };
-  },
+  }
 
-  onStart() {
+  onStart = () => {
     this.setState({ hasStarted: true });
-  },
+  };
 
-  onExperimentDone(questions, responses) {
+  onExperimentDone = (questions, responses) => {
     this.props.onExperimentDone({questions, responses});
-  },
+  };
 
   render() {
     const {userIdentifier, onLogMessage} = this.props;
@@ -62,9 +70,9 @@ export default React.createClass({
       summaryEl={this.renderSummaryEl}
       onLogMessage={onLogMessage}
     />;
-  },
+  }
 
-  renderIntro(options = {}) {
+  renderIntro = (options = {}) => {
     return (
       <div>
         <div>
@@ -80,10 +88,10 @@ export default React.createClass({
           label="Start" />
       </div>
     );
-  },
+  };
 
   // Only ask for audio on questions with choices, otherwise let them continue
-  renderQuestionEl(question, onLog, onResponseSubmitted) {
+  renderQuestionEl = (question, onLog, onResponseSubmitted) => {
     if (question.choices.length === 0) {
       return <QuestionInterpreter
         key={question.id}
@@ -100,9 +108,9 @@ export default React.createClass({
         onResponseSubmitted={onResponseSubmitted}
       />;
     }
-  },
+  };
 
-  renderSummaryEl(questions, responses) {
+  renderSummaryEl = (questions, responses) => {
     return (
       <div style={{padding: 20}}>
         <div style={{paddingBottom: 20, fontWeight: 'bold'}}>Thanks!  Here are your responses:</div>
@@ -121,5 +129,5 @@ export default React.createClass({
           label="Done" />
       </div>
     );
-  }
-});
+  };
+}

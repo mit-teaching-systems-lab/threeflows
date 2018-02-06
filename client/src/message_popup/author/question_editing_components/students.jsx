@@ -19,53 +19,58 @@ import FaceIcon from 'material-ui/svg-icons/action/face';
 import CloseIcon from 'material-ui/svg-icons/navigation/close';
 
 
-export default React.createClass({
-  displayName: 'Students',
+export default class extends React.Component {
+  props: {
+    students: Array<$FlowFixMe>,
+    onAddStudent: Function,
+    onRemoveStudent: Function,
+    availableStudentList: Array<$FlowFixMe>,
+  };
 
-  propTypes: {
+  static displayName = 'Students';
+
+  static propTypes = {
     students: PropTypes.array.isRequired,
     onAddStudent: PropTypes.func.isRequired,
     onRemoveStudent: PropTypes.func.isRequired,
     availableStudentList: PropTypes.array.isRequired,
-  },
+  };
 
-  getInitialState(){
-    return ({
-      selectedStudent: null,
-      studentText: ''
-    });
-  },
+  state = {
+    selectedStudent: null,
+    studentText: ''
+  };
 
-  selectStudent(studentId){
+  selectStudent = (studentId) => {
     return function(){
       this.setState({selectedStudent: studentId});
     }.bind(this);
-  },
+  };
 
-  deselectStudent(){
+  deselectStudent = () => {
     this.setState({selectedStudent: null});
-  },
+  };
 
-  addAutoStudent(name, value){
+  addAutoStudent = (name, value) => {
     this.props.onAddStudent(name);
-  },
+  };
 
-  isStudentSelectionValid(selection){
+  isStudentSelectionValid = (selection) => {
     if(selection === '') return true;
     if(_.find(this.props.availableStudentList, student => student.name.toLowerCase() === selection.toLowerCase()) === undefined) return false;
     return true;
-  },
+  };
 
-  onStudentTextChange(searchText, dataSource){
+  onStudentTextChange = (searchText, dataSource) => {
     this.setState({studentText: searchText});
-  },
+  };
 
-  onRemoveClicked(student) {
+  onRemoveClicked = (student) => {
     this.props.onRemoveStudent(student.id); 
     this.deselectStudent();
-  },
+  };
 
-  render(){
+  render() {
     const {
       students,
       onAddStudent,
@@ -138,7 +143,7 @@ export default React.createClass({
       </div>
       );
   }
-});
+}
 
 const styles = {
   container: {

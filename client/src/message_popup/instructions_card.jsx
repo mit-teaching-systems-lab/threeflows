@@ -5,20 +5,19 @@ import React from "react";
 import _ from "lodash";
 import Divider from 'material-ui/Divider';
 
-export default React.createClass({
-  displayName: "InstructionsCard",
-  
-  propTypes: {
+export default class extends React.Component {
+  props: {query: Object};
+  static displayName = "InstructionsCard";
+
+  static propTypes = {
     query: PropTypes.object.isRequired,
-  },
-  
-  getInitialState(){
-    return ({
-      isSolutionMode: _.has(this.props.query, "solution"),
-    });
-  },
-  
-  render(){
+  };
+
+  state = {
+    isSolutionMode: _.has(this.props.query, "solution"),
+  };
+
+  render() {
     const{isSolutionMode} = this.state;
     return (
       <div style ={_.merge(_.clone(styles.container), styles.instructions)}>
@@ -37,7 +36,7 @@ export default React.createClass({
       </div>
     );
   }
-});
+}
 
 const styles = {
   instructions: {

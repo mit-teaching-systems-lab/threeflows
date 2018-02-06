@@ -1,17 +1,19 @@
 import React from 'react';
 
-import * as PropTypes from '../../prop_types.js';
+import * as SharedPropTypes from '../../prop_types.js';
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
 import PlainTextQuestion from './plain_text_question.jsx';
 
 // Render a text scenario with an image.
-export default React.createClass({
+export default createReactClass({
   displayName: 'TextImageScenario',
 
   propTypes: {
-    question: React.PropTypes.object.isRequired,
-    student: PropTypes.Student.isRequired,
-    modelHeight: React.PropTypes.number.isRequired,
-    onScenarioDone: React.PropTypes.func.isRequired,
+    question: PropTypes.object.isRequired,
+    student: SharedPropTypes.Student.isRequired,
+    modelHeight: PropTypes.number.isRequired,
+    onScenarioDone: PropTypes.func.isRequired,
   },
 
   componentDidMount() {

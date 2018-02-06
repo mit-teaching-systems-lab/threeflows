@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 
 import Slider from 'material-ui/Slider';
@@ -7,33 +9,46 @@ import MinimalTextResponse from '../renderers/minimal_text_response.jsx';
 
 // This renders the interactions for scoring a student's project.  It includes
 // sliders for various criteria defined in `scores` and also free-text written feedback.
-export default React.createClass({
-  displayName: 'CsFairProject',
+export default class extends React.Component {
+  props: {
+    onLogMessage: Function,
+    onResponseSubmitted: Function,
+    scores: Array<{
+      label: string,
+      key: string,
+      max: number,
+    }>,
+    studentName: string,
+    projectLabel: string,
+  };
 
-  propTypes: {
-    onLogMessage: React.PropTypes.func.isRequired,
-    onResponseSubmitted: React.PropTypes.func.isRequired,
-    scores: React.PropTypes.arrayOf(React.PropTypes.shape({
-      label: React.PropTypes.string.isRequired,
-      key: React.PropTypes.string.isRequired,
-      max: React.PropTypes.number.isRequired
+  state: *;
+  static displayName = 'CsFairProject';
+
+  static propTypes = {
+    onLogMessage: PropTypes.func.isRequired,
+    onResponseSubmitted: PropTypes.func.isRequired,
+    scores: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      key: PropTypes.string.isRequired,
+      max: PropTypes.number.isRequired
     })).isRequired,
-    studentName: React.PropTypes.string.isRequired,
-    projectLabel: React.PropTypes.string.isRequired,
-  },
+    studentName: PropTypes.string.isRequired,
+    projectLabel: PropTypes.string.isRequired,
+  };
 
-  // Start at zero.  Probably influences participant responses.
-  getInitialState() {
-    const emptyScores = this.props.scores.reduce((map, score) => {
+  constructor(props) {
+    super(props);
+    const emptyScores = props.scores.reduce((map, score) => {
       return {...map, [score.key]: 0 };
     }, {});
 
-    return {
+    this.state = {
       scoreValues: emptyScores
     };
-  },
+  }
 
-  onSliderChanged(key, event, value) {
+  onSliderChanged = (key, event, value) => {
     const {scoreValues} = this.state;
     this.setState({
       scoreValues: {
@@ -41,10 +56,10 @@ export default React.createClass({
         [key]: value
       }
     });
-  },
+  };
 
   // Mix in all the context of the response
-  onTextReponseSubmitted({responseText}) {
+  onTextReponseSubmitted = ({responseText}) => {
     const {scores, studentName, projectLabel} = this.props;
     const {scoreValues} = this.state;
     const responseRecord = {
@@ -57,7 +72,7 @@ export default React.createClass({
     };
     this.props.onLogMessage('message_popup_cs_fair_score_response', responseRecord);
     this.props.onResponseSubmitted(responseRecord);
-  },
+  };
 
   render() {
     const {onLogMessage, scores, studentName} = this.props;
@@ -79,9 +94,9 @@ export default React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
-  renderSlider(score) {
+  renderSlider = (score) => {
     const {label, key, max} = score;
     const value = this.state.scoreValues[key];
     return (
@@ -91,8 +106,8 @@ export default React.createClass({
         <Slider onChange={this.onSliderChanged.bind(this, key)} value={value} min={0} max={max} step={0.5} />
       </div>
     );
-  }
-});
+  };
+}
 
 const styles = {
   container: {

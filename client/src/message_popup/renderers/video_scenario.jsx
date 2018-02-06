@@ -1,5 +1,7 @@
 /* @flow weak */
 import React from 'react';
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
 import YouTube from 'react-youtube';
 
 
@@ -7,13 +9,13 @@ import YouTube from 'react-youtube';
 Renders a YouTube video and provides a callback for when the video is done.
 Uses the YouTube iframe API.
 */
-export default React.createClass({
+export default createReactClass({
   displayName: 'VideoScenario',
 
   propTypes: {
-    youTubeId: React.PropTypes.string.isRequired,
-    onDonePlaying: React.PropTypes.func.isRequired,
-    youTubeParams: React.PropTypes.object
+    youTubeId: PropTypes.string.isRequired,
+    onDonePlaying: PropTypes.func.isRequired,
+    youTubeParams: PropTypes.object
   },
 
   getDefaultProps() {

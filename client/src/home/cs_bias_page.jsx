@@ -7,22 +7,22 @@ import * as Routes from '../routes.js';
 
 
 // A list of demos to try, aimed to CS bias folks.
-export default React.createClass({
-  displayName: 'CsBiasPage',
+export default class extends React.Component {
+  static displayName = 'CsBiasPage';
 
-  onTappedMenu(e) {
+  onTappedMenu = (e) => {
     window.location.reload();
-  },
+  };
 
-  onTappedItem(linkEl) {
+  onTappedItem = (linkEl) => {
     Routes.navigate(linkEl.props.href);
-  },
+  };
 
   render() {
     return <HomeFrame>{this.renderScenarios()}</HomeFrame>;
-  },
+  }
 
-  renderScenarios() {
+  renderScenarios = () => {
     return (
       <div>
         <p>These interactive case studies can be used to seed conversation during in-person workshops, as homework to seed class discussions, or within online PLCs.</p>
@@ -42,17 +42,17 @@ export default React.createClass({
         <div style={{marginTop: 50}}>New idea?  Reach out at <a href="https://twitter.com/mit_tsl">@mit_tsl</a>.</div>
       </div>
     );
-  },
+  };
 
-  renderScenarioItem(linkEl) {
+  renderScenarioItem = (linkEl) => {
     return (
       <ListItem
         innerDivStyle={styles.listItem}
         onTouchTap={this.onTappedItem.bind(this, linkEl)}
         primaryText={linkEl} />
     );
-  }
-});
+  };
+}
 
 const styles = {
   header: {

@@ -16,38 +16,43 @@ import * as Routes from '../routes.js';
 /*
 Shows an AppBar for the screen title, with a drawer for navigating elsewhere.
 */
-export default React.createClass({
-  displayName: 'NavigationAppBar',
+export default class extends React.Component {
+  props: {
+    title: string,
+    style?: Object,
+    iconElementLeft?: $FlowFixMe,
+    iconElementRight?: $FlowFixMe,
+  };
 
-  propTypes: {
+  static displayName = 'NavigationAppBar';
+
+  static propTypes = {
     title: PropTypes.string.isRequired,
     style: PropTypes.object,
     iconElementLeft: PropTypes.element,
     iconElementRight: PropTypes.element
-  },
+  };
 
-  contextTypes: {
+  static contextTypes = {
     auth: PropTypes.object.isRequired
-  },
+  };
 
-  getInitialState() {
-    return {
-      isOpen: false
-    };
-  },
+  state = {
+    isOpen: false
+  };
 
-  doCloseDrawer() {
+  doCloseDrawer = () => {
     this.setState({ isOpen: false });
-  },
+  };
 
-  onToggled() {
+  onToggled = () => {
     this.setState({isOpen: !this.state.isOpen});
-  },
+  };
 
-  onNavigationTapped(url) {
+  onNavigationTapped = (url) => {
     Routes.navigate(url);
     this.doCloseDrawer();
-  },
+  };
 
   render() {
     const {userProfile, doLogout} = this.context.auth;
@@ -85,4 +90,4 @@ export default React.createClass({
       </div>
     );
   }
-});
+}

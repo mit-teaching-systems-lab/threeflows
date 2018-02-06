@@ -6,18 +6,26 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 
 
-export default React.createClass({
-  displayName: 'SummaryCard',
-  
-  propTypes: {
+export default class extends React.Component {
+  props: {
+    onDone: Function,
+    question: Object,
+    responseText: string,
+    elapsedSeconds: number,
+    buttonLabel: string,
+  };
+
+  static displayName = 'SummaryCard';
+
+  static propTypes = {
     onDone: PropTypes.func.isRequired,
     question: PropTypes.object.isRequired,
     responseText: PropTypes.string.isRequired,
     elapsedSeconds: PropTypes.number.isRequired,
     buttonLabel: PropTypes.string.isRequired
-  },
-  
-  render(){
+  };
+
+  render() {
     return(
       <div>
         <div style={styles.title}>Summary:</div>
@@ -38,9 +46,9 @@ export default React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
-  renderQuestion() {
+  renderQuestion = () => {
     const {question} = this.props;
     if (!question.text) return null;
     return (
@@ -50,8 +58,8 @@ export default React.createClass({
         <Divider />
       </div>
     );
-  }
-});
+  };
+}
 
 const styles = {
   title: {

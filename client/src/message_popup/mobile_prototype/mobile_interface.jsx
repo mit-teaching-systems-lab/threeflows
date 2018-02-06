@@ -1,5 +1,8 @@
 /* @flow weak */
 //normal imports
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
+
 import React from 'react';
 import _ from 'lodash';
 
@@ -22,21 +25,21 @@ import FaceIcon from 'material-ui/svg-icons/action/face';
 //
 const ONE_SECOND = 1000;
 
-export default React.createClass({
+export default createReactClass({
   displayName: 'MobileInterface',
 
   mixins: [SetIntervalMixin],
   
   propTypes: {
-    scaffolding: React.PropTypes.shape({
-      helpType: React.PropTypes.string.isRequired,
-      shouldShowSummary: React.PropTypes.bool.isRequired,
+    scaffolding: PropTypes.shape({
+      helpType: PropTypes.string.isRequired,
+      shouldShowSummary: PropTypes.bool.isRequired,
     }).isRequired,
-    question: React.PropTypes.object.isRequired,
-    onQuestionDone: React.PropTypes.func.isRequired,
-    limitMs: React.PropTypes.number.isRequired,
-    onLog: React.PropTypes.func.isRequired,
-    isLastQuestion: React.PropTypes.bool.isRequired,
+    question: PropTypes.object.isRequired,
+    onQuestionDone: PropTypes.func.isRequired,
+    limitMs: PropTypes.number.isRequired,
+    onLog: PropTypes.func.isRequired,
+    isLastQuestion: PropTypes.bool.isRequired,
   },
 
   getInitialState() {

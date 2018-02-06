@@ -4,6 +4,7 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 
 import React from 'react';
+import createReactClass from 'create-react-class';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import 'velocity-animate/velocity.ui';
 import uuid from 'uuid';
@@ -34,7 +35,7 @@ import ResponsiveFrame from '../components/responsive_frame.jsx';
 /*
 Shows the MessagePopup game, supporting options for the chat-based interface as well.
 */
-export default React.createClass({
+export default createReactClass({
   displayName: 'MessagePopupExperiencePage',
 
   propTypes: {

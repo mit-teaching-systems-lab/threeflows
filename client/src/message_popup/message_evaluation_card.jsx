@@ -9,12 +9,13 @@ import * as Colors from 'material-ui/styles/colors';
 /*
 Pure UI component showing an evaluation for a question.
 */
-export default React.createClass({
-  displayName: 'MessageEvaluationCard',
+export default class extends React.Component {
+  props: {evaluation: Object};
+  static displayName = 'MessageEvaluationCard';
 
-  propTypes: {
+  static propTypes = {
     evaluation: PropTypes.object.isRequired
-  },
+  };
 
   render() {
     const {evaluation} = this.props;
@@ -30,4 +31,4 @@ export default React.createClass({
       </div>
     );
   }
-});
+}

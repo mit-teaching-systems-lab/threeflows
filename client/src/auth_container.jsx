@@ -18,35 +18,31 @@ import * as Colors from 'material-ui/styles/colors';
 // saves userTokens in localStorage afterward.
 //
 // Provides userProfile.email as context to children components.
-export default React.createClass({
-  displayName: 'AuthContainer',
+export default class extends React.Component {
+  static displayName = 'AuthContainer';
 
-  propTypes: {
+  static propTypes = {
     children: PropTypes.element.isRequired,
     isEmailRequired: PropTypes.bool.isRequired,
     localStorageKey: PropTypes.string
-  },
+  };
 
-  childContextTypes: {
+  static childContextTypes = {
     auth: PropTypes.shape({
       userProfile: PropTypes.object,
       doLogout: PropTypes.func
     }).isRequired
-  },
+  };
 
-  getDefaultProps() {
-    return {
-      localStorageKey: 'threeflows_email_registration'
-    };
-  },
+  static defaultProps = {
+    localStorageKey: 'threeflows_email_registration'
+  };
 
-  getInitialState() {
-    return {
-      userEmail: 'unknown@mit.edu',
-      hasConfirmedEmail: !this.props.isEmailRequired,
-      isNavigatingAway: false
-    };
-  },
+  state = {
+    userEmail: 'unknown@mit.edu',
+    hasConfirmedEmail: !this.props.isEmailRequired,
+    isNavigatingAway: false
+  };
 
   getChildContext() {
     const userProfile = (this.state.hasConfirmedEmail) ? {
@@ -59,7 +55,7 @@ export default React.createClass({
         doLogout: this.doLogout
       }
     };
-  },
+  }
 
   componentWillMount() {
     // Check local storage cache
@@ -72,47 +68,47 @@ export default React.createClass({
       userEmail,
       hasConfirmedEmail: true
     });
-  },
+  }
 
   componentDidUpdate() {
     const {userEmail, hasConfirmedEmail} = this.state;
     if (hasConfirmedEmail && userEmail) {
       window.localStorage.setItem(this.props.localStorageKey, JSON.stringify({userEmail, hasConfirmedEmail}));
     }
-  },
+  }
 
-  doLogout() {
+  doLogout = () => {
     window.localStorage.removeItem(this.props.localStorageKey);
     this.setState({
       hasConfirmedEmail: false,
       userEmail: ''
     });
-  },
+  };
 
-  validateEmail(email) {
+  validateEmail = (email) => {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
-  },
+  };
 
-  onTextChanged(e) {
+  onTextChanged = (e) => {
     const userEmail = e.target.value;
     this.setState({userEmail});
-  },
+  };
 
-  onDoneEmail() {
+  onDoneEmail = () => {
     this.setState({ hasConfirmedEmail: true });
-  },
+  };
 
-  onDecline() {
+  onDecline = () => {
     this.setState({ isNavigatingAway: true });
     window.location = 'http://tsl.mit.edu/';
-  },
+  };
 
-  onKeyDown(e) {
+  onKeyDown = (e) => {
     if (e.keyCode !== 13) return;
     if (!this.validateEmail(this.state.userEmail)) return;
     this.onDoneEmail();
-  },
+  };
 
   render() {
     const {
@@ -129,9 +125,9 @@ export default React.createClass({
           : this.renderEmailForm()}
       </div>
     );
-  },
+  }
 
-  renderEmailForm() {
+  renderEmailForm = () => {
     const {userEmail} = this.state;
     const shouldShowWarning = userEmail.length > 10 && !this.validateEmail(userEmail);
 
@@ -173,5 +169,5 @@ export default React.createClass({
         </div>
       </div>
     );
-  }
-});
+  };
+}

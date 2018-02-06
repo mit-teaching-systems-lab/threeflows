@@ -23,20 +23,31 @@ import Examples from './question_editing_components/examples.jsx';
 import Indicators from './question_editing_components/indicators.jsx';
 
 
-export default React.createClass({
-  displayName: 'QuestionPage',
+export default class extends React.Component {
+  props: {
+    originalQuestion?: Object,
+    loaded: boolean,
+    onEditQuestion?: Function,
+    onDeleteQuestion?: Function,
+    onCreateQuestion?: Function,
+  };
 
-  propTypes: {
+  state: *;
+  static displayName = 'QuestionPage';
+
+  static propTypes = {
     originalQuestion: PropTypes.object,
     loaded: PropTypes.bool.isRequired,
     onEditQuestion: PropTypes.func,
     onDeleteQuestion: PropTypes.func,
     onCreateQuestion: PropTypes.func
-  },
+  };
 
-  getInitialState() {
-    const question = this.props.originalQuestion;
-    return ({
+  constructor(props) {
+    super(props);
+    const question = props.originalQuestion;
+
+    this.state = {
       questionText: question !== undefined ? question.text : '',
       students: question !== undefined ? question.students : [],
       indicator: question !== undefined ? question.indicator : indicators[0],
@@ -44,68 +55,68 @@ export default React.createClass({
       badExamplesText: question !== undefined ? question.nonExamples.join('\n\n') : "",
       deleteConfirmationOpen: false,
       availableStudentList: question !== undefined ? activeStudents.filter(student => !question.studentIds.includes(student.id)) : activeStudents,
-    });
-  },
+    };
+  }
 
-  parseExamples(examplesText){
+  parseExamples = (examplesText) => {
     return examplesText.split('\n\n').map(exampleText => exampleText.trim()).filter(example => example !== '');
-  },
+  };
 
-  getExamples(){
+  getExamples = () => {
     const {goodExamplesText, badExamplesText} = this.state;
     return {goodExamples: this.parseExamples(goodExamplesText), badExamples: this.parseExamples(badExamplesText)};
-  },
+  };
 
-  saveCheckPassed(){
+  saveCheckPassed = () => {
     if(this.state.questionText !== '') return true;
     return false;
-  },
+  };
 
-  openDeleteConfirmation(){
+  openDeleteConfirmation = () => {
     this.setState({deleteConfirmationOpen: true});
-  },
+  };
 
-  closeDeleteConfirmation(){
+  closeDeleteConfirmation = () => {
     this.setState({deleteConfirmationOpen: false});
-  },
+  };
 
-  onAddStudent(studentName){
+  onAddStudent = (studentName) => {
     var availableStudentList = _.clone(this.state.availableStudentList);
     const student = _.remove(availableStudentList, student => student.name.toLowerCase() === studentName.toLowerCase())[0];
     if(student !== undefined){
       this.setState({students: this.state.students.concat(student), availableStudentList});
     }
-  },
+  };
 
-  onRemoveStudent(studentId){
+  onRemoveStudent = (studentId) => {
     this.setState({
       students: this.state.students.filter(student => student.id !== studentId), 
       availableStudentList: this.state.availableStudentList.concat(_.find(activeStudents, student => student.id === studentId))
     });
-  },
+  };
 
-  onReturnToQuestions(){
+  onReturnToQuestions = () => {
     Routes.navigate(Routes.messagePopupAuthorQuestionsPath());
-  },
+  };
 
-  onQuestionTextChange(questionText){
+  onQuestionTextChange = (questionText) => {
     this.setState({questionText});
-  },
+  };
 
-  onGoodExamplesChange(goodExamplesText){
+  onGoodExamplesChange = (goodExamplesText) => {
     this.setState({goodExamplesText});
-  },
+  };
 
-  onBadExamplesChange(badExamplesText){
+  onBadExamplesChange = (badExamplesText) => {
     this.setState({badExamplesText});
-  },
+  };
 
-  onIndicatorChange(indicatorId){
+  onIndicatorChange = (indicatorId) => {
     const indicator = _.find(indicators, indicator => indicator.id.toString() === indicatorId);
     this.setState({indicator});
-  },
+  };
 
-  onEditQuestion(){
+  onEditQuestion = () => {
     const {goodExamples, badExamples} = this.getExamples();
     const {originalQuestion} = this.props;
     const newQuestion = {
@@ -119,9 +130,9 @@ export default React.createClass({
     if(this.props.onEditQuestion === undefined) return;
     this.props.onEditQuestion(newQuestion, originalQuestion);
     this.onReturnToQuestions();
-  },
+  };
 
-  onCreateQuestion(){
+  onCreateQuestion = () => {
     const {goodExamples, badExamples} = this.getExamples();
     const newQuestion = {
       studentIds: this.state.students.map(student => student.id),
@@ -134,21 +145,21 @@ export default React.createClass({
     if(this.props.onCreateQuestion === undefined) return;
     this.props.onCreateQuestion(newQuestion);
     this.onReturnToQuestions();
-  },
+  };
 
-  onDeleteButtonClicked(){
+  onDeleteButtonClicked = () => {
     this.closeDeleteConfirmation();
     this.onDeleteQuestion();
-  },
+  };
 
-  onDeleteQuestion(){
+  onDeleteQuestion = () => {
     if(this.props.onDeleteQuestion === undefined) return;
     const {originalQuestion} = this.props;
     this.props.onDeleteQuestion(originalQuestion);
     this.onReturnToQuestions();
-  },
+  };
 
-  render(){
+  render() {
     const {loaded, originalQuestion} = this.props;
     const {questionText, students, goodExamplesText, badExamplesText, indicator, deleteConfirmationOpen} = this.state;
     const title = originalQuestion !== undefined ? `Editing Question #${originalQuestion.id}` : loaded ? 'New Question' : '';
@@ -206,9 +217,9 @@ export default React.createClass({
         }
       </div>
     );
-  },
+  }
 
-  renderButtons(){
+  renderButtons = () => {
     return (
       <div style={styles.finalButtonRow}>
         {this.props.originalQuestion !== undefined &&
@@ -240,8 +251,8 @@ export default React.createClass({
         }
       </div>
     );
-  }
-});
+  };
+}
 
 const styles = {
   container: {

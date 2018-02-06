@@ -7,20 +7,26 @@ import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';
 
-export default React.createClass({
-  displayName: 'QuestionText',
+export default class extends React.Component {
+  props: {
+    originalText?: string,
+    questionText: string,
+    onQuestionTextChange: Function,
+  };
 
-  propTypes: {
+  static displayName = 'QuestionText';
+
+  static propTypes = {
     originalText: PropTypes.string,
     questionText: PropTypes.string.isRequired,
     onQuestionTextChange: PropTypes.func.isRequired
-  },
+  };
 
-  onTextChange(e) {
+  onTextChange = (e) => {
     this.props.onQuestionTextChange(e.target.value);
-  },
+  };
 
-  render(){
+  render() {
     const {originalText, questionText} = this.props;
     return (
       <Paper style={styles.container}>
@@ -38,7 +44,7 @@ export default React.createClass({
       </Paper>
       );
   }
-});
+}
 
 const styles = {
   container: {

@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 
 import MixedQuestion from '../renderers/mixed_question.jsx';
@@ -14,21 +16,26 @@ import ResponseWithPastNotes from '../responses/response_with_past_notes.jsx';
 // This renders a question and an interaction, and strives towards being a
 // general-purpose interpreter that over time ends up converging towards shared
 // data structures/components across different scenarios.
-export default React.createClass({
-  displayName: 'QuestionInterpreter',
-  
-  propTypes: {
-    question: React.PropTypes.object.isRequired,
-    onLog: React.PropTypes.func.isRequired,
-    onResponseSubmitted: React.PropTypes.func.isRequired,
-    forceText: React.PropTypes.bool
-  },
+export default class extends React.Component {
+  props: {
+    question: Object,
+    onLog: Function,
+    onResponseSubmitted: Function,
+    forceText?: boolean,
+  };
 
-  getDefaultProps() {
-    return {
-      forceText: false
-    };
-  },
+  static displayName = 'QuestionInterpreter';
+
+  static propTypes = {
+    question: PropTypes.object.isRequired,
+    onLog: PropTypes.func.isRequired,
+    onResponseSubmitted: PropTypes.func.isRequired,
+    forceText: PropTypes.bool
+  };
+
+  static defaultProps = {
+    forceText: false
+  };
 
   render() {
     const {question, onLog, onResponseSubmitted} = this.props;
@@ -38,9 +45,9 @@ export default React.createClass({
         {this.renderInteractionEl(question, onLog, onResponseSubmitted)}
       </div>
     );
-  },
+  }
 
-  renderInteractionEl(question, onLogMessage, onResponseSubmitted) {
+  renderInteractionEl = (question, onLogMessage, onResponseSubmitted) => {
     const key = JSON.stringify(question);
     const {forceText} = this.props;
 
@@ -152,5 +159,5 @@ export default React.createClass({
       onLogMessage={onLogMessage}
       onResponseSubmitted={onResponseSubmitted}
     />;
-  }
-});
+  };
+}

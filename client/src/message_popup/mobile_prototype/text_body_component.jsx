@@ -1,4 +1,7 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
+
 import React from 'react';
 import _ from 'lodash';
 import VelocityComponent from 'velocity-react/velocity-component';
@@ -6,16 +9,16 @@ import 'velocity-animate/velocity.ui';
 
 import {StudentMessage, UserMessage, InfoMessage} from './message_components.jsx';
 
-export default React.createClass({
+export default createReactClass({
   displayName: 'TextBody',
 
   propTypes: {
-    question: React.PropTypes.object.isRequired,
-    animatedMessages: React.PropTypes.array.isRequired,
-    messages: React.PropTypes.array.isRequired,
-    onOpenStudentDialog: React.PropTypes.func.isRequired,
-    onOpenInfoDialog: React.PropTypes.func.isRequired,
-    onAnimationDone: React.PropTypes.func.isRequired
+    question: PropTypes.object.isRequired,
+    animatedMessages: PropTypes.array.isRequired,
+    messages: PropTypes.array.isRequired,
+    onOpenStudentDialog: PropTypes.func.isRequired,
+    onOpenInfoDialog: PropTypes.func.isRequired,
+    onAnimationDone: PropTypes.func.isRequired
   },
   
   render(){

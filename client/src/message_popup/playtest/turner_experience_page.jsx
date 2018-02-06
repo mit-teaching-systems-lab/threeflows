@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import uuid from 'uuid';
 
@@ -19,32 +21,35 @@ import * as Routes from '../../routes.js';
 
 // The top-level page, manages logistics around email, questions,
 // and the display of instructions, questions, and summary.
-export default React.createClass({
-  displayName: 'TurnerExperiencePage',
+export default class extends React.Component {
+  props: {query: {p?: string}};
+  state: *;
+  static displayName = 'TurnerExperiencePage';
 
-  propTypes: {
-    query: React.PropTypes.shape({
-      p: React.PropTypes.string
+  static propTypes = {
+    query: PropTypes.shape({
+      p: PropTypes.string
     }).isRequired
-  },
+  };
 
-  contextTypes: {
-    auth: React.PropTypes.object.isRequired
-  },
+  static contextTypes = {
+    auth: PropTypes.object.isRequired
+  };
 
-  getInitialState() {
-    const contextEmail = this.context.auth.userProfile.email;
+  constructor(props, context) {
+    super(props, context);
+    const contextEmail = context.auth.userProfile.email;
     const email = contextEmail === "unknown@mit.edu" ? '' : contextEmail;
 
-    return {
+    this.state = {
       email,
       questions: null,
       sessionId: uuid.v4(),
       recording: false
     };
-  },
+  }
 
-  onStart(email) {
+  onStart = (email) => {
     const startQuestionIndex = this.props.query.p || 0; // for testing or demoing
     const allQuestions = TurnerScenarios.questions();
     const questions = allQuestions.slice(startQuestionIndex);
@@ -53,9 +58,9 @@ export default React.createClass({
       questions,
       recording: false
     });
-  },
+  };
 
-  onLogMessage(type, response:ResponseT) {
+  onLogMessage = (type, response:ResponseT) => {
     const {email, sessionId} = this.state;
     Api.logEvidence(type, {
       ...response,
@@ -64,12 +69,12 @@ export default React.createClass({
       name: email,
       clientTimestampMs: new Date().getTime(),
     });
-  },
+  };
 
-  onRecordingDone(onResponseSubmitted, response) {
+  onRecordingDone = (onResponseSubmitted, response) => {
     this.setState({recording: false});
     onResponseSubmitted(response);
-  },
+  };
 
   render() {
     return (
@@ -77,9 +82,9 @@ export default React.createClass({
         {this.renderContent()}
       </SessionFrame>
     );
-  },
+  }
 
-  renderContent() {
+  renderContent = () => {
     const {questions} = this.state;
     if (!questions) return this.renderIntro();
 
@@ -89,9 +94,9 @@ export default React.createClass({
       summaryEl={this.renderSummaryEl}
       onLogMessage={this.onLogMessage}
     />;
-  },
+  };
 
-  renderIntro() {
+  renderIntro = () => {
     return (
       <IntroWithEmail defaultEmail={this.state.email} onDone={this.onStart}>
         <div>
@@ -103,9 +108,9 @@ export default React.createClass({
         </div>
       </IntroWithEmail>
     );
-  },
+  };
 
-  renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted, options = {}) {
+  renderQuestionEl = (question:QuestionT, onLog, onResponseSubmitted, options = {}) => {
     const {responses} = options;
 
     if (question.stage === 'scenario') {
@@ -161,9 +166,9 @@ export default React.createClass({
       </div>
     );
 
-  },
+  };
 
-  renderSummaryEl(questions:[QuestionT], responses:[ResponseT]) {
+  renderSummaryEl = (questions:[QuestionT], responses:[ResponseT]) => {
     return (
       
       <div className="done">
@@ -179,9 +184,9 @@ export default React.createClass({
         </div>
       </div> 
     );
-  },
+  };
 
-  renderScenarioResponsesEl(questions:[QuestionT], responses:[ResponseT], onLog) {
+  renderScenarioResponsesEl = (questions:[QuestionT], responses:[ResponseT], onLog) => {
     return (
       <VideoSummary
         questions={questions}
@@ -189,8 +194,8 @@ export default React.createClass({
         onLogMessage={onLog}
         delayRenderingMs={500} /> 
     );
-  }
-});
+  };
+}
 
 const styles = {
   doneTitle: {

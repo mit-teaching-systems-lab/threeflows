@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 
 import React from 'react';
+import createReactClass from 'create-react-class';
 import {RouterMixin} from 'react-mini-router';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -25,7 +26,7 @@ import LoginPage from './LoginPage.js';
 import EmailLinkLoginPage from './EmailLinkLoginPage.js';
 
 
-export default React.createClass({
+export default createReactClass({
   displayName: 'App',
 
   mixins: [RouterMixin],

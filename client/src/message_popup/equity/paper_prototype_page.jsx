@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import uuid from 'uuid';
 import _ from 'lodash';
@@ -37,29 +39,36 @@ const Parts = {
 
 // For showing minimal paper prototypes.
 // This was adapted from HMTCAExperiencePage
-export default React.createClass({
-  displayName: 'PaperPrototypePage',
+export default class extends React.Component {
+  props: {
+    prototypeKey: string,
+    query: {
+      cohort?: string,
+      p?: string,
+      workshop?: string,
+    },
+  };
 
-  propTypes: {
-    prototypeKey: React.PropTypes.string.isRequired,
-    query: React.PropTypes.shape({
-      cohort: React.PropTypes.string,
-      p: React.PropTypes.string,
-      workshop: React.PropTypes.string
+  static displayName = 'PaperPrototypePage';
+
+  static propTypes = {
+    prototypeKey: PropTypes.string.isRequired,
+    query: PropTypes.shape({
+      cohort: PropTypes.string,
+      p: PropTypes.string,
+      workshop: PropTypes.string
     }).isRequired
-  },
+  };
 
   // User types cohort for team
-  getInitialState() {
-    return {
-      cohortKey: '',
-      identifier: 'PAPER_PROTOTYPE_IDENTIFIER:' + uuid.v4(),
-      workshop: 'PAPER_PROTOTYPE_PAGE' + (this.props.query.workshop || 'defaultWorkshop'),
-      questions: null,
-      sessionId: uuid.v4(),
-      currentPart: Parts.PRACTICE
-    };
-  },
+  state = {
+    cohortKey: '',
+    identifier: 'PAPER_PROTOTYPE_IDENTIFIER:' + uuid.v4(),
+    workshop: 'PAPER_PROTOTYPE_PAGE' + (this.props.query.workshop || 'defaultWorkshop'),
+    questions: null,
+    sessionId: uuid.v4(),
+    currentPart: Parts.PRACTICE
+  };
 
   // This is the key for a "game session we want to later review."
   // It's built from (cohort, workshop), so that each cohort of those has its own
@@ -70,13 +79,13 @@ export default React.createClass({
   //
   // Different workshop sessions on different days can use URLs to different workshop
   // values for isolation.
-  applesKey() {
+  applesKey = () => {
     const {prototypeKey} = this.props;
     const {cohortKey, workshop} = this.state;
     return [prototypeKey, cohortKey, workshop].join(':');
-  },
+  };
 
-  firstSlide() {
+  firstSlide = () => {
     return { el: 
       <div>
       <div><b>PART 1: Practice Individually</b></div>
@@ -88,10 +97,10 @@ export default React.createClass({
       <div>Once you’re finished with your responses, You'll review how people have responded and discuss.  Clicking on “Ok” will take you to your first scene. Ready?</div>
       </div>
     };
-  },
+  };
 
   // Making questions from the cohort
-  doStart() {
+  doStart = () => {
     const {prototypeKey} = this.props;
     const prototype = _.find([].concat(CSSPaperPrototypes).concat(SeedPaperPrototypes), { key: prototypeKey });
     const allQuestions = toSlides(prototype);
@@ -103,41 +112,41 @@ export default React.createClass({
       questions,
       questionsHash
     });
-  },
+  };
 
-  onCohortKeyChanged(e) {
+  onCohortKeyChanged = (e) => {
     this.setState({cohortKey: e.target.value});
-  },
+  };
 
-  onIdentifierChanged(e) {
+  onIdentifierChanged = (e) => {
     this.setState({ identifier: e.target.value });
-  },
+  };
 
-  onNoGroupCode(e) {
+  onNoGroupCode = (e) => {
     e.preventDefault();
     const cohortKey = 'DEMO_COHORT';
     this.setState({cohortKey});
     this.doStart();
-  },
+  };
 
-  onStart(e) {
+  onStart = (e) => {
     e.preventDefault();
     this.doStart();
-  },
+  };
 
-  onShowGroupInstructions() {
+  onShowGroupInstructions = () => {
     this.setState({ currentPart: Parts.GROUP_INSTRUCTIONS });
-  },
+  };
 
-  onStartGroupReview() {
+  onStartGroupReview = () => {
     this.setState({ currentPart: Parts.GROUP_REVIEW });
-  },
+  };
 
-  onGroupReviewDone() {
+  onGroupReviewDone = () => {
     this.setState({ currentPart: Parts.FINAL_INSTRUCTIONS });
-  },
+  };
 
-  onLogMessage(type, response) {
+  onLogMessage = (type, response) => {
     const {
       identifier,
       cohortKey,
@@ -164,7 +173,7 @@ export default React.createClass({
       questionsHash,
       identifier
     });
-  },
+  };
 
   render() {
     return (
@@ -172,9 +181,9 @@ export default React.createClass({
         {this.renderContent()}
       </SessionFrame>
     );
-  },
+  }
 
-  renderContent() {
+  renderContent = () => {
     const {questions, currentPart} = this.state;
     if (currentPart === Parts.PRACTICE) {
       if (!questions) return this.renderIntro();
@@ -189,9 +198,9 @@ export default React.createClass({
     if (currentPart === Parts.GROUP_INSTRUCTIONS) return this.renderGroupInstructions();
     if (currentPart === Parts.GROUP_REVIEW) return this.renderGroupReview();
     if (currentPart === Parts.FINAL_INSTRUCTIONS) return this.renderFinalInstructions();
-  },
+  };
 
-  renderIntro() {
+  renderIntro = () => {
     return (
       <VelocityTransitionGroup enter={{animation: "callout.pulse", duration: 500}} leave={{animation: "slideUp"}} runOnMount={true}>
         <form onSubmit={this.onStart}>
@@ -233,9 +242,9 @@ export default React.createClass({
         </form>
       </VelocityTransitionGroup>
     );
-  },
+  };
 
-  renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
+  renderQuestionEl = (question:QuestionT, onLog, onResponseSubmitted) => {
     const forceText = true; // because of the text reviews after
     return (
       <div>
@@ -246,9 +255,9 @@ export default React.createClass({
           onResponseSubmitted={onResponseSubmitted} />
       </div>
     );
-  },
+  };
 
-  renderPauseEl(questions:[QuestionT], responses:[ResponseT]) {
+  renderPauseEl = (questions:[QuestionT], responses:[ResponseT]) => {
     return (
       <div style={{margin: 20}}>
         <div style={{paddingBottom: 20}}>That's the end of Part 1.  Click to proceeed.</div>
@@ -258,9 +267,9 @@ export default React.createClass({
           onTouchTap={this.onShowGroupInstructions} />
       </div>
     );
-  },
+  };
 
-  renderGroupInstructions() {
+  renderGroupInstructions = () => {
     return (
       <div style={{margin: 20}}>
         <div>
@@ -280,16 +289,16 @@ export default React.createClass({
         </div>
       </div>
     );
-  },
+  };
 
-  renderGroupReview() {
+  renderGroupReview = () => {
     return <GroupReview
       prompt="Scroll through and discuss."
       applesKey={this.applesKey()}
       onDone={this.onGroupReviewDone} />;
-  },
+  };
 
-  renderFinalInstructions() {
+  renderFinalInstructions = () => {
     return (
       <div style={styles.instructions}>
         <p><b>PART 3: Discuss assumptions</b></p>
@@ -303,8 +312,8 @@ export default React.createClass({
         <div>If you're online, connect with others at <a target="_blank" href="https://twitter.com/search?q=%23TeacherPracticeSpaces">#TeacherPracticeSpaces</a>.</div>
       </div>
     );
-  }
-});
+  };
+}
 
 const styles = {
   instructions: {

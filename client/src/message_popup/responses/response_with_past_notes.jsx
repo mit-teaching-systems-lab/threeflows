@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 
 
@@ -6,13 +8,18 @@ import React from 'react';
 // shows a past set of notes from previous scenes.  This can be used
 // for writing feedback based on those notes.
 // `children` is intended to be a response component like MinimalTextResponse.
-export default React.createClass({
-  displayName: 'ResponseWithPastNotes',
+export default class extends React.Component {
+  props: {
+    pastNotes: Array<string>,
+    children?: $FlowFixMe,
+  };
 
-  propTypes: {
-    pastNotes: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-    children: React.PropTypes.element
-  },
+  static displayName = 'ResponseWithPastNotes';
+
+  static propTypes = {
+    pastNotes: PropTypes.arrayOf(PropTypes.string).isRequired,
+    children: PropTypes.element
+  };
 
   render() {
     const {pastNotes, children} = this.props;
@@ -26,7 +33,7 @@ export default React.createClass({
       </div>
     );
   }
-});
+}
 
 const styles = {
   container: {

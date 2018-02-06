@@ -13,36 +13,46 @@ import Divider from 'material-ui/Divider';
 /*
 This shows a feedback card after the user first presses save
 */
-export default React.createClass({
-  displayName: 'FeedbackCard',
+export default class extends React.Component {
+  props: {
+    initialResponseText: string,
+    onRevised: Function,
+    onPassed: Function,
+    examples: Array<$FlowFixMe>,
+  };
 
-  propTypes: {
+  state: *;
+  static displayName = 'FeedbackCard';
+
+  static propTypes = {
     initialResponseText: PropTypes.string.isRequired,
     onRevised: PropTypes.func.isRequired,
     onPassed: PropTypes.func.isRequired,
     examples: PropTypes.array.isRequired
-  },
+  };
 
-  getInitialState() {
-    var example = _.shuffle(this.props.examples)[0];
-    const initialResponseText = this.props.initialResponseText;
-    return ({
+  constructor(props) {
+    super(props);
+    var example = _.shuffle(props.examples)[0];
+    const initialResponseText = props.initialResponseText;
+
+    this.state = {
       finalResponseText: initialResponseText,
       example: example
-    });
-  },
-  
-  onTextChanged({target:{value}}:{target: {value: string}}){
+    };
+  }
+
+  onTextChanged = ({target:{value}}:{target: {value: string}}) => {
     this.setState({ finalResponseText: value });
-  },
-  
-  onRevise(){
+  };
+
+  onRevise = () => {
     this.props.onRevised(this.state.finalResponseText);
-  },
-  
-  onPass(){
+  };
+
+  onPass = () => {
     this.props.onPassed();
-  },
+  };
 
   render() {
     const {initialResponseText} = this.props;
@@ -81,7 +91,7 @@ export default React.createClass({
       </div>
     </div>);
   }
-});
+}
 
 const styles = {
   exampleBox: {

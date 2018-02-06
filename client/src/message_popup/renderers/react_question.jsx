@@ -1,13 +1,14 @@
 /* @flow weak */
 import React from 'react';
-
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
 
 // Render a React component
-export default React.createClass({
+export default createReactClass({
   displayName: 'ReactQuestion',
 
   propTypes: {
-    el: React.PropTypes.node.isRequired
+    el: PropTypes.node.isRequired
   },
 
   render() {

@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import uuid from 'uuid';
 
@@ -41,35 +43,37 @@ from one cultural traditional, those values are most likely to be encoded in ass
 Fourth, this doesn't nudge towards strategies of disrupting prior knowledge or of only including content in the course that is
 explicitly taught.  That's for other scenarios to explore.
 */
-export default React.createClass({
-  displayName: 'CsFairExperiencePage',
+export default class extends React.Component {
+  props: {query: {p?: string}};
+  state: *;
+  static displayName = 'CsFairExperiencePage';
 
-  propTypes: {
-    query: React.PropTypes.shape({
-      p: React.PropTypes.string
+  static propTypes = {
+    query: PropTypes.shape({
+      p: PropTypes.string
     }).isRequired
-  },
+  };
 
-  contextTypes: {
-    auth: React.PropTypes.object.isRequired
-  },
+  static contextTypes = {
+    auth: PropTypes.object.isRequired
+  };
 
-  // Cohort comes from URL
-  getInitialState() {
-    const contextEmail = this.context.auth.userProfile.email;
+  constructor(props, context) {
+    super(props, context);
+    const contextEmail = context.auth.userProfile.email;
     const email = contextEmail === "unknown@mit.edu" ? '' : contextEmail;
     const cohortKey = CsFairScenario.cohortKey(email);
 
-    return {
+    this.state = {
       email,
       cohortKey,
       questions: null,
       sessionId: uuid.v4()
     };
-  },
+  }
 
   // Making questions from the cohort
-  onStart(email) {
+  onStart = (email) => {
     const {cohortKey} = this.state;
     const startQuestionIndex = this.props.query.p || 0; // for testing or demoing
     const questions = CsFairScenario.questionsFor(cohortKey).slice(startQuestionIndex);
@@ -79,9 +83,9 @@ export default React.createClass({
       questions,
       questionsHash
     });
-  },
+  };
 
-  onLogMessage(type, response) {
+  onLogMessage = (type, response) => {
     const {email, cohortKey, sessionId, questionsHash} = this.state;
     
     Api.logEvidence(type, {
@@ -92,7 +96,7 @@ export default React.createClass({
       questionsHash,
       name: email
     });
-  },
+  };
 
   render() {
     return (
@@ -100,9 +104,9 @@ export default React.createClass({
         {this.renderContent()}
       </SessionFrame>
     );
-  },
+  }
 
-  renderContent() {
+  renderContent = () => {
     const {questions} = this.state;
     if (!questions) return this.renderIntro();
 
@@ -112,26 +116,26 @@ export default React.createClass({
       summaryEl={this.renderSummaryEl}
       onLogMessage={this.onLogMessage}
     />;
-  },
+  };
 
-  renderIntro() {
+  renderIntro = () => {
     return (
       <IntroWithEmail defaultEmail={this.state.email} onDone={this.onStart}>
         {CsFairScenario.renderIntroEl()}
       </IntroWithEmail>
     );
-  },
+  };
 
-  renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
+  renderQuestionEl = (question:QuestionT, onLog, onResponseSubmitted) => {
     return (
       <div key={JSON.stringify(question)}>
         <MixedQuestion question={question} />
         {this.renderInteractionEl(question, onLog, onResponseSubmitted)}
       </div>
     );
-  },
+  };
 
-  renderInteractionEl(question:QuestionT, onLog, onResponseSubmitted) {
+  renderInteractionEl = (question:QuestionT, onLog, onResponseSubmitted) => {
     const key = JSON.stringify(question);
 
     // Show student project
@@ -196,9 +200,9 @@ export default React.createClass({
       onLogMessage={onLog}
       onResponseSubmitted={onResponseSubmitted}
     />;
-  },
+  };
 
-  renderSummaryEl(questions:[QuestionT], responses) {
+  renderSummaryEl = (questions:[QuestionT], responses) => {
     return <CsFairSummary responses={responses} />;
-  }
-});
+  };
+}

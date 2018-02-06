@@ -1,39 +1,45 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import {ResponseTypes} from '../data/response_types.js';
 
 
 // This response allows choosing a Likert response with labels
-export default React.createClass({
-  displayName: 'LikertResponse',
+export default class extends React.Component {
+  props: {
+    onLogMessage: Function,
+    onResponseSubmitted: Function,
+    choices?: Array<string>,
+  };
 
-  propTypes: {
-    onLogMessage: React.PropTypes.func.isRequired,
-    onResponseSubmitted: React.PropTypes.func.isRequired,
-    choices: React.PropTypes.arrayOf(React.PropTypes.string)
-  },
+  static displayName = 'LikertResponse';
 
-  getDefaultProps() {
-    return {
-      choices: [
-        'Strongly disagree',
-        'Disagree',
-        'Somewhat disagree',
-        'Neither agree or disagree',
-        'Somewhat agree',
-        'Agree',
-        'Strongly agree'
-      ]
-    };
-  },
+  static propTypes = {
+    onLogMessage: PropTypes.func.isRequired,
+    onResponseSubmitted: PropTypes.func.isRequired,
+    choices: PropTypes.arrayOf(PropTypes.string)
+  };
 
-  onChoiceTapped(choice) {
+  static defaultProps = {
+    choices: [
+      'Strongly disagree',
+      'Disagree',
+      'Somewhat disagree',
+      'Neither agree or disagree',
+      'Somewhat agree',
+      'Agree',
+      'Strongly agree'
+    ]
+  };
+
+  onChoiceTapped = (choice) => {
     const choices = this.props.choices || [];
     const response = ResponseTypes.LIKERT_RESPONSE;
     this.props.onLogMessage(response.type, response.params({choice, choices}));
     this.props.onResponseSubmitted({choice, choices});
-  },
+  };
 
   render() {
     const {choices} = this.props;
@@ -53,7 +59,7 @@ export default React.createClass({
       </div>
     );
   }
-});
+}
 
 const styles = {
   textAreaContainer: {

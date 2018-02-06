@@ -1,19 +1,20 @@
 /* @flow weak */
 import React from 'react';
-
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
 import StudentCard from '../student_card.jsx';
 import HintCard from './hint_card.jsx';
 
 
 // Supports rendering a text student card as a prompt
-export default React.createClass({
+export default createReactClass({
   displayName: 'PromptsRenderer',
 
   propTypes: {
-    showStudentCard: React.PropTypes.bool.isRequired,
-    scaffolding: React.PropTypes.object.isRequired,
-    question: React.PropTypes.object.isRequired,
-    student: React.PropTypes.object
+    showStudentCard: PropTypes.bool.isRequired,
+    scaffolding: PropTypes.object.isRequired,
+    question: PropTypes.object.isRequired,
+    student: PropTypes.object
   },
 
   render() {

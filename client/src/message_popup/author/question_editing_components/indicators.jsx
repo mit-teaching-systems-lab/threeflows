@@ -9,19 +9,24 @@ import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 
-export default React.createClass({
-  displayName: 'Indicators',
+export default class extends React.Component {
+  props: {
+    indicator: Object,
+    onIndicatorChange: Function,
+  };
 
-  propTypes: {
+  static displayName = 'Indicators';
+
+  static propTypes = {
     indicator: PropTypes.object.isRequired,
     onIndicatorChange: PropTypes.func.isRequired
-  },
+  };
 
-  onRadioButtonGroupChanged(e) {
+  onRadioButtonGroupChanged = (e) => {
     this.props.onIndicatorChange(e.target.value);
-  },
+  };
 
-  render(){
+  render() {
     const {indicator} = this.props;
     return (
       <Paper style={styles.container}>
@@ -44,7 +49,7 @@ export default React.createClass({
       </Paper>
       );
   }
-});
+}
 
 const styles = {
   container: {

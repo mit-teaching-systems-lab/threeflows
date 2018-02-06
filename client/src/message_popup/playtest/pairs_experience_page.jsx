@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import uuid from 'uuid';
 
@@ -27,43 +29,50 @@ type ResponseT = {
 // and the display of instructions, questions, and summary.
 //
 // This is a CS scenario around pair programming dynamics.
-export default React.createClass({
-  displayName: 'PairsExperiencePage',
+export default class extends React.Component {
+  props: {
+    query: {
+      cohort?: string,
+      p?: string,
+    },
+    isForMeredith?: boolean,
+  };
 
-  propTypes: {
-    query: React.PropTypes.shape({
-      cohort: React.PropTypes.string,
-      p: React.PropTypes.string
+  state: *;
+  static displayName = 'PairsExperiencePage';
+
+  static propTypes = {
+    query: PropTypes.shape({
+      cohort: PropTypes.string,
+      p: PropTypes.string
     }).isRequired,
-    isForMeredith: React.PropTypes.bool
-  },
+    isForMeredith: PropTypes.bool
+  };
 
-  contextTypes: {
-    auth: React.PropTypes.object.isRequired
-  },
+  static contextTypes = {
+    auth: PropTypes.object.isRequired
+  };
 
-  getDefaultProps() {
-    return {
-      isForMeredith: false
-    };
-  },
+  static defaultProps = {
+    isForMeredith: false
+  };
 
-  // Cohort comes from URL
-  getInitialState() {
-    const contextEmail = this.context.auth.userProfile.email;
+  constructor(props, context) {
+    super(props, context);
+    const contextEmail = context.auth.userProfile.email;
     const email = contextEmail === "unknown@mit.edu" ? '' : contextEmail;
-    const cohortKey = this.props.query.cohort || 'default';
+    const cohortKey = props.query.cohort || 'default';
 
-    return {
+    this.state = {
       email,
       cohortKey,
       questions: null,
       sessionId: uuid.v4()
     };
-  },
+  }
 
   // Making questions from the cohort
-  onStart(email) {
+  onStart = (email) => {
     const {cohortKey} = this.state;
     const {isForMeredith} = this.props;
     const allQuestions = (isForMeredith)
@@ -78,9 +87,9 @@ export default React.createClass({
       questions,
       questionsHash
     });
-  },
+  };
 
-  onLogMessage(type, response:ResponseT) {
+  onLogMessage = (type, response:ResponseT) => {
     const {email, cohortKey, sessionId, questionsHash} = this.state;
     
     Api.logEvidence(type, {
@@ -91,7 +100,7 @@ export default React.createClass({
       questionsHash,
       name: email
     });
-  },
+  };
 
   render() {
     return (
@@ -99,9 +108,9 @@ export default React.createClass({
         {this.renderContent()}
       </SessionFrame>
     );
-  },
+  }
 
-  renderContent() {
+  renderContent = () => {
     const {questions} = this.state;
     if (!questions) return this.renderIntro();
 
@@ -111,9 +120,9 @@ export default React.createClass({
       summaryEl={this.renderClosingEl}
       onLogMessage={this.onLogMessage}
     />;
-  },
+  };
 
-  renderIntro() {
+  renderIntro = () => {
     const {isForMeredith} = this.props;
     const afterwardText = (isForMeredith)
       ? "Afterward you'll reflect and bring one part of the reflection to share in class on Tuesday 4/4."
@@ -128,10 +137,10 @@ export default React.createClass({
         </div>
       </IntroWithEmail>
     );
-  },
+  };
 
   // Show overview and context, ask for open response for scenario.
-  renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
+  renderQuestionEl = (question:QuestionT, onLog, onResponseSubmitted) => {
     const interactionEl = (question.ask)
       ? <MinimalOpenResponse
           forceResponse={question.force || false}
@@ -152,10 +161,10 @@ export default React.createClass({
         {interactionEl}
       </div>
     );
-  },
+  };
 
-  renderClosingEl(questions:[QuestionT], responses:[ResponseT]) {
+  renderClosingEl = (questions:[QuestionT], responses:[ResponseT]) => {
     const {email} = this.state;
     return <ResearchConsent email={email} onLogMessage={this.onLogMessage} />;
-  }
-});
+  };
+}

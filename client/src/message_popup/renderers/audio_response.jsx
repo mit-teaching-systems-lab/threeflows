@@ -1,5 +1,7 @@
 /* @flow weak */
 import React from 'react';
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import * as Colors from 'material-ui/styles/colors';
@@ -13,17 +15,17 @@ Component that handles recording an audio response.  It also
 handles saving the wav file to the server, and then ultimately
 passing back a URL to the audio as part of the response.
 */
-export default React.createClass({
+export default createReactClass({
   displayName: 'AudioResponse',
 
   propTypes: {
-    question: React.PropTypes.object.isRequired,
-    scaffolding: React.PropTypes.object.isRequired,
-    limitMs: React.PropTypes.number.isRequired,
-    elapsedMs: React.PropTypes.number.isRequired,
-    onLogMessage: React.PropTypes.func.isRequired,
-    onResponseSubmitted: React.PropTypes.func.isRequired,
-    responsePrompt: React.PropTypes.node.isRequired
+    question: PropTypes.object.isRequired,
+    scaffolding: PropTypes.object.isRequired,
+    limitMs: PropTypes.number.isRequired,
+    elapsedMs: PropTypes.number.isRequired,
+    onLogMessage: PropTypes.func.isRequired,
+    onResponseSubmitted: PropTypes.func.isRequired,
+    responsePrompt: PropTypes.node.isRequired
   },
 
   onDone(audioUrl) {

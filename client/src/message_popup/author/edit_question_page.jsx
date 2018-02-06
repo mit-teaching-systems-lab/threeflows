@@ -7,64 +7,62 @@ import {withStudents, withIndicator} from '../transformations.jsx';
 
 import QuestionPage from './question_page.jsx';
 
-export default React.createClass({
-  displayName: 'EditQuestionPage',
+export default class extends React.Component {
+  static displayName = 'EditQuestionPage';
 
-  propTypes: {
+  static propTypes = {
     questionId: PropTypes.string.isRequired,
-  },
+  };
 
-  getInitialState(){
-    return ({
-      loaded: false,
-      allQuestions: {
-        currentQuestions: [],
-        archivedQuestions: []
-      }
-    });
-  },
+  state = {
+    loaded: false,
+    allQuestions: {
+      currentQuestions: [],
+      archivedQuestions: []
+    }
+  };
 
-  componentDidMount(){
+  componentDidMount() {
     this.queryDatabase();
-  },
+  }
 
-  queryDatabase(){
+  queryDatabase = () => {
     Api.questionsQuery().end(this.onQuestionsReceived);
-  },
+  };
 
-  getNewID(){
+  getNewID = () => {
     const {allQuestions} = this.state;
     const allQuestionsFlat = allQuestions.currentQuestions.concat(allQuestions.archivedQuestions);
     const mostRecentQuestion = _.maxBy(allQuestionsFlat, question => question.id);
     const largestID = mostRecentQuestion !== undefined ? mostRecentQuestion.id : 0;
     return largestID + 1;
-  },
+  };
 
-  onQuestionsReceived(err, response){
+  onQuestionsReceived = (err, response) => {
     if(err){
       this.setState({loaded: true});
       return;
     }
     const allQuestions = JSON.parse(response.text).questions;
     this.setState({ loaded: true, allQuestions });
-  },
+  };
 
-  onEditQuestion(newQuestion, originalQuestion){
+  onEditQuestion = (newQuestion, originalQuestion) => {
     const {currentQuestions, archivedQuestions} = this.state.allQuestions;
     const question = {id: this.getNewID(), ...newQuestion};
     const newCurrentQuestions = currentQuestions.filter(question => question.id !== originalQuestion.id).concat(question);
     const newArchivedQuestions = archivedQuestions.concat(originalQuestion);
     Api.saveQuestions({currentQuestions: newCurrentQuestions, archivedQuestions: newArchivedQuestions});
-  },
+  };
 
-  onDeleteQuestion(originalQuestion){
+  onDeleteQuestion = (originalQuestion) => {
     const {currentQuestions, archivedQuestions} = this.state.allQuestions;
     const newCurrentQuestions = currentQuestions.filter(question => question.id !== originalQuestion.id);
     const newArchivedQuestions = archivedQuestions.concat(originalQuestion);
     Api.saveQuestions({currentQuestions: newCurrentQuestions, archivedQuestions: newArchivedQuestions});
-  },
+  };
 
-  render(){
+  render() {
     const {loaded, allQuestions} = this.state;
     const allQuestionsFlat =  allQuestions.currentQuestions.concat(allQuestions.archivedQuestions);
     const originalQuestion = _.find(withStudents(allQuestionsFlat).map(question => withIndicator(question)), question => question.id.toString() === this.props.questionId);
@@ -88,4 +86,4 @@ export default React.createClass({
       </div>
     );
   }
-});
+}

@@ -25,10 +25,10 @@ the chosen configuration back to `onSessionConfigured`.
 Callers can control which options are available
 by querystring options in `query`.
 */
-export default React.createClass({
-  displayName: 'ScaffoldingCard',
-  
-  propTypes: {
+export default class extends React.Component {
+  static displayName = 'ScaffoldingCard';
+
+  static propTypes = {
     scaffolding: PropTypes.shape({
       helpType: PropTypes.string.isRequired,
       shouldShowSummary: PropTypes.bool.isRequired
@@ -36,35 +36,37 @@ export default React.createClass({
     initialEmail: PropTypes.string.isRequired,
     query: PropTypes.object.isRequired,
     onSessionConfigured: PropTypes.func.isRequired
-  },
-  
-  getInitialState(){
-    const isSolutionMode = _.has(this.props.query, 'solution');
+  };
+
+  constructor(props) {
+    super(props);
+    const isSolutionMode = _.has(props.query, 'solution');
     const isAudioSupported = AudioCapture.isAudioSupported();
-    return ({
-      email: this.props.initialEmail,
+
+    this.state = {
+      email: props.initialEmail,
       sessionLength: 10,
       scaffolding: {
-        helpType: this.props.scaffolding.helpType,
-        shouldShowSummary: this.props.scaffolding.shouldShowSummary,
+        helpType: props.scaffolding.helpType,
+        shouldShowSummary: props.scaffolding.shouldShowSummary,
       },
       selectedIndicatorId: ALL_INDICATORS,
       isSolutionMode,
       responseModeKey: (isAudioSupported ? 'mixed' : 'text')
-    });
-  },
+    };
+  }
 
-  getQuestions(selectedIndicatorId){
+  getQuestions = (selectedIndicatorId) => {
     var {isSolutionMode} = this.state;
     const questions = (isSolutionMode || selectedIndicatorId === ALL_INDICATORS)
       ? withStudents(allQuestions)
       : questionsForIndicator(selectedIndicatorId);
     return questions;
-  },
+  };
 
   // This is not a pure function, it's not idempotent and can include
   // randomness.  It shouldn't be called within render methods.
-  drawResponseMode(question, scaffolding) {
+  drawResponseMode = (question, scaffolding) => {
     const {responseModeKey} = this.state;
     const isAudioSupported = AudioCapture.isAudioSupported();
     
@@ -73,22 +75,22 @@ export default React.createClass({
     if (responseModeKey === 'text') return 'text';
 
     return 'text';
-  },
+  };
 
-  drawResponsePrompt(question, scaffolding) {
+  drawResponsePrompt = (question, scaffolding) => {
     return 'Speak directly to the student';
-  },
+  };
 
   // This implementation is static
-  drawStudentCard(question, scaffolding) {
+  drawStudentCard = (question, scaffolding) => {
     return true;
-  },
+  };
 
-  onResponseModeChanged(event, responseModeKey) {
+  onResponseModeChanged = (event, responseModeKey) => {
     this.setState({ responseModeKey });
-  },
+  };
 
-  onSave(){
+  onSave = () => {
     const {scaffolding, email, selectedIndicatorId} = this.state;
     const questions = this.getQuestions(selectedIndicatorId);
     const questionsForSession = _.shuffle(questions.slice(0, this.state.sessionLength));
@@ -100,9 +102,9 @@ export default React.createClass({
       drawResponsePrompt: this.drawResponsePrompt,
       drawStudentCard: this.drawStudentCard
     });
-  },
-  
-  onIndicatorChanged(event, selectedIndicatorIdText){
+  };
+
+  onIndicatorChanged = (event, selectedIndicatorIdText) => {
     const selectedIndicatorId = _.toInteger(selectedIndicatorIdText);
     const newLength = this.getQuestions(selectedIndicatorId).length;
     var sessionLength = this.state.sessionLength;
@@ -110,19 +112,19 @@ export default React.createClass({
       sessionLength = newLength;
     }
     this.setState({sessionLength, selectedIndicatorId});
-  },
-  
-  onSliderChange(event, value){
+  };
+
+  onSliderChange = (event, value) => {
     this.setState({ sessionLength: value });
-  },
-  
-  onSummaryToggled(){ 
+  };
+
+  onSummaryToggled = () => { 
     var scaffolding = {...this.state.scaffolding};
     scaffolding.shouldShowSummary = !scaffolding.shouldShowSummary;
     this.setState({ scaffolding });
-  },
-  
-  onHelpToggled(event, value){
+  };
+
+  onHelpToggled = (event, value) => {
     var scaffolding = {...this.state.scaffolding};
     if (typeof value === 'boolean'){
       scaffolding.helpType = scaffolding.helpType === 'feedback' ? 'none' : 'feedback';
@@ -130,14 +132,14 @@ export default React.createClass({
       scaffolding.helpType = value;
     }
     this.setState({scaffolding});
-  },
+  };
 
-  onTextChanged(e) {
+  onTextChanged = (e) => {
     const email = e.target.value;
     this.setState({email});
-  },
-  
-  render(){
+  };
+
+  render() {
     const {query} = this.props;
     const {selectedIndicatorId, sessionLength, scaffolding} = this.state;
     const {shouldShowSummary, helpType} = scaffolding;
@@ -221,9 +223,9 @@ export default React.createClass({
         </div>  
       </div>
     );
-  },
+  }
 
-  renderIndicators() {
+  renderIndicators = () => {
     const {selectedIndicatorId} = this.state;
     const possibleIndicators = _.uniq(_.map(allQuestions, 'indicatorId')).map((id) => {
       return _.find(indicators, {id});
@@ -249,9 +251,9 @@ export default React.createClass({
         </RadioButtonGroup>
       </div>
     );
-  },
+  };
 
-  renderResponseModeChoice() {
+  renderResponseModeChoice = () => {
     const {responseModeKey} = this.state;
     return (
       <div>
@@ -268,8 +270,8 @@ export default React.createClass({
         </RadioButtonGroup>
       </div>
     );
-  }
-});
+  };
+}
 
 const styles = {
   container: {

@@ -7,20 +7,26 @@ import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';
 
-export default React.createClass({
-  displayName: 'Examples',
+export default class extends React.Component {
+  props: {
+    type: string,
+    examplesText: string,
+    onExamplesChange: Function,
+  };
 
-  propTypes: {
+  static displayName = 'Examples';
+
+  static propTypes = {
     type: PropTypes.string.isRequired,
     examplesText: PropTypes.string.isRequired,
     onExamplesChange: PropTypes.func.isRequired
-  },
+  };
 
-  onChange(e) {
+  onChange = (e) => {
     this.props.onExamplesChange(e.target.value);
-  },
+  };
 
-  render(){
+  render() {
     const {type, examplesText} = this.props;
     return (
       <Paper style={styles.container}>
@@ -39,7 +45,7 @@ export default React.createClass({
       </Paper>
       );
   }
-});
+}
 
 const styles = {
   container: {

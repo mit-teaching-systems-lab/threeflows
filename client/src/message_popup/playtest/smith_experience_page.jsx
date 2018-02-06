@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import uuid from 'uuid';
 import _ from 'lodash';
@@ -22,45 +24,51 @@ type ResponseT = {
 
 
 // This is a scenario around detecting microaggressions within the classroom.
-export default React.createClass({
-  displayName: 'SmithExperiencePage',
+export default class extends React.Component {
+  props: {
+    query: {
+      cohort?: string,
+      p?: string,
+      consent?: string,
+    },
+    facilitated: boolean,
+  };
 
-  propTypes: {
-    query: React.PropTypes.shape({
-      cohort: React.PropTypes.string,
-      p: React.PropTypes.string,
-      consent: React.PropTypes.string
+  state: *;
+  static displayName = 'SmithExperiencePage';
+
+  static propTypes = {
+    query: PropTypes.shape({
+      cohort: PropTypes.string,
+      p: PropTypes.string,
+      consent: PropTypes.string
     }).isRequired,
-    facilitated: React.PropTypes.bool.isRequired
-  },
+    facilitated: PropTypes.bool.isRequired
+  };
 
-  contextTypes: {
-    auth: React.PropTypes.object.isRequired
-  },
+  static contextTypes = {
+    auth: PropTypes.object.isRequired
+  };
 
+  static defaultProps = {
+    facilitated: false
+  };
 
-  getDefaultProps() {
-    return {
-      facilitated: false
-    };
-  },
-
-
-  // Cohort comes from URL
-  getInitialState() {
-    const contextEmail = this.context.auth.userProfile.email;
+  constructor(props, context) {
+    super(props, context);
+    const contextEmail = context.auth.userProfile.email;
     const email = contextEmail === "unknown@mit.edu" ? '' : contextEmail;
-    const cohortKey = this.props.query.cohort || 'default';
+    const cohortKey = props.query.cohort || 'default';
 
-    return {
+    this.state = {
       email,
       cohortKey,
       questions: null,
       sessionId: uuid.v4()
     };
-  },
+  }
 
-  getNextQuestion(questions, responses) {
+  getNextQuestion = (questions, responses) => {
     if (responses.length >= questions.length) {
       return null;
     }
@@ -73,21 +81,21 @@ export default React.createClass({
     }
 
     return question;
-  },
+  };
 
   // Returns an array of past notes for review as part of a feedback question.
   // This looks at all `notes` responses prior to `feedbackQuestionIndex`, only 
   // looking back until a previous `feedback` question, since there may be multiple
   // in the same scenario.
-  getNotesBeforeFeedbackIndex(questions, responses, feedbackQuestionIndex) {
+  getNotesBeforeFeedbackIndex = (questions, responses, feedbackQuestionIndex) => {
     const lastFeedbackIndex = _.findLastIndex(questions, 'feedback', feedbackQuestionIndex - 1);
     const startIndex = (lastFeedbackIndex === -1) ? 0 : lastFeedbackIndex + 1;
     const noteResponses = responses.slice(startIndex, feedbackQuestionIndex).filter(response => response.question.notes && response.responseText !== undefined);
     return noteResponses.map(response => response.responseText);
-  },
+  };
 
   // Making questions from the cohort
-  onStart(email) {
+  onStart = (email) => {
     const {cohortKey} = this.state;
     const {facilitated} = this.props;
     const allQuestions = smithScenario.questionsFor(cohortKey, {isFacilitated: facilitated});
@@ -99,9 +107,9 @@ export default React.createClass({
       questions,
       questionsHash
     });
-  },
+  };
 
-  onLogMessage(type, response:ResponseT) {
+  onLogMessage = (type, response:ResponseT) => {
     const {email, cohortKey, sessionId, questionsHash} = this.state;
     
     Api.logEvidence(type, {
@@ -112,7 +120,7 @@ export default React.createClass({
       questionsHash,
       name: email
     });
-  },
+  };
 
   render() {
     return (
@@ -120,9 +128,9 @@ export default React.createClass({
         {this.renderContent()}
       </SessionFrame>
     );
-  },
+  }
 
-  renderContent() {
+  renderContent = () => {
     const {questions} = this.state;
     if (!questions) return this.renderIntro();
 
@@ -133,10 +141,9 @@ export default React.createClass({
       summaryEl={this.renderClosingEl}
       onLogMessage={this.onLogMessage}
     />;
-  },
+  };
 
-
-  renderIntro() {
+  renderIntro = () => {
     return (
       <IntroWithEmail defaultEmail={this.state.email} onDone={this.onStart}>
         <div>
@@ -147,16 +154,16 @@ export default React.createClass({
         </div>
       </IntroWithEmail>
     );
-  },
+  };
 
-  renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
+  renderQuestionEl = (question:QuestionT, onLog, onResponseSubmitted) => {
     return <QuestionInterpreter
       question={question}
       onLog={onLog}
       onResponseSubmitted={onResponseSubmitted} />;
-  },
+  };
 
-  renderClosingEl(questions:[QuestionT], responses:[ResponseT]) {
+  renderClosingEl = (questions:[QuestionT], responses:[ResponseT]) => {
     const {email} = this.state;
     const {consent} = this.props.query;
     if (consent && consent.toLowerCase() === 'false') {
@@ -172,8 +179,8 @@ export default React.createClass({
     }
 
     return <ResearchConsent email={email} onLogMessage={this.onLogMessage} />;
-  }
-});
+  };
+}
 
 const styles = {
   doneTitle: {

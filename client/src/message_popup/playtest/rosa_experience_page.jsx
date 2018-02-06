@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import uuid from 'uuid';
 import _ from 'lodash';
@@ -22,37 +24,44 @@ type ResponseT = {
 
 
 // This is a scenario around bubble sort and classroom management.
-export default React.createClass({
-  displayName: 'RosaExperiencePage',
+export default class extends React.Component {
+  props: {query: {
+    cohort?: string,
+    p?: string,
+    text?: string,
+  }};
 
-  propTypes: {
-    query: React.PropTypes.shape({
-      cohort: React.PropTypes.string,
-      p: React.PropTypes.string,
-      text: React.PropTypes.string
+  state: *;
+  static displayName = 'RosaExperiencePage';
+
+  static propTypes = {
+    query: PropTypes.shape({
+      cohort: PropTypes.string,
+      p: PropTypes.string,
+      text: PropTypes.string
     }).isRequired
-  },
+  };
 
-  contextTypes: {
-    auth: React.PropTypes.object.isRequired
-  },
+  static contextTypes = {
+    auth: PropTypes.object.isRequired
+  };
 
-  // Cohort comes from URL
-  getInitialState() {
-    const contextEmail = this.context.auth.userProfile.email;
+  constructor(props, context) {
+    super(props, context);
+    const contextEmail = context.auth.userProfile.email;
     const email = contextEmail === "unknown@mit.edu" ? '' : contextEmail;
-    const cohortKey = this.props.query.cohort || 'default';
+    const cohortKey = props.query.cohort || 'default';
 
-    return {
+    this.state = {
       email,
       cohortKey,
       questions: null,
       sessionId: uuid.v4()
     };
-  },
+  }
 
   // Making questions from the cohort
-  onStart(email) {
+  onStart = (email) => {
     const {cohortKey} = this.state;
     const allQuestions = RosaScenario.questionsFor(cohortKey);
 
@@ -64,9 +73,9 @@ export default React.createClass({
       questions,
       questionsHash
     });
-  },
+  };
 
-  onLogMessage(type, response:ResponseT) {
+  onLogMessage = (type, response:ResponseT) => {
     const {email, cohortKey, sessionId, questionsHash} = this.state;
     
     Api.logEvidence(type, {
@@ -77,7 +86,7 @@ export default React.createClass({
       questionsHash,
       name: email
     });
-  },
+  };
 
   render() {
     return (
@@ -85,9 +94,9 @@ export default React.createClass({
         {this.renderContent()}
       </SessionFrame>
     );
-  },
+  }
 
-  renderContent() {
+  renderContent = () => {
     const {questions} = this.state;
     if (!questions) return this.renderIntro();
 
@@ -97,10 +106,9 @@ export default React.createClass({
       summaryEl={this.renderClosingEl}
       onLogMessage={this.onLogMessage}
     />;
-  },
+  };
 
-
-  renderIntro() {
+  renderIntro = () => {
     return (
       <IntroWithEmail defaultEmail={this.state.email} onDone={this.onStart}>
         <div>
@@ -111,22 +119,22 @@ export default React.createClass({
         </div>
       </IntroWithEmail>
     );
-  },
+  };
 
-  renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
+  renderQuestionEl = (question:QuestionT, onLog, onResponseSubmitted) => {
     const forceText = _.has(this.props.query, 'text');
     return <QuestionInterpreter
       question={question}
       onLog={onLog}
       forceText={forceText}
       onResponseSubmitted={onResponseSubmitted} />;
-  },
+  };
 
-  renderClosingEl(questions:[QuestionT], responses:[ResponseT]) {
+  renderClosingEl = (questions:[QuestionT], responses:[ResponseT]) => {
     return (
       <ResponseSummary responses={responses}>
         You've finished the simulation. Congrats! Below, you'll find your responses to the anticipate questions, the scenes with Rosa, and the reflection questions.
       </ResponseSummary>
     );
-  }
-});
+  };
+}

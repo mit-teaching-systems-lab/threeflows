@@ -4,6 +4,7 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 
 import React from 'react';
+import createReactClass from 'create-react-class';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import 'velocity-animate/velocity.ui';
 import uuid from 'uuid';
@@ -29,7 +30,7 @@ import FeedbackForm from './feedback_form.jsx';
 /*
 For public demos.
 */
-export default React.createClass({
+export default createReactClass({
   displayName: 'DemoPage',
 
   contextTypes: {

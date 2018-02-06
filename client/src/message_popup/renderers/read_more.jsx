@@ -1,40 +1,43 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 
 /*
   Component that displays a text block that can be expanded or collapsed.
 */
-export default React.createClass({
-  displayName: 'ReadMore',
+export default class extends React.Component {
+  props: {
+    fulltext: $FlowFixMe,
+    charCount?: $FlowFixMe,
+  };
 
-  propTypes: {
-    fulltext: React.PropTypes.node.isRequired,
-    charCount: React.PropTypes.node,
-  },
+  static displayName = 'ReadMore';
 
-  getDefaultProps() {
-    return {
-      charCount: 140
-    };
-  },
+  static propTypes = {
+    fulltext: PropTypes.node.isRequired,
+    charCount: PropTypes.node,
+  };
 
-  getInitialState() {
-    return {
-      expanded: false
-    };
-  },
+  static defaultProps = {
+    charCount: 140
+  };
 
-  expand() {
+  state = {
+    expanded: false
+  };
+
+  expand = () => {
     this.setState({
       expanded: true
     });
-  },
+  };
 
-  collapse() {
+  collapse = () => {
     this.setState({
       expanded: false
     });
-  },
+  };
 
   render() {    
     if (this.props.fulltext.length <= this.props.charCount) {
@@ -53,5 +56,5 @@ export default React.createClass({
           <a href='#' onClick={this.expand}>read more</a>
         </div>);
     }
-  },
-});
+  }
+}

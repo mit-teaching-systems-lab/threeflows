@@ -36,28 +36,32 @@ const Parts = {
 
 
 // Adapted from HMTCA session, for use in other workshops or as a public demo.
-export default React.createClass({
-  displayName: 'ClimagePage',
+export default class extends React.Component {
+  props: {query: {
+    cohort?: string,
+    p?: string,
+    workshop?: string,
+  }};
 
-  propTypes: {
+  static displayName = 'ClimagePage';
+
+  static propTypes = {
     query: PropTypes.shape({
       cohort: PropTypes.string,
       p: PropTypes.string,
       workshop: PropTypes.string
     }).isRequired
-  },
+  };
 
   // User types cohort for team
-  getInitialState() {
-    return {
-      cohortKey: 'EQUITY_DEMO',
-      identifier: 'EQUITY_DEMO:' + uuid.v4(),
-      workshop: this.props.query.workshop || 'defaultWorkshop',
-      questions: null,
-      sessionId: uuid.v4(),
-      currentPart: Parts.PRACTICE
-    };
-  },
+  state = {
+    cohortKey: 'EQUITY_DEMO',
+    identifier: 'EQUITY_DEMO:' + uuid.v4(),
+    workshop: this.props.query.workshop || 'defaultWorkshop',
+    questions: null,
+    sessionId: uuid.v4(),
+    currentPart: Parts.PRACTICE
+  };
 
   // This is the key for a "game session we want to later review."
   // It's built from (cohort, workshop), so that each cohort of those has its own
@@ -68,12 +72,12 @@ export default React.createClass({
   //
   // Different workshop sessions on different days can use URLs to different workshop
   // values for isolation.
-  applesKey() {
+  applesKey = () => {
     const {cohortKey, workshop} = this.state;
     return [cohortKey, workshop].join(':');
-  },
+  };
 
-  firstSlide() {
+  firstSlide = () => {
     return { el: 
       <div>
         <div><b>PART 1: Practice Individually</b></div>
@@ -85,18 +89,18 @@ export default React.createClass({
         <div>Once you’re finished with your responses, You'll review how people have responded and discuss.  Clicking on “Ok” will take you to your first scene. Ready?</div>
       </div>
     };
-  },
+  };
 
-  onCohortKeyChanged(e, menuItemKey, cohortKey) {
+  onCohortKeyChanged = (e, menuItemKey, cohortKey) => {
     this.setState({cohortKey});
-  },
+  };
 
-  onIdentifierChanged(e) {
+  onIdentifierChanged = (e) => {
     this.setState({ identifier: e.target.value });
-  },
+  };
 
   // Making questions from the cohort
-  onStart(e) {
+  onStart = (e) => {
     e.preventDefault();
     const {cohortKey} = this.state;
     const allQuestions = HMTCAScenarios.questionsFor(cohortKey, { firstSlide: this.firstSlide() });
@@ -108,21 +112,21 @@ export default React.createClass({
       questions,
       questionsHash
     });
-  },
+  };
 
-  onShowGroupInstructions() {
+  onShowGroupInstructions = () => {
     this.setState({ currentPart: Parts.GROUP_INSTRUCTIONS });
-  },
+  };
 
-  onStartGroupReview() {
+  onStartGroupReview = () => {
     this.setState({ currentPart: Parts.GROUP_REVIEW });
-  },
+  };
 
-  onGroupReviewDone() {
+  onGroupReviewDone = () => {
     this.setState({ currentPart: Parts.FINAL_INSTRUCTIONS });
-  },
+  };
 
-  onLogMessage(type, response) {
+  onLogMessage = (type, response) => {
     const {
       identifier,
       cohortKey,
@@ -149,7 +153,7 @@ export default React.createClass({
       questionsHash,
       identifier
     });
-  },
+  };
 
   render() {
     return (
@@ -157,9 +161,9 @@ export default React.createClass({
         {this.renderContent()}
       </SessionFrame>
     );
-  },
+  }
 
-  renderContent() {
+  renderContent = () => {
     const {questions, currentPart} = this.state;
     if (currentPart === Parts.PRACTICE) {
       if (!questions) return this.renderIntro();
@@ -174,9 +178,9 @@ export default React.createClass({
     if (currentPart === Parts.GROUP_INSTRUCTIONS) return this.renderGroupInstructions();
     if (currentPart === Parts.GROUP_REVIEW) return this.renderGroupReview();
     if (currentPart === Parts.FINAL_INSTRUCTIONS) return this.renderFinalInstructions();
-  },
+  };
 
-  renderIntro() {
+  renderIntro = () => {
     return (
       <VelocityTransitionGroup enter={{animation: "callout.pulse", duration: 500}} leave={{animation: "slideUp"}} runOnMount={true}>
         <form onSubmit={this.onStart}>
@@ -200,9 +204,9 @@ export default React.createClass({
         </form>
       </VelocityTransitionGroup>
     );
-  },
+  };
 
-  renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
+  renderQuestionEl = (question:QuestionT, onLog, onResponseSubmitted) => {
     const forceText = _.has(this.props.query, 'text');
     return (
       <div>
@@ -213,9 +217,9 @@ export default React.createClass({
           onResponseSubmitted={onResponseSubmitted} />
       </div>
     );
-  },
+  };
 
-  renderPauseEl(questions:[QuestionT], responses:[ResponseT]) {
+  renderPauseEl = (questions:[QuestionT], responses:[ResponseT]) => {
     return (
       <div style={{margin: 20}}>
         <div style={{paddingBottom: 20}}>That's the end of Part 1.  Click to proceeed.</div>
@@ -225,9 +229,9 @@ export default React.createClass({
           onTouchTap={this.onShowGroupInstructions} />
       </div>
     );
-  },
+  };
 
-  renderGroupInstructions() {
+  renderGroupInstructions = () => {
     return (
       <div style={{margin: 20}}>
         <div>
@@ -247,16 +251,16 @@ export default React.createClass({
         </div>
       </div>
     );
-  },
+  };
 
-  renderGroupReview() {
+  renderGroupReview = () => {
     return <GroupReview
       prompt="Scroll through and discuss."
       applesKey={this.applesKey()}
       onDone={this.onGroupReviewDone} />;
-  },
+  };
 
-  renderFinalInstructions() {
+  renderFinalInstructions = () => {
     return (
       <div style={styles.instructions}>
         <p><b>PART 3: Discuss assumptions</b></p>
@@ -268,8 +272,8 @@ export default React.createClass({
         <div>If you have time, capture the main points of your discussion on the poster board, to share it out with the whole group after.</div>
       </div>
     );
-  }
-});
+  };
+}
 
 const styles = {
   instructions: {

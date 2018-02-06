@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import uuid from 'uuid';
 import _ from 'lodash';
@@ -38,28 +40,32 @@ const Parts = {
 
 
 // This is the flow for the HMTCA breakout session
-export default React.createClass({
-  displayName: 'HMTCAExperiencePage',
+export default class extends React.Component {
+  props: {query: {
+    cohort?: string,
+    p?: string,
+    workshop?: string,
+  }};
 
-  propTypes: {
-    query: React.PropTypes.shape({
-      cohort: React.PropTypes.string,
-      p: React.PropTypes.string,
-      workshop: React.PropTypes.string
+  static displayName = 'HMTCAExperiencePage';
+
+  static propTypes = {
+    query: PropTypes.shape({
+      cohort: PropTypes.string,
+      p: PropTypes.string,
+      workshop: PropTypes.string
     }).isRequired
-  },
+  };
 
   // User types cohort for team
-  getInitialState() {
-    return {
-      cohortKey: this.props.query.cohort || '',
-      identifier: '',
-      workshop: this.props.query.workshop || 'defaultWorkshop',
-      questions: null,
-      sessionId: uuid.v4(),
-      currentPart: Parts.PRACTICE
-    };
-  },
+  state = {
+    cohortKey: this.props.query.cohort || '',
+    identifier: '',
+    workshop: this.props.query.workshop || 'defaultWorkshop',
+    questions: null,
+    sessionId: uuid.v4(),
+    currentPart: Parts.PRACTICE
+  };
 
   // This is the key for a "game session we want to later review."
   // It's built from (cohort, workshop), so that each cohort of those has its own
@@ -70,27 +76,27 @@ export default React.createClass({
   //
   // Different workshop sessions on different days can use URLs to different workshop
   // values for isolation.
-  applesKey() {
+  applesKey = () => {
     const {cohortKey, workshop} = this.state;
     return [cohortKey, workshop].join(':');
-  },
+  };
 
   // Could make this smarter and have it coordinate across different users to
   // allow them all to advance n minutes after the first session started.
-  shouldAllowJumpAhead() {
+  shouldAllowJumpAhead = () => {
     return true;
-  },
+  };
 
-  onCohortKeyChanged(e, menuItemKey, cohortKey) {
+  onCohortKeyChanged = (e, menuItemKey, cohortKey) => {
     this.setState({cohortKey});
-  },
+  };
 
-  onIdentifierChanged(e) {
+  onIdentifierChanged = (e) => {
     this.setState({ identifier: e.target.value });
-  },
+  };
 
   // Making questions from the cohort
-  onStart(e) {
+  onStart = (e) => {
     e.preventDefault();
     const {cohortKey} = this.state;
     const allQuestions = HMTCAScenarios.questionsFor(cohortKey);
@@ -102,21 +108,21 @@ export default React.createClass({
       questions,
       questionsHash
     });
-  },
+  };
 
-  onShowGroupInstructions() {
+  onShowGroupInstructions = () => {
     this.setState({ currentPart: Parts.GROUP_INSTRUCTIONS });
-  },
+  };
 
-  onStartGroupReview() {
+  onStartGroupReview = () => {
     this.setState({ currentPart: Parts.GROUP_REVIEW });
-  },
+  };
 
-  onGroupReviewDone() {
+  onGroupReviewDone = () => {
     this.setState({ currentPart: Parts.FINAL_INSTRUCTIONS });
-  },
+  };
 
-  onLogMessage(type, response) {
+  onLogMessage = (type, response) => {
     const {
       identifier,
       cohortKey,
@@ -143,7 +149,7 @@ export default React.createClass({
       questionsHash,
       identifier
     });
-  },
+  };
 
   render() {
     return (
@@ -151,9 +157,9 @@ export default React.createClass({
         {this.renderContent()}
       </SessionFrame>
     );
-  },
+  }
 
-  renderContent() {
+  renderContent = () => {
     const {questions, currentPart} = this.state;
     if (currentPart === Parts.PRACTICE) {
       if (!questions) return this.renderIntro();
@@ -168,9 +174,9 @@ export default React.createClass({
     if (currentPart === Parts.GROUP_INSTRUCTIONS) return this.renderGroupInstructions();
     if (currentPart === Parts.GROUP_REVIEW) return this.renderGroupReview();
     if (currentPart === Parts.FINAL_INSTRUCTIONS) return this.renderFinalInstructions();
-  },
+  };
 
-  renderIntro() {
+  renderIntro = () => {
     return (
       <VelocityTransitionGroup enter={{animation: "callout.pulse", duration: 500}} leave={{animation: "slideUp"}} runOnMount={true}>
         <form onSubmit={this.onStart}>
@@ -214,9 +220,9 @@ export default React.createClass({
         </form>
       </VelocityTransitionGroup>
     );
-  },
+  };
 
-  renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
+  renderQuestionEl = (question:QuestionT, onLog, onResponseSubmitted) => {
     const forceText = _.has(this.props.query, 'text');
     return (
       <div>
@@ -228,9 +234,9 @@ export default React.createClass({
         {this.shouldAllowJumpAhead() && this.renderJumpAhead()}
       </div>
     );
-  },
+  };
 
-  renderJumpAhead() {
+  renderJumpAhead = () => {
     return (
       <div style={{marginTop: 200}}>
         <Divider />
@@ -242,9 +248,9 @@ export default React.createClass({
         </div>
       </div>
     );
-  },
+  };
 
-  renderPauseEl(questions:[QuestionT], responses:[ResponseT]) {
+  renderPauseEl = (questions:[QuestionT], responses:[ResponseT]) => {
     return (
       <div style={{margin: 20}}>
         <div style={{paddingBottom: 20}}>If you’ve made it to this screen, you’ve finished responding to all the scenes. If you’ve finished early, wait for your whole group to finish before proceeding to Part 2. Once your whole group has finished, click on “Start Part 2.”</div>
@@ -253,9 +259,9 @@ export default React.createClass({
           onTouchTap={this.onShowGroupInstructions} />
       </div>
     );
-  },
+  };
 
-  renderGroupInstructions() {
+  renderGroupInstructions = () => {
     return (
       <div style={{margin: 20}}>
         <div>
@@ -279,16 +285,16 @@ export default React.createClass({
         </div>
       </div>
     );
-  },
+  };
 
-  renderGroupReview() {
+  renderGroupReview = () => {
     return <GroupReview
       prompt="Scroll through, discuss and capture."
       applesKey={this.applesKey()}
       onDone={this.onGroupReviewDone} />;
-  },
+  };
 
-  renderFinalInstructions() {
+  renderFinalInstructions = () => {
     return (
       <div style={styles.instructions}>
         <p><b>PART 3: Discuss assumptions and capture</b> (15 minutes)</p>
@@ -302,8 +308,8 @@ export default React.createClass({
         <div>We'll come knock at the door and get you when it's time to come back to the group.</div>
       </div>
     );
-  }
-});
+  };
+}
 
 const styles = {
   instructions: {

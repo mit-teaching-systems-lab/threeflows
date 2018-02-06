@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 
 import RaisedButton from 'material-ui/RaisedButton';
@@ -14,37 +16,44 @@ Users can't review their responses.
 This component also handles saving the wav file to the server, and then ultimately
 passing back a URL to the audio as part of the response.
 */
-export default React.createClass({
-  displayName: 'MinimalAudioResponse',
+export default class extends React.Component {
+  props: {
+    onLogMessage: Function,
+    onResponseSubmitted: Function,
+    forceResponse?: boolean,
+    responsePrompt?: string,
+    recordText?: string,
+    ignoreText?: string,
+  };
 
-  propTypes: {
-    onLogMessage: React.PropTypes.func.isRequired,
-    onResponseSubmitted: React.PropTypes.func.isRequired,
-    forceResponse: React.PropTypes.bool,
-    responsePrompt: React.PropTypes.string,
-    recordText: React.PropTypes.string,
-    ignoreText: React.PropTypes.string
-  },
+  static displayName = 'MinimalAudioResponse';
 
-  getDefaultProps() {
-    return {
-      forceResponse: false,
-      responsePrompt: 'Respond.',
-      recordText: 'Record',
-      ignoreText: 'Say nothing'
-    };
-  },
+  static propTypes = {
+    onLogMessage: PropTypes.func.isRequired,
+    onResponseSubmitted: PropTypes.func.isRequired,
+    forceResponse: PropTypes.bool,
+    responsePrompt: PropTypes.string,
+    recordText: PropTypes.string,
+    ignoreText: PropTypes.string
+  };
 
-  onDone({uploadedUrl, downloadUrl}) {
+  static defaultProps = {
+    forceResponse: false,
+    responsePrompt: 'Respond.',
+    recordText: 'Record',
+    ignoreText: 'Say nothing'
+  };
+
+  onDone = ({uploadedUrl, downloadUrl}) => {
     const audioUrl = uploadedUrl;
     this.props.onLogMessage('message_popup_audio_response', {audioUrl});
     this.props.onResponseSubmitted({audioUrl, downloadUrl});
-  },
+  };
 
-  onIgnoreTapped() {
+  onIgnoreTapped = () => {
     this.props.onLogMessage('message_popup_audio_ignore');
     this.props.onResponseSubmitted({ignore: true});
-  },
+  };
 
   render() {
     return (
@@ -59,9 +68,9 @@ export default React.createClass({
         />
       </div>
     );
-  },
+  }
 
-  renderStart({onRecord}) {
+  renderStart = ({onRecord}) => {
     const {forceResponse} = this.props;
 
     return (
@@ -71,9 +80,9 @@ export default React.createClass({
         {!forceResponse && <RaisedButton key="ignore" onTouchTap={this.onIgnoreTapped} label={this.props.ignoreText} />}
       </div>
     );
-  },
+  };
 
-  renderRecording({onDone}) {
+  renderRecording = ({onDone}) => {
     return (
       <div>
         <div style={styles.instruction}></div>
@@ -81,20 +90,20 @@ export default React.createClass({
         <div style={{...styles.recordingMessage, color: Colors.accent1Color}}>Recording...</div>
       </div>
     );
-  },
+  };
 
   // TODO(kr) hack
-  renderReviewing({blob, downloadUrl, onSubmit, onRetry}) {
+  renderReviewing = ({blob, downloadUrl, onSubmit, onRetry}) => {
     window.setTimeout(onSubmit, 0);
     return null;
-  },
+  };
 
   // TODO(kr) hack
-  renderDone({uploadedUrl}) {
+  renderDone = ({uploadedUrl}) => {
     window.setTimeout(this.onDone.bind(this, uploadedUrl), 0);
     return null;
-  }
-});
+  };
+}
 
 const styles = {
   container: {

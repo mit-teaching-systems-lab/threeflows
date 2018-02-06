@@ -13,16 +13,17 @@ import * as Routes from '../routes.js';
 
 
 // Frame for the Home page screens, with nav bar, logo and layout.
-export default React.createClass({
-  displayName: 'HomeFrame',
+export default class extends React.Component {
+  props: {children?: $FlowFixMe};
+  static displayName = 'HomeFrame';
 
-  propTypes: {
+  static propTypes = {
     children: PropTypes.node
-  },
+  };
 
-  onTappedMenu(e) {
+  onTappedMenu = (e) => {
     Routes.navigate('/');
-  },
+  };
 
   render() {
     return (
@@ -42,9 +43,9 @@ export default React.createClass({
         </ResponsiveFrame>
       </div>
     );
-  },
+  }
 
-  renderContent() {
+  renderContent = () => {
     const {children} = this.props;
 
     return (
@@ -62,8 +63,8 @@ export default React.createClass({
         </div>
       </div>
     );
-  }
-});
+  };
+}
 
 const styles = {
   page: {

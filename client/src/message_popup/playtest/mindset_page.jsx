@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import uuid from 'uuid';
 import hash from '../../helpers/hash.js';
@@ -35,34 +37,36 @@ const Scenarios = {
 
 
 // Single-shot scenarios, around belonging mindset.
-export default React.createClass({
-  displayName: 'MindsetPage',
+export default class extends React.Component {
+  state: *;
+  static displayName = 'MindsetPage';
 
-  contextTypes: {
-    auth: React.PropTypes.object.isRequired
-  },
+  static contextTypes = {
+    auth: PropTypes.object.isRequired
+  };
 
-  getInitialState() {
-    const contextEmail = this.context.auth.userProfile.email;
+  constructor(props, context) {
+    super(props, context);
+    const contextEmail = context.auth.userProfile.email;
     const email = contextEmail === "unknown@mit.edu" ? '' : contextEmail;
 
-    return {
+    this.state = {
       email,
       questions: null,
       sessionId: uuid.v4()
     };
-  },
+  }
 
   // Making the cohort and questions is the key bit here.
-  onStart(email:string) {
+  onStart = (email:string) => {
     const questions = Scenarios.questions();
     this.setState({
       email,
       questions
     });
-  },
+  };
 
-  onLogMessage(type:string, response:any) {
+  onLogMessage = (type:string, response:any) => {
     const {email, sessionId} = this.state;
     Api.logEvidence(type, {
       ...response,
@@ -71,7 +75,7 @@ export default React.createClass({
       name: email,
       clientTimestampMs: new Date().getTime(),
     });
-  },
+  };
 
   render() {
     return (
@@ -79,9 +83,9 @@ export default React.createClass({
         {this.renderContent()}
       </SessionFrame>
     );
-  },
+  }
 
-  renderContent() {
+  renderContent = () => {
     const {questions} = this.state;
     if (!questions) return this.renderIntro();
 
@@ -91,9 +95,9 @@ export default React.createClass({
       summaryEl={this.renderSummaryEl}
       onLogMessage={this.onLogMessage}
     />;
-  },
+  };
 
-  renderIntro() {
+  renderIntro = () => {
     return (
       <IntroWithEmail defaultEmail={this.state.email} onDone={this.onStart}>
         <div>
@@ -104,9 +108,9 @@ export default React.createClass({
         </div>
       </IntroWithEmail>
     );
-  },
+  };
 
-  renderQuestionEl(question, onLog, onResponseSubmitted) {
+  renderQuestionEl = (question, onLog, onResponseSubmitted) => {
     return (
       <div key={question.id}>
         <PlainTextQuestion question={question} />
@@ -116,9 +120,9 @@ export default React.createClass({
           onResponseSubmitted={onResponseSubmitted} />
       </div>
     );
-  },
+  };
 
-  renderSummaryEl(questions, responses) {
+  renderSummaryEl = (questions, responses) => {
     const quizUrl = 'https://www.mindsetkit.org/belonging/cues-belonging/quiz-classroom-scenarios';
     return (
       <div style={{padding: 20}}>
@@ -126,5 +130,5 @@ export default React.createClass({
         <div style={{marginTop: 20, marginBottom: 50}}>This scenario was adapted from a <a href={quizUrl}>MindsetKit quiz</a>.</div>
       </div>
     );
-  }
-});
+  };
+}

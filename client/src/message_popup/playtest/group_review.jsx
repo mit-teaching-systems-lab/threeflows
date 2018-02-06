@@ -1,4 +1,6 @@
 // TODO(kr) flow typing disabled because of error in refreshTimer typing
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import _ from 'lodash';
 
@@ -14,52 +16,50 @@ import RaisedButton from 'material-ui/RaisedButton';
 // Responses are grouped by the `applesKey` (this was originally part of a feature
 // that worked like the game Apples-to-Apples), and requires that responses
 // were logged in a particular format and with the same `applesKey`.
-export default React.createClass({
-  displayName: 'GroupReview',
+export default class extends React.Component {
+  static displayName = 'GroupReview';
 
-  propTypes: {
-    prompt: React.PropTypes.string.isRequired,
-    applesKey: React.PropTypes.string.isRequired,
-    onDone: React.PropTypes.func.isRequired
-  },
+  static propTypes = {
+    prompt: PropTypes.string.isRequired,
+    applesKey: PropTypes.string.isRequired,
+    onDone: PropTypes.func.isRequired
+  };
 
-  getInitialState() {
-    return {
-      hasLoaded: false,
-      applesResponses: null
-    };
-  },
+  state = {
+    hasLoaded: false,
+    applesResponses: null
+  };
 
   // This is where we could add a timer using setInterval to repeatedly call the
   // method that refreshes the responses (and then add a componentWillUnmount to cleanup).
   componentDidMount() {
     this.refreshResponses();
     this.refreshTimer = setInterval(this.refreshResponses,5000);
-  },
+  }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     clearInterval(this.refreshTimer);
-  },
+  }
 
-  refreshTimer: (null: ?number),
+  refreshTimer: ?number = null;
 
-  refreshResponses() {
+  refreshResponses = () => {
     const {applesKey} = this.props;
     Api.getApples(applesKey).end(this.onResponsesReceived);
-  },
+  };
 
-  onButtonTapped() {
+  onButtonTapped = () => {
     this.props.onDone();
-  },
+  };
 
-  onResponsesReceived(err, response){
+  onResponsesReceived = (err, response) => {
     if (err){
       this.setState({ hasLoaded: true });
       return;
     }
     const applesResponses = JSON.parse(response.text);
     this.setState({ hasLoaded: true, applesResponses });
-  },
+  };
 
   render() {
     const {prompt} = this.props;
@@ -110,7 +110,7 @@ export default React.createClass({
       </div>
     );
   }
-});
+}
 
 const styles = {
   instructions: {

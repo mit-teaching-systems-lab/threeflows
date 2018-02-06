@@ -1,6 +1,10 @@
-/* @flow weak */
 import _ from 'lodash';
+
+/* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
+import createReactClass from 'create-react-class';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import 'velocity-animate/velocity.ui';
 import uuid from 'uuid';
@@ -29,16 +33,16 @@ import {playtestQuestions} from '../questions.js';
 /*
 Shows the MessagePopup game
 */
-export default React.createClass({
+export default createReactClass({
   displayName: 'MessagePopupExperiencePage',
 
   propTypes: {
-    query: React.PropTypes.object.isRequired,
-    cohortKey: React.PropTypes.string.isRequired
+    query: PropTypes.object.isRequired,
+    cohortKey: PropTypes.string.isRequired
   },
 
   contextTypes: {
-    auth: React.PropTypes.object.isRequired
+    auth: PropTypes.object.isRequired
   },
 
   getInitialState() {

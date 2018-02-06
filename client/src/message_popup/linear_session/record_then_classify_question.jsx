@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 
 import PlainTextQuestion from '../renderers/plain_text_question.jsx';
@@ -6,16 +8,24 @@ import OpenThenClassifyResponse from './open_then_classify_response.jsx';
 
 
 // Render plain question with OpenThenClassifyResponse.
-export default React.createClass({
-  displayName: 'RecordThenClassifyQuestion',
+export default class extends React.Component {
+  props: {
+    question: Object,
+    onLogMessage: Function,
+    onResponseSubmitted: Function,
+    skipAudioRecording?: boolean,
+    forceResponse?: boolean,
+  };
 
-  propTypes: {
-    question: React.PropTypes.object.isRequired,
-    onLogMessage: React.PropTypes.func.isRequired,
-    onResponseSubmitted: React.PropTypes.func.isRequired,
-    skipAudioRecording: React.PropTypes.bool,
-    forceResponse: React.PropTypes.bool
-  },
+  static displayName = 'RecordThenClassifyQuestion';
+
+  static propTypes = {
+    question: PropTypes.object.isRequired,
+    onLogMessage: PropTypes.func.isRequired,
+    onResponseSubmitted: PropTypes.func.isRequired,
+    skipAudioRecording: PropTypes.bool,
+    forceResponse: PropTypes.bool
+  };
 
   render() {
     const {
@@ -39,4 +49,4 @@ export default React.createClass({
       </div>
     );
   }
-});
+}

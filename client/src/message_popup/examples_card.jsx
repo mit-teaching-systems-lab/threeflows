@@ -5,15 +5,22 @@ import React from 'react';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 
 
-export default React.createClass({
-  displayName: 'ExamplesCard',
+export default class extends React.Component {
+  props: {
+    examples: Array<$FlowFixMe>,
+    titleText: string,
+    style?: Object,
+    cardStyle?: Object,
+  };
 
-  propTypes: {
+  static displayName = 'ExamplesCard';
+
+  static propTypes = {
     examples: PropTypes.array.isRequired,
     titleText: PropTypes.string.isRequired,
     style: PropTypes.object,
     cardStyle: PropTypes.object
-  },
+  };
 
   render() {
     const {examples, titleText, style, cardStyle} = this.props;
@@ -35,7 +42,7 @@ export default React.createClass({
       </Card>
     );
   }
-});
+}
 
 
 const styles = {

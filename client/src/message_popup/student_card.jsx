@@ -7,15 +7,22 @@ import * as SharedPropTypes from '../prop_types.js';
 /*
 Shows a card for a student from the virtual school.
 */
-export default React.createClass({
-  displayName: 'StudentCard',
+export default class extends React.Component {
+  props: {
+    student: $FlowFixMe,
+    useCardStyles?: boolean,
+    style?: Object,
+    attributeStyle?: Object,
+  };
 
-  propTypes: {
+  static displayName = 'StudentCard';
+
+  static propTypes = {
     student: SharedPropTypes.Student.isRequired,
     useCardStyles: PropTypes.bool,
     style: PropTypes.object,
     attributeStyle: PropTypes.object
-  },
+  };
 
   render() {
     const attributeStyle = {
@@ -56,7 +63,7 @@ export default React.createClass({
       </div>
     );
   }
-});
+}
 
 
 const styles = {

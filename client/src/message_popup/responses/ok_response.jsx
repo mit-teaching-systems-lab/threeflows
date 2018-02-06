@@ -1,17 +1,25 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import ForcedChoiceResponse from './forced_choice_response.jsx';
 
 
 // Wraps ForcedChoiceResponse with a default 'OK' to advance.
-export default React.createClass({
-  displayName: 'OkResponse',
+export default class extends React.Component {
+  props: {
+    onLogMessage: Function,
+    onResponseSubmitted: Function,
+    label?: string,
+  };
 
-  propTypes: {
-    onLogMessage: React.PropTypes.func.isRequired,
-    onResponseSubmitted: React.PropTypes.func.isRequired,
-    label: React.PropTypes.string
-  },
+  static displayName = 'OkResponse';
+
+  static propTypes = {
+    onLogMessage: PropTypes.func.isRequired,
+    onResponseSubmitted: PropTypes.func.isRequired,
+    label: PropTypes.string
+  };
 
   render() {
     const {onLogMessage, onResponseSubmitted} = this.props;
@@ -21,4 +29,4 @@ export default React.createClass({
       onLogMessage={onLogMessage}
       onResponseSubmitted={onResponseSubmitted} />;
   }
-});
+}

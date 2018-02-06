@@ -10,13 +10,18 @@ import {Card, CardText} from 'material-ui/Card';
 /*
 Pure UI component showing a response to a question.
 */
-export default React.createClass({
-  displayName: 'MessageResponseCard',
+export default class extends React.Component {
+  props: {
+    log: Object,
+    extendStyle?: Object,
+  };
 
-  propTypes: {
+  static displayName = 'MessageResponseCard';
+
+  static propTypes = {
     log: PropTypes.object.isRequired,
     extendStyle: PropTypes.object
-  },
+  };
 
   render() {
     const {log, extendStyle} = this.props;
@@ -33,7 +38,7 @@ export default React.createClass({
       </Card>
     );
   }
-});
+}
 
 const styles = {
   itemCard: {

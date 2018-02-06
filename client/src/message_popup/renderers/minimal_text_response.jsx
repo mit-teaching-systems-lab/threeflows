@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 
 import TextField from 'material-ui/TextField';
@@ -6,52 +8,59 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 
 // This response supports responding with text.
-export default React.createClass({
-  displayName: 'MinimalTextResponse',
+export default class extends React.Component {
+  props: {
+    onLogMessage: Function,
+    onResponseSubmitted: Function,
+    forceResponse?: boolean,
+    responsePrompt?: string,
+    recordText?: string,
+    ignoreText?: string,
+    autoFocus?: boolean,
+    textHeight?: number,
+  };
 
-  propTypes: {
-    onLogMessage: React.PropTypes.func.isRequired,
-    onResponseSubmitted: React.PropTypes.func.isRequired,
-    forceResponse: React.PropTypes.bool,
-    responsePrompt: React.PropTypes.string,
-    recordText: React.PropTypes.string,
-    ignoreText: React.PropTypes.string,
-    autoFocus: React.PropTypes.bool,
-    textHeight: React.PropTypes.number
-  },
+  static displayName = 'MinimalTextResponse';
 
-  getDefaultProps() {
-    return {
-      forceResponse: false,
-      responsePrompt: 'Speak directly to the student.',
-      recordText: 'Respond',
-      ignoreText: 'Say nothing',
-      autoFocus: true,
-      textHeight: 48
-    };
-  },
+  static propTypes = {
+    onLogMessage: PropTypes.func.isRequired,
+    onResponseSubmitted: PropTypes.func.isRequired,
+    forceResponse: PropTypes.bool,
+    responsePrompt: PropTypes.string,
+    recordText: PropTypes.string,
+    ignoreText: PropTypes.string,
+    autoFocus: PropTypes.bool,
+    textHeight: PropTypes.number
+  };
 
-  getInitialState() {
-    return {
-      responseText: ''
-    };
-  },
+  static defaultProps = {
+    forceResponse: false,
+    responsePrompt: 'Speak directly to the student.',
+    recordText: 'Respond',
+    ignoreText: 'Say nothing',
+    autoFocus: true,
+    textHeight: 48
+  };
 
-  onTextChanged(e) {
+  state = {
+    responseText: ''
+  };
+
+  onTextChanged = (e) => {
     const responseText = e.target.value;
     this.setState({responseText});
-  },
+  };
 
-  onRespondTapped() {
+  onRespondTapped = () => {
     const {responseText} = this.state;
     this.props.onLogMessage('message_popup_text_response', {responseText});
     this.props.onResponseSubmitted({responseText});
-  },
+  };
 
-  onIgnoreTapped() {
+  onIgnoreTapped = () => {
     this.props.onLogMessage('message_popup_text_ignore');
     this.props.onResponseSubmitted({ignore: true});
-  },
+  };
 
   render() {
     const {
@@ -87,7 +96,7 @@ export default React.createClass({
       </div>
     );
   }
-});
+}
 
 const styles = {
   container: {

@@ -15,28 +15,27 @@ const STATUS = {
 
 
 // Show information and ask for consent
-export default React.createClass({
-  displayName: 'ResearchConsent',
+export default class extends React.Component {
+  props: {onLogMessage: Function};
+  static displayName = 'ResearchConsent';
 
-  propTypes: {
+  static propTypes = {
     onLogMessage: PropTypes.func.isRequired
-  },
+  };
 
-  getInitialState() {
-    return {
-      status: STATUS.EXPLAINING
-    };
-  },
+  state = {
+    status: STATUS.EXPLAINING
+  };
 
-  onContinue() {
+  onContinue = () => {
     this.props.onLogMessage('research_consent_has_continued');
     this.setState({ status: STATUS.CONTINUED });
-  },
+  };
 
-  onDecline() {
+  onDecline = () => {
     this.props.onLogMessage('research_consent_has_declined');
     this.setState({ status: STATUS.DECLINED });
-  },
+  };
 
   render() {
     const {status} = this.state;
@@ -48,9 +47,9 @@ export default React.createClass({
         {status === STATUS.DECLINED && this.renderThanks()}
       </div>
     );
-  },
+  }
 
-  renderAsk() {
+  renderAsk = () => {
     return (
       <div className="explain-consent" style={styles.container}>
         <div style={styles.instructions}>
@@ -70,9 +69,9 @@ export default React.createClass({
         </div>
       </div>
     );
-  },
+  };
 
-  renderForm() {
+  renderForm = () => {
     return <iframe
       src="https://docs.google.com/forms/d/e/1FAIpQLSdsSuLuAEAvBhxtRDuHXDrP1jj_tbeYLd9u3_aBGbLjO3BNRg/viewform?embedded=true"
       width="100%"
@@ -80,12 +79,12 @@ export default React.createClass({
       frameBorder={0}
       marginHeight={0}
       marginWidth={0}>Loading...</iframe>;
-  },
+  };
 
-  renderThanks() {
+  renderThanks = () => {
     return <div style={styles.container}>Thanks!  Your responses will not be used for any research.</div>;
-  }
-});
+  };
+}
 
 const styles = {
   container: {

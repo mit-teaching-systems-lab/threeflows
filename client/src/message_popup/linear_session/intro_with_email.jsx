@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
@@ -12,33 +14,37 @@ import * as Routes from '../../routes.js';
 
 // Show some introduction elements, note about consent, and ask for email
 // to continue.  Actual content is provided by `children`.
-export default React.createClass({
-  displayName: 'IntroWithEmail',
+export default class extends React.Component {
+  props: {
+    onDone: Function,
+    defaultEmail?: string,
+    children?: $FlowFixMe,
+  };
 
-  propTypes: {
-    onDone: React.PropTypes.func.isRequired,
-    defaultEmail: React.PropTypes.string,
-    children: React.PropTypes.node
-  },
+  static displayName = 'IntroWithEmail';
 
-  getInitialState() {
-    return {
-      email: this.props.defaultEmail
-    };
-  },
+  static propTypes = {
+    onDone: PropTypes.func.isRequired,
+    defaultEmail: PropTypes.string,
+    children: PropTypes.node
+  };
 
-  onTextChanged(e) {
+  state = {
+    email: this.props.defaultEmail
+  };
+
+  onTextChanged = (e) => {
     this.setState({ email: e.target.value });
-  },
+  };
 
-  onDone() {
+  onDone = () => {
     this.props.onDone(this.state.email);
-  },
+  };
 
-  onSubmit(e) {
+  onSubmit = (e) => {
     e.preventDefault();
     this.onDone();
-  },
+  };
 
   render() {
     return (
@@ -74,7 +80,7 @@ export default React.createClass({
       </VelocityTransitionGroup>
     );
   }
-});
+}
 
 const styles = {
   instructions: {

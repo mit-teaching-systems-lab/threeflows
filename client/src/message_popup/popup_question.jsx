@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 
 import React from 'react';
+import createReactClass from 'create-react-class';
 import _ from 'lodash';
 import Velocity from 'velocity-react/lib/velocity-animate-shim';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
@@ -39,7 +40,7 @@ Defines the layout and flow through a single question, using renderer components
 for the different pieces of the question (eg., scenario, response).  This lets it
 delegate to different representation formats and questions.
 */
-export default React.createClass({
+export default createReactClass({
   displayName: 'PopupQuestion',
 
   mixins: [SetIntervalMixin],

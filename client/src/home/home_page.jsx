@@ -7,19 +7,19 @@ import HomeFrame from './home_frame.jsx';
 
 
 // The home page for the whole site.
-export default React.createClass({
-  displayName: 'HomePage',
+export default class extends React.Component {
+  static displayName = 'HomePage';
 
-  onTryItTapped(e) {
+  onTryItTapped = (e) => {
     e.preventDefault();
     Routes.navigate('/demos');
-  },
+  };
 
   render() {
     return <HomeFrame>{this.renderQuoteAndLinks()}</HomeFrame>;
-  },
+  }
 
-  renderQuoteAndLinks() {
+  renderQuoteAndLinks = () => {
     return (
       <div>
         <div style={styles.quote}>
@@ -39,8 +39,8 @@ export default React.createClass({
         </div>
       </div>
     );
-  }
-});
+  };
+}
 
 const styles = {
   quote: {

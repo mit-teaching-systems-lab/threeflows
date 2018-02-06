@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import Clipboard from 'clipboard';
 
@@ -78,17 +80,18 @@ This doesn't show anything about aggregate responses or scores, and is only focu
 responses during this user's session.  It summarizes their feedback to student projects and their reflection questions,
 and allows them to copy it all as text (eg., for a discussion forum or chat).
 */
-export default React.createClass({
-  displayName: 'CsFairSummary',
+export default class extends React.Component {
+  props: {responses: Array<$FlowFixMe>};
+  static displayName = 'CsFairSummary';
 
-  propTypes: {
-    responses: React.PropTypes.array.isRequired
-  },
+  static propTypes = {
+    responses: PropTypes.array.isRequired
+  };
 
   // Allow copy to the clipboard
   componentDidMount() {
     new Clipboard('.copy-to-clipboard-button > button');
-  },
+  }
 
   render() {
     const {responses} = this.props;
@@ -160,4 +163,4 @@ export default React.createClass({
       </div>
     );
   }
-});
+}

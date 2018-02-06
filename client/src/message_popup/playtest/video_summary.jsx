@@ -1,49 +1,55 @@
-/* @flow weak */
 import _ from 'lodash';
+
+/* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import YouTube from 'react-youtube';
 import Divider from 'material-ui/Divider';
 
 // Delay display of video summary because of slow loading of youtube videos.
-export default React.createClass({
-  displayName: 'VideoSummary',
-  propTypes: {
-    questions: React.PropTypes.array.isRequired,
-    responses: React.PropTypes.array.isRequired,
-    onLogMessage: React.PropTypes.func.isRequired,
-    delayRenderingMs: React.PropTypes.number
-  },
+export default class extends React.Component {
+  static displayName = 'VideoSummary';
 
-  getInitialState() {
-    const {delayRenderingMs} = this.props;
-    return {
+  static propTypes = {
+    questions: PropTypes.array.isRequired,
+    responses: PropTypes.array.isRequired,
+    onLogMessage: PropTypes.func.isRequired,
+    delayRenderingMs: PropTypes.number
+  };
+
+  constructor(props) {
+    super(props);
+    const {delayRenderingMs} = props;
+
+    this.state = {
       hasRendered: !(delayRenderingMs && delayRenderingMs > 0)
     };
-  },
+  }
 
   componentDidMount() {
     const {delayRenderingMs} = this.props;
     if (!delayRenderingMs) return;
     this.timeout = window.setTimeout(this.onDelayFinished, delayRenderingMs);
-  },
+  }
 
   componentWillUnmount() {
     if (this.timeout) window.clearTimeout(this.timeout);
-  },
+  }
 
-  timeout: null,
+  timeout = null;
 
-  onDelayFinished() {
+  onDelayFinished = () => {
     this.setState({ hasRendered: true });
-  },
+  };
 
-  onPlayAudio(question, response) {
+  onPlayAudio = (question, response) => {
     this.props.onLogMessage('video_summary_play_audio', {question, response});
-  },
+  };
 
-  onPlayVideo(question) {
+  onPlayVideo = (question) => {
     this.props.onLogMessage('video_summary_play_video', {question});
-  },
+  };
 
   render() {
     return (
@@ -53,9 +59,9 @@ export default React.createClass({
         {this.renderSummary()}
       </div>
     );
-  },
+  }
 
-  renderSummary() {
+  renderSummary = () => {
     const {questions, responses} = this.props;
     const {hasRendered} = this.state;
     if (!hasRendered) {
@@ -99,8 +105,8 @@ export default React.createClass({
     }
 
     return <div>{responsesEl}</div>;
-  }
-});
+  };
+}
 
 
 const styles = {

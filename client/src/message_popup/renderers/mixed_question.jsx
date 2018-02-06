@@ -1,16 +1,19 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 
 import PlainTextQuestion from '../renderers/plain_text_question.jsx';
 import ReactQuestion from '../renderers/react_question.jsx';
 
 // Render `text` or `el`
-export default React.createClass({
-  displayName: 'MixedQuestion',
+export default class extends React.Component {
+  props: {question: Object};
+  static displayName = 'MixedQuestion';
 
-  propTypes: {
-    question: React.PropTypes.object.isRequired
-  },
+  static propTypes = {
+    question: PropTypes.object.isRequired
+  };
 
   render() {
     const {question} = this.props;
@@ -27,4 +30,4 @@ export default React.createClass({
       </div>
     );
   }
-});
+}

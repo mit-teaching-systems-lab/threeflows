@@ -1,26 +1,29 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
+
 import React from 'react';
 
 import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
-export default React.createClass({
+export default createReactClass({
   displayName: 'TextFooter',
   
   propTypes: {
-    onQuestionDone: React.PropTypes.func.isRequired,
-    setInitialResponse: React.PropTypes.func.isRequired,
-    setRevisedResponse: React.PropTypes.func.isRequired,
-    setPassedResponse: React.PropTypes.func.isRequired,
-    log: React.PropTypes.object.isRequired,
-    isReadyToMoveOn: React.PropTypes.bool.isRequired,
-    helpType: React.PropTypes.string.isRequired,
-    elapsedMs: React.PropTypes.number.isRequired,
-    nextButtonLabel: React.PropTypes.string.isRequired,
-    nextExample: React.PropTypes.func.isRequired,
-    onShowExampleClicked: React.PropTypes.func.isRequired,
-    mainStudent: React.PropTypes.object,
+    onQuestionDone: PropTypes.func.isRequired,
+    setInitialResponse: PropTypes.func.isRequired,
+    setRevisedResponse: PropTypes.func.isRequired,
+    setPassedResponse: PropTypes.func.isRequired,
+    log: PropTypes.object.isRequired,
+    isReadyToMoveOn: PropTypes.bool.isRequired,
+    helpType: PropTypes.string.isRequired,
+    elapsedMs: PropTypes.number.isRequired,
+    nextButtonLabel: PropTypes.string.isRequired,
+    nextExample: PropTypes.func.isRequired,
+    onShowExampleClicked: PropTypes.func.isRequired,
+    mainStudent: PropTypes.object,
   },
   
   getInitialState(){

@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import 'velocity-animate/velocity.ui';
@@ -8,48 +10,54 @@ import 'velocity-animate/velocity.ui';
 // Moves through showing `questionEl` for each question and 
 // collecting a response and logging it, then showing
 // `summaryEl` when done.
-export default React.createClass({
-  displayName: 'LinearSession',
+export default class extends React.Component {
+  props: {
+    questions: Array<$FlowFixMe>,
+    questionEl: Function,
+    summaryEl: Function,
+    onLogMessage: Function,
+    getNextQuestion?: Function,
+  };
 
-  propTypes: {
-    questions: React.PropTypes.array.isRequired,
-    questionEl: React.PropTypes.func.isRequired,
-    summaryEl: React.PropTypes.func.isRequired,
-    onLogMessage: React.PropTypes.func.isRequired,
-    getNextQuestion: React.PropTypes.func
-  },
+  static displayName = 'LinearSession';
 
-  getInitialState() {
-    return {
-      responses: []
-    };
-  },
+  static propTypes = {
+    questions: PropTypes.array.isRequired,
+    questionEl: PropTypes.func.isRequired,
+    summaryEl: PropTypes.func.isRequired,
+    onLogMessage: PropTypes.func.isRequired,
+    getNextQuestion: PropTypes.func
+  };
 
-  defaultGetNextQuestion(questions, responses) {
+  state = {
+    responses: []
+  };
+
+  defaultGetNextQuestion = (questions, responses) => {
     if (responses.length >= questions.length) {
       return null;
     }
     return questions[responses.length];
-  },
+  };
 
-  mergedResponse(rawResponse, question) {
+  mergedResponse = (rawResponse, question) => {
     return {...rawResponse, question};
-  },
+  };
 
   // Mixes in question to payload
-  onLogMessageWithQuestion(question, type, rawResponse) {
+  onLogMessageWithQuestion = (question, type, rawResponse) => {
     const mergedResponse = this.mergedResponse(rawResponse, question);
     this.props.onLogMessage(type, mergedResponse);
-  },
+  };
 
   // Logs and transitions
-  onResponseSubmitted(question, rawResponse) {
+  onResponseSubmitted = (question, rawResponse) => {
     this.onLogMessageWithQuestion(question, 'on_response_submitted', rawResponse);
     const mergedResponse = this.mergedResponse(rawResponse, question);
     this.setState({
       responses: this.state.responses.concat(mergedResponse)
     });
-  },
+  };
 
   // Animation wrapper
   render() {
@@ -62,9 +70,9 @@ export default React.createClass({
         {this.renderContent()}
       </VelocityTransitionGroup>
     );
-  },
+  }
 
-  renderContent() {
+  renderContent = () => {
     const {questions} = this.props;
     const {responses} = this.state;
 
@@ -81,6 +89,6 @@ export default React.createClass({
         {this.props.questionEl(question, this.onLogMessageWithQuestion.bind(this, question), this.onResponseSubmitted.bind(this, question), {responses})}
       </div>
     );
-  }
-});
+  };
+}
 

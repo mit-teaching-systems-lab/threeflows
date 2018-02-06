@@ -1,8 +1,9 @@
 /* @flow weak */
 import React from 'react';
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
 
-
-import * as PropTypes from '../../prop_types.js';
+import * as SharedPropTypes from '../../prop_types.js';
 import PromptsRenderer from './prompts_renderer.jsx';
 import TextModelScenario from './text_model_scenario.jsx';
 import TextImageScenario from './text_image_scenario.jsx';
@@ -11,15 +12,15 @@ import VideoScenario from './video_scenario.jsx';
 import AudioCapture from '../../components/audio_capture.jsx';
 
 // Supports rendering a scenario as text or as a YouTube video.
-export default React.createClass({
+export default createReactClass({
   displayName: 'ScenarioRenderer',
 
   propTypes: {
-    scaffolding: PropTypes.Scaffolding.isRequired,
-    question: React.PropTypes.object.isRequired,
-    student: PropTypes.Student,
-    showStudentCard: React.PropTypes.bool.isRequired,
-    onScenarioDone: React.PropTypes.func.isRequired
+    scaffolding: SharedPropTypes.Scaffolding.isRequired,
+    question: PropTypes.object.isRequired,
+    student: SharedPropTypes.Student,
+    showStudentCard: PropTypes.bool.isRequired,
+    onScenarioDone: PropTypes.func.isRequired
   },
 
   // Plain text scenarios can be responded to immediately,

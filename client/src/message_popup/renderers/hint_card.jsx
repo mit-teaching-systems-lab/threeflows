@@ -1,5 +1,7 @@
 //@flow
 import React from 'react';
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
 import _ from 'lodash';
 import RaisedButton from 'material-ui/RaisedButton';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
@@ -7,12 +9,12 @@ import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 /*
 This shows a hint in the form of a toggleable good or bad example response
 */
-export default React.createClass({
+export default createReactClass({
   displayName: 'HintCard',
   
   propTypes: {
-    examples: React.PropTypes.array.isRequired,
-    nonExamples: React.PropTypes.array.isRequired
+    examples: PropTypes.array.isRequired,
+    nonExamples: PropTypes.array.isRequired
   },
 
   getInitialState() {

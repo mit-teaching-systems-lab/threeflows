@@ -22,45 +22,41 @@ import ArchivedQuestionButton from './archived_question_button.jsx';
 
 import {withStudents, withIndicator} from '../transformations.jsx';
 
-export default React.createClass({
-  displayName: 'QuestionsPage',
+export default class extends React.Component {
+  static displayName = 'QuestionsPage';
 
-  propTypes: {
+  static propTypes = {
     loaded: PropTypes.bool.isRequired,
     allQuestions: PropTypes.object.isRequired,
     doNavigate: PropTypes.func
-  },
+  };
 
-  getDefaultProps(){
-    return ({
-      doNavigate: Routes.navigate,
-      loaded: false,
-      allQuestions: {
-        currentQuestions: [],
-        archivedQuestions: []
-      }
-    });
-  },
+  static defaultProps = {
+    doNavigate: Routes.navigate,
+    loaded: false,
+    allQuestions: {
+      currentQuestions: [],
+      archivedQuestions: []
+    }
+  };
 
-  getInitialState(){
-    return ({
-      loaded: this.props.loaded,
-      allQuestions: this.props.allQuestions,
-      searchText: '',
-      showArchivedQuestions: false,
-      selectedArchivedQuestion: null
-    });
-  },
+  state = {
+    loaded: this.props.loaded,
+    allQuestions: this.props.allQuestions,
+    searchText: '',
+    showArchivedQuestions: false,
+    selectedArchivedQuestion: null
+  };
 
-  componentDidMount(){
+  componentDidMount() {
     this.queryDatabase();
-  },
+  }
 
-  queryDatabase(){
+  queryDatabase = () => {
     Api.questionsQuery().end(this.onQuestionsReceived);
-  },
+  };
 
-  getQuestionString(question){
+  getQuestionString = (question) => {
     question = withIndicator(withStudents([question])[0]);
     const questionString = [
       question.id, 
@@ -72,48 +68,48 @@ export default React.createClass({
       ...question.nonExamples
     ].join(' ');
     return questionString;
-  },
+  };
 
-  searchQuestionForText(text, question){
+  searchQuestionForText = (text, question) => {
     const questionString = this.getQuestionString(question);
     return questionString.toLowerCase().includes(text);
-  },
+  };
 
-  countTextOccurrences(text, question){
+  countTextOccurrences = (text, question) => {
     const questionString = this.getQuestionString(question);
     return questionString.split(text).length;
-  },
-  
-  getSearchResults(text, list){
+  };
+
+  getSearchResults = (text, list) => {
     const results = list
       .filter(question => this.searchQuestionForText(text, question))
       .sort(question => this.countTextOccurrences(text, question));
     return results;
-  },
+  };
 
-  getAllSearchResults(){
+  getAllSearchResults = () => {
     const {allQuestions, searchText} = this.state;
     if(searchText === '') return allQuestions;
     const currentQuestions = this.getSearchResults(searchText, allQuestions.currentQuestions);
     const archivedQuestions = this.getSearchResults(searchText, allQuestions.archivedQuestions);
     return {currentQuestions, archivedQuestions};
-  },
+  };
 
-  onNewQuestion(){
+  onNewQuestion = () => {
     const url = Routes.messagePopupAuthorQuestionsNewPath();
     this.props.doNavigate(url);
-  },
+  };
 
-  onQuestionsReceived(err, response){
+  onQuestionsReceived = (err, response) => {
     if(err){
       this.setState({loaded: true});
       return;
     }
     const allQuestions = JSON.parse(response.text).questions;
     this.setState({ loaded: true, allQuestions });
-  },
+  };
 
-  onQuestionRestore(){
+  onQuestionRestore = () => {
     const {allQuestions, selectedArchivedQuestion} = this.state;
     if(selectedArchivedQuestion !== null){
       const archivedQuestions = allQuestions.archivedQuestions.filter(question => question.id !== selectedArchivedQuestion.id);
@@ -122,18 +118,18 @@ export default React.createClass({
       this.queryDatabase();
       this.setState({selectedArchivedQuestion: null});
     }
-  },
+  };
 
-  onSearchBarChange(event){
+  onSearchBarChange = (event) => {
     const value = event.target.value.toLowerCase().trim();
     this.setState({searchText: value});
-  },
+  };
 
-  onTouchArchivedQuestion(question){
+  onTouchArchivedQuestion = (question) => {
     this.setState({selectedArchivedQuestion: question});
-  },
+  };
 
-  render(){
+  render() {
     const {loaded, selectedArchivedQuestion} = this.state;
     const {currentQuestions, archivedQuestions} = this.getAllSearchResults();
     return(
@@ -212,7 +208,7 @@ export default React.createClass({
       </div>
     );
   }
-});
+}
 
 const styles = {
   container: {

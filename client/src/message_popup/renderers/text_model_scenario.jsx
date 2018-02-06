@@ -1,20 +1,22 @@
 import React from 'react';
 
-import * as PropTypes from '../../prop_types.js';
+import * as SharedPropTypes from '../../prop_types.js';
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
 import PlainTextQuestion from './plain_text_question.jsx';
 
 // Render a text scenario with a 3D model from Sketchfab
 // Requires data set on the student about the id for the 
 // Sketchfab model, and about the camera orientation.
-export default React.createClass({
+export default createReactClass({
   displayName: 'TextModelScenario',
 
   propTypes: {
-    scaffolding: PropTypes.Scaffolding.isRequired,
-    question: React.PropTypes.object.isRequired,
-    student: PropTypes.Student.isRequired,
-    modelHeight: React.PropTypes.number.isRequired,
-    onScenarioDone: React.PropTypes.func.isRequired
+    scaffolding: SharedPropTypes.Scaffolding.isRequired,
+    question: PropTypes.object.isRequired,
+    student: SharedPropTypes.Student.isRequired,
+    modelHeight: PropTypes.number.isRequired,
+    onScenarioDone: PropTypes.func.isRequired
   },
 
   componentDidMount() {

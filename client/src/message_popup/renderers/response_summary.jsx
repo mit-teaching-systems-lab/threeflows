@@ -1,5 +1,8 @@
-/* @flow weak */
 import _ from 'lodash';
+
+/* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import Divider from 'material-ui/Divider';
@@ -9,16 +12,16 @@ import ReadMore from './read_more.jsx';
 /*
 Component that displays the summary of responses, either audio or text.
 */
-export default React.createClass({
-  displayName: 'ResponseSummary',
+export default class extends React.Component {
+  static displayName = 'ResponseSummary';
 
-  propTypes: {
-    responses: React.PropTypes.array.isRequired,
-    children: React.PropTypes.node
-  },
+  static propTypes = {
+    responses: PropTypes.array.isRequired,
+    children: PropTypes.node
+  };
 
   // Supports audio and two forms of text response.
-  computeSummaryItems() {
+  computeSummaryItems = () => {
     const {responses} = this.props;
 
     return _.compact(responses.map((response) => {
@@ -42,7 +45,7 @@ export default React.createClass({
 
       return null;
     }));
-  },
+  };
 
   render() {
     const {children} = this.props;
@@ -71,9 +74,8 @@ export default React.createClass({
         </VelocityTransitionGroup>
       </div> 
     );
-  },
-  
-});
+  }
+}
 
 const styles = {
   done: {

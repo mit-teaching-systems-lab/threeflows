@@ -10,20 +10,25 @@ import {withIndicator} from '../transformations.jsx';
 import * as Routes from '../../routes.js';
 
 
-export default React.createClass({
-  displayName: 'QuestionButton',
+export default class extends React.Component {
+  props: {
+    question: Object,
+    doNavigate: Function,
+  };
 
-  propTypes: {
+  static displayName = 'QuestionButton';
+
+  static propTypes = {
     question: PropTypes.object.isRequired,
     doNavigate: PropTypes.func.isRequired
-  }, 
+  };
 
-  onItemClicked(){
+  onItemClicked = () => {
     const url = Routes.messagePopupAuthorQuestionsEditPath(this.props.question.id);
     this.props.doNavigate(url);
-  },
+  };
 
-  render(){
+  render() {
     const question = withIndicator(this.props.question);
     return (
       <ListItem
@@ -36,4 +41,4 @@ export default React.createClass({
       />
     );
   }
-});
+}

@@ -7,27 +7,27 @@ import * as Routes from '../routes.js';
 
 
 // A list of demos to try.
-export default React.createClass({
-  displayName: 'DemosPage',
+export default class extends React.Component {
+  static displayName = 'DemosPage';
 
-  onTappedMenu(e) {
+  onTappedMenu = (e) => {
     window.location.reload();
-  },
+  };
 
-  onTappedItem(linkEl) {
+  onTappedItem = (linkEl) => {
     const href = linkEl.props.href;
     if (href.indexOf('http') === 0) {
       window.location = href;
     } else {
       Routes.navigate(href);
     }
-  },
+  };
 
   render() {
     return <HomeFrame>{this.renderScenarios()}</HomeFrame>;
-  },
+  }
 
-  renderScenarios() {
+  renderScenarios = () => {
     return (
       <div>
         <h3 style={styles.header}>Equity and bias</h3>
@@ -60,17 +60,17 @@ export default React.createClass({
         <div style={{marginTop: 20}}>New idea?  Reach out at <a href="https://twitter.com/mit_tsl">@mit_tsl</a>.</div>
       </div>
     );
-  },
+  };
 
-  renderScenarioItem(linkEl) {
+  renderScenarioItem = (linkEl) => {
     return (
       <ListItem
         innerDivStyle={styles.listItem}
         onTouchTap={this.onTappedItem.bind(this, linkEl)}
         primaryText={linkEl} />
     );
-  }
-});
+  };
+}
 
 const styles = {
   header: {

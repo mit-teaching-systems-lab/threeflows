@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 
 import RaisedButton from 'material-ui/RaisedButton';
@@ -9,25 +11,29 @@ import ReadMore from '../renderers/read_more.jsx';
 
 // Render the question and response.  For now, only works with text questions
 // and audio responses.
-export default React.createClass({
-  displayName: 'ReviewStep',
+export default class extends React.Component {
+  props: {
+    row: Object,
+    token: string,
+    emailAddress: string,
+  };
 
-  propTypes: {
-    row: React.PropTypes.object.isRequired,
-    token: React.PropTypes.string.isRequired,
-    emailAddress: React.PropTypes.string.isRequired
-  },
+  static displayName = 'ReviewStep';
 
-  getInitialState() {
-    return {
-      isAudioExpanded: false
-    };
-  },
+  static propTypes = {
+    row: PropTypes.object.isRequired,
+    token: PropTypes.string.isRequired,
+    emailAddress: PropTypes.string.isRequired
+  };
 
-  onListenTapped(e) {
+  state = {
+    isAudioExpanded: false
+  };
+
+  onListenTapped = (e) => {
     const {isAudioExpanded} = this.state;
     this.setState({ isAudioExpanded: !isAudioExpanded });
-  },
+  };
 
   render() {
     const {row, token, emailAddress} = this.props;
@@ -42,12 +48,12 @@ export default React.createClass({
         {this.renderAudioOnDemand(audioUrlWithTokens)}
       </div>
     );
-  },
+  }
 
   // Rendering causes the browser to load all audio files from the
   // server at once in parallel, so require a user step to defer downloading
   // all that data until they want it.
-  renderAudioOnDemand(audioUrlWithTokens) {
+  renderAudioOnDemand = (audioUrlWithTokens) => {
     const {isAudioExpanded} = this.state;
     return (isAudioExpanded)
       ? <audio
@@ -61,8 +67,8 @@ export default React.createClass({
         style={styles.button}
         primary={true}
         label="Listen" />;
-  }
-});
+  };
+}
 
 const styles = {
   container: {

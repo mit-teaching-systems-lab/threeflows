@@ -1,6 +1,10 @@
-/* @flow weak */
 import _ from 'lodash';
+
+/* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
+import createReactClass from 'create-react-class';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import 'velocity-animate/velocity.ui';
 import uuid from 'uuid';
@@ -41,11 +45,11 @@ type TwineChoiceT = {
 /*
 For public demos.
 */
-export default React.createClass({
+export default createReactClass({
   displayName: 'DemoPage',
 
   contextTypes: {
-    auth: React.PropTypes.object.isRequired
+    auth: PropTypes.object.isRequired
   },
 
   getInitialState():StateT {

@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 
 import {Card, CardHeader, CardText} from 'material-ui/Card';
@@ -14,12 +16,13 @@ const sections = [
 ];
 
 // This renders a student's project for viewing.
-export default React.createClass({
-  displayName: 'CsFairProject',
+export default class extends React.Component {
+  props: {project: any};
+  static displayName = 'CsFairProject';
 
-  propTypes: {
-    project: React.PropTypes.any.isRequired
-  },
+  static propTypes = {
+    project: PropTypes.any.isRequired
+  };
 
   render() {
     const {project} = this.props;
@@ -38,4 +41,4 @@ export default React.createClass({
       </div>
     );
   }
-});
+}

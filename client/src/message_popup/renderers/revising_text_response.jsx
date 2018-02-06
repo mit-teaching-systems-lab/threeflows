@@ -1,5 +1,8 @@
 /* @flow weak */
 import React from 'react';
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
+
 import _ from 'lodash';
 import Velocity from 'velocity-react/lib/velocity-animate-shim';
 
@@ -10,16 +13,16 @@ import Snackbar from 'material-ui/Snackbar';
 import FeedbackCard from '../feedback_card.jsx';
 
 // This response supports responding with text, and revising the text.
-export default React.createClass({
+export default createReactClass({
   displayName: 'RevisingTextResponse',
 
   propTypes: {
-    question: React.PropTypes.object.isRequired,
-    scaffolding: React.PropTypes.object.isRequired,
-    limitMs: React.PropTypes.number.isRequired,
-    elapsedMs: React.PropTypes.number.isRequired,
-    onLogMessage: React.PropTypes.func.isRequired,
-    onResponseSubmitted: React.PropTypes.func.isRequired
+    question: PropTypes.object.isRequired,
+    scaffolding: PropTypes.object.isRequired,
+    limitMs: PropTypes.number.isRequired,
+    elapsedMs: PropTypes.number.isRequired,
+    onLogMessage: PropTypes.func.isRequired,
+    onResponseSubmitted: PropTypes.func.isRequired
   },
 
   getInitialState() {

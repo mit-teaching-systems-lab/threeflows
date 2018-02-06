@@ -8,10 +8,10 @@ import ResearchConsent from '../components/research_consent.jsx';
 
 
 // A standalone consent page, inline
-export default React.createClass({
-  displayName: 'ConsentPage',
+export default class extends React.Component {
+  static displayName = 'ConsentPage';
 
-  onLogMessage(type, response) {
+  onLogMessage = (type, response) => {
     const email = 'unknown@mit.edu';
     
     Api.logEvidence(type, {
@@ -20,7 +20,7 @@ export default React.createClass({
       email,
       name: email
     });
-  },
+  };
 
   render() {
     return (
@@ -29,4 +29,4 @@ export default React.createClass({
       </SessionFrame>
     );
   }
-});
+}

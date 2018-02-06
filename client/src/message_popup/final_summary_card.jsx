@@ -5,15 +5,15 @@ import PropTypes from 'prop-types';
 
 import React from "react";
 
-export default React.createClass({
-  displayName: "FinalSummaryCard",
-  
-  propTypes: {
+export default class extends React.Component {
+  static displayName = "FinalSummaryCard";
+
+  static propTypes = {
     msResponseTimes: PropTypes.array.isRequired,
     limitMs: PropTypes.number.isRequired
-  },
+  };
 
-  render(){
+  render() {
     const mean = Math.round(_.mean(this.props.msResponseTimes)/10)/100;
     const numUnderTime = this.props.msResponseTimes.filter(time => time <= this.props.limitMs).length;
     const numAboveTime = this.props.msResponseTimes.filter(time => time > this.props.limitMs).length;
@@ -32,7 +32,7 @@ export default React.createClass({
       </div>
     );
   }
-});
+}
 
 const styles = {
   summary: {

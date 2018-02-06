@@ -10,18 +10,17 @@ import Divider from 'material-ui/Divider';
 /*
 Component asking for feedback and linking out to Google form.
 */
-export default React.createClass({
-  displayName: 'Feedback',
+export default class extends React.Component {
+  props: {feedbackFormUrl?: string};
+  static displayName = 'Feedback';
 
-  propTypes: {
+  static propTypes = {
     feedbackFormUrl: PropTypes.string
-  },
+  };
 
-  getDefaultProps() {
-    return {
-      feedbackFormUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSdC7CrSkmA8Y2ZEmKwuzfeaijMoO-KZMbgEz9Q-Ay2f8u8Klw/viewform'
-    };
-  },
+  static defaultProps = {
+    feedbackFormUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSdC7CrSkmA8Y2ZEmKwuzfeaijMoO-KZMbgEz9Q-Ay2f8u8Klw/viewform'
+  };
 
   render() {
     const {feedbackFormUrl} = this.props;
@@ -44,7 +43,7 @@ export default React.createClass({
       </div>
     );
   }
-});
+}
 
 const styles = {
   container: {

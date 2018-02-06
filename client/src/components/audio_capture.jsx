@@ -8,24 +8,27 @@ import AudioRecorder from './audio_recorder.js';
 /*
 This is a React API to capture audio using an audio recorder class.
 */
-export default React.createClass({
-  displayName: 'AudioCapture',
+export default class extends React.Component {
+  props: {
+    isRecording: boolean,
+    onDoneCapture: Function,
+  };
 
-  propTypes: {
+  static displayName = 'AudioCapture';
+
+  static propTypes = {
     isRecording: PropTypes.bool.isRequired,
     onDoneCapture: PropTypes.func.isRequired
-  },
+  };
 
-  statics: {
-    isAudioSupported() {
-      const navigator = window.navigator;
-      const getUserMedia = navigator.getUserMedia ||
-        navigator.webkitGetUserMedia ||
-        navigator.mozGetUserMedia ||
-        navigator.msGetUserMedia;
-      return getUserMedia !== undefined;
-    }
-  },
+  static isAudioSupported() {
+    const navigator = window.navigator;
+    const getUserMedia = navigator.getUserMedia ||
+      navigator.webkitGetUserMedia ||
+      navigator.mozGetUserMedia ||
+      navigator.msGetUserMedia;
+    return getUserMedia !== undefined;
+  }
 
   componentDidUpdate(prevProps, prevState) {
     if (!prevProps.isRecording && this.props.isRecording) {
@@ -34,29 +37,29 @@ export default React.createClass({
     if (prevProps.isRecording && !this.props.isRecording) {
       this.stopRecording();
     }
-  },
+  }
 
-  recorder:(null: ?Object),
-  
-  startRecording() {
+  recorder: ?Object = null;
+
+  startRecording = () => {
     const recorder = this.recorder = new AudioRecorder();
     recorder.record();
-  },
+  };
 
-  stopRecording() {
+  stopRecording = () => {
     const recorder = this.recorder;
     if (!recorder) return;
 
     recorder.stop(this.onBlobReady);
-  },
+  };
 
-  onBlobReady(blob) {
+  onBlobReady = (blob) => {
     this.props.onDoneCapture(blob);
     if (this.recorder) this.recorder.destroy();
     delete this.recorder;
-  },
+  };
 
   render() {
     return null;
   }
-});
+}

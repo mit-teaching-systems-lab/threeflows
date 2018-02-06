@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import uuid from 'uuid';
 
@@ -29,28 +31,30 @@ Adapted from Okonofua 2016
 http://www.pnas.org/content/113/19/5221.full.pdf
 http://www.pnas.org/content/suppl/2016/04/21/1523698113.DCSupplemental/pnas.201523698SI.pdf#nameddest=STXT
 */
-export default React.createClass({
-  displayName: 'DisciplinePage',
+export default class extends React.Component {
+  state: *;
+  static displayName = 'DisciplinePage';
 
-  contextTypes: {
-    auth: React.PropTypes.object.isRequired
-  },
+  static contextTypes = {
+    auth: PropTypes.object.isRequired
+  };
 
-  getInitialState() {
-    const contextEmail = this.context.auth.userProfile.email;
+  constructor(props, context) {
+    super(props, context);
+    const contextEmail = context.auth.userProfile.email;
     const email = contextEmail === "unknown@mit.edu" ? '' : contextEmail;
     const cohortKey = ExperimentOneScenarios.cohortKey(email);
 
-    return {
+    this.state = {
       email,
       cohortKey,
       questions: null,
       sessionId: uuid.v4()
     };
-  },
+  }
 
   // Making the cohort and questions is the key bit here.
-  onStart(email) {
+  onStart = (email) => {
     const cohortKey = ExperimentOneScenarios.cohortKey(email);
     const questions = ExperimentOneScenarios.questionsFor(cohortKey);
     this.setState({
@@ -58,9 +62,9 @@ export default React.createClass({
       questions,
       cohortKey
     });
-  },
+  };
 
-  onLogMessage(type, response:ResponseT) {
+  onLogMessage = (type, response:ResponseT) => {
     const {email, cohortKey, sessionId} = this.state;
     Api.logEvidence(type, {
       ...response,
@@ -70,7 +74,7 @@ export default React.createClass({
       name: email,
       clientTimestampMs: new Date().getTime(),
     });
-  },
+  };
 
   render() {
     return (
@@ -78,9 +82,9 @@ export default React.createClass({
         {this.renderContent()}
       </SessionFrame>
     );
-  },
+  }
 
-  renderContent() {
+  renderContent = () => {
     const {questions} = this.state;
     if (!questions) return this.renderIntro();
 
@@ -90,27 +94,27 @@ export default React.createClass({
       summaryEl={this.renderSummaryEl}
       onLogMessage={this.onLogMessage}
     />;
-  },
+  };
 
-  renderIntro() {
+  renderIntro = () => {
     return (
       <IntroWithEmail defaultEmail={this.state.email} onDone={this.onStart}>
         {ExperimentOneScenarios.renderIntro()}
       </IntroWithEmail>
     );
-  },
+  };
 
   // Only ask for audio on questions with choices, otherwise let them continue
-  renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
+  renderQuestionEl = (question:QuestionT, onLog, onResponseSubmitted) => {
     return (
       <div>
         <MixedQuestion question={question} />
         {this.renderInteractionEl(question, onLog, onResponseSubmitted)}
       </div>
     );
-  },
+  };
 
-  renderInteractionEl(question, onLog, onResponseSubmitted) {
+  renderInteractionEl = (question, onLog, onResponseSubmitted) => {
     const key = JSON.stringify(question);
     if (question.likert) {
       return <LikertResponse
@@ -145,14 +149,14 @@ export default React.createClass({
       onLogMessage={onLog}
       onResponseSubmitted={onResponseSubmitted}
     />;
-  },
+  };
 
-  renderSummaryEl(questions:[QuestionT], responses:[ResponseT]) {
+  renderSummaryEl = (questions:[QuestionT], responses:[ResponseT]) => {
     return (
       <div style={{padding: 20}}>
         <div>Thanks!</div>
         <div style={{paddingTop: 20}}>You can close the computer and head on back to the group.</div>
       </div>
     );
-  }
-});
+  };
+}

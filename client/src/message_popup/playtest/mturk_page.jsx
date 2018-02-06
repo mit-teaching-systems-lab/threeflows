@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import uuid from 'uuid';
 
@@ -9,35 +11,43 @@ import SuperagentPromise from 'superagent-promise';
 const request = SuperagentPromise(superagent, Promise);
 
 
-export default React.createClass({
-  displayName: 'MTurkPage',
+export default class extends React.Component {
+  props: {
+    query: {
+      assignmentId: string,
+      hitId: string,
+      turkSubmitTo?: string,
+      workerId?: string,
+    },
+    experimentFactory: Function,
+  };
 
-  propTypes: {
-    query: React.PropTypes.shape({
-      assignmentId: React.PropTypes.string.isRequired,
-      hitId: React.PropTypes.string.isRequired,
-      turkSubmitTo: React.PropTypes.string,
-      workerId: React.PropTypes.string
+  static displayName = 'MTurkPage';
+
+  static propTypes = {
+    query: PropTypes.shape({
+      assignmentId: PropTypes.string.isRequired,
+      hitId: PropTypes.string.isRequired,
+      turkSubmitTo: PropTypes.string,
+      workerId: PropTypes.string
     }).isRequired,
-    experimentFactory: React.PropTypes.func.isRequired
-  },
+    experimentFactory: PropTypes.func.isRequired
+  };
 
-  getInitialState() {
-    return {
-      mTurkWrapperUuid: uuid.v4()
-    };
-  },
+  state = {
+    mTurkWrapperUuid: uuid.v4()
+  };
 
-  doEndExperiment() {
+  doEndExperiment = () => {
     console.log('Submitting...'); // eslint-disable-line no-console
     const {assignmentId, turkSubmitTo} = this.props.query;
     request
       .post(turkSubmitTo)
       .send({assignmentId})
       .end();
-  },
+  };
 
-  onLogMessage(type, response) {
+  onLogMessage = (type, response) => {
     const {query} = this.props; 
     const {mTurkWrapperUuid} = this.state;
 
@@ -47,12 +57,12 @@ export default React.createClass({
       mTurkWrapperUuid: mTurkWrapperUuid,
       clientTimestampMs: new Date().getTime(),
     });
-  },
+  };
 
-  onExperimentDone(payload) {
+  onExperimentDone = (payload) => {
     this.onLogMessage('mturk_experiment_done', payload);
     this.doEndExperiment();
-  },
+  };
 
   // In preview, only assignmentId is provided and it is ASSIGNMENT_ID_NOT_AVAILABLE
   render() {
@@ -73,4 +83,4 @@ export default React.createClass({
       </ResponsiveFrame>
     );
   }
-});
+}

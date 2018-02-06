@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import uuid from 'uuid';
 
@@ -25,37 +27,40 @@ type ResponseT = {
 
 // This is a scenario around talking with a student after class, adapted from
 // Self 2016.
-export default React.createClass({
-  displayName: 'DariusExperiencePage',
+export default class extends React.Component {
+  props: {query: Object};
+  state: *;
+  static displayName = 'DariusExperiencePage';
 
-  propTypes: {
-    query: React.PropTypes.object.isRequired
-  },
+  static propTypes = {
+    query: PropTypes.object.isRequired
+  };
 
-  contextTypes: {
-    auth: React.PropTypes.object.isRequired
-  },
+  static contextTypes = {
+    auth: PropTypes.object.isRequired
+  };
 
-  getInitialState() {
-    const contextEmail = this.context.auth.userProfile.email;
+  constructor(props, context) {
+    super(props, context);
+    const contextEmail = context.auth.userProfile.email;
     const email = contextEmail === "unknown@mit.edu" ? '' : contextEmail;
 
-    return {
+    this.state = {
       email,
       questions: null,
       sessionId: uuid.v4()
     };
-  },
+  }
 
-  onStart(email) {
+  onStart = (email) => {
     const questions = DariusSlides.questions();
     this.setState({
       email,
       questions
     });
-  },
+  };
 
-  onLogMessage(type, response:ResponseT) {
+  onLogMessage = (type, response:ResponseT) => {
     const {email, sessionId} = this.state;
     Api.logEvidence(type, {
       ...response,
@@ -64,7 +69,7 @@ export default React.createClass({
       name: email,
       clientTimestampMs: new Date().getTime(),
     });
-  },
+  };
 
   render() {
     return (
@@ -72,9 +77,9 @@ export default React.createClass({
         {this.renderContent()}
       </SessionFrame>
     );
-  },
+  }
 
-  renderContent() {
+  renderContent = () => {
     const {questions} = this.state;
     if (!questions) return this.renderIntro();
 
@@ -84,9 +89,9 @@ export default React.createClass({
       summaryEl={this.renderSummaryEl}
       onLogMessage={this.onLogMessage}
     />;
-  },
+  };
 
-  renderIntro() {
+  renderIntro = () => {
     return (
       <IntroWithEmail defaultEmail={this.state.email} onDone={this.onStart}>
         <div>
@@ -96,10 +101,10 @@ export default React.createClass({
         </div>
       </IntroWithEmail>
     );
-  },
+  };
 
   // Show overview and context, ask for open response for scenario.
-  renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
+  renderQuestionEl = (question:QuestionT, onLog, onResponseSubmitted) => {
     const interactionEl = (question.ask)
       ? <MinimalOpenResponse
           forceResponse={question.force || false}
@@ -128,14 +133,14 @@ export default React.createClass({
         {interactionEl}
       </div>
     );
-  },
+  };
 
-  renderSummaryEl(questions:[QuestionT], responses:[ResponseT]) {
+  renderSummaryEl = (questions:[QuestionT], responses:[ResponseT]) => {
     return (
       <div style={{padding: 20}}>
         <div>Thanks!</div>
         <div style={{paddingTop: 20}}>You can close the computer and head on back to the group.</div>
       </div>
     );
-  }
-});
+  };
+}

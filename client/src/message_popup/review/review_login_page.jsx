@@ -1,5 +1,9 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
+
+import createReactClass from 'create-react-class';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
@@ -19,11 +23,11 @@ const STATUS = {
 // The landing page for a learner to login and review their
 // responses.  They'll get an email with a one-time token valid for a fixed
 // time window, and need to re-authenticate each time.
-export default React.createClass({
+export default createReactClass({
   displayName: 'ReviewLoginPage',
 
   propTypes: {
-    reviewKey: React.PropTypes.string.isRequired
+    reviewKey: PropTypes.string.isRequired
   },
 
   getInitialState() {

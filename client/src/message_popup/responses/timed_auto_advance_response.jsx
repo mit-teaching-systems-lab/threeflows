@@ -1,53 +1,62 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import {ResponseTypes} from '../data/response_types.js';
 
 
 // This response supports timed auto advance to next slide
-export default React.createClass({
-  displayName: 'TimedAutoAdvanceResponse',
+export default class extends React.Component {
+  props: {
+    onLogMessage: Function,
+    onResponseSubmitted: Function,
+    recordText?: string,
+    autoFocus?: boolean,
+    textHeight?: number,
+    delayMs?: number,
+  };
 
-  propTypes: {
-    onLogMessage: React.PropTypes.func.isRequired,
-    onResponseSubmitted: React.PropTypes.func.isRequired,
-    recordText: React.PropTypes.string,
-    autoFocus: React.PropTypes.bool,
-    textHeight: React.PropTypes.number,
-    delayMs: React.PropTypes.number
-  },
+  static displayName = 'TimedAutoAdvanceResponse';
 
-  getDefaultProps() {
-    return {
-      recordText: 'Respond',
-      autoFocus: true,
-      textHeight: 48,
-      delayMs: 25000
-    };
-  },
+  static propTypes = {
+    onLogMessage: PropTypes.func.isRequired,
+    onResponseSubmitted: PropTypes.func.isRequired,
+    recordText: PropTypes.string,
+    autoFocus: PropTypes.bool,
+    textHeight: PropTypes.number,
+    delayMs: PropTypes.number
+  };
+
+  static defaultProps = {
+    recordText: 'Respond',
+    autoFocus: true,
+    textHeight: 48,
+    delayMs: 25000
+  };
 
   componentDidMount() {
     const {delayMs} = this.props;
     this.sceneTimer = window.setTimeout(this.onTimer, delayMs);
-  },
+  }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     window.clearTimeout(this.sceneTimer);
-  },
+  }
 
-  sceneTimer: (null: ?number),
-  
-  onTimer() {
+  sceneTimer: ?number = null;
+
+  onTimer = () => {
     const response = ResponseTypes.TIMED_AUTO_ADVANCE_RESPONSE;
     this.props.onLogMessage(response.type, response.params({}));
     this.props.onResponseSubmitted({ignore: true});
-  },
+  };
 
-  onSkipTapped() {
+  onSkipTapped = () => {
     const response = ResponseTypes.TIMED_AUTO_ADVANCE_RESPONSE;
     this.props.onLogMessage(response.type, response.params({skipTapped: true}));
     this.props.onResponseSubmitted({ignore: true});
-  },
+  };
 
   render() {
     const {recordText} = this.props;
@@ -64,7 +73,7 @@ export default React.createClass({
       </div>
     );
   }
-});
+}
 
 
 const styles = {

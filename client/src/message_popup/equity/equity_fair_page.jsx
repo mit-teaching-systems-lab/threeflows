@@ -10,21 +10,21 @@ import * as Routes from '../../routes.js';
 
 // Equity Workshop home page.  Intended for use in an in-person workshop,
 // or as a landing page that can be shared publicly.
-export default React.createClass({
-  displayName: 'EquityFairPage',
+export default class extends React.Component {
+  static displayName = 'EquityFairPage';
 
-  onClicked(href) {
+  onClicked = (href) => {
     if (href.indexOf('http') === 0) {
       window.location = href;
     } else {
       Routes.navigate(href);
     }
-  },
+  };
 
-  onTryItTapped(e) {
+  onTryItTapped = (e) => {
     e.preventDefault();
     Routes.navigate('/demos');
-  },
+  };
 
   render() {
     return (
@@ -53,9 +53,9 @@ export default React.createClass({
         {this.renderMoreInfo()}
       </div>
     );
-  },
+  }
 
-  renderPanels() {
+  renderPanels = () => {
     const scholasticaBlue = '#0B3662'; // from their website
     return (
       <div>
@@ -112,9 +112,9 @@ export default React.createClass({
         <Divider style={{marginTop: 30, marginBottom: 30}} />
       </div>
     );
-  },
+  };
 
-  renderMoreInfo() {
+  renderMoreInfo = () => {
     return (
       <div>
         <div style={styles.header}>Play more</div>
@@ -159,9 +159,9 @@ export default React.createClass({
         </div>
       </div>
     );
-  },
+  };
 
-  renderPanel(href, linkText, text, backgroundColor) {
+  renderPanel = (href, linkText, text, backgroundColor) => {
     return (
       <Paper zDepth={3} style={{flex: 1, margin: 15, backgroundColor}}>
         <div style={{cursor: 'pointer', padding: 30, display: 'inline-block', textDecoration: 'none', color: '#333'}} onClick={this.onClicked.bind(this, href)}>
@@ -172,8 +172,8 @@ export default React.createClass({
         </div>
       </Paper>
     );
-  }
-});
+  };
+}
 
 const styles = {
   page: {

@@ -8,29 +8,33 @@ import Media from 'react-media';
 A frame that resizes responsively, to take full screen on
 mobile and to simulate mobile on desktop (for demo purposes).
 */
-export default React.createClass({
-  displayName: 'ResponsiveFrame',
+export default class extends React.Component {
+  props: {
+    children: $FlowFixMe,
+    minWidth: number,
+    minHeight: number,
+  };
 
-  propTypes: {
+  static displayName = 'ResponsiveFrame';
+
+  static propTypes = {
     children: PropTypes.element.isRequired,
     minWidth: PropTypes.number.isRequired,
     minHeight: PropTypes.number.isRequired
-  },
+  };
 
-  getDefaultProps() {
-    return {
-      minWidth: 450,
-      minHeight: 400
-    };
-  },
+  static defaultProps = {
+    minWidth: 450,
+    minHeight: 400
+  };
 
   render() {
     const {minWidth, minHeight} = this.props;
     const query = `(min-width: ${minWidth}px) and (min-height: ${minHeight}px)`;
     return <Media query={query}>{this.renderResponsiveFrame}</Media>;
-  },
+  }
 
-  renderResponsiveFrame(isNotWide) {
+  renderResponsiveFrame = (isNotWide) => {
     const {children} = this.props;
     const outerFrameStyles = (isNotWide)
       ? styles.desktopOuterFrame
@@ -46,8 +50,8 @@ export default React.createClass({
         </div>
       </div>
     );
-  }
-});
+  };
+}
 
 const styles = {
   desktopOuterFrame: {

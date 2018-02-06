@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 
 import YouTube from 'react-youtube';
@@ -14,38 +16,42 @@ Users can't review their responses.
 This component also handles saving the wav file to the server, and then ultimately
 passing back a URL to the audio as part of the response.
 */
-export default React.createClass({
-  displayName: 'InstantResponseScenario',
+export default class extends React.Component {
+  props: {
+    onLogMessage: Function,
+    onResponseSubmitted: Function,
+    question: Object,
+  };
 
-  propTypes: {
-    onLogMessage: React.PropTypes.func.isRequired,
-    onResponseSubmitted: React.PropTypes.func.isRequired,
-    question: React.PropTypes.object.isRequired
-  },
+  static displayName = 'InstantResponseScenario';
 
-  getInitialState() {
-    return {
-      haveShownScenario: false
-    };
-  },
+  static propTypes = {
+    onLogMessage: PropTypes.func.isRequired,
+    onResponseSubmitted: PropTypes.func.isRequired,
+    question: PropTypes.object.isRequired
+  };
 
-  onDoneUploading({uploadedUrl, downloadUrl}) {
+  state = {
+    haveShownScenario: false
+  };
+
+  onDoneUploading = ({uploadedUrl, downloadUrl}) => {
     this.props.onLogMessage('message_popup_audio_response', {uploadedUrl});
     this.props.onResponseSubmitted({uploadedUrl, downloadUrl});
-  },
+  };
 
-  onDoneScenario() {
+  onDoneScenario = () => {
     this.props.onLogMessage('finished_playing_scenario');
     this.setState({haveShownScenario: true});
-  },
+  };
 
-  onPauseVideo(question) {
+  onPauseVideo = (question) => {
     this.props.onLogMessage('instant_response_scenario_pause_video', {question});
-  },
+  };
 
-  onPlayVideo(question) {
+  onPlayVideo = (question) => {
     this.props.onLogMessage('instant_response_scenario_play_video', {question});
-  },
+  };
 
   render() {
     if(!this.state.haveShownScenario) {
@@ -71,9 +77,9 @@ export default React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
-  renderScenario() {
+  renderScenario = () => {
     const question = this.props.question;
     return (
       <div style={styles.videoContainer}>
@@ -101,15 +107,15 @@ export default React.createClass({
         </div>
       </div>
     );
-  },
+  };
 
-  renderImage() {
+  renderImage = () => {
     return (
       <img style={styles.imageContainer} src="https://tsl-public.s3.amazonaws.com/threeflows/turner4b.png" alt="Jennifer Turner" />
     );
-  },
+  };
 
-  renderRecorder(autoRecord) {
+  renderRecorder = (autoRecord) => {
     return (
       <InstantAudioRecorder
         url={Routes.messagePopupUploadWavPath()}
@@ -118,8 +124,8 @@ export default React.createClass({
         onLogMessage={this.props.onLogMessage}
       />
     );
-  },
-});
+  };
+}
 
 const styles = {
   videoContainer: {

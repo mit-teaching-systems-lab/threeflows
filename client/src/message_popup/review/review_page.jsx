@@ -1,5 +1,9 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
+
+import createReactClass from 'create-react-class';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
@@ -20,11 +24,11 @@ const STATUS = {
 // Takes a token from an email.
 // Asks for confirmation of email address and requests data from the server.
 // Then shows that data to the user.
-export default React.createClass({
+export default createReactClass({
   displayName: 'ReviewPage',
 
   propTypes: {
-    token: React.PropTypes.string.isRequired,
+    token: PropTypes.string.isRequired,
   },
 
   getInitialState() {

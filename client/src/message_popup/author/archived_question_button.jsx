@@ -9,19 +9,24 @@ import {ListItem} from 'material-ui/List';
 
 import SchoolIcon from 'material-ui/svg-icons/social/school';
 
-export default React.createClass({
-  displayName: 'ArchivedQuestionButton',
+export default class extends React.Component {
+  props: {
+    question: Object,
+    onTouchQuestion: Function,
+  };
 
-  propTypes: {
+  static displayName = 'ArchivedQuestionButton';
+
+  static propTypes = {
     question: PropTypes.object.isRequired,
     onTouchQuestion: PropTypes.func.isRequired
-  }, 
+  };
 
-  onTouch(){
+  onTouch = () => {
     this.props.onTouchQuestion(withIndicator(withStudents([this.props.question])[0]));
-  },
+  };
 
-  render(){
+  render() {
     const question = withIndicator(this.props.question);
     return (
       <div>
@@ -36,4 +41,4 @@ export default React.createClass({
       </div>
     );
   }
-});
+}

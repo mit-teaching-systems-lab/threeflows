@@ -1,4 +1,7 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
@@ -13,15 +16,15 @@ import InfoOutlineIcon from 'material-ui/svg-icons/action/info-outline';
 Contains the components for messages "sent" through the message popup texting interface.
 */
 
-const Message = React.createClass({
+const Message = createReactClass({
   propTypes: {
-    type: React.PropTypes.string.isRequired,
-    text: React.PropTypes.string.isRequired,
-    messageStyle: React.PropTypes.object.isRequired,
-    messageTextStyle: React.PropTypes.object.isRequired,
-    leftIcon: React.PropTypes.element,
-    rightIcon: React.PropTypes.element,
-    label: React.PropTypes.string,
+    type: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+    messageStyle: PropTypes.object.isRequired,
+    messageTextStyle: PropTypes.object.isRequired,
+    leftIcon: PropTypes.element,
+    rightIcon: PropTypes.element,
+    label: PropTypes.string,
   },
   
   componentDidMount(){ 
@@ -49,11 +52,11 @@ const Message = React.createClass({
   }
 });
 
-export const StudentMessage = React.createClass({
+export const StudentMessage = createReactClass({
   propTypes: {
-    text: React.PropTypes.string.isRequired,
-    student: React.PropTypes.object.isRequired,
-    onOpenStudentDialog: React.PropTypes.func.isRequired
+    text: PropTypes.string.isRequired,
+    student: PropTypes.object.isRequired,
+    onOpenStudentDialog: PropTypes.func.isRequired
   },
   
   render(){
@@ -82,10 +85,10 @@ export const StudentMessage = React.createClass({
   }
 });
 
-export const UserMessage = React.createClass({
+export const UserMessage = createReactClass({
   propTypes: {
-    text: React.PropTypes.string.isRequired,
-    label: React.PropTypes.string
+    text: PropTypes.string.isRequired,
+    label: PropTypes.string
   },
 
   
@@ -112,10 +115,10 @@ export const UserMessage = React.createClass({
   }
 });
 
-export const InfoMessage = React.createClass({
+export const InfoMessage = createReactClass({
   propTypes: {
-    text: React.PropTypes.string.isRequired,
-    onOpenInfoDialog: React.PropTypes.func.isRequired
+    text: PropTypes.string.isRequired,
+    onOpenInfoDialog: PropTypes.func.isRequired
   },
   
   render(){

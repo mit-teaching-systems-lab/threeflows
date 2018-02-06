@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 
 import Divider from 'material-ui/Divider';
@@ -10,41 +12,47 @@ import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
 // Record audio, then classify your response.
 // If audio isn't available (eg., desktop Safari or mobile)
 // then it falls back to text.
-export default React.createClass({
-  displayName: 'OpenThenClassifyResponse',
+export default class extends React.Component {
+  props: {
+    choices: Array<string>,
+    onLogMessage: Function,
+    onResponseSubmitted: Function,
+    skipAudioRecording?: boolean,
+    forceResponse?: boolean,
+  };
 
-  propTypes: {
-    choices: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-    onLogMessage: React.PropTypes.func.isRequired,
-    onResponseSubmitted: React.PropTypes.func.isRequired,
-    skipAudioRecording: React.PropTypes.bool,
-    forceResponse: React.PropTypes.bool
-  },
+  static displayName = 'OpenThenClassifyResponse';
 
-  getInitialState() {
-    return {
-      audioResponse: null,
-      textResponse: null
-    };
-  },
+  static propTypes = {
+    choices: PropTypes.arrayOf(PropTypes.string).isRequired,
+    onLogMessage: PropTypes.func.isRequired,
+    onResponseSubmitted: PropTypes.func.isRequired,
+    skipAudioRecording: PropTypes.bool,
+    forceResponse: PropTypes.bool
+  };
 
-  onDoneAudio(audioResponse) {
+  state = {
+    audioResponse: null,
+    textResponse: null
+  };
+
+  onDoneAudio = (audioResponse) => {
     this.setState({audioResponse});
-  },
+  };
 
-  onDoneText(textResponse) {
+  onDoneText = (textResponse) => {
     this.setState({textResponse});
-  },
+  };
 
   // Include the audioResponse and textResponse in the fixed-choice response
-  onChoiceSelected(response) {
+  onChoiceSelected = (response) => {
     const {audioResponse, textResponse} = this.state;
     this.props.onResponseSubmitted({
       ...response,
       ...audioResponse,
       ...textResponse
     });
-  },
+  };
 
   render() {
     const {skipAudioRecording} = this.props;
@@ -57,9 +65,9 @@ export default React.createClass({
           : this.renderClassifyResponse()}
       </div>
     );
-  },
-  
-  renderClassifyResponse() {
+  }
+
+  renderClassifyResponse = () => {
     const {choices, onLogMessage} = this.props;
     return (
       <div>
@@ -72,10 +80,10 @@ export default React.createClass({
         />
       </div>
     );
-  },
+  };
 
   // Audio, but fall back to text if platform doesn't support it
-  renderOpenEndedResponse() {
+  renderOpenEndedResponse = () => {
     const {onLogMessage, forceResponse} = this.props;
     return (
       <MinimalOpenResponse
@@ -86,5 +94,5 @@ export default React.createClass({
         onResponseSubmitted={this.onDoneAudio}
       />
     );
-  }
-});
+  };
+}
