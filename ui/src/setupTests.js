@@ -16,27 +16,25 @@ window.matchMedia = window.matchMedia || function() {
 
 // Disable velocity-react in test
 // see https://github.com/twitter-fabric/velocity-react#statics
-require('velocity-animate');
-require('velocity-animate/velocity.ui');
-require('velocity-react/velocity-transition-group').disabledForTest = true;
+require('velocity-animate'); // eslint-disable-line no-undef
+require('velocity-animate/velocity.ui'); // eslint-disable-line no-undef
+require('velocity-react/velocity-transition-group').disabledForTest = true; // eslint-disable-line no-undef
 
 
 // Monkey-patch console.error so any calls to it fail the test.
 // This covers React PropType validations as well.
-var consoleError = console.error;
-console.error = function(message) {
+console.error = function(message) { // eslint-disable-line no-console
   var args = Array.prototype.slice.call(arguments);
   throw new Error(message, args.slice(1));
-  consoleError.apply(console, args);
 };
 
 // for material-ui, see https://github.com/zilverline/react-tap-event-plugin
 // can only be called once
-require('react-tap-event-plugin')();
+require('react-tap-event-plugin')(); // eslint-disable-line no-undef
 
 
 // Mock window.scrollTo so it does nothing.  The default setup will throw
 // "Not implemented" which is good but we don't care in test, we care ignore
 // any impact this has on the UI since we don't need to test scroll position
 // at the moment.
-window.scrollTo = function() { /* noop */ }
+window.scrollTo = function() { /* noop */ };
