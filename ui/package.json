@@ -12,7 +12,8 @@
     "lint": "eslint --ext jsx --ext js -c .eslintrc src",
     "mocha-watch": "yarn run mocha -- --watch",
     "mocha": "mocha --check-leaks --require test/setup.js --compilers jsx:babel-register",
-    "test": "yarn run lint && flow && yarn run mocha",
+    "test": "yarn run lint && flow && yarn run jest",
+    "jest": "jest --testRegex=\"(src/(.*)(test|spec))\\.jsx?$\" --env=jsdom --setupTestFrameworkScriptFile=./src/setupTests.js",
     "storybook": "start-storybook -p 9001"
   },
   "repository": {
@@ -66,6 +67,7 @@
     "eslint-plugin-jsx-a11y": "^1.5.3",
     "eslint-plugin-react": "^5.2.2",
     "flow-bin": "^0.30.0",
+    "jest": "^22.1.4",
     "livereactload": "^2.2.3",
     "mocha": "^3.0.2",
     "react-proxy": "^1.1.8",
