@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import _ from 'lodash';
 import Velocity from 'velocity-react/lib/velocity-animate-shim';
@@ -43,26 +45,26 @@ export default React.createClass({
   mixins: [SetIntervalMixin],
 
   propTypes: {
-    scaffolding: React.PropTypes.shape({
-      helpType: React.PropTypes.string.isRequired,
-      shouldShowSummary: React.PropTypes.bool.isRequired
+    scaffolding: PropTypes.shape({
+      helpType: PropTypes.string.isRequired,
+      shouldShowSummary: PropTypes.bool.isRequired
     }).isRequired,
-    limitMs: React.PropTypes.number.isRequired,
-    question: React.PropTypes.shape({
-      text: React.PropTypes.string,
-      youTubeId: React.PropTypes.string,
-      examples: React.PropTypes.array.isRequired,
-      nonExamples: React.PropTypes.array.isRequired,
-      students: React.PropTypes.array.isRequired
+    limitMs: PropTypes.number.isRequired,
+    question: PropTypes.shape({
+      text: PropTypes.string,
+      youTubeId: PropTypes.string,
+      examples: PropTypes.array.isRequired,
+      nonExamples: PropTypes.array.isRequired,
+      students: PropTypes.array.isRequired
     }).isRequired,
-    onLog: React.PropTypes.func.isRequired,
-    onDone: React.PropTypes.func.isRequired,
-    isLastQuestion: React.PropTypes.bool.isRequired,
-    drawResponseMode: React.PropTypes.func.isRequired,
-    drawStudentCard: React.PropTypes.func.isRequired,
-    drawResponsePrompt: React.PropTypes.func.isRequired,
-    shouldScrollOnMount: React.PropTypes.bool,
-    shouldScrollToResponse: React.PropTypes.bool
+    onLog: PropTypes.func.isRequired,
+    onDone: PropTypes.func.isRequired,
+    isLastQuestion: PropTypes.bool.isRequired,
+    drawResponseMode: PropTypes.func.isRequired,
+    drawStudentCard: PropTypes.func.isRequired,
+    drawResponsePrompt: PropTypes.func.isRequired,
+    shouldScrollOnMount: PropTypes.bool,
+    shouldScrollToResponse: PropTypes.bool
   },
 
   getDefaultProps() {

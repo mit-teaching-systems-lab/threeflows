@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 
 import * as Colors from 'material-ui/styles/colors';
@@ -11,7 +13,7 @@ export default React.createClass({
   displayName: 'MessageEvaluationCard',
 
   propTypes: {
-    evaluation: React.PropTypes.object.isRequired
+    evaluation: PropTypes.object.isRequired
   },
 
   render() {

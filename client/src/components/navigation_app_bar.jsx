@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 
 import Drawer from 'material-ui/Drawer';
@@ -18,14 +20,14 @@ export default React.createClass({
   displayName: 'NavigationAppBar',
 
   propTypes: {
-    title: React.PropTypes.string.isRequired,
-    style: React.PropTypes.object,
-    iconElementLeft: React.PropTypes.element,
-    iconElementRight: React.PropTypes.element
+    title: PropTypes.string.isRequired,
+    style: PropTypes.object,
+    iconElementLeft: PropTypes.element,
+    iconElementRight: PropTypes.element
   },
 
   contextTypes: {
-    auth: React.PropTypes.object.isRequired
+    auth: PropTypes.object.isRequired
   },
 
   getInitialState() {

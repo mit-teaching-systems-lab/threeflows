@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 
 import {ListItem} from 'material-ui/List';
@@ -12,8 +14,8 @@ export default React.createClass({
   displayName: 'QuestionButton',
 
   propTypes: {
-    question: React.PropTypes.object.isRequired,
-    doNavigate: React.PropTypes.func.isRequired
+    question: PropTypes.object.isRequired,
+    doNavigate: PropTypes.func.isRequired
   }, 
 
   onItemClicked(){

@@ -1,25 +1,27 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from "react";
 
 /*
 Defines common shapes of data.  Can moves this to Flow annotations over time.
 */
-export const Student = React.PropTypes.shape({
-  id: React.PropTypes.number.isRequired,
-  name: React.PropTypes.string.isRequired,
-  grade: React.PropTypes.string.isRequired,
-  gender: React.PropTypes.string.isRequired,
-  race: React.PropTypes.string.isRequired,
-  behavior: React.PropTypes.string,
-  ell: React.PropTypes.string,
-  learningDisabilities: React.PropTypes.string,
-  academicPerformance: React.PropTypes.string,
-  interests: React.PropTypes.string,
-  familyBackground: React.PropTypes.string,
-  ses: React.PropTypes.string
+export const Student = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  grade: PropTypes.string.isRequired,
+  gender: PropTypes.string.isRequired,
+  race: PropTypes.string.isRequired,
+  behavior: PropTypes.string,
+  ell: PropTypes.string,
+  learningDisabilities: PropTypes.string,
+  academicPerformance: PropTypes.string,
+  interests: PropTypes.string,
+  familyBackground: PropTypes.string,
+  ses: PropTypes.string
 });
 
-export const Scaffolding = React.PropTypes.shape({
-  helpType: React.PropTypes.string.isRequired,
-  shouldShowSummary: React.PropTypes.bool.isRequired
+export const Scaffolding = PropTypes.shape({
+  helpType: PropTypes.string.isRequired,
+  shouldShowSummary: PropTypes.bool.isRequired
 });

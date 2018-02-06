@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
 
@@ -7,10 +9,10 @@ export default React.createClass({
   displayName: 'ExamplesCard',
 
   propTypes: {
-    examples: React.PropTypes.array.isRequired,
-    titleText: React.PropTypes.string.isRequired,
-    style: React.PropTypes.object,
-    cardStyle: React.PropTypes.object
+    examples: PropTypes.array.isRequired,
+    titleText: PropTypes.string.isRequired,
+    style: PropTypes.object,
+    cardStyle: PropTypes.object
   },
 
   render() {

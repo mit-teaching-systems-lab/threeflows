@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 
 import {withStudents, withIndicator} from '../transformations.jsx';
@@ -11,8 +13,8 @@ export default React.createClass({
   displayName: 'ArchivedQuestionButton',
 
   propTypes: {
-    question: React.PropTypes.object.isRequired,
-    onTouchQuestion: React.PropTypes.func.isRequired
+    question: PropTypes.object.isRequired,
+    onTouchQuestion: PropTypes.func.isRequired
   }, 
 
   onTouch(){

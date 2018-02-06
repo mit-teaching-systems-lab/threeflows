@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 
 import IconButton from 'material-ui/IconButton';
@@ -15,7 +17,7 @@ export default React.createClass({
   displayName: 'HomeFrame',
 
   propTypes: {
-    children: React.PropTypes.node
+    children: PropTypes.node
   },
 
   onTappedMenu(e) {

@@ -1,4 +1,6 @@
 /* @flow */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
@@ -8,11 +10,11 @@ export default React.createClass({
   displayName: 'SummaryCard',
   
   propTypes: {
-    onDone: React.PropTypes.func.isRequired,
-    question: React.PropTypes.object.isRequired,
-    responseText: React.PropTypes.string.isRequired,
-    elapsedSeconds: React.PropTypes.number.isRequired,
-    buttonLabel: React.PropTypes.string.isRequired
+    onDone: PropTypes.func.isRequired,
+    question: PropTypes.object.isRequired,
+    responseText: PropTypes.string.isRequired,
+    elapsedSeconds: PropTypes.number.isRequired,
+    buttonLabel: PropTypes.string.isRequired
   },
   
   render(){

@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 
 import * as Colors from 'material-ui/styles/colors';
@@ -12,8 +14,8 @@ export default React.createClass({
   displayName: 'MessageResponseCard',
 
   propTypes: {
-    log: React.PropTypes.object.isRequired,
-    extendStyle: React.PropTypes.object
+    log: PropTypes.object.isRequired,
+    extendStyle: PropTypes.object
   },
 
   render() {

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import * as Api from '../../helpers/api.js';
@@ -25,9 +26,9 @@ export default React.createClass({
   displayName: 'QuestionsPage',
 
   propTypes: {
-    loaded: React.PropTypes.bool.isRequired,
-    allQuestions: React.PropTypes.object.isRequired,
-    doNavigate: React.PropTypes.func
+    loaded: PropTypes.bool.isRequired,
+    allQuestions: PropTypes.object.isRequired,
+    doNavigate: PropTypes.func
   },
 
   getDefaultProps(){

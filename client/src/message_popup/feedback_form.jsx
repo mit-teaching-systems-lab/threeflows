@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import 'velocity-animate/velocity.ui';
@@ -12,7 +14,7 @@ export default React.createClass({
   displayName: 'Feedback',
 
   propTypes: {
-    feedbackFormUrl: React.PropTypes.string
+    feedbackFormUrl: PropTypes.string
   },
 
   getDefaultProps() {

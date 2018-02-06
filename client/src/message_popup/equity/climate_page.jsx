@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import uuid from 'uuid';
 import _ from 'lodash';
@@ -38,10 +40,10 @@ export default React.createClass({
   displayName: 'ClimagePage',
 
   propTypes: {
-    query: React.PropTypes.shape({
-      cohort: React.PropTypes.string,
-      p: React.PropTypes.string,
-      workshop: React.PropTypes.string
+    query: PropTypes.shape({
+      cohort: PropTypes.string,
+      p: PropTypes.string,
+      workshop: PropTypes.string
     }).isRequired
   },
 

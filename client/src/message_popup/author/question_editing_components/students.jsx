@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import _ from 'lodash';
 
@@ -21,10 +23,10 @@ export default React.createClass({
   displayName: 'Students',
 
   propTypes: {
-    students: React.PropTypes.array.isRequired,
-    onAddStudent: React.PropTypes.func.isRequired,
-    onRemoveStudent: React.PropTypes.func.isRequired,
-    availableStudentList: React.PropTypes.array.isRequired,
+    students: PropTypes.array.isRequired,
+    onAddStudent: PropTypes.func.isRequired,
+    onRemoveStudent: PropTypes.func.isRequired,
+    availableStudentList: PropTypes.array.isRequired,
   },
 
   getInitialState(){

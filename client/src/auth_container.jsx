@@ -1,5 +1,8 @@
-/* @flow weak */
 import _ from 'lodash';
+
+/* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 
 import AppBar from 'material-ui/AppBar';
@@ -19,15 +22,15 @@ export default React.createClass({
   displayName: 'AuthContainer',
 
   propTypes: {
-    children: React.PropTypes.element.isRequired,
-    isEmailRequired: React.PropTypes.bool.isRequired,
-    localStorageKey: React.PropTypes.string
+    children: PropTypes.element.isRequired,
+    isEmailRequired: PropTypes.bool.isRequired,
+    localStorageKey: PropTypes.string
   },
 
   childContextTypes: {
-    auth: React.PropTypes.shape({
-      userProfile: React.PropTypes.object,
-      doLogout: React.PropTypes.func
+    auth: PropTypes.shape({
+      userProfile: PropTypes.object,
+      doLogout: PropTypes.func
     }).isRequired
   },
 

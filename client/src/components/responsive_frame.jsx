@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import Media from 'react-media';
 
@@ -10,9 +12,9 @@ export default React.createClass({
   displayName: 'ResponsiveFrame',
 
   propTypes: {
-    children: React.PropTypes.element.isRequired,
-    minWidth: React.PropTypes.number.isRequired,
-    minHeight: React.PropTypes.number.isRequired
+    children: PropTypes.element.isRequired,
+    minWidth: PropTypes.number.isRequired,
+    minHeight: PropTypes.number.isRequired
   },
 
   getDefaultProps() {

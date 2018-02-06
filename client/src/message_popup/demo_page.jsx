@@ -1,5 +1,8 @@
-/* @flow weak */
 import _ from 'lodash';
+
+/* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import 'velocity-animate/velocity.ui';
@@ -30,7 +33,7 @@ export default React.createClass({
   displayName: 'DemoPage',
 
   contextTypes: {
-    auth: React.PropTypes.object.isRequired
+    auth: PropTypes.object.isRequired
   },
 
   getInitialState() {

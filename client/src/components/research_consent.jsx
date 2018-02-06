@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 
@@ -17,7 +19,7 @@ export default React.createClass({
   displayName: 'ResearchConsent',
 
   propTypes: {
-    onLogMessage: React.PropTypes.func.isRequired
+    onLogMessage: PropTypes.func.isRequired
   },
 
   getInitialState() {

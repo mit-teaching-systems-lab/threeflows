@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import _ from 'lodash';
 import VelocityTransitionGroup from 'velocity-react/velocity-transition-group';
@@ -25,11 +27,11 @@ export default React.createClass({
   displayName: 'QuestionPage',
 
   propTypes: {
-    originalQuestion: React.PropTypes.object,
-    loaded: React.PropTypes.bool.isRequired,
-    onEditQuestion: React.PropTypes.func,
-    onDeleteQuestion: React.PropTypes.func,
-    onCreateQuestion: React.PropTypes.func
+    originalQuestion: PropTypes.object,
+    loaded: PropTypes.bool.isRequired,
+    onEditQuestion: PropTypes.func,
+    onDeleteQuestion: PropTypes.func,
+    onCreateQuestion: PropTypes.func
   },
 
   getInitialState() {

@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import {RouterMixin} from 'react-mini-router';
 
@@ -29,7 +31,7 @@ export default React.createClass({
   mixins: [RouterMixin],
 
   propTypes: {
-    muiTheme: React.PropTypes.object
+    muiTheme: PropTypes.object
   },
 
   getDefaultProps() {

@@ -1,5 +1,8 @@
-/* @flow weak */
 import _ from 'lodash';
+
+/* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 
 import Toggle from 'material-ui/Toggle';
@@ -26,13 +29,13 @@ export default React.createClass({
   displayName: 'ScaffoldingCard',
   
   propTypes: {
-    scaffolding: React.PropTypes.shape({
-      helpType: React.PropTypes.string.isRequired,
-      shouldShowSummary: React.PropTypes.bool.isRequired
+    scaffolding: PropTypes.shape({
+      helpType: PropTypes.string.isRequired,
+      shouldShowSummary: PropTypes.bool.isRequired
     }).isRequired,
-    initialEmail: React.PropTypes.string.isRequired,
-    query: React.PropTypes.object.isRequired,
-    onSessionConfigured: React.PropTypes.func.isRequired
+    initialEmail: PropTypes.string.isRequired,
+    query: PropTypes.object.isRequired,
+    onSessionConfigured: PropTypes.func.isRequired
   },
   
   getInitialState(){

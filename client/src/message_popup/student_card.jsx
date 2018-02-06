@@ -1,6 +1,8 @@
 // @flow
+import PropTypes from 'prop-types';
+
 import React from 'react';
-import * as PropTypes from '../prop_types.js';
+import * as SharedPropTypes from '../prop_types.js';
 
 /*
 Shows a card for a student from the virtual school.
@@ -9,10 +11,10 @@ export default React.createClass({
   displayName: 'StudentCard',
 
   propTypes: {
-    student: PropTypes.Student.isRequired,
-    useCardStyles: React.PropTypes.bool,
-    style: React.PropTypes.object,
-    attributeStyle: React.PropTypes.object
+    student: SharedPropTypes.Student.isRequired,
+    useCardStyles: PropTypes.bool,
+    style: PropTypes.object,
+    attributeStyle: PropTypes.object
   },
 
   render() {

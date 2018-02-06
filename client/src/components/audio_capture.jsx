@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import AudioRecorder from './audio_recorder.js';
 
@@ -10,8 +12,8 @@ export default React.createClass({
   displayName: 'AudioCapture',
 
   propTypes: {
-    isRecording: React.PropTypes.bool.isRequired,
-    onDoneCapture: React.PropTypes.func.isRequired
+    isRecording: PropTypes.bool.isRequired,
+    onDoneCapture: PropTypes.func.isRequired
   },
 
   statics: {

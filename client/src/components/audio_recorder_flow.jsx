@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import AudioCapture from './audio_capture.jsx';
 
@@ -26,15 +28,15 @@ export default React.createClass({
   displayName: 'AudioRecorderFlow',
 
   propTypes: {
-    url: React.PropTypes.string.isRequired,
-    start: React.PropTypes.func.isRequired,
-    reviewing: React.PropTypes.func.isRequired,
-    recording: React.PropTypes.func.isRequired,
-    processing: React.PropTypes.func,
-    saving: React.PropTypes.func,
-    done: React.PropTypes.func,
-    onDone: React.PropTypes.func.isRequired,
-    onLogMessage: React.PropTypes.func.isRequired
+    url: PropTypes.string.isRequired,
+    start: PropTypes.func.isRequired,
+    reviewing: PropTypes.func.isRequired,
+    recording: PropTypes.func.isRequired,
+    processing: PropTypes.func,
+    saving: PropTypes.func,
+    done: PropTypes.func,
+    onDone: PropTypes.func.isRequired,
+    onLogMessage: PropTypes.func.isRequired
   },
 
   getInitialState():State {

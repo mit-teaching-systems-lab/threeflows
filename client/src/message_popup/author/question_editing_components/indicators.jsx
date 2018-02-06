@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 
 import {indicators} from '../../../data/indicators.js';
@@ -11,8 +13,8 @@ export default React.createClass({
   displayName: 'Indicators',
 
   propTypes: {
-    indicator: React.PropTypes.object.isRequired,
-    onIndicatorChange: React.PropTypes.func.isRequired
+    indicator: PropTypes.object.isRequired,
+    onIndicatorChange: PropTypes.func.isRequired
   },
 
   onRadioButtonGroupChanged(e) {

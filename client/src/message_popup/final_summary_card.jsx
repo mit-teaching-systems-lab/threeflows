@@ -1,13 +1,16 @@
-/* @flow weak */
 import _ from 'lodash';
+
+/* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from "react";
 
 export default React.createClass({
   displayName: "FinalSummaryCard",
   
   propTypes: {
-    msResponseTimes: React.PropTypes.array.isRequired,
-    limitMs: React.PropTypes.number.isRequired
+    msResponseTimes: PropTypes.array.isRequired,
+    limitMs: PropTypes.number.isRequired
   },
 
   render(){

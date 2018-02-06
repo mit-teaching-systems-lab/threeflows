@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from 'react';
 
 import Paper from 'material-ui/Paper';
@@ -9,9 +11,9 @@ export default React.createClass({
   displayName: 'QuestionText',
 
   propTypes: {
-    originalText: React.PropTypes.string,
-    questionText: React.PropTypes.string.isRequired,
-    onQuestionTextChange: React.PropTypes.func.isRequired
+    originalText: PropTypes.string,
+    questionText: PropTypes.string.isRequired,
+    onQuestionTextChange: PropTypes.func.isRequired
   },
 
   onTextChange(e) {

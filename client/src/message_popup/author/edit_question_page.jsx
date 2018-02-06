@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import _ from 'lodash';
 
@@ -10,7 +11,7 @@ export default React.createClass({
   displayName: 'EditQuestionPage',
 
   propTypes: {
-    questionId: React.PropTypes.string.isRequired,
+    questionId: PropTypes.string.isRequired,
   },
 
   getInitialState(){

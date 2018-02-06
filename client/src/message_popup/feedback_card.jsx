@@ -1,6 +1,8 @@
 /* @flow weak */
 /* eslint-disable react/prop-types */
 // not sure why, but eslint is failing propTypes on this file
+import PropTypes from 'prop-types';
+
 import React from 'react';
 import _ from 'lodash';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -15,10 +17,10 @@ export default React.createClass({
   displayName: 'FeedbackCard',
 
   propTypes: {
-    initialResponseText: React.PropTypes.string.isRequired,
-    onRevised: React.PropTypes.func.isRequired,
-    onPassed: React.PropTypes.func.isRequired,
-    examples: React.PropTypes.array.isRequired
+    initialResponseText: PropTypes.string.isRequired,
+    onRevised: PropTypes.func.isRequired,
+    onPassed: PropTypes.func.isRequired,
+    examples: PropTypes.array.isRequired
   },
 
   getInitialState() {

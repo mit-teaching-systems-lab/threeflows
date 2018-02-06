@@ -1,4 +1,6 @@
 /* @flow weak */
+import PropTypes from 'prop-types';
+
 import React from "react";
 import _ from "lodash";
 import Divider from 'material-ui/Divider';
@@ -7,7 +9,7 @@ export default React.createClass({
   displayName: "InstructionsCard",
   
   propTypes: {
-    query: React.PropTypes.object.isRequired,
+    query: PropTypes.object.isRequired,
   },
   
   getInitialState(){
