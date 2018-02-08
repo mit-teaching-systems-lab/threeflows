@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import './LoginPage.css';
+import './LoginPage.css';
 
 
 // The page for users to login for accessing research data.
