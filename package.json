@@ -6,15 +6,15 @@
   },
   "main": "server/index.js",
   "scripts": {
-    "install": "cd ui && YARN_PRODUCTION=false yarn install --frozen-lockfile",
+    "install": "cd client && YARN_PRODUCTION=false yarn install --frozen-lockfile",
     "start": "yarn run dev",
     "dev": "concurrently \"NODE_ENV=development yarn run server-dev\" \"yarn run client\"",
     "server": "node server/index.js",
     "server-dev": "cross-env READ_LOCAL_EVIDENCE=true IS_SENSITIVE_REVIEWING_ENABLED=true DATABASE_URL=http://localhost:5432/teacher-moments-db NODE_ENV=development yarn run server",
     "client": "cd client && yarn run start",
-    "heroku-postbuild": "cd ui && yarn run build",
+    "heroku-postbuild": "cd client && yarn run build",
     "lint": "eslint --ext jsx --ext js -c server/.eslintrc server",
-    "test": "yarn run lint && cd ui && yarn run test",
+    "test": "yarn run lint && cd client && yarn run test",
     "db-create-dev": "node scripts/db-create.js teacher-moments-db"
   },
   "dependencies": {
