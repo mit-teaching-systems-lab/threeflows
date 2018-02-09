@@ -18,8 +18,16 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "test": "yarn run lint && flow && yarn run jest",
+    "eject": "react-scripts eject",
+    "flow-quiet": "flow; test $? -eq 0 -o $? -eq 2",
+    "lint-quiet": "eslint --fix --ext jsx --ext js -c .eslintrc src; exit 0",
+    "lint": "eslint --ext jsx --ext js -c .eslintrc src",
+    "jest": "jest --testRegex=\"(src/(.*)(test|spec))\\.jsx?$\" --env=jsdom --setupTestFrameworkScriptFile=./src/setupTests.js",
+    "storybook": "start-storybook -p 9001"
   },
-  "proxy": "http://localhost:4000"
+  "proxy": "http://localhost:4000",
+  "devDependencies": {
+    "jest": "^22.1.4"
+  }
 }
