@@ -18,31 +18,15 @@ import * as Colors from 'material-ui/styles/colors';
 // saves userTokens in localStorage afterward.
 //
 // Provides userProfile.email as context to children components.
-export default class extends React.Component {
-  static displayName = 'AuthContainer';
-
-  static propTypes = {
-    children: PropTypes.element.isRequired,
-    isEmailRequired: PropTypes.bool.isRequired,
-    localStorageKey: PropTypes.string
-  };
-
-  static childContextTypes = {
-    auth: PropTypes.shape({
-      userProfile: PropTypes.object,
-      doLogout: PropTypes.func
-    }).isRequired
-  };
-
-  static defaultProps = {
-    localStorageKey: 'threeflows_email_registration'
-  };
-
-  state = {
-    userEmail: 'unknown@mit.edu',
-    hasConfirmedEmail: !this.props.isEmailRequired,
-    isNavigatingAway: false
-  };
+export default class AuthContainer extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userEmail: 'unknown@mit.edu',
+      hasConfirmedEmail: !this.props.isEmailRequired,
+      isNavigatingAway: false
+    };
+  }
 
   getChildContext() {
     const userProfile = (this.state.hasConfirmedEmail) ? {
@@ -77,38 +61,38 @@ export default class extends React.Component {
     }
   }
 
-  doLogout = () => {
+  doLogout() {
     window.localStorage.removeItem(this.props.localStorageKey);
     this.setState({
       hasConfirmedEmail: false,
       userEmail: ''
     });
-  };
+  }
 
-  validateEmail = (email) => {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  validateEmail(email) {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
-  };
+  }
 
-  onTextChanged = (e) => {
+  onTextChanged(e) {
     const userEmail = e.target.value;
     this.setState({userEmail});
-  };
+  }
 
-  onDoneEmail = () => {
+  onDoneEmail()  {
     this.setState({ hasConfirmedEmail: true });
-  };
+  }
 
-  onDecline = () => {
+  onDecline()  {
     this.setState({ isNavigatingAway: true });
     window.location = 'http://tsl.mit.edu/';
-  };
+  }
 
-  onKeyDown = (e) => {
+  onKeyDown(e) {
     if (e.keyCode !== 13) return;
     if (!this.validateEmail(this.state.userEmail)) return;
     this.onDoneEmail();
-  };
+  }
 
   render() {
     const {
@@ -127,7 +111,7 @@ export default class extends React.Component {
     );
   }
 
-  renderEmailForm = () => {
+  renderEmailForm() {
     const {userEmail} = this.state;
     const shouldShowWarning = userEmail.length > 10 && !this.validateEmail(userEmail);
 
@@ -169,5 +153,23 @@ export default class extends React.Component {
         </div>
       </div>
     );
-  };
+  }
 }
+
+AuthContainer.displayName = 'AuthContainer';
+AuthContainer.propTypes = {
+  children: PropTypes.element.isRequired,
+  isEmailRequired: PropTypes.bool.isRequired,
+  localStorageKey: PropTypes.string
+};
+
+AuthContainer.childContextTypes = {
+  auth: PropTypes.shape({
+    userProfile: PropTypes.object,
+    doLogout: PropTypes.func
+  }).isRequired
+};
+
+AuthContainer.defaultProps = {
+  localStorageKey: 'threeflows_email_registration'
+};
