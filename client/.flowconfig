@@ -8,4 +8,4 @@
 .*/node_modules/youtube-player/.*
 
 [libs]
-types.js
+test/types.js

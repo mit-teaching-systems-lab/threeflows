@@ -28,7 +28,7 @@ describe('<DemoPage />', () => {
 
   it('transitions to first question', () => {
     const wrapper = mount(withContext(<DemoPage />));
-    wrapper.find(DemoPage).node.onSave();
+    wrapper.find(DemoPage).instance().onSave();
 
     expect(wrapper.find(PopupQuestion).length).to.equal(1);
     expect(wrapper.find(PopupQuestion).props().scaffolding).to.deep.equal({
