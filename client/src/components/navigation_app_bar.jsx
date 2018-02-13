@@ -20,8 +20,8 @@ export default class extends React.Component {
   props: {
     title: string,
     style?: Object,
-    iconElementLeft?: $FlowFixMe,
-    iconElementRight?: $FlowFixMe,
+    iconElementLeft?: React.Node,
+    iconElementRight?: React.Node
   };
 
   static displayName = 'NavigationAppBar';

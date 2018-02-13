@@ -18,7 +18,7 @@ export default class extends React.Component {
   props: {
     onDone: Function,
     defaultEmail?: string,
-    children?: $FlowFixMe,
+    children?: React.Node,
   };
 
   static displayName = 'IntroWithEmail';

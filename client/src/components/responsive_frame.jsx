@@ -10,7 +10,7 @@ mobile and to simulate mobile on desktop (for demo purposes).
 */
 export default class extends React.Component {
   props: {
-    children: $FlowFixMe,
+    children: React.Node,
     minWidth: number,
     minHeight: number,
   };

@@ -188,7 +188,7 @@ export default class extends React.Component {
             onRequestClose={function(){this.setState({selectedArchivedQuestion: null});}.bind(this)}
             autoScrollBodyContent={true}
             actions={[
-              <div style={{padding: 0, margin: 0, display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-around'}}>
+              <div key="buttons" style={{padding: 0, margin: 0, display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-around'}}>
                 <FlatButton label="Cancel" onTouchTap={function(){this.setState({selectedArchivedQuestion: null});}.bind(this)} />
                 <FlatButton label="Restore" onTouchTap={this.onQuestionRestore} style={styles.selectionRestoreButton}/>
               </div>

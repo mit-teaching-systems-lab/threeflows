@@ -14,7 +14,7 @@ import * as Routes from '../routes.js';
 
 // Frame for the Home page screens, with nav bar, logo and layout.
 export default class extends React.Component {
-  props: {children?: $FlowFixMe};
+  props: {children?: React.Node};
   static displayName = 'HomeFrame';
 
   static propTypes = {

@@ -12,8 +12,6 @@ Viewer to show a specific passage in a Twison story, with
 callbacks for when choices are made in that passage.
 */
 export default class TwineViewer extends React.Component {
-  displayName: 'TwineViewer'
-
   props: {
     twison: TwisonT,
     pid:number,
@@ -21,6 +19,8 @@ export default class TwineViewer extends React.Component {
     onDone:() => void,
     allowUnsafeHtml:bool
   }
+
+  static displayName = 'TwineViewer';
 
   render() {
     const {twison, pid} = this.props;

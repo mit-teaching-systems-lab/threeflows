@@ -203,9 +203,11 @@ export default class extends React.Component {
               open={deleteConfirmationOpen}
               actions={[
                 <FlatButton
+                  key="cancel"
                   label="Cancel"
                   onTouchTap={this.closeDeleteConfirmation}/>,
                 <FlatButton
+                  key="archive"
                   label="Archive"
                   style={{color: Colors.red500}}
                   onTouchTap={this.onDeleteButtonClicked}/>

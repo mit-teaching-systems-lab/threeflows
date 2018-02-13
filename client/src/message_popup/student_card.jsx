@@ -9,7 +9,7 @@ Shows a card for a student from the virtual school.
 */
 export default class extends React.Component {
   props: {
-    student: $FlowFixMe,
+    student: Object,
     useCardStyles?: boolean,
     style?: Object,
     attributeStyle?: Object,

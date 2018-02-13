@@ -33,6 +33,8 @@
     "react/prefer-es6-class": "off",
     "react/sort-comp": ["error", {
       order: [
+        'props', /* for flow type def */
+        'state', /* for flow type def */
         'static-methods',
         'mixins',
         'lifecycle',

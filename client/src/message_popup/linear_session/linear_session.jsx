@@ -12,7 +12,7 @@ import 'velocity-animate/velocity.ui';
 // `summaryEl` when done.
 export default class extends React.Component {
   props: {
-    questions: Array<$FlowFixMe>,
+    questions: Array<Object>,
     questionEl: Function,
     summaryEl: Function,
     onLogMessage: Function,

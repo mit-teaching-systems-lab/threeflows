@@ -7,7 +7,7 @@ import {Card, CardHeader, CardText} from 'material-ui/Card';
 
 export default class extends React.Component {
   props: {
-    examples: Array<$FlowFixMe>,
+    examples: Array<string>,
     titleText: string,
     style?: Object,
     cardStyle?: Object,

@@ -18,7 +18,7 @@ export default class extends React.Component {
     initialResponseText: string,
     onRevised: Function,
     onPassed: Function,
-    examples: Array<$FlowFixMe>,
+    examples: Array<string>,
   };
 
   state: *;
