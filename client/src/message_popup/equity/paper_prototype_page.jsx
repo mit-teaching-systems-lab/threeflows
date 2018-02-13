@@ -309,7 +309,7 @@ export default class extends React.Component {
         <br />
         <div>If you have time, capture the main points of your discussion on the poster board, to share it out with the whole group after.</div>
         <br />
-        <div>If you're online, connect with others at <a target="_blank" href="https://twitter.com/search?q=%23TeacherPracticeSpaces">#TeacherPracticeSpaces</a>.</div>
+        <div>If you're online, connect with others at <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/search?q=%23TeacherPracticeSpaces">#TeacherPracticeSpaces</a>.</div>
       </div>
     );
   };

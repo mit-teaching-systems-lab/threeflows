@@ -230,7 +230,7 @@ function slidesFor(cohortKey) {
     <div>Finally, you'll reflect on your experience.</div>
     <br />
     <div>5. Discussion</div>
-    <div>When you're done here, share your responses with your cohort on online at <a target="_blank" href="https://twitter.com/search?q=%23https://twitter.com/search?q=%23TeacherPracticeSpaces">#TeacherPracticeSpaces</a>.</div>
+    <div>When you're done here, share your responses with your cohort on online at <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/search?q=%23https://twitter.com/search?q=%23TeacherPracticeSpaces">#TeacherPracticeSpaces</a>.</div>
   </div>
   });
 
@@ -347,9 +347,9 @@ Also, for now please hold questions or feedback about this activity itself.
     <div>
       <div>Finally, on the next screen you can review your reflections before sharing back with your cohort (eg., on a discussion board or in class).</div>
       <br />
-      <div>If you'd like, you can also share online at <a target="_blank" href="https://twitter.com/search?q=%23https://twitter.com/search?q=%23TeacherPracticeSpaces">#TeacherPracticeSpaces</a>.</div>
+      <div>If you'd like, you can also share online at <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/search?q=%23https://twitter.com/search?q=%23TeacherPracticeSpaces">#TeacherPracticeSpaces</a>.</div>
       <br />
-      <div>And if you're curious to learn more, check out the commentaries on these projects and scoring guidelines from the <a target="_blank" href="http://apcentral.collegeboard.com/apc/public/exam/exam_information/231726.html">College Board</a>.</div>
+      <div>And if you're curious to learn more, check out the commentaries on these projects and scoring guidelines from the <a target="_blank" rel="noopener noreferrer" href="http://apcentral.collegeboard.com/apc/public/exam/exam_information/231726.html">College Board</a>.</div>
     </div>
   });
 

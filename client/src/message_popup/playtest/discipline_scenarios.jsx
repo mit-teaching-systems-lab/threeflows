@@ -60,7 +60,7 @@ function slidesForStudent(nameWithPronouns:NameWithPronounsT) {
       <div>Finally, you'll reflect on your experience.</div>
       <br />
       <div>5. Discussion</div>
-      <div>When you're done, head back to the classroom to rejoin the group.  If you're online, chime in at <a target="_blank" href="https://twitter.com/search?q=%23https://twitter.com/search?q=%23TeacherPracticeSpaces">#TeacherPracticeSpaces</a>.</div>
+      <div>When you're done, head back to the classroom to rejoin the group.  If you're online, chime in at <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/search?q=%23https://twitter.com/search?q=%23TeacherPracticeSpaces">#TeacherPracticeSpaces</a>.</div>
     </div>
   });
 
@@ -188,7 +188,7 @@ Please help answer a few survey questions as well.
     <br />
     <div>In the group, you'll be asked to describe what you noticed, any assumptions you made, and how that shaped your interactions with the student.</div>
     <br />
-    <div>Feel free to take a minute or two to think about that, and then head on back!  If you're working online you can connect with other folks at <a target="_blank" href="https://twitter.com/search?q=%23https://twitter.com/search?q=%23TeacherPracticeSpaces">#TeacherPracticeSpaces</a>.</div>
+    <div>Feel free to take a minute or two to think about that, and then head on back!  If you're working online you can connect with other folks at <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/search?q=%23https://twitter.com/search?q=%23TeacherPracticeSpaces">#TeacherPracticeSpaces</a>.</div>
   </div>
   });
 
