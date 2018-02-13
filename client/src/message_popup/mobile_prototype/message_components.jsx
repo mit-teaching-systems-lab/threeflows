@@ -79,7 +79,7 @@ export const StudentMessage = createReactClass({
               <FaceIcon/>
             </IconButton>
           }
-          />
+        />
       </div>
     );
   }
@@ -109,7 +109,7 @@ export const UserMessage = createReactClass({
               <FaceIcon  style={{marginTop: 8, ...styles.messageIcon}}/>
             </div>
           }
-          />
+        />
       </div>
     );
   }
@@ -140,7 +140,7 @@ export const InfoMessage = createReactClass({
               <InfoOutlineIcon/>
             </IconButton>
           }
-          />
+        />
       </div>
     );
   }

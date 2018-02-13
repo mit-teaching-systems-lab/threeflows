@@ -177,17 +177,17 @@ export default class extends React.Component {
             <div style={_.merge({ padding: 20 }, styles.option)}>
               {showSummaryToggle &&
               <Toggle
-              label="Show summary after each question"
-              labelPosition="right"
-              toggled={shouldShowSummary}
-              onToggle={this.onSummaryToggled}/>
+                label="Show summary after each question"
+                labelPosition="right"
+                toggled={shouldShowSummary}
+                onToggle={this.onSummaryToggled}/>
               }
               {showHelpToggle &&
               <Toggle
-              label="With feedback and revision"
-              labelPosition="right"
-              toggled={helpType==='feedback'}
-              onToggle={this.onHelpToggled} />
+                label="With feedback and revision"
+                labelPosition="right"
+                toggled={helpType==='feedback'}
+                onToggle={this.onHelpToggled} />
               }
               {(showSummaryToggle || showHelpToggle) && showOriginalHelp &&
               <div style={{margin: 10}}><Divider /></div>
@@ -244,9 +244,9 @@ export default class extends React.Component {
             label="All" />
           {possibleIndicators.map((indicator) => {
             return <RadioButton
-                     key={indicator.id}
-                     value={indicator.id.toString()}
-                     label={indicator.text} />;
+              key={indicator.id}
+              value={indicator.id.toString()}
+              label={indicator.text} />;
           })}
         </RadioButtonGroup>
       </div>

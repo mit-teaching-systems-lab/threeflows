@@ -142,7 +142,7 @@ export default class extends React.Component {
             </IconButton>
           }
           iconElementRight={<IconButton onTouchTap={this.onNewQuestion}><AddIcon /></IconButton>}
-          />
+        />
         <div style={styles.container}>
           <div style={styles.searchbar}>
             <SearchIcon />
@@ -158,10 +158,10 @@ export default class extends React.Component {
           <div style={styles.questionsContainer}>
             <Paper rounded={false}>
               {loaded && currentQuestions.map(question => 
-                 <QuestionButton
-                   key={question.id}
-                   question={question}
-                   doNavigate={this.props.doNavigate} />
+                <QuestionButton
+                  key={question.id}
+                  question={question}
+                  doNavigate={this.props.doNavigate} />
               )}
             </Paper>
             <Card style={styles.archivedQuestionsContainer} rounded={false} expanded={this.state.showArchivedQuestions} onExpandChange={function(){this.setState({showArchivedQuestions: !this.state.showArchivedQuestions});}.bind(this)}>

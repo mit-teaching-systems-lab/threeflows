@@ -85,7 +85,7 @@ There's a projector that can show any computer screen on the front wall of the c
     </div>
   });
 
-// from http://www.pbis.org/Common/Cms/files/pbisresources/PBIS%20Disproportionality%20Policy%20Guidebook%202016-7-24.pdf
+  // from http://www.pbis.org/Common/Cms/files/pbisresources/PBIS%20Disproportionality%20Policy%20Guidebook%202016-7-24.pdf
   slides.push({type: 'Context', text:
 `Here is the school's discipline policy:
 
@@ -141,7 +141,7 @@ Ready to start?
   });
 
 
-// Reflect
+  // Reflect
   slides.push({ type: 'Reflect', text:
 `That's the end of the simulation.  Thanks!
 

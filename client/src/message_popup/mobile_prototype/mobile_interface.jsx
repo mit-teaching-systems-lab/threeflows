@@ -223,7 +223,7 @@ export default createReactClass({
             onOpenStudentDialog={this.onOpenStudentDialog}
             onOpenInfoDialog={this.onOpenInfoDialog}
             onAnimationDone={this.onAnimationDone}
-            />
+          />
         </div>
         <div style={styles.textFooter}>
           <TextFooter 
@@ -239,7 +239,7 @@ export default createReactClass({
             nextExample={this.nextExample}
             nextButtonLabel={this.props.isLastQuestion ? 'Finish' : 'Next Question'}
             mainStudent={question.students[0]}
-            />
+          />
         </div>
         <div>
           {question.students.length > 0 && this.renderDialogs()}
@@ -289,7 +289,7 @@ export default createReactClass({
           </Dialog>
         }
       </div>
-      );
+    );
   }
 });
 

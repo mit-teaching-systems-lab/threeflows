@@ -42,7 +42,7 @@ export default class extends React.Component {
           onChange={this.onTextChange}
           floatingLabelText='Type out the question text here.'/>
       </Paper>
-      );
+    );
   }
 }
 

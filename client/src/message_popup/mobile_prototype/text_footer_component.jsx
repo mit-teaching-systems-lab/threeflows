@@ -75,7 +75,7 @@ export default createReactClass({
             hintText="Type something you would say"
             style={styles.responseTextField}
             textareaStyle={styles.responseTextAreaInner}
-            />
+          />
         </div>
         <div style={styles.responseButtonRow}>  
           <div>
@@ -86,13 +86,13 @@ export default createReactClass({
               secondary={!this.props.isReadyToMoveOn}
               onTouchTap={this.props.isReadyToMoveOn ? this.onNextQuestion : this.state.initialMessageSent ?  this.onRevisionSendMessage : this.onSendMessage}
               disabled={(this.state.text === undefined || this.state.text === '') && !this.props.isReadyToMoveOn}
-              />
+            />
             {this.props.helpType === 'feedback' && this.state.initialMessageSent && !this.props.isReadyToMoveOn &&
             <RaisedButton
               style={styles.responseButton}
               label="Pass"
               onTouchTap={this.onPassSendMessage}
-              />
+            />
             }
             {this.props.helpType === 'hints' && !this.props.isReadyToMoveOn &&
             <RaisedButton
@@ -100,7 +100,7 @@ export default createReactClass({
               label="Show Example"
               disabled={this.props.nextExample(false) === null}
               onTouchTap={this.props.onShowExampleClicked}
-              />
+            />
             }
           </div>
           <div style={styles.responseTimer}>

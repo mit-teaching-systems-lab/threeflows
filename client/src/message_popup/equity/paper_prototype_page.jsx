@@ -88,13 +88,13 @@ export default class extends React.Component {
   firstSlide = () => {
     return { el: 
       <div>
-      <div><b>PART 1: Practice Individually</b></div>
-      <br />
-      <div>In Part 1, you’ll read through 4 separate classroom management scenes and type how you’d respond to each scene.</div>
-      <br />
-      <div>For each scene, simulate how you’d respond to the student(s) in the moment and type your response in the textbox located below the scene. </div>
-      <br />
-      <div>Once you’re finished with your responses, You'll review how people have responded and discuss.  Clicking on “Ok” will take you to your first scene. Ready?</div>
+        <div><b>PART 1: Practice Individually</b></div>
+        <br />
+        <div>In Part 1, you’ll read through 4 separate classroom management scenes and type how you’d respond to each scene.</div>
+        <br />
+        <div>For each scene, simulate how you’d respond to the student(s) in the moment and type your response in the textbox located below the scene. </div>
+        <br />
+        <div>Once you’re finished with your responses, You'll review how people have responded and discuss.  Clicking on “Ok” will take you to your first scene. Ready?</div>
       </div>
     };
   };

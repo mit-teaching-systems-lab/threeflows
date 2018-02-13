@@ -40,7 +40,7 @@ export default class extends React.Component {
         <h2>Equity practice spaces</h2>
         <p style={{marginTop: 10, marginBottom: 20}}>These interactive case studies can be used to spark conversation during in-person workshops, as homework to seed work in class, or within online PLCs.  They can be used for initial exposure to challenges teachers face in classrooms, or as formative assessments.</p>
         <div>
-         <div style={styles.themes}>Themes:</div>
+          <div style={styles.themes}>Themes:</div>
           <ul>
             <li style={styles.themes}>Creating inclusiveness and belonging</li>
             <li style={styles.themes}>Seeing the whole student</li>

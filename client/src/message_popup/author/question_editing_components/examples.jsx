@@ -43,7 +43,7 @@ export default class extends React.Component {
           underlineShow={false}
           onChange={this.onChange} />
       </Paper>
-      );
+    );
   }
 }
 

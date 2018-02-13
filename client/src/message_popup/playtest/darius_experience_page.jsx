@@ -107,18 +107,18 @@ export default class extends React.Component {
   renderQuestionEl = (question:QuestionT, onLog, onResponseSubmitted) => {
     const interactionEl = (question.ask)
       ? <MinimalOpenResponse
-          forceResponse={question.force || false}
-          responsePrompt=""
-          recordText="Click then speak"
-          ignoreText="Move on"
-          onLogMessage={onLog}
-          onResponseSubmitted={onResponseSubmitted}
-        />
+        forceResponse={question.force || false}
+        responsePrompt=""
+        recordText="Click then speak"
+        ignoreText="Move on"
+        onLogMessage={onLog}
+        onResponseSubmitted={onResponseSubmitted}
+      />
       : <ForcedChoiceResponse
-          choices={['OK']}
-          onLogMessage={onLog}
-          onResponseSubmitted={onResponseSubmitted}
-        />;
+        choices={['OK']}
+        onLogMessage={onLog}
+        onResponseSubmitted={onResponseSubmitted}
+      />;
 
     return (
       <div key={JSON.stringify(question)}>

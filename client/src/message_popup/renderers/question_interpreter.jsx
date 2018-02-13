@@ -64,7 +64,7 @@ export default class extends React.Component {
           ignoreText="Move on"
           onLogMessage={onLogMessage}
           onResponseSubmitted={onResponseSubmitted}
-          />;
+        />;
       } else {
         const buttonText = AudioCapture.isAudioSupported()
           ? "Click then speak"
@@ -77,7 +77,7 @@ export default class extends React.Component {
           ignoreText="Move on"
           onLogMessage={onLogMessage}
           onResponseSubmitted={onResponseSubmitted}
-          />;
+        />;
       }
     }
 
@@ -93,7 +93,7 @@ export default class extends React.Component {
         ignoreText="Ignore"
         onLogMessage={onLogMessage}
         onResponseSubmitted={onResponseSubmitted}
-        />;
+      />;
     }
 
     if (question.write) {

@@ -34,11 +34,11 @@ export default class extends React.Component {
           initiallyExpanded={true}
           showExpandableButton={true}
         />
-          <CardText expandable={true}>
-            <ul style={listStyle}>{examples.map((text) => {
-              return <li key={text} style={{paddingBottom: 20}}>{text}</li>;
-            })}</ul>
-          </CardText>
+        <CardText expandable={true}>
+          <ul style={listStyle}>{examples.map((text) => {
+            return <li key={text} style={{paddingBottom: 20}}>{text}</li>;
+          })}</ul>
+        </CardText>
       </Card>
     );
   }

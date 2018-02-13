@@ -44,7 +44,7 @@ function slidesForSetting(setting:SettingT) {
   });
 
 
-// Context
+  // Context
   slides.push({ type: 'Context', text:
 `For this scenario, you've been asked to substitute for Ms. Ada, who unexpectedly needed to take a personal day to attend to some family matters.
 
@@ -88,7 +88,7 @@ One challenge in being a substitute is that you'll start the lesson without know
 `});
 
 
-// Anticipate
+  // Anticipate
   slides.push({ type: 'Anticipate', text:
 `Before you begin, we have three questions about what you anticipate.
 `});
@@ -106,7 +106,7 @@ One challenge in being a substitute is that you'll start the lesson without know
 `, ask: true, force: true});
 
 
-// Try it!
+  // Try it!
   slides.push({ type: 'Try it!', text:
 `When you're ready, you'll go through a set of scenes.
 
@@ -222,7 +222,7 @@ Molly nods.
 
 
 
-// Reflect
+  // Reflect
   slides.push({ type: 'Reflect', text:
 `That's the end of the simulation.  Thanks!
 

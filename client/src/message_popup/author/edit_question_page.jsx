@@ -73,7 +73,7 @@ export default class extends React.Component {
             loaded={false}
             onEditQuestion={this.onEditQuestion}
             onDeleteQuestion={this.onDeleteQuestion}
-            />
+          />
         }
         {loaded &&
           <QuestionPage 
@@ -81,7 +81,7 @@ export default class extends React.Component {
             loaded={true}
             onEditQuestion={this.onEditQuestion}
             onDeleteQuestion={this.onDeleteQuestion}
-            />
+          />
         }
       </div>
     );

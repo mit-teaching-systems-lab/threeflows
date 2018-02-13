@@ -152,7 +152,7 @@ export default createReactClass({
           open={seconds >= (limitMs/1000)}
           message="Remember, these are supposed to be quick responses."
           onRequestClose={this.onRequestClose}
-          />
+        />
       </div>
     );
   }
