@@ -34,7 +34,7 @@ As the summer has progressed, you’ve gotten to know the administration, the se
 You are a bit surprised, as you didn’t expect parent conferences prior to actually teaching any students. When you question the counselor on what this conference is all about, the only background information she can provide is that this parent (Mrs. Lori Danson) and student (Brian Danson) are new to the school district and that Brian will soon be starting 9th grade. 
 
 You agree to the conference and ask the counselor to arrange for the parent to come in next week.`
-  });
+    });
 
     slides.push({type: 'Pre-simulation Reflection', stage: 'prereflect', text: 
       `Given that you have little data on which to build expectations, what are your goals for this parent-initiated conference with Lori Danson?`

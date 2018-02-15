@@ -214,14 +214,14 @@ export default createReactClass({
         </div>
         <div style={{padding: 20}}>
           <TextField
-          name="email"
-          style={{width: '100%'}}
-          underlineShow={false}
-          floatingLabelText="What's your email address?"
-          value={this.state.email}
-          onChange={this.onTextChanged}
-          multiLine={true}
-          rows={2}/>
+            name="email"
+            style={{width: '100%'}}
+            underlineShow={false}
+            floatingLabelText="What's your email address?"
+            value={this.state.email}
+            onChange={this.onTextChanged}
+            multiLine={true}
+            rows={2}/>
           <div style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-end'}}>
             <RaisedButton
               disabled={this.state.email === ''}
@@ -234,7 +234,7 @@ export default createReactClass({
         
       </VelocityTransitionGroup>
 
-      );
+    );
   },
   
   renderPopupQuestion() {
@@ -285,7 +285,7 @@ export default createReactClass({
           limitMs={limitMs}
           onLog={this.onLog}
           isLastQuestion={questionsAnswered+1===sessionLength ? true : false}
-          />
+        />
       </div>
     );
   }

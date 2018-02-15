@@ -76,22 +76,22 @@ export default class extends React.Component {
                   subtitle={sceneToResponses[sceneNumber][0]['scene_text']}
                 />
                 <CardText>
-              <div style={styles.cardContainer}>
-                {_.uniq(_.map(sceneToResponses[sceneNumber], 'anonymized_text')).map((anonymizedText, index) => {
-                  const responseLetter = String.fromCharCode('A'.charCodeAt() + index);
+                  <div style={styles.cardContainer}>
+                    {_.uniq(_.map(sceneToResponses[sceneNumber], 'anonymized_text')).map((anonymizedText, index) => {
+                      const responseLetter = String.fromCharCode('A'.charCodeAt() + index);
 
-                  return (
-                    <Paper
-                      key={anonymizedText}
-                      style={styles.responseCard}
-                      zDepth={3}>
-                      <div>{`Response ${responseLetter}:`}</div>
-                      <div style={{padding: 10}}>{anonymizedText}</div>
-                    </Paper>
-                  );
-                })}
-              </div>
-              </CardText>
+                      return (
+                        <Paper
+                          key={anonymizedText}
+                          style={styles.responseCard}
+                          zDepth={3}>
+                          <div>{`Response ${responseLetter}:`}</div>
+                          <div style={{padding: 10}}>{anonymizedText}</div>
+                        </Paper>
+                      );
+                    })}
+                  </div>
+                </CardText>
               </Card>
             </div>
           );

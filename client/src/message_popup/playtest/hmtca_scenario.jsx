@@ -54,13 +54,13 @@ function slidesFor(cohortKey, options = {}) {
   var slides:[QuestionT] = [];
   slides.push(options.firstSlide || { el: 
     <div>
-    <div><b>PART 1: Practice Individually</b> (10 minutes)</div>
-    <br />
-    <div>In Part 1, you’ll read through 4 separate classroom management scenes and type how you’d respond to each scene.</div>
-    <br />
-    <div>For each scene, simulate how you’d respond to the student(s) in the moment and type your response in the textbox located below the scene. </div>
-    <br />
-    <div>Once you’re finished with your responses, wait for your group to finish. You will move on to Part 2 after 10 minutes. Clicking on “Ok” will take you to your first scene. Ready?</div>
+      <div><b>PART 1: Practice Individually</b> (10 minutes)</div>
+      <br />
+      <div>In Part 1, you’ll read through 4 separate classroom management scenes and type how you’d respond to each scene.</div>
+      <br />
+      <div>For each scene, simulate how you’d respond to the student(s) in the moment and type your response in the textbox located below the scene. </div>
+      <br />
+      <div>Once you’re finished with your responses, wait for your group to finish. You will move on to Part 2 after 10 minutes. Clicking on “Ok” will take you to your first scene. Ready?</div>
     </div>
   });
 

@@ -168,7 +168,7 @@ export default class extends React.Component {
         <AppBar 
           title={title}
           iconElementLeft={<IconButton onTouchTap={this.onReturnToQuestions}><ArrowBackIcon /></IconButton>}
-          />
+        />
         {loaded &&
           <div style={styles.container}>
             <VelocityTransitionGroup enter={{animation: 'transition.fadeIn'}} runOnMount={true}>
@@ -176,36 +176,38 @@ export default class extends React.Component {
                 originalText={originalQuestion !== undefined ? originalQuestion.text : undefined}
                 questionText={questionText}
                 onQuestionTextChange={this.onQuestionTextChange}
-                />
+              />
               <Students 
                 students={students}
                 onAddStudent={this.onAddStudent}
                 onRemoveStudent={this.onRemoveStudent}
                 availableStudentList={this.state.availableStudentList}
-                />
+              />
               <Examples 
                 type="Good"
                 examplesText={goodExamplesText}
                 onExamplesChange={this.onGoodExamplesChange}
-                />
+              />
               <Examples 
                 type="Bad"
                 examplesText={badExamplesText}
                 onExamplesChange={this.onBadExamplesChange}
-                />
+              />
               <Indicators 
                 indicator={indicator}
                 onIndicatorChange={this.onIndicatorChange}
-                />
+              />
               {this.renderButtons()}
             </VelocityTransitionGroup>
             <Dialog 
               open={deleteConfirmationOpen}
               actions={[
                 <FlatButton
+                  key="cancel"
                   label="Cancel"
                   onTouchTap={this.closeDeleteConfirmation}/>,
                 <FlatButton
+                  key="archive"
                   label="Archive"
                   style={{color: Colors.red500}}
                   onTouchTap={this.onDeleteButtonClicked}/>
@@ -246,7 +248,7 @@ export default class extends React.Component {
               primary={true}
               disabled={!this.saveCheckPassed()}
               onTouchTap={this.onCreateQuestion}
-              />
+            />
           </div>
         }
       </div>

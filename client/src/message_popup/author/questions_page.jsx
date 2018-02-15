@@ -142,7 +142,7 @@ export default class extends React.Component {
             </IconButton>
           }
           iconElementRight={<IconButton onTouchTap={this.onNewQuestion}><AddIcon /></IconButton>}
-          />
+        />
         <div style={styles.container}>
           <div style={styles.searchbar}>
             <SearchIcon />
@@ -158,10 +158,10 @@ export default class extends React.Component {
           <div style={styles.questionsContainer}>
             <Paper rounded={false}>
               {loaded && currentQuestions.map(question => 
-                 <QuestionButton
-                   key={question.id}
-                   question={question}
-                   doNavigate={this.props.doNavigate} />
+                <QuestionButton
+                  key={question.id}
+                  question={question}
+                  doNavigate={this.props.doNavigate} />
               )}
             </Paper>
             <Card style={styles.archivedQuestionsContainer} rounded={false} expanded={this.state.showArchivedQuestions} onExpandChange={function(){this.setState({showArchivedQuestions: !this.state.showArchivedQuestions});}.bind(this)}>
@@ -188,7 +188,7 @@ export default class extends React.Component {
             onRequestClose={function(){this.setState({selectedArchivedQuestion: null});}.bind(this)}
             autoScrollBodyContent={true}
             actions={[
-              <div style={{padding: 0, margin: 0, display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-around'}}>
+              <div key="buttons" style={{padding: 0, margin: 0, display: 'flex', flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'space-around'}}>
                 <FlatButton label="Cancel" onTouchTap={function(){this.setState({selectedArchivedQuestion: null});}.bind(this)} />
                 <FlatButton label="Restore" onTouchTap={this.onQuestionRestore} style={styles.selectionRestoreButton}/>
               </div>

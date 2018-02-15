@@ -196,7 +196,7 @@ export default createReactClass({
         
       </VelocityTransitionGroup>
 
-      );
+    );
   },
   
   renderPopupQuestion() {
@@ -247,7 +247,7 @@ export default createReactClass({
           limitMs={limitMs}
           onLog={this.onLog}
           isLastQuestion={questionsAnswered+1===sessionLength ? true : false}
-          />
+        />
       </div>
     );
   }

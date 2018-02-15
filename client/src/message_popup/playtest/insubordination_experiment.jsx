@@ -118,7 +118,7 @@ export default class extends React.Component {
           {responses.map((response, i) =>
             <div key={i} style={{paddingTop: 10}}>
               <div>{questions[i].text}</div>
-              <div>> {response.choice}</div>
+              <div>&gt; {response.choice}</div>
               <Divider style={{marginTop: 15}} />
             </div>
           )}

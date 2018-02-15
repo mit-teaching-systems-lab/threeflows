@@ -165,7 +165,7 @@ export default class extends React.Component {
         ignoreText="Move on"
         onLogMessage={onLogMessage}
         onResponseSubmitted={onResponseSubmitted}
-        />;
+      />;
     } else if (question.ask && forceText) {
       return <MinimalTextResponse
         key={key}
@@ -175,7 +175,7 @@ export default class extends React.Component {
         ignoreText="Move on"
         onLogMessage={onLogMessage}
         onResponseSubmitted={onResponseSubmitted}
-        />;
+      />;
     }
 
     if (question.write) {

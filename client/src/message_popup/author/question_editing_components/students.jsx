@@ -21,10 +21,10 @@ import CloseIcon from 'material-ui/svg-icons/navigation/close';
 
 export default class extends React.Component {
   props: {
-    students: Array<$FlowFixMe>,
+    students: Array<Object>,
     onAddStudent: Function,
     onRemoveStudent: Function,
-    availableStudentList: Array<$FlowFixMe>,
+    availableStudentList: Array<Object>,
   };
 
   static displayName = 'Students';
@@ -113,8 +113,8 @@ export default class extends React.Component {
               dataSource={availableStudentList.map(student => student.name)}
               filter={AutoComplete.fuzzyFilter}
               maxSearchResults={4}
-             />
-             <IconButton onTouchTap={() => onAddStudent(studentText)}><AddIcon/></IconButton>
+            />
+            <IconButton onTouchTap={() => onAddStudent(studentText)}><AddIcon/></IconButton>
           </div>
         </Paper> 
         {selectedStudent !== null && selectedStudent !== undefined &&
@@ -123,9 +123,11 @@ export default class extends React.Component {
             open={selectedStudent !== null}
             actions={[
               <FlatButton 
+                key="close"
                 label="Close"
                 onTouchTap={this.deselectStudent}/>,
               <FlatButton 
+                key="remove"
                 label="Remove"
                 onTouchTap={this.onRemoveClicked.bind(this, selectedStudent)}/>
             ]}
@@ -141,7 +143,7 @@ export default class extends React.Component {
           </Dialog>
         }
       </div>
-      );
+    );
   }
 }
 

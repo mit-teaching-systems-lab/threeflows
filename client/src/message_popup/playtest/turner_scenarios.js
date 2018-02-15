@@ -38,7 +38,7 @@ Amber Turner is a student in this class, but has made it clear that academics ar
 It is clear to you that Amber sees high school as a waste or her time, as she is solely focused on her modeling career. The school's guidance counselor reports to you that she is maintaining a healthy "C" average in her other classes, In your class, though, her grades are in the low '60's, resulting from a variety of absences and incomplete work. When she is in attendance and completes her work, her grades are sufficient — not the best completed assignments you've ever seen, but not "F" quality either. Amber's facial expressions, vocal sighs, and rolling eyes tell you she'd prefer a class where she didn't have to work, and where you just gave her the info and she regurgitated it back to you on a test. Your constructivist approach to your subject, though, causes Amber and her peers to actually have to put forth some effort.
 
 You know that Amber is frustrated, and you're not surprised when you receive a somewhat curt handwritten note from her mother, requesting a conference with you. You inform Amber of a day/time that best suits your schedule, telling Amber that you're happy to meet her mother at the school. In response, Amber gives you a smirk and a distinct "now you're going to catch hell" look.`
-  });
+    });
 
     slides.push({type: 'Pre-simulation Reflection', stage: 'info', text: 
       `Please spend a few minutes reflecting on the following questions and provide your responses`

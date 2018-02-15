@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import createReactClass from 'create-react-class';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import _ from 'lodash';
 
 import Paper from 'material-ui/Paper';
@@ -27,15 +26,15 @@ const Message = createReactClass({
     label: PropTypes.string,
   },
   
-  componentDidMount(){ 
-    ReactDOM.findDOMNode(this).scrollIntoView(); 
+  componentDidMount() { 
+    if (this.el) this.el.scrollIntoView(); 
   },
   
   render(){
     const {type, messageStyle, messageTextStyle} = this.props;
     
     return (
-      <div style={messageStyle}>
+      <div style={messageStyle} ref={el => this.el = el}>
         <div>{this.props.leftIcon}</div>
         <div style={styles.messageTextSection}>
           {this.props.label !== undefined && 
@@ -79,7 +78,7 @@ export const StudentMessage = createReactClass({
               <FaceIcon/>
             </IconButton>
           }
-          />
+        />
       </div>
     );
   }
@@ -109,7 +108,7 @@ export const UserMessage = createReactClass({
               <FaceIcon  style={{marginTop: 8, ...styles.messageIcon}}/>
             </div>
           }
-          />
+        />
       </div>
     );
   }
@@ -140,7 +139,7 @@ export const InfoMessage = createReactClass({
               <InfoOutlineIcon/>
             </IconButton>
           }
-          />
+        />
       </div>
     );
   }

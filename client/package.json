@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "clipboard": "^1.6.1",
+    "material-ui": "^0.20.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-media": "^1.3.2",
@@ -11,6 +12,7 @@
     "react-scripts": "1.1.0",
     "react-tap-event-plugin": "^3.0.2",
     "react-youtube": "^7.0.1",
+    "rollbar-browser": "^1.9.5",
     "superagent-promise": "^1.1.0",
     "velocity-animate": "^1.2.3",
     "velocity-react": "^1.1.5"
@@ -23,11 +25,15 @@
     "flow-quiet": "flow; test $? -eq 0 -o $? -eq 2",
     "lint-quiet": "eslint --fix --ext jsx --ext js -c .eslintrc src; exit 0",
     "lint": "eslint --ext jsx --ext js -c .eslintrc src",
-    "jest": "jest --testRegex=\"(src/(.*)(test|spec))\\.jsx?$\" --env=jsdom --setupTestFrameworkScriptFile=./src/setupTests.js",
+    "jest": "react-scripts test --env=jsdom",
     "storybook": "start-storybook -p 9001"
   },
   "proxy": "http://localhost:4000",
   "devDependencies": {
-    "jest": "^22.1.4"
+    "chai": "^4.1.2",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
+    "flow-bin": "^0.65.0",
+    "sinon": "^4.3.0"
   }
 }

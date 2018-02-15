@@ -18,7 +18,7 @@ export default class extends React.Component {
   props: {
     onDone: Function,
     defaultEmail?: string,
-    children?: $FlowFixMe,
+    children?: React.Node,
   };
 
   static displayName = 'IntroWithEmail';
@@ -55,7 +55,7 @@ export default class extends React.Component {
           </div>
           <Divider />
           <div style={{...styles.instructions, padding: 20}}>
-            <div>All data you enter is protected by <a target="_blank" href={Routes.readMoreAboutConsent()}>MIT's IRB review procedures</a>.  No personal information will be shared, and your responses can only be used for research if you consent afterward.</div>
+            <div>All data you enter is protected by <a target="_blank" rel="noopener noreferrer" href={Routes.readMoreAboutConsent()}>MIT's IRB review procedures</a>.  No personal information will be shared, and your responses can only be used for research if you consent afterward.</div>
             <form onSubmit={this.onSubmit}>
               <TextField
                 name="email"

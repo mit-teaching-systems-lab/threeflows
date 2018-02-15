@@ -25,7 +25,7 @@ describe('<TwinePage />', () => {
 
   it('transitions to first choice', () => {
     const wrapper = mount(withContext(<TwinePage />));
-    wrapper.find(TwinePage).node.onStartSession();
+    wrapper.find(TwinePage).instance().onStartSession();
 
     expect(wrapper.find('.choice').length).to.equal(1);
   });

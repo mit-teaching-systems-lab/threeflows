@@ -152,9 +152,9 @@ export default createReactClass({
         {showDebugging
           ? <pre>{JSON.stringify(responseBody, null, 2)}</pre>
           : <RaisedButton
-              onTouchTap={this.onDebugTapped}
-              style={styles.button}
-              label="Debug" />
+            onTouchTap={this.onDebugTapped}
+            style={styles.button}
+            label="Debug" />
         }
       </div>
     );
@@ -163,9 +163,9 @@ export default createReactClass({
   renderError(error) {
     return (
       <div style={styles.container}>
-      <p>We're sorry, we couldn't confirm your email address.</p>
-      <p>Check with your facilitator to get the review link for your cohort, and use that to try sending yourself a new login link.</p>
-      <p>If you're still stuck, email krob@mit.edu or open an issue on <a href="https://github.com/mit-teaching-systems-lab/threeflows/issues/new" target="_blank">GitHub</a>.</p>
+        <p>We're sorry, we couldn't confirm your email address.</p>
+        <p>Check with your facilitator to get the review link for your cohort, and use that to try sending yourself a new login link.</p>
+        <p>If you're still stuck, email krob@mit.edu or open an issue on <a href="https://github.com/mit-teaching-systems-lab/threeflows/issues/new" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
       </div>
     );
   }

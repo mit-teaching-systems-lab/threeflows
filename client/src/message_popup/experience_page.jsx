@@ -191,17 +191,17 @@ export default createReactClass({
       <VelocityTransitionGroup enter={{animation: "callout.pulse", duration: 500}} leave={{animation: "slideUp"}} runOnMount={true}>
         <div className="instructions">
           <InstructionsCard 
-           query={query}
-           />
+            query={query}
+          />
           <ScaffoldingCard
             initialEmail={this.context.auth.userProfile.email}
             scaffolding={scaffolding}
             query={query}
             onSessionConfigured={this.onSaveScaffoldingAndSession}
-           />
+          />
         </div>
       </VelocityTransitionGroup>
-      );
+    );
   },
   
   renderPopupQuestion() {
@@ -252,7 +252,7 @@ export default createReactClass({
           limitMs={limitMs}
           onLog={this.onLog}
           isLastQuestion={questionsAnswered+1===sessionLength ? true : false}
-          />
+        />
       </div>
     );
   }

@@ -8,8 +8,8 @@ import React from 'react';
 */
 export default class extends React.Component {
   props: {
-    fulltext: $FlowFixMe,
-    charCount?: $FlowFixMe,
+    fulltext: React.Node,
+    charCount?: React.Node,
   };
 
   static displayName = 'ReadMore';

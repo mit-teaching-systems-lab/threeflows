@@ -7,7 +7,7 @@ export const obfuscateEmail = (identifier) => {
   if (identifier === null) return '(null)';
   if (identifier === undefined) return '(undefined)';
   return hashInto(identifier, colorNames) + ':' + hashToHex(identifier).slice(-2);
-}
+};
 
 export function hashInto(value, buckets) {
   const bucket = hashToInt(value);

@@ -81,7 +81,7 @@ responses during this user's session.  It summarizes their feedback to student p
 and allows them to copy it all as text (eg., for a discussion forum or chat).
 */
 export default class extends React.Component {
-  props: {responses: Array<$FlowFixMe>};
+  props: {responses: Array<Object>};
   static displayName = 'CsFairSummary';
 
   static propTypes = {

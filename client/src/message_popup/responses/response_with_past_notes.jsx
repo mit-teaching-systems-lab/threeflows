@@ -11,7 +11,7 @@ import React from 'react';
 export default class extends React.Component {
   props: {
     pastNotes: Array<string>,
-    children?: $FlowFixMe,
+    children?: React.Node,
   };
 
   static displayName = 'ResponseWithPastNotes';

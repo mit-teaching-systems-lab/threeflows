@@ -1,8 +1,6 @@
 /* @flow weak */
 import PropTypes from 'prop-types';
 
-import React from "react";
-
 /*
 Defines common shapes of data.  Can moves this to Flow annotations over time.
 */

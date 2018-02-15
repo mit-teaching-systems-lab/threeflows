@@ -7,7 +7,7 @@ import {Card, CardHeader, CardText} from 'material-ui/Card';
 
 export default class extends React.Component {
   props: {
-    examples: Array<$FlowFixMe>,
+    examples: Array<string>,
     titleText: string,
     style?: Object,
     cardStyle?: Object,
@@ -34,11 +34,11 @@ export default class extends React.Component {
           initiallyExpanded={true}
           showExpandableButton={true}
         />
-          <CardText expandable={true}>
-            <ul style={listStyle}>{examples.map((text) => {
-              return <li key={text} style={{paddingBottom: 20}}>{text}</li>;
-            })}</ul>
-          </CardText>
+        <CardText expandable={true}>
+          <ul style={listStyle}>{examples.map((text) => {
+            return <li key={text} style={{paddingBottom: 20}}>{text}</li>;
+          })}</ul>
+        </CardText>
       </Card>
     );
   }

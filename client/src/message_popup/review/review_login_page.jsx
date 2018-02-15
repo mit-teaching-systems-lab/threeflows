@@ -157,7 +157,7 @@ export default createReactClass({
     return (
       <div style={styles.container}>
         <p>We're sorry, we couldn't find that access code.</p>
-        <p>Check with your facilitator, and if you're still stuck email krob@mit.edu or open an issue on <a href="https://github.com/mit-teaching-systems-lab/threeflows/issues/new" target="_blank">GitHub</a>.</p>
+        <p>Check with your facilitator, and if you're still stuck email krob@mit.edu or open an issue on <a href="https://github.com/mit-teaching-systems-lab/threeflows/issues/new" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
         <RaisedButton
           onTouchTap={this.onResetSession}
           style={styles.button}

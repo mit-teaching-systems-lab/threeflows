@@ -54,7 +54,7 @@ export default class extends React.Component {
         <QuestionPage
           loaded={loaded}
           onCreateQuestion={this.onCreateQuestion}
-          />
+        />
       </div>
     );
   }

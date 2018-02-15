@@ -39,14 +39,14 @@ function slidesForSetting(setting:SettingT) {
     <div>Finally, you'll reflect on your experience.</div>
     <br />
     <div>5. Discussion</div>
-      {(setting === 'meredith')
-        ? <div>For Tuesday 4/4, you'll bring one part of the reflection to share in class.</div>
-        : <div>When you're all done here, head back to the classroom to rejoin the group.  If you're online, connect with others at <a target="_blank" href="https://twitter.com/search?q=%23https://twitter.com/search?q=%23TeacherPracticeSpaces">#TeacherPracticeSpaces</a>.</div>}
+    {(setting === 'meredith')
+      ? <div>For Tuesday 4/4, you'll bring one part of the reflection to share in class.</div>
+      : <div>When you're all done here, head back to the classroom to rejoin the group.  If you're online, connect with others at <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/search?q=%23https://twitter.com/search?q=%23TeacherPracticeSpaces">#TeacherPracticeSpaces</a>.</div>}
   </div>
   });
 
 
-// Context
+  // Context
   slides.push({ type: 'Context', text:
 `For this assignment, you've been asked to substitute for Ms. Ada, who unexpectedly needed to take a personal day to attend to some family matters.
 
@@ -103,7 +103,7 @@ One challenge in being a substitute is that you'll start the lesson without know
 `});
 
 
-// Anticipate
+  // Anticipate
   slides.push({ type: 'Anticipate', text:
 `Before you begin, we have three questions about what you anticipate.
 `});
@@ -121,7 +121,7 @@ One challenge in being a substitute is that you'll start the lesson without know
 `, ask: true, force: true});
 
 
-// Try it!
+  // Try it!
   slides.push({ type: 'Try it!', text:
 `When you're ready, you'll go through a set of scenes.
 
@@ -248,7 +248,7 @@ Dustin: "Are you guys ready to trade?"
 
 
 
-// Reflect
+  // Reflect
   slides.push({ type: 'Reflect', text:
 `That's the end of the simulation.  Thanks!
 
@@ -292,7 +292,7 @@ Also, for now please hold questions or feedback about this activity itself.  We'
         <br />
         <div>In class, you'll be asked to describe what you noticed, any assumptions you made, and how that shaped your interactions with those students.</div>
         <br />
-        <div>Feel free to take a minute or two to think about that, write it down somewhere in preparation for class.  If you'd like, you can share online at <a target="_blank" href="https://twitter.com/search?q=%23https://twitter.com/search?q=%23TeacherPracticeSpaces">#TeacherPracticeSpaces</a>.</div>
+        <div>Feel free to take a minute or two to think about that, write it down somewhere in preparation for class.  If you'd like, you can share online at <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/search?q=%23https://twitter.com/search?q=%23TeacherPracticeSpaces">#TeacherPracticeSpaces</a>.</div>
       </div>
     });
   } else {
@@ -302,7 +302,7 @@ Also, for now please hold questions or feedback about this activity itself.  We'
         <br />
         <div>In the group, you'll be asked to describe what you noticed, any assumptions you made, and how that shaped your interactions with students.</div>
         <br />
-        <div>Feel free to take a minute or two to think about that, and then head on back!  If you're working online you can connect with other folks at <a target="_blank" href="https://twitter.com/search?q=%23https://twitter.com/search?q=%23TeacherPracticeSpaces">#TeacherPracticeSpaces</a>.</div>
+        <div>Feel free to take a minute or two to think about that, and then head on back!  If you're working online you can connect with other folks at <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/search?q=%23https://twitter.com/search?q=%23TeacherPracticeSpaces">#TeacherPracticeSpaces</a>.</div>
       </div>
     });
   }

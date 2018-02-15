@@ -1,3 +1,9 @@
+// Enzyme setup
+import { configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+configure({ adapter: new Adapter() });
+
+
 // Magic file for create-react-app and Jest
 // See https://github.com/facebookincubator/create-react-app/pull/548
 import raf from 'raf';
