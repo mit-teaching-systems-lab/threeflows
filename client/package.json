@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "clipboard": "^1.6.1",
+    "flow-bin": "^0.66.0",
     "material-ui": "^0.20.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -33,7 +34,6 @@
     "chai": "^4.1.2",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
-    "flow-bin": "^0.65.0",
     "sinon": "^4.3.0"
   }
 }
