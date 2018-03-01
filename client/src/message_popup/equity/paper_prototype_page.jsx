@@ -36,19 +36,29 @@ const Parts = {
   FINAL_INSTRUCTIONS: 'FINAL_INSTRUCTIONS'
 };
 
+type Props = {
+  prototypeKey: string,
+  query: {
+    cohort?: string,
+    p?: string,
+    workshop?: string,
+  }
+};
+
+type State = {
+  cohortKey: string,
+  identifier: string,
+  workshop: string,
+  questions: string,
+  questionsHash: string,
+  sessionId: string,
+  currentPart: string
+};
+
 
 // For showing minimal paper prototypes.
 // This was adapted from HMTCAExperiencePage
-export default class extends React.Component {
-  props: {
-    prototypeKey: string,
-    query: {
-      cohort?: string,
-      p?: string,
-      workshop?: string,
-    },
-  };
-
+export default class extends React.Component<Props, State> {
   static displayName = 'PaperPrototypePage';
 
   static propTypes = {
@@ -79,13 +89,13 @@ export default class extends React.Component {
   //
   // Different workshop sessions on different days can use URLs to different workshop
   // values for isolation.
-  applesKey = () => {
+  applesKey() {
     const {prototypeKey} = this.props;
     const {cohortKey, workshop} = this.state;
     return [prototypeKey, cohortKey, workshop].join(':');
-  };
+  }
 
-  firstSlide = () => {
+  firstSlide() {
     return { el: 
       <div>
         <div><b>PART 1: Practice Individually</b></div>
@@ -97,10 +107,10 @@ export default class extends React.Component {
         <div>Once you’re finished with your responses, You'll review how people have responded and discuss.  Clicking on “Ok” will take you to your first scene. Ready?</div>
       </div>
     };
-  };
+  }
 
   // Making questions from the cohort
-  doStart = () => {
+  doStart() {
     const {prototypeKey} = this.props;
     const prototype = _.find([].concat(CSSPaperPrototypes).concat(SeedPaperPrototypes), { key: prototypeKey });
     const allQuestions = toSlides(prototype);
@@ -112,41 +122,42 @@ export default class extends React.Component {
       questions,
       questionsHash
     });
-  };
+  }
 
-  onCohortKeyChanged = (e) => {
+  onCohortKeyChanged(e) {
     this.setState({cohortKey: e.target.value});
-  };
+  }
 
-  onIdentifierChanged = (e) => {
-    this.setState({ identifier: e.target.value });
-  };
+  onIdentifierChanged(e) {
+    const identifier:string = e.target.value;
+    this.setState({identifier});
+  }
 
-  onNoGroupCode = (e) => {
+  onNoGroupCode(e) {
     e.preventDefault();
     const cohortKey = 'DEMO_COHORT';
     this.setState({cohortKey});
     this.doStart();
-  };
+  }
 
-  onStart = (e) => {
+  onStart(e) {
     e.preventDefault();
     this.doStart();
-  };
+  }
 
-  onShowGroupInstructions = () => {
+  onShowGroupInstructions() {
     this.setState({ currentPart: Parts.GROUP_INSTRUCTIONS });
-  };
+  }
 
-  onStartGroupReview = () => {
+  onStartGroupReview() {
     this.setState({ currentPart: Parts.GROUP_REVIEW });
-  };
+  }
 
-  onGroupReviewDone = () => {
+  onGroupReviewDone() {
     this.setState({ currentPart: Parts.FINAL_INSTRUCTIONS });
-  };
+  }
 
-  onLogMessage = (type, response) => {
+  onLogMessage(type, response) {
     const {
       identifier,
       cohortKey,
@@ -173,7 +184,7 @@ export default class extends React.Component {
       questionsHash,
       identifier
     });
-  };
+  }
 
   render() {
     return (
@@ -183,7 +194,7 @@ export default class extends React.Component {
     );
   }
 
-  renderContent = () => {
+  renderContent() {
     const {questions, currentPart} = this.state;
     if (currentPart === Parts.PRACTICE) {
       if (!questions) return this.renderIntro();
@@ -198,9 +209,9 @@ export default class extends React.Component {
     if (currentPart === Parts.GROUP_INSTRUCTIONS) return this.renderGroupInstructions();
     if (currentPart === Parts.GROUP_REVIEW) return this.renderGroupReview();
     if (currentPart === Parts.FINAL_INSTRUCTIONS) return this.renderFinalInstructions();
-  };
+  }
 
-  renderIntro = () => {
+  renderIntro() {
     return (
       <VelocityTransitionGroup enter={{animation: "callout.pulse", duration: 500}} leave={{animation: "slideUp"}} runOnMount={true}>
         <form onSubmit={this.onStart}>
@@ -242,9 +253,9 @@ export default class extends React.Component {
         </form>
       </VelocityTransitionGroup>
     );
-  };
+  }
 
-  renderQuestionEl = (question:QuestionT, onLog, onResponseSubmitted) => {
+  renderQuestionEl(question:QuestionT, onLog, onResponseSubmitted) {
     const forceText = true; // because of the text reviews after
     return (
       <div>
@@ -255,9 +266,9 @@ export default class extends React.Component {
           onResponseSubmitted={onResponseSubmitted} />
       </div>
     );
-  };
+  }
 
-  renderPauseEl = (questions:[QuestionT], responses:[ResponseT]) => {
+  renderPauseEl(questions:[QuestionT], responses:[ResponseT]) {
     return (
       <div style={{margin: 20}}>
         <div style={{paddingBottom: 20}}>That's the end of Part 1.  Click to proceeed.</div>
@@ -267,9 +278,9 @@ export default class extends React.Component {
           onTouchTap={this.onShowGroupInstructions} />
       </div>
     );
-  };
+  }
 
-  renderGroupInstructions = () => {
+  renderGroupInstructions() {
     return (
       <div style={{margin: 20}}>
         <div>
@@ -289,16 +300,16 @@ export default class extends React.Component {
         </div>
       </div>
     );
-  };
+  }
 
-  renderGroupReview = () => {
+  renderGroupReview() {
     return <GroupReview
       prompt="Scroll through and discuss."
       applesKey={this.applesKey()}
       onDone={this.onGroupReviewDone} />;
-  };
+  }
 
-  renderFinalInstructions = () => {
+  renderFinalInstructions() {
     return (
       <div style={styles.instructions}>
         <p><b>PART 3: Discuss assumptions</b></p>
@@ -312,7 +323,7 @@ export default class extends React.Component {
         <div>If you're online, connect with others at <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/search?q=%23TeacherPracticeSpaces">#TeacherPracticeSpaces</a>.</div>
       </div>
     );
-  };
+  }
 }
 
 const styles = {
