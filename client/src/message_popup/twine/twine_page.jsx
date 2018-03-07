@@ -22,10 +22,6 @@ import TwineViewer from './twine_viewer.jsx';
 import exampleTwison from './example_twison.js';
 
 
-type StateT = {
-  email:string,
-  twineSession:?TwineSessionT
-};
 type TwineSessionT = {
   email:string,
   twison:TwisonT,
@@ -40,6 +36,10 @@ type TwineChoiceT = {
   prevTwineSession:TwineSessionT,
   choice:TwineLinkT,
   passage:TwinePassageT
+};
+type StateT = {
+  email:string,
+  twineSession:?TwineSessionT
 };
 /*
 For public demos.

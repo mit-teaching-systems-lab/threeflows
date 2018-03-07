@@ -1,18 +1,18 @@
 /* @flow weak */
 import hash from '../../helpers/hash.js';
 
-export type ResponseT = {
-  choice:string,
-  question:QuestionT,
-  audioResponse:{downloadUrl:string}
-};
-
 export type QuestionT = {
   id:number,
   choices:[string],
   text:string,
   type:string, // A string that gets displayed as the page heading
   stage:string // one of 'info', 'prereflect', 'scenario', 'postreflect'
+};
+
+export type ResponseT = {
+  choice:string,
+  question:QuestionT,
+  audioResponse:{downloadUrl:string}
 };
 
 // Make questions and choices

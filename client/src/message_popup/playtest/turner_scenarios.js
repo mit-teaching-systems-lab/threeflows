@@ -1,12 +1,6 @@
 /* @flow weak */
 import hash from '../../helpers/hash.js';
 
-export type ResponseT = {
-  choice:string,
-  question:QuestionT,
-  downloadUrl:string
-};
-
 export type QuestionT = {
   id:number,
   youTubeId:string,
@@ -14,6 +8,12 @@ export type QuestionT = {
   end: number,
   type:string, // A string that gets displayed as the page heading
   stage:string // one of 'info', 'prereflect', 'scenario', 'postreflect'
+};
+
+export type ResponseT = {
+  choice:string,
+  question:QuestionT,
+  downloadUrl:string
 };
 
 

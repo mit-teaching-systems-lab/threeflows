@@ -22,6 +22,11 @@ type WrittenReflectionQuestionT = {
   writtenReflection:bool
 };
 
+export type ScoreT = {
+  label:string,
+  key: string,
+  max: number
+};
 type ScoresQuestionT = {
   type:string,
   text:string,
@@ -45,11 +50,6 @@ function renderIntroEl() {
 }
 
 
-export type ScoreT = {
-  label:string,
-  key: string,
-  max: number
-};
 const scores:[ScoreT] = [
   { label: 'Analyzing Impact of Computing', key: 'impact', max: 3 },
   { label: 'Analyzing Data and Information', key: 'data', max: 2 },

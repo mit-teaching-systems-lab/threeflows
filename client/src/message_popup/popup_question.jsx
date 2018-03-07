@@ -16,7 +16,6 @@ import AudioResponse from './renderers/audio_response.jsx';
 
 
 // Type definitions around responses
-export type ResponseT = RevisingTextResponseT | AudioResponseT;
 export type RevisingTextResponseT = {
   question:QuestionT,
   elapsedMs:number,
@@ -32,6 +31,7 @@ export type AudioResponseT = {
   helpType:string,
   audioUrl:string
 };
+export type ResponseT = RevisingTextResponseT | AudioResponseT;
 const ONE_SECOND = 1000;
 
 
