@@ -1,9 +1,8 @@
 // see https://github.com/lazerwalker/twison
-export type TwisonT = {
+export type TwineLinkT = {
+  pid:string,
   name:string,
-  startnode:string,
-  ifid:string,
-  passages: [TwinePassageT]
+  link:string
 };
 export type TwinePassageT = {
   pid:string,
@@ -15,8 +14,9 @@ export type TwinePassageT = {
     y:string,
   }
 };
-export type TwineLinkT = {
-  pid:string,
+export type TwisonT = {
   name:string,
-  link:string
+  startnode:string,
+  ifid:string,
+  passages: [TwinePassageT]
 };

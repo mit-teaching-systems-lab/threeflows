@@ -20,11 +20,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "yarn run lint && flow && yarn run jest",
+    "test": "yarn lint && yarn jest",
     "eject": "react-scripts eject",
-    "flow-quiet": "flow; test $? -eq 0 -o $? -eq 2",
-    "lint-quiet": "eslint --fix --ext jsx --ext js -c .eslintrc src; exit 0",
     "lint": "eslint --ext jsx --ext js -c .eslintrc src",
+    "flow-quiet": "flow; test $? -eq 0 -o $? -eq 2",
     "jest": "react-scripts test --env=jsdom",
     "storybook": "start-storybook -p 9001"
   },
@@ -33,7 +32,7 @@
     "chai": "^4.1.2",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
-    "flow-bin": "^0.65.0",
+    "flow-bin": "^0.66.0",
     "sinon": "^4.3.0"
   }
 }

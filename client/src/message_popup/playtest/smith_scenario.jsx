@@ -13,7 +13,7 @@ export type QuestionT = {
 };
 
 
-
+/* eslint-disable jsx-a11y/alt-text */
 function slidesFor(cohortKey, options) {
   const slides:[QuestionT] = [];
 

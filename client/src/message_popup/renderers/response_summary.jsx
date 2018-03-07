@@ -1,8 +1,6 @@
-import _ from 'lodash';
-
 /* @flow weak */
+import _ from 'lodash';
 import PropTypes from 'prop-types';
-
 import React from 'react';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import Divider from 'material-ui/Divider';

@@ -32,6 +32,7 @@ export default class extends React.Component {
         <div style={styles.content}>
           <a href="http://tsl.mit.edu">
             <img
+              alt="TSL logo"
               style={styles.logo}
               src="https://tsl-public.s3.amazonaws.com/threeflows/teacher-moments-tsl-logo.png" />
           </a>
@@ -55,7 +56,7 @@ export default class extends React.Component {
     );
   }
 
-  renderPanels = () => {
+  renderPanels() {
     const scholasticaBlue = '#0B3662'; // from their website
     return (
       <div>
@@ -114,7 +115,7 @@ export default class extends React.Component {
     );
   };
 
-  renderMoreInfo = () => {
+  renderMoreInfo() {
     return (
       <div>
         <div style={styles.header}>Play more</div>
@@ -137,16 +138,16 @@ export default class extends React.Component {
         <div style={styles.header}>Read more books</div>
         <div style={{display: 'flex', flexDirection: 'row', width: '95%', padding: 20}}>
           <a style={{paddingRight: 10}} href="https://mitpress.mit.edu/books/stuck-shallow-end">
-            <img width="159" height="240" src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/equity_fair/stuck.jpg" />
+            <img width="159" height="240" alt="Stuck in the Shallow End book" src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/equity_fair/stuck.jpg" />
           </a>
           <a style={{paddingRight: 10}} href="https://eric.ed.gov/?id=ED515443">
-            <img width="160" height="240" src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/equity_fair/start.jpg" />
+            <img width="160" height="240" alt="Start Where You Are But Don't Stay There book" src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/equity_fair/start.jpg" />
           </a>
           <a style={{paddingRight: 10}} href="https://www.amazon.com/Had-No-Idea-Simulations-Development/dp/1623961955">
-            <img width="186" height="240" src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/equity_fair/noidea.jpg" />
+            <img width="186" height="240" alt="I Had No Idea! Clinical Simulations for Teacher Development book" src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/equity_fair/noidea.jpg" />
           </a>
           <a style={{paddingRight: 10}} href="https://www.tcpress.com/culturally-sustaining-pedagogies-9780807758335">
-            <img width="162" height="240" src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/equity_fair/csp.jpg" />
+            <img width="162" height="240" alt="Culturally Sustaining Pedagogies book" src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/equity_fair/csp.jpg" />
           </a>
         </div>
         <Divider style={{marginTop: 30, marginBottom: 30}} />
@@ -154,6 +155,7 @@ export default class extends React.Component {
           <a href="http://tsl.mit.edu">
             <img
               style={styles.logo}
+              alt="TSL logo"
               src="https://tsl-public.s3.amazonaws.com/threeflows/teacher-moments-tsl-logo.png" />
           </a>
         </div>
