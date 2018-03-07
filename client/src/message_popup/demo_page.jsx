@@ -1,8 +1,6 @@
-import _ from 'lodash';
-
 /* @flow weak */
+import _ from 'lodash';
 import PropTypes from 'prop-types';
-
 import React from 'react';
 import createReactClass from 'create-react-class';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";

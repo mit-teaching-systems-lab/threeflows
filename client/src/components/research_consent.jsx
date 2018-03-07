@@ -73,6 +73,7 @@ export default class extends React.Component {
 
   renderForm = () => {
     return <iframe
+      title="consent-form-iframe"
       src="https://docs.google.com/forms/d/e/1FAIpQLSdsSuLuAEAvBhxtRDuHXDrP1jj_tbeYLd9u3_aBGbLjO3BNRg/viewform?embedded=true"
       width="100%"
       height={600}

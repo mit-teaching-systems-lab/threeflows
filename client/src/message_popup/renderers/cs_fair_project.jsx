@@ -29,7 +29,7 @@ export default class extends React.Component {
     return (
       <div className="CsFairProject">
         {project.img && <img alt="Loading artifact..." src={project.img} width="100%" height="448" />}
-        {project.video && <iframe width="100%" height="315" src={project.video} frameBorder="0"></iframe>}
+        {project.video && <iframe title="cs-fair-project-video" width="100%" height="315" src={project.video} frameBorder="0"></iframe>}
         {sections.map((section) => {
           return (
             <Card key={section.key} style={{margin: 10, paddingTop: 10, whiteSpace: 'pre-line'}}>

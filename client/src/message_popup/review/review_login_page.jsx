@@ -123,7 +123,7 @@ export default createReactClass({
           />
           <div style={styles.buttonRow}>
             <RaisedButton
-              disabled={emailAddress.length == 0 || reviewKey.length == 0 || accessCode.length == 0}
+              disabled={emailAddress.length === 0 || reviewKey.length === 0 || accessCode.length === 0}
               onTouchTap={this.onLoginTapped}
               type="submit"
               style={styles.button}

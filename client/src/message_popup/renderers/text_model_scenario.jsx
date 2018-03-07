@@ -87,6 +87,7 @@ export default createReactClass({
         <PlainTextQuestion question={question} />
         <div className="sketchfab-embed-wrapper">
           <iframe
+            title="sketchfab"
             style={{...styles.sketchFabIframe, height: modelHeight}}
             ref={(el) => { if (el) this.el = el; }}
             width="100%"

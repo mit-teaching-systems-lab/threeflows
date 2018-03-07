@@ -1,6 +1,5 @@
-import _ from 'lodash';
-
 /* @flow weak */
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 
 import React from 'react';
@@ -50,6 +49,7 @@ const Scenarios = {
     ];
 
     // Only show choices in response to the student
+    /* eslint-disable no-template-curly-in-string */
     const steps = [
       { choices: [], t: "You sit down for a five-minute mentoring check-in with ${child}." },
       { choices, t: "${child}: The thing is, I want to get all my work done today since tomorrow I'm going to a concert with my friend and I want it to be stress free." },
@@ -62,6 +62,7 @@ const Scenarios = {
       { choices: [], t: "Ask how ${child} feels about the stress level." },
       { choices, t: "${child}: Nothing too crazy in my personal life, but academically it's pretty stressful." }
     ];
+    /* eslint-enable no-template-curly-in-string */
 
     return {conditions, steps};
   },

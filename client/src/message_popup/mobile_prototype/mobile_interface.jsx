@@ -119,7 +119,7 @@ export default createReactClass({
     var messageId = this.state.messageId;
     var newMessages = messageList.map(message => {
       messageId ++;
-      return {key: messageId, ... message};
+      return {key: messageId, ...message};
     });
     this.setState({messages: [...this.state.messages, ...newMessages], messageId});
   },

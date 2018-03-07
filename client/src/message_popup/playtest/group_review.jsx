@@ -1,4 +1,3 @@
-// TODO(kr) flow typing disabled because of error in refreshTimer typing
 import PropTypes from 'prop-types';
 
 import React from 'react';
@@ -43,16 +42,16 @@ export default class extends React.Component {
 
   refreshTimer: ?number = null;
 
-  refreshResponses = () => {
+  refreshResponses() {
     const {applesKey} = this.props;
     Api.getApples(applesKey).end(this.onResponsesReceived);
   };
 
-  onButtonTapped = () => {
+  onButtonTapped() {
     this.props.onDone();
   };
 
-  onResponsesReceived = (err, response) => {
+  onResponsesReceived(err, response) {
     if (err){
       this.setState({ hasLoaded: true });
       return;
@@ -72,7 +71,7 @@ export default class extends React.Component {
       <div>
         <div style={styles.instructions}>{prompt}</div>
         <div>{_.sortBy(Object.keys(sceneToResponses)).map((sceneNumber, index) => {
-          if (sceneNumber === 'null') return;
+          if (sceneNumber === 'null') return null;
           return (
             <div key={sceneNumber}>
               <Card>

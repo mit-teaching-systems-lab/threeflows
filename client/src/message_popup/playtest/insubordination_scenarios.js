@@ -37,6 +37,7 @@ export const InsubordinationScenarios = {
   data() {
     // Read scenario
     const conditions = [{child: 'Jake' }, {child: 'Greg'}, {child: 'Darnell'}, {child: 'DeShawn'}];
+    /* eslint-disable no-template-curly-in-string */
     const questionTemplates = [
       'Students are working independently on a proportions problem set.  You circulate around the room.',
       '${child} is sleeping in class.',
@@ -44,6 +45,7 @@ export const InsubordinationScenarios = {
       '${child} refuses to do work.',
       'He refuses.'
     ];
+    /* eslint-enable no-template-curly-in-string */
 
     return {conditions, questionTemplates};
   },

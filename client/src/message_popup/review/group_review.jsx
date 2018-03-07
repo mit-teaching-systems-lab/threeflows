@@ -67,7 +67,7 @@ export default class extends React.Component {
       <div>
         <div style={styles.instructions}>{prompt}</div>
         <div>{_.sortBy(Object.keys(sceneToResponses)).map((sceneNumber, index) => {
-          if (sceneNumber === 'null') return;
+          if (sceneNumber === 'null') return null;
           return (
             <div key={sceneNumber}>
               <Card>

@@ -15,10 +15,11 @@
     "react"
   ],
   "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended"
+    "eslint-config-react-app"
   ],
   "rules": {
+    "jsx-a11y/alt-text": "off",
+    "jsx-a11y/href-no-hash": "off",
     "indent": ["error", 2],
     "semi": ["error", "always"],
     "comma-dangle": ["error", "only-multiline"],
