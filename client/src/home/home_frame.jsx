@@ -57,6 +57,7 @@ export default class extends React.Component {
         <div style={styles.logoBlock}>
           <a href="http://tsl.mit.edu">
             <img
+              alt="TSL logo"
               style={styles.logo}
               src="https://tsl-public.s3.amazonaws.com/threeflows/teacher-moments-tsl-logo.png" />
           </a>

@@ -29,6 +29,7 @@ export default createReactClass({
         <PlainTextQuestion question={question} />
         <div>
           <img
+            alt="Scenario"
             src={sketchFab.fallbackUrl}
             style={{height: modelHeight}}
             width="100%"

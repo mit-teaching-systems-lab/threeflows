@@ -207,7 +207,7 @@ export default class extends React.Component {
           <div style={styles.instructions}>
             <p>Welcome!  This is an online practice space adapted from a paper prototype.</p>
           </div>
-          <div style={{marginLeft: 30}}><img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/paper-prototypes-crumpled.png" width={202} height={140} /></div>
+          <div style={{marginLeft: 30}}><img alt="Crumpled papers" src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/paper-prototypes-crumpled.png" width={202} height={140} /></div>
           <div style={styles.instructions}>
             <p>In this practice space, you'll have to improvise to make the best of the situation. It might not exactly match your grade level and subject.</p>
           </div>

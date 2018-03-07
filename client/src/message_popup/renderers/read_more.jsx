@@ -46,14 +46,14 @@ export default class extends React.Component {
     if(this.state.expanded) {
       return (
         <div>
-          {this.props.fulltext} <a href='#' onClick={this.collapse}>show less</a>
+          {this.props.fulltext} <a href='#less' onClick={this.collapse}>show less</a>
         </div>
       );
     } else {
       return (
         <div>
           {this.props.fulltext.substring(0, this.props.charCount) + '... '}
-          <a href='#' onClick={this.expand}>read more</a>
+          <a href='#more' onClick={this.expand}>read more</a>
         </div>);
     }
   }

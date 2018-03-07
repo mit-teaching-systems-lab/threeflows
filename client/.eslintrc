@@ -18,8 +18,6 @@
     "eslint-config-react-app"
   ],
   "rules": {
-    "jsx-a11y/alt-text": "off",
-    "jsx-a11y/href-no-hash": "off",
     "indent": ["error", 2],
     "semi": ["error", "always"],
     "comma-dangle": ["error", "only-multiline"],
@@ -29,9 +27,6 @@
     "camelcase": ["error",  { "properties": "always" }],
     "no-use-before-define": "off",
     "eol-last": "off",
-    "react/no-unescaped-entities": ["error", {"forbid": [">", "}"]}],
-    "react/prefer-stateless-function": "off",
-    "react/prefer-es6-class": "off",
     "react/sort-comp": ["error", {
       order: [
         'props', /* for flow type def */

@@ -75,7 +75,7 @@ export default class TwineViewer extends React.Component {
         <div>Write more scenarios using <a href='https://twinery.org/'>Twine's</a> visual editor, and then view them in Teacher Moments!</div>
         <div style={{marginTop: 20}}>
           <a href='https://twinery.org/'>
-            <img src='https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/twine-diagram.png' width='100%' />
+            <img alt="Twine Diagram" src='https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/twine-diagram.png' width='100%' />
           </a>
         </div>
       </div>
