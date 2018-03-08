@@ -1,0 +1,49 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "mocha": true
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": [
+    "react"
+  ],
+  "extends": [
+    "eslint-config-react-app"
+  ],
+  "rules": {
+    "indent": ["error", 2],
+    "semi": ["error", "always"],
+    "comma-dangle": ["error", "only-multiline"],
+    "no-unused-vars": ["error", {
+      "args": "none"
+    }],
+    "camelcase": ["error",  { "properties": "always" }],
+    "no-use-before-define": "off",
+    "eol-last": "off",
+    "react/sort-comp": ["error", {
+      order: [
+        'props', /* for flow type def */
+        'state', /* for flow type def */
+        'static-methods',
+        'mixins',
+        'lifecycle',
+        'everything-else',
+        '/^on.+$/',
+        'rendering'
+      ],
+      groups: {
+        rendering: [
+          'render',
+          '/^render.+$/'
+        ]
+      }
+    }]
+  }
+}

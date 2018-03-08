@@ -1,0 +1,11 @@
+[ignore]
+.*/node_modules/fbjs/.*
+.*/node_modules/config-chain/test/broken.json
+.*/node_modules/npmconf/test/.*
+.*/node_modules/react-event-listener/.*
+.*/node_modules/reqwest/.*
+.*/node_modules/cjson/.*
+.*/node_modules/youtube-player/.*
+
+[libs]
+test/types.js
