@@ -184,19 +184,12 @@ app.get('/teachermoments/wav/(:id).wav', ReviewEndpoint.sensitiveGetAudioFile({q
 app.get('/server/apples/:key', ApplesEndpoint.sensitiveGetApples({queryDatabase}));
 
 
-// serve static HTML
-function readFile(filename) {
-  return function(request, response) {
-    const absolutePath = path.join(__dirname, '..', 'ui', 'build', filename);
-    console.log(absolutePath);
-    const readStream = fs.createReadStream(absolutePath);
-    readStream.pipe(response);
-  };
-}
-app.get('/bundle.js', readFile('bundle.js'));
-app.get('/playtest.html', readFile('playtest.html'));
-app.get('/favicon.ico', (request, response) => { response.status(404).end(); });
-app.get('*', readFile('index.html'));
+// Serve any static files.
+// Route other requests return the React app, so it can handle routing.
+app.use(express.static(path.resolve(__dirname, '../client/build')));
+app.get('*', (request, response) => {
+  response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+});
 
 
 // start server
