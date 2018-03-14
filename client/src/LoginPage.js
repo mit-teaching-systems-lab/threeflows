@@ -23,7 +23,7 @@ class LoginPage extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    fetch('/api/research/login', {
+    fetch('/server/research/login', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'

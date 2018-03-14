@@ -10,6 +10,15 @@ var ApplesEndpoint = require('./endpoints/apples.js');
 var ReviewLoginEndpoint = require('./endpoints/review_login.js');
 var createS3Client = require('./s3_client.js');
 var createMailgunEnv = require('./mailgun_env.js');
+const RateLimit = require('express-rate-limit');
+const {
+  enforceHTTPS,
+  onlyAllowResearchers,
+  loginEndpoint,
+  emailLinkEndpoint
+} = require('./authentication.js');
+const {interactionsEndpoint} = require('./research/interactionsEndpoints.js');
+const {createPool} = require('./util/database.js');
 
 
 // create and configure server
@@ -189,6 +198,27 @@ app.use(express.static(path.resolve(__dirname, '../client/build')));
 app.get('*', (request, response) => {
   response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
 });
+
+// As a precaution for emailing and authentication routes
+const limiter = new RateLimit({
+  console.log('limiter called')
+  windowMs: 60*60*1000, // 60 minutes
+  max: 100, // limit each IP to n requests per windowMs
+  delayMs: 0, // disable delaying - full speed until the max limit is reached
+  onLimitReached: (req, res, options) => {
+    console.log('RateLimit reached!');
+  }
+});
+
+// Wrap researcher access in global kill switch
+if (process.env.ENABLE_RESEARCHER_ACCESS && process.env.ENABLE_RESEARCHER_ACCESS.toLowerCase() === 'true') {
+  // Endpoints for researcher login
+  app.post('/api/research/login', limiter, loginEndpoint.bind(null, pool, config.mailgunEnv));
+  app.post('/api/research/email', limiter, emailLinkEndpoint.bind(null, pool));
+
+  // Endpoints for authenticated researchers to access data
+  app.get('/api/research/interactions', [limiter, onlyAllowResearchers.bind(null, pool)], interactionsEndpoint.bind(null, pool));
+}
 
 
 // start server
