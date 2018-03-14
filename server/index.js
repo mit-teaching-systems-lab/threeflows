@@ -1,5 +1,4 @@
 var express = require('express');
-var fs = require('fs');
 var path = require('path');
 var bodyParser = require('body-parser');
 var request = require('superagent');
