@@ -1,5 +1,4 @@
 var express = require('express');
-var fs = require('fs');
 var path = require('path');
 var bodyParser = require('body-parser');
 var request = require('superagent');
@@ -11,26 +10,6 @@ var ApplesEndpoint = require('./endpoints/apples.js');
 var ReviewLoginEndpoint = require('./endpoints/review_login.js');
 var createS3Client = require('./s3_client.js');
 var createMailgunEnv = require('./mailgun_env.js');
-const {interactionsEndpoint} = require('./research/interactionsEndpoint.js');
-const {
-  enforceHTTPS,
-  onlyAllowResearchers,
-  loginEndpoint,
-  emailLinkEndpoint
-} = require('./authentication.js');
-const {createPool} = require('./util/database.js');
-
-// config
-const config = {
-  port: process.env.PORT || 4000,
-  mailgunEnv: {
-    MAILGUN_API_KEY: process.env.MAILGUN_API_KEY,
-    MAILGUN_DOMAIN: process.env.MAILGUN_DOMAIN
-  },
-  postgresUrl: (process.env.NODE_ENV === 'development')
-    ? process.env.DATABASE_URL
-    : process.env.DATABASE_URL +'?ssl=true'
-};
 
 
 // create and configure server
@@ -39,11 +18,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.raw({ type: 'audio/wav', limit: '50mb' }));
 app.use(enforceHTTPS);
-const pool = createPool(config.postgresUrl);
 
 // external services
 const s3 = createS3Client();
 const mailgunEnv = createMailgunEnv();
+
+// https redirect
+function enforceHTTPS(request, response, next) {
+  if (process.env.NODE_ENV === 'development') return next();
+  
+  if (request.headers['x-forwarded-proto'] !== 'https') {
+    const httpsUrl = ['https://', request.headers.host, request.url].join('');
+    return response.redirect(httpsUrl);
+  }
+
+  return next();
+}
 
 // auth middleware
 function sendUnauthorized(res) {
@@ -193,30 +183,16 @@ app.get('/teachermoments/wav/(:id).wav', ReviewEndpoint.sensitiveGetAudioFile({q
 app.get('/server/apples/:key', ApplesEndpoint.sensitiveGetApples({queryDatabase}));
 
 
-// serve static HTML
-function readFile(filename) {
-  return function(request, response) {
-    const absolutePath = path.join(__dirname, '..', 'ui', 'build', filename);
-    console.log(absolutePath);
-    const readStream = fs.createReadStream(absolutePath);
-    readStream.pipe(response);
-  };
-}
-app.get('/bundle.js', readFile('bundle.js'));
-app.get('/playtest.html', readFile('playtest.html'));
-app.get('/favicon.ico', (request, response) => { response.status(404).end(); });
-app.get('*', readFile('index.html'));
+// Serve any static files.
+// Route other requests return the React app, so it can handle routing.
+app.use(express.static(path.resolve(__dirname, '../client/build')));
+app.get('*', (request, response) => {
+  response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+});
 
 
 // start server
-app.set('port', (process.env.PORT || 5000));
+app.set('port', (process.env.PORT || 4000));
 app.listen(app.get('port'), function() {
   console.log('Server is running on port:', app.get('port'));
 });
-
-// Endpoints for researcher login
-app.post('/api/research/login', loginEndpoint.bind(null, pool, config.mailgunEnv));
-app.post('/api/research/email', emailLinkEndpoint.bind(null, pool));
-
-// Endpoints for authenticated researchers to access data
-app.get('/api/research/interactions', onlyAllowResearchers.bind(null, pool), interactionsEndpoint.bind(null, pool));
