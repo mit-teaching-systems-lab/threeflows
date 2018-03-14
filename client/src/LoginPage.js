@@ -42,6 +42,14 @@ class LoginPage extends Component {
       });
   }
 
+  componentWillMount() {
+    document.body.style.backgroundColor = "white";
+  }
+
+  componentWillUnmount() {
+    document.body.style.backgroundColor = null;
+  }
+
   render() {
     const email = this.state.email;
     return (

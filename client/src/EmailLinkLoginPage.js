@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import queryString from 'query-string';
-// import './LoginPage.css';
+import './LoginPage.css';
 import Interactions from './Interactions.js';
 // import TeacherMoments from './TeacherMoments.js';
 
@@ -80,6 +80,14 @@ class EmailLinkLoginPage extends Component {
       status : 'error' ,
       message: "There was a problem with your request. Make sure inputted email is the same email link was sent to."
     });
+  }
+
+  componentWillMount() {
+    document.body.style.backgroundColor = "white";
+  }
+
+  componentWillUnmount() {
+    document.body.style.backgroundColor = null;
   }
 
   render() {
