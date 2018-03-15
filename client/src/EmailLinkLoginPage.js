@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import queryString from 'query-string';
 import './LoginPage.css';
-import Interactions from './Interactions.js';
-// import TeacherMoments from './TeacherMoments.js';
+// import Interactions from './Interactions.js';
+import TeacherMoments from './TeacherMoments.js';
 
 
 // This is the landing page users reach when clicking on a login 
@@ -95,8 +95,8 @@ class EmailLinkLoginPage extends Component {
     if (status === 'success') {
       if ((email !=="") && (token !== "default")){
         return (
-          <Interactions email={email.toLowerCase()} token={token}/>
-          // <TeacherMoments email={email.toLowerCase()} token={token}/>
+          // <Interactions email={email.toLowerCase()} token={token}/>
+          <TeacherMoments email={email.toLowerCase()} token={token}/>
         );
       }else {
         return null;
