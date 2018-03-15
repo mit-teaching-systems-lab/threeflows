@@ -35,7 +35,7 @@ class EmailLinkLoginPage extends Component {
 
   authenticate() {
     const {email, linkToken} = this.state;
-    return fetch('/api/research/email', {
+    return fetch('/server/research/email', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'

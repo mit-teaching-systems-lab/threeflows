@@ -2,22 +2,7 @@ const path = require('path');
 const uuid = require('uuid');
 const qs = require('querystring');
 const {sendEmail, renderEmail} = require('./util/email.js');
-
-// Redirect to HTTPS
-function enforceHTTPS(request, response, next) {
-  if (process.env.NODE_ENV === 'development') return next();
-  if (request.headers['x-forwarded-proto'] !== 'https') {
-    const httpsUrl = ['https://', request.headers.host, request.url].join('');
-    return response.redirect(httpsUrl);
-  }
-  return next();
-}
-
-function getDomain(request) {
-  return (process.env.NODE_ENV === 'development')
-    ? 'http://localhost:5000'
-    : `https://${request.headers.host}`;
-}
+const {getDomain} = require('./domain.js');
 
 // Middleman function to confirm authorization token is valid
 // Reads token from request header and checks against tokens in db.
@@ -220,7 +205,6 @@ function generateToken(pool, email) {
 }
 
 module.exports = {
-  enforceHTTPS,
   onlyAllowResearchers,
   loginEndpoint,
   emailLinkEndpoint

@@ -218,7 +218,7 @@ const limiter = new RateLimit({
   }
 });
 
-app.post('/server/research/login', limiter, loginEndpoint.bind(null, pool, config.mailgunEnv));
+// app.post('/server/research/login', limiter, loginEndpoint.bind(null, pool, config.mailgunEnv));
 
 // Wrap researcher access in global kill switch
 if (process.env.ENABLE_RESEARCHER_ACCESS && process.env.ENABLE_RESEARCHER_ACCESS.toLowerCase() === 'true') {
