@@ -7,7 +7,7 @@ import MenuItem from 'material-ui/MenuItem';
 
 import logo from './logo.svg';
 import './TeacherMoments.css';
-import {obfuscateEmail, hashInto, colorNames} from './Anonymize.js';
+import {hashInto, colorNames} from './Anonymize.js';
 
 // Substance of analysis
 import * as Analyses from './Analyses.js';
@@ -100,7 +100,6 @@ class TeacherMoments extends Component {
   onAnalysisChanged(e, index, targetAnalysisKey) {
     const analysisTuple = _.find(_.entries(Analyses), pair => pair[0] === targetAnalysisKey);
     const [key, analysis] = analysisTuple;
-    console.log(analysisTuple)
     this.setState({key, analysis});
   }
 
@@ -170,7 +169,6 @@ class Analysis extends Component {
 
   componentDidMount() {
     const {location} = this.props.location;
-    const {db} = this.props.dataSet;
     fetch('/server/research/data', {
       headers: {
         'Accept': 'application/json',
