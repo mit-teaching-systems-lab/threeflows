@@ -89,7 +89,6 @@ class TeacherMoments extends Component {
   constructor(props) {
     super(props);
     const analysisTuple = _.last(_.entries(Analyses));
-    // console.log(analysisTuple)
     const [key, analysis] = analysisTuple;
     this.state = {
       key: key, 
@@ -172,10 +171,6 @@ class Analysis extends Component {
   componentDidMount() {
     const {location} = this.props.location;
     const {db} = this.props.dataSet;
-    console.log(db)
-    // const data = this.getData();
-    // console.log('getData',data)
-    // fetch(db)
     fetch('/server/research/data', {
       headers: {
         'Accept': 'application/json',
@@ -189,30 +184,9 @@ class Analysis extends Component {
       .catch(this.onError.bind(this))
   }
 
-  getData() {
-    const {location} = this.props.location;
-    return fetch('/server/research/data', {
-      headers: {
-        'Accept': 'application/json',
-        // 'Content-Type': 'application/json',
-        'x-teachermoments-location': location
-      },
-      method: 'GET'
-    })
-      .then(result => {
-        if (result.status === 200){
-          console.log(result.json())
-          return result.json();
-        } else {
-          throw new Error('failed to fetch');
-        }
-      });
-  }
-
   filter(json) {
     const {filter, analysisKey} = this.props;
     const rows = json.evidence.rows.filter(filter);
-    // const rows = json.evidence.rows;
 
     // TODO(kr) invert this so caller passes
     // sorting by time, or by participant
@@ -229,10 +203,7 @@ class Analysis extends Component {
   }
 
   onFetched(json) {
-    console.log('onFetch called')
-    console.log('getData',json)
     const filtered = this.filter(json);
-    console.log('onFetched',filtered)
     this.setState({ json: filtered });
   }
 

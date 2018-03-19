@@ -1,10 +1,7 @@
 function dataEndpoint(pool, request, response) {
-  console.log('getData')
-  const test_location = request.headers['x-teachermoments-location'];
-  // const test_location = request.body['location'];
-  console.log(test_location)
+  // const test_location = request.headers['x-teachermoments-location'];
+  // console.log(test_location)
 
-  // const location = 'http://localhost:3000/teachermoments/turner?playtest20180124';
   const location = 'http://localhost:3000/teachermoments/turner?KevinTesting20180319';
 
   const values = [location]

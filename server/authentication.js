@@ -62,7 +62,6 @@ function loginEndpoint(pool, mailgunEnv, request, response){
         console.log('isNotAuthorized: ', email);
         return response.status(405).end();
       } else {
-        // console.log('isAuthorized: ', email);
         const domain = getDomain(request);
         return createLinkAndEmail(pool, mailgunEnv, email, domain)
           .then(result => response.status(200).end());
@@ -75,7 +74,6 @@ function loginEndpoint(pool, mailgunEnv, request, response){
 }
 
 function isOnWhitelist(pool, email){
-  // console.log('checking whitelist: ', email);
   const whitelistSQL = 'SELECT * FROM whitelist WHERE email=$1 ORDER BY id ASC LIMIT 1';
   const whitelistValues = [email];
   
@@ -84,7 +82,6 @@ function isOnWhitelist(pool, email){
 }
 
 function createLinkAndEmail(pool, mailgunEnv, email, domain) {
-  // console.log('creating link and email');
   return insertLink(pool,email, domain)
     .then(link => emailLink(mailgunEnv, email, link));
 }
@@ -92,7 +89,6 @@ function createLinkAndEmail(pool, mailgunEnv, email, domain) {
 function insertLink(pool, email, domain) {
   const linkToken = uuid.v4();
   const link = `${domain}/login_from_email?${qs.stringify({linkToken})}`;
-  // console.log('inserting link: ', link);
 
   // Insert link into database
   const linkSQL = `INSERT INTO links(email, link, timestampz) VALUES ($1, $2, $3)`;
@@ -106,7 +102,6 @@ function insertLink(pool, email, domain) {
 }
 
 function emailLink(mailgunEnv, email, link) {
-  // console.log('emailing link: ', link, email);
   const loginlinkFilename = path.join(__dirname,'research/loginlink.html.mustache');
   const html = renderEmail(loginlinkFilename,{link});
 
@@ -139,7 +134,6 @@ function emailLink(mailgunEnv, email, link) {
 // Endpoint to check link from researchers' email
 // Confirm email link is valid and generates token 
 // for user to access data. Adds token to 'tokens' database
-// 
 function emailLinkEndpoint(pool, request, response){
   const linkToken = request.body['link'];
   const email = request.body['email'];

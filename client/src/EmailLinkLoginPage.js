@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import queryString from 'query-string';
 import './LoginPage.css';
-// import Interactions from './Interactions.js';
 import TeacherMoments from './TeacherMoments.js';
 
 
@@ -95,7 +94,6 @@ class EmailLinkLoginPage extends Component {
     if (status === 'success') {
       if ((email !=="") && (token !== "default")){
         return (
-          // <Interactions email={email.toLowerCase()} token={token}/>
           <TeacherMoments email={email.toLowerCase()} token={token}/>
         );
       }else {
