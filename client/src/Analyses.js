@@ -415,7 +415,7 @@ export const testing = {
   description: 'testing new feature',
   filter(row) {
     return _.every([
-      Filters.containsPath('/teachermoments/turner?fromdemos', row),
+      Filters.containsPath('/teachermoments/turner?KevinTesting20180319', row),
       Filters.isConsentedFromDisk(LATEST_CONSENT, row),
       Filters.isSubmittedResponse(row),
       !Filters.isFlavorText(row),

@@ -5,7 +5,7 @@ function dataEndpoint(pool, request, response) {
   console.log(test_location)
 
   // const location = 'http://localhost:3000/teachermoments/turner?playtest20180124';
-  const location = 'http://localhost:3000/teachermoments/turner?fromdemos';
+  const location = 'http://localhost:3000/teachermoments/turner?KevinTesting20180319';
 
   const values = [location]
   const sql = `
