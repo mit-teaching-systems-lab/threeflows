@@ -34,10 +34,8 @@ function getAudioUrl(row) {
   return row.json.audioUrl || (row.json.audioResponse && row.json.audioResponse.audioUrl) || (row.json.uploadedUrl);
 }
 function rewriteAudioUrl(s3Folder, audioUrl) {
-  console.log(s3Folder);
   const slashIndex = audioUrl.lastIndexOf('/');
   const filename = audioUrl.slice(slashIndex + 1);
-  console.log(`${s3Folder}${filename}`);
   return `${s3Folder}${filename}`;
 }
 
@@ -88,16 +86,22 @@ function percentage(statsForSessions, filterFn) {
 
 // Decide what analysis to do
 class TeacherMoments extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     const analysisTuple = _.last(_.entries(Analyses));
+    // console.log(analysisTuple)
     const [key, analysis] = analysisTuple;
-    this.state = {key, analysis};
+    this.state = {
+      key: key, 
+      analysis: analysis,
+      location: '/teachermoments/turner?playtest20180124'
+    };
   }
 
   onAnalysisChanged(e, index, targetAnalysisKey) {
     const analysisTuple = _.find(_.entries(Analyses), pair => pair[0] === targetAnalysisKey);
     const [key, analysis] = analysisTuple;
+    console.log(analysisTuple)
     this.setState({key, analysis});
   }
 
@@ -116,7 +120,8 @@ class TeacherMoments extends Component {
             key={currentKey}
             analysisKey={currentKey}
             filter={filter}
-            dataSet={dataSet} />
+            dataSet={dataSet} 
+            location = {this.state.location}/>
         </div>
       </MuiThemeProvider>
     );
@@ -150,6 +155,7 @@ class Analysis extends Component {
   propTypes: {
     analysisKey: React.PropTypes.string.isRequired,
     filter: React.PropTypes.func.isRequired,
+    location: React.PropTypes.string.isRequired,
     dataSet: {
       db: React.PropTypes.string.isRequired,
       s3: React.PropTypes.string.isRequired
@@ -159,21 +165,54 @@ class Analysis extends Component {
   constructor() {
     super();
     this.state = {
-      json: null
+      json: null,
     };
   }
 
   componentDidMount() {
+    const {location} = this.props.location;
     const {db} = this.props.dataSet;
-    fetch(db)
+    console.log(db)
+    // const data = this.getData();
+    // console.log('getData',data)
+    // fetch(db)
+    fetch('/server/research/data', {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'x-teachermoments-location': location
+      },
+      method: 'GET'
+    })
       .then(response => response.json())
       .then(this.onFetched.bind(this))
       .catch(this.onError.bind(this))
   }
 
+  getData() {
+    const {location} = this.props.location;
+    return fetch('/server/research/data', {
+      headers: {
+        'Accept': 'application/json',
+        // 'Content-Type': 'application/json',
+        'x-teachermoments-location': location
+      },
+      method: 'GET'
+    })
+      .then(result => {
+        if (result.status === 200){
+          console.log(result.json())
+          return result.json();
+        } else {
+          throw new Error('failed to fetch');
+        }
+      });
+  }
+
   filter(json) {
     const {filter, analysisKey} = this.props;
     const rows = json.evidence.rows.filter(filter);
+    // const rows = json.evidence.rows;
 
     // TODO(kr) invert this so caller passes
     // sorting by time, or by participant
@@ -190,12 +229,15 @@ class Analysis extends Component {
   }
 
   onFetched(json) {
+    console.log('onFetch called')
+    console.log('getData',json)
     const filtered = this.filter(json);
+    console.log('onFetched',filtered)
     this.setState({ json: filtered });
   }
 
   onError(exception) {
-    console.error(exception);
+    console.log("error mounting\n", exception);
   }
 
   doExport(rows, csvKeys) {
@@ -227,8 +269,8 @@ class Analysis extends Component {
   renderJson(json) {
     const allRows = json.evidence.rows;
     const statsForSessions = statsGroupedBy(allRows, 'sessionId', row => row.json.sessionId);
-    const statsForUsers = statsGroupedBy(allRows, 'email', row => obfuscateEmail(row.json.email));
-    const statsForQuestions = statsGroupedBy(allRows, 'questionText', row => row.json.question.text);
+    // const statsForUsers = statsGroupedBy(allRows, 'email', row => obfuscateEmail(row.json.email));
+    // const statsForQuestions = statsGroupedBy(allRows, 'questionText', row => row.json.question.text);
 
     // return (
     //   <div>

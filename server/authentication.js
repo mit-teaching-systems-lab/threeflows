@@ -10,7 +10,6 @@ const {getDomain} = require('./domain.js');
 function onlyAllowResearchers(pool, request, response, next) {
   const token = request.headers['x-teachermoments-token'];
   const email = request.headers['x-teachermoments-email'];
-  //need to update interactions.js in UI to actually send token and email
 
   checkToken(pool, email, token)
     .then(istokenAuthorized => {

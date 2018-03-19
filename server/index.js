@@ -16,7 +16,7 @@ const {
   loginEndpoint,
   emailLinkEndpoint
 } = require('./authentication.js');
-const {interactionsEndpoint} = require('./research/interactionsEndpoint.js');
+const {dataEndpoint} = require('./database.js');
 const {createPool} = require('./util/database.js');
 
 // config
@@ -200,14 +200,6 @@ app.get('/teachermoments/wav/(:id).wav', ReviewEndpoint.sensitiveGetAudioFile(qu
 // Read anonymized responses for Apples-to-Apples style group reviewing
 app.get('/server/apples/:key', ApplesEndpoint.sensitiveGetApples({queryDatabase}));
 
-
-// Serve any static files.
-// Route other requests return the React app, so it can handle routing.
-app.use(express.static(path.resolve(__dirname, '../client/build')));
-app.get('*', (request, response) => {
-  response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
-});
-
 // As a precaution for emailing and authentication routes
 const limiter = new RateLimit({
   windowMs: 60*60*1000, // 60 minutes
@@ -225,8 +217,20 @@ if (process.env.ENABLE_RESEARCHER_ACCESS && process.env.ENABLE_RESEARCHER_ACCESS
   app.post('/server/research/email', limiter, emailLinkEndpoint.bind(null, pool));
 
   // Endpoints for authenticated researchers to access data
-  app.get('/server/research/interactions', [limiter, onlyAllowResearchers.bind(null, pool)], interactionsEndpoint.bind(null, pool));
+  app.get('/server/research/data', limiter, dataEndpoint.bind(null, pool));
+  // app.get('/server/research/data', (request, response) => {
+  //   console.log('got request')
+  //   dataEndpoint.bind(null, pool);
+  //   console.log('after func')
+  // });
 }
+
+// Serve any static files.
+// Route other requests return the React app, so it can handle routing.
+app.use(express.static(path.resolve(__dirname, '../client/build')));
+app.get('*', (request, response) => {
+  response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+});
 
 
 // start server
