@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './LoginPage.css';
 
-
 // The page for users to login for accessing research data.
 class LoginPage extends Component {
   constructor(props) {
@@ -25,11 +24,13 @@ class LoginPage extends Component {
   }
 
   onSubmit(e) {
+    const audio = '/Users/keving17/Documents/Github/TSL/teacher-moments/server/20180213-185953-485_8d44f67e-d783-4597-aec2-d417325cce06.wav';
     e.preventDefault();
-    fetch('/server/research/login', {
+    fetch('/server/research/transcribe', {
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'x-teachermoments-audio': audio,
       },
       method: 'POST',
       body: JSON.stringify({
@@ -38,11 +39,28 @@ class LoginPage extends Component {
     })
       .then(result => {
         // The server shouldn't leak whether it's a whitelisted email address or not
-        this.setState({ message: "Check your email.  If you are authorized, you should see a login link within a few seconds!"});
+        this.setState({ message: "transcribing!"});
       })
       .catch(err => {
-        this.setState({ message: "An error occurred."});
+        this.setState({ message: "rip"});
       });
+    // fetch('/server/research/login', {
+    //   headers: {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json'
+    //   },
+    //   method: 'POST',
+    //   body: JSON.stringify({
+    //     email: this.state.email.toLowerCase()
+    //   })
+    // })
+    //   .then(result => {
+    //     // The server shouldn't leak whether it's a whitelisted email address or not
+    //     this.setState({ message: "Check your email.  If you are authorized, you should see a login link within a few seconds!"});
+    //   })
+    //   .catch(err => {
+    //     this.setState({ message: "An error occurred."});
+    //   });
   }
 
   onUpdateEmail(e) {

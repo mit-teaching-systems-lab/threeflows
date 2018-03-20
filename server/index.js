@@ -17,7 +17,9 @@ const {
   emailLinkEndpoint
 } = require('./authentication.js');
 const {dataEndpoint} = require('./database.js');
+const {getText} = require('./speech.js');
 const {createPool} = require('./util/database.js');
+
 
 // config
 const config = {
@@ -218,6 +220,7 @@ if (process.env.ENABLE_RESEARCHER_ACCESS && process.env.ENABLE_RESEARCHER_ACCESS
 
   // Endpoints for authenticated researchers to access data
   app.get('/server/research/data', [limiter, onlyAllowResearchers.bind(null, pool)], dataEndpoint.bind(null, pool));
+  app.post('/server/research/transcribe', limiter, getText.bind(null, pool));
   // app.get('/server/research/data', (request, response) => {
   //   console.log('got request')
   //   dataEndpoint.bind(null, pool);
