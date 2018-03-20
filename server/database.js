@@ -4,7 +4,7 @@ function dataEndpoint(pool, request, response) {
 
   const location = 'http://localhost:3000/teachermoments/turner?KevinTesting20180319';
 
-  const values = [location]
+  const values = [location];
   const sql = `
     SELECT *
     FROM evidence
@@ -18,21 +18,19 @@ function dataEndpoint(pool, request, response) {
         console.log('found data');
         console.log(results);
         response.set('Content-Type', 'application/json');
-          response.json({
-            evidence: {
-              rows: results.rows
-            } 
-          });
-        return response.status(200).end()
+        response.json({
+          evidence: {rows: results.rows} 
+        });
+        return response.status(200).end();
       }
       else{
-        console.log('Could not find data with url:', location)
+        console.log('Could not find data with url:', location);
         return response.status(500).end();
       }
     })
     .catch(err => {
-        console.log('Error with database query:', err);
-        return response.status(500).end();
+      console.log('Error with database query:', err);
+      return response.status(500).end();
     });
 }
 

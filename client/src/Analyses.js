@@ -32,7 +32,7 @@ function isConsentedFromHmtcaPaper(paperConsentJson) {
     if (!identifier) return false;
     const normalizedIdentifier = normalizedHmtcaIdentifier(row.json.identifier);
     return consentedNormalizedIdentifiers.indexOf(normalizedIdentifier) !== -1;
-  }
+  };
 }
 
 export const AllLego = {
@@ -51,8 +51,7 @@ export const AllLego = {
     db: LATEST_DB_PATH,
     s3: LATEST_S3_PATH
   }
-  
-}
+};
 
 export const Latest = {
   description: 'All: Unconscious Bias (unconsented)',
@@ -73,7 +72,7 @@ export const Latest = {
 };
 
 export const CompositeSIGCSE = {
- description: 'Composite: SIGCSE paper',
+  description: 'Composite: SIGCSE paper',
   filter(row) {
     return _.some([
       CTMobileCSPJayden.filter(row),

@@ -55,7 +55,7 @@ function statsGroupedBy(allRows, keyName, keyFn) {
       textModeCount,
       totalResponseCount: rows.length,
       reflectCount
-    }
+    };
   });
 }
 
@@ -179,7 +179,7 @@ class Analysis extends Component {
     })
       .then(response => response.json())
       .then(this.onFetched.bind(this))
-      .catch(this.onError.bind(this))
+      .catch(this.onError.bind(this));
   }
 
   filter(json) {
@@ -200,18 +200,9 @@ class Analysis extends Component {
     return {evidence: {rows: sortedRows}};
   }
 
-  onFetched(json) {
-    const filtered = this.filter(json);
-    this.setState({ json: filtered });
-  }
-
-  onError(exception) {
-    console.log("error mounting\n", exception);
-  }
-
   doExport(rows, csvKeys) {
     const headerRow = csvKeys.join("\t");
-    const csvRows = rows.map(row => csvKeys.map(csvKey => escapedCell(row[csvKey])).join("\t"))
+    const csvRows = rows.map(row => csvKeys.map(csvKey => escapedCell(row[csvKey])).join("\t"));
     const csvString = [headerRow].concat(csvRows).join("\n");
     const a         = document.createElement('a');
     a.href        = 'data:attachment/tsv,' +  encodeURIComponent(csvString);
@@ -221,6 +212,15 @@ class Analysis extends Component {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+  }
+
+  onError(exception) {
+    console.log("error mounting\n", exception);
+  }
+
+  onFetched(json) {
+    const filtered = this.filter(json);
+    this.setState({ json: filtered });
   }
 
   render() {
@@ -324,9 +324,9 @@ class Analysis extends Component {
           {rows.map((row) => {
             return <tr key={JSON.stringify(row)}>
               {fields.map((field) => {
-                return <td key={field} style={styles.cell}>{row[field]}</td>
+                return <td key={field} style={styles.cell}>{row[field]}</td>;
               })}
-            </tr>
+            </tr>;
           })}
         </tbody>
       </table>
@@ -345,7 +345,7 @@ class Analysis extends Component {
         questionText: row.json.question.text,
         responseText: row.json.responseText,
         raw: row
-      }
+      };
     });
     const csvKeys = Object.keys(_.first(csvRows));
     const identifierCount = _.uniq(json.evidence.rows.map(row => row.json.identifier)).length;

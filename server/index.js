@@ -217,7 +217,7 @@ if (process.env.ENABLE_RESEARCHER_ACCESS && process.env.ENABLE_RESEARCHER_ACCESS
   app.post('/server/research/email', limiter, emailLinkEndpoint.bind(null, pool));
 
   // Endpoints for authenticated researchers to access data
-  app.get('/server/research/data', limiter, dataEndpoint.bind(null, pool));
+  app.get('/server/research/data', [limiter, onlyAllowResearchers.bind(null, pool)], dataEndpoint.bind(null, pool));
   // app.get('/server/research/data', (request, response) => {
   //   console.log('got request')
   //   dataEndpoint.bind(null, pool);

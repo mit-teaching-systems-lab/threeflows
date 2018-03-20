@@ -16,9 +16,12 @@ class LoginPage extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  onUpdateEmail(e) {
-    const { value } = e.target;
-    this.setState({ email : value });
+  componentWillMount() {
+    document.body.style.backgroundColor = "white";
+  }
+
+  componentWillUnmount() {
+    document.body.style.backgroundColor = null;
   }
 
   onSubmit(e) {
@@ -42,12 +45,9 @@ class LoginPage extends Component {
       });
   }
 
-  componentWillMount() {
-    document.body.style.backgroundColor = "white";
-  }
-
-  componentWillUnmount() {
-    document.body.style.backgroundColor = null;
+  onUpdateEmail(e) {
+    const { value } = e.target;
+    this.setState({ email : value });
   }
 
   render() {

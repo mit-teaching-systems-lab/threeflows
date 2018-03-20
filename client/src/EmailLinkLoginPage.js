@@ -24,6 +24,14 @@ class EmailLinkLoginPage extends Component {
     this.authenticate = this.authenticate.bind(this);
   }
 
+  componentWillMount() {
+    document.body.style.backgroundColor = "white";
+  }
+
+  componentWillUnmount() {
+    document.body.style.backgroundColor = null;
+  }
+
   // Also remove login token from URL bar in browser
   readLinkToken() {
     const query = queryString.parse(window.location.search);
@@ -54,11 +62,6 @@ class EmailLinkLoginPage extends Component {
       });
   }
 
-  onUpdateEmail(e) {
-    const { value } = e.target;
-    this.setState({ email: value });
-  }
-
   onSubmit(e) {
     e.preventDefault();
     this.authenticate()
@@ -81,12 +84,9 @@ class EmailLinkLoginPage extends Component {
     });
   }
 
-  componentWillMount() {
-    document.body.style.backgroundColor = "white";
-  }
-
-  componentWillUnmount() {
-    document.body.style.backgroundColor = null;
+  onUpdateEmail(e) {
+    const { value } = e.target;
+    this.setState({ email: value });
   }
 
   render() {
