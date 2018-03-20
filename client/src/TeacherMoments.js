@@ -93,7 +93,9 @@ class TeacherMoments extends Component {
     this.state = {
       key: key, 
       analysis: analysis,
-      location: '/teachermoments/turner?playtest20180124'
+      location: '/teachermoments/turner?playtest20180124',
+      token: this.props.token,
+      email: this.props.email
     };
   }
 
@@ -119,7 +121,9 @@ class TeacherMoments extends Component {
             analysisKey={currentKey}
             filter={filter}
             dataSet={dataSet} 
-            location = {this.state.location}/>
+            location = {this.state.location}
+            token = {this.state.token}
+            email = {this.state.email}/>
         </div>
       </MuiThemeProvider>
     );
@@ -160,20 +164,27 @@ class Analysis extends Component {
     }
   }
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       json: null,
+      location: this.props.location,
+      token: this.props.token,
+      email: this.props.email
     };
   }
 
   componentDidMount() {
-    const {location} = this.props.location;
+    const location = this.state.location;
+    const token = this.state.token;
+    const email = this.state.email;
     fetch('/server/research/data', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'x-teachermoments-location': location
+        'x-teachermoments-location': location,
+        'x-teachermoments-token': token,
+        'x-teachermoments-email': email
       },
       method: 'GET'
     })
