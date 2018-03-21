@@ -26,7 +26,7 @@ function queryDatabase(text, values, cb) {
       cb(err, result);
     });
   });
-};
+}
 
 // yields rows
 function queryForTable(table, cb) {
@@ -71,11 +71,11 @@ function main() {
     if (err) {
       console.log('---- error ----');
       console.log(err);
-      process.exit(1);
+      process.exit(1); // eslint-disable-line no-process-exit
     }
     
     console.log(JSON.stringify(output));
-    process.exit(0);
+    process.exit(0); // eslint-disable-line no-process-exit
   });
 }
 

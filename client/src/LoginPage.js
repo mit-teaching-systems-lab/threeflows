@@ -26,6 +26,8 @@ class LoginPage extends Component {
   onSubmit(e) {
     const audio = '/Users/keving17/Documents/Github/TSL/teacher-moments/server/20180213-185953-485_8d44f67e-d783-4597-aec2-d417325cce06.wav';
     e.preventDefault();
+
+    //hard coding submit button to transcribe audio
     fetch('/server/research/transcribe', {
       headers: {
         'Accept': 'application/json',
@@ -38,12 +40,12 @@ class LoginPage extends Component {
       })
     })
       .then(result => {
-        // The server shouldn't leak whether it's a whitelisted email address or not
         this.setState({ message: "transcribing!"});
       })
       .catch(err => {
         this.setState({ message: "rip"});
       });
+
     // fetch('/server/research/login', {
     //   headers: {
     //     'Accept': 'application/json',

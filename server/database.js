@@ -1,6 +1,7 @@
+//This endpoint recieves server calls to access data from online databse
 function dataEndpoint(pool, request, response) {
-  // const test_location = request.headers['x-teachermoments-location'];
-  // console.log(test_location)
+  const testLocation = request.headers['x-teachermoments-location'];
+  console.log(testLocation);
 
   const location = 'http://localhost:3000/teachermoments/turner?KevinTesting20180319';
 
