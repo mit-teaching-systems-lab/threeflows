@@ -53,7 +53,6 @@ function checkToken(pool, email, token) {
 //Emails link for next login step
 //Returns 200 for success, 405 for unauthorized email and 500 for any errors
 function loginEndpoint(pool, mailgunEnv, request, response){
-  console.log('Arrived at loginEndpoint');
   const {email} = request.body;
 
   isOnWhitelist(pool, email)
