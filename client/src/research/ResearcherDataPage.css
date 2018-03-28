@@ -1,0 +1,19 @@
+.ResearcherDataPage-logo {
+  animation: ResearcherDataPage-logo-spin infinite 20s linear;
+  height: 64px;
+}
+
+.ResearcherDataPage-header {
+  border-bottom: 4px solid #222;
+  padding: 5px;
+  color: white;
+}
+
+.ResearcherDataPage-intro {
+  font-size: large;
+}
+
+@keyframes ResearcherDataPage-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

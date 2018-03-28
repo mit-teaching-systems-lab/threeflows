@@ -6,7 +6,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
 import logo from './logo.svg';
-import './TeacherMoments.css';
+import './ResearcherDataPage.css';
 import {hashInto, colorNames} from './Anonymize.js';
 
 // Substance of analysis
@@ -85,7 +85,7 @@ function percentage(statsForSessions, filterFn) {
 
 
 // Decide what analysis to do
-class TeacherMoments extends Component {
+class ResearcherDataPage extends Component {
   constructor(props) {
     super(props);
     const analysisTuple = _.last(_.entries(Analyses));
@@ -111,9 +111,9 @@ class TeacherMoments extends Component {
     const {filter, dataSet} = currentAnalysis;
     return (
       <MuiThemeProvider>
-        <div className="TeacherMoments">
-          <div className="TeacherMoments-header">
-            <img src={logo} className="TeacherMoments-logo" alt="logo" />
+        <div className="ResearcherDataPage">
+          <div className="ResearcherDataPage-header">
+            <img src={logo} className="ResearcherDataPage-logo" alt="logo" />
             {this.renderSelect(currentKey)}
           </div>
           <Analysis
@@ -428,4 +428,4 @@ class Analysis extends Component {
   }
 }
 
-export default TeacherMoments;
+export default ResearcherDataPage;

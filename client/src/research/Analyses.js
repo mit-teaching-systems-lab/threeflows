@@ -1,7 +1,7 @@
 import Filters from './Filters.js';
 import _ from 'lodash';
-import LATEST_CONSENT from './consented-latest.json';
-import HMTCA_PAPER_CONSENT from './consented-hmtca-paper.json';
+import LATEST_CONSENT from '../PRIVATE_SENSITIVE_DATA/consented-latest.json';
+import HMTCA_PAPER_CONSENT from '../PRIVATE_SENSITIVE_DATA/consented-hmtca-paper.json';
 const LATEST_DB_PATH = '';
 const LATEST_S3_PATH = '';
 

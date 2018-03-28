@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import queryString from 'query-string';
 import './LoginPage.css';
-import TeacherMoments from './TeacherMoments.js';
+import ResearcherDataPage from './ResearcherDataPage.js';
 
 
 // This is the landing page users reach when clicking on a login 
@@ -94,7 +94,7 @@ class EmailLinkLoginPage extends Component {
     if (status === 'success') {
       if ((email !=="") && (token !== "default")){
         return (
-          <TeacherMoments email={email.toLowerCase()} token={token}/>
+          <ResearcherDataPage email={email.toLowerCase()} token={token}/>
         );
       }else {
         return null;
@@ -103,7 +103,7 @@ class EmailLinkLoginPage extends Component {
     
     return (
       <div className='LoginPage'>
-        <h2>Welcome Back to Teacher Moments!</h2>
+        <h2>Welcome Back to the Teacher Moments Researcher Portal!</h2>
         <h3>{message}</h3>
         <form name="loginForm" onSubmit={this.onSubmit}>
           <div className='LoginPage-Block'>
