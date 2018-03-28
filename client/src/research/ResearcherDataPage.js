@@ -178,13 +178,13 @@ class Analysis extends Component {
     const location = this.state.location;
     const token = this.state.token;
     const email = this.state.email;
+
+    //TODO: Need to decide if user is authorized to access data at location
     fetch('/server/research/data', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'x-teachermoments-location': location,
-        'x-teachermoments-token': token,
-        'x-teachermoments-email': email
       },
       method: 'GET'
     })
@@ -249,20 +249,6 @@ class Analysis extends Component {
   renderJson(json) {
     const allRows = json.evidence.rows;
     const statsForSessions = statsGroupedBy(allRows, 'sessionId', row => row.json.sessionId);
-    // const statsForUsers = statsGroupedBy(allRows, 'email', row => obfuscateEmail(row.json.email));
-    // const statsForQuestions = statsGroupedBy(allRows, 'questionText', row => row.json.question.text);
-
-    // return (
-    //   <div>
-    //     <h2 style={{margin: 20}}>Events</h2>
-    //     {json && <pre style={{margin: 20}}>{Object.keys(json).map(key => `${key}: ${json[key].rows.length} rows`).join("\n")}</pre>}
-    //     {json && this.renderEventsTable(json)}
-    //     <h2 style={{margin: 20}}>Summary stats</h2>
-    //     {json && this.renderStats('sessionId', statsForSessions)}
-    //     {json && this.renderStats('email', statsForUsers)}
-    //     {json && this.renderStats('questionText', statsForQuestions)}
-    //   </div>
-    // );
 
     return (
       <div>
