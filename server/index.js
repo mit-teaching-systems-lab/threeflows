@@ -37,10 +37,6 @@ app.use(bodyParser.raw({ type: 'audio/wav', limit: '50mb' }));
 app.use(enforceHTTPS);
 const pool = createPool(config.postgresUrl);
 
-// external services
-// const s3 = createS3Client();
-// const mailgunEnv = createMailgunEnv();
-
 // https redirect
 function enforceHTTPS(request, response, next) {
   if (process.env.NODE_ENV === 'development') return next();
@@ -218,11 +214,6 @@ if (process.env.ENABLE_RESEARCHER_ACCESS && process.env.ENABLE_RESEARCHER_ACCESS
 
   // Endpoints for authenticated researchers to access data
   app.get('/server/research/data', [limiter, onlyAllowResearchers.bind(null, pool)], dataEndpoint.bind(null, pool));
-  // app.get('/server/research/data', (request, response) => {
-  //   console.log('got request')
-  //   dataEndpoint.bind(null, pool);
-  //   console.log('after func')
-  // });
 }
 
 // Serve any static files.
