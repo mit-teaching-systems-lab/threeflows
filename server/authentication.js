@@ -9,9 +9,8 @@ const {getDomain} = require('./domain.js');
 // Runs in both development and production
 function onlyAllowResearchers(pool, request, response, next) {
   const token = request.headers['x-teachermoments-token'];
-  const email = request.headers['x-teachermoments-email'];
 
-  checkToken(pool, email, token)
+  checkToken(pool, token)
     .then(istokenAuthorized => {
       if (istokenAuthorized) {
         return next();
@@ -28,18 +27,17 @@ function onlyAllowResearchers(pool, request, response, next) {
     });
 }
 
-function checkToken(pool, email, token) {
+function checkToken(pool, token) {
   const now = new Date();
 
   const sql = `
     SELECT * 
     FROM tokens 
     WHERE token=$1 
-      AND email=$2
-      AND $3 > timestampz
-      And $3 < (timestampz + INTERVAL '24 hours')
+      AND $2 > timestampz
+      And $2 < (timestampz + INTERVAL '24 hours')
     ORDER BY id ASC LIMIT 1`;
-  const values = [token, email, now];
+  const values = [token, now];
   return pool.query(sql, values)
     .then(results => Promise.resolve(results.rowCount===1))
     .catch(err => {

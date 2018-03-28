@@ -177,7 +177,6 @@ class Analysis extends Component {
   componentDidMount() {
     const location = this.state.location;
     const token = this.state.token;
-    const email = this.state.email;
 
     //TODO: Need to decide if user is authorized to access data at location
     fetch('/server/research/data', {
@@ -185,6 +184,7 @@ class Analysis extends Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         'x-teachermoments-location': location,
+        'x-teachermoments-token': token,
       },
       method: 'GET'
     })
