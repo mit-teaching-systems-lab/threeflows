@@ -1,7 +1,5 @@
 import Filters from './Filters.js';
 import _ from 'lodash';
-import LATEST_CONSENT from '../PRIVATE_SENSITIVE_DATA/consented-latest.json';
-import HMTCA_PAPER_CONSENT from '../PRIVATE_SENSITIVE_DATA/consented-hmtca-paper.json';
 const LATEST_DB_PATH = '';
 const LATEST_S3_PATH = '';
 
@@ -18,29 +16,11 @@ function isForUnconsciousBias(row) {
   if (Filters.containsPath('/teachermoments/hmtca', row)) return true;
 }
 
-// Shocked Dinosaur => shocked dinosaur
-// Shocked-Dinosaur => shocked dinosaur
-function normalizedHmtcaIdentifier(identifier) {
-  return identifier.toLowerCase().split(/\s-/).join(' ');
-}
-
-function isConsentedFromHmtcaPaper(paperConsentJson) {
-  const consentedNormalizedIdentifiers = paperConsentJson.consentedIdentifiers.map(normalizedHmtcaIdentifier);
-
-  return function(row) {
-    const identifier = row.json.identifier;
-    if (!identifier) return false;
-    const normalizedIdentifier = normalizedHmtcaIdentifier(row.json.identifier);
-    return consentedNormalizedIdentifiers.indexOf(normalizedIdentifier) !== -1;
-  };
-}
-
 export const AllLego = {
   description: 'All: Lego scenario',
   filter(row) {
     return _.every([
       Filters.containsPath('/teachermoments/sub', row) || Filters.containsPath('/teachermoments/ecs', row),
-      Filters.isConsentedFromDisk(LATEST_CONSENT, row),
       Filters.isSubmittedResponse(row),
       !Filters.isDeveloper(row),
       !Filters.isThrowawayUser(row),
@@ -133,7 +113,6 @@ export const MobileCSPOrientationAnalysis = {
   description: 'Field test: 4/22 Mobile CSP orientation',
   filter(row) {
     return _.every([
-      Filters.isConsentedFromDisk(LATEST_CONSENT, row),
       Filters.isPath('/teachermoments/sub?group=css', row),
       Filters.isSubmittedResponse(row),
       !Filters.isDeveloper(row),
@@ -152,7 +131,6 @@ export const LabPlaytestApril25 = {
   description: 'Playtest: 4/25 TSL lab playtest',
   filter(row) {
     return _.every([
-      Filters.isConsentedFromDisk(LATEST_CONSENT, row),
       Filters.isPath('/teachermoments/sub?group=playtest', row) || Filters.isPath('/teachermoments/sub?group=caf', row),
       Filters.isSubmittedResponse(row),
       !Filters.isDeveloper(row),
@@ -174,7 +152,6 @@ export const EcsJuneFieldTest = {
   description: 'Field test: 6/26 ECS Lego',
   filter(row) {
     return _.every([
-      Filters.isConsentedFromDisk(LATEST_CONSENT, row),
       Filters.containsPath('/teachermoments/ecs', row),
       Filters.isSubmittedResponse(row),
       !Filters.isDeveloper(row),
@@ -195,7 +172,6 @@ export const JaydenJunePlaytest = {
   description: 'Playtest: 6/26 Jayden playtest',
   filter(row) {
     return _.every([
-      Filters.isConsentedFromDisk(LATEST_CONSENT, row),
       Filters.isPath('/teachermoments/jayden', row),
       Filters.isSubmittedResponse(row),
       !Filters.isDeveloper(row),
@@ -216,7 +192,6 @@ export const SmithJunePlaytest = {
   description: 'Playtest: 6/26 Smith playtest',
   filter(row) {
     return _.every([
-      Filters.isConsentedFromDisk(LATEST_CONSENT, row),
       Filters.isPath('/teachermoments/smithB', row),
       Filters.isSubmittedResponse(row),
       !Filters.isDeveloper(row),
@@ -237,7 +212,6 @@ export const EcsJuly24FieldTest = {
   description: 'Field test: 7/24 ECS Lego',
   filter(row) {
     return _.every([
-      Filters.isConsentedFromDisk(LATEST_CONSENT, row),
       Filters.containsPath('/teachermoments/ecs', row),
       Filters.isSubmittedResponse(row),
       !Filters.isDeveloper(row),
@@ -258,7 +232,6 @@ export const EcsJuly28FieldTest = {
   description: 'Field test: 7/28 ECS Rosa',
   filter(row) {
     return _.every([
-      Filters.isConsentedFromDisk(LATEST_CONSENT, row),
       Filters.containsPath('/teachermoments/rosa', row),
       Filters.isSubmittedResponse(row),
       !Filters.isDeveloper(row),
@@ -323,7 +296,6 @@ export const HMTCA = {
   filter(row) {
     return _.every([
       Filters.isPath('/teachermoments/hmtca?workshop=hmtca20170822', row),
-      isConsentedFromHmtcaPaper(HMTCA_PAPER_CONSENT)(row),
       Filters.isSubmittedResponse(row),
       !Filters.isDeveloper(row),
       !Filters.isThrowawayUser(row),
@@ -341,7 +313,6 @@ export const CTMobileCSPSmith = {
   filter(row) {
     return _.every([
       Filters.isPath('/teachermoments/smithFacilitated?cohort=mobilecsp&consent=false', row),
-      Filters.isConsentedFromDisk(LATEST_CONSENT, row),
       Filters.isSubmittedResponse(row),
       !Filters.isDeveloper(row),
       !Filters.isThrowawayUser(row),
@@ -359,7 +330,6 @@ export const CTMobileCSPJayden = {
   filter(row) {
     return _.every([
       Filters.isPath('/teachermoments/jayden?cohort=mobilecsp&text', row),
-      Filters.isConsentedFromDisk(LATEST_CONSENT, row),
       Filters.isSubmittedResponse(row),
       !Filters.isDeveloper(row),
       !Filters.isThrowawayUser(row),
@@ -377,7 +347,6 @@ export const playtestJanTurner = {
   filter(row) {
     return _.every([
       Filters.containsPath('/teachermoments/turner?playtest20180124', row),
-      Filters.isConsentedFromDisk(LATEST_CONSENT, row),
       Filters.isSubmittedResponse(row),
       !Filters.isFlavorText(row),
       !Filters.isDeveloper(row),
@@ -396,7 +365,6 @@ export const MeredithDarius = {
   filter(row) {
     return _.every([
       Filters.containsPath('/teachermoments/darius?fromdemos', row),
-      Filters.isConsentedFromDisk(LATEST_CONSENT, row),
       Filters.isSubmittedResponse(row),
       !Filters.isFlavorText(row),
       !Filters.isDeveloper(row),
@@ -415,7 +383,6 @@ export const testing = {
   filter(row) {
     return _.every([
       Filters.containsPath('/teachermoments/turner?KevinTesting20180319', row),
-      Filters.isConsentedFromDisk(LATEST_CONSENT, row),
       Filters.isSubmittedResponse(row),
       !Filters.isFlavorText(row),
       !Filters.isDeveloper(row),

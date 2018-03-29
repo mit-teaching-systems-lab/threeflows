@@ -38,16 +38,22 @@ function checkAccess(pool, location, token) {
   return Promise.resolve(true);
 }
 
+// This gets list of consenting participant emails and then only grabs 
+// data with specified url and emails
+// Some testing notes:
+//      I've confirmed emails not in the consented_email table do not show up
+//      I've confirmed emails that have false in any of audio/permission/consent do not show up
 function getData(pool, location){
-  const values = [location];
-  const sql = `
+  const dataValues = [location];
+  const dataSQL = `
     SELECT *
     FROM evidence
     WHERE 1=1
       AND json->'GLOBAL'->>'location' = $1
+      AND json->>'email' IN (SELECT email FROM consented_email WHERE audio='t' AND permission='t' AND consent='t')
     ORDER BY json->>'sessionId', id ASC;`;
 
-  return pool.query(sql,values)
+  return pool.query(dataSQL,dataValues)
     .then(results => results.rows)
     .catch(err => {
       console.log('Error with database query:', err);
