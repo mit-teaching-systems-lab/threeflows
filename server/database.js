@@ -18,11 +18,11 @@ function dataEndpoint(pool, request, response) {
             response.json({
               evidence: {rows: results} 
             });
-            return response.status(200).end()
+            return response.status(200).end();
           });
       }
       else{
-        console.log('Researcher is not authorized to see this data')
+        console.log('Researcher is not authorized to see this data');
         return response.status(405).end();
       }
     })
