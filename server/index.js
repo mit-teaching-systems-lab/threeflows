@@ -188,9 +188,9 @@ app.post('/teachermoments/wav', AudioEndpoints.post(config.s3));
 
 
 // Related to the read path for reviewing responses, and for fetching audio files
-app.post('/server/reviews/create', ReviewLoginEndpoint.createReview(config.mailgunEnv, queryDatabase));
-app.get('/server/reviews', ReviewEndpoint.sensitiveGetReview(queryDatabase));
-app.get('/teachermoments/wav/(:id).wav', ReviewEndpoint.sensitiveGetAudioFile(queryDatabase, config.s3));
+app.post('/server/reviews/create', ReviewLoginEndpoint.createReview({mailgunEnv:config.mailgunEnv, queryDatabase}));
+app.get('/server/reviews', ReviewEndpoint.sensitiveGetReview({queryDatabase}));
+app.get('/teachermoments/wav/(:id).wav', ReviewEndpoint.sensitiveGetAudioFile({queryDatabase, s3:config.s3}));
 
 
 // Read anonymized responses for Apples-to-Apples style group reviewing

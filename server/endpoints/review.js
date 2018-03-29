@@ -82,7 +82,7 @@ module.exports = {
 
   // Returns user data describing responses, if (token, hid) pair is valid
   // and within time window.
-  sensitiveGetReview(queryDatabase) {
+  sensitiveGetReview({queryDatabase}) {
     return (request, response) => {
       const {token, hid} = request.query;
 
@@ -131,7 +131,7 @@ module.exports = {
 
   // Streams an audio file of user recordings from S3, if (token, hid) pair
   // is valid and within time window.
-  sensitiveGetAudioFile(queryDatabase, s3) {
+  sensitiveGetAudioFile({queryDatabase, s3}) {
     return (request, response) => {
       const {token, hid} = request.query;
 

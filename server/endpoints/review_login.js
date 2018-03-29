@@ -107,7 +107,7 @@ module.exports = {
   // Takes a reviewKey and an access code, given in person or out of band of this system.
   // The learner can give those along with their email address to generate a login token for
   // a limited time window, that is sent to their email address as an authentication check.
-  createReview(mailgunEnv, queryDatabase) {
+  createReview({mailgunEnv, queryDatabase}) {
     return (request, response) => {
       const reviewKey = request.body.review_key;
       const accessCode = request.body.access_code;
