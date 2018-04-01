@@ -34,8 +34,8 @@ function checkToken(pool, token) {
     SELECT * 
     FROM tokens 
     WHERE token=$1 
-      AND $2 > timestampz
-      And $2 < (timestampz + INTERVAL '24 hours')
+      AND $2 > timestamp
+      And $2 < (timestamp + INTERVAL '24 hours')
     ORDER BY id ASC LIMIT 1`;
   const values = [token, now];
   return pool.query(sql, values)
@@ -88,7 +88,7 @@ function insertLink(pool, email, domain) {
   const link = `${domain}/login_from_email?${qs.stringify({linkToken})}`;
 
   // Insert link into database
-  const linkSQL = `INSERT INTO links(email, link, timestampz) VALUES ($1, $2, $3)`;
+  const linkSQL = `INSERT INTO links(email, link, timestamp) VALUES ($1, $2, $3)`;
   const now = new Date();
   const linkValues = [email, linkToken, now];
   return pool.query(linkSQL, linkValues)
@@ -167,8 +167,8 @@ function checkLink(pool, email, link) {
     FROM links 
     WHERE link=$1 
       AND email=$2
-      AND $3 > timestampz
-      And $3 < (timestampz + INTERVAL '24 hours')
+      AND $3 > timestamp
+      And $3 < (timestamp + INTERVAL '24 hours')
     ORDER BY id ASC LIMIT 1`;
   const linkValues = [link, email, now];
   return pool.query(linkSQL, linkValues)
@@ -185,7 +185,7 @@ function generateToken(pool, email) {
   //Create actual token and insert into token DB
   const token = uuid.v4();
 
-  const sql = `INSERT INTO tokens(email, token, timestampz) VALUES ($1, $2, $3)`;
+  const sql = `INSERT INTO tokens(email, token, timestamp) VALUES ($1, $2, $3)`;
   const values = [email, token, now];
   return pool.query(sql, values)
     .then(result => token)

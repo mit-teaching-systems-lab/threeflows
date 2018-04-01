@@ -55,7 +55,7 @@ function createTables(database) {
       id serial primary key,
       email text,
       link text,
-      timestampz timestamptz
+      timestamp timestamptz
     );
     CREATE TABLE whitelist (
       id serial primary key,
@@ -65,7 +65,7 @@ function createTables(database) {
       id serial primary key,
       email text,
       token text,
-      timestampz timestamptz
+      timestamp timestamptz
     );
     CREATE TABLE consented_email (
       id serial primary key,
