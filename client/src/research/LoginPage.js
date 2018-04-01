@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './LoginPage.css';
+import BackgroundColor from './BackgroundColor.js';
 
 
 // The page for users to login for accessing research data.
@@ -14,14 +15,6 @@ class LoginPage extends Component {
 
     this.onUpdateEmail = this.onUpdateEmail.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
-  }
-
-  componentWillMount() {
-    document.body.style.backgroundColor = "white";
-  }
-
-  componentWillUnmount() {
-    document.body.style.backgroundColor = null;
   }
 
   onSubmit(e) {
@@ -54,6 +47,7 @@ class LoginPage extends Component {
     const email = this.state.email;
     return (
       <div className='LoginPage'>
+        <BackgroundColor/>
         <h2> Welcome to the Teacher Moments Researcher Portal</h2>
         <h3>{this.state.message}</h3>
         <form name="loginForm" onSubmit={this.onSubmit}>

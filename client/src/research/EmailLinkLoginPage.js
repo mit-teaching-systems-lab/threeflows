@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import queryString from 'query-string';
 import './LoginPage.css';
 import ResearcherDataPage from './ResearcherDataPage.js';
+import BackgroundColor from './BackgroundColor.js';
 
 
 // This is the landing page users reach when clicking on a login 
@@ -22,14 +23,6 @@ class EmailLinkLoginPage extends Component {
     this.onUpdateEmail = this.onUpdateEmail.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.authenticate = this.authenticate.bind(this);
-  }
-
-  componentWillMount() {
-    document.body.style.backgroundColor = "white";
-  }
-
-  componentWillUnmount() {
-    document.body.style.backgroundColor = null;
   }
 
   // Also remove login token from URL bar in browser
@@ -94,7 +87,10 @@ class EmailLinkLoginPage extends Component {
     if (status === 'success') {
       if ((email !=="") && (token !== "default")){
         return (
-          <ResearcherDataPage email={email.toLowerCase()} token={token}/>
+          <div>
+            <BackgroundColor/>
+            <ResearcherDataPage email={email.toLowerCase()} token={token}/>
+          </div>
         );
       }else {
         return null;
@@ -103,6 +99,7 @@ class EmailLinkLoginPage extends Component {
     
     return (
       <div className='LoginPage'>
+        <BackgroundColor/>
         <h2>Welcome Back to the Teacher Moments Researcher Portal!</h2>
         <h3>{message}</h3>
         <form name="loginForm" onSubmit={this.onSubmit}>
