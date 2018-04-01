@@ -1,12 +1,16 @@
+var fs = require('fs');
 const {Pool} = require('pg');
 
 function updateConsent(database){
   //Still need to grab emails from a sensitive data file
+  const emails = JSON.parse(fs.readFileSync('./tmp/consented-latest.json'))
+  const emailString = emails.consented.map(x => "'" + x + "'").toString();
   const pool = new Pool({database});
   const sql = `
     INSERT INTO consented_email_test (email,audio,permission,consent) 
     SELECT x,TRUE,TRUE,TRUE 
-    FROM unnest(ARRAY['kevin@mit.edu','wwa@mit.edu','meredith@mit.edu']) x;`;
+    FROM unnest(ARRAY[${emailString}]) x;`;
+  console.log(sql)
   return pool.query(sql);
 }
 
