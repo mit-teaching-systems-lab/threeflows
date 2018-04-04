@@ -23,7 +23,7 @@ function dataEndpoint(pool, request, response) {
       }
       else{
         console.log('Researcher is not authorized to see this data');
-        return response.status(405).end();
+        return response.status(403).end();
       }
     })
     .catch(err => {
