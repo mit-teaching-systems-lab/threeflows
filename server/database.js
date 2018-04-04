@@ -35,7 +35,13 @@ function dataEndpoint(pool, request, response) {
 // Spoofing the part where I confirm a token is allowed to view data from 
 // a specific location. Location is currently hard coded so this is fine.
 function checkAccess(pool, location, token) {
-  return Promise.resolve(true);
+  const domain = getDomain();
+  if (location ===`${domain}/teachermoments/turner?KevinTesting20180319`) {
+    return Promise.resolve(true);
+  }
+  else{
+    return Promise.reject();
+  }
 }
 
 // This gets list of consenting participant emails and then only grabs 
@@ -44,6 +50,10 @@ function checkAccess(pool, location, token) {
 //      I've confirmed emails not in the consented_email table do not show up
 //      I've confirmed emails that have false in any of audio/permission/consent do not show up
 function getData(pool, location){
+  //hard coding location until I can restrict access
+  const domain = getDomain();
+  location = `${domain}/teachermoments/turner?KevinTesting20180319`;
+
   const dataValues = [location];
   const dataSQL = `
     SELECT *
