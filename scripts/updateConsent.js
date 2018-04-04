@@ -3,7 +3,7 @@ const {Pool} = require('pg');
 
 function updateConsent(database){
   //Still need to grab emails from a sensitive data file
-  const emails = JSON.parse(fs.readFileSync('./tmp/test.json'))
+  const emails = JSON.parse(fs.readFileSync('./tmp/consented-latest.json'))
   const emailString = emails.consented.map(x => "'" + x + "'").toString();
   const pool = new Pool({database});
   const sql = `

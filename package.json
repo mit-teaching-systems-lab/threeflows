@@ -16,7 +16,9 @@
     "lint": "eslint --ext jsx --ext js -c server/.eslintrc server",
     "test": "yarn run lint && cd client && yarn run test",
     "db-create-dev": "node scripts/db-create.js teacher-moments-db",
-    "update-consent": "node scripts/updateConsent.js teacher-moments-db"
+    "update-consent": "node scripts/updateConsent.js teacher-moments-db",
+    "prep-consent": "node scripts/prepConsent.js tmp/consented-latest-raw.csv",
+    "update-consent-db": "yarn run prep-consent && yarn run update-consent"
   },
   "dependencies": {
     "aws-sdk": "^2.4.8",
@@ -41,6 +43,7 @@
   "devDependencies": {
     "babel-plugin-react-transform": "^2.0.2",
     "cross-env": "^5.0.5",
+    "csv-parse": "^2.1.0",
     "eslint": "^4.3.0",
     "eslint-plugin-node": "^5.1.1",
     "livereactload": "^2.2.3",
