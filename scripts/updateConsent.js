@@ -9,8 +9,9 @@ function updateConsent(database){
   const sql = `
     INSERT INTO consented_email (email,audio,permission,consent) 
     SELECT x,TRUE,TRUE,TRUE 
-    FROM unnest(ARRAY[${emailString}]) x;`;
-  return pool.query(sql);
+    FROM unnest(ARRAY[$1]) x;`;
+  const values = [emailString]
+  return pool.query(sql, values);
 }
 
 // Create a new database for test or development mode, and 
