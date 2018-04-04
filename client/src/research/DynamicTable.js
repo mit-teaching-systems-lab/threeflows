@@ -1,3 +1,4 @@
+import Immutable from 'immutable';
 import PropTypes from 'prop-types';
 import * as React from 'react';
 
@@ -9,32 +10,58 @@ import 'react-virtualized/styles.css';
 
 export default class DynamicHeightTableColumn extends React.PureComponent {
   static propTypes = {
-    list: PropTypes.array.isRequired,
+    list: PropTypes.instanceOf(Immutable.List).isRequired,
     width: PropTypes.number.isRequired,
     s3: PropTypes.string.isRequired
   };
 
-  _cache = new CellMeasurerCache({
-    fixedWidth: true,
-    minHeight: 25,
-  });
+  constructor(props) {
+    super(props);
 
-  _lastRenderedWidth = this.props.width;
+    const sortBy = 'index';
+    const sortDirection = SortDirection.ASC;
+    const sortedList = this._sortList({sortBy, sortDirection});
+
+    this.state = {
+      disableHeader : false,
+      headerHeight : 20,
+      height : 400,
+      overscanRowCount : 10,
+      rowCount : sortedList.size,
+      scrollToIndex : undefined,
+      sortBy,
+      sortDirection,
+      sortedList
+    };
+
+    this._cache = new CellMeasurerCache({
+      fixedWidth: true,
+      minHeight: 25,
+    });
+
+    this._lastRenderedWidth = this.props.width;
+
+    this._headerRenderer = this._headerRenderer.bind(this);
+    this._rowClassName = this._rowClassName.bind(this);
+    this._sort = this._sort.bind(this);
+  }
 
   render() {
-    const json = this.props.list;
     const width = this.props.width;
     const s3 = this.props.s3;
 
-    const disableHeader = false;
-    const headerHeight = 20;
-    const height = 400;
-    const overscanRowCount = 10;
-    const rowCount = json.length;
-    const scrollToIndex = undefined;
-    const sortBy = 'index';
-    const sortDirection = "ASC";
-    const rowGetter=({index}) => json[index%json.length];
+    const {
+      disableHeader,
+      headerHeight,
+      height,
+      overscanRowCount,
+      rowCount,
+      scrollToIndex,
+      sortBy,
+      sortDirection,
+      sortedList
+    } = this.state;
+    const rowGetter=({index}) => this._getDatum(sortedList, index);
 
     if (this._lastRenderedWidth !== this.props.width) {
       this._lastRenderedWidth = this.props.width;
@@ -61,33 +88,37 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
         width={width}
       >
         <Column 
-          dataKey="Timestamp" 
+          dataKey="timestamp" 
           label="Timestamp"
           disableSort = {false}
           cellDataGetter={({ dataKey , rowData }) => moment(rowData[dataKey]).format('MM/DD/YY  h:mm:ssa')}
           cellRenderer= {this._cellRenderer}          
           headerRenderer={this._headerRenderer}
-          width={300} 
+          width={290} 
         />
         <Column 
-          label="Email" 
           dataKey="email" 
+          label="Email" 
+          disableSort = {false}
           cellDataGetter={({ dataKey , rowData }) => rowData.json[dataKey]}
           headerRenderer={this._headerRenderer}
           width={400} 
         />
         <Column
-          label="Prompt"
           dataKey="text"
+          label="Prompt"
+          disableSort = {false}
           cellDataGetter={({ dataKey , rowData }) => rowData.json.question.text || <div><span>Teacher Moments Scene: </span> <a href={"https://youtu.be/"+rowData.json.question.youTubeId}>https://youtu.be/{rowData.json.question.youTubeId}</a></div>}
           cellRenderer= {this._wrappingCellRenderer}
           headerRenderer={this._headerRenderer}
           width={width}
         />
         <Column
-          label="Response"
           dataKey="responseText"
+          label="Response"
+          disableSort = {false}
           cellDataGetter={({ dataKey , rowData }) => rowData.json[dataKey] || (this._getAudioUrl(rowData) && <audio controls={true} src={this._rewriteAudioUrl(s3, this._getAudioUrl(rowData))} /> )}
+          cellRenderer= {this._wrappingCellRenderer}
           headerRenderer={this._headerRenderer}
           width={width}
         />
@@ -95,6 +126,9 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
       );
     }
 
+    _getDatum(list, index) {
+      return list.get(index % list.size);
+    }
     _getAudioUrl(row) {
       return row.json.audioUrl || (row.json.audioResponse && row.json.audioResponse.audioUrl) || (row.json.uploadedUrl);
     }
@@ -111,6 +145,42 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
           {sortBy === dataKey && <SortIndicator sortDirection={sortDirection} />}
         </div>
       );
+    }
+    
+    _sort({sortBy, sortDirection}) {
+      const sortedList = this._sortList({sortBy, sortDirection});
+
+      this.setState({sortBy, sortDirection, sortedList});
+    }
+
+    _sortList({sortBy, sortDirection}) {
+      const list = this.props.list;
+
+      const sortByColumn = (varA, varB) => {
+        var a = varA[sortBy]
+        var b = varB[sortBy]
+        if (typeof a === 'undefined') {
+          a = ""
+        }
+        if (typeof b === 'undefined') {
+          b = ""
+        }
+        if ( a > b ) {
+          return 1;
+        }
+        if (a < b ) {
+          return -1;
+        }
+        return 0;
+      }
+      
+      const sortedList = list
+        .sort(sortByColumn)
+        .update(
+          list => (sortDirection === SortDirection.DESC ? list.reverse() : list),
+        );
+
+      return sortedList
     }
 
     _rowClassName({index}) {
@@ -151,7 +221,6 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
       }
       return (
         <div
-          className={"tableColumn"}
           style={{
             whiteSpace: 'normal',
           }}>

@@ -5,6 +5,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
+import Immutable from 'immutable';
+
 import logo from './logo.svg';
 import './ResearcherDataPage.css';
 import {hashInto, colorNames} from './Anonymize.js';
@@ -394,13 +396,20 @@ class Analysis extends Component {
 
   renderEventsTableVirtualized(json) {
     const {s3} = this.props.dataSet;
+    const simpleJson = json.map((blob) => {
+      blob.email= blob.json.email;
+      blob.text= blob.json.question.text;
+      blob.youTubeId= blob.json.youTubeId;
+      blob.responseText= blob.json.responseText;
+      return blob;
+    });
     return (
       <div>
         <AutoSizer disableHeight>
           {({width}) => (
             <DynamicTable
               width={width}
-              list={json}
+              list={Immutable.List(simpleJson)}
               s3={s3}
             />
           )}
