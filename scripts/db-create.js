@@ -69,7 +69,7 @@ function createTables(database) {
     );
     CREATE TABLE consented_email (
       id serial primary key,
-      email text,
+      email text UNIQUE,
       audio boolean DEFAULT FALSE,
       permission boolean DEFAULT FALSE,
       consent boolean DEFAULT FALSE
