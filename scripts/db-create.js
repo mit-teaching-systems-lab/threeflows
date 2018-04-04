@@ -70,9 +70,9 @@ function createTables(database) {
     CREATE TABLE consented_email (
       id serial primary key,
       email text,
-      audio boolean,
-      permission boolean,
-      consent boolean
+      audio boolean DEFAULT FALSE,
+      permission boolean DEFAULT FALSE,
+      consent boolean DEFAULT FALSE
     );`;
   console.log(`Creating tables...`);
   return pool.query(sql);
