@@ -9,7 +9,7 @@ const moment = require('moment');
 if (process.argv.length !== 3) {
   console.log('Command line argument missing, aborting...');
   console.log('');
-  console.log('Usage: node tools/consent-teacher-moments.js tmp/PRIVATE_SENSITIVE_DATA/consent-teacher-moments/UserConsent.csv');
+  console.log('Usage: node scripts/prepConsent.js tmp/consented-latest-raw.csv');
   process.exit(1);
 }
 
