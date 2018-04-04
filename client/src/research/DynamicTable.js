@@ -25,7 +25,7 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
     this.state = {
       disableHeader : false,
       headerHeight : 20,
-      height : 400,
+      height : 1000,
       overscanRowCount : 10,
       rowCount : sortedList.size,
       scrollToIndex : undefined,

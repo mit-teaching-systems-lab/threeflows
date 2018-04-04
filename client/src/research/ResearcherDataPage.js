@@ -237,7 +237,6 @@ class Analysis extends Component {
         <h2 style={{margin: 20}}>Events</h2>
         {json && <pre style={{margin: 20}}>{Object.keys(json).map(key => `${key}: ${json[key].rows.length} rows`).join("\n")}</pre>}
         {json && this.renderEventsTableVirtualized(allRows)}
-        {json && this.renderEventsTable(json)}
       </div>
     );
   }
