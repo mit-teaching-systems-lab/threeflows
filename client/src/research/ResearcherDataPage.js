@@ -9,6 +9,11 @@ import logo from './logo.svg';
 import './ResearcherDataPage.css';
 import {hashInto, colorNames} from './Anonymize.js';
 
+import {Table, Column, AutoSizer, SortDirection, SortIndicator, CellMeasurer, CellMeasurerCache} from 'react-virtualized';
+import 'react-virtualized/styles.css';
+
+// import styles from './ResearcherDataPage.css';
+
 // Substance of analysis
 import * as Analyses from './Analyses.js';
 
@@ -225,18 +230,63 @@ class Analysis extends Component {
     document.body.removeChild(a);
   }
 
-  onError(exception) {
-    console.log("error mounting\n", exception);
+  _cache = new CellMeasurerCache({
+    fixedWidth: true,
+    minHeight: 25,
+  });
+
+  _getRowHeight ({ index }) {
+    return this._getDatum(index).size;
   }
+
+  _headerRenderer({dataKey, sortBy, sortDirection, label}) {
+    return (
+      <div>
+        {label}
+        {sortBy === dataKey && <SortIndicator sortDirection={sortDirection} />}
+      </div>
+    );
+  }
+
+  _rowClassName({index}) {
+    if (index < 0) {
+      return "headerRow";
+    } else {
+      return index % 2 === 0 ? "evenRow virtualizedRow" : "oddRow virtualizedRow";
+    }
+  }
+
+  _wrappingCellRenderer = ({cellData, dataKey, parent, rowIndex}) => {
+    return (
+      <CellMeasurer
+        cache={this._cache}
+        columnIndex={0}
+        key={dataKey}
+        parent={parent}
+        rowIndex={rowIndex}>
+        <div
+          className={"tableColumn"}
+          style={{
+            whiteSpace: 'normal',
+          }}>
+          {cellData}
+        </div>
+      </CellMeasurer>
+    );
+  };
 
   onFetched(json) {
     const filtered = this.filter(json);
     this.setState({ json: filtered });
   }
 
+  onError(exception) {
+    console.log("error mounting\n", exception);
+  }
+
   render() {
     const {json} = this.state;
-
+    console.log('rendering')
     return (
       <div className="Analysis">
         {(json)
@@ -249,13 +299,14 @@ class Analysis extends Component {
   renderJson(json) {
     const allRows = json.evidence.rows;
     const statsForSessions = statsGroupedBy(allRows, 'sessionId', row => row.json.sessionId);
+    console.log(statsForSessions)
+    console.log(allRows)
 
     return (
       <div>
-        <h2 style={{margin: 20}}>Dashboard Summary</h2>
-        {json && this.renderStatsNew('students', statsForSessions)}
         <h2 style={{margin: 20}}>Events</h2>
         {json && <pre style={{margin: 20}}>{Object.keys(json).map(key => `${key}: ${json[key].rows.length} rows`).join("\n")}</pre>}
+        {json && this.renderEventsTableVirtualized(allRows)}
         {json && this.renderEventsTable(json)}
       </div>
     );
@@ -412,6 +463,91 @@ class Analysis extends Component {
       </table>
     );
   }
+
+  renderEventsTableVirtualized(json) {
+    console.log(json);
+    console.log(json[0]);
+
+    const {s3} = this.props.dataSet;
+
+    const disableHeader = false;
+    const headerHeight = 20;
+    const height = 400;
+    const hideIndexRow = false;
+    const overscanRowCount = 10;
+    const rowHeight = 40;
+    const rowCount = json.length;
+    const scrollToIndex = undefined;
+    const sortBy = 'index';
+    const sortDirection = "ASC";
+    const sortedList = json;
+    const useDynamicRowHeight = true;
+    const rowGetter=({index}) => json[index%json.length];
+
+    return (
+      <div>
+        <AutoSizer disableHeight>
+          {({width}) => (
+            <Table
+              deferredMeasurementCache={this._cache}
+              disableHeader={disableHeader}
+              headerClassName={"headerColumn"}
+              headerHeight={headerHeight}
+              height={height}
+              noRowsRenderer={this._noRowsRenderer}
+              overscanRowCount={overscanRowCount}
+              rowClassName={this._rowClassName}
+              rowHeight={rowHeight}
+              // rowHeight={this._cache.rowHeight}
+              // rowHeight={useDynamicRowHeight ? this._getRowHeight : rowHeight}
+              rowGetter={rowGetter}
+              rowCount={rowCount}
+              scrollToIndex={scrollToIndex}
+              sort={this._sort}
+              sortBy={sortBy}
+              sortDirection={sortDirection}
+              width={width}
+            >
+              <Column 
+                dataKey="Timestamp" 
+                label="Timestamp"
+                disableSort = {false}
+                cellDataGetter={({ dataKey , rowData }) => moment(rowData[dataKey]).format('MM/DD/YY  h:mm:ssa')}
+                cellRenderer= {this._wrappingCellRenderer}
+                headerRenderer={this._headerRenderer}
+                width={300} 
+              />
+              <Column 
+                label="Email" 
+                dataKey="email" 
+                cellDataGetter={({ dataKey , rowData }) => rowData.json[dataKey]}
+                headerRenderer={this._headerRenderer}
+                width={400} 
+              />
+              <Column
+                label="Prompt"
+                dataKey="text"
+                cellDataGetter={({ dataKey , rowData }) => rowData.json.question.text || <div><span>Teacher Moments Scene: </span> <a href={"https://youtu.be/"+rowData.json.question.youTubeId}>https://youtu.be/{rowData.json.question.youTubeId}</a></div>}
+                cellRenderer= {this._wrappingCellRenderer}
+                headerRenderer={this._headerRenderer}
+                width={width}
+              />
+              <Column
+                label="Response"
+                dataKey="responseText"
+                cellDataGetter={({ dataKey , rowData }) => rowData.json[dataKey] || (getAudioUrl(rowData) && <audio controls={true} src={rewriteAudioUrl(s3, getAudioUrl(rowData))} /> )}
+                cellRenderer= {this._wrappingCellRenderer}
+                headerRenderer={this._headerRenderer}
+                width={width}
+              />
+            </Table>
+          )}
+        </AutoSizer>
+      </div>
+    );
+    // <tr key={row.id} >
+  }
 }
+
 
 export default ResearcherDataPage;
