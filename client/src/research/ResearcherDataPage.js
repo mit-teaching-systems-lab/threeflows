@@ -211,23 +211,7 @@ class Analysis extends Component {
       method: 'GET'
     })
       .then(results => {
-        const reader = results.body.getReader();
-        const stream = new ReadableStream({
-          start(controller) {
-            function push() {
-              reader.read().then(({done, value}) => {
-                if (done) {
-                  controller.close();
-                  return;
-                }
-                controller.enqueue(value);
-                push();
-              });
-            }
-            push();
-          }
-        });
-        var response = new Response(stream, {headers: {"Content-Type": "audio/wav"}});
+        var response = new Response(results.body, {headers: {"Content-Type": "audio/wav"}});
         response.blob().then(function(myBlob) {
           var bloburl = URL.createObjectURL(myBlob);
           var elementTarget = document.getElementById(audioID.slice(0, -4));
