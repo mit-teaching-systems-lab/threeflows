@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import queryString from 'query-string';
-// import './LoginPage.css';
-import Interactions from './Interactions.js';
-// import TeacherMoments from './TeacherMoments.js';
+import './LoginPage.css';
+import TeacherMoments from './TeacherMoments.js';
 
 
 // This is the landing page users reach when clicking on a login 
@@ -25,6 +24,14 @@ class EmailLinkLoginPage extends Component {
     this.authenticate = this.authenticate.bind(this);
   }
 
+  componentWillMount() {
+    document.body.style.backgroundColor = "white";
+  }
+
+  componentWillUnmount() {
+    document.body.style.backgroundColor = null;
+  }
+
   // Also remove login token from URL bar in browser
   readLinkToken() {
     const query = queryString.parse(window.location.search);
@@ -35,7 +42,7 @@ class EmailLinkLoginPage extends Component {
 
   authenticate() {
     const {email, linkToken} = this.state;
-    return fetch('/api/research/email', {
+    return fetch('/server/research/email', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -53,11 +60,6 @@ class EmailLinkLoginPage extends Component {
           throw new Error('failed to fetch');
         }
       });
-  }
-
-  onUpdateEmail(e) {
-    const { value } = e.target;
-    this.setState({ email: value });
   }
 
   onSubmit(e) {
@@ -82,13 +84,17 @@ class EmailLinkLoginPage extends Component {
     });
   }
 
+  onUpdateEmail(e) {
+    const { value } = e.target;
+    this.setState({ email: value });
+  }
+
   render() {
     const {email, status, token, message} = this.state;
     if (status === 'success') {
       if ((email !=="") && (token !== "default")){
         return (
-          <Interactions email={email.toLowerCase()} token={token}/>
-          // <TeacherMoments email={email.toLowerCase()} token={token}/>
+          <TeacherMoments email={email.toLowerCase()} token={token}/>
         );
       }else {
         return null;

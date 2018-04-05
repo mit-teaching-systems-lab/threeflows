@@ -22,7 +22,8 @@ function createTables(database) {
       type text,
       version integer,
       timestamp timestamp,
-      json jsonb
+      json jsonb,
+      transcript text
     );
     CREATE TABLE evaluations (
       id serial primary key,

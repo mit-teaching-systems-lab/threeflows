@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './LoginPage.css';
 
-
 // The page for users to login for accessing research data.
 class LoginPage extends Component {
   constructor(props) {
@@ -16,14 +15,18 @@ class LoginPage extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  onUpdateEmail(e) {
-    const { value } = e.target;
-    this.setState({ email : value });
+  componentWillMount() {
+    document.body.style.backgroundColor = "white";
+  }
+
+  componentWillUnmount() {
+    document.body.style.backgroundColor = null;
   }
 
   onSubmit(e) {
     e.preventDefault();
-    fetch('/api/research/login', {
+    
+    fetch('/server/research/login', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -40,6 +43,11 @@ class LoginPage extends Component {
       .catch(err => {
         this.setState({ message: "An error occurred."});
       });
+  }
+
+  onUpdateEmail(e) {
+    const { value } = e.target;
+    this.setState({ email : value });
   }
 
   render() {

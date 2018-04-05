@@ -10,7 +10,26 @@ var ApplesEndpoint = require('./endpoints/apples.js');
 var ReviewLoginEndpoint = require('./endpoints/review_login.js');
 var createS3Client = require('./s3_client.js');
 var createMailgunEnv = require('./mailgun_env.js');
+const RateLimit = require('express-rate-limit');
+const {
+  onlyAllowResearchers,
+  loginEndpoint,
+  emailLinkEndpoint
+} = require('./authentication.js');
+const {dataEndpoint} = require('./database.js');
+const {transcribeEndpoint} = require('./speech.js');
+const {createPool} = require('./util/database.js');
 
+
+// config
+const config = {
+  port: process.env.PORT || 4000,
+  mailgunEnv: createMailgunEnv(),
+  s3: createS3Client(),
+  postgresUrl: (process.env.NODE_ENV === 'development')
+    ? process.env.DATABASE_URL
+    : process.env.DATABASE_URL +'?ssl=true'
+};
 
 // create and configure server
 var app = express();
@@ -18,10 +37,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.raw({ type: 'audio/wav', limit: '50mb' }));
 app.use(enforceHTTPS);
+const pool = createPool(config.postgresUrl);
 
 // external services
-const s3 = createS3Client();
-const mailgunEnv = createMailgunEnv();
+// const s3 = createS3Client();
+// const mailgunEnv = createMailgunEnv();
 
 // https redirect
 function enforceHTTPS(request, response, next) {
@@ -170,18 +190,43 @@ app.get('/server/questions', questionAuthoringAuth, function(request, response){
 
 
 // Write audio responses
-app.post('/teachermoments/wav', AudioEndpoints.post(s3));
+app.post('/teachermoments/wav', AudioEndpoints.post(config.s3));
 
 
 // Related to the read path for reviewing responses, and for fetching audio files
-app.post('/server/reviews/create', ReviewLoginEndpoint.createReview({queryDatabase, mailgunEnv}));
-app.get('/server/reviews', ReviewEndpoint.sensitiveGetReview({queryDatabase}));
-app.get('/teachermoments/wav/(:id).wav', ReviewEndpoint.sensitiveGetAudioFile({queryDatabase, s3}));
+app.post('/server/reviews/create', ReviewLoginEndpoint.createReview(config.mailgunEnv, queryDatabase));
+app.get('/server/reviews', ReviewEndpoint.sensitiveGetReview(queryDatabase));
+app.get('/teachermoments/wav/(:id).wav', ReviewEndpoint.sensitiveGetAudioFile(queryDatabase, config.s3));
 
 
 // Read anonymized responses for Apples-to-Apples style group reviewing
 app.get('/server/apples/:key', ApplesEndpoint.sensitiveGetApples({queryDatabase}));
 
+// As a precaution for emailing and authentication routes
+const limiter = new RateLimit({
+  windowMs: 60*60*1000, // 60 minutes
+  max: 100, // limit each IP to n requests per windowMs
+  delayMs: 0, // disable delaying - full speed until the max limit is reached
+  onLimitReached: (req, res, options) => {
+    console.log('RateLimit reached!');
+  }
+});
+
+// Wrap researcher access in global kill switch
+if (process.env.ENABLE_RESEARCHER_ACCESS && process.env.ENABLE_RESEARCHER_ACCESS.toLowerCase() === 'true') {
+  // Endpoints for researcher login
+  app.post('/server/research/login', limiter, loginEndpoint.bind(null, pool, config.mailgunEnv));
+  app.post('/server/research/email', limiter, emailLinkEndpoint.bind(null, pool));
+
+  // Endpoints for authenticated researchers to access data
+  app.get('/server/research/data', [limiter, onlyAllowResearchers.bind(null, pool)], dataEndpoint.bind(null, pool));
+  app.post('/server/research/transcribe', limiter, transcribeEndpoint.bind(null, pool));
+  // app.get('/server/research/data', (request, response) => {
+  //   console.log('got request')
+  //   dataEndpoint.bind(null, pool);
+  //   console.log('after func')
+  // });
+}
 
 // Serve any static files.
 // Route other requests return the React app, so it can handle routing.
@@ -192,7 +237,6 @@ app.get('*', (request, response) => {
 
 
 // start server
-app.set('port', (process.env.PORT || 4000));
-app.listen(app.get('port'), function() {
-  console.log('Server is running on port:', app.get('port'));
+app.listen(config.port, () => {
+  console.log(`Server is running on port: ${config.port}.`);
 });

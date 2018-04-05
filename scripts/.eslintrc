@@ -1,0 +1,24 @@
+{
+  "env": {
+    "browser": false,
+    "es6": true,
+    "mocha": false
+  },
+  "plugins": ["node"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:node/recommended"
+  ],
+  "rules": {
+    "no-console": "off",
+    "indent": ["error", 2],
+    "semi": ["error", "always"],
+    "comma-dangle": ["error", "only-multiline"],
+    "no-unused-vars": ["error", {
+      "args": "none"
+    }],
+    "camelcase": ["error",  { "properties": "always" }],
+    "no-use-before-define": "off",
+    "eol-last": "off"
+  }
+}
