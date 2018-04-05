@@ -33,11 +33,6 @@ const styles = {
 function getAudioUrl(row) {
   return row.json.audioUrl || (row.json.audioResponse && row.json.audioResponse.audioUrl) || (row.json.uploadedUrl);
 }
-function rewriteAudioUrl(s3Folder, audioUrl) {
-  const slashIndex = audioUrl.lastIndexOf('/');
-  const filename = audioUrl.slice(slashIndex + 1);
-  return `${s3Folder}${filename}`;
-}
 
 function statsGroupedBy(allRows, keyName, keyFn) {
   const rowGroups = _.groupBy(allRows, keyFn);
@@ -172,6 +167,9 @@ class Analysis extends Component {
       token: this.props.token,
       email: this.props.email
     };
+
+    this.getAudio = this.getAudio.bind(this);
+    this.getAudioID = this.getAudioID.bind(this);
   }
 
   componentDidMount() {
@@ -190,6 +188,41 @@ class Analysis extends Component {
     })
       .then(response => response.json())
       .then(this.onFetched.bind(this))
+      .catch(this.onError.bind(this));
+  }
+
+  getAudioID(audioUrl) {
+    if (audioUrl) {
+      const slashIndex = audioUrl.lastIndexOf('/');
+      const filename = audioUrl.slice(slashIndex + 1);
+      return filename;
+    }
+    return "";
+  }
+  getAudio(audioID,elementID) {
+    const token = this.state.token;
+
+    fetch('/server/research/wav/'+audioID, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'x-teachermoments-token': token,
+      },
+      method: 'GET'
+    })
+      .then(results => {
+        var response = new Response(results.body, {headers: {"Content-Type": "audio/wav"}});
+        response.blob().then(function(myBlob) {
+          var bloburl = URL.createObjectURL(myBlob);
+          var elementTarget = document.getElementById(audioID.slice(0, -4));
+          if (elementTarget) {
+            document.getElementById(audioID.slice(0, -4)).src = bloburl;
+          }
+          else{
+            console.log('audio element cannot be found');
+          }
+        });
+      })
       .catch(this.onError.bind(this));
   }
 
@@ -381,14 +414,12 @@ class Analysis extends Component {
   renderEventsTable(json) {
     const {analysisKey} = this.props;
     if (analysisKey === 'HMTCA') return this.renderHmtcaTable(json);
-
-    const {s3} = this.props.dataSet;
-
     return (
       <table style={styles.table}>
         <tbody>
           {json.evidence.rows.map((row, i) => {
             const audioUrl = getAudioUrl(row);
+            const audioID = this.getAudioID(audioUrl);
             const emailBackgroundColor = (row.json.email)
               ? hashInto(row.json.email, colorNames)
               : 'white';
@@ -404,7 +435,7 @@ class Analysis extends Component {
                 <td style={styles.cell}>{row.json.projectLabel}</td>
                 <td style={styles.cell}>{JSON.stringify(row.json.scoreValues, null, 2)}</td>
                 <td style={styles.cell}>{row.json.choice}</td>
-                <td style={styles.cell}>{JSON.stringify(row.json.textResponse) || row.json.responseText || (audioUrl && <audio controls={true} src={rewriteAudioUrl(s3, audioUrl)} /> )}</td>
+                <td style={styles.cell}>{JSON.stringify(row.json.textResponse) || row.json.responseText || (audioUrl && <audio controls id={audioID.slice(0,-4)} src={this.getAudio(audioID)} type="audio/wav"> </audio> )}</td>
               </tr>
             );
           })}

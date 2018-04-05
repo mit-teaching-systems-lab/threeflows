@@ -17,6 +17,7 @@ const {
   emailLinkEndpoint
 } = require('./authentication.js');
 const {dataEndpoint} = require('./database.js');
+const {audioEndpoint} = require('./getAudio.js');
 const {createPool} = require('./util/database.js');
 
 // config
@@ -214,12 +215,14 @@ if (process.env.ENABLE_RESEARCHER_ACCESS && process.env.ENABLE_RESEARCHER_ACCESS
 
   // Endpoints for authenticated researchers to access data
   app.get('/server/research/data', [limiter, onlyAllowResearchers.bind(null, pool)], dataEndpoint.bind(null, pool));
+  app.get('/server/research/wav/(:id).wav', [limiter, onlyAllowResearchers.bind(null, pool)], audioEndpoint.bind(null, pool, config.s3));
 }
 
 // Serve any static files.
 // Route other requests return the React app, so it can handle routing.
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 app.get('*', (request, response) => {
+  console.log('caught');
   response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
 });
 

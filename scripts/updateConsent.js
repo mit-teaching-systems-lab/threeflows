@@ -18,14 +18,15 @@ function batchPromises(batchSize, emails, fn){
 
 function updateConsent(database){
   //Still need to grab emails from a sensitive data file
-  const emails = JSON.parse(fs.readFileSync('./tmp/consented-latest.json'))
+  // const emails = JSON.parse(fs.readFileSync('./tmp/consented-latest.json'))
+  const emails = JSON.parse(fs.readFileSync('./tmp/test.json'))
   const emailArray = emails.consented;
   console.log("processing", emailArray.length, " emails")
 
   const pool = new Pool({database});
   return batchPromises(5, emailArray, email => {
     const sql = `
-      INSERT INTO consented_email_test (email,audio,permission,consent) 
+      INSERT INTO consented_email (email,audio,permission,consent) 
       VALUES ($1,TRUE,TRUE,TRUE)
       ON CONFLICT (email)
       DO NOTHING
