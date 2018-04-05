@@ -429,7 +429,7 @@ class Analysis extends Component {
     const simpleJson = json.map((blob) => {
       blob.email= blob.json.email;
       blob.text= blob.json.question.text;
-      blob.youTubeId= blob.json.youTubeId;
+      blob.youTubeId= blob.json.question.youTubeId;
       blob.responseText= blob.json.responseText;
       return blob;
     });

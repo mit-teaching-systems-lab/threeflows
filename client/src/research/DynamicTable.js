@@ -46,9 +46,153 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
     this._sort = this._sort.bind(this);
   }
 
+  _getDatum(list, index) {
+    return list.get(index % list.size);
+  }
+  _getAudioUrl(row) {
+    return row.json.audioUrl || (row.json.audioResponse && row.json.audioResponse.audioUrl) || (row.json.uploadedUrl);
+  }
+  _getAudioID(audioUrl) {
+    if (audioUrl) {
+      const slashIndex = audioUrl.lastIndexOf('/');
+      const filename = audioUrl.slice(slashIndex + 1);
+      return filename;
+    }
+    return "";
+  }
+  _getAudio(audioID,elementID) {
+    const token = this.state.token;
+
+    fetch('/server/research/wav/'+audioID, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'x-teachermoments-token': token,
+      },
+      method: 'GET'
+    })
+      .then(results => {
+        var response = new Response(results.body, {headers: {"Content-Type": "audio/wav"}});
+        response.blob().then(function(myBlob) {
+          var bloburl = URL.createObjectURL(myBlob);
+          var elementTarget = document.getElementById(audioID.slice(0, -4));
+          if (elementTarget) {
+            document.getElementById(audioID.slice(0, -4)).src = bloburl;
+          }
+          else{
+            console.log('audio element cannot be found');
+          }
+        });
+      })
+      .catch(this.onError.bind(this));
+  }
+  _rewriteAudioUrl(s3Folder, audioUrl) {
+    const slashIndex = audioUrl.lastIndexOf('/');
+    const filename = audioUrl.slice(slashIndex + 1);
+    return `${s3Folder}${filename}`;
+  }
+
+  _headerRenderer({dataKey, sortBy, sortDirection, label}) {
+    return (
+      <div>
+        {label}
+        {sortBy === dataKey && <SortIndicator sortDirection={sortDirection} />}
+      </div>
+    );
+  }
+  
+  _sort({sortBy, sortDirection}) {
+    const sortedList = this._sortList({sortBy, sortDirection});
+
+    this.setState({sortBy, sortDirection, sortedList});
+  }
+
+  _sortList({sortBy, sortDirection}) {
+    const list = this.props.list;
+
+    const sortByColumn = (varA, varB) => {
+      //edge case with rows that come from different parts of the row object
+      //ie. the Prompt column consists of either row.text or row.youTubeId
+      //Not sure how to handle this
+      var a = varA[sortBy];
+      var b = varB[sortBy];
+      if (sortBy === "text") {
+        if (typeof a === 'undefined') {
+          a = "Teacher Moments Scene: " + varA['youTubeId'];
+        }
+        if (typeof b === 'undefined') {
+          b = "Teacher Moments Scene: " + varB['youTubeId'];
+        }
+      }
+      if ( a > b ) {
+        return 1;
+      }
+      if (a < b ) {
+        return -1;
+      }
+      return 0;
+    };
+    
+    const sortedList = list
+      .sort(sortByColumn)
+      .update(
+        list => (sortDirection === SortDirection.DESC ? list.reverse() : list),
+      );
+
+    return sortedList;
+  }
+
+  _rowClassName({index}) {
+    if (index < 0) {
+      return "headerRow";
+    } else {
+      return index % 2 === 0 ? "evenRow virtualizedRow" : "oddRow virtualizedRow";
+    }
+  }
+
+  _wrappingCellRenderer = ({width,cellData, dataKey, parent, rowIndex}) => {
+    if (this._lastRenderedWidth !== width) {
+      this._lastRenderedWidth = width;
+      this._cache.clearAll();
+    }
+    return (
+      <CellMeasurer
+        cache={this._cache}
+        columnIndex={0}
+        key={dataKey}
+        parent={parent}
+        rowIndex={rowIndex}>
+        <div
+          className={"tableColumn"}
+          style={{
+            whiteSpace: 'normal',
+          }}>
+          {cellData}
+        </div>
+      </CellMeasurer>
+    );
+  };
+
+  _cellRenderer = ({width,cellData, dataKey, parent, rowIndex}) => {
+    if (this._lastRenderedWidth !== width) {
+      this._lastRenderedWidth = width;
+      this._cache.clearAll();
+    }
+    return (
+      <div
+        style={{
+          whiteSpace: 'normal',
+        }}>
+        {cellData}
+      </div>
+    );
+  };
+
   render() {
+    console.log('props\n',this.props)
     const width = this.props.width;
     const s3 = this.props.s3;
+    console.log('width',width)
 
     const {
       disableHeader,
@@ -113,119 +257,7 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
           headerRenderer={this._headerRenderer}
           width={width}
         />
-        <Column
-          dataKey="responseText"
-          label="Response"
-          disableSort = {false}
-          cellDataGetter={({ dataKey , rowData }) => rowData.json[dataKey] || (this._getAudioUrl(rowData) && <audio controls={true} src={this._rewriteAudioUrl(s3, this._getAudioUrl(rowData))} /> )}
-          cellRenderer= {this._wrappingCellRenderer}
-          headerRenderer={this._headerRenderer}
-          width={width}
-        />
       </Table>
-      );
-    }
-
-    _getDatum(list, index) {
-      return list.get(index % list.size);
-    }
-    _getAudioUrl(row) {
-      return row.json.audioUrl || (row.json.audioResponse && row.json.audioResponse.audioUrl) || (row.json.uploadedUrl);
-    }
-    _rewriteAudioUrl(s3Folder, audioUrl) {
-      const slashIndex = audioUrl.lastIndexOf('/');
-      const filename = audioUrl.slice(slashIndex + 1);
-      return `${s3Folder}${filename}`;
-    }
-
-    _headerRenderer({dataKey, sortBy, sortDirection, label}) {
-      return (
-        <div>
-          {label}
-          {sortBy === dataKey && <SortIndicator sortDirection={sortDirection} />}
-        </div>
-      );
-    }
-    
-    _sort({sortBy, sortDirection}) {
-      const sortedList = this._sortList({sortBy, sortDirection});
-
-      this.setState({sortBy, sortDirection, sortedList});
-    }
-
-    _sortList({sortBy, sortDirection}) {
-      const list = this.props.list;
-
-      const sortByColumn = (varA, varB) => {
-        var a = varA[sortBy]
-        var b = varB[sortBy]
-        if (typeof a === 'undefined') {
-          a = ""
-        }
-        if (typeof b === 'undefined') {
-          b = ""
-        }
-        if ( a > b ) {
-          return 1;
-        }
-        if (a < b ) {
-          return -1;
-        }
-        return 0;
-      }
-      
-      const sortedList = list
-        .sort(sortByColumn)
-        .update(
-          list => (sortDirection === SortDirection.DESC ? list.reverse() : list),
-        );
-
-      return sortedList
-    }
-
-    _rowClassName({index}) {
-      if (index < 0) {
-        return "headerRow";
-      } else {
-        return index % 2 === 0 ? "evenRow virtualizedRow" : "oddRow virtualizedRow";
-      }
-    }
-
-    _wrappingCellRenderer = ({width,cellData, dataKey, parent, rowIndex}) => {
-      if (this._lastRenderedWidth !== width) {
-        this._lastRenderedWidth = width;
-        this._cache.clearAll();
-      }
-      return (
-        <CellMeasurer
-          cache={this._cache}
-          columnIndex={0}
-          key={dataKey}
-          parent={parent}
-          rowIndex={rowIndex}>
-          <div
-            className={"tableColumn"}
-            style={{
-              whiteSpace: 'normal',
-            }}>
-            {cellData}
-          </div>
-        </CellMeasurer>
-      );
-    };
-
-    _cellRenderer = ({width,cellData, dataKey, parent, rowIndex}) => {
-      if (this._lastRenderedWidth !== width) {
-        this._lastRenderedWidth = width;
-        this._cache.clearAll();
-      }
-      return (
-        <div
-          style={{
-            whiteSpace: 'normal',
-          }}>
-          {cellData}
-        </div>
-      );
-    };
+    );
   }
+}
