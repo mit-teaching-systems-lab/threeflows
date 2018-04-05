@@ -425,7 +425,6 @@ class Analysis extends Component {
   }
 
   renderEventsTableVirtualized(json) {
-    const {s3} = this.props.dataSet;
     const simpleJson = json.map((blob) => {
       blob.email= blob.json.email;
       blob.text= blob.json.question.text;
@@ -433,6 +432,7 @@ class Analysis extends Component {
       blob.responseText= blob.json.responseText;
       return blob;
     });
+    console.log(simpleJson)
     return (
       <div>
         <AutoSizer disableHeight>
@@ -440,7 +440,6 @@ class Analysis extends Component {
             <DynamicTable
               width={width}
               list={Immutable.List(simpleJson)}
-              s3={s3}
             />
           )}
         </AutoSizer>

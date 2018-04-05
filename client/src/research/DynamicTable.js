@@ -12,7 +12,6 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
   static propTypes = {
     list: PropTypes.instanceOf(Immutable.List).isRequired,
     width: PropTypes.number.isRequired,
-    s3: PropTypes.string.isRequired
   };
 
   constructor(props) {
@@ -44,6 +43,9 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
     this._headerRenderer = this._headerRenderer.bind(this);
     this._rowClassName = this._rowClassName.bind(this);
     this._sort = this._sort.bind(this);
+    this._getAudioUrl = this._getAudioUrl.bind(this);
+    this._getAudioID = this._getAudioID.bind(this);
+    this._getAudio = this._getAudio.bind(this);
   }
 
   _getDatum(list, index) {
@@ -60,7 +62,8 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
     }
     return "";
   }
-  _getAudio(audioID,elementID) {
+  _getAudio(audioID) {
+    console.log('audioID',audioID)
     const token = this.state.token;
 
     fetch('/server/research/wav/'+audioID, {
@@ -75,21 +78,20 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
         var response = new Response(results.body, {headers: {"Content-Type": "audio/wav"}});
         response.blob().then(function(myBlob) {
           var bloburl = URL.createObjectURL(myBlob);
-          var elementTarget = document.getElementById(audioID.slice(0, -4));
+          console.log('audio clip',bloburl)
+          var elementTarget = document.getElementById(audioID);
+          console.log('elementTarget ID:',audioID);
           if (elementTarget) {
-            document.getElementById(audioID.slice(0, -4)).src = bloburl;
+            document.getElementById(audioID).src = bloburl;
           }
           else{
             console.log('audio element cannot be found');
           }
         });
       })
-      .catch(this.onError.bind(this));
-  }
-  _rewriteAudioUrl(s3Folder, audioUrl) {
-    const slashIndex = audioUrl.lastIndexOf('/');
-    const filename = audioUrl.slice(slashIndex + 1);
-    return `${s3Folder}${filename}`;
+      .catch(err => {
+        console.log('there was an error');
+      });
   }
 
   _headerRenderer({dataKey, sortBy, sortDirection, label}) {
@@ -191,8 +193,6 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
   render() {
     console.log('props\n',this.props)
     const width = this.props.width;
-    const s3 = this.props.s3;
-    console.log('width',width)
 
     const {
       disableHeader,
@@ -253,6 +253,15 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
           label="Prompt"
           disableSort = {false}
           cellDataGetter={({ dataKey , rowData }) => rowData.json.question.text || <div><span>Teacher Moments Scene: </span> <a href={"https://youtu.be/"+rowData.json.question.youTubeId}>https://youtu.be/{rowData.json.question.youTubeId}</a></div>}
+          cellRenderer= {this._wrappingCellRenderer}
+          headerRenderer={this._headerRenderer}
+          width={width}
+        />
+        <Column
+          dataKey="responseText"
+          label="Response"
+          disableSort = {false}
+          cellDataGetter={({ dataKey , rowData }) => rowData.json[dataKey] || (this._getAudioUrl(rowData) && <audio controls id={this._getAudioID(this._getAudioUrl(rowData)).slice(0,-4)} src={this._getAudio(this._getAudioID(this._getAudioUrl(rowData)).slice(0,-4))} type="audio/wav"> </audio>) }
           cellRenderer= {this._wrappingCellRenderer}
           headerRenderer={this._headerRenderer}
           width={width}
