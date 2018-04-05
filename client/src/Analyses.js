@@ -1,7 +1,7 @@
 import Filters from './Filters.js';
 import _ from 'lodash';
-import LATEST_CONSENT from './PRIVATE_SENSITIVE_DATA/consent-teacher-moments/consented-latest.json';
-import HMTCA_PAPER_CONSENT from './PRIVATE_SENSITIVE_DATA/consent-teacher-moments/consented-hmtca-paper.json';
+const LATEST_CONSENT = {};
+const HMTCA_PAPER_CONSENT = {};
 const LATEST_DB_PATH = '/PRIVATE_SENSITIVE_DATA/db/db-latest.json';
 const LATEST_S3_PATH = '/PRIVATE_SENSITIVE_DATA/s3/2018-02-12/';
 

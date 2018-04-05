@@ -16,8 +16,6 @@ function dataEndpoint(pool, request, response) {
   pool.query(sql,values)
     .then(results => {
       if (results.rowCount >= 1){
-        console.log('found data');
-        console.log(results);
         response.set('Content-Type', 'application/json');
         response.json({
           evidence: {rows: results.rows} 
