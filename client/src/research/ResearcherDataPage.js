@@ -31,13 +31,7 @@ const styles = {
 };
 
 function getAudioUrl(row) {
-  console.log(row)
   return row.json.audioUrl || (row.json.audioResponse && row.json.audioResponse.audioUrl) || (row.json.uploadedUrl);
-}
-function rewriteAudioUrl(s3Folder, audioUrl) {
-  const slashIndex = audioUrl.lastIndexOf('/');
-  const filename = audioUrl.slice(slashIndex + 1);
-  return `${s3Folder}${filename}`;
 }
 
 function statsGroupedBy(allRows, keyName, keyFn) {
@@ -208,8 +202,7 @@ class Analysis extends Component {
   getAudio(audioID,elementID) {
     const token = this.state.token;
 
-    console.log('fetch:','/server/research/wav/'+audioID);
-    return fetch('/server/research/wav/'+audioID, {
+    fetch('/server/research/wav/'+audioID, {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -218,9 +211,33 @@ class Analysis extends Component {
       method: 'GET'
     })
       .then(results => {
-        console.log('here',results)
-        document.getElementById(audioID.slice(0,-4)).src = results;
-        // return results;
+        const reader = results.body.getReader();
+        const stream = new ReadableStream({
+          start(controller) {
+            function push() {
+              reader.read().then(({done, value}) => {
+                if (done) {
+                  controller.close();
+                  return;
+                }
+                controller.enqueue(value);
+                push();
+              });
+            }
+            push();
+          }
+        });
+        var response = new Response(stream, {headers: {"Content-Type": "audio/wav"}});
+        response.blob().then(function(myBlob) {
+          var bloburl = URL.createObjectURL(myBlob);
+          var elementTarget = document.getElementById(audioID.slice(0, -4));
+          if (elementTarget) {
+            document.getElementById(audioID.slice(0, -4)).src = bloburl;
+          }
+          else{
+            console.log('audio element cannot be found');
+          }
+        });
       })
       .catch(this.onError.bind(this));
   }
@@ -419,10 +436,6 @@ class Analysis extends Component {
           {json.evidence.rows.map((row, i) => {
             const audioUrl = getAudioUrl(row);
             const audioID = this.getAudioID(audioUrl);
-            if (audioUrl) {
-              console.log(audioUrl, '\n',audioID);
-              console.log(this.getAudio(audioID));
-            }
             const emailBackgroundColor = (row.json.email)
               ? hashInto(row.json.email, colorNames)
               : 'white';
@@ -438,7 +451,7 @@ class Analysis extends Component {
                 <td style={styles.cell}>{row.json.projectLabel}</td>
                 <td style={styles.cell}>{JSON.stringify(row.json.scoreValues, null, 2)}</td>
                 <td style={styles.cell}>{row.json.choice}</td>
-                <td style={styles.cell}>{JSON.stringify(row.json.textResponse) || row.json.responseText || (audioUrl && <audio controls> <source id={audioID.slice(0,-4)} src={this.getAudio(audioID)} type="audio/wav"/> </audio> )}</td>
+                <td style={styles.cell}>{JSON.stringify(row.json.textResponse) || row.json.responseText || (audioUrl && <audio controls id={audioID.slice(0,-4)} src={this.getAudio(audioID)} type="audio/wav"> </audio> )}</td>
               </tr>
             );
           })}

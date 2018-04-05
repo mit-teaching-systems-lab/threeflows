@@ -4,7 +4,6 @@
 //Returns 200 unless there was an error with the database query
 function audioEndpoint(pool, s3, request, response) {
   const {id} = request.params;
-  console.log('audio id:',id);
 
   return insecureStreamAudioFileFromS3({s3,id},request,response);
 }
@@ -25,7 +24,6 @@ function insecureStreamAudioFileFromS3(params, request, response) {
     Key: getAudioKey(request, id)
   };
   console.log('Reading', id,' from S3...');
-  console.log('params:\n',s3Params);
   try {
     s3.getObject(s3Params).createReadStream().pipe(response);
     return;
