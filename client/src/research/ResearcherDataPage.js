@@ -11,6 +11,7 @@ import {hashInto, colorNames} from './Anonymize.js';
 
 // Substance of analysis
 import * as Analyses from './Analyses.js';
+import {requestTranscript} from './Transcribe.js';
 
 
 /*
@@ -221,6 +222,18 @@ class Analysis extends Component {
           else{
             console.log('audio element cannot be found');
           }
+
+          //send audioID for transcription
+          requestTranscript(token,audioID)
+            .then(results => {
+              var elementTarget = document.getElementById(audioID.slice(0, -4));
+              if (elementTarget) {
+                document.getElementById(audioID.slice(0, -4)+"-transcript").innerHTML = "\""+results.transcript+"\"";
+              }
+              else{
+                console.log('Could not insert transcript');
+              }
+            });
         });
       })
       .catch(this.onError.bind(this));
@@ -435,7 +448,7 @@ class Analysis extends Component {
                 <td style={styles.cell}>{row.json.projectLabel}</td>
                 <td style={styles.cell}>{JSON.stringify(row.json.scoreValues, null, 2)}</td>
                 <td style={styles.cell}>{row.json.choice}</td>
-                <td style={styles.cell}>{JSON.stringify(row.json.textResponse) || row.json.responseText || (audioUrl && <audio controls id={audioID.slice(0,-4)} src={this.getAudio(audioID)} type="audio/wav"> </audio> )}</td>
+                <td style={styles.cell}>{JSON.stringify(row.json.textResponse) || row.json.responseText || (audioUrl && <div><audio controls id={audioID.slice(0,-4)} src={this.getAudio(audioID)} type="audio/wav"> </audio> <div id={audioID.slice(0,-4)+"-transcript"}>Transcript: </div></div>)}</td>
               </tr>
             );
           })}

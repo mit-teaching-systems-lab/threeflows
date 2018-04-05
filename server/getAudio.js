@@ -4,7 +4,6 @@
 //Returns 200 unless there was an error with the database query
 function audioEndpoint(pool, s3, request, response) {
   const {id} = request.params;
-
   return insecureStreamAudioFileFromS3({s3,id},request,response);
 }
 
@@ -37,5 +36,6 @@ function insecureStreamAudioFileFromS3(params, request, response) {
 }
 
 module.exports = {
-  audioEndpoint
+  audioEndpoint,
+  insecureStreamAudioFileFromS3
 };
