@@ -63,10 +63,9 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
     return "";
   }
   _getAudio(audioID) {
-    console.log('audioID',audioID)
-    const token = this.state.token;
+    const token = this.props.token;
 
-    fetch('/server/research/wav/'+audioID, {
+    fetch('/server/research/wav/'+audioID+'.wav', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -78,9 +77,7 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
         var response = new Response(results.body, {headers: {"Content-Type": "audio/wav"}});
         response.blob().then(function(myBlob) {
           var bloburl = URL.createObjectURL(myBlob);
-          console.log('audio clip',bloburl)
           var elementTarget = document.getElementById(audioID);
-          console.log('elementTarget ID:',audioID);
           if (elementTarget) {
             document.getElementById(audioID).src = bloburl;
           }
@@ -191,7 +188,6 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
   };
 
   render() {
-    console.log('props\n',this.props)
     const width = this.props.width;
 
     const {

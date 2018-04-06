@@ -186,7 +186,7 @@ class Analysis extends Component {
   getAudio(audioID,elementID) {
     const token = this.state.token;
 
-    fetch('/server/research/wav/'+audioID, {
+    fetch('/server/research/wav/'+audioID+'.wav', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -432,7 +432,6 @@ class Analysis extends Component {
       blob.responseText= blob.json.responseText;
       return blob;
     });
-    console.log(simpleJson)
     return (
       <div>
         <AutoSizer disableHeight>
@@ -440,6 +439,7 @@ class Analysis extends Component {
             <DynamicTable
               width={width}
               list={Immutable.List(simpleJson)}
+              token={this.state.token}
             />
           )}
         </AutoSizer>
