@@ -75,7 +75,6 @@ function createTables(database) {
       consent boolean DEFAULT FALSE
     );
     CREATE TABLE transcripts (
-      email text,
       audio_id text UNIQUE,
       transcript text
     );`;
