@@ -7,7 +7,7 @@ const {getDomain} = require('./domain.js');
 function dataEndpoint(pool, request, response) {
   const token = request.headers['x-teachermoments-token'];
   const domain = getDomain(request);
-  const location = `${domain}/teachermoments/turner?KevinTesting20180319`;
+  const location = `${domain}`+process.env.ANALYSIS_LOCATION;
 
   checkAccess(pool, location, token)
     .then(isTokenAuthorized => {
@@ -36,7 +36,7 @@ function dataEndpoint(pool, request, response) {
 // a specific location. Location is currently hard coded so this is fine.
 function checkAccess(pool, location, token) {
   const domain = getDomain();
-  if (location ===`${domain}/teachermoments/turner?KevinTesting20180319`) {
+  if (location ===`${domain}`+process.env.ANALYSIS_LOCATION) {
     return Promise.resolve(true);
   }
   else{
@@ -52,7 +52,7 @@ function checkAccess(pool, location, token) {
 function getData(pool, location){
   //hard coding location until I can restrict access
   const domain = getDomain();
-  location = `${domain}/teachermoments/turner?KevinTesting20180319`;
+  location = `${domain}`+process.env.ANALYSIS_LOCATION;
 
   const dataValues = [location];
   const dataSQL = `

@@ -395,3 +395,21 @@ export const testing = {
     s3: LATEST_S3_PATH
   }
 };
+
+export const kevinThesis = {
+  description: 'WWA playtest for Kevin Thesis',
+  filter(row) {
+    return _.every([
+      Filters.containsPath('/teachermoments/turner?WWA04062018', row),
+      Filters.isSubmittedResponse(row),
+      !Filters.isFlavorText(row),
+      !Filters.isDeveloper(row),
+      !Filters.isThrowawayUser(row),
+      !Filters.isMeaninglessChoice(row)
+    ]);
+  },
+  dataSet: {
+    db: LATEST_DB_PATH,
+    s3: LATEST_S3_PATH
+  }
+};
