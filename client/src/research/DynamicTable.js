@@ -140,12 +140,9 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
   _getTranscript(audioID) {
     const token = this.props.token;
     //request transcript for audio
-    console.log('audioID',audioID);
     return requestTranscript(token,audioID)
       .then(results => {
-        console.log('transcript query',results);
         if (results.transcript){
-          console.log('returning div', <div id={audioID+"-transcript"}>Transcript: "{results.transcript}"</div>);
           return <div id={audioID+"-transcript"}>Transcript: "{results.transcript}"</div>;
         }
         return <div id={audioID+"-transcript"}>Transcript: Unable to transcribe</div>;
