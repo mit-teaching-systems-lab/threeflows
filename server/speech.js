@@ -2,7 +2,7 @@
 // We check the database for an existing transcript, and if we find none
 // we use the IBM Watson api to transcribe one from the wav file on s3 and 
 // store it
-function transcribeEndpoint(pool, s3, request, response) {
+function transcribeEndpoint(pool, s3, watsonConfig, request, response) {
   const {audioID} = request.params;
   
   const values = [audioID];
@@ -22,7 +22,7 @@ function transcribeEndpoint(pool, s3, request, response) {
         return response.status(200).end();
       }
       else{
-        speechToText(pool,s3,audioID,request,response)
+        speechToText(pool,s3,watsonConfig,audioID,request,response)
           .then(results => {
             response.set('Content-Type', 'application/json');
             response.json({
@@ -53,13 +53,10 @@ function getAudioKey(request, id) {
 
 // Sets up connection to IBM Watson api and transcribes audio to text.
 // returns a promise resolved with the transcript
-function speechToText(pool, s3, audioID, request, response) {
+function speechToText(pool, s3, watsonConfig, audioID, request, response) {
   var SpeechToTextV1 = require('watson-developer-cloud/speech-to-text/v1');
 
-  var watson = new SpeechToTextV1 ({
-    username: '54aa1588-bbee-4e5e-8cb9-0533e4494d91',
-    password: 'eR8ayEdlzCL4'
-  });
+  var watson = new SpeechToTextV1 (watsonConfig);
 
   var s3Params = {
     Bucket: s3.config.bucket,
@@ -69,9 +66,7 @@ function speechToText(pool, s3, audioID, request, response) {
     audio: s3.getObject(s3Params).createReadStream(),
     content_type: 'audio/wav',                          // eslint-disable-line camelcase
     timestamps: true,
-    word_alternatives_threshold: 0.9,                   // eslint-disable-line camelcase
-    keywords: [], //could look keywords in future work
-    keywords_threshold: 0.5                             // eslint-disable-line camelcase
+    word_alternatives_threshold: 0.9                    // eslint-disable-line camelcase
   };
   
   return new Promise((resolve,reject) => {
