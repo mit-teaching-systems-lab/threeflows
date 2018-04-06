@@ -73,6 +73,11 @@ function createTables(database) {
       audio boolean DEFAULT FALSE,
       permission boolean DEFAULT FALSE,
       consent boolean DEFAULT FALSE
+    );
+    CREATE TABLE transcripts (
+      email text,
+      audio_id text UNIQUE,
+      transcript text
     );`;
   console.log(`Creating tables...`);
   return pool.query(sql);

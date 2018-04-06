@@ -5,7 +5,6 @@
 //grabs wav file from s3 and returns audio in response body
 function audioEndpoint(pool, s3, request, response) {
   const {id} = request.params;
-
   return insecureStreamAudioFileFromS3({s3,id},request,response);
 }
 
@@ -38,5 +37,6 @@ function insecureStreamAudioFileFromS3(params, request, response) {
 }
 
 module.exports = {
-  audioEndpoint
+  audioEndpoint,
+  insecureStreamAudioFileFromS3
 };

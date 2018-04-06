@@ -36,7 +36,8 @@
     "node-mocks-http": "^1.6.6",
     "pg": "^5.1.0",
     "superagent": "^2.0.0",
-    "uuid": "^2.0.2"
+    "uuid": "^2.0.2",
+    "watson-developer-cloud": "^3.2"
   },
   "keywords": [],
   "license": "MIT",
