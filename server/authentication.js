@@ -2,32 +2,15 @@ const path = require('path');
 const uuid = require('uuid');
 const qs = require('querystring');
 const {sendEmail, renderEmail} = require('./util/email.js');
-
-// Redirect to HTTPS
-function enforceHTTPS(request, response, next) {
-  if (process.env.NODE_ENV === 'development') return next();
-  if (request.headers['x-forwarded-proto'] !== 'https') {
-    const httpsUrl = ['https://', request.headers.host, request.url].join('');
-    return response.redirect(httpsUrl);
-  }
-  return next();
-}
-
-function getDomain(request) {
-  return (process.env.NODE_ENV === 'development')
-    ? 'http://localhost:5000'
-    : `https://${request.headers.host}`;
-}
+const {getDomain} = require('./domain.js');
 
 // Middleman function to confirm authorization token is valid
 // Reads token from request header and checks against tokens in db.
 // Runs in both development and production
 function onlyAllowResearchers(pool, request, response, next) {
   const token = request.headers['x-teachermoments-token'];
-  const email = request.headers['x-teachermoments-email'];
-  //need to update interactions.js in UI to actually send token and email
 
-  checkToken(pool, email, token)
+  checkToken(pool, token)
     .then(istokenAuthorized => {
       if (istokenAuthorized) {
         return next();
@@ -44,18 +27,17 @@ function onlyAllowResearchers(pool, request, response, next) {
     });
 }
 
-function checkToken(pool, email, token) {
+function checkToken(pool, token) {
   const now = new Date();
 
   const sql = `
     SELECT * 
     FROM tokens 
     WHERE token=$1 
-      AND email=$2
-      AND $3 > timestampz
-      And $3 < (timestampz + INTERVAL '24 hours')
+      AND $2 > timestamp
+      And $2 < (timestamp + INTERVAL '24 hours')
     ORDER BY id ASC LIMIT 1`;
-  const values = [token, email, now];
+  const values = [token, now];
   return pool.query(sql, values)
     .then(results => Promise.resolve(results.rowCount===1))
     .catch(err => {
@@ -69,7 +51,6 @@ function checkToken(pool, email, token) {
 //Emails link for next login step
 //Returns 200 for success, 405 for unauthorized email and 500 for any errors
 function loginEndpoint(pool, mailgunEnv, request, response){
-  console.log('Arrived at loginEndpoint');
   const {email} = request.body;
 
   isOnWhitelist(pool, email)
@@ -78,7 +59,6 @@ function loginEndpoint(pool, mailgunEnv, request, response){
         console.log('isNotAuthorized: ', email);
         return response.status(405).end();
       } else {
-        console.log('isAuthorized: ', email);
         const domain = getDomain(request);
         return createLinkAndEmail(pool, mailgunEnv, email, domain)
           .then(result => response.status(200).end());
@@ -91,7 +71,6 @@ function loginEndpoint(pool, mailgunEnv, request, response){
 }
 
 function isOnWhitelist(pool, email){
-  console.log('checking whitelist: ', email);
   const whitelistSQL = 'SELECT * FROM whitelist WHERE email=$1 ORDER BY id ASC LIMIT 1';
   const whitelistValues = [email];
   
@@ -100,7 +79,6 @@ function isOnWhitelist(pool, email){
 }
 
 function createLinkAndEmail(pool, mailgunEnv, email, domain) {
-  console.log('creating link and email');
   return insertLink(pool,email, domain)
     .then(link => emailLink(mailgunEnv, email, link));
 }
@@ -108,10 +86,9 @@ function createLinkAndEmail(pool, mailgunEnv, email, domain) {
 function insertLink(pool, email, domain) {
   const linkToken = uuid.v4();
   const link = `${domain}/login_from_email?${qs.stringify({linkToken})}`;
-  console.log('inserting link: ', link);
 
   // Insert link into database
-  const linkSQL = `INSERT INTO links(email, link, timestampz) VALUES ($1, $2, $3)`;
+  const linkSQL = `INSERT INTO links(email, link, timestamp) VALUES ($1, $2, $3)`;
   const now = new Date();
   const linkValues = [email, linkToken, now];
   return pool.query(linkSQL, linkValues)
@@ -122,7 +99,6 @@ function insertLink(pool, email, domain) {
 }
 
 function emailLink(mailgunEnv, email, link) {
-  console.log('emailing link: ', link, email);
   const loginlinkFilename = path.join(__dirname,'research/loginlink.html.mustache');
   const html = renderEmail(loginlinkFilename,{link});
 
@@ -155,7 +131,6 @@ function emailLink(mailgunEnv, email, link) {
 // Endpoint to check link from researchers' email
 // Confirm email link is valid and generates token 
 // for user to access data. Adds token to 'tokens' database
-// 
 function emailLinkEndpoint(pool, request, response){
   const linkToken = request.body['link'];
   const email = request.body['email'];
@@ -192,8 +167,8 @@ function checkLink(pool, email, link) {
     FROM links 
     WHERE link=$1 
       AND email=$2
-      AND $3 > timestampz
-      And $3 < (timestampz + INTERVAL '24 hours')
+      AND $3 > timestamp
+      And $3 < (timestamp + INTERVAL '24 hours')
     ORDER BY id ASC LIMIT 1`;
   const linkValues = [link, email, now];
   return pool.query(linkSQL, linkValues)
@@ -210,7 +185,7 @@ function generateToken(pool, email) {
   //Create actual token and insert into token DB
   const token = uuid.v4();
 
-  const sql = `INSERT INTO tokens(email, token, timestampz) VALUES ($1, $2, $3)`;
+  const sql = `INSERT INTO tokens(email, token, timestamp) VALUES ($1, $2, $3)`;
   const values = [email, token, now];
   return pool.query(sql, values)
     .then(result => token)
@@ -220,7 +195,6 @@ function generateToken(pool, email) {
 }
 
 module.exports = {
-  enforceHTTPS,
   onlyAllowResearchers,
   loginEndpoint,
   emailLinkEndpoint

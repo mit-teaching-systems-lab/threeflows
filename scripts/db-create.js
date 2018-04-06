@@ -32,20 +32,17 @@ function createTables(database) {
       timestamp timestamp,
       json jsonb
     );
-
     CREATE TABLE message_popup_questions (
       id serial primary key,
       timestamp timestamp,
       questions jsonb
     );
-
     CREATE TABLE reviews (
       id serial primary key,
       timestamp timestamp,
       review_key text,
       access_code text
     );
-
     CREATE TABLE review_tokens (
       id serial primary key,
       timestamp timestamp,
@@ -58,7 +55,7 @@ function createTables(database) {
       id serial primary key,
       email text,
       link text,
-      timestampz timestamptz
+      timestamp timestamptz
     );
     CREATE TABLE whitelist (
       id serial primary key,
@@ -68,7 +65,18 @@ function createTables(database) {
       id serial primary key,
       email text,
       token text,
-      timestampz timestamptz
+      timestamp timestamptz
+    );
+    CREATE TABLE consented_email (
+      id serial primary key,
+      email text UNIQUE,
+      audio boolean DEFAULT FALSE,
+      permission boolean DEFAULT FALSE,
+      consent boolean DEFAULT FALSE
+    );
+    CREATE TABLE transcripts (
+      audio_id text UNIQUE,
+      transcript text
     );`;
   console.log(`Creating tables...`);
   return pool.query(sql);

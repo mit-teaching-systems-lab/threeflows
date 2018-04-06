@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './LoginPage.css';
+import BackgroundColor from './BackgroundColor.js';
 
 
 // The page for users to login for accessing research data.
@@ -16,14 +17,9 @@ class LoginPage extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  onUpdateEmail(e) {
-    const { value } = e.target;
-    this.setState({ email : value });
-  }
-
   onSubmit(e) {
     e.preventDefault();
-    fetch('/api/research/login', {
+    fetch('/server/research/login', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -42,10 +38,16 @@ class LoginPage extends Component {
       });
   }
 
+  onUpdateEmail(e) {
+    const { value } = e.target;
+    this.setState({ email : value });
+  }
+
   render() {
     const email = this.state.email;
     return (
       <div className='LoginPage'>
+        <BackgroundColor/>
         <h2> Welcome to the Teacher Moments Researcher Portal</h2>
         <h3>{this.state.message}</h3>
         <form name="loginForm" onSubmit={this.onSubmit}>

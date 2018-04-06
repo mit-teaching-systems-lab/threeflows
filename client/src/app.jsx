@@ -22,8 +22,8 @@ import ClimatePage from './message_popup/equity/climate_page.jsx';
 import PaperPrototypePage from './message_popup/equity/paper_prototype_page.jsx';
 
 //authentication
-import LoginPage from './LoginPage.js';
-import EmailLinkLoginPage from './EmailLinkLoginPage.js';
+import LoginPage from './research/LoginPage.js';
+import EmailLinkLoginPage from './research/EmailLinkLoginPage.js';
 
 
 export default createReactClass({

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import queryString from 'query-string';
-// import './LoginPage.css';
-import Interactions from './Interactions.js';
-// import TeacherMoments from './TeacherMoments.js';
+import './LoginPage.css';
+import ResearcherDataPage from './ResearcherDataPage.js';
+import BackgroundColor from './BackgroundColor.js';
 
 
 // This is the landing page users reach when clicking on a login 
@@ -35,7 +35,7 @@ class EmailLinkLoginPage extends Component {
 
   authenticate() {
     const {email, linkToken} = this.state;
-    return fetch('/api/research/email', {
+    return fetch('/server/research/email', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -53,11 +53,6 @@ class EmailLinkLoginPage extends Component {
           throw new Error('failed to fetch');
         }
       });
-  }
-
-  onUpdateEmail(e) {
-    const { value } = e.target;
-    this.setState({ email: value });
   }
 
   onSubmit(e) {
@@ -82,13 +77,20 @@ class EmailLinkLoginPage extends Component {
     });
   }
 
+  onUpdateEmail(e) {
+    const { value } = e.target;
+    this.setState({ email: value });
+  }
+
   render() {
     const {email, status, token, message} = this.state;
     if (status === 'success') {
       if ((email !=="") && (token !== "default")){
         return (
-          <Interactions email={email.toLowerCase()} token={token}/>
-          // <TeacherMoments email={email.toLowerCase()} token={token}/>
+          <div>
+            <BackgroundColor/>
+            <ResearcherDataPage email={email.toLowerCase()} token={token}/>
+          </div>
         );
       }else {
         return null;
@@ -97,7 +99,8 @@ class EmailLinkLoginPage extends Component {
     
     return (
       <div className='LoginPage'>
-        <h2>Welcome Back to Teacher Moments!</h2>
+        <BackgroundColor/>
+        <h2>Welcome Back to the Teacher Moments Researcher Portal!</h2>
         <h3>{message}</h3>
         <form name="loginForm" onSubmit={this.onSubmit}>
           <div className='LoginPage-Block'>
