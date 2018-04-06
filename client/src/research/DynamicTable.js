@@ -15,11 +15,51 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
   };
 
   constructor(props) {
+    console.log('!!!!!!!!!! Building Dynamic Table !!!!!!!!!');
     super(props);
 
     const sortBy = 'index';
     const sortDirection = SortDirection.ASC;
     const sortedList = this._sortList({sortBy, sortDirection});
+    console.log('sortedList', sortedList);
+
+    const audioArray = sortedList.toArray().filter((row) => {
+      if (row.json.uploadedUrl) {
+        return true;
+      }
+      return false;
+    });
+    console.log('audioArray',audioArray);
+
+    var audioPlayers = {};
+    var promiseArray = [];
+    audioArray.forEach((row) => {
+      const audioID = this._getAudioID(this._getAudioUrl(row));
+      promiseArray.push(
+        this._getAudioComponent(audioID).then((val) => {
+          console.log(val);
+          audioPlayers[audioID] = val;
+        })
+      );
+      //audioPlayers[audioID] = this._getAudioComponent(audioID);
+
+      // audioPlayers[audioID] = null;
+      // this._getAudioComponent(audioID).then((val) => {
+      //   console.log(val);
+      //   audioPlayers[audioID] = val;
+      // });
+    });
+    
+    const temp = Promise.all(promiseArray)
+      .then(val => {
+        console.log('########### Forcing Update ##############');
+        this.forceUpdate();
+        console.log('val',val);
+        console.log('after promise all audioPlayers',audioPlayers);
+        return val;
+      });
+    console.log('temp',temp);
+    console.log('audioPlayers',audioPlayers);
 
     this.state = {
       disableHeader : false,
@@ -30,7 +70,8 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
       scrollToIndex : undefined,
       sortBy,
       sortDirection,
-      sortedList
+      sortedList,
+      audioPlayers
     };
 
     this._cache = new CellMeasurerCache({
@@ -58,14 +99,15 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
     if (audioUrl) {
       const slashIndex = audioUrl.lastIndexOf('/');
       const filename = audioUrl.slice(slashIndex + 1);
-      return filename;
+      const audioID = filename.slice(0,-4);
+      return audioID;
     }
     return "";
   }
   _getAudio(audioID) {
     const token = this.props.token;
 
-    fetch('/server/research/wav/'+audioID+'.wav', {
+    return fetch('/server/research/wav/'+audioID+'.wav', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -75,20 +117,37 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
     })
       .then(results => {
         var response = new Response(results.body, {headers: {"Content-Type": "audio/wav"}});
-        response.blob().then(function(myBlob) {
-          var bloburl = URL.createObjectURL(myBlob);
-          var elementTarget = document.getElementById(audioID);
-          if (elementTarget) {
-            document.getElementById(audioID).src = bloburl;
-          }
-          else{
-            console.log('audio element cannot be found');
-          }
+        return response.blob().then(function(myBlob) {
+          return URL.createObjectURL(myBlob);
+          // var bloburl = URL.createObjectURL(myBlob);
+          // var elementTarget = document.getElementById(audioID);
+          // if (elementTarget) {
+          //   document.getElementById(audioID).src = bloburl;
+          // }
+          // else{
+          //   console.log('audio element cannot be found');
+          // }
         });
       })
       .catch(err => {
         console.log('there was an error');
       });
+  }
+  _getAudioComponent(audioID) {
+    console.log('_getAudioComponent',audioID)
+    return this._getAudio(audioID)
+      .then(audioBlob => {
+        return <audio controls id={audioID} src={audioBlob} type="audio/wav"> </audio>;
+      })
+      .catch(err => {
+        console.log('Error in creating audio elements');
+      });
+  }
+  _getAudioPlayer(audioID) {
+    console.log('_getAudioPlayer',audioID,'\n',this.state.audioPlayers);
+    console.log(this.state.audioPlayers[audioID]);
+    const audioPlayer = this.state.audioPlayers[audioID];
+    return audioPlayer;
   }
 
   _headerRenderer({dataKey, sortBy, sortDirection, label}) {
@@ -257,7 +316,7 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
           dataKey="responseText"
           label="Response"
           disableSort = {false}
-          cellDataGetter={({ dataKey , rowData }) => rowData.json[dataKey] || (this._getAudioUrl(rowData) && <audio controls id={this._getAudioID(this._getAudioUrl(rowData)).slice(0,-4)} src={this._getAudio(this._getAudioID(this._getAudioUrl(rowData)).slice(0,-4))} type="audio/wav"> </audio>) }
+          cellDataGetter={({ dataKey , rowData }) => rowData.json[dataKey] || (this._getAudioUrl(rowData) && this._getAudioPlayer(this._getAudioID(this._getAudioUrl(rowData)))) }
           cellRenderer= {this._wrappingCellRenderer}
           headerRenderer={this._headerRenderer}
           width={width}

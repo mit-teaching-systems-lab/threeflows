@@ -432,6 +432,7 @@ class Analysis extends Component {
       blob.responseText= blob.json.responseText;
       return blob;
     });
+    console.log(simpleJson)
     return (
       <div>
         <AutoSizer disableHeight>
