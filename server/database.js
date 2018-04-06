@@ -9,10 +9,10 @@ function dataEndpoint(pool, request, response) {
   const domain = getDomain(request);
   const location = `${domain}`+process.env.ANALYSIS_LOCATION;
 
-  checkAccess(pool, location, token)
+  checkAccess(pool, location, token, request)
     .then(isTokenAuthorized => {
       if (isTokenAuthorized) {
-        getData(pool, location)
+        getData(pool, location,request)
           .then(results => {
             response.set('Content-Type', 'application/json');
             response.json({
@@ -34,8 +34,8 @@ function dataEndpoint(pool, request, response) {
 
 // Spoofing the part where I confirm a token is allowed to view data from 
 // a specific location. Location is currently hard coded so this is fine.
-function checkAccess(pool, location, token) {
-  const domain = getDomain();
+function checkAccess(pool, location, token, request) {
+  const domain = getDomain(request);
   if (location ===`${domain}`+process.env.ANALYSIS_LOCATION) {
     return Promise.resolve(true);
   }
@@ -49,9 +49,9 @@ function checkAccess(pool, location, token) {
 // Some testing notes:
 //      I've confirmed emails not in the consented_email table do not show up
 //      I've confirmed emails that have false in any of audio/permission/consent do not show up
-function getData(pool, location){
+function getData(pool, location,request){
   //hard coding location until I can restrict access
-  const domain = getDomain();
+  const domain = getDomain(request);
   location = `${domain}`+process.env.ANALYSIS_LOCATION;
 
   const dataValues = [location];
