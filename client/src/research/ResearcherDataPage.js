@@ -5,13 +5,18 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
+import Immutable from 'immutable';
+
 import logo from './logo.svg';
 import './ResearcherDataPage.css';
 import {hashInto, colorNames} from './Anonymize.js';
 
-// Substance of analysis
+import {AutoSizer} from 'react-virtualized';
+import 'react-virtualized/styles.css';
+
 import * as Analyses from './Analyses.js';
 import {requestTranscript} from './Transcribe.js';
+import DynamicTable from './DynamicTable.js';
 
 
 /*
@@ -34,27 +39,6 @@ const styles = {
 function getAudioUrl(row) {
   return row.json.audioUrl || (row.json.audioResponse && row.json.audioResponse.audioUrl) || (row.json.uploadedUrl);
 }
-
-function statsGroupedBy(allRows, keyName, keyFn) {
-  const rowGroups = _.groupBy(allRows, keyFn);
-  return _.map(rowGroups, (rows, keyValue) => {
-    const responses = rows.filter(row => row.type === 'on_response_submitted');
-    const textModeCount = responses.filter(row => row.json.textResponse).length;
-    const moveOnCount = responses.filter(row => !getAudioUrl(row)).length;
-    const anticipateCount = responses.filter(row => row.json.question.type === 'Anticipate').length;
-    const reflectCount = responses.filter(row => row.json.question.type === 'Reflect').length;
-
-    return {
-      [keyName]: keyValue,
-      anticipateCount,
-      moveOnCount,
-      textModeCount,
-      totalResponseCount: rows.length,
-      reflectCount
-    };
-  });
-}
-
 
 function hmtcaRowKey(row) {
   return [row.json.cohortKey, row.json.identifier, row.json.sessionId].join(" - ");
@@ -203,7 +187,7 @@ class Analysis extends Component {
   getAudio(audioID,elementID) {
     const token = this.state.token;
 
-    fetch('/server/research/wav/'+audioID, {
+    fetch('/server/research/wav/'+audioID+'.wav', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -271,18 +255,17 @@ class Analysis extends Component {
     document.body.removeChild(a);
   }
 
-  onError(exception) {
-    console.log("error mounting\n", exception);
-  }
-
   onFetched(json) {
     const filtered = this.filter(json);
     this.setState({ json: filtered });
   }
 
+  onError(exception) {
+    console.log("error mounting\n", exception);
+  }
+
   render() {
     const {json} = this.state;
-
     return (
       <div className="Analysis">
         {(json)
@@ -294,15 +277,12 @@ class Analysis extends Component {
 
   renderJson(json) {
     const allRows = json.evidence.rows;
-    const statsForSessions = statsGroupedBy(allRows, 'sessionId', row => row.json.sessionId);
 
     return (
       <div>
-        <h2 style={{margin: 20}}>Dashboard Summary</h2>
-        {json && this.renderStatsNew('students', statsForSessions)}
         <h2 style={{margin: 20}}>Events</h2>
         {json && <pre style={{margin: 20}}>{Object.keys(json).map(key => `${key}: ${json[key].rows.length} rows`).join("\n")}</pre>}
-        {json && this.renderEventsTable(json)}
+        {json && this.renderEventsTableVirtualized(allRows)}
       </div>
     );
   }
@@ -456,6 +436,30 @@ class Analysis extends Component {
       </table>
     );
   }
+
+  renderEventsTableVirtualized(json) {
+    const simpleJson = json.map((blob) => {
+      blob.email= blob.json.email;
+      blob.text= blob.json.question.text;
+      blob.youTubeId= blob.json.question.youTubeId;
+      blob.responseText= blob.json.responseText;
+      return blob;
+    });
+    return (
+      <div>
+        <AutoSizer disableHeight>
+          {({width}) => (
+            <DynamicTable
+              width={width}
+              list={Immutable.List(simpleJson)}
+              token={this.state.token}
+            />
+          )}
+        </AutoSizer>
+      </div>
+    );
+  }
 }
+
 
 export default ResearcherDataPage;
