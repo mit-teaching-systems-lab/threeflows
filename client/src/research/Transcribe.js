@@ -1,5 +1,5 @@
 function requestTranscript(token,audioID) {
-  return fetch('/server/research/transcribe/'+audioID, {
+  return fetch('/server/research/transcribe/'+audioID+'.wav', {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',

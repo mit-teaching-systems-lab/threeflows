@@ -7,6 +7,7 @@ import './ResearcherDataPage.css';
 
 import {Table, Column, SortDirection, SortIndicator, CellMeasurer, CellMeasurerCache} from 'react-virtualized';
 import 'react-virtualized/styles.css';
+import {requestTranscript} from './Transcribe.js';
 
 export default class DynamicHeightTableColumn extends React.PureComponent {
   static propTypes = {
@@ -23,7 +24,9 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
 
     //Create a dictionary mapping audioID to an audio element with the audio loaded in
     var audioPlayers = {};
-    var promiseArray = [];
+    var transcriptDivs = {};
+    var audioPromiseArray = [];
+    var transcriptPromiseArray = [];
     const audioArray = sortedList.toArray().filter((row) => {
       if (row.json.uploadedUrl) {
         return true;
@@ -32,15 +35,26 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
     });
     audioArray.forEach((row) => {
       const audioID = this._getAudioID(this._getAudioUrl(row));
-      promiseArray.push(
-        this._getAudioComponent(audioID).then((audioPlayer) => {
+      audioPromiseArray.push(
+        this._getAudioPlayer(audioID).then((audioPlayer) => {
           audioPlayers[audioID] = audioPlayer;
+        })
+      );
+      transcriptPromiseArray.push(
+        this._getTranscript(audioID).then((transcript) => {
+          transcriptDivs[audioID] = transcript;
         })
       );
     });
 
     //Force table to render once all audio players are created
-    Promise.all(promiseArray)
+    Promise.all(audioPromiseArray)
+      .then(success => {
+        this.forceUpdate();
+      });
+
+    //Force table to render when all transcripts are loaded
+    Promise.all(transcriptPromiseArray)
       .then(success => {
         this.forceUpdate();
       });
@@ -55,12 +69,13 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
       sortBy,
       sortDirection,
       sortedList,
-      audioPlayers
+      audioPlayers,
+      transcriptDivs
     };
 
     this._cache = new CellMeasurerCache({
       fixedWidth: true,
-      minHeight: 25,
+      minHeight: 50,
     });
 
     this._lastRenderedWidth = this.props.width;
@@ -90,7 +105,7 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
   }
   _getAudio(audioID) {
     const token = this.props.token;
-
+    //fetch audio file from s3
     return fetch('/server/research/wav/'+audioID+'.wav', {
       headers: {
         'Accept': 'application/json',
@@ -109,7 +124,7 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
         console.log('there was an error');
       });
   }
-  _getAudioComponent(audioID) {
+  _getAudioPlayer(audioID) {
     return this._getAudio(audioID)
       .then(audioBlob => {
         return <audio controls id={audioID} src={audioBlob} type="audio/wav"> </audio>;
@@ -118,9 +133,30 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
         console.log('Error in creating audio elements');
       });
   }
-  _getAudioPlayer(audioID) {
+  _loadAudioPlayer(audioID) {
     const audioPlayer = this.state.audioPlayers[audioID];
     return audioPlayer;
+  }
+  _getTranscript(audioID) {
+    const token = this.props.token;
+    //request transcript for audio
+    console.log('audioID',audioID);
+    return requestTranscript(token,audioID)
+      .then(results => {
+        console.log('transcript query',results);
+        if (results.transcript){
+          console.log('returning div', <div id={audioID+"-transcript"}>Transcript: "{results.transcript}"</div>);
+          return <div id={audioID+"-transcript"}>Transcript: "{results.transcript}"</div>;
+        }
+        return <div id={audioID+"-transcript"}>Transcript: Unable to transcribe</div>;
+      })
+      .catch(err => {
+        console.log('failure in transcription');
+      });
+  }
+  _loadTranscript(audioID) {
+    const transcript = this.state.transcriptDivs[audioID];
+    return transcript;
   }
 
   _headerRenderer({dataKey, sortBy, sortDirection, label}) {
@@ -182,6 +218,28 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
   }
 
   _wrappingCellRenderer = ({width,cellData, dataKey, parent, rowIndex}) => {
+    if (this._lastRenderedWidth !== width) {
+      this._lastRenderedWidth = width;
+      this._cache.clearAll();
+    }
+    return (
+      <CellMeasurer
+        cache={this._cache}
+        columnIndex={0}
+        key={dataKey}
+        parent={parent}
+        rowIndex={rowIndex}>
+        <div
+          className={"tableColumn"}
+          style={{
+            whiteSpace: 'normal',
+          }}>
+          {cellData}
+        </div>
+      </CellMeasurer>
+    );
+  };
+  _wrappingCellRendererAgain = ({width,cellData, dataKey, parent, rowIndex}) => {
     if (this._lastRenderedWidth !== width) {
       this._lastRenderedWidth = width;
       this._cache.clearAll();
@@ -281,7 +339,7 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
           label="Prompt"
           disableSort = {false}
           cellDataGetter={({ dataKey , rowData }) => rowData.json.question.text || <div><span>Teacher Moments Scene: </span> <a href={"https://youtu.be/"+rowData.json.question.youTubeId}>https://youtu.be/{rowData.json.question.youTubeId}</a></div>}
-          cellRenderer= {this._wrappingCellRenderer}
+          cellRenderer= {this._cellRenderer}
           headerRenderer={this._headerRenderer}
           width={width}
         />
@@ -289,8 +347,8 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
           dataKey="responseText"
           label="Response"
           disableSort = {false}
-          cellDataGetter={({ dataKey , rowData }) => rowData.json[dataKey] || (this._getAudioUrl(rowData) && this._getAudioPlayer(this._getAudioID(this._getAudioUrl(rowData)))) }
-          cellRenderer= {this._wrappingCellRenderer}
+          cellDataGetter={({ dataKey , rowData }) => rowData.json[dataKey] || (this._getAudioUrl(rowData) && <div>{this._loadAudioPlayer(this._getAudioID(this._getAudioUrl(rowData)))} {this._loadTranscript(this._getAudioID(this._getAudioUrl(rowData)))} </div>)}
+          cellRenderer= {this._wrappingCellRendererAgain}
           headerRenderer={this._headerRenderer}
           width={width}
         />

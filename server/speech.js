@@ -19,11 +19,13 @@ function transcribeEndpoint(pool, s3, request, response) {
         response.json({
           transcript: results.rows[0].transcript
         });
+        console.log('transcript (old):', results.rows[0].transcript);
         return response.status(200).end();
       }
       else{
         speechToText(pool,s3,audioID,request,response)
           .then(results => {
+            console.log('transcript (new):', results);
             response.set('Content-Type', 'application/json');
             response.json({
               transcript: results 
