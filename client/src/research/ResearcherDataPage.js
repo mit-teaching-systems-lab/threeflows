@@ -70,7 +70,6 @@ class ResearcherDataPage extends Component {
     super(props);
     const analysisTuple = _.last(_.entries(Analyses));
     const [key, analysis] = analysisTuple;
-    console.log('analysisTuple',analysisTuple)
     this.state = {
       key: key, 
       analysis: analysis,
@@ -155,10 +154,8 @@ class Analysis extends Component {
 
   componentDidMount() {
     const location = this.state.location;
-    console.log('location',location)
     const token = this.state.token;
 
-    //TODO: Need to decide if user is authorized to access data at location
     fetch('/server/research/data', {
       headers: {
         'Accept': 'application/json',
@@ -169,7 +166,6 @@ class Analysis extends Component {
       method: 'GET'
     })
       .then(response => {
-        console.log(response)
         return response.json()
       })
       .then(this.onFetched.bind(this))

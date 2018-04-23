@@ -6,16 +6,13 @@ const {getDomain} = require('./domain.js');
 //Returns 200 unless there was an error with the database query
 function dataEndpoint(pool, request, response) {
   const token = request.headers['x-teachermoments-token'];
-  const url = request.headers['x-teachermoments-location'].split(',');
-  console.log('url',url)
+  const url = request.headers['x-teachermoments-location'];
 
   const domain = getDomain(request);
-  const location = `${domain}`+url[0];
-  console.log('location',location)
+  const location = `${domain}`+url;
 
   checkAccess(pool, location, token, request)
     .then(isTokenAuthorized => {
-      console.log('isTokenAuthorized',isTokenAuthorized)
       if (isTokenAuthorized) {
         getData(pool, location,request)
           .then(results => {
@@ -44,17 +41,14 @@ function dataEndpoint(pool, request, response) {
 function checkAccess(pool, location, token, request) {
   return getEmail(pool,token)
     .then(email => {
-      console.log('checkAccess email',email)
       const sql = `
         SELECT *
         FROM access
         WHERE email = $1
           AND url = $2`;
       const values = [email, location];
-      console.log('**',sql,email,location)
       return pool.query(sql, values)
         .then(results => {
-          console.log('results',results);
           if (results.rowCount>0) {
             return Promise.resolve(true);
           }
@@ -74,7 +68,6 @@ function checkAccess(pool, location, token, request) {
 
 function getEmail(pool, token) {
   const now = new Date();
-  console.log('fakeToken',token)
   const sql = `
     SELECT email
     FROM tokens
@@ -83,10 +76,7 @@ function getEmail(pool, token) {
       And $2 < (timestamp + INTERVAL '24 hours')`;
   const values = [token, now];
   return pool.query(sql, values)
-    .then(result => {
-      console.log('email',result.rows[0].email);
-      return result.rows[0].email;
-    })
+    .then(result => result.rows[0].email)
     .catch(err => {
       console.log('Error in getting email from token: ',err);
     });
@@ -98,10 +88,6 @@ function getEmail(pool, token) {
 //      I've confirmed emails not in the consented_email table do not show up
 //      I've confirmed emails that have false in any of audio/permission/consent do not show up
 function getData(pool, location,request){
-  //hard coding location until I can restrict access
-  const domain = getDomain(request);
-  location = `${domain}`+process.env.ANALYSIS_LOCATION;
-
   const dataValues = [location];
   const dataSQL = `
     SELECT *
