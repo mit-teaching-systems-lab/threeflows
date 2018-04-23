@@ -70,6 +70,7 @@ class ResearcherDataPage extends Component {
     super(props);
     const analysisTuple = _.last(_.entries(Analyses));
     const [key, analysis] = analysisTuple;
+    console.log('analysisTuple',analysisTuple)
     this.state = {
       key: key, 
       analysis: analysis,
@@ -88,7 +89,7 @@ class ResearcherDataPage extends Component {
   render() {
     const currentKey = this.state.key;
     const currentAnalysis = this.state.analysis;
-    const {filter, dataSet} = currentAnalysis;
+    const {filter, location} = currentAnalysis;
     return (
       <MuiThemeProvider>
         <div className="ResearcherDataPage">
@@ -100,8 +101,7 @@ class ResearcherDataPage extends Component {
             key={currentKey}
             analysisKey={currentKey}
             filter={filter}
-            dataSet={dataSet} 
-            location = {this.state.location}
+            location={location} 
             token = {this.state.token}
             email = {this.state.email}/>
         </div>
@@ -138,10 +138,6 @@ class Analysis extends Component {
     analysisKey: React.PropTypes.string.isRequired,
     filter: React.PropTypes.func.isRequired,
     location: React.PropTypes.string.isRequired,
-    dataSet: {
-      db: React.PropTypes.string.isRequired,
-      s3: React.PropTypes.string.isRequired
-    }
   }
 
   constructor(props) {
@@ -159,6 +155,7 @@ class Analysis extends Component {
 
   componentDidMount() {
     const location = this.state.location;
+    console.log('location',location)
     const token = this.state.token;
 
     //TODO: Need to decide if user is authorized to access data at location
@@ -171,7 +168,10 @@ class Analysis extends Component {
       },
       method: 'GET'
     })
-      .then(response => response.json())
+      .then(response => {
+        console.log(response)
+        return response.json()
+      })
       .then(this.onFetched.bind(this))
       .catch(this.onError.bind(this));
   }

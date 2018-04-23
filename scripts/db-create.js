@@ -77,6 +77,10 @@ function createTables(database) {
     CREATE TABLE transcripts (
       audio_id text UNIQUE,
       transcript text
+    );
+    CREATE TABLE access (
+      email text,
+      url text
     );`;
   console.log(`Creating tables...`);
   return pool.query(sql);

@@ -6,11 +6,16 @@ const {getDomain} = require('./domain.js');
 //Returns 200 unless there was an error with the database query
 function dataEndpoint(pool, request, response) {
   const token = request.headers['x-teachermoments-token'];
+  const url = request.headers['x-teachermoments-location'].split(',');
+  console.log('url',url)
+
   const domain = getDomain(request);
-  const location = `${domain}`+process.env.ANALYSIS_LOCATION;
+  const location = `${domain}`+url[0];
+  console.log('location',location)
 
   checkAccess(pool, location, token, request)
     .then(isTokenAuthorized => {
+      console.log('isTokenAuthorized',isTokenAuthorized)
       if (isTokenAuthorized) {
         getData(pool, location,request)
           .then(results => {
@@ -32,16 +37,59 @@ function dataEndpoint(pool, request, response) {
     });
 }
 
-// Spoofing the part where I confirm a token is allowed to view data from 
-// a specific location. Location is currently hard coded so this is fine.
+// It seems more natural to store email/url pairs in access db.
+// Should I be using token to find the corresponding email and 
+// use the email to check for access?
+// I'm not sure how to store token/url pairs.
 function checkAccess(pool, location, token, request) {
-  const domain = getDomain(request);
-  if (location ===`${domain}`+process.env.ANALYSIS_LOCATION) {
-    return Promise.resolve(true);
-  }
-  else{
-    return Promise.reject();
-  }
+  return getEmail(pool,token)
+    .then(email => {
+      console.log('checkAccess email',email)
+      const sql = `
+        SELECT *
+        FROM access
+        WHERE email = $1
+          AND url = $2`;
+      const values = [email, location];
+      console.log('**',sql,email,location)
+      return pool.query(sql, values)
+        .then(results => {
+          console.log('results',results);
+          if (results.rowCount>0) {
+            return Promise.resolve(true);
+          }
+          else{
+            return Promise.reject();
+          }
+        })
+        .catch(err => {
+          console.log('checkAccess query returned err: ',err);
+        });
+
+    })
+    .catch(err => {
+      console.log('Error in getting email from token: ',err);
+    });
+}
+
+function getEmail(pool, token) {
+  const now = new Date();
+  console.log('fakeToken',token)
+  const sql = `
+    SELECT email
+    FROM tokens
+    WHERE token = $1
+      AND $2 > timestamp
+      And $2 < (timestamp + INTERVAL '24 hours')`;
+  const values = [token, now];
+  return pool.query(sql, values)
+    .then(result => {
+      console.log('email',result.rows[0].email);
+      return result.rows[0].email;
+    })
+    .catch(err => {
+      console.log('Error in getting email from token: ',err);
+    });
 }
 
 // This gets list of consenting participant emails and then only grabs 

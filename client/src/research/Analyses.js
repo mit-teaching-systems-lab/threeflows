@@ -354,10 +354,9 @@ export const playtestJanTurner = {
       !Filters.isMeaninglessChoice(row)
     ]);
   },
-  dataSet: {
-    db: LATEST_DB_PATH,
-    s3: LATEST_S3_PATH
-  }
+  location: [
+    '/teachermoments/turner?playtest20180124'
+  ]
 };
 
 export const MeredithDarius = {
@@ -372,10 +371,9 @@ export const MeredithDarius = {
       !Filters.isMeaninglessChoice(row)
     ]);
   },
-  dataSet: {
-    db: LATEST_DB_PATH,
-    s3: LATEST_S3_PATH
-  }
+  location: [
+    '/teachermoments/darius?fromdemos'
+  ]
 };
 
 export const testing = {
@@ -390,10 +388,9 @@ export const testing = {
       !Filters.isMeaninglessChoice(row)
     ]);
   },
-  dataSet: {
-    db: LATEST_DB_PATH,
-    s3: LATEST_S3_PATH
-  }
+  location: [
+    '/teachermoments/turner?KevinTesting20180319'
+  ]
 };
 
 export const kevinThesis = {
@@ -408,8 +405,25 @@ export const kevinThesis = {
       !Filters.isMeaninglessChoice(row)
     ]);
   },
-  dataSet: {
-    db: LATEST_DB_PATH,
-    s3: LATEST_S3_PATH
-  }
+  location: [
+    '/teachermoments/turner?WWA04062018'
+  ]
+};
+
+export const MeredithSub = {
+  description: 'Meredith 11.125: Sub',
+  filter(row) {
+    return _.every([
+      Filters.containsPath('/teachermoments/sub?11.125', row) || Filters.containsPath('/teachermoments/sub', row),
+      Filters.isSubmittedResponse(row),
+      !Filters.isFlavorText(row),
+      !Filters.isDeveloper(row),
+      !Filters.isThrowawayUser(row),
+      !Filters.isMeaninglessChoice(row)
+    ]);
+  },
+  location: [
+    '/teachermoments/sub?11.125',
+    '/teachermoments/sub'
+  ]
 };
