@@ -165,9 +165,7 @@ class Analysis extends Component {
       },
       method: 'GET'
     })
-      .then(response => {
-        return response.json()
-      })
+      .then(response => response.json())
       .then(this.onFetched.bind(this))
       .catch(this.onError.bind(this));
   }
