@@ -88,7 +88,7 @@ class ResearcherDataPage extends Component {
   render() {
     const currentKey = this.state.key;
     const currentAnalysis = this.state.analysis;
-    const {filter, dataSet} = currentAnalysis;
+    const {filter, location} = currentAnalysis;
     return (
       <MuiThemeProvider>
         <div className="ResearcherDataPage">
@@ -100,8 +100,7 @@ class ResearcherDataPage extends Component {
             key={currentKey}
             analysisKey={currentKey}
             filter={filter}
-            dataSet={dataSet} 
-            location = {this.state.location}
+            location={location} 
             token = {this.state.token}
             email = {this.state.email}/>
         </div>
@@ -138,10 +137,6 @@ class Analysis extends Component {
     analysisKey: React.PropTypes.string.isRequired,
     filter: React.PropTypes.func.isRequired,
     location: React.PropTypes.string.isRequired,
-    dataSet: {
-      db: React.PropTypes.string.isRequired,
-      s3: React.PropTypes.string.isRequired
-    }
   }
 
   constructor(props) {
@@ -161,7 +156,6 @@ class Analysis extends Component {
     const location = this.state.location;
     const token = this.state.token;
 
-    //TODO: Need to decide if user is authorized to access data at location
     fetch('/server/research/data', {
       headers: {
         'Accept': 'application/json',
