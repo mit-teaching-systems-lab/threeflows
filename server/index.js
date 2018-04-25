@@ -226,7 +226,6 @@ if (process.env.ENABLE_RESEARCHER_ACCESS && process.env.ENABLE_RESEARCHER_ACCESS
 // Route other requests return the React app, so it can handle routing.
 app.use(express.static(path.resolve(__dirname, '../client/build')));
 app.get('*', (request, response) => {
-  console.log('caught');
   response.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
 });
 
