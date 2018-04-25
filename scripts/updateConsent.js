@@ -18,8 +18,7 @@ function batchPromises(batchSize, emails, fn){
 
 function updateConsent(database){
   //Still need to grab emails from a sensitive data file
-  // const emails = JSON.parse(fs.readFileSync('./tmp/consented-latest.json'))
-  const emails = JSON.parse(fs.readFileSync('./tmp/consented-latest.json'))
+  const emails = JSON.parse(fs.readFileSync("/dev/stdin", "utf-8"))
   const emailArray = emails.consented;
   console.log("processing", emailArray.length, " emails")
 
