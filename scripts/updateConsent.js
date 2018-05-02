@@ -9,8 +9,6 @@ const config = {
 function batchPromises(batchSize, emails, fn){
   const current = emails.slice(0,batchSize)
   const rest = emails.slice(batchSize)
-  console.log(current.length, rest.length)
-
   const currentPromises = current.map(fn);
   // we want to then this somehow, with Promise.all probably
 
@@ -25,9 +23,7 @@ function updateConsent(){
   //Still need to grab emails from a sensitive data file
   const emails = JSON.parse(fs.readFileSync("/dev/stdin", "utf-8"))
   const emailArray = emails.consented;
-  console.log("processing", emailArray.length, " emails")
-
-  console.log('posgresUrl',config.postgresUrl)
+  console.log("processing", emailArray.length, "emails...")
   const pool = new Pool({connectionString:config.postgresUrl});
   return batchPromises(5, emailArray, email => {
     const sql = `
