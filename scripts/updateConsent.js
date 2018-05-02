@@ -28,7 +28,7 @@ function updateConsent(){
   console.log("processing", emailArray.length, " emails")
 
   console.log('posgresUrl',config.postgresUrl)
-  const pool = new Pool(config.postgresUrl);
+  const pool = new Pool({connectionString:config.postgresUrl});
   return batchPromises(5, emailArray, email => {
     const sql = `
       INSERT INTO consented_email (email,audio,permission,consent) 
