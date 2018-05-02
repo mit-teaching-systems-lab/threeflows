@@ -8,7 +8,7 @@
   "scripts": {
     "install": "cd client && YARN_PRODUCTION=false yarn install --frozen-lockfile",
     "start": "yarn run dev",
-    "dev": "concurrently \"NODE_ENV=development ANALYSIS_LOCATION=/teachermoments/turner?WWA04062018 yarn run server-dev\" \"yarn run client\"",
+    "dev": "concurrently \"NODE_ENV=development yarn run server-dev\" \"yarn run client\"",
     "server": "node server/index.js",
     "server-dev": "cross-env READ_LOCAL_EVIDENCE=true IS_SENSITIVE_REVIEWING_ENABLED=true ENABLE_RESEARCHER_ACCESS=true DATABASE_URL=http://localhost:5432/teacher-moments-db NODE_ENV=development yarn run server",
     "client": "cd client && yarn run start",
@@ -16,7 +16,7 @@
     "lint": "eslint --ext jsx --ext js -c server/.eslintrc server",
     "test": "yarn run lint && cd client && yarn run test",
     "db-create-dev": "node scripts/db-create.js teacher-moments-db",
-    "update-consent": "node scripts/updateConsent.js teacher-moments-db",
+    "update-consent": "node scripts/updateConsent.js",
     "prep-consent": "node scripts/prepConsent.js tmp/consented-latest-raw.csv",
     "update-consent-db": "yarn run prep-consent && yarn run update-consent"
   },
