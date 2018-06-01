@@ -143,12 +143,14 @@ For example, if they are using the Jessica Turner scenario for their thesis proj
 All data collected by Teacher Moments is protected to ensure the privacy of participants. In order for a researcher or TE to view the data collected on a specific participant, the participant must fill out a [TSL consent form.](https://tsl.mit.edu/consent)
 
 To update Teacher Moments on who has consented to share their data, you need to:
-1. Download a CSV version of the consent spreadsheet. Search for `User Testing Consent Form (Responses)` in the TSL team Google Drive. Rename the file to `consented-latest-raw.csv` and save this file in the `threeflows/tmp` folder
+1. Download a CSV version of the consent spreadsheet. Search for `User Testing Consent Form (Responses)` in the TSL team Google Drive. Rename the file to `consented-latest-raw.csv` and save this file in the `threeflows/tmp` folder.
+
 2. Run the prep-consent script to process the CSV file using
 ```
 $ yarn run prep-consent
 ```
-This should generate 2 files: `consented-latest.json` and `consented-YYYY-MM-DD.json`
+This should generate 2 files: `consented-latest.json` and `consented-YYYY-MM-DD.json`.
+
 3. Run the update-consent script in heroku to update the live `consented_email` database using
 ```
 $ cat ./tmp/consented-latest.json | heroku run --no-tty yarn run update-consent
