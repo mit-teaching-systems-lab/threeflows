@@ -44,6 +44,7 @@ $ yarn db-create-dev
 ```
 - For storing audio files, you'll need keys authorized for a development S3 bucket.
 - For transcribing audio files, you'll need keys authorized for accessing the Watson Speech to Text API. Details on [how to use the API](https://www.ibm.com/watson/developercloud/speech-to-text/api/v1/) can be found on their website.
+
 Ask someone for these keys.
 
 #### Viewing data
