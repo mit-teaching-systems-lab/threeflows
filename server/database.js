@@ -94,7 +94,7 @@ function getData(pool, location,request){
     FROM evidence
     WHERE 1=1
       AND json->'GLOBAL'->>'location' = $1
-      AND json->>'email' IN (SELECT email FROM consented_email WHERE audio='t' AND permission='t' AND consent='t')
+      AND LOWER(json->>'email') IN (SELECT email FROM consented_email WHERE audio='t' AND permission='t' AND consent='t')
     ORDER BY json->>'sessionId', id ASC;`;
 
   return pool.query(dataSQL,dataValues)
