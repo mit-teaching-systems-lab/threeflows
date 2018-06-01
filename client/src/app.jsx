@@ -24,6 +24,7 @@ import PaperPrototypePage from './message_popup/equity/paper_prototype_page.jsx'
 //authentication
 import LoginPage from './research/LoginPage.js';
 import EmailLinkLoginPage from './research/EmailLinkLoginPage.js';
+import CreateSessionPage from './research/CreateSessionPage.js';
 
 
 export default createReactClass({
@@ -55,6 +56,7 @@ export default createReactClass({
     '/equity': 'equityFairPage',
     '/login': 'loginPage',
     '/login_from_email': 'emailLinkLoginPage',
+    '/create': 'createSessionPage',
 
 
     // Stable, field tested, publicly shared practice spaces
@@ -309,6 +311,10 @@ export default createReactClass({
 
   emailLinkLoginPage(query = {}) {
     return <EmailLinkLoginPage query={query} />;
+  },
+
+  createSessionPage(query = {}) {
+    return <CreateSessionPage query={query} />;
   }
   /*eslint-enable react/sort-comp */
 });
