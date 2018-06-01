@@ -130,6 +130,31 @@ Other Heroku docs:
 - [Node.js on Heroku](https://devcenter.heroku.com/categories/nodejs)
 - [Best Practices for Node.js Development](https://devcenter.heroku.com/articles/node-best-practices)
 
+## Maintaining Researcher Portal
+### Whitelist database
+Researchers and teacher educators (TEs) looking to use data collected in Teacher Moments must be registered with the Teaching Systems Lab. To give researchers and TEs access to the researcher portal, their email addresses must be manually added to the `whitelist` database.
+
+### Access database
+Once a researcher or TE has been given access to the portal, they need to be given access to a specific instance of Teacher Moments. 
+
+For example, if they are using the Jessica Turner scenario for their thesis project, they might collect data using the following url: `https://teachermoments.teachingsystemslab.org/teachermoments/turner?KevinThesis20180319`. Teacher candidates would engage with the Teacher Moments simulation at that url and we would use that link to extract the data collected. To view the data, we would need to add an entry into the `access` database linking the TE's email to the url.
+
+### Consented_Email database
+All data collected by Teacher Moments is protected to ensure the privacy of participants. In order for a researcher or TE to view the data collected on a specific participant, the participant must fill out a [TSL consent form.](https://tsl.mit.edu/consent)
+
+To update Teacher Moments on who has consented to share their data, you need to:
+1. Download a CSV version of the consent spreadsheet. Search for `User Testing Consent Form (Responses)` in the TSL team Google Drive. Rename the file to `consented-latest-raw.csv` and save this file in the `threeflows/tmp` folder
+2. Run the prep-consent script to process the CSV file using
+```
+$ yarn run prep-consent
+```
+This should generate 2 files: `consented-latest.json` and `consented-YYYY-MM-DD.json`
+3. Run the update-consent script in heroku to update the live `consented_email` database using
+```
+$ cat ./tmp/consented-latest.json | heroku run --no-tty yarn run update-consent
+```
+
+
 ## Other services
 [Travis](https://travis-ci.org/mit-teaching-systems-lab/threeflows) is setup for CI.  It will run on pull requests and on commits to master.
 
