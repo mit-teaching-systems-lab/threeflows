@@ -81,6 +81,10 @@ function createTables(database) {
     CREATE TABLE access (
       email text,
       url text
+    );
+    INSERT INTO whitelist VALUES (
+      DEFAULT,
+      'test@mit.edu'
     );`;
   console.log(`Creating tables...`);
   return pool.query(sql);

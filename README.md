@@ -37,51 +37,20 @@ If you already have node installed, you can check the version with `node -v`.  I
 
 [Install Postgres](https://devcenter.heroku.com/articles/heroku-postgresql#set-up-postgres-on-mac).
 
-Seed the database:
+Seed the database to store text responses:
 ```
-CREATE DATABASE "teacher-moments-db";
-\c teacher-moments-db;
-CREATE TABLE evidence (
-  id serial primary key,
-  app text,
-  type text,
-  version integer,
-  timestamp timestamp,
-  json jsonb
-);
-CREATE TABLE evaluations (
-  id serial primary key,
-  app text,
-  type text,
-  version integer,
-  timestamp timestamp,
-  json jsonb
-);
-
-CREATE TABLE message_popup_questions (
-  id serial primary key,
-  timestamp timestamp,
-  questions jsonb
-);
-
-CREATE TABLE reviews (
-  id serial primary key,
-  timestamp timestamp,
-  review_key text,
-  access_code text
-);
-
-CREATE TABLE review_tokens (
-  id serial primary key,
-  timestamp timestamp,
-  review_id integer,
-  email_address text,
-  hid text,
-  token text
-);
+$ yarn db-create-dev
 
 ```
-For storing audio files, you'll need keys authorized for a development S3 bucket.  Ask someone for these.
+- For storing audio files, you'll need keys authorized for a development S3 bucket.
+- For transcribing audio files, you'll need keys authorized for accessing the Watson Speech to Text API. Details on [how to use the API](https://www.ibm.com/watson/developercloud/speech-to-text/api/v1/) can be found on their website.
+Ask someone for these keys.
+
+#### Viewing data
+To view data, go to `localhost:3000/login` in your web browser. You can use the default `test@mit.edu` email to login. A link should appear in your terminal for verification. 
+
+Note: This only gives you access to the Researcher Portal. The `test@mit.edu` default user does not have access to any data. You can fix this by adding entries to the `whitelist` and `access` databases and using the corresponding urls when generating local development data.
+
 
 Now you can play around with the app locally!
 
@@ -97,25 +66,23 @@ You may also want to check out [react-devtools](https://github.com/facebook/reac
 ### Type check with Flow
 This starts a [Flow](https://flowtype.org/) server in the background, and then runs a typecheck once.  There's no watch command right now.
 ```
-ui $ yarn run flow-quiet
+client $ yarn run flow-quiet
 ```
 
 ### Lint and fixup with eslint
 ```
-ui $ yarn run lint-quiet
+client $ yarn run lint
 ```
 
-### Run Mocha tests
-This project uses Mocha, with Chai's expect-style assertions, and Enzyme for some React testing utilities.  Tests are co-located with source code in the same folder, distinguished by a `_test.jsx` extension.  To run a process that watches and continually re-runs the tests:
-
+### Run Jest tests
 ```
-ui $ yarn run mocha-watch
+client $ yarn run jest
 ```
 
 ### Run all tests
 This is used in CI, and runs any and all tests in the project including linting, typechecks and actual tests.
 ```
-ui $ yarn run test
+client $ yarn run test
 ```
 
 ### Sublime setup
