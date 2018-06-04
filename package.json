@@ -17,7 +17,7 @@
     "test": "yarn run lint && cd client && yarn run test",
     "db-create-dev": "node scripts/db-create.js teacher-moments-db",
     "update-consent": "node scripts/updateConsent.js",
-    "prep-consent": "node scripts/prepConsent.js tmp/consented-latest-raw.csv",
+    "prep-consent": "node scripts/prepConsent.js tmp/consented-latest-raw.csv"
   },
   "dependencies": {
     "aws-sdk": "^2.4.8",
