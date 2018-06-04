@@ -25,18 +25,20 @@ class CreateSessionPage extends Component {
   onSubmit(e) {
     e.preventDefault();
     this.setState({ message: "Creating your link..."});
-    fetch('/server/research/login', {
+    fetch('/server/research/create', {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       method: 'POST',
       body: JSON.stringify({
+        url: this.state.url.toLowerCase(),
+        session: this.state.session.toLowerCase(),
         email: this.state.email.toLowerCase()
       })
     })
       .then(result => {
-        console.log(result.status)
+        console.log(result.status);
         if (result.status === 200) {
           this.setState({ message: "Great! Here's your short link"});
         }

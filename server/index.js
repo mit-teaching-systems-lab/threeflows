@@ -20,6 +20,7 @@ const {
 const {dataEndpoint} = require('./database.js');
 const {audioEndpoint} = require('./getAudio.js');
 const {transcribeEndpoint} = require('./speech.js');
+const {createSession} = require('./session.js');
 const {createPool} = require('./util/database.js');
 
 // config
@@ -220,6 +221,7 @@ if (process.env.ENABLE_RESEARCHER_ACCESS && process.env.ENABLE_RESEARCHER_ACCESS
   app.get('/server/research/data', [limiter, onlyAllowResearchers.bind(null, pool)], dataEndpoint.bind(null, pool));
   app.get('/server/research/wav/(:id).wav', [limiter, onlyAllowResearchers.bind(null, pool)], audioEndpoint.bind(null, pool, config.s3));
   app.post('/server/research/transcribe/(:audioID).wav', [limiter, onlyAllowResearchers.bind(null, pool)], transcribeEndpoint.bind(null, pool, config.s3, config.watson));
+  app.get('/server/research/create', [limiter, onlyAllowResearchers.bind(null, pool)], createSession(null, pool));
 }
 
 // Serve any static files.
