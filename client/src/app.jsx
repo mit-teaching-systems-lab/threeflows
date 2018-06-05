@@ -25,6 +25,7 @@ import PaperPrototypePage from './message_popup/equity/paper_prototype_page.jsx'
 import LoginPage from './research/LoginPage.js';
 import EmailLinkLoginPage from './research/EmailLinkLoginPage.js';
 import CreateSessionPage from './research/CreateSessionPage.js';
+import CreateSharePage from './research/CreateSharePage.js';
 
 
 export default createReactClass({
@@ -57,6 +58,7 @@ export default createReactClass({
     '/login': 'loginPage',
     '/login_from_email': 'emailLinkLoginPage',
     '/create': 'createSessionPage',
+    '/share/:shareId': 'createSharePage',
 
 
     // Stable, field tested, publicly shared practice spaces
@@ -315,6 +317,10 @@ export default createReactClass({
 
   createSessionPage(query = {}) {
     return <CreateSessionPage query={query} />;
+  },
+
+  createSharePage(shareId, query = {}) {
+    return <CreateSharePage shareId={shareId} />;
   }
   /*eslint-enable react/sort-comp */
 });

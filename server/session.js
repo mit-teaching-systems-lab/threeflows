@@ -16,16 +16,16 @@ function createSession(pool, request, response) {
   return getEmail(pool,token)
     .then(email => {
       console.log('got email:', email);
-      const shareID = uuid.v4();
-      const location = url+"&share="+shareID;
+      const shareId = uuid.v4();
+      const location = url+"&share="+shareId;
 
       const domain = getDomain(request);
-      const shareLink = domain+"/share/"+shareID;
+      const shareLink = domain+"/share/"+shareId;
       console.log('location:',location);
       console.log('shareLink:',shareLink);
 
       var housekeepingPromises = [
-        insertShareLink(pool, shareLink, email, url),
+        insertShareLink(pool, shareId, email, location),
         insertAccess(pool, email, location, description),
       ];
       Promise.all(housekeepingPromises)
@@ -47,15 +47,15 @@ function createSession(pool, request, response) {
     });
 }
 
-function insertShareLink(pool, shareLink, email, url) {
+function insertShareLink(pool, shareId, email, location) {
   console.log('inside insertShareLink');
   const sql = `
-    INSERT INTO share_links (share_link, email, url)
+    INSERT INTO share_links (share_id, email, url)
     VALUES ($1, $2, $3)
   `;
-  const values = [shareLink, email, url];
+  const values = [shareId, email, location];
   return pool.query(sql,values)
-    .then(results => shareLink)
+    .then(results => shareId)
     .catch(err => {
       console.log('query error in inserting shareLink');
     });
@@ -75,6 +75,27 @@ function insertAccess(pool, email, location, description){
     });
 }
 
+function redirectShare(pool,request, response){
+  console.log('redirectShare');
+  const shareId = request.headers['x-teachermoments-share-id'];
+  const sql = `
+    SELECT url
+    FROM share_links
+    WHERE share_id = $1`;
+  const values = [shareId];
+  console.log('shareId',shareId);
+  // response.redirect("/");
+  pool.query(sql,values)
+    .then(redirectLink => {
+      console.log('redirecting to:',redirectLink.rows[0].url, response);
+      return response.redirect(redirectLink.rows[0].url);
+    })
+    .catch(err => {
+      console.log('there was an error redirecting');
+    });
+}
+
 module.exports = {
-  createSession
+  createSession,
+  redirectShare
 };
