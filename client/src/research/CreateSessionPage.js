@@ -36,15 +36,17 @@ class CreateSessionPage extends Component {
       },
       method: 'GET'
     })
-      .then(result => {
-        console.log(result.status);
-        if (result.status === 200) {
-          this.setState({ message: "Great! Here's your share link"});
-        }
-        else {
-          console.log(result)
-          this.setState({ message: "There was an error."});
-        }        
+      .then(response => {
+        return response.json()
+          .then(json => {
+            if (response.status === 200) {
+              this.setState({ message: "Great! Send the following share link to your students:"});
+              this.setState({ link: json.shareLink});
+            }
+            else {
+              this.setState({ message: "There was an error."});
+            }   
+          });     
       })
       .catch(err => {
         this.setState({ message: "An error occurred."});
@@ -87,8 +89,10 @@ class CreateSessionPage extends Component {
             <button type="submit"> Create Session </button>
           </div>
 
-          <h3>{this.state.message}</h3>
-          <h3>{this.state.link}</h3>
+          <div className='LoginPage-Block'>
+            <h3>{this.state.message}</h3>
+            <div>{<a href = {this.state.link}> {this.state.link}</a>}</div>
+          </div>
         </form>
       </div>
     );
