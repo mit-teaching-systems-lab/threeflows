@@ -1,5 +1,6 @@
 const{getEmail} = require('./database.js');
 const uuid = require('uuid');
+const {getDomain} = require('./domain.js');
 
 function createSession(pool, request, response) {
   console.log('createSession');
@@ -17,7 +18,9 @@ function createSession(pool, request, response) {
       console.log('got email:', email);
       const shareID = uuid.v4();
       const location = url+"&share="+shareID;
-      const shareLink = 'https://teachermoments.com/share/'+shareID;
+
+      const domain = getDomain(request);
+      const shareLink = domain+"/share/"+shareID;
       console.log('location:',location);
       console.log('shareLink:',shareLink);
 
