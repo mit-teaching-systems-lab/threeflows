@@ -44,14 +44,32 @@ function createSession(pool, request, response) {
     });
 }
 
-function insertShareLink(pool, shareID, email, url) {
+function insertShareLink(pool, shareLink, email, url) {
   console.log('inside insertShareLink');
-  return Promise.resolve(shareID);
+  const sql = `
+    INSERT INTO share_links (share_link, email, url)
+    VALUES ($1, $2, $3)
+  `;
+  const values = [shareLink, email, url];
+  return pool.query(sql,values)
+    .then(results => shareLink)
+    .catch(err => {
+      console.log('query error in inserting shareLink');
+    });
 }
 
 function insertAccess(pool, email, location, description){
   console.log('inside insertAccess');
-  return Promise.resolve(location);
+  const sql = `
+    INSERT INTO access (email, url, description)
+    VALUES ($1, $2, $3)
+  `;
+  const values = [email, location, description];
+  return pool.query(sql,values)
+    .then(results => location)
+    .catch(err => {
+      console.log('query error in inserting access');
+    });
 }
 
 module.exports = {

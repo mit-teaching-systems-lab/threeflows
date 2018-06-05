@@ -84,7 +84,7 @@ function createTables(database) {
       description text
     );
     CREATE TABLE share_links (
-      share_id text UNIQUE,
+      share_link text UNIQUE,
       email text,
       url text
     );`;
