@@ -149,11 +149,11 @@ To update Teacher Moments on who has consented to share their data, you need to:
 ```
 $ yarn run prep-consent
 ```
-This should generate 2 files: `consented-latest.json` and `consented-YYYY-MM-DD.json`.
+This should generate 1 file in the `threeflows/tmp` folder: `consented-latest.json`.
 
-3. Run the update-consent script in heroku to update the live `consented_email` database using
+3. Run the update-consent script in heroku to update the live `consented_email` database and clean sensitive information from your codebase using
 ```
-$ cat ./tmp/consented-latest.json | heroku run --no-tty yarn run update-consent
+$ cat ./tmp/consented-latest.json | heroku run --no-tty yarn run update-consent | rm ./tmp/consented-latest.json ./tmp/consented-latest-raw.csv
 ```
 
 
