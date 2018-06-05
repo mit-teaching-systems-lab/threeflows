@@ -221,7 +221,8 @@ if (process.env.ENABLE_RESEARCHER_ACCESS && process.env.ENABLE_RESEARCHER_ACCESS
   app.get('/server/research/data', [limiter, onlyAllowResearchers.bind(null, pool)], dataEndpoint.bind(null, pool));
   app.get('/server/research/wav/(:id).wav', [limiter, onlyAllowResearchers.bind(null, pool)], audioEndpoint.bind(null, pool, config.s3));
   app.post('/server/research/transcribe/(:audioID).wav', [limiter, onlyAllowResearchers.bind(null, pool)], transcribeEndpoint.bind(null, pool, config.s3, config.watson));
-  app.get('/server/research/create', [limiter, onlyAllowResearchers.bind(null, pool)], createSession(null, pool));
+  // app.get('/server/research/create', [limiter, onlyAllowResearchers.bind(null, pool)], createSession.bind(null, pool));
+  app.get('/server/research/create', createSession.bind(null, pool));
 }
 
 // Serve any static files.

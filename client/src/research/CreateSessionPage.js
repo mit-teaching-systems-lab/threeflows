@@ -10,40 +10,40 @@ class CreateSessionPage extends Component {
 
     this.state = {
       url: "",
-      session: "",
-      email: "",
+      description: "",
       message: "",
-      link: ""
+      link: "",
     };
 
     this.onUpdateUrl = this.onUpdateUrl.bind(this);
-    this.onUpdateSession = this.onUpdateSession.bind(this);
-    this.onUpdateEmail = this.onUpdateEmail.bind(this);
+    this.onUpdateDescription = this.onUpdateDescription.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
   onSubmit(e) {
     e.preventDefault();
+    const token = this.props.token;
+    const url = this.state.url;
+    const description = this.state.description;
     this.setState({ message: "Creating your link..."});
     fetch('/server/research/create', {
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'x-teachermoments-token': token,
+        'x-teachermoments-location': url,
+        'x-teachermoments-description': description
       },
-      method: 'POST',
-      body: JSON.stringify({
-        url: this.state.url.toLowerCase(),
-        session: this.state.session.toLowerCase(),
-        email: this.state.email.toLowerCase()
-      })
+      method: 'GET'
     })
       .then(result => {
         console.log(result.status);
         if (result.status === 200) {
-          this.setState({ message: "Great! Here's your short link"});
+          this.setState({ message: "Great! Here's your share link"});
         }
         else {
-          this.setState({ message: "There was an error. Make sure email is correct."});
+          console.log(result)
+          this.setState({ message: "There was an error."});
         }        
       })
       .catch(err => {
@@ -56,20 +56,14 @@ class CreateSessionPage extends Component {
     this.setState({ url : value });
   }
 
-  onUpdateSession(e) {
+  onUpdateDescription(e) {
     const { value } = e.target;
-    this.setState({ session : value });
-  }
-
-  onUpdateEmail(e) {
-    const { value } = e.target;
-    this.setState({ email : value });
+    this.setState({ description : value });
   }
 
   render() {
     const url = this.state.url;
-    const session = this.state.session;
-    const email = this.state.email;
+    const description = this.state.description;
     return (
       <div className='CreateSessionPage'>
         <BackgroundColor/>
@@ -83,17 +77,10 @@ class CreateSessionPage extends Component {
           </div>
 
           <div className='LoginPage-Block'>
-            <label htmlFor="session"><b>Name your session: </b></label>
+            <label htmlFor="description"><b>Name your description: </b></label>
           </div>
           <div className='LoginPage-Block'>
-            <input type="text" placeholder="Enter session here" name="session" value={session} onChange={this.onUpdateSession} required></input>
-          </div>
-
-          <div className='LoginPage-Block'>
-            <label htmlFor="email"><b>Enter authorized email address: </b></label>
-          </div>
-          <div className='LoginPage-Block'>
-            <input type="email" placeholder="Enter email here" name="email" value={email} onChange={this.onUpdateEmail} required></input>
+            <input type="text" placeholder="Enter description here" name="description" value={description} onChange={this.onUpdateDescription} required></input>
           </div>
 
           <div className='LoginPage-Block'>

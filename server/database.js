@@ -105,5 +105,6 @@ function getData(pool, location,request){
 }
 
 module.exports = {
-  dataEndpoint
+  dataEndpoint,
+  getEmail
 };

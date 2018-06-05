@@ -80,6 +80,12 @@ function createTables(database) {
     );
     CREATE TABLE access (
       email text,
+      url text,
+      description text
+    );
+    CREATE TABLE share_links (
+      share_id text UNIQUE,
+      email text,
       url text
     );`;
   console.log(`Creating tables...`);
