@@ -41,6 +41,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.raw({ type: 'audio/wav', limit: '50mb' }));
 app.use(enforceHTTPS);
 const pool = createPool(config.postgresUrl);
+// app.use(redirectShare);
 
 // https redirect
 function enforceHTTPS(request, response, next) {

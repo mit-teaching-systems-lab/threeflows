@@ -75,7 +75,7 @@ function insertAccess(pool, email, location, description){
     });
 }
 
-function redirectShare(pool,request, response){
+function redirectShare(pool, request, response, next){
   console.log('redirectShare');
   const shareId = request.headers['x-teachermoments-share-id'];
   const sql = `
@@ -87,7 +87,8 @@ function redirectShare(pool,request, response){
   // response.redirect("/");
   pool.query(sql,values)
     .then(redirectLink => {
-      console.log('redirecting to:',redirectLink.rows[0].url, response);
+      console.log('redirecting to:',redirectLink.rows[0].url);
+      console.log(typeof redirectLink.rows[0].url);
       return response.redirect(redirectLink.rows[0].url);
     })
     .catch(err => {
