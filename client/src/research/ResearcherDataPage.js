@@ -13,7 +13,6 @@ import {AutoSizer} from 'react-virtualized';
 import 'react-virtualized/styles.css';
 
 import * as Analyses from './Analyses.js';
-import {requestTranscript} from './Transcribe.js';
 import DynamicTable from './DynamicTable.js';
 
 
@@ -115,9 +114,6 @@ class Analysis extends Component {
       token: this.props.token,
       email: this.props.email
     };
-
-    this.getAudio = this.getAudio.bind(this);
-    this.getAudioID = this.getAudioID.bind(this);
   }
 
   componentDidMount() {
@@ -135,53 +131,6 @@ class Analysis extends Component {
     })
       .then(response => response.json())
       .then(this.onFetched.bind(this))
-      .catch(this.onError.bind(this));
-  }
-
-  getAudioID(audioUrl) {
-    if (audioUrl) {
-      const slashIndex = audioUrl.lastIndexOf('/');
-      const filename = audioUrl.slice(slashIndex + 1);
-      return filename;
-    }
-    return "";
-  }
-  getAudio(audioID,elementID) {
-    const token = this.state.token;
-
-    fetch('/server/research/wav/'+audioID+'.wav', {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'x-teachermoments-token': token,
-      },
-      method: 'GET'
-    })
-      .then(results => {
-        var response = new Response(results.body, {headers: {"Content-Type": "audio/wav"}});
-        response.blob().then(function(myBlob) {
-          var bloburl = URL.createObjectURL(myBlob);
-          var elementTarget = document.getElementById(audioID.slice(0, -4));
-          if (elementTarget) {
-            document.getElementById(audioID.slice(0, -4)).src = bloburl;
-          }
-          else{
-            console.log('audio element cannot be found');
-          }
-
-          //send audioID for transcription
-          requestTranscript(token,audioID)
-            .then(results => {
-              var elementTarget = document.getElementById(audioID.slice(0, -4));
-              if (elementTarget) {
-                document.getElementById(audioID.slice(0, -4)+"-transcript").innerHTML = "\""+results.transcript+"\"";
-              }
-              else{
-                console.log('Could not insert transcript');
-              }
-            });
-        });
-      })
       .catch(this.onError.bind(this));
   }
 
