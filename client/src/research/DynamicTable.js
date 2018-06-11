@@ -9,7 +9,7 @@ import {Table, Column, SortDirection, SortIndicator, CellMeasurer, CellMeasurerC
 import 'react-virtualized/styles.css';
 import {requestTranscript} from './Transcribe.js';
 
-export default class DynamicHeightTableColumn extends React.PureComponent {
+class DynamicHeightTableColumn extends React.PureComponent {
   static propTypes = {
     list: PropTypes.instanceOf(Immutable.List).isRequired,
     width: PropTypes.number.isRequired,
@@ -133,10 +133,12 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
         console.log('Error in creating audio elements');
       });
   }
+
   _loadAudioPlayer(audioID) {
     const audioPlayer = this.state.audioPlayers[audioID];
     return audioPlayer;
   }
+
   _getTranscript(audioID) {
     const token = this.props.token;
     //request transcript for audio
@@ -151,6 +153,7 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
         console.log('failure in transcription');
       });
   }
+
   _loadTranscript(audioID) {
     const transcript = this.state.transcriptDivs[audioID];
     return transcript;
@@ -344,7 +347,7 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
           dataKey="responseText"
           label="Response"
           disableSort = {false}
-          cellDataGetter={({ dataKey , rowData }) => rowData.json[dataKey] || (this._getAudioUrl(rowData) && <div>{this._loadAudioPlayer(this._getAudioID(this._getAudioUrl(rowData)))} {this._loadTranscript(this._getAudioID(this._getAudioUrl(rowData)))} </div>)}
+          cellDataGetter={({ dataKey , rowData }) => rowData.json[dataKey] || (this._getAudioUrl(rowData) && <div><AudioPlayerComponent audioID={this._getAudioID(this._getAudioUrl(rowData))} token={this.props.token} /> <TranscriptComponent audioID={this._getAudioID(this._getAudioUrl(rowData))} token={this.props.token}/> </div>)}
           cellRenderer= {this._wrappingCellRendererAgain}
           headerRenderer={this._headerRenderer}
           width={width}
@@ -353,3 +356,96 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
     );
   }
 }
+
+class AudioPlayerComponent extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      token: this.props.token,
+      audioID: this.props.audioID,
+      audioBlob: ""
+    };
+
+    this.getAudio = this.getAudio.bind(this);
+  }
+
+  componentDidMount() {
+    this.getAudio()
+      .then( blob => {
+        this.setState({ audioBlob: blob });
+      });
+  }
+
+  getAudio() {
+    //fetch audio file from s3
+    return fetch('/server/research/wav/'+this.state.audioID+'.wav', {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'x-teachermoments-token': this.state.token,
+      },
+      method: 'GET'
+    })
+      .then(results => {
+        var response = new Response(results.body, {headers: {"Content-Type": "audio/wav"}});
+        return response.blob()
+          .then(function(myBlob) {
+            return Promise.resolve(URL.createObjectURL(myBlob));
+          });
+      })
+      .catch(err => {
+        console.log('there was an error:', err);
+      });
+  }
+
+  render() {
+    return (
+      <audio controls id={this.state.audioID} src={this.state.audioBlob} type="audio/wav"> </audio>
+    );
+  }
+}
+
+class TranscriptComponent extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      token: this.props.token,
+      audioID: this.props.audioID,
+      transcript: ""
+    };
+
+    this.getTranscript = this.getTranscript.bind(this);
+  }
+
+  componentDidMount() {
+    this.getTranscript()
+      .then( transcript => {
+        this.setState({ transcript: transcript });
+      });
+  }
+
+  getTranscript() {
+    //request transcript for audio
+    return requestTranscript(this.state.token,this.state.audioID)
+      .then(results => {
+        if (results.transcript){
+          return results.transcript;
+        }
+        return "Unable to transcribe";
+      })
+      .catch(err => {
+        console.log('failure in transcription');
+      });
+  }
+
+  render() {
+    return (
+      <div id={this.state.audioID+"-transcript"}>Transcript: "{this.state.transcript}"</div>
+      // <div id={audioID+"-transcript"}>Transcript: "{results.transcript}"</div>
+    );
+  }
+}
+
+export default DynamicHeightTableColumn;
