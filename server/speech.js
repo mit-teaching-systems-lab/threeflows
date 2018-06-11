@@ -76,8 +76,11 @@ function speechToText(pool, s3, watsonConfig, audioID, request, response) {
         reject('Could not transcribe with IBM Watson:', error);
       }
       else{
-        const text = transcript.results[0].alternatives[0].transcript;
-        updateTranscript(pool, text, audioID)
+        var text = [];
+        for (var i=0; i<transcript.results.length; i++) {
+          text.push(transcript.results[i].alternatives[0].transcript);
+        }
+        updateTranscript(pool, text.join(' [PAUSE] '), audioID)
           .then(results => {
             resolve(results);
           });
