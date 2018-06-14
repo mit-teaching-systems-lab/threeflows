@@ -7,7 +7,9 @@ import './ResearcherDataPage.css';
 
 import {Table, Column, SortDirection, SortIndicator, CellMeasurer, CellMeasurerCache} from 'react-virtualized';
 import 'react-virtualized/styles.css';
-import {requestTranscript} from './Transcribe.js';
+
+import AudioPlayerComponent from './AudioPlayerComponent.js';
+import TranscriptComponent from './TranscriptComponent.js';
 
 class DynamicHeightTableColumn extends React.PureComponent {
   static propTypes = {
@@ -236,97 +238,6 @@ class DynamicHeightTableColumn extends React.PureComponent {
           width={width}
         />
       </Table>
-    );
-  }
-}
-
-class AudioPlayerComponent extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      token: this.props.token,
-      audioID: this.props.audioID,
-      audioBlob: ""
-    };
-
-    this.getAudio = this.getAudio.bind(this);
-  }
-
-  componentDidMount() {
-    this.getAudio()
-      .then( blob => {
-        this.setState({ audioBlob: blob });
-      });
-  }
-
-  getAudio() {
-    //fetch audio file from s3
-    return fetch('/server/research/wav/'+this.state.audioID+'.wav', {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'x-teachermoments-token': this.state.token,
-      },
-      method: 'GET'
-    })
-      .then(results => {
-        var response = new Response(results.body, {headers: {"Content-Type": "audio/wav"}});
-        return response.blob()
-          .then(function(myBlob) {
-            return Promise.resolve(URL.createObjectURL(myBlob));
-          });
-      })
-      .catch(err => {
-        console.log('there was an error:', err);
-      });
-  }
-
-  render() {
-    return (
-      <audio controls id={this.state.audioID} src={this.state.audioBlob} type="audio/wav"> </audio>
-    );
-  }
-}
-
-class TranscriptComponent extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      token: this.props.token,
-      audioID: this.props.audioID,
-      transcript: ""
-    };
-
-    this.getTranscript = this.getTranscript.bind(this);
-  }
-
-  componentDidMount() {
-    this.getTranscript()
-      .then( transcript => {
-        this.setState({ transcript: transcript });
-      });
-  }
-
-  getTranscript() {
-    //request transcript for audio
-    return requestTranscript(this.state.token,this.state.audioID)
-      .then(results => {
-        if (results.transcript){
-          return results.transcript;
-        }
-        return "Unable to transcribe";
-      })
-      .catch(err => {
-        console.log('failure in transcription');
-      });
-  }
-
-  render() {
-    return (
-      <div id={this.state.audioID+"-transcript"}>Transcript: "{this.state.transcript}"</div>
-      // <div id={audioID+"-transcript"}>Transcript: "{results.transcript}"</div>
     );
   }
 }
