@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import moment from 'moment';
 import _ from 'lodash';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import SelectField from 'material-ui/SelectField';
@@ -9,36 +8,17 @@ import Immutable from 'immutable';
 
 import logo from './logo.svg';
 import './ResearcherDataPage.css';
-import {hashInto, colorNames} from './Anonymize.js';
 
 import {AutoSizer} from 'react-virtualized';
 import 'react-virtualized/styles.css';
 
 import * as Analyses from './Analyses.js';
-import {requestTranscript} from './Transcribe.js';
 import DynamicTable from './DynamicTable.js';
 
 
 /*
 Requires local data from database and from S3.
 */
-
-const styles = {
-  table: {
-    borderCollapse: 'collapse',
-    border: '1px solid #ccc',
-    margin: 20
-  },
-  cell: {
-    verticalAlign: 'top',
-    padding: 10,
-    fontSize: 12
-  }
-};
-
-function getAudioUrl(row) {
-  return row.json.audioUrl || (row.json.audioResponse && row.json.audioResponse.audioUrl) || (row.json.uploadedUrl);
-}
 
 function hmtcaRowKey(row) {
   return [row.json.cohortKey, row.json.identifier, row.json.sessionId].join(" - ");
@@ -53,16 +33,6 @@ function escapedCell(cell) {
     ? cell.replace(/\n/g, '  ')
     : cell;
 }
-
-
-
-function percentage(statsForSessions, filterFn) {
-  return Math.round(100 * (statsForSessions.filter(filterFn).length / statsForSessions.length)) + '%';
-}
-
-
-
-
 
 // Decide what analysis to do
 class ResearcherDataPage extends Component {
@@ -129,9 +99,6 @@ class ResearcherDataPage extends Component {
   }
 }
 
-
-
-
 class Analysis extends Component {
   propTypes: {
     analysisKey: React.PropTypes.string.isRequired,
@@ -147,9 +114,6 @@ class Analysis extends Component {
       token: this.props.token,
       email: this.props.email
     };
-
-    this.getAudio = this.getAudio.bind(this);
-    this.getAudioID = this.getAudioID.bind(this);
   }
 
   componentDidMount() {
@@ -170,53 +134,6 @@ class Analysis extends Component {
       .catch(this.onError.bind(this));
   }
 
-  getAudioID(audioUrl) {
-    if (audioUrl) {
-      const slashIndex = audioUrl.lastIndexOf('/');
-      const filename = audioUrl.slice(slashIndex + 1);
-      return filename;
-    }
-    return "";
-  }
-  getAudio(audioID,elementID) {
-    const token = this.state.token;
-
-    fetch('/server/research/wav/'+audioID+'.wav', {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'x-teachermoments-token': token,
-      },
-      method: 'GET'
-    })
-      .then(results => {
-        var response = new Response(results.body, {headers: {"Content-Type": "audio/wav"}});
-        response.blob().then(function(myBlob) {
-          var bloburl = URL.createObjectURL(myBlob);
-          var elementTarget = document.getElementById(audioID.slice(0, -4));
-          if (elementTarget) {
-            document.getElementById(audioID.slice(0, -4)).src = bloburl;
-          }
-          else{
-            console.log('audio element cannot be found');
-          }
-
-          //send audioID for transcription
-          requestTranscript(token,audioID)
-            .then(results => {
-              var elementTarget = document.getElementById(audioID.slice(0, -4));
-              if (elementTarget) {
-                document.getElementById(audioID.slice(0, -4)+"-transcript").innerHTML = "\""+results.transcript+"\"";
-              }
-              else{
-                console.log('Could not insert transcript');
-              }
-            });
-        });
-      })
-      .catch(this.onError.bind(this));
-  }
-
   filter(json) {
     const {filter, analysisKey} = this.props;
     const rows = json.evidence.rows.filter(filter);
@@ -231,7 +148,6 @@ class Analysis extends Component {
     } else {
       sortedRows = _.sortBy(rows, 'id');
     }
-    
     return {evidence: {rows: sortedRows}};
   }
 
@@ -278,156 +194,6 @@ class Analysis extends Component {
         {json && <pre style={{margin: 20}}>{Object.keys(json).map(key => `${key}: ${json[key].rows.length} rows`).join("\n")}</pre>}
         {json && this.renderEventsTableVirtualized(allRows)}
       </div>
-    );
-  }
-
-  // Summary stats
-  renderStats(key, statsForSessions) {
-    return (
-      <div>
-        <table style={styles.table}>
-          <tbody>
-            {this.renderStatsRow(`Count by "${key}"`, statsForSessions.length)}
-            {this.renderStatsRow('Completed all "anticipate" questions', percentage(statsForSessions, stats => stats.anticipateCount >= 3))}
-            {this.renderStatsRow('Completed each step of scenario', percentage(statsForSessions, stats => stats.totalResponseCount >= 18))}
-            {this.renderStatsRow('Completed all "reflection" questions', percentage(statsForSessions, stats => stats.reflectCount === 3))}
-            {this.renderStatsRow('Used on phone in text mode', percentage(statsForSessions, stats => stats.textModeCount > 0))}
-            {this.renderStatsRow('Experienced learning as designed', percentage(statsForSessions, (stats) => {
-              return (stats.textModeCount === 0 && stats.totalResponseCount >= 18 && stats.reflectCount  >= 3);
-            }))}
-          </tbody>
-        </table>
-        {this.renderGenericTable(statsForSessions)}
-      </div>
-    );
-  }
-
-  renderStatsNew(key, statsForSessions) {
-    return (
-      <div>
-        <table style={styles.table}>
-          <tbody>
-            {this.renderStatsRow(`Number of "${key}"`, statsForSessions.length)}
-            {this.renderStatsRow('Completed all "anticipate" questions', percentage(statsForSessions, stats => stats.anticipateCount >= 3))}
-            {this.renderStatsRow('Completed each step of scenario', percentage(statsForSessions, stats => stats.totalResponseCount >= 14))}
-            {this.renderStatsRow('Completed all "reflection" questions', percentage(statsForSessions, stats => stats.reflectCount === 3))}
-            {this.renderStatsRow('Experienced learning as designed', percentage(statsForSessions, (stats) => {
-              return (stats.anticipateCount >= 3 && stats.totalResponseCount >= 14 && stats.reflectCount  >= 3);
-            }))}
-          </tbody>
-        </table>
-        {this.renderGenericTable(statsForSessions)}
-      </div>
-    );
-  }
-
-  renderStatsRow(text, valueText) {
-    return (
-      <tr key={text}>
-        <td style={styles.cell}>{text}</td>
-        <td style={styles.cell}>{valueText}</td>
-      </tr>
-    );
-  }
-
-  renderGenericTable(rows) {
-    const fields = Object.keys(rows[0] || {});
-    return (
-      <table style={styles.table}>
-        <thead>
-          <tr>{fields.map((field) => <th key={field} style={styles.cell}>{field}</th>)}</tr>
-        </thead>
-        <tbody>
-          {rows.map((row) => {
-            return <tr key={JSON.stringify(row)}>
-              {fields.map((field) => {
-                return <td key={field} style={styles.cell}>{row[field]}</td>;
-              })}
-            </tr>;
-          })}
-        </tbody>
-      </table>
-    );
-  }
-
-  renderHmtcaTable(json) {
-    const csvRows = json.evidence.rows.map((row, i) => {
-      return {
-        id: row.id,
-        timestampText: moment(row.timestamp).format('MM/DD/YY  h:mm:ssa'),
-        cohortKey:row.json.cohortKey,
-        identifier: row.json.identifier,
-        sessionIdSlice: row.json.sessionId.slice(0, 6),
-        backgroundColor: hashInto(hmtcaRowKey(row), colorNames),
-        questionText: row.json.question.text,
-        responseText: row.json.responseText,
-        raw: row
-      };
-    });
-    const csvKeys = Object.keys(_.first(csvRows));
-    const identifierCount = _.uniq(json.evidence.rows.map(row => row.json.identifier)).length;
-
-    return (
-      <div>
-        <div>Identifier count: {identifierCount}</div>
-        <div><button onClick={this.doExport.bind(this, csvRows, csvKeys)}>Export table as CSV</button></div>
-
-        <table style={styles.table}>
-          <tbody>
-            {csvRows.map((csvRow, i) => {
-              return (
-                <tr key={csvRow.id}>
-                  <td style={styles.cell} title={JSON.stringify(csvRow.raw, null, 2)}>{csvRows.timestampText}</td>
-                  <td style={styles.cell}>{csvRow.cohortKey}</td>
-                  <td style={styles.cell}>{csvRow.identifier}</td>
-                  <td style={styles.cell}>{csvRow.sessionIdSlice}</td>
-                  <td
-                    style={{backgroundColor: csvRow.backgroundColor}}
-                    title={csvRow.identifier}>
-                    {csvRow.identifier}
-                  </td>
-                  <td style={styles.cell}>{csvRow.questionText}</td>
-                  <td style={styles.cell}>{csvRow.responseText}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
-
-  // For looking at raw events and sessions.  Hover to reveal more sensitive data.
-  renderEventsTable(json) {
-    const {analysisKey} = this.props;
-    if (analysisKey === 'HMTCA') return this.renderHmtcaTable(json);
-    return (
-      <table style={styles.table}>
-        <tbody>
-          {json.evidence.rows.map((row, i) => {
-            const audioUrl = getAudioUrl(row);
-            const audioID = this.getAudioID(audioUrl);
-            const emailBackgroundColor = (row.json.email)
-              ? hashInto(row.json.email, colorNames)
-              : 'white';
-            return (
-              <tr key={row.id} >
-                <td style={styles.cell} title={JSON.stringify(row, null, 2)}>{moment(row.timestamp).format('MM/DD/YY  h:mm:ssa')}</td>
-                <td
-                  style={{backgroundColor: emailBackgroundColor, ...styles.cell}}>
-                  {row.json.email}
-                </td>
-                <td style={styles.cell}>{row.json.question.text || <div><span>Teacher Moments Scene: </span> <a href={"https://youtu.be/"+row.json.question.youTubeId}>https://youtu.be/{row.json.question.youTubeId}</a></div>}</td>
-                <td style={styles.cell}>{row.json.studentName}</td>
-                <td style={styles.cell}>{row.json.projectLabel}</td>
-                <td style={styles.cell}>{JSON.stringify(row.json.scoreValues, null, 2)}</td>
-                <td style={styles.cell}>{row.json.choice}</td>
-                <td style={styles.cell}>{JSON.stringify(row.json.textResponse) || row.json.responseText || (audioUrl && <div><audio controls id={audioID.slice(0,-4)} src={this.getAudio(audioID)} type="audio/wav"> </audio> <div id={audioID.slice(0,-4)+"-transcript"}>Transcript: </div></div>)}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
     );
   }
 
