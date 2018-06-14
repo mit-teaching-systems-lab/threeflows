@@ -162,6 +162,26 @@ class DynamicHeightTableColumn extends React.PureComponent {
     );
   };
 
+  _getAudioAndTranscript = ({ dataKey , rowData }) => {
+    return (
+      rowData.json[dataKey] || (this._getAudioUrl(rowData) && 
+      <div>
+        <AudioPlayerComponent audioID={this._getAudioID(this._getAudioUrl(rowData))} token={this.props.token} /> 
+        <TranscriptComponent audioID={this._getAudioID(this._getAudioUrl(rowData))} token={this.props.token}/> 
+      </div>)
+    );
+  };
+
+  _getPrompt = ({ dataKey , rowData }) => {
+    return (
+      rowData.json.question.text || 
+      <div>
+        <span>Teacher Moments Scene: </span> 
+        <a href={"https://youtu.be/"+rowData.json.question.youTubeId}>https://youtu.be/{rowData.json.question.youTubeId}</a>
+      </div>
+    );
+  };
+
   render() {
     const width = this.props.width;
 
@@ -223,7 +243,7 @@ class DynamicHeightTableColumn extends React.PureComponent {
           dataKey="text"
           label="Prompt"
           disableSort = {false}
-          cellDataGetter={({ dataKey , rowData }) => rowData.json.question.text || <div><span>Teacher Moments Scene: </span> <a href={"https://youtu.be/"+rowData.json.question.youTubeId}>https://youtu.be/{rowData.json.question.youTubeId}</a></div>}
+          cellDataGetter={this._getPrompt}
           cellRenderer= {this._cellRenderer}
           headerRenderer={this._headerRenderer}
           width={width}
@@ -232,7 +252,7 @@ class DynamicHeightTableColumn extends React.PureComponent {
           dataKey="responseText"
           label="Response"
           disableSort = {false}
-          cellDataGetter={({ dataKey , rowData }) => rowData.json[dataKey] || (this._getAudioUrl(rowData) && <div><AudioPlayerComponent audioID={this._getAudioID(this._getAudioUrl(rowData))} token={this.props.token} /> <TranscriptComponent audioID={this._getAudioID(this._getAudioUrl(rowData))} token={this.props.token}/> </div>)}
+          cellDataGetter={this._getAudioAndTranscript}
           cellRenderer= {this._wrappingCellRenderer}
           headerRenderer={this._headerRenderer}
           width={width}
