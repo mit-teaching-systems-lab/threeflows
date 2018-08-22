@@ -59,9 +59,6 @@ function writeConsentToDisk(consentedRows, filename) {
   fs.writeFileSync(filename, output);
 }
 
-const dateString = moment().format('YYYY-MM-DD');
-const filenameWithDate = path.resolve(__dirname, `../tmp/consented-${dateString}.json`);
 const filenameLatest = path.resolve(__dirname, `../tmp/consented-latest.json`);
 writeConsentToDisk(consentedRows, filenameLatest);
-writeConsentToDisk(consentedRows, filenameWithDate);
 console.log('Done.');
