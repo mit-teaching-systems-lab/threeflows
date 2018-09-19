@@ -63,6 +63,7 @@ export default createReactClass({
     '/teachermoments/sub': 'messagePopupPairs',
     '/teachermoments/jayden': 'jaydenScenario',
     '/teachermoments/rosa': 'rosaScenario',
+    '/teachermoments/dysfunc': 'dysfuncScenario',
     '/teachermoments/smith': 'smithScenario',
     '/teachermoments/smithFacilitated': 'smithFacilitatedScenario',
     '/teachermoments/smithB': 'smithScenarioB',
@@ -190,6 +191,10 @@ export default createReactClass({
 
   rosaScenario(query = {}) {
     return <MessagePopup.RosaExperiencePage query={query} />;
+  },
+
+  dysfuncScenario(query = {}) {
+    return <MessagePopup.DysfuncExperiencePage query={query} />;
   },
 
   smithScenarioB(query = {}) {
