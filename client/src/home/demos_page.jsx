@@ -35,10 +35,11 @@ export default class extends React.Component {
           {this.renderScenarioItem(<a href="/equity/climate?fromdemos">Gendered or racialized student comments</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/smith?fromdemos">Noticing student belonging in the classroom</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/sub?fromdemos">Positioning students in the classroom</a>)}
-          {this.renderScenarioItem(<a href="/teachermoments/rosa?fromdemos">Talking about identity</a>)}
+          {this.renderScenarioItem(<a href="/teachermoments/rosa?fromdemos">Talking about identity</a>)}          
           {this.renderScenarioItem(<a href="https://swipe-right-for-cs.herokuapp.com/play?fromdemos">Connecting student strengths to academics</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/jayden?fromdemos">Encouraging student growth</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/csfair?fromdemos">Computer science projects</a>)}
+          {this.renderScenarioItem(<a href="/teachermoments/dysfunc?fromdemos">Dysfunctional Helping</a>)}
         </List>
         <List>
           <h3 style={styles.header}>Parent conversations</h3>
