@@ -124,7 +124,7 @@ export default class extends React.Component {
           <div style={styles.link}><a href="http://tsl.mit.edu/practice-spaces-for-teacher-preparation/">Game-based practice spaces</a></div>
           <div style={styles.link}><a href="https://threeflows-blockly.herokuapp.com/">Prototype your own scenarios</a></div>
           <div style={styles.link}><a href="https://github.com/mit-teaching-systems-lab/threeflows">github.com/mit-teaching-systems-lab</a></div>
-          <a style={styles.link} href="http://csteachingtips.org/tip-sheets" target="_blank">CSTeachingTips game: Practice responding to microaggressions</a>
+          <a style={styles.link} href="http://csteachingtips.org/tip-sheets" target="_blank" rel="noopener noreferrer">CSTeachingTips game: Practice responding to microaggressions</a>
         </div>
         <Divider style={{marginTop: 30, marginBottom: 30}} />
         <div style={styles.header}>Read more papers</div>
