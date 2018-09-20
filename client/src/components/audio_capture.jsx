@@ -22,12 +22,18 @@ export default class extends React.Component {
   };
 
   static isAudioSupported() {
-    const navigator = window.navigator;
-    const getUserMedia = navigator.getUserMedia ||
-      navigator.webkitGetUserMedia ||
-      navigator.mozGetUserMedia ||
-      navigator.msGetUserMedia;
-    return getUserMedia !== undefined;
+    // If this check raises for any reason then audio is
+    // not supported (eg iOS Chrome 68)
+    try {
+      const navigator = window.navigator;
+      const getUserMedia = navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia;
+      return getUserMedia !== undefined;
+    } catch (err) {
+      return false;
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
