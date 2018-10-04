@@ -47,7 +47,8 @@ export default createReactClass({
       downloadUrl: null,
       uploadState: 'idle',
       blob: null,
-      uploadedUrl: null
+      uploadedUrl: null,
+      captureError: null
     };
   },
 
@@ -102,6 +103,11 @@ export default createReactClass({
     this.setState({blob, downloadUrl});
   },
 
+  onCaptureFailed(captureError) {
+    this.props.onLogMessage('message_popup_audio_on_capture_failed', {captureError});
+    this.setState({captureError});
+  },
+
   onSubmit() {
     this.props.onLogMessage('message_popup_audio_on_submit');
     this.setState({ uploadState: 'pending' });
@@ -142,7 +148,9 @@ export default createReactClass({
       <div>
         <AudioCapture
           isRecording={isRecording}
-          onDoneCapture={this.onDoneCapture} />
+          onDoneCapture={this.onDoneCapture}
+          onCaptureFailed={this.onCaptureFailed}
+        />
         {step === 'idle' && this.renderStart()}
         {step === 'recording' && this.renderRecording()}
         {step === 'processing' && (this.props.processing || <div>Processing...</div>)}

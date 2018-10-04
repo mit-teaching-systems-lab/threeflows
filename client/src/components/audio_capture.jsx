@@ -12,13 +12,15 @@ export default class extends React.Component {
   props: {
     isRecording: boolean,
     onDoneCapture: Function,
+    onCaptureFailed: Function
   };
 
   static displayName = 'AudioCapture';
 
   static propTypes = {
     isRecording: PropTypes.bool.isRequired,
-    onDoneCapture: PropTypes.func.isRequired
+    onDoneCapture: PropTypes.func.isRequired,
+    onCaptureFailed: PropTypes.func.isRequired
   };
 
   static isAudioSupported() {
@@ -41,22 +43,31 @@ export default class extends React.Component {
 
   recorder: ?Object = null;
 
-  startRecording = () => {
+  teardownRecorder() {
+    if (this.recorder) this.recorder.destroy();
+    delete this.recorder;
+  }
+
+  startRecording() {
     const recorder = this.recorder = new AudioRecorder();
     recorder.record();
   };
 
-  stopRecording = () => {
+  stopRecording() {
     const recorder = this.recorder;
     if (!recorder) return;
 
-    recorder.stop(this.onBlobReady);
+    recorder.stop(this.onBlobReady, this.onCaptureFailed);
   };
 
-  onBlobReady = (blob) => {
+  onCaptureFailed(error) {
+    this.props.onCaptureFailed({error});
+    this.teardown();
+  }
+
+  onBlobReady(blob) {
     this.props.onDoneCapture(blob);
-    if (this.recorder) this.recorder.destroy();
-    delete this.recorder;
+    this.teardown();
   };
 
   render() {
