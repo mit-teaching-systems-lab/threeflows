@@ -61,9 +61,19 @@ export default class AudioRecorder {
   }
 
   stop(onBlobReady) {
-    this.recordingStream.getTracks()[0].stop();
-    const audioData = encodeWAV(this.buffers, this.bufferLength, this.sampleRate);
-    onBlobReady(audioData);
+    // If this.recordingStream has not yet been set, there
+    // was a race condition between getting the recording stream
+    // and the user clicking "stop."  One way this might happen
+    // if there is a problem with granting permissions.  If that does
+    // happen, we've already lost the audio data, so log it to Rollbar
+    // for debugging and move on so the experience for learners
+    // isn't impacted.
+    if (this.recordingStream === null) {
+    } else {
+      this.recordingStream.getTracks()[0].stop();
+      const audioData = encodeWAV(this.buffers, this.bufferLength, this.sampleRate);
+      onBlobReady(audioData);
+    }
   }
 
   destroy() {

@@ -70,9 +70,11 @@ export default createReactClass({
       haveRecorded,
       blob,
       uploadState,
-      uploadedUrl
+      uploadedUrl,
+      captureError
     } = state;
 
+    if (captureError) return 'error';
     if (!isRecording && !haveRecorded) return 'idle';
     if (isRecording) return 'recording';
     if (haveRecorded && !blob) return 'processing';
@@ -157,6 +159,7 @@ export default createReactClass({
         {step === 'reviewing' && this.renderReview()}
         {step === 'saving' && (this.props.saving || <div>Saving...</div>)}
         {step === 'done' && this.renderDone()}
+        {step === 'error' && this.renderError()}
       </div>
     );
   },
@@ -184,6 +187,12 @@ export default createReactClass({
   },
 
   renderDone() {
+    const {uploadedUrl} = this.state;
+    if (!this.props.done) return null;
+    return this.props.done({uploadedUrl});
+  }
+
+  renderError() {
     const {uploadedUrl} = this.state;
     if (!this.props.done) return null;
     return this.props.done({uploadedUrl});
