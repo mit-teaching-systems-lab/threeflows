@@ -184,13 +184,13 @@ Bye!”`, open: true, force: true});
 Think back to the beginning of the simulation where you anticipated what might happen and stated what your goals were.`});
 
   slides.push({ type: 'Reflect', text:
-`What were your original goals going into the conversation with Robin?`, open: true, force: true});
+`Think back to your original goals going into the conversation. How much progress do you feel you made towards your goal? Explain. `, open: true, force: true});
 
   slides.push({ type: 'Reflect', text:
-`How much progress do you feel you made towards your goal? Explain.`, open: true, force: true});
+`What would be your next step(s) in achieving your goal? Explain.`, open: true, force: true});
 
   slides.push({ type: 'Reflect', text:
-`What would be your next step(s) in achieving your goal? Explain. `, open: true, force: true});
+`Would you do anything differently if a similar situation arose with another student? Explain.`, open: true, force: true});
 
 
   
