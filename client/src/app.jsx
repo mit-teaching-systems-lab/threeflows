@@ -68,6 +68,8 @@ export default createReactClass({
     '/teachermoments/rosa': 'rosaScenario',
     '/teachermoments/dysfunc': 'dysfuncScenario',
     '/teachermoments/aptest': 'apTestScenario',
+    '/teachermoments/aptest-two': 'apTestScenarioTwo',
+    '/teachermoments/aptest-two-pt': 'apTestScenarioTwoPT',
     '/teachermoments/smith': 'smithScenario',
     '/teachermoments/smithFacilitated': 'smithFacilitatedScenario',
     '/teachermoments/smithB': 'smithScenarioB',
@@ -203,6 +205,14 @@ export default createReactClass({
 
   apTestScenario(query = {}) {
     return <MessagePopup.apTestExperiencePage query={query} />;
+  },
+
+  apTestScenarioTwo(query = {}) {
+    return <MessagePopup.apTestExperiencePageTwo query={query} />;
+  },
+
+  apTestScenarioTwoPT(query = {}) {
+    return <MessagePopup.apTestExperiencePageTwoPT query={query} />;
   },
 
   smithScenarioB(query = {}) {

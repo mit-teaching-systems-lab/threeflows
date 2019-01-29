@@ -1,10 +1,8 @@
 /* @flow weak */
-import React from 'react';
 
 /*
 This file defines the content for the counseling scenario around talking to Rosa
 */
-
 export type QuestionT = {
   type:string, // Used as a label
   text:string,
@@ -53,17 +51,10 @@ Please contact Dr. Justin Reich (jreich@mit.edu) or Dr. Joshua Littenberg-Tobias
 `, force: true, choices: ['No Thanks', 'I Consent']});
 
 
-  slides.push({ type: 'Overview', el:
-  <div>
-    <div>Today, you will be talking with a student named Robin.</div>
-    <br />
-    <div>In the conversation, your goal is to counsel Robin around taking the CSP AP exam. This conversation was designed utilizing interviews with CS teachers and their experiences talking with students about the AP exam.</div>
-  </div>
-  });
 
 
   // Context
-  slides.push({ type: 'Context', text:
+  slides.push({ type: 'Context', id: 'context_1', text:
 `Robin is a 10th grader who was placed in your CSP AP course. All 10th grade students must sign up for this course at your school, but students do not necessarily have to take the exam.
 
 This is the first time that Robin has been in an AP course before. Historically, she has earned mostly B’s and C’s in her courses with the occasional A. 
@@ -71,7 +62,7 @@ This is the first time that Robin has been in an AP course before. Historically,
 So far, Robin seems to really enjoy your class, likes you as a teacher, and is doing well with the material. Robin is a little goofy in class sometimes but overall she does solid work. `
   });
 
-  slides.push({ type: 'Context', text:
+  slides.push({ type: 'Context', id: 'context_2', text:
 `Since the beginning of the year, you’ve talked with your classes about the AP exam.
 
 However, anytime you mention the AP test, you notice that Robin looks uncomfortable, and you can hear her mentioning “Sheldon” to her friends during group work . You think Robin is referring to the stereotypically nerdy character Sheldon from the sitcom called The Big Bang Theory but are not sure.
@@ -79,7 +70,7 @@ However, anytime you mention the AP test, you notice that Robin looks uncomforta
 You’ve been meaning to talk to Robin about her comments but haven’t found the time to do so yet.`
   });
 
-  slides.push({ type: 'Context', text:
+  slides.push({ type: 'Context', id: 'context_3', text:
 `Today in class, you remind students that it’s getting around the time to start signing up for the CSP AP Exam. During the announcement, Robin looks incredibly uncomfortable.
 
 During group work, you hear Robin say to her friend “I’m not doing any of that Sheldon stuff.”
@@ -90,61 +81,63 @@ You make a point to discreetly pull Robin aside after class to talk to her about
 
 
   // Anticipate
-  slides.push({ type: 'Anticipate', text:
+  slides.push({ type: 'Anticipate', id: 'anticipate_1', text:
   `Before you begin interacting with Robin, we have three questions to help you anticipate how your conversation with Robin will proceed.`
   });
 
-  slides.push({ type: 'Anticipate', text:
+  slides.push({ type: 'Anticipate', id: 'anticipate_2', text:
 `What are some reasons that you think Robin might be talking about “Sheldon”?`, force: true, open: true});
 
-  slides.push({ type: 'Anticipate', text:
+  slides.push({ type: 'Anticipate', id: 'anticipate_3', text:
 `What do you hope to accomplish in your conversation with Robin? 
 
 You might want to write this goal down somewhere as you will be asked to reflect on this goal after your conversation with Robin.`, force: true, open: true});
 
-  slides.push({ type: 'Anticipate', text:
+  slides.push({ type: 'Anticipate', id: 'anticipate_4', text:
 `What do you think will actually happen in your conversation with Robin?`, force: true, open: true});
 
 
 
   // Try it!
-  slides.push({ type: 'Try it!', text:
-  <div>
-    <div>When you're ready, you'll go through a set of scenes that simulate the conversation between you and Robin. Prompts are pre-determined, and the point of the simulation is to <b>practice responding to student comments about the AP exam.</b></div>
-    <br/>
-    <div>Improvise how you would act as a teacher, even if you don't have all the right answers or know the perfect thing to say.</div>
-    <br/>
-    <div>Click and speak aloud the words you'd say to the student.</div>
-    <br/>
-    <div>Ready to start?</div>
 
-  </div>
-  });
+  slides.push({ type: 'Try it!', id: 'try_1', text:
+`And that’s the end of the simulation! Let’s now shift to reflecting on your conversation with Robin. 
 
-  slides.push({ type: 'Try it!', text:
+Think back to the beginning of the simulation where you anticipated what might happen and stated what your goals were.`});
+
+  slides.push({ type: 'Try it!', id: 'try_1', text:
+`When you're ready, you'll go through a set of scenes that simulate the conversation between you and Robin. Prompts are pre-determined, and the point of the simulation is to practice responding to student comments about the AP exam.
+
+Improvise how you would act as a teacher, even if you don't have all the right answers or know the perfect thing to say.
+
+Click and speak aloud the words you'd say to the student.
+    
+Ready to start?`});
+
+  slides.push({ type: 'Try it!',  id: 'try_2', text:
 `Robin: “You wanted to talk to me?”`, force: true, open: true});
 
 
-  slides.push({ type: 'Try it!', text:
+  slides.push({ type: 'Try it!',   id: 'try_3', text:
 `Robin: “Well, you know, I just… Uggghhhh…”
 
 Robin let’s out a loud groan. She looks very stressed.
 `, open: true, force: true});
 
-  slides.push({ type: 'Try it!', text:
+  slides.push({ type: 'Try it!',id: 'try_4', text:
 `Robin: “I gotta let you know that I am NOT doing that great, not at all. Everything has got me feeling so stressed out.”`, open: true, force: true});
 
-  slides.push({ type: 'Try it!', text:
+  slides.push({ type: 'Try it!', id: 'try_5', text:
 `Robin: “It’s just, there are too many things going on with school and outside school.
 
 And, it’s just, I get so annoyed when you start talking about that AP test stuff. Nobody wants to take that test, and nobody has got time for that test, so why do you talk about it so much?”`, open: true, force: true});
 
-  slides.push({ type: 'Try it!', text:
+  slides.push({ type: 'Try it!', id: 'try_6', text:
 `Robin: “Well, I know I’m definitely not gonna take it. Even if I wanted to, that test costs 100 bucks.
 
 And the nerve of it! I have to pay 100 dollars to take a test? Whose idea was that?”`, open: true, force: true});
 
-  slides.push({ type: 'Try it!', text:
+  slides.push({ type: 'Try it!', id: 'try_7', text:
 `Robin: “Okay, fine, sure. Someone else can pay the money part of the test or whatever.
 
 BUT even if that’s true, I still have to sit for a couple of hours and take. a. test. for what? I’m in 10th grade. College is two years away. I can do all that college stuff later when it actually matters. What’s the point of taking the exam now?”`, open: true, force: true});
@@ -154,12 +147,12 @@ BUT even if that’s true, I still have to sit for a couple of hours and take. a
 
 I just gotta graduate and then I’m done with school. So if I’m not planning on going to college, what’s the point?”`, open: true, force: true});
 
-  slides.push({ type: 'Try it!', text:
+  slides.push({ type: 'Try it!', id: 'try_8', text:
 `Robin: “Alright, I’ll be honest with you. You know why I always talk about ‘Sheldon’ when you talk about AP tests? It’s because only nerds take this stuff seriously, and to be a nerd in this school is a death sentence (socially, of course).
 
 I like this whole computer stuff that you’ve been teaching us, but I’m not willing to go full Sheldon for it.”`, open: true, force: true});
 
-  slides.push({ type: 'Try it!', text:
+  slides.push({ type: 'Try it!', id: 'try_9', text:
 `Robin: “Yeah, yeah, I mean, I hear you, but AP just isn’t a thing that’s made for me. When I think “AP kid” I picture someone who studies all the time, has no friends, and is no fun.
 
 And, tch, you should know that that’s not me. Can you imagine? Me? Studying all the time and being all serious?”`, open: true, force: true});
@@ -169,27 +162,27 @@ And, tch, you should know that that’s not me. Can you imagine? Me? Studying al
 
 No disrespect: what we do in class is fun and all, but that’s just because it’s your class. I don’t think computer science will be interesting after this year.”`, open: true, force: true});
 
-  slides.push({ type: 'Try it!', text:
+  slides.push({ type: 'Try it!', id: 'try_10', text:
 `Robin: “I don’t get it. Why do you want me to take the AP test so badly? How does me taking it impact you?”`, open: true, force: true});
 
-  slides.push({ type: 'Try it!', text:
+  slides.push({ type: 'Try it!', id: 'try_11', text:
 `Robin: “Hmm...I have to go now before I’m late for my next class, but it was nice talking to you. 
 
 Bye!”`, open: true, force: true});
 
   // Reflect
-  slides.push({ type: 'Reflect', text:
+  slides.push({ type: 'Reflect', id: 'reflect_1', text:
 `And that’s the end of the simulation! Let’s now shift to reflecting on your conversation with Robin. 
 
 Think back to the beginning of the simulation where you anticipated what might happen and stated what your goals were.`});
 
-  slides.push({ type: 'Reflect', text:
+  slides.push({ type: 'Reflect', id: 'reflect_2', text:
 `Think back to your original goals going into the conversation. How much progress do you feel you made towards your goal? Explain. `, open: true, force: true});
 
   slides.push({ type: 'Reflect', text:
 `What would be your next step(s) in achieving your goal? Explain.`, open: true, force: true});
 
-  slides.push({ type: 'Reflect', text:
+  slides.push({ type: 'Reflect',  id: 'reflect_3',text:
 `Would you do anything differently if a similar situation arose with another student? Explain.`, open: true, force: true});
 
 
