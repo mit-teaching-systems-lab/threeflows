@@ -13,8 +13,8 @@ import IntroWithEmail from '../linear_session/intro_with_email.jsx';
 
 import QuestionInterpreter from '../renderers/question_interpreter.jsx';
 import type {QuestionT} from './aptest_scenario_two.jsx';
-import apTestScenario from './aptest_scenario_two.jsx';
-import ResponseSummary from '../renderers/response_summary.jsx';
+import apTestScenarioTwo from './aptest_scenario_two.jsx';
+import ResponseSummary from '../renderers/response_summary_coding.jsx';
 
 
 type ResponseT = {
@@ -65,11 +65,12 @@ export default class extends React.Component {
   // Making questions from the cohort
   onStart = (email) => {
     const {cohortKey} = this.state;
-    const allQuestions = apTestScenario.questionsFor(cohortKey);
+    const allQuestions = apTestScenarioTwo.questionsFor(cohortKey);
 
     const startQuestionIndex = this.props.query.p || 0; // for testing or demoing
     const questions = allQuestions.slice(startQuestionIndex);
     const questionsHash = hash(JSON.stringify(questions));
+
     this.setState({
       email,
       questions,
@@ -113,10 +114,14 @@ export default class extends React.Component {
   renderIntro = () => {
     return (
       <IntroWithEmail defaultEmail={this.state.email} onDone={this.onStart}>
+
+
+
+
         <div>
           <p>Welcome!</p>
-          <p>Today, you will be talking with a student named Robin.</p>
-          <p>In the conversation, your goal is to counsel Robin around taking the CSP AP exam. This conversation was designed utilizing interviews with CS teachers and their experiences talking with students about the AP exam.</p>
+          <p>This is an interactive case study simulating an interaction between you as teacher and a student from your AP CS Principles class.</p>
+          <p>You’ll be given context on your interaction with the student and then be asked to respond.</p>
           <p>Please use <a href="https://www.google.com/chrome/">Chrome</a> on a laptop or desktop computer.</p>
         </div>
       </IntroWithEmail>);
