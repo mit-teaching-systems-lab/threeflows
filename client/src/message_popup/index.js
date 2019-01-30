@@ -20,7 +20,11 @@ import RosaExperiencePage from './playtest/rosa_experience_page.jsx';
 import SmithExperiencePageB from './playtest/smithB_experience_page.jsx';
 import SmithExperiencePage from './playtest/smith_experience_page.jsx';
 import EcsExperiencePage from './playtest/ecs_experience_page.jsx';
+import DysfuncExperiencePage from './playtest/dysfunc_experience_page.jsx';
 import HMTCAExperiencePage from './playtest/hmtca_experience_page.jsx';
+import apTestExperiencePage from './playtest/aptest_experience_page.jsx';
+import apTestExperiencePageTwo from './playtest/aptest_experience_page_two.jsx';
+import apTestExperiencePageTwoPT from './playtest/aptest_experience_page_two_pt.jsx';
 
 
 import QuestionsPage from './author/questions_page.jsx';
@@ -57,5 +61,9 @@ export {
   NewQuestionPage,
   ReviewLoginPage,
   ReviewPage,
+  DysfuncExperiencePage,
+  apTestExperiencePage,
+  apTestExperiencePageTwo,
+  apTestExperiencePageTwoPT,
   HMTCAExperiencePage
 };

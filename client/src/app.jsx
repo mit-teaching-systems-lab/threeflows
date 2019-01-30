@@ -9,6 +9,8 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
+import {startRollbar} from './rollbar';
+
 import AuthContainer from './auth_container.jsx';
 import HomePage from './home/home_page.jsx';
 import DemosPage from './home/demos_page.jsx';
@@ -44,6 +46,7 @@ export default createReactClass({
 
   componentWillMount() {
     injectTapEventPlugin(); // material-ui, see https://github.com/zilverline/react-tap-event-plugin
+    startRollbar();
   },
 
   routes: {
@@ -64,6 +67,10 @@ export default createReactClass({
     '/teachermoments/sub': 'messagePopupPairs',
     '/teachermoments/jayden': 'jaydenScenario',
     '/teachermoments/rosa': 'rosaScenario',
+    '/teachermoments/dysfunc': 'dysfuncScenario',
+    '/teachermoments/aptest': 'apTestScenario',
+    '/teachermoments/aptest-two': 'apTestScenarioTwo',
+    '/teachermoments/aptest-two-pt': 'apTestScenarioTwoPT',
     '/teachermoments/smith': 'smithScenario',
     '/teachermoments/smithFacilitated': 'smithFacilitatedScenario',
     '/teachermoments/smithB': 'smithScenarioB',
@@ -191,6 +198,22 @@ export default createReactClass({
 
   rosaScenario(query = {}) {
     return <MessagePopup.RosaExperiencePage query={query} />;
+  },
+
+  dysfuncScenario(query = {}) {
+    return <MessagePopup.DysfuncExperiencePage query={query} />;
+  },
+
+  apTestScenario(query = {}) {
+    return <MessagePopup.apTestExperiencePage query={query} />;
+  },
+
+  apTestScenarioTwo(query = {}) {
+    return <MessagePopup.apTestExperiencePageTwo query={query} />;
+  },
+
+  apTestScenarioTwoPT(query = {}) {
+    return <MessagePopup.apTestExperiencePageTwoPT query={query} />;
   },
 
   smithScenarioB(query = {}) {
