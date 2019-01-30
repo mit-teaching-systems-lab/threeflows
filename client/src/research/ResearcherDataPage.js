@@ -14,14 +14,16 @@ import {hashInto, colorNames} from './Anonymize.js';
 import {AutoSizer} from 'react-virtualized';
 import 'react-virtualized/styles.css';
 
-import * as Analyses from './Analyses.js';
+//import * as Analyses from './Analyses.js';
 import {requestTranscript} from './Transcribe.js';
 import DynamicTable from './DynamicTable.js';
+
 
 
 /*
 Requires local data from database and from S3.
 */
+
 
 const styles = {
   table: {
@@ -68,19 +70,25 @@ function percentage(statsForSessions, filterFn) {
 class ResearcherDataPage extends Component {
   constructor(props) {
     super(props);
-    const analysisTuple = _.last(_.entries(Analyses));
+    const analysisTuple = _.first(_.entries(props.analyses2)); //was _.last
+    //console.log('analysisTuple')
+    //console.log(analysisTuple)
     const [key, analysis] = analysisTuple;
     this.state = {
-      key: key, 
+      //url: first_url,
+      key: key,
       analysis: analysis,
-      location: '/teachermoments/turner?playtest20180124',
+      location: analysis.location, //'/teachermoments/turner?playtest20180124', //natalie commenting this out?
       token: this.props.token,
-      email: this.props.email
+      email: this.props.email,
     };
   }
 
+
+
   onAnalysisChanged(e, index, targetAnalysisKey) {
-    const analysisTuple = _.find(_.entries(Analyses), pair => pair[0] === targetAnalysisKey);
+    const {analyses2} = this.props;
+    const analysisTuple = _.find(_.entries(analyses2), pair => pair[0] === targetAnalysisKey);
     const [key, analysis] = analysisTuple;
     this.setState({key, analysis});
   }
@@ -88,7 +96,11 @@ class ResearcherDataPage extends Component {
   render() {
     const currentKey = this.state.key;
     const currentAnalysis = this.state.analysis;
-    const {filter, location} = currentAnalysis;
+    //console.log('currentAnalysis is below.')
+    //console.log(currentAnalysis)
+    //const {filter, location} = currentAnalysis; //this is what it used to be.. problems 11/15
+    const filter = currentAnalysis[1].filter;
+    const location = currentAnalysis[1].location;
     return (
       <MuiThemeProvider>
         <div className="ResearcherDataPage">
@@ -100,7 +112,7 @@ class ResearcherDataPage extends Component {
             key={currentKey}
             analysisKey={currentKey}
             filter={filter}
-            location={location} 
+            location={location}
             token = {this.state.token}
             email = {this.state.email}/>
         </div>
@@ -109,6 +121,7 @@ class ResearcherDataPage extends Component {
   }
 
   renderSelect(currentKey) {
+    const {analyses2} = this.props;
     return (
       <SelectField
         style={{width: 'auto'}}
@@ -116,9 +129,11 @@ class ResearcherDataPage extends Component {
         value={currentKey}
         onChange={this.onAnalysisChanged.bind(this)}
       >
-        {_.entries(Analyses).map((analysisTuple) => {
+        {_.entries(analyses2).map((analysisTuple) => {
+          //console.log('analysisTuple is below.')
+          //console.log(analysisTuple)
           const [key, analysis] = analysisTuple;
-          const {description} = analysis;
+          const description = analysis[1].location;
           return <MenuItem
             key={key}
             value={key}
@@ -128,7 +143,6 @@ class ResearcherDataPage extends Component {
     );
   }
 }
-
 
 
 
@@ -145,17 +159,26 @@ class Analysis extends Component {
       json: null,
       location: this.props.location,
       token: this.props.token,
-      email: this.props.email
+      email: this.props.email,
+      formValue: '',
+      searchWord: null
     };
 
     this.getAudio = this.getAudio.bind(this);
     this.getAudioID = this.getAudioID.bind(this);
+    //Natalie adding this for form
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+
+    this.natalieGetAudioUrl = this.natalieGetAudioUrl.bind(this);
+    this.natalieGetAudioID = this.natalieGetAudioID.bind(this);
   }
 
   componentDidMount() {
     const location = this.state.location;
     const token = this.state.token;
-
+    //console.log(location)
+    //console.log(token)
     fetch('/server/research/data', {
       headers: {
         'Accept': 'application/json',
@@ -231,7 +254,6 @@ class Analysis extends Component {
     } else {
       sortedRows = _.sortBy(rows, 'id');
     }
-    
     return {evidence: {rows: sortedRows}};
   }
 
@@ -249,6 +271,107 @@ class Analysis extends Component {
     document.body.removeChild(a);
   }
 
+  getNumberStudents(allRows){
+    var i;
+    var uniqueEmails = [];
+    for (i = 0; i < allRows.length; i++) {
+      const email = allRows[i].json.email;
+      if (uniqueEmails.indexOf(email) === -1) {
+        //its not in there already, new email
+        uniqueEmails.push(email);
+      }
+    }
+    return uniqueEmails.length;
+  }
+
+  natalieGetAudioUrl(row) {
+    return row.json.audioUrl || (row.json.audioResponse && row.json.audioResponse.audioUrl) || (row.json.uploadedUrl);
+  }
+
+  natalieGetAudioID(audioUrl) {
+    if (audioUrl) {
+      const slashIndex = audioUrl.lastIndexOf('/');
+      const filename = audioUrl.slice(slashIndex + 1);
+      const audioID = filename.slice(0,-4);
+      return audioID;
+    }
+    return "";
+  }
+
+  natalieGetTranscript(audioID) {
+    const token = this.props.token;
+    //request transcript for audio
+    return requestTranscript(token,audioID)
+      .then(results => {
+        if (results.transcript){
+          return <div id={audioID+"-transcript"}>Transcript: "{results.transcript}"</div>;
+        }
+        return <div id={audioID+"-transcript"}>Transcript: Unable to transcribe</div>;
+      })
+      .catch(err => {
+        console.log('failure in transcription');
+      });
+  }
+
+  filterAllRowsBySearchWord(searchWord, allRows) {
+    if (searchWord == null) {
+      return allRows;
+    }
+    else {
+      searchWord = searchWord.toLowerCase();
+      const filteredAllRows = [];
+      var i;
+      for (i = 0; i < allRows.length; i++) {
+        if (getAudioUrl(allRows[i]) !== undefined) {
+          //means it is a audio question
+          const audioUrl = this.natalieGetAudioUrl(allRows[i]);
+          //console.log('audioUrl')
+          //console.log(audioUrl)
+          const audioID = this.natalieGetAudioID(audioUrl);
+          //console.log('audioID')
+          //console.log(audioID)
+          this.natalieGetTranscript(audioID).then((t) => {
+            const transcript = t;
+            //console.log('transcript')
+            //console.log(transcript)
+            const transcribedText = transcript.props.children[1].toLowerCase();
+            //console.log(transcribed_text)
+            //now search through the transcribed_text and look for searchWord.
+            //if it's there, append that trancribed_text to an array.
+            if (transcribedText.includes(searchWord)) {
+              console.log('found transcribed text with search word');
+              filteredAllRows.push(allRows[i]);
+            }
+          });
+        }
+        else {
+          const text = allRows[i].responseText.toLowerCase();
+          if (text.includes(searchWord)) {
+            console.log('found written text with search word');
+            filteredAllRows.push(allRows[i]);
+          }
+        }
+      }
+      return filteredAllRows;
+    }
+  }
+
+  handleChange(event) {
+    this.setState({formValue: event.target.value});
+  }
+
+  onSubmit(event, allRows) {
+    const searchWord = this.state.formValue;
+    event.preventDefault();
+    this.setState({searchWord: searchWord});
+  }
+
+  onClear(event) {
+    event.preventDefault();
+    this.setState({searchWord: null});
+  }
+
+
   onFetched(json) {
     const filtered = this.filter(json);
     this.setState({ json: filtered });
@@ -258,28 +381,206 @@ class Analysis extends Component {
     console.log("error mounting\n", exception);
   }
 
+
   render() {
     const {json} = this.state;
     return (
       <div className="Analysis">
         {(json)
           ? this.renderJson(json)
-          : <div style={{padding: 20}}>Loading...</div>}
+          : <div style={{padding: 20}}>LOADING...</div>}
       </div>
     );
   }
 
   renderJson(json) {
-    const allRows = json.evidence.rows;
+    console.log('This is json');
+    console.log(json);
+    console.log('This is all the data that used to be shown');
+    console.log(json.evidence.rows);
+    // This below line works, but doesnt include any YouTube responses.
+    //const allRows = json.evidence.rows.filter(row => row.json.responseText != undefined);
+    // This doesnt error and includes YouTube. Also includes lots of duplicates and things without responses.
+    const allRows1 = json.evidence.rows.filter(row => row.json.question !== undefined);
+    //console.log('This works, but with duplicates and things without responses')
+    //console.log(allRows1)
+    const allRows2 = allRows1.filter(row => (row.json.responseText !== undefined || (row.json.question.youTubeId !== undefined && row.json.uploadedUrl !== undefined)));
+    //That works (only has things with responses)! Now need to get rid of duplicates.
+    var allRows = [];
+    var i;
+    var lastTime = '';
+    for (i = 0; i < allRows2.length; i++) {
+      if (allRows2[i].timestamp !== lastTime){
+        allRows.push(allRows2[i]);
+      }
+      lastTime = allRows2[i].timestamp;
 
+    }
+    //row.json.question
+    //do filtering here
+    const filteredAllRows = this.filterAllRowsBySearchWord(this.state.searchWord, allRows);
+    console.log('filteredAllRows');
+    console.log(filteredAllRows);
+
+    if (filteredAllRows.length === 0) {
+      return (
+        <div>
+          <h2 style={{margin: 20}}>Measurement Tools</h2>
+          {this.renderMeasurementToolsTable(filteredAllRows)}
+          Text not found. Please press clear to return.
+        </div>
+      );
+    }
+
+    else {
+      return (
+        <div>
+          <h2 style={{margin: 20}}>Measurement Tools</h2>
+          {this.renderMeasurementToolsTable(filteredAllRows)}
+          <h2 style={{margin: 20}}>Events</h2>
+          {json && <pre style={{margin: 20}}>{Object.keys(json).map(key => `${key}: ${allRows.length} rows`).join("\n")}</pre>}
+          {json && this.renderEventsTableVirtualized(filteredAllRows)}
+        </div>
+      );
+    }
+  }
+
+  //Natalie adding functions for the form
+  // https://reactjs.org/docs/forms.html
+  // natalieGetAudioUrl(row) {
+  //   return row.json.audioUrl || (row.json.audioResponse && row.json.audioResponse.audioUrl) || (row.json.uploadedUrl);
+  // }
+  // natalieGetAudioID(audioUrl) {
+  //   if (audioUrl) {
+  //     const slashIndex = audioUrl.lastIndexOf('/');
+  //     const filename = audioUrl.slice(slashIndex + 1);
+  //     const audioID = filename.slice(0,-4);
+  //     return audioID;
+  //   }
+  //   return "";
+  // }
+  // natalieGetTranscript(audioID) {
+  //   const token = this.props.token;
+  //   //request transcript for audio
+  //   return requestTranscript(token,audioID)
+  //     .then(results => {
+  //       if (results.transcript){
+  //         return <div id={audioID+"-transcript"}>Transcript: "{results.transcript}"</div>;
+  //       }
+  //       return <div id={audioID+"-transcript"}>Transcript: Unable to transcribe</div>;
+  //     })
+  //     .catch(err => {
+  //       console.log('failure in transcription');
+  //     });
+  // }
+
+
+  // filterAllRowsBySearchWord(searchWord, allRows) {
+  //   if (searchWord == null) {
+  //     return allRows;
+  //   }
+  //   else {
+  //     searchWord = searchWord.toLowerCase();
+  //     const filteredAllRows = [];
+  //     var i;
+  //     for (i = 0; i < allRows.length; i++) {
+  //       if (getAudioUrl(allRows[i]) !== undefined) {
+  //         //means it is a audio question
+  //         const audioUrl = this.natalieGetAudioUrl(allRows[i]);
+  //         //console.log('audioUrl')
+  //         //console.log(audioUrl)
+  //         const audioID = this.natalieGetAudioID(audioUrl);
+  //         //console.log('audioID')
+  //         //console.log(audioID)
+  //         this.natalieGetTranscript(audioID).then((t) => {
+  //           const transcript = t;
+  //           //console.log('transcript')
+  //           //console.log(transcript)
+  //           const transcribedText = transcript.props.children[1].toLowerCase();
+  //           //console.log(transcribed_text)
+  //           //now search through the transcribed_text and look for searchWord.
+  //           //if it's there, append that trancribed_text to an array.
+  //           if (transcribedText.includes(searchWord)) {
+  //             console.log('found transcribed text with search word');
+  //             filteredAllRows.push(allRows[i]);
+  //           }
+  //         });
+  //       }
+  //       else {
+  //         const text = allRows[i].responseText.toLowerCase();
+  //         if (text.includes(searchWord)) {
+  //           console.log('found written text with search word');
+  //           filteredAllRows.push(allRows[i]);
+  //         }
+  //       }
+  //     }
+  //     return filteredAllRows;
+  //   }
+  // }
+
+  // handleChange(event) {
+  //   this.setState({formValue: event.target.value});
+  // }
+
+  // onSubmit(event, allRows) {
+  //   const searchWord = this.state.formValue;
+  //   event.preventDefault();
+  //   this.setState({searchWord: searchWord});
+  // }
+  //
+  // onClear(event) {
+  //   event.preventDefault();
+  //   this.setState({searchWord: null});
+  // }
+
+
+
+
+
+
+  renderMeasurementToolsTable(allRows) {
+    const numberOfStudents = this.getNumberStudents(allRows);
     return (
       <div>
-        <h2 style={{margin: 20}}>Events</h2>
-        {json && <pre style={{margin: 20}}>{Object.keys(json).map(key => `${key}: ${json[key].rows.length} rows`).join("\n")}</pre>}
-        {json && this.renderEventsTableVirtualized(allRows)}
+        <table cellPadding="10">
+          <thead>
+            <tr>
+              <th>Number of Students</th>
+              <th scope="col">Custom Keyword</th>
+              <th scope="col">Sentiment Analysis</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{numberOfStudents}</td>
+              <td>
+                <form name="myForm" onSubmit={e => this.onSubmit(e, allRows)}>
+                  Keyword:<br/>
+                  <input type="text" name="searchWord" value={this.state.formValue} onChange={this.handleChange}/>
+                  <input type="submit" value="Submit"/>
+                </form>
+                <button onClick={(e) => {this.onClear(e);}}>Clear</button>
+              </td>
+              <td>Filler SA</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     );
   }
+
+  // getNumberStudents(allRows){
+  //   var i;
+  //   var uniqueEmails = [];
+  //   for (i = 0; i < allRows.length; i++) {
+  //     const email = allRows[i].json.email;
+  //     if (uniqueEmails.indexOf(email) === -1) {
+  //       //its not in there already, new email
+  //       uniqueEmails.push(email);
+  //     }
+  //   }
+  //   return uniqueEmails.length;
+  // }
 
   // Summary stats
   renderStats(key, statsForSessions) {
@@ -433,12 +734,33 @@ class Analysis extends Component {
 
   renderEventsTableVirtualized(json) {
     const simpleJson = json.map((blob) => {
+      //console.log(blob)
       blob.email= blob.json.email;
       blob.text= blob.json.question.text;
       blob.youTubeId= blob.json.question.youTubeId;
       blob.responseText= blob.json.responseText;
       return blob;
     });
+    console.log('this is simpleJson, getting passed into table');
+    console.log(simpleJson);
+    console.log('This is immutable.list(simpleJson)');
+    console.log(Immutable.List(simpleJson));
+
+    // const dynamicTable_list = Immutable.List(simpleJson);
+    // var i;
+    // var j;
+    // //this removes everything that was in the list. By the end of it
+    // // dynamicTable_list should be empty
+    // for (i = 0; i < dynamicTable_list.size; i++) {
+    //   dynamicTable_list = dynamicTable_list.pop()
+    // }
+    // //now we add all the filtered stuff back into dynamicTable_list
+    // for (j = 0; j < simpleJson.length; j++) {
+    //   dynamicTable_list.push(simpleJson[i])
+    // }
+    //const now = new Date();
+    //const randomKey = now.getTime();
+
     return (
       <div>
         <AutoSizer disableHeight>
@@ -447,6 +769,7 @@ class Analysis extends Component {
               width={width}
               list={Immutable.List(simpleJson)}
               token={this.state.token}
+              searchWord={this.state.searchWord}
             />
           )}
         </AutoSizer>

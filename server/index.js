@@ -44,7 +44,7 @@ const pool = createPool(config.postgresUrl);
 // https redirect
 function enforceHTTPS(request, response, next) {
   if (process.env.NODE_ENV === 'development') return next();
-  
+
   if (request.headers['x-forwarded-proto'] !== 'https') {
     const httpsUrl = ['https://', request.headers.host, request.url].join('');
     return response.redirect(httpsUrl);
@@ -69,7 +69,7 @@ function questionAuthoringAuth(req, res, next) {
   var user = basicAuth(req);
   console.log({user});
   if (user && user.name === QUESTION_AUTHORING_USERNAME && user.pass === QUESTION_AUTHORING_PASSWORD) return next();
-  
+
   return sendUnauthorized(res);
 }
 
@@ -119,7 +119,7 @@ app.post('/server/evidence/:app/:type/:version', function(request, response) {
     }
     console.log(JSON.stringify(result));
     response.status(201);
-    return response.json({});  
+    return response.json({});
   });
 });
 
@@ -140,6 +140,10 @@ function tellSlack(text) {
     .set('Accept', 'application/json')
     .end();
 }
+
+
+
+
 
 
 app.post('/server/questions', questionAuthoringAuth, function(request, response){
@@ -187,6 +191,29 @@ app.get('/server/questions', questionAuthoringAuth, function(request, response){
 });
 
 
+// lie making changes
+app.get('/server/natalie', function(request, response){
+
+  const token = request.headers['x-teachermoments-token'];
+  const sql = 'SELECT access.url FROM access join tokens on access.email = tokens.email and tokens.token = $1';
+  console.log(sql);
+  const values = [token];
+  console.log(values);
+  // var accessibleTables = queryDatabase(sql, values, function(err, result) {
+  //   if(err) {
+  //     console.log({ error: err });
+  //     return response.status(500);
+  //   }
+  //
+  //   const {rows} = result;
+  //   console.log(rows);
+  //   response.status(200);
+  //   //if(rows.length === 0) return response.json({url: {currentQuestions:[], archivedQuestions: []}});
+  //   return response.json({rows: rows});
+  // });
+});
+
+
 // Write audio responses
 app.post('/teachermoments/wav', AudioEndpoints.post(config.s3));
 
@@ -203,7 +230,7 @@ app.get('/server/apples/:key', ApplesEndpoint.sensitiveGetApples({queryDatabase}
 // As a precaution for emailing and authentication routes
 const limiter = new RateLimit({
   windowMs: 60*60*1000, // 60 minutes
-  max: 100, // limit each IP to n requests per windowMs
+  max: 1000, // limit each IP to n requests per windowMs
   delayMs: 0, // disable delaying - full speed until the max limit is reached
   onLimitReached: (req, res, options) => {
     console.log('RateLimit reached!');
