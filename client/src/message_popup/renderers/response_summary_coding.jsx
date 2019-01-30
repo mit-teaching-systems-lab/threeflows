@@ -13,6 +13,7 @@ import ReadMore from './read_more.jsx';
 Component that displays the summary of responses, either audio or text and asks user to label responses from multi-select tagging options
 */
 export default class extends React.Component {
+
   props: {
     responses: Array<Object>,
     onLogMessage: Function,
@@ -33,9 +34,6 @@ export default class extends React.Component {
     studentSourcedLabels: [],
   }
 
-  mergedResponse = (coding, questionId) => {
-    return {...coding, questionId};
-  };
 
 
   // Supports audio and two forms of text response.
@@ -96,15 +94,15 @@ export default class extends React.Component {
       label:event.target.textContent, 
     };
 
-    var newStudentSourcedLabels = this.state.studentSourcedLabels;
-
-
+    var newStudentSourcedLabels = _.cloneDeep(this.state.studentSourcedLabels);
     var labelIndex = this.getIndexOfQuestionId(questionId, labelCategory);
-      
+
     if (labelIndex > -1) {
+      //update      
       newStudentSourcedLabels[labelIndex] = Label;
     } else {
-      newStudentSourcedLabels.push(Label);
+      //add
+      newStudentSourcedLabels = this.state.studentSourcedLabels.concat([Label]);
     }
 
     this.setState({studentSourcedLabels: newStudentSourcedLabels});
@@ -112,8 +110,10 @@ export default class extends React.Component {
   }
   // Mixes in question to payload
   onLogMessageWithQuestionCoding = (questionId, type, coding) => {
-    const mergedResponse = this.mergedResponse(coding, questionId);
-    this.props.onLogMessage(type, mergedResponse);
+    this.props.onLogMessage(type, {
+      questionId, 
+      coding
+    });
   };
 
 
@@ -146,7 +146,6 @@ export default class extends React.Component {
                   <SelectField
                     maxHeight={250}
                     floatingLabelText={ 'Struggle' }
-                    key={index + '_select_struggle'}
                     style={{paddingLeft: 20, width: '70%'}}
                     value={this.getValueByQuestionId(questionId, "Struggle")}
                     onChange={this.handleSelectionChange.bind(this, questionId, "Struggle")}
@@ -157,7 +156,6 @@ export default class extends React.Component {
                   <SelectField
                     maxHeight={250}
                     floatingLabelText={ 'Confusion' }
-                    key={index + '_select_confused'}
                     style={{paddingLeft: 20, width: '70%'}}
                     value={this.getValueByQuestionId(questionId, "Confused")}
                     onChange={this.handleSelectionChange.bind(this, questionId, "Confused")}
