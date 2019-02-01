@@ -468,7 +468,7 @@ class Analysis extends Component {
     }
   }
 
-
+  //test
 
   renderMeasurementToolsTable(allRows) {
     const numberOfStudents = this.getNumberStudents(allRows);
