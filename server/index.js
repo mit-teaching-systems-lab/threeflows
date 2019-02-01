@@ -192,26 +192,28 @@ app.get('/server/questions', questionAuthoringAuth, function(request, response){
 
 
 // lie making changes
-app.get('/server/natalie', function(request, response){
+if (process.env.ENABLE_RESEARCHER_ACCESS && process.env.ENABLE_RESEARCHER_ACCESS.toLowerCase() === 'true') {
+  app.get('/server/natalie', function(request, response){
 
-  const token = request.headers['x-teachermoments-token'];
-  const sql = 'SELECT access.url FROM access join tokens on access.email = tokens.email and tokens.token = $1';
-  console.log(sql);
-  const values = [token];
-  console.log(values);
-  queryDatabase(sql, values, function(err, result) {
-    if(err) {
-      console.log({ error: err });
-      return response.status(500);
-    }
+    const token = request.headers['x-teachermoments-token'];
+    const sql = 'SELECT access.url FROM access join tokens on access.email = tokens.email and tokens.token = $1';
+    console.log(sql);
+    const values = [token];
+    console.log(values);
+    queryDatabase(sql, values, function(err, result) {
+      if(err) {
+        console.log({ error: err });
+        return response.status(500);
+      }
 
-    const {rows} = result;
-    console.log(rows);
-    response.status(200);
-    //if(rows.length === 0) return response.json({url: {currentQuestions:[], archivedQuestions: []}});
-    return response.json({rows: rows});
+      const {rows} = result;
+      console.log(rows);
+      response.status(200);
+      //if(rows.length === 0) return response.json({url: {currentQuestions:[], archivedQuestions: []}});
+      return response.json({rows: rows});
+    });
   });
-});
+}
 
 
 // Write audio responses
