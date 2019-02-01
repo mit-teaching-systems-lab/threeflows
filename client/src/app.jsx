@@ -18,6 +18,7 @@ import CsBiasPage from './home/cs_bias_page.jsx';
 import ConsentPage from './home/consent_page.jsx';
 import * as MessagePopup from './message_popup/index.js';
 
+
 // equity
 import EquityFairPage from './message_popup/equity/equity_fair_page.jsx';
 import ClimatePage from './message_popup/equity/climate_page.jsx';
@@ -87,7 +88,7 @@ export default createReactClass({
     '/teachermoments/mindset': 'mindsetPlaytest',
     '/teachermoments/demo': 'messagePopupDemo',
     '/teachermoments/darius': 'messagePopupDarius',
-    
+
 
     // ------ EXPERIMENTS AND PROTOTYPES ----- //
     // Mechanical Turk experiment
@@ -132,7 +133,7 @@ export default createReactClass({
 
     // For a field test with Mobile CSP
     '/teachermoments/csp': 'messagePopupCSP',
-    
+
     // ------ DEPRECATED ----- //
     // Deprecated experiences
     '/playtest/:cohortKey': 'messagePopupPlaytest',
@@ -305,7 +306,7 @@ export default createReactClass({
     // rebuilds the page.
     return <MessagePopup.PlaytestExperiencePage key={JSON.stringify(query)} cohortKey={cohortKey} query={{}}/>;
   },
-  
+
   messagePopupAuthorQuestions(query = {}) {
     return <MessagePopup.QuestionsPage />;
   },

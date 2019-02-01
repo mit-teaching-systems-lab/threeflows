@@ -1,10 +1,10 @@
 // This endpoint handles server calls to get transcript of an audio file
 // We check the database for an existing transcript, and if we find none
-// we use the IBM Watson api to transcribe one from the wav file on s3 and 
+// we use the IBM Watson api to transcribe one from the wav file on s3 and
 // store it
 function transcribeEndpoint(pool, s3, watsonConfig, request, response) {
   const {audioID} = request.params;
-  
+
   const values = [audioID];
   const sql = `
     SELECT transcript
@@ -26,7 +26,7 @@ function transcribeEndpoint(pool, s3, watsonConfig, request, response) {
           .then(results => {
             response.set('Content-Type', 'application/json');
             response.json({
-              transcript: results 
+              transcript: results
             });
             return response.status(200).end();
           })
@@ -57,6 +57,7 @@ function speechToText(pool, s3, watsonConfig, audioID, request, response) {
   var SpeechToTextV1 = require('watson-developer-cloud/speech-to-text/v1');
 
   var watson = new SpeechToTextV1 (watsonConfig);
+  //console.log(JSON.stringify(watsonConfig));
 
   var s3Params = {
     Bucket: s3.config.bucket,
@@ -68,7 +69,7 @@ function speechToText(pool, s3, watsonConfig, audioID, request, response) {
     timestamps: true,
     word_alternatives_threshold: 0.9                    // eslint-disable-line camelcase
   };
-  
+
   return new Promise((resolve,reject) => {
     watson.recognize(params, function(error, transcript) {
       if (error) {
@@ -89,7 +90,7 @@ function speechToText(pool, s3, watsonConfig, audioID, request, response) {
   });
 }
 
-// Updates database with transcript so we dont need to transcribe 
+// Updates database with transcript so we dont need to transcribe
 // the same wav files multiple times
 function updateTranscript(pool, text, audioID) {
   const values = [audioID, text];

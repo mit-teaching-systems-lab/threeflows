@@ -1,7 +1,7 @@
 const {getDomain} = require('./domain.js');
 
 //Endpoint to handle requests to access participant data
-//queries databse for a specific url corresponding to a certain group 
+//queries databse for a specific url corresponding to a certain group
 //of users and returns all rows in the evidence table with that url
 //Returns 200 unless there was an error with the database query
 function dataEndpoint(pool, request, response) {
@@ -18,13 +18,19 @@ function dataEndpoint(pool, request, response) {
           .then(results => {
             response.set('Content-Type', 'application/json');
             response.json({
-              evidence: {rows: results} 
+              evidence: {rows: results}
             });
             return response.status(200).end();
           });
       }
       else{
-        console.log('Researcher is not authorized to see this data');
+        console.log('This is location');
+        console.log(location);
+        console.log('This is token');
+        console.log(token);
+        console.log('This is request');
+        console.log(request);
+        console.log('v Researcher is not authorized to see this data');
         return response.status(403).end();
       }
     })
@@ -35,7 +41,7 @@ function dataEndpoint(pool, request, response) {
 }
 
 // It seems more natural to store email/url pairs in access db.
-// Should I be using token to find the corresponding email and 
+// Should I be using token to find the corresponding email and
 // use the email to check for access?
 // I'm not sure how to store token/url pairs.
 function checkAccess(pool, location, token, request) {
@@ -82,7 +88,7 @@ function getEmail(pool, token) {
     });
 }
 
-// This gets list of consenting participant emails and then only grabs 
+// This gets list of consenting participant emails and then only grabs
 // data with specified url and emails
 // Some testing notes:
 //      I've confirmed emails not in the consented_email table do not show up

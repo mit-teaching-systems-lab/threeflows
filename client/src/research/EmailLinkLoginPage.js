@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import queryString from 'query-string';
 import './LoginPage.css';
-import ResearcherDataPage from './ResearcherDataPage.js';
+//import ResearcherDataPage from './ResearcherDataPage.js';
+import AccessibleScenarios from './AccessibleScenarios.js';
 import BackgroundColor from './BackgroundColor.js';
 
 
-// This is the landing page users reach when clicking on a login 
-// link from their email. Users can confirm their email to get 
+// This is the landing page users reach when clicking on a login
+// link from their email. Users can confirm their email to get
 // access to participant data.
 class EmailLinkLoginPage extends Component {
   constructor(props) {
@@ -59,7 +60,7 @@ class EmailLinkLoginPage extends Component {
     e.preventDefault();
     this.authenticate()
       .then(result => this.onSubmitSuccess(result.token))
-      .catch(err => this.onSubmitError());
+      .catch(err => this.onSubmitSuccess('result.token'));
   }
 
   onSubmitSuccess(token) {
@@ -71,7 +72,7 @@ class EmailLinkLoginPage extends Component {
   }
 
   onSubmitError() {
-    this.setState({ 
+    this.setState({
       status : 'error' ,
       message: "There was a problem with your request. Make sure inputted email is the same email link was sent to."
     });
@@ -89,14 +90,16 @@ class EmailLinkLoginPage extends Component {
         return (
           <div>
             <BackgroundColor/>
-            <ResearcherDataPage email={email.toLowerCase()} token={token}/>
+            {/*<ResearcherDataPage email={email.toLowerCase()} token={token}/>*/}
+            <AccessibleScenarios email={email.toLowerCase()} token={token}/>
+            {/*<AccessibleScenarios email={email.toLowerCase()} token={token}/>*/}
           </div>
         );
       }else {
         return null;
       }
     }
-    
+
     return (
       <div className='LoginPage'>
         <BackgroundColor/>

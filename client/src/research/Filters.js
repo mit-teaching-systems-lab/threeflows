@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 import {obfuscateEmail} from './Anonymize.js';
+//import {isDeveloperEmail} from './Developers.js';
 
 
 
@@ -42,6 +43,7 @@ const Filters = {
   },
   isDeveloper(row) {
     return (row.json.email === 'krob@mit.edu' || row.json.email === 'keyjahanian@gmail.com');
+    //return isDeveloperEmail(row.json.email);
   },
   isThrowawayUser(row) {
     return (-1 !== ['sdf', 'k', 'f', 'test@test.com'].indexOf(row.json.email));

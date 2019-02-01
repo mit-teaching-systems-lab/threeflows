@@ -20,9 +20,9 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
 
     const sortBy = 'index';
     const sortDirection = SortDirection.ASC;
-    const sortedList = this._sortList({sortBy, sortDirection});
-
-    //Create a dictionary mapping audioID to an audio element with the audio loaded in
+    const sortedList = this._sortList({sortBy, sortDirection}, 0);
+    //
+    // //Create a dictionary mapping audioID to an audio element with the audio loaded in
     var audioPlayers = {};
     var transcriptDivs = {};
     var audioPromiseArray = [];
@@ -87,6 +87,109 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
     this._getAudioID = this._getAudioID.bind(this);
     this._getAudio = this._getAudio.bind(this);
   }
+
+
+
+  shouldComponentUpdate(prevProps) {
+    //Force table to render once all audio players are created
+    //if (prevProps.searchWord !== this.props.searchWord) {
+    if (prevProps.list !== this.props.list) {
+      console.log('props have changed!');
+
+      const sortBy = 'index';
+      const sortDirection = SortDirection.ASC;
+      console.log(prevProps.list);
+      this.setState({sortedList : this._sortList({sortBy, sortDirection},  prevProps.list)}, function () {
+
+        //Create a dictionary mapping audioID to an audio element with the audio loaded in
+        var audioPlayers = {};
+        var transcriptDivs = {};
+        var audioPromiseArray = [];
+        var transcriptPromiseArray = [];
+        const audioArray = this.state.sortedList.toArray().filter((row) => {
+          if (row.json.uploadedUrl) {
+            return true;
+          }
+          return false;
+        });
+        audioArray.forEach((row) => {
+          const audioID = this._getAudioID(this._getAudioUrl(row));
+          audioPromiseArray.push(
+            this._getAudioPlayer(audioID).then((audioPlayer) => {
+              audioPlayers[audioID] = audioPlayer;
+            })
+          );
+          transcriptPromiseArray.push(
+            this._getTranscript(audioID).then((transcript) => {
+              transcriptDivs[audioID] = transcript;
+            })
+          );
+        });
+
+        Promise.all(audioPromiseArray)
+          .then(success => {
+            this.forceUpdate();
+          });
+
+        //Force table to render when all transcripts are loaded
+        Promise.all(transcriptPromiseArray)
+          .then(success => {
+            this.forceUpdate();
+          });
+
+      }
+      );
+      //const sortedList = this._sortList({sortBy, sortDirection});
+      return true;
+    }
+    else {
+      return false;
+    }
+
+  }
+
+
+  // callBackSetState() {
+  //   console.log('sortedList')
+  //   console.log(this.state.sortedList)
+  //
+  //   //Create a dictionary mapping audioID to an audio element with the audio loaded in
+  //   var audioPlayers = {};
+  //   var transcriptDivs = {};
+  //   var audioPromiseArray = [];
+  //   var transcriptPromiseArray = [];
+  //   const audioArray = this.state.sortedList.toArray().filter((row) => {
+  //     if (row.json.uploadedUrl) {
+  //       return true;
+  //     }
+  //     return false;
+  //   });
+  //   audioArray.forEach((row) => {
+  //     const audioID = this._getAudioID(this._getAudioUrl(row));
+  //     audioPromiseArray.push(
+  //       this._getAudioPlayer(audioID).then((audioPlayer) => {
+  //         audioPlayers[audioID] = audioPlayer;
+  //       })
+  //     );
+  //     transcriptPromiseArray.push(
+  //       this._getTranscript(audioID).then((transcript) => {
+  //         transcriptDivs[audioID] = transcript;
+  //       })
+  //     );
+  //   });
+  //
+  //   Promise.all(audioPromiseArray)
+  //     .then(success => {
+  //       this.forceUpdate();
+  //     });
+  //
+  //   //Force table to render when all transcripts are loaded
+  //   Promise.all(transcriptPromiseArray)
+  //     .then(success => {
+  //       this.forceUpdate();
+  //     });
+  // }
+
 
   _getDatum(list, index) {
     return list.get(index % list.size);
@@ -164,15 +267,21 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
       </div>
     );
   }
-  
-  _sort({sortBy, sortDirection}) {
-    const sortedList = this._sortList({sortBy, sortDirection});
+
+  _sort({sortBy, sortDirection}, propList) {
+    const sortedList = this._sortList({sortBy, sortDirection}, propList);
 
     this.setState({sortBy, sortDirection, sortedList});
   }
 
-  _sortList({sortBy, sortDirection}) {
-    const list = this.props.list;
+  _sortList({sortBy, sortDirection}, propList) {
+    //const list = this.props.list;
+    var list = this.props.list;
+    if (propList !== 0) {
+      list = propList;
+      console.log('re writing the list to be');
+      console.log(list);
+    }
 
     const sortByColumn = (varA, varB) => {
       //edge case with rows that come from different parts of the row object
@@ -196,13 +305,14 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
       }
       return 0;
     };
-    
+
     const sortedList = list
       .sort(sortByColumn)
       .update(
         list => (sortDirection === SortDirection.DESC ? list.reverse() : list),
       );
-
+    console.log('sortedList right before return');
+    console.log(sortedList);
     return sortedList;
   }
 
@@ -275,6 +385,9 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
   };
 
   render() {
+    this.setState({rowCount: this.state.sortedList.size});
+    console.log('this is rowcount');
+    console.log(this.state.rowCount);
     const width = this.props.width;
 
     const {
@@ -313,23 +426,24 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
         sortBy={sortBy}
         sortDirection={sortDirection}
         width={width}
+        key={this.props.searchWord}
       >
-        <Column 
-          dataKey="timestamp" 
+        <Column
+          dataKey="timestamp"
           label="Timestamp"
           disableSort = {false}
           cellDataGetter={({ dataKey , rowData }) => moment(rowData[dataKey]).format('MM/DD/YY  h:mm:ssa')}
-          cellRenderer= {this._cellRenderer}          
+          cellRenderer= {this._cellRenderer}
           headerRenderer={this._headerRenderer}
-          width={290} 
+          width={290}
         />
-        <Column 
-          dataKey="email" 
-          label="Email" 
+        <Column
+          dataKey="email"
+          label="Email"
           disableSort = {false}
           cellDataGetter={({ dataKey , rowData }) => rowData.json[dataKey]}
           headerRenderer={this._headerRenderer}
-          width={400} 
+          width={400}
         />
         <Column
           dataKey="text"
