@@ -199,18 +199,18 @@ app.get('/server/natalie', function(request, response){
   console.log(sql);
   const values = [token];
   console.log(values);
-  // var accessibleTables = queryDatabase(sql, values, function(err, result) {
-  //   if(err) {
-  //     console.log({ error: err });
-  //     return response.status(500);
-  //   }
-  //
-  //   const {rows} = result;
-  //   console.log(rows);
-  //   response.status(200);
-  //   //if(rows.length === 0) return response.json({url: {currentQuestions:[], archivedQuestions: []}});
-  //   return response.json({rows: rows});
-  // });
+  queryDatabase(sql, values, function(err, result) {
+    if(err) {
+      console.log({ error: err });
+      return response.status(500);
+    }
+
+    const {rows} = result;
+    console.log(rows);
+    response.status(200);
+    //if(rows.length === 0) return response.json({url: {currentQuestions:[], archivedQuestions: []}});
+    return response.json({rows: rows});
+  });
 });
 
 

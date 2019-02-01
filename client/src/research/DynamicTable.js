@@ -92,11 +92,6 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
 
   shouldComponentUpdate(prevProps) {
     //Force table to render once all audio players are created
-    console.log('Starting componentShouldUpdate. this is this.props.list');
-    console.log(this.props.list);
-    console.log('here are the props');
-    console.log(prevProps.list);
-    console.log(this.props.list);
     //if (prevProps.searchWord !== this.props.searchWord) {
     if (prevProps.list !== this.props.list) {
       console.log('props have changed!');
@@ -105,8 +100,6 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
       const sortDirection = SortDirection.ASC;
       console.log(prevProps.list);
       this.setState({sortedList : this._sortList({sortBy, sortDirection},  prevProps.list)}, function () {
-        console.log('sortedList');
-        console.log(this.state.sortedList);
 
         //Create a dictionary mapping audioID to an audio element with the audio loaded in
         var audioPlayers = {};

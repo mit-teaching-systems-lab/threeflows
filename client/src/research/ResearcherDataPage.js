@@ -161,14 +161,15 @@ class Analysis extends Component {
       token: this.props.token,
       email: this.props.email,
       formValue: '',
-      searchWord: null
+      searchWord: null,
+      scenarioTranscripts: null
     };
 
     this.getAudio = this.getAudio.bind(this);
     this.getAudioID = this.getAudioID.bind(this);
     //Natalie adding this for form
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
 
     this.natalieGetAudioUrl = this.natalieGetAudioUrl.bind(this);
     this.natalieGetAudioID = this.natalieGetAudioID.bind(this);
@@ -284,6 +285,25 @@ class Analysis extends Component {
     return uniqueEmails.length;
   }
 
+  getCleanAllRows(json) {
+    const allRows1 = json.evidence.rows.filter(row => row.json.question !== undefined);
+    //console.log('This works, but with duplicates and things without responses')
+    //console.log(allRows1)
+    const allRows2 = allRows1.filter(row => (row.json.responseText !== undefined || (row.json.question.youTubeId !== undefined && row.json.uploadedUrl !== undefined)));
+    //That works (only has things with responses)! Now need to get rid of duplicates.
+    var allRows = [];
+    var i;
+    var lastTime = '';
+    for (i = 0; i < allRows2.length; i++) {
+      if (allRows2[i].timestamp !== lastTime){
+        allRows.push(allRows2[i]);
+      }
+      lastTime = allRows2[i].timestamp;
+
+    }
+    return allRows;
+  }
+
   natalieGetAudioUrl(row) {
     return row.json.audioUrl || (row.json.audioResponse && row.json.audioResponse.audioUrl) || (row.json.uploadedUrl);
   }
@@ -322,41 +342,38 @@ class Analysis extends Component {
       const filteredAllRows = [];
       var i;
       for (i = 0; i < allRows.length; i++) {
-        if (getAudioUrl(allRows[i]) !== undefined) {
-          //means it is a audio question
-          const audioUrl = this.natalieGetAudioUrl(allRows[i]);
-          //console.log('audioUrl')
-          //console.log(audioUrl)
-          const audioID = this.natalieGetAudioID(audioUrl);
-          //console.log('audioID')
-          //console.log(audioID)
-          this.natalieGetTranscript(audioID).then((t) => {
-            const transcript = t;
-            //console.log('transcript')
-            //console.log(transcript)
-            const transcribedText = transcript.props.children[1].toLowerCase();
-            //console.log(transcribed_text)
-            //now search through the transcribed_text and look for searchWord.
-            //if it's there, append that trancribed_text to an array.
-            if (transcribedText.includes(searchWord)) {
-              console.log('found transcribed text with search word');
-              filteredAllRows.push(allRows[i]);
-            }
-          });
-        }
-        else {
+        if (getAudioUrl(allRows[i]) === undefined) {
           const text = allRows[i].responseText.toLowerCase();
           if (text.includes(searchWord)) {
             console.log('found written text with search word');
             filteredAllRows.push(allRows[i]);
           }
         }
+        else {
+          const audioUrl = this.natalieGetAudioUrl(allRows[i]);
+          const audioID = this.natalieGetAudioID(audioUrl);
+          var j;
+          console.log('current audioID', audioID);
+          for (j=0; j<this.state.scenarioTranscripts.length; j++) {
+            console.log('this.state.scenarioTranscripts[j]', this.state.scenarioTranscripts[j]);
+            if (this.state.scenarioTranscripts[j][[audioID]] !== undefined) {
+              const text = this.state.scenarioTranscripts[j][[audioID]];
+              if (text.includes(searchWord)) {
+                console.log('found transcribed text with search word');
+                console.log('found search word with audioID', audioID);
+                console.log(text, "is text");
+                filteredAllRows.push(allRows[i]);
+              }
+            }
+          }
+        }
       }
+      console.log(this.state.scenarioTranscripts, "scenarioTranscripts");
       return filteredAllRows;
     }
   }
 
-  handleChange(event) {
+  onChange(event) {
     this.setState({formValue: event.target.value});
   }
 
@@ -375,6 +392,29 @@ class Analysis extends Component {
   onFetched(json) {
     const filtered = this.filter(json);
     this.setState({ json: filtered });
+    // 1.30 fetch transcripts. have another .then for that, that sets the state to
+    // the transcript data.
+
+    var scenarioTranscripts = [];
+    var i;
+    var allRows = this.getCleanAllRows(json);
+    for (i = 0; i < allRows.length; i++) {
+      //find audio ID
+      if (getAudioUrl(allRows[i]) !== undefined) {
+        const audioUrl = this.natalieGetAudioUrl(allRows[i]);
+        const audioID = this.natalieGetAudioID(audioUrl);
+        this.natalieGetTranscript(audioID).then((t) => {
+          const transcript = t;
+          const transcribedText = transcript.props.children[1].toLowerCase();
+
+          //console.log(transcribed_text)
+          //now search through the transcribed_text and look for searchWord.
+          //if it's there, append that trancribed_text to an array.
+          scenarioTranscripts.push({[audioID]: transcribedText});
+        });
+      }
+    }
+    this.setState({scenarioTranscripts: scenarioTranscripts});
   }
 
   onError(exception) {
@@ -394,30 +434,13 @@ class Analysis extends Component {
   }
 
   renderJson(json) {
-    console.log('This is json');
-    console.log(json);
-    console.log('This is all the data that used to be shown');
-    console.log(json.evidence.rows);
-    // This below line works, but doesnt include any YouTube responses.
-    //const allRows = json.evidence.rows.filter(row => row.json.responseText != undefined);
-    // This doesnt error and includes YouTube. Also includes lots of duplicates and things without responses.
-    const allRows1 = json.evidence.rows.filter(row => row.json.question !== undefined);
-    //console.log('This works, but with duplicates and things without responses')
-    //console.log(allRows1)
-    const allRows2 = allRows1.filter(row => (row.json.responseText !== undefined || (row.json.question.youTubeId !== undefined && row.json.uploadedUrl !== undefined)));
-    //That works (only has things with responses)! Now need to get rid of duplicates.
-    var allRows = [];
-    var i;
-    var lastTime = '';
-    for (i = 0; i < allRows2.length; i++) {
-      if (allRows2[i].timestamp !== lastTime){
-        allRows.push(allRows2[i]);
-      }
-      lastTime = allRows2[i].timestamp;
+    // 1/30 wait for transcript state to load.
+    // console.log('This is json');
+    // console.log(json);
+    // console.log('This is all the data that used to be shown');
+    // console.log(json.evidence.rows);
+    var allRows = this.getCleanAllRows(json);
 
-    }
-    //row.json.question
-    //do filtering here
     const filteredAllRows = this.filterAllRowsBySearchWord(this.state.searchWord, allRows);
     console.log('filteredAllRows');
     console.log(filteredAllRows);
@@ -445,97 +468,6 @@ class Analysis extends Component {
     }
   }
 
-  //Natalie adding functions for the form
-  // https://reactjs.org/docs/forms.html
-  // natalieGetAudioUrl(row) {
-  //   return row.json.audioUrl || (row.json.audioResponse && row.json.audioResponse.audioUrl) || (row.json.uploadedUrl);
-  // }
-  // natalieGetAudioID(audioUrl) {
-  //   if (audioUrl) {
-  //     const slashIndex = audioUrl.lastIndexOf('/');
-  //     const filename = audioUrl.slice(slashIndex + 1);
-  //     const audioID = filename.slice(0,-4);
-  //     return audioID;
-  //   }
-  //   return "";
-  // }
-  // natalieGetTranscript(audioID) {
-  //   const token = this.props.token;
-  //   //request transcript for audio
-  //   return requestTranscript(token,audioID)
-  //     .then(results => {
-  //       if (results.transcript){
-  //         return <div id={audioID+"-transcript"}>Transcript: "{results.transcript}"</div>;
-  //       }
-  //       return <div id={audioID+"-transcript"}>Transcript: Unable to transcribe</div>;
-  //     })
-  //     .catch(err => {
-  //       console.log('failure in transcription');
-  //     });
-  // }
-
-
-  // filterAllRowsBySearchWord(searchWord, allRows) {
-  //   if (searchWord == null) {
-  //     return allRows;
-  //   }
-  //   else {
-  //     searchWord = searchWord.toLowerCase();
-  //     const filteredAllRows = [];
-  //     var i;
-  //     for (i = 0; i < allRows.length; i++) {
-  //       if (getAudioUrl(allRows[i]) !== undefined) {
-  //         //means it is a audio question
-  //         const audioUrl = this.natalieGetAudioUrl(allRows[i]);
-  //         //console.log('audioUrl')
-  //         //console.log(audioUrl)
-  //         const audioID = this.natalieGetAudioID(audioUrl);
-  //         //console.log('audioID')
-  //         //console.log(audioID)
-  //         this.natalieGetTranscript(audioID).then((t) => {
-  //           const transcript = t;
-  //           //console.log('transcript')
-  //           //console.log(transcript)
-  //           const transcribedText = transcript.props.children[1].toLowerCase();
-  //           //console.log(transcribed_text)
-  //           //now search through the transcribed_text and look for searchWord.
-  //           //if it's there, append that trancribed_text to an array.
-  //           if (transcribedText.includes(searchWord)) {
-  //             console.log('found transcribed text with search word');
-  //             filteredAllRows.push(allRows[i]);
-  //           }
-  //         });
-  //       }
-  //       else {
-  //         const text = allRows[i].responseText.toLowerCase();
-  //         if (text.includes(searchWord)) {
-  //           console.log('found written text with search word');
-  //           filteredAllRows.push(allRows[i]);
-  //         }
-  //       }
-  //     }
-  //     return filteredAllRows;
-  //   }
-  // }
-
-  // handleChange(event) {
-  //   this.setState({formValue: event.target.value});
-  // }
-
-  // onSubmit(event, allRows) {
-  //   const searchWord = this.state.formValue;
-  //   event.preventDefault();
-  //   this.setState({searchWord: searchWord});
-  // }
-  //
-  // onClear(event) {
-  //   event.preventDefault();
-  //   this.setState({searchWord: null});
-  // }
-
-
-
-
 
 
   renderMeasurementToolsTable(allRows) {
@@ -556,7 +488,7 @@ class Analysis extends Component {
               <td>
                 <form name="myForm" onSubmit={e => this.onSubmit(e, allRows)}>
                   Keyword:<br/>
-                  <input type="text" name="searchWord" value={this.state.formValue} onChange={this.handleChange}/>
+                  <input type="text" name="searchWord" value={this.state.formValue} onChange={this.onChange}/>
                   <input type="submit" value="Submit"/>
                 </form>
                 <button onClick={(e) => {this.onClear(e);}}>Clear</button>
@@ -569,18 +501,7 @@ class Analysis extends Component {
     );
   }
 
-  // getNumberStudents(allRows){
-  //   var i;
-  //   var uniqueEmails = [];
-  //   for (i = 0; i < allRows.length; i++) {
-  //     const email = allRows[i].json.email;
-  //     if (uniqueEmails.indexOf(email) === -1) {
-  //       //its not in there already, new email
-  //       uniqueEmails.push(email);
-  //     }
-  //   }
-  //   return uniqueEmails.length;
-  // }
+
 
   // Summary stats
   renderStats(key, statsForSessions) {
@@ -745,21 +666,6 @@ class Analysis extends Component {
     console.log(simpleJson);
     console.log('This is immutable.list(simpleJson)');
     console.log(Immutable.List(simpleJson));
-
-    // const dynamicTable_list = Immutable.List(simpleJson);
-    // var i;
-    // var j;
-    // //this removes everything that was in the list. By the end of it
-    // // dynamicTable_list should be empty
-    // for (i = 0; i < dynamicTable_list.size; i++) {
-    //   dynamicTable_list = dynamicTable_list.pop()
-    // }
-    // //now we add all the filtered stuff back into dynamicTable_list
-    // for (j = 0; j < simpleJson.length; j++) {
-    //   dynamicTable_list.push(simpleJson[i])
-    // }
-    //const now = new Date();
-    //const randomKey = now.getTime();
 
     return (
       <div>
