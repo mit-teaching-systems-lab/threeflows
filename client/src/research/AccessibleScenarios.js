@@ -61,7 +61,8 @@ class AccessibleScenarios extends Component {
         filter(row) {
           return row;
         },
-        location: url.substring(21) //was just URL
+        //location: url.substring(21) //was just URL
+        location: url.substring(url.indexOf('/teachermoments'))
       }];
     });
     return (
