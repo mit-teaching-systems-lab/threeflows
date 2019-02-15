@@ -289,7 +289,7 @@ class Analysis extends Component {
     const allRows1 = json.evidence.rows.filter(row => row.json.question !== undefined);
     //console.log('This works, but with duplicates and things without responses')
     //console.log(allRows1)
-    const allRows2 = allRows1.filter(row => (row.json.responseText !== undefined || (row.json.question.youTubeId !== undefined && row.json.uploadedUrl !== undefined)));
+    const allRows2 = allRows1.filter(row => (row.json.audioUrl !== undefined || row.json.responseText !== undefined || (row.json.question.youTubeId !== undefined && row.json.uploadedUrl !== undefined)));
     //That works (only has things with responses)! Now need to get rid of duplicates.
     var allRows = [];
     var i;
