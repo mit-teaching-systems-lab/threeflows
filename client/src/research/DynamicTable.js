@@ -386,8 +386,6 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
 
   render() {
     this.setState({rowCount: this.state.sortedList.size});
-    console.log('this is rowcount');
-    console.log(this.state.rowCount);
     const width = this.props.width;
 
     const {
