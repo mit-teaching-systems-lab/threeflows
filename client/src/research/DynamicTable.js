@@ -28,7 +28,7 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
     var audioPromiseArray = [];
     var transcriptPromiseArray = [];
     const audioArray = sortedList.toArray().filter((row) => {
-      if (row.json.uploadedUrl) {
+      if (row.json.uploadedUrl || row.json.audioUrl) {
         return true;
       }
       return false;
@@ -107,7 +107,7 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
         var audioPromiseArray = [];
         var transcriptPromiseArray = [];
         const audioArray = this.state.sortedList.toArray().filter((row) => {
-          if (row.json.uploadedUrl) {
+          if (row.json.uploadedUrl || row.json.audioUrl) {
             return true;
           }
           return false;
@@ -386,8 +386,6 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
 
   render() {
     this.setState({rowCount: this.state.sortedList.size});
-    console.log('this is rowcount');
-    console.log(this.state.rowCount);
     const width = this.props.width;
 
     const {

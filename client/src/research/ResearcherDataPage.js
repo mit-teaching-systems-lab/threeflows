@@ -19,6 +19,9 @@ import {requestTranscript} from './Transcribe.js';
 import DynamicTable from './DynamicTable.js';
 
 
+// https://codeburst.io/creating-a-full-stack-web-application-with-python-npm-webpack-and-react-8925800503d9
+// https://codeburst.io/creating-a-full-stack-web-application-with-python-npm-webpack-and-react-beauty-and-495bfdf11841
+
 
 /*
 Requires local data from database and from S3.
@@ -162,7 +165,10 @@ class Analysis extends Component {
       email: this.props.email,
       formValue: '',
       searchWord: null,
-      scenarioTranscripts: null
+      scenarioTranscripts: null,
+      formValueSA: '',
+      SAEmail: null,
+      resultsSA: null
     };
 
     this.getAudio = this.getAudio.bind(this);
@@ -170,6 +176,8 @@ class Analysis extends Component {
     //Natalie adding this for form
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onChangeSA = this.onChangeSA.bind(this);
+    this.onSubmitSA = this.onSubmitSA.bind(this);
 
     this.natalieGetAudioUrl = this.natalieGetAudioUrl.bind(this);
     this.natalieGetAudioID = this.natalieGetAudioID.bind(this);
@@ -289,7 +297,8 @@ class Analysis extends Component {
     const allRows1 = json.evidence.rows.filter(row => row.json.question !== undefined);
     //console.log('This works, but with duplicates and things without responses')
     //console.log(allRows1)
-    const allRows2 = allRows1.filter(row => (row.json.responseText !== undefined || (row.json.question.youTubeId !== undefined && row.json.uploadedUrl !== undefined)));
+    const allRows2 = allRows1.filter(row => (row.json.audioUrl !== undefined || row.json.responseText !== undefined || (row.json.question.youTubeId !== undefined && row.json.uploadedUrl !== undefined)));
+    //const allRows2 = allRows1.filter(row => (row.json.responseText !== undefined || (row.json.question.youTubeId !== undefined && row.json.uploadedUrl !== undefined)));
     //That works (only has things with responses)! Now need to get rid of duplicates.
     var allRows = [];
     var i;
@@ -353,9 +362,9 @@ class Analysis extends Component {
           const audioUrl = this.natalieGetAudioUrl(allRows[i]);
           const audioID = this.natalieGetAudioID(audioUrl);
           var j;
-          console.log('current audioID', audioID);
+          //console.log('current audioID', audioID);
           for (j=0; j<this.state.scenarioTranscripts.length; j++) {
-            console.log('this.state.scenarioTranscripts[j]', this.state.scenarioTranscripts[j]);
+            //console.log('this.state.scenarioTranscripts[j]', this.state.scenarioTranscripts[j]);
             if (this.state.scenarioTranscripts[j][[audioID]] !== undefined) {
               const text = this.state.scenarioTranscripts[j][[audioID]];
               if (text.includes(searchWord)) {
@@ -373,8 +382,94 @@ class Analysis extends Component {
     }
   }
 
+
+  gatherSAText(allRows) {
+    //filter through allRows and grab the text that corresponds to the SAEMail
+    if (this.state.SAEmail === null) {
+      return null; //do nothing
+    }
+    else {
+      var i;
+      var textForSA = [];
+      for (i = 0; i < allRows.length; i++) {
+        const email = allRows[i].json.email;
+        if (this.state.SAEmail === email) {
+          //it was a match.
+          //if it's a text row, then just grab the text
+          //if it's audio, need to get transcript with audio ID through this.state.scenarioTranscripts
+          if (getAudioUrl(allRows[i]) === undefined) {
+            // text response
+            const text = allRows[i].responseText.toLowerCase();
+            textForSA.push(text);
+          }
+          else {
+            //audio response
+            const audioUrl = this.natalieGetAudioUrl(allRows[i]);
+            const audioID = this.natalieGetAudioID(audioUrl);
+            var j;
+            for (j=0; j<this.state.scenarioTranscripts.length; j++) {
+              if (this.state.scenarioTranscripts[j][[audioID]] !== undefined) {
+                const text = this.state.scenarioTranscripts[j][[audioID]];
+                textForSA.push(text);
+              }
+            }
+          }
+        }
+      }
+      return textForSA;
+    }
+  }
+
+  runSA(text) {
+    if (text === null) {
+      //return 'No Results';
+      this.setState({resultsSA: null});
+    }
+    else {
+      if (text.length === 0) {
+        //return "No such email";
+        this.setState({resultsSA: null});
+      }
+      else {
+        //run SA here!!!!!!
+        //$.get(window.location.href + 'SA', (results) => {
+        // $.get('https://localhost:5000/SA', (results) => {
+        //   console.log("RESULTS FROM PYTHON")
+        //   console.log(results);
+        // });
+        console.log(text, "this is the text about to go into API");
+        // apiClass.postText(text)
+        //   .then(res => {
+        //     console.log("axios returned");
+        //     console.log(res, "is the result from the POST");
+        //     this.setState({resultsSA: res.data});
+        //     }
+        //   )
+        fetch('/SA', {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'text': text
+          },
+          method: 'GET'
+        })
+          .then(response => response.json())
+          .then(response =>  {
+            console.log(response, "is response from the API");
+            this.setState({resultsSA: response.ans});
+          });
+
+        //return "Happy";
+      }
+    }
+  }
+
   onChange(event) {
     this.setState({formValue: event.target.value});
+  }
+
+  onChangeSA(event) {
+    this.setState({formValueSA: event.target.value});
   }
 
   onSubmit(event, allRows) {
@@ -383,9 +478,23 @@ class Analysis extends Component {
     this.setState({searchWord: searchWord});
   }
 
+  onSubmitSA(event, allRows) {
+    const SAEmail = this.state.formValueSA;
+    event.preventDefault();
+    this.setState({SAEmail: SAEmail});
+    const textForSA = this.gatherSAText(allRows);
+    this.runSA(textForSA);
+  }
+
   onClear(event) {
     event.preventDefault();
     this.setState({searchWord: null});
+  }
+
+  onClearSA(event) {
+    event.preventDefault();
+    this.setState({SAEmail: null});
+    this.setState({resultsSA: null});
   }
 
 
@@ -405,8 +514,10 @@ class Analysis extends Component {
         const audioID = this.natalieGetAudioID(audioUrl);
         this.natalieGetTranscript(audioID).then((t) => {
           const transcript = t;
-          const transcribedText = transcript.props.children[1].toLowerCase();
-
+          var transcribedText = "";
+          if (transcript !== undefined) {
+            transcribedText = transcript.props.children[1].toLowerCase();
+          }
           //console.log(transcribed_text)
           //now search through the transcribed_text and look for searchWord.
           //if it's there, append that trancribed_text to an array.
@@ -442,6 +553,8 @@ class Analysis extends Component {
     var allRows = this.getCleanAllRows(json);
 
     const filteredAllRows = this.filterAllRowsBySearchWord(this.state.searchWord, allRows);
+
+
     console.log('filteredAllRows');
     console.log(filteredAllRows);
 
@@ -493,7 +606,17 @@ class Analysis extends Component {
                 </form>
                 <button onClick={(e) => {this.onClear(e);}}>Clear</button>
               </td>
-              <td>Filler SA</td>
+              <td>
+                <form name="SAForm" onSubmit={e => this.onSubmitSA(e, allRows)}>
+                  Email for SA:<br/>
+                  <input type="text" name="SAEmail" value={this.state.formValueSA} onChange={this.onChangeSA}/>
+                  <input type="submit" value="Submit"/>
+                </form>
+                <button onClick={(e) => {this.onClearSA(e);}}>Clear</button>
+              </td>
+              <td>
+                SA Results: {this.state.resultsSA}
+              </td>
             </tr>
           </tbody>
         </table>
