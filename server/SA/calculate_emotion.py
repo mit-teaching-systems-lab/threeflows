@@ -8,6 +8,8 @@ import re
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.models import model_from_json
+from sklearn.svm import SVC
+from sklearn import metrics
 import keras.backend
 import numpy as np
 import os
@@ -16,35 +18,10 @@ from nltk.corpus import stopwords
 from nltk.tokenize import TweetTokenizer
 from nltk.util import ngrams
 import string
+import pickle
 
 
-#app = Flask(__name__)
-#CORS(app)
-
-#https://github.com/bookRa/abstractor
-# @app.route("/SA", methods=['POST'])
-# def SA():
-# 	if request.method =='POST':
-# 		my_text = request.get_json()['text'] # request.data.text
-# 		#run the model here
-# 		#you need to return a string (or other things but a string is easiest)
-# 		predictions = calculate_emotion(my_text)
-# 		#return('this is where id put results if i had any')
-# 		return str(predictions)+'% Confused'
-# 	else:
-# 		return("that was not a POST request-Flask")
-#
-#
-
-# my_text = sys.argv[1]
-# predictions = calculate_emotion(my_text)
-# return str(predictions)+'% Confused'
-# print(str(predictions)+'% Confused')
-# sys.stdout.flush()
-
-
-
-def format_text(entries):
+def format_text(entries, LSTM_shape=True):
 	#print(entries, "is entries")
 	THIS_FOLDER = str(os.path.dirname(os.path.abspath(__file__)))
 	sentences = []
@@ -78,10 +55,13 @@ def format_text(entries):
 
 	#print(len(sentences), "is len(sentences)")
 	#print(len(all_ngrams), "is len(all_ngrams)")
-	X = np.reshape(X, (X.shape[0], 1, X.shape[1]))
+	if LSTM_shape:
+		X = np.reshape(X, (X.shape[0], 1, X.shape[1]))
+	else:
+		X = np.reshape(X, (X.shape[0], X.shape[2]))
 	return X
 
-def calculate_emotion(text):
+def calculate_emotion_LSTM(text):
 	keras.backend.clear_session()
 	THIS_FOLDER = str(os.path.dirname(os.path.abspath(__file__)))
 	json_file = open(THIS_FOLDER+'/model.json', 'r')
@@ -93,7 +73,7 @@ def calculate_emotion(text):
 	loaded_model.load_weights(THIS_FOLDER+'/model.h5')
 	#print("Loaded model from disk")
 	loaded_model.compile(loss='mean_squared_error', optimizer='adam')
-	X = format_text(text)
+	X = format_text(text, LSTM_shape=True)
 	predictions = loaded_model.predict(X)
 	total = 0
 	for prediction in predictions:
@@ -102,13 +82,24 @@ def calculate_emotion(text):
 	percent_confused = (total/float(len(predictions)))*100
 	return round(percent_confused, 2)
 
+def calculate_emotion_SVC(text):
+	THIS_FOLDER = str(os.path.dirname(os.path.abspath(__file__)))
+	loaded_clf = pickle.load(open('clf.sav', 'rb'))
+	X = format_text(text, LSTM_shape=False)
+	predictions = loaded_clf.predict(X)
+	total = 0
+	for prediction in predictions:
+		num = float(prediction[0])
+		total += num
+	percent_confused = (total/float(len(predictions)))*100
+	return round(percent_confused, 2)
 
 def main():
 	#my_text = sys.stdin.readlines()
 	my_text = sys.argv[1]
 	#print(my_text, "is my_text")
 	#print('python is running')
-	predictions = calculate_emotion(my_text)
+	predictions = calculate_emotion_SVC(my_text)
 	print(str(predictions)+'% Confused')
 
 if __name__ == "__main__":
