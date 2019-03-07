@@ -94,9 +94,18 @@ function speechToText(pool, s3, watsonConfig, audioID, request, response) {
 // the same wav files multiple times
 function updateTranscript(pool, text, audioID) {
   const values = [audioID, text];
+  // var is_it_already_there;
+  // const sql_check = `SELECT EXISTS(SELECT * FROM transcripts WHERE audio_id=$1);`;
+  // pool.query(sql_check,values)
+  //   .then(results => is_it_already_there)
+  //   .catch(err => {
+  //     console.log('Error with database query for TRUE/FALSE:', err);
+  //   });
+  // console.log(is_it_already_there, "is is_it_already_there")
   const sql = `
     INSERT INTO transcripts(audio_id,transcript)
-    VALUES ($1, $2);`;
+    VALUES ($1, $2)
+    ON CONFLICT (audio_id) DO NOTHING;`;
 
   return pool.query(sql,values)
     .then(results => text)
