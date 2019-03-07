@@ -404,6 +404,7 @@ class Analysis extends Component {
           }
           else {
             //audio response
+            //this is the repeating problem
             const audioUrl = this.natalieGetAudioUrl(allRows[i]);
             const audioID = this.natalieGetAudioID(audioUrl);
             var j;
@@ -512,6 +513,9 @@ class Analysis extends Component {
       if (getAudioUrl(allRows[i]) !== undefined) {
         const audioUrl = this.natalieGetAudioUrl(allRows[i]);
         const audioID = this.natalieGetAudioID(audioUrl);
+        //check if audioID is in DB cache, which has a table transcripts that maps audio_id to transcript
+        // if audioID is not in DB cache already, then call natalieGetTranscript
+        //this is the place where the repeating transcription errors occur.
         this.natalieGetTranscript(audioID).then((t) => {
           const transcript = t;
           var transcribedText = "";
