@@ -1,4 +1,5 @@
 function requestTranscript(token,audioID) {
+  console.log("top of transcribe.js");
   return fetch('/server/research/transcribe/'+audioID+'.wav', {
     headers: {
       'Accept': 'application/json',

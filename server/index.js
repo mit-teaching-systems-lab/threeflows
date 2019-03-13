@@ -244,10 +244,10 @@ app.get('/SA', runPythonSA);
 //This one is really close, just problems with the bash '' thing
 function runPythonSA(req, res) {
   //console.log('start thing')
-  var ans = '';
+  //var ans = '';
   const theText = req.headers.text;
   console.log(theText, "is the_text");
-  const { exec } = require('child_process');
+  //const { exec } = require('child_process');
   // the ` or something similar character is in the ap test data list. causing it to escape early
   //console.log(`python3 ~/Desktop/server.py ${[the_text]}`, "is the actual command")
   // try removing ' here, before python
@@ -267,19 +267,8 @@ function runPythonSA(req, res) {
   var dir = __dirname + '/SA/calculate_emotion.py';
   console.log(`python3 ${dir} ${newTheText}`, "is the actual command modified");
   //exec(`python3 ~/Desktop/server.py ${new_the_text}`, (error, stdout, stderr) => {
-  exec(`python3 ${dir} ${newTheText}`, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`exec error: ${error}`);
-      return;
-    }
-    console.log(`stdout: ${stdout}`);
-    console.log(`stderr: ${stderr}`);
-    ans = stdout;
-    //return ans;
-    //res.send(ans.toString())
-    res.send({'ans': ans});
-  });
-  console.log("we should be done with app.get");
+  return res.send({"ans":"not done"});
+
   //return ans;
 }
 
