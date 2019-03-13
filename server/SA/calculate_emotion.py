@@ -3,7 +3,6 @@
 import sys
 #sys.path.append('/usr/local/lib/python3.7/site-packages')
 #from flask_cors import CORS
-import json
 #import re
 from keras.models import Sequential
 from keras.layers import Dense
@@ -17,23 +16,31 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import TweetTokenizer
 from nltk.util import ngrams
-import string
+#import string
 import pickle
+import base64
+
+# STILL NEED TO BASE64 DECODE
 
 
 def format_text(entries, LSTM_shape=True):
-	#print(entries, "is entries")
 	THIS_FOLDER = str(os.path.dirname(os.path.abspath(__file__)))
 	sentences = []
 	tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
-	for entry in entries:
+	decoded = base64.b64decode(entries)
+	decoded = str(decoded)
+	decoded = decoded[2:]
+	decoded = decoded[:-1]
+	decoded = decoded.split(",")
+	for entry in decoded:
 		token_sentences = tokenizer.tokenize(entry)
 		for sentence in token_sentences:
 			sentences.append(sentence)
 
 	tokenized_sentences = []
 	#remove_tokens = ['%', ']', '[', '.', ',', '?', '!', '\'']
-	remove_tokens = string.punctuation
+	#remove_tokens = string.punctuation
+	remove_tokens = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~'
 	stop_words = set(stopwords.words('english'))
 	tweet_tknzr = TweetTokenizer()
 	for sentence in sentences:
@@ -53,12 +60,11 @@ def format_text(entries, LSTM_shape=True):
 				index = all_ngrams[gram]
 				X[i][index] = 1
 
-	#print(len(sentences), "is len(sentences)")
-	#print(len(all_ngrams), "is len(all_ngrams)")
+
 	if LSTM_shape:
 		X = np.reshape(X, (X.shape[0], 1, X.shape[1]))
 	else:
-		X = np.reshape(X, (X.shape[0], X.shape[2]))
+		X = np.reshape(X, (X.shape[0], X.shape[1]))
 	return X
 
 def calculate_emotion_LSTM(text):
@@ -77,19 +83,19 @@ def calculate_emotion_LSTM(text):
 	predictions = loaded_model.predict(X)
 	total = 0
 	for prediction in predictions:
-		num = float(prediction[0])
+		num = float(prediction)
 		total += num
 	percent_confused = (total/float(len(predictions)))*100
 	return round(percent_confused, 2)
 
 def calculate_emotion_SVC(text):
 	THIS_FOLDER = str(os.path.dirname(os.path.abspath(__file__)))
-	loaded_clf = pickle.load(open('clf.sav', 'rb'))
+	loaded_clf = pickle.load(open(THIS_FOLDER+'/clf.sav', 'rb'))
 	X = format_text(text, LSTM_shape=False)
 	predictions = loaded_clf.predict(X)
 	total = 0
 	for prediction in predictions:
-		num = float(prediction[0])
+		num = float(prediction)
 		total += num
 	percent_confused = (total/float(len(predictions)))*100
 	return round(percent_confused, 2)
@@ -97,7 +103,6 @@ def calculate_emotion_SVC(text):
 def main():
 	#my_text = sys.stdin.readlines()
 	my_text = sys.argv[1]
-	#print(my_text, "is my_text")
 	#print('python is running')
 	predictions = calculate_emotion_SVC(my_text)
 	print(str(predictions)+'% Confused')

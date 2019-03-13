@@ -243,33 +243,37 @@ app.get('/SA', runPythonSA);
 
 //This one is really close, just problems with the bash '' thing
 function runPythonSA(req, res) {
-  //console.log('start thing')
-  //var ans = '';
+  var ans = '';
   const theText = req.headers.text;
-  console.log(theText, "is the_text");
-  //const { exec } = require('child_process');
-  // the ` or something similar character is in the ap test data list. causing it to escape early
-  //console.log(`python3 ~/Desktop/server.py ${[the_text]}`, "is the actual command")
-  // try removing ' here, before python
-  // turning the_text from a string of all sentences to a list of sentence strings
+  const { exec } = require('child_process');
   var splitTheText = theText.split(" ,");
-  console.log(splitTheText, "is split_the_text after split");
   var newTheText = [];
   var i;
   for (i = 0; i < splitTheText.length; i++) {
     var newText = splitTheText[i].replace('\'','');
     newTheText.push(newText);
   }
-  console.log(newTheText, 'is new_the_text');
-  //exec(`python3 ~/Desktop/server.py ${["woohoo"]}`, (error, stdout, stderr) => {
-  //console.log(`python3 ~/Desktop/server.py ${the_text}`, "is the actual command modified")
+
   console.log(__dirname, "is dirname");
   var dir = __dirname + '/SA/calculate_emotion.py';
-  console.log(`python3 ${dir} ${newTheText}`, "is the actual command modified");
-  //exec(`python3 ~/Desktop/server.py ${new_the_text}`, (error, stdout, stderr) => {
-  return res.send({"ans":"not done"});
 
-  //return ans;
+  // DANGER = Encoding the user text to base64 to get passed into command terminal
+
+  var base64Text = Buffer.from(newTheText[0]).toString("base64");
+
+
+  //DANGER - do not pass unencoded arguments into terminal command
+  exec(`python3 ${dir} ${base64Text}`, (error, stdout, stderr) => {
+    if (error) {
+      console.log("An error occurred with calling Python");
+      //console.error(`exec error: ${error}`);
+      return;
+    }
+    ans = stdout;
+    res.send({'ans': ans});
+  });
+  console.log("we should be done with app.get");
+
 }
 
 
