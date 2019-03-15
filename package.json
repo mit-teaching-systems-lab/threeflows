@@ -1,7 +1,9 @@
 {
   "name": "threeflows",
   "version": "0.1.0",
-  
+  "engines": {
+    "node": "^10.8.0"
+  },
   "main": "server/index.js",
   "scripts": {
     "install": "cd client && YARN_PRODUCTION=false yarn install --frozen-lockfile",
