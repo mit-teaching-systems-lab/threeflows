@@ -504,7 +504,7 @@ class Analysis extends Component {
     this.setState({ json: filtered });
     // 1.30 fetch transcripts. have another .then for that, that sets the state to
     // the transcript data.
-
+    //random comment
     var scenarioTranscripts = [];
     var i;
     var allRows = this.getCleanAllRows(json);
