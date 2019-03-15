@@ -99,47 +99,9 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
       const sortBy = 'index';
       const sortDirection = SortDirection.ASC;
       console.log(prevProps.list);
-      this.setState({sortedList : this._sortList({sortBy, sortDirection},  prevProps.list)}, function () {
+      this.setState({sortedList : this._sortList({sortBy, sortDirection},  prevProps.list)});
+      this.forceUpdate();
 
-        //Create a dictionary mapping audioID to an audio element with the audio loaded in
-        var audioPlayers = {};
-        var transcriptDivs = {};
-        var audioPromiseArray = [];
-        var transcriptPromiseArray = [];
-        const audioArray = this.state.sortedList.toArray().filter((row) => {
-          if (row.json.uploadedUrl || row.json.audioUrl) {
-            return true;
-          }
-          return false;
-        });
-        audioArray.forEach((row) => {
-          const audioID = this._getAudioID(this._getAudioUrl(row));
-          audioPromiseArray.push(
-            this._getAudioPlayer(audioID).then((audioPlayer) => {
-              audioPlayers[audioID] = audioPlayer;
-            })
-          );
-          transcriptPromiseArray.push(
-            this._getTranscript(audioID).then((transcript) => {
-              transcriptDivs[audioID] = transcript;
-            })
-          );
-        });
-
-        Promise.all(audioPromiseArray)
-          .then(success => {
-            this.forceUpdate();
-          });
-
-        //Force table to render when all transcripts are loaded
-        Promise.all(transcriptPromiseArray)
-          .then(success => {
-            this.forceUpdate();
-          });
-
-      }
-      );
-      //const sortedList = this._sortList({sortBy, sortDirection});
       return true;
     }
     else {
@@ -243,6 +205,7 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
   _getTranscript(audioID) {
     const token = this.props.token;
     //request transcript for audio
+    console.log("calling requestTranscript from dynamicTable");
     return requestTranscript(token,audioID)
       .then(results => {
         if (results.transcript){
