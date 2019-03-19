@@ -179,10 +179,10 @@ Think back to the beginning of the simulation where you anticipated what might h
   slides.push({ type: 'Reflect', id: 'reflect_2', text:
 `Think back to your original goals going into the conversation. How much progress do you feel you made towards your goal? Explain. `, open: true, force: true});
 
-  slides.push({ type: 'Reflect', text:
+  slides.push({ type: 'Reflect', id: 'reflect_3',  text:
 `What would be your next step(s) in achieving your goal? Explain.`, open: true, force: true});
 
-  slides.push({ type: 'Reflect',  id: 'reflect_3',text:
+  slides.push({ type: 'Reflect',  id: 'reflect_4',text:
 `Would you do anything differently if a similar situation arose with another student? Explain.`, open: true, force: true});
 
 
