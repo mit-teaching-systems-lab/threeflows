@@ -69,6 +69,7 @@ export default createReactClass({
     '/teachermoments/rosa': 'rosaScenario',
     '/teachermoments/dysfunc': 'dysfuncScenario',
     '/teachermoments/aptest': 'apTestScenario',
+    '/teachermoments/aptest-pt': 'apTestScenarioPT',
     '/teachermoments/aptest-two': 'apTestScenarioTwo',
     '/teachermoments/aptest-two-pt': 'apTestScenarioTwoPT',
     '/teachermoments/smith': 'smithScenario',
