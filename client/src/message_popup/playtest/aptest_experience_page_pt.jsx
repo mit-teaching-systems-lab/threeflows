@@ -12,9 +12,9 @@ import SessionFrame from '../linear_session/session_frame.jsx';
 import IntroWithEmail from '../linear_session/intro_with_email.jsx';
 
 import QuestionInterpreter from '../renderers/question_interpreter.jsx';
-import type {QuestionT} from './aptest_scenario_two.jsx';
-import apTestScenario from './aptest_scenario.jsx';
-import ResponseSummary from '../renderers/response_summary.jsx';
+import type {QuestionT} from './aptest_scenario_pt.jsx';
+import apTestScenario from './aptest_scenario_pt.jsx';
+import ResponseSummary from '../renderers/response_summary_coding.jsx';
 
 
 type ResponseT = {

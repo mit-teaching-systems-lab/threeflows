@@ -23,6 +23,7 @@ import EcsExperiencePage from './playtest/ecs_experience_page.jsx';
 import DysfuncExperiencePage from './playtest/dysfunc_experience_page.jsx';
 import HMTCAExperiencePage from './playtest/hmtca_experience_page.jsx';
 import apTestExperiencePage from './playtest/aptest_experience_page.jsx';
+import apTestExperiencePagePT from './playtest/aptest_experience_page_pt.jsx';
 import apTestExperiencePageTwo from './playtest/aptest_experience_page_two.jsx';
 import apTestExperiencePageTwoPT from './playtest/aptest_experience_page_two_pt.jsx';
 
@@ -63,6 +64,7 @@ export {
   ReviewPage,
   DysfuncExperiencePage,
   apTestExperiencePage,
+  apTestExperiencePagePT,
   apTestExperiencePageTwo,
   apTestExperiencePageTwoPT,
   HMTCAExperiencePage
