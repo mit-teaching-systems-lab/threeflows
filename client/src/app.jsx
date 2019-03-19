@@ -209,6 +209,10 @@ export default createReactClass({
     return <MessagePopup.apTestExperiencePage query={query} />;
   },
 
+  apTestScenarioPT(query = {}) {
+    return <MessagePopup.apTestExperiencePagePT query={query} />;
+  },
+
   apTestScenarioTwo(query = {}) {
     return <MessagePopup.apTestExperiencePageTwo query={query} />;
   },
