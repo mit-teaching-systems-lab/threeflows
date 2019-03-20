@@ -263,7 +263,7 @@ function runPythonSA(req, res) {
 
 
   //DANGER - do not pass unencoded arguments into terminal command
-  exec(`python3 ${dir} ${base64Text}`, (error, stdout, stderr) => {
+  exec(`python ${dir} ${base64Text}`, (error, stdout, stderr) => {
     if (error) {
       console.log("An error occurred with calling Python");
       //console.error(`exec error: ${error}`);
