@@ -267,7 +267,7 @@ function runPythonSA(req, res) {
   exec(`python3 ${dir} ${base64Text}`, (error, stdout, stderr) => {
     if (error) {
       console.log("An error occurred with calling Python");
-      //console.error(`exec error: ${error}`);
+      console.error(`exec error: ${error}`);
       return;
     }
     ans = stdout;
