@@ -263,16 +263,18 @@ function runPythonSA(req, res) {
 
 
   //DANGER - do not pass unencoded arguments into terminal command
-  exec(`python ${dir} ${base64Text}`, (error, stdout, stderr) => {
+  console.log(Date.now(), "is before the python call ");
+  exec(`python3 ${dir} ${base64Text}`, (error, stdout, stderr) => {
     if (error) {
       console.log("An error occurred with calling Python");
       //console.error(`exec error: ${error}`);
       return;
     }
     ans = stdout;
+    console.log(Date.now(), "saving answer");
     res.send({'ans': ans});
   });
-  console.log("we should be done with app.get");
+  console.log(Date.now(), "is after the python call ");
 
 }
 
