@@ -332,6 +332,40 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
     );
   };
 
+  _escapedCell = (cell) => {
+    return (cell && cell.replace)
+      ? cell.replace(/\n/g, '  ')
+      : cell;
+  }
+
+  doExport() {
+    var rawRows = this.state.sortedList.map( (item, index) => this._getDatum(this.state.sortedList, index));
+    var resolvedRows = Promise.all(rawRows.map(row => {
+      return requestTranscript(this.props.token, this._getAudioID(this._getAudioUrl(row))).then(results => {
+        return {
+          ...row,
+          transcript: results.transcript
+        };
+      });
+    }));
+    resolvedRows.then(rows => {
+      var csvKeys = [];
+      if (rows.length > 0) {
+        csvKeys = Object.keys(rows[0]);
+      }
+      const headerRow = csvKeys.join("\t");
+      const csvRows = rows.map(row => csvKeys.map(csvKey => this._escapedCell(row[csvKey])).join("\t"));
+      const csvString = [headerRow].concat(csvRows).join("\n");
+      const a         = document.createElement('a');
+      a.href        = 'data:attachment/tsv,' +  encodeURIComponent(csvString);
+      a.target      = '_blank';
+      a.download    = 'myFile.tsv';
+      document.body.appendChild(a);
+      a.click();
+    });
+  }
+
+
   _cellRenderer = ({width,cellData, dataKey, parent, rowIndex}) => {
     if (this._lastRenderedWidth !== width) {
       this._lastRenderedWidth = width;
@@ -370,61 +404,67 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
     }
 
     return (
-      <Table
-        deferredMeasurementCache={this._cache}
-        disableHeader={disableHeader}
-        headerClassName={"headerColumn"}
-        headerHeight={headerHeight}
-        height={height}
-        noRowsRenderer={this._noRowsRenderer}
-        overscanRowCount={overscanRowCount}
-        rowClassName={this._rowClassName}
-        rowHeight={this._cache.rowHeight}
-        rowGetter={rowGetter}
-        rowCount={rowCount}
-        scrollToIndex={scrollToIndex}
-        sort={this._sort}
-        sortBy={sortBy}
-        sortDirection={sortDirection}
-        width={width}
-        key={this.props.searchWord}
-      >
-        <Column
-          dataKey="timestamp"
-          label="Timestamp"
-          disableSort = {false}
-          cellDataGetter={({ dataKey , rowData }) => moment(rowData[dataKey]).format('MM/DD/YY  h:mm:ssa')}
-          cellRenderer= {this._cellRenderer}
-          headerRenderer={this._headerRenderer}
-          width={290}
-        />
-        <Column
-          dataKey="email"
-          label="Email"
-          disableSort = {false}
-          cellDataGetter={({ dataKey , rowData }) => rowData.json[dataKey]}
-          headerRenderer={this._headerRenderer}
-          width={400}
-        />
-        <Column
-          dataKey="text"
-          label="Prompt"
-          disableSort = {false}
-          cellDataGetter={({ dataKey , rowData }) => rowData.json.question.text || <div><span>Teacher Moments Scene: </span> <a href={"https://youtu.be/"+rowData.json.question.youTubeId}>https://youtu.be/{rowData.json.question.youTubeId}</a></div>}
-          cellRenderer= {this._cellRenderer}
-          headerRenderer={this._headerRenderer}
+      <div>
+        <div>
+          <button onClick={this.doExport.bind(this)}>Export table as CSV</button>
+        </div>
+
+        <Table
+          deferredMeasurementCache={this._cache}
+          disableHeader={disableHeader}
+          headerClassName={"headerColumn"}
+          headerHeight={headerHeight}
+          height={height}
+          noRowsRenderer={this._noRowsRenderer}
+          overscanRowCount={overscanRowCount}
+          rowClassName={this._rowClassName}
+          rowHeight={this._cache.rowHeight}
+          rowGetter={rowGetter}
+          rowCount={rowCount}
+          scrollToIndex={scrollToIndex}
+          sort={this._sort}
+          sortBy={sortBy}
+          sortDirection={sortDirection}
           width={width}
-        />
-        <Column
-          dataKey="responseText"
-          label="Response"
-          disableSort = {false}
-          cellDataGetter={({ dataKey , rowData }) => rowData.json[dataKey] || (this._getAudioUrl(rowData) && <div>{this._loadAudioPlayer(this._getAudioID(this._getAudioUrl(rowData)))} {this._loadTranscript(this._getAudioID(this._getAudioUrl(rowData)))} </div>)}
-          cellRenderer= {this._wrappingCellRendererAgain}
-          headerRenderer={this._headerRenderer}
-          width={width}
-        />
-      </Table>
+          key={this.props.searchWord}
+        >
+          <Column
+            dataKey="timestamp"
+            label="Timestamp"
+            disableSort = {false}
+            cellDataGetter={({ dataKey , rowData }) => moment(rowData[dataKey]).format('MM/DD/YY  h:mm:ssa')}
+            cellRenderer= {this._cellRenderer}
+            headerRenderer={this._headerRenderer}
+            width={290}
+          />
+          <Column
+            dataKey="email"
+            label="Email"
+            disableSort = {false}
+            cellDataGetter={({ dataKey , rowData }) => rowData.json[dataKey]}
+            headerRenderer={this._headerRenderer}
+            width={400}
+          />
+          <Column
+            dataKey="text"
+            label="Prompt"
+            disableSort = {false}
+            cellDataGetter={({ dataKey , rowData }) => rowData.json.question.text || <div><span>Teacher Moments Scene: </span> <a href={"https://youtu.be/"+rowData.json.question.youTubeId}>https://youtu.be/{rowData.json.question.youTubeId}</a></div>}
+            cellRenderer= {this._cellRenderer}
+            headerRenderer={this._headerRenderer}
+            width={width}
+          />
+          <Column
+            dataKey="responseText"
+            label="Response"
+            disableSort = {false}
+            cellDataGetter={({ dataKey , rowData }) => rowData.json[dataKey] || (this._getAudioUrl(rowData) && <div>{this._loadAudioPlayer(this._getAudioID(this._getAudioUrl(rowData)))} {this._loadTranscript(this._getAudioID(this._getAudioUrl(rowData)))} </div>)}
+            cellRenderer= {this._wrappingCellRendererAgain}
+            headerRenderer={this._headerRenderer}
+            width={width}
+          />
+        </Table>
+      </div>
     );
   }
 }

@@ -294,7 +294,7 @@ app.get('/server/apples/:key', ApplesEndpoint.sensitiveGetApples({queryDatabase}
 // As a precaution for emailing and authentication routes
 const limiter = new RateLimit({
   windowMs: 60*60*1000, // 60 minutes
-  max: 1000, // limit each IP to n requests per windowMs
+  max: 100000, // limit each IP to n requests per windowMs
   delayMs: 0, // disable delaying - full speed until the max limit is reached
   onLimitReached: (req, res, options) => {
     console.log('RateLimit reached!');
