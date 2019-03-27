@@ -171,7 +171,7 @@ class Analysis extends Component {
       resultsSA: null
     };
 
-    //this.getAudio = this.getAudio.bind(this);
+    this.getAudio = this.getAudio.bind(this);
     this.getAudioID = this.getAudioID.bind(this);
     //Natalie adding this for form
     this.onChange = this.onChange.bind(this);
@@ -210,44 +210,44 @@ class Analysis extends Component {
     }
     return "";
   }
-  // getAudio(audioID,elementID) {
-  //   const token = this.state.token;
-  //
-  //   fetch('/server/research/wav/'+audioID+'.wav', {
-  //     headers: {
-  //       'Accept': 'application/json',
-  //       'Content-Type': 'application/json',
-  //       'x-teachermoments-token': token,
-  //     },
-  //     method: 'GET'
-  //   })
-  //     .then(results => {
-  //       var response = new Response(results.body, {headers: {"Content-Type": "audio/wav"}});
-  //       response.blob().then(function(myBlob) {
-  //         var bloburl = URL.createObjectURL(myBlob);
-  //         var elementTarget = document.getElementById(audioID.slice(0, -4));
-  //         if (elementTarget) {
-  //           document.getElementById(audioID.slice(0, -4)).src = bloburl;
-  //         }
-  //         else{
-  //           console.log('audio element cannot be found');
-  //         }
-  //
-  //         //send audioID for transcription
-  //         requestTranscript(token,audioID)
-  //           .then(results => {
-  //             var elementTarget = document.getElementById(audioID.slice(0, -4));
-  //             if (elementTarget) {
-  //               document.getElementById(audioID.slice(0, -4)+"-transcript").innerHTML = "\""+results.transcript+"\"";
-  //             }
-  //             else{
-  //               console.log('Could not insert transcript');
-  //             }
-  //           });
-  //       });
-  //     })
-  //     .catch(this.onError.bind(this));
-  // }
+  getAudio(audioID,elementID) {
+    const token = this.state.token;
+
+    fetch('/server/research/wav/'+audioID+'.wav', {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'x-teachermoments-token': token,
+      },
+      method: 'GET'
+    })
+      .then(results => {
+        var response = new Response(results.body, {headers: {"Content-Type": "audio/wav"}});
+        response.blob().then(function(myBlob) {
+          var bloburl = URL.createObjectURL(myBlob);
+          var elementTarget = document.getElementById(audioID.slice(0, -4));
+          if (elementTarget) {
+            document.getElementById(audioID.slice(0, -4)).src = bloburl;
+          }
+          else{
+            console.log('audio element cannot be found');
+          }
+
+          //send audioID for transcription
+          requestTranscript(token,audioID)
+            .then(results => {
+              var elementTarget = document.getElementById(audioID.slice(0, -4));
+              if (elementTarget) {
+                document.getElementById(audioID.slice(0, -4)+"-transcript").innerHTML = "\""+results.transcript+"\"";
+              }
+              else{
+                console.log('Could not insert transcript');
+              }
+            });
+        });
+      })
+      .catch(this.onError.bind(this));
+  }
 
   filter(json) {
     const {filter, analysisKey} = this.props;
@@ -504,12 +504,9 @@ class Analysis extends Component {
     this.setState({ json: filtered });
     // 1.30 fetch transcripts. have another .then for that, that sets the state to
     // the transcript data.
-    //random comment
+
     var scenarioTranscripts = [];
-    var toAddScenarioTranscripts = [];
-    var firstTime = false;
     var i;
-    var j;
     var allRows = this.getCleanAllRows(json);
     for (i = 0; i < allRows.length; i++) {
       //find audio ID
@@ -519,65 +516,26 @@ class Analysis extends Component {
         //check if audioID is in DB cache, which has a table transcripts that maps audio_id to transcript
         // if audioID is not in DB cache already, then call natalieGetTranscript
         //this is the place where the repeating transcription errors occur.
-        //check if audioID is not already in scenarioTranscripts. Then request transcript.
-        //Otherwise, if it is in scenario transcripts, do not request transcript.
-        var inThereAlready = false;
-        if (this.state.scenarioTranscripts !== null) { //not the first time
-          console.log("not the first time transcribing");
-          for (j=0; j<this.state.scenarioTranscripts.length; j++) {
-            if (this.state.scenarioTranscripts[j][[audioID]] !== undefined) {
-              //means audioID is in there already.
-              inThereAlready = true;
-            }
-          }
-          if (inThereAlready === false) {
-            console.log("not in there already");
-            this.natalieGetTranscript(audioID).then((t) => {
-              const transcript = t;
-              var transcribedText = "";
-              if (transcript !== undefined) {
-                transcribedText = transcript.props.children[1].toLowerCase();
-              }
-              toAddScenarioTranscripts.push({[audioID]: transcribedText});
-            });
-          }
-        }
-        else {
-          firstTime = true;
-          console.log("first time transcribing");
+
+        var haveTranscript = scenarioTranscripts[audioID];
+        if (haveTranscript !== null) {
           this.natalieGetTranscript(audioID).then((t) => {
             const transcript = t;
             var transcribedText = "";
             if (transcript !== undefined) {
               transcribedText = transcript.props.children[1].toLowerCase();
             }
+            //console.log(transcribed_text)
+            //now search through the transcribed_text and look for searchWord.
+            //if it's there, append that trancribed_text to an array.
             scenarioTranscripts.push({[audioID]: transcribedText});
           });
+          
         }
 
-
-        // this.natalieGetTranscript(audioID).then((t) => {
-        //   const transcript = t;
-        //   var transcribedText = "";
-        //   if (transcript !== undefined) {
-        //     transcribedText = transcript.props.children[1].toLowerCase();
-        //   }
-        //   scenarioTranscripts.push({[audioID]: transcribedText});
-        // });
       }
     }
-    if (firstTime) {
-      //transcribe it all and add it all because it's the first time.
-      this.setState({scenarioTranscripts: scenarioTranscripts});
-    }
-    else {
-      //add the new transcripts that were just transcribed to the existing transcripts.
-      var oldTranscripts = this.state.scenarioTranscripts;
-      if (toAddScenarioTranscripts.length > 0) {
-        oldTranscripts.push(toAddScenarioTranscripts);
-        this.setState({scenarioTranscripts: oldTranscripts});
-      }
-    }
+    this.setState({scenarioTranscripts: scenarioTranscripts});
   }
 
   onError(exception) {
@@ -605,8 +563,6 @@ class Analysis extends Component {
     var allRows = this.getCleanAllRows(json);
 
     const filteredAllRows = this.filterAllRowsBySearchWord(this.state.searchWord, allRows);
-
-
     console.log('filteredAllRows');
     console.log(filteredAllRows);
 
@@ -626,9 +582,10 @@ class Analysis extends Component {
           <h2 style={{margin: 20}}>Measurement Tools</h2>
           {this.renderMeasurementToolsTable(filteredAllRows)}
           <h2 style={{margin: 20}}>Events</h2>
-          {json && <pre style={{margin: 20}}>{Object.keys(json).map(key => `${key}: ${allRows.length} rows`).join("\n")}</pre>}
+          {json && <pre style={{margin: 20}}>{Object.keys(json).map(key => `${key}: ${allRows.length} rows`).join("\n")}</pre>}          
           {json && this.renderEventsTableVirtualized(filteredAllRows)}
         </div>
+
       );
     }
   }
@@ -761,14 +718,11 @@ class Analysis extends Component {
         raw: row
       };
     });
-    const csvKeys = Object.keys(_.first(csvRows));
     const identifierCount = _.uniq(json.evidence.rows.map(row => row.json.identifier)).length;
 
     return (
       <div>
         <div>Identifier count: {identifierCount}</div>
-        <div><button onClick={this.doExport.bind(this, csvRows, csvKeys)}>Export table as CSV</button></div>
-
         <table style={styles.table}>
           <tbody>
             {csvRows.map((csvRow, i) => {
@@ -795,38 +749,39 @@ class Analysis extends Component {
   }
 
   // For looking at raw events and sessions.  Hover to reveal more sensitive data.
-  // renderEventsTable(json) {
-  //   const {analysisKey} = this.props;
-  //   if (analysisKey === 'HMTCA') return this.renderHmtcaTable(json);
-  //   return (
-  //     <table style={styles.table}>
-  //       <tbody>
-  //         {json.evidence.rows.map((row, i) => {
-  //           const audioUrl = getAudioUrl(row);
-  //           const audioID = this.getAudioID(audioUrl);
-  //           const emailBackgroundColor = (row.json.email)
-  //             ? hashInto(row.json.email, colorNames)
-  //             : 'white';
-  //           return (
-  //             <tr key={row.id} >
-  //               <td style={styles.cell} title={JSON.stringify(row, null, 2)}>{moment(row.timestamp).format('MM/DD/YY  h:mm:ssa')}</td>
-  //               <td
-  //                 style={{backgroundColor: emailBackgroundColor, ...styles.cell}}>
-  //                 {row.json.email}
-  //               </td>
-  //               <td style={styles.cell}>{row.json.question.text || <div><span>Teacher Moments Scene: </span> <a href={"https://youtu.be/"+row.json.question.youTubeId}>https://youtu.be/{row.json.question.youTubeId}</a></div>}</td>
-  //               <td style={styles.cell}>{row.json.studentName}</td>
-  //               <td style={styles.cell}>{row.json.projectLabel}</td>
-  //               <td style={styles.cell}>{JSON.stringify(row.json.scoreValues, null, 2)}</td>
-  //               <td style={styles.cell}>{row.json.choice}</td>
-  //               <td style={styles.cell}>{JSON.stringify(row.json.textResponse) || row.json.responseText || (audioUrl && <div><audio controls id={audioID.slice(0,-4)} src={this.getAudio(audioID)} type="audio/wav"> </audio> <div id={audioID.slice(0,-4)+"-transcript"}>Transcript: </div></div>)}</td>
-  //             </tr>
-  //           );
-  //         })}
-  //       </tbody>
-  //     </table>
-  //   );
-  // }
+  renderEventsTable(json) {
+    const {analysisKey} = this.props;
+    if (analysisKey === 'HMTCA') return this.renderHmtcaTable(json);
+    return (
+      <table style={styles.table}>
+        <tbody>
+          {json.evidence.rows.map((row, i) => {
+            const audioUrl = getAudioUrl(row);
+            const audioID = this.getAudioID(audioUrl);
+            const emailBackgroundColor = (row.json.email)
+              ? hashInto(row.json.email, colorNames)
+              : 'white';
+            return (
+              <tr key={row.id} >
+                <td style={styles.cell} title={JSON.stringify(row, null, 2)}>{moment(row.timestamp).format('MM/DD/YY  h:mm:ssa')}</td>
+                <td
+                  style={{backgroundColor: emailBackgroundColor, ...styles.cell}}>
+                  {row.json.email}
+                </td>
+                <td style={styles.cell}>{row.json.question.text || <div><span>Teacher Moments Scene: </span> <a href={"https://youtu.be/"+row.json.question.youTubeId}>https://youtu.be/{row.json.question.youTubeId}</a></div>}</td>
+                <td style={styles.cell}>{row.json.studentName}</td>
+                <td style={styles.cell}>{row.json.projectLabel}</td>
+                <td style={styles.cell}>{JSON.stringify(row.json.scoreValues, null, 2)}</td>
+                <td style={styles.cell}>{row.json.choice}</td>
+                <td style={styles.cell}>{JSON.stringify(row.json.textResponse) || row.json.responseText || (audioUrl && <div><audio controls id={audioID.slice(0,-4)} src={this.getAudio(audioID)} type="audio/wav"> </audio> <div id={audioID.slice(0,-4)+"-transcript"}>Transcript: </div></div>)}</td>
+              </tr>
+            );
+
+          })}
+        </tbody>
+      </table>
+    );
+  }
 
   renderEventsTableVirtualized(json) {
     const simpleJson = json.map((blob) => {
