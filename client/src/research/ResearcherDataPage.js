@@ -610,6 +610,32 @@ class Analysis extends Component {
     console.log('filteredAllRows');
     console.log(filteredAllRows);
 
+    var noToolsEmails = ["4.11.19.A1@gmail.com", "4.11.19.A2@gmail.com", "4.11.19.A3@gmail.com", "4.11.19.A4@gmail.com", "4.11.19.A5@gmail.com", "4.11.19.A6@gmail.com", "4.11.19.A7@gmail.com", "A8.41119@yahoo.com", "A9.41119@yahoo.com", "A10.41119@yahoo.com"];
+    var d;
+    var displayTools = true;
+    for (d==0; d < noToolsEmails.length; d++) {
+      if (this.state.email === noToolsEmails[d]) {
+        displayTools = false;
+      }
+    }
+    if (displayTools === false) {
+      if (filteredAllRows.length == 0) {
+        return (
+          <div>
+            Text not found. Please press clear to return.
+          </div>
+        );
+      }
+      else {
+        return (
+          <div>
+            <h2 style={{margin: 20}}>Events</h2>
+            {json && <pre style={{margin: 20}}>{Object.keys(json).map(key => `${key}: ${allRows.length} rows`).join("\n")}</pre>}
+            {json && this.renderEventsTableVirtualized(filteredAllRows)}
+          </div>
+        );
+      }
+    }
     if (filteredAllRows.length === 0) {
       return (
         <div>
