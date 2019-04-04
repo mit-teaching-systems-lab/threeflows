@@ -12,7 +12,7 @@
     "server": "node server/index.js",
     "server-dev": "cross-env READ_LOCAL_EVIDENCE=true IS_SENSITIVE_REVIEWING_ENABLED=true ENABLE_RESEARCHER_ACCESS=true DATABASE_URL=http://localhost:5432/teacher-moments-db NODE_ENV=development yarn run server",
     "client": "cd client && yarn run start",
-    "heroku-postbuild": "cd client && yarn run build && python nltk.download('punkt')",
+    "heroku-postbuild": "cd client && yarn run build",
     "lint": "eslint --ext jsx --ext js -c server/.eslintrc server",
     "test": "yarn run lint && cd client && yarn run test",
     "db-create-dev": "node scripts/db-create.js teacher-moments-db",
