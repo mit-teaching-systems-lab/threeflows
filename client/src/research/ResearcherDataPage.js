@@ -566,7 +566,7 @@ class Analysis extends Component {
     console.log('filteredAllRows');
     console.log(filteredAllRows);
 
-    var noToolsEmails = ["4.11.19.A1@gmail.com", "4.11.19.A2@gmail.com", "4.11.19.A3@gmail.com", "4.11.19.A4@gmail.com", "4.11.19.A5@gmail.com", "4.11.19.A6@gmail.com", "4.11.19.A7@gmail.com", "A8.41119@yahoo.com", "A9.41119@yahoo.com", "A10.41119@yahoo.com"];
+    var noToolsEmails = ["4.11.19.a1@gmail.com", "4.11.19.a2@gmail.com", "4.11.19.a3@gmail.com", "4.11.19.a4@gmail.com", "4.11.19.a5@gmail.com", "4.11.19.a6@gmail.com", "4.11.19.a7@gmail.com", "a8.41119@yahoo.com", "a9.41119@yahoo.com", "a10.41119@yahoo.com"];
     var d;
     var displayTools = true;
     for (d==0; d < noToolsEmails.length; d++) {
