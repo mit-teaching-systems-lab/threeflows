@@ -569,7 +569,7 @@ class Analysis extends Component {
     var noToolsEmails = ["4.11.19.a1@gmail.com", "4.11.19.a2@gmail.com", "4.11.19.a3@gmail.com", "4.11.19.a4@gmail.com", "4.11.19.a5@gmail.com", "4.11.19.a6@gmail.com", "4.11.19.a7@gmail.com", "a8.41119@yahoo.com", "a9.41119@yahoo.com", "a10.41119@yahoo.com"];
     var d;
     var displayTools = true;
-    for (d==0; d < noToolsEmails.length; d++) {
+    for (d = 0; d < noToolsEmails.length; d++) {
       if (this.state.email === noToolsEmails[d]) {
         displayTools = false;
       }
