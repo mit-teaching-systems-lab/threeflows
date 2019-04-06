@@ -22,7 +22,7 @@ import pickle
 import base64
 
 # STILL NEED TO BASE64 DECODE
-
+NUM_NGRAMS = 1
 
 def format_text(entries, LSTM_shape=True):
 	THIS_FOLDER = str(os.path.dirname(os.path.abspath(__file__)))
@@ -32,7 +32,8 @@ def format_text(entries, LSTM_shape=True):
 	decoded = str(decoded)
 	decoded = decoded[2:]
 	decoded = decoded[:-1]
-	decoded = decoded.split(",")
+	decoded = decoded.split(".")
+	#print(decoded, "is decoded")
 	for entry in decoded:
 		token_sentences = tokenizer.tokenize(entry)
 		for sentence in token_sentences:
@@ -55,7 +56,7 @@ def format_text(entries, LSTM_shape=True):
 	X = np.zeros((len(sentences), len(all_ngrams)))
 	for i in range(len(tokenized_sentences)):
 		sentence = tokenized_sentences[i]
-		my_ngrams = ngrams(sentence, 3)
+		my_ngrams = ngrams(sentence, NUM_NGRAMS)
 		for gram in my_ngrams:
 			if gram in all_ngrams:
 				index = all_ngrams[gram]
@@ -82,6 +83,7 @@ def calculate_emotion_LSTM(text):
 	loaded_model.compile(loss='mean_squared_error', optimizer='adam')
 	X = format_text(text, LSTM_shape=True)
 	predictions = loaded_model.predict(X)
+	#print(predictions, "is predictions")
 	total = 0
 	for prediction in predictions:
 		num = float(prediction)
@@ -94,6 +96,8 @@ def calculate_emotion_SVC(text):
 	loaded_clf = pickle.load(open(THIS_FOLDER+'/clf.sav', 'rb'))
 	X = format_text(text, LSTM_shape=False)
 	predictions = loaded_clf.predict(X)
+	#print(X, "is X")
+	#print(predictions, "is predictions")
 	total = 0
 	for prediction in predictions:
 		num = float(prediction)
@@ -106,6 +110,7 @@ def main():
 	my_text = sys.argv[1]
 	#print('python is running')
 	predictions = calculate_emotion_SVC(my_text)
+	#predictions = calculate_emotion_LSTM(my_text)
 	print(str(predictions)+'% Confused')
 
 if __name__ == "__main__":

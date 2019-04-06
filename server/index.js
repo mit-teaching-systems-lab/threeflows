@@ -259,7 +259,11 @@ function runPythonSA(req, res) {
 
   // DANGER = Encoding the user text to base64 to get passed into command terminal
 
-  var base64Text = Buffer.from(newTheText[0]).toString("base64");
+  //console.log(newTheText, "is newTheText");
+  // need to merge all things inthe newTheText array into one long string. Then encode it.
+  newTheText = newTheText.join(".");
+  //console.log(newTheText, "is newTheText after join");
+  var base64Text = Buffer.from(newTheText).toString("base64");
 
 
   //DANGER - do not pass unencoded arguments into terminal command
