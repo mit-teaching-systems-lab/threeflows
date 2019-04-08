@@ -439,6 +439,8 @@ class Analysis extends Component {
         //   console.log(results);
         // });
         console.log(text, "this is the text about to go into API");
+        //4.7 adding this line
+        this.setState({resultsSA: "Loading..."});
         // apiClass.postText(text)
         //   .then(res => {
         //     console.log("axios returned");
@@ -610,7 +612,7 @@ class Analysis extends Component {
     console.log('filteredAllRows');
     console.log(filteredAllRows);
 
-    var noToolsEmails = ["4.11.19.a1@gmail.com", "4.11.19.a2@gmail.com", "4.11.19.a3@gmail.com", "4.11.19.a4@gmail.com", "4.11.19.a5@gmail.com", "4.11.19.a6@gmail.com", "4.11.19.a7@gmail.com", "a8.41119@yahoo.com", "a9.41119@yahoo.com", "a10.41119@yahoo.com"];
+    var noToolsEmails = ["4.11.19.a1@gmail.com", "4.11.19.a2@gmail.com", "4.11.19.a3@gmail.com", "4.11.19.a4@gmail.com", "4.11.19.a5@gmail.com", "4.11.19.a6@gmail.com", "4.11.19.a7@gmail.com", "4.11.19.a8@gmail.com", "4.11.19.a9@gmail.com", "4.11.19.a10@gmail.com"];
     var d;
     var displayTools = true;
     for (d = 0; d < noToolsEmails.length; d++) {
@@ -619,7 +621,7 @@ class Analysis extends Component {
       }
     }
     if (displayTools === false) {
-      if (filteredAllRows.length == 0) {
+      if (filteredAllRows.length === 0) {
         return (
           <div>
             Text not found. Please press clear to return.
@@ -669,8 +671,8 @@ class Analysis extends Component {
           <thead>
             <tr>
               <th>Number of Students</th>
-              <th scope="col">Custom Keyword</th>
-              <th scope="col">Sentiment Analysis</th>
+              <th scope="col">Keyword Detection</th>
+              <th scope="col">Confusion Measurement Tool</th>
             </tr>
           </thead>
           <tbody>
@@ -686,14 +688,14 @@ class Analysis extends Component {
               </td>
               <td>
                 <form name="SAForm" onSubmit={e => this.onSubmitSA(e, allRows)}>
-                  Email for SA:<br/>
+                  Email for Confusion Measurement:<br/>
                   <input type="text" name="SAEmail" value={this.state.formValueSA} onChange={this.onChangeSA}/>
                   <input type="submit" value="Submit"/>
                 </form>
                 <button onClick={(e) => {this.onClearSA(e);}}>Clear</button>
               </td>
               <td>
-                SA Results: {this.state.resultsSA}
+                Confusion Results: {this.state.resultsSA}
               </td>
             </tr>
           </tbody>

@@ -21,8 +21,8 @@ from nltk.util import ngrams
 import pickle
 import base64
 
-# STILL NEED TO BASE64 DECODE
-NUM_NGRAMS = 1
+
+
 
 def format_text(entries, LSTM_shape=True):
 	THIS_FOLDER = str(os.path.dirname(os.path.abspath(__file__)))
@@ -50,16 +50,32 @@ def format_text(entries, LSTM_shape=True):
 		tokens = list(filter(lambda a: a not in remove_tokens and a not in stop_words, tokens))
 		tokenized_sentences.append(tokens)
 
-	all_ngrams = np.load(THIS_FOLDER+'/ngrams.npy').item()
+	all_ngrams1 = np.load(THIS_FOLDER+'/ngrams1.npy').item()
+	all_ngrams2 = np.load(THIS_FOLDER+'/ngrams2.npy').item()
+	all_ngrams3 = np.load(THIS_FOLDER+'/ngrams3.npy').item()
 	#once the model gets updated with good data, ngrams.py needs to get changed/updated too!
 
-	X = np.zeros((len(sentences), len(all_ngrams)))
+	X = np.zeros((len(sentences), len(all_ngrams1)+len(all_ngrams2)+len(all_ngrams3)))
 	for i in range(len(tokenized_sentences)):
 		sentence = tokenized_sentences[i]
-		my_ngrams = ngrams(sentence, NUM_NGRAMS)
+		my_ngrams = ngrams(sentence, 1)
 		for gram in my_ngrams:
-			if gram in all_ngrams:
-				index = all_ngrams[gram]
+			if gram in all_ngrams1:
+				index = all_ngrams1[gram]
+				X[i][index] = 1
+	for i in range(len(tokenized_sentences)):
+		sentence = tokenized_sentences[i]
+		my_ngrams = ngrams(sentence, 2)
+		for gram in my_ngrams:
+			if gram in all_ngrams2:
+				index = len(all_ngrams1) + all_ngrams2[gram]
+				X[i][index] = 1
+	for i in range(len(tokenized_sentences)):
+		sentence = tokenized_sentences[i]
+		my_ngrams = ngrams(sentence, 3)
+		for gram in my_ngrams:
+			if gram in all_ngrams3:
+				index = len(all_ngrams1) + len(all_ngrams2) + all_ngrams3[gram]
 				X[i][index] = 1
 
 
