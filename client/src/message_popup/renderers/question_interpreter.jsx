@@ -96,6 +96,18 @@ export default class extends React.Component {
       />;
     }
 
+    if (question.writeNoPrompt) {
+      return <MinimalTextResponse
+        key={key}
+        forceResponse={true}
+        responsePrompt=""
+        textHeight={192}
+        recordText="Next"
+        onLogMessage={onLogMessage}
+        onResponseSubmitted={onResponseSubmitted}
+      />;
+    }
+
     if (question.write) {
       return <MinimalTextResponse
         key={key}

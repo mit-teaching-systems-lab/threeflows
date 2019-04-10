@@ -72,6 +72,8 @@ export default createReactClass({
     '/teachermoments/aptest-pt': 'apTestScenarioPT',
     '/teachermoments/aptest-two': 'apTestScenarioTwo',
     '/teachermoments/aptest-two-pt': 'apTestScenarioTwoPT',
+    '/teachermoments/roster-one': 'rosterPart1',
+    '/teachermoments/roster-two': 'rosterPart2',
     '/teachermoments/smith': 'smithScenario',
     '/teachermoments/smithFacilitated': 'smithFacilitatedScenario',
     '/teachermoments/smithB': 'smithScenarioB',
@@ -221,6 +223,14 @@ export default createReactClass({
     return <MessagePopup.apTestExperiencePageTwoPT query={query} />;
   },
 
+  rosterPart1(query = {}) {
+    return <MessagePopup.RosterPart1ExperiencePage query={query} />;
+  },
+
+  rosterPart2(query = {}) {
+    return <MessagePopup.RosterPart2ExperiencePage query={query} />;
+  },
+
   smithScenarioB(query = {}) {
     return <MessagePopup.SmithExperiencePageB query={{}}/>;
   },
@@ -288,10 +298,6 @@ export default createReactClass({
 
   messagePopupDarius(query = {}) {
     return <MessagePopup.DariusExperiencePage query={{}}/>;
-  },
-
-  hmtcaScenario(query = {}) {
-    return <MessagePopup.HMTCAExperiencePage query={query} />;
   },
 
   equityFairPage(query = {}) {
