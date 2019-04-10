@@ -405,10 +405,6 @@ export default class DynamicHeightTableColumn extends React.PureComponent {
 
     return (
       <div>
-        <div>
-          <button onClick={this.doExport.bind(this)}>Export table as CSV</button>
-        </div>
-
         <Table
           deferredMeasurementCache={this._cache}
           disableHeader={disableHeader}

@@ -21,11 +21,12 @@ import SmithExperiencePageB from './playtest/smithB_experience_page.jsx';
 import SmithExperiencePage from './playtest/smith_experience_page.jsx';
 import EcsExperiencePage from './playtest/ecs_experience_page.jsx';
 import DysfuncExperiencePage from './playtest/dysfunc_experience_page.jsx';
-import HMTCAExperiencePage from './playtest/hmtca_experience_page.jsx';
 import apTestExperiencePage from './playtest/aptest_experience_page.jsx';
 import apTestExperiencePagePT from './playtest/aptest_experience_page_pt.jsx';
 import apTestExperiencePageTwo from './playtest/aptest_experience_page_two.jsx';
 import apTestExperiencePageTwoPT from './playtest/aptest_experience_page_two_pt.jsx';
+import RosterPart1ExperiencePage from './playtest/roster_part1_experience_page.jsx';
+import RosterPart2ExperiencePage from './playtest/roster_part2_experience_page.jsx';
 
 
 import QuestionsPage from './author/questions_page.jsx';
@@ -67,5 +68,7 @@ export {
   apTestExperiencePagePT,
   apTestExperiencePageTwo,
   apTestExperiencePageTwoPT,
-  HMTCAExperiencePage
+  RosterPart1ExperiencePage,
+  RosterPart2ExperiencePage
+
 };
