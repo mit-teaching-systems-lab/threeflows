@@ -108,7 +108,9 @@ Make sure you have [Node.js](http://nodejs.org/) and the [Heroku Toolbelt](https
 This is for creating a new Heroku app (eg, for a fork).
 
 1. Clone the git repository to a folder on your computer.
-2. In that folder, run `heroku create`.  You will probably want to name the app something specific as well, and add the nodejs buildpack.
+2. In that folder, run `heroku create`.  You will probably want to name the app something specific as well, add the buildpacks, and make sure you create the app in the right Heroku team.
+3. In the Heroku UI, add any add-ons (eg, Logentries, Rollbar, Postgres database).
+4. Set up any other services or environment variable config (eg, AWS S3 bucket, Mailgun, IBM Watson).
 
 ### Setting up database
 Create the database:
