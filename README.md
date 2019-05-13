@@ -112,6 +112,12 @@ This is for creating a new Heroku app (eg, for a fork).
 3. In the Heroku UI, add any add-ons (eg, Logentries, Rollbar, Postgres database).
 4. Set up any other services or environment variable config (eg, AWS S3 bucket, Mailgun, IBM Watson).
 
+### Setting up S3:
+1. In S3, create new bucket with no public access
+2. In IAM, create new "Server" user
+3. Add bucket name, access key, secret and region to Heroku environment variable (eg, `MESSAGE_POPUP_S3_CONFIG_JSON`)
+4. Try it out in the app!
+
 ### Setting up database
 Create the database:
 ```
