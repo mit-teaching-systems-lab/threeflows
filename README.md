@@ -93,9 +93,24 @@ If you're developing in Sublime, here's a recommended setup for niceties like co
  - [SublimeLinter-eslint](https://github.com/roadhump/SublimeLinter-eslint) for inline linting (not jshint)
 
 ## Heroku setup
+You can do this through the Heroku CLI tools, or through the Heroku website.  These directions are for using the CLI tools on the command line.
+
+Other Heroku docs:
+- [Getting Started with Node.js on Heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs)
+- [Heroku Node.js Support](https://devcenter.heroku.com/articles/nodejs-support)
+- [Node.js on Heroku](https://devcenter.heroku.com/categories/nodejs)
+- [Best Practices for Node.js Development](https://devcenter.heroku.com/articles/node-best-practices)
+
 ### Initial setup
 Make sure you have [Node.js](http://nodejs.org/) and the [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.  To run remote Postgres commands you'll also need to [install Postgres locally](https://devcenter.heroku.com/articles/heroku-postgresql).
 
+### Creating a new Heroku app
+This is for creating a new Heroku app (eg, for a fork).
+
+1. Clone the git repository to a folder on your computer.
+2. In that folder, run `heroku create`.  You will probably want to name the app something specific as well, and add the nodejs buildpack.
+
+### Setting up database
 Create the database:
 ```
 $ heroku addons:create heroku-postgresql:hobby-dev
@@ -116,7 +131,6 @@ DATABASE_URL: daily at 1:00 (America/New_York)
 ### Deploying to Heroku
 
 ```
-$ heroku create
 $ git push heroku master
 $ heroku open
 ```
@@ -124,11 +138,7 @@ or
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
-Other Heroku docs:
-- [Getting Started with Node.js on Heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs)
-- [Heroku Node.js Support](https://devcenter.heroku.com/articles/nodejs-support)
-- [Node.js on Heroku](https://devcenter.heroku.com/categories/nodejs)
-- [Best Practices for Node.js Development](https://devcenter.heroku.com/articles/node-best-practices)
+
 
 ## Maintaining Researcher Portal
 ### Whitelist database
