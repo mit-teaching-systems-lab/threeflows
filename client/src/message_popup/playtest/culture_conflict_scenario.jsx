@@ -18,13 +18,13 @@ function slidesFor(cohortKey) {
 
   slides.push({ type: 'Overview', el:
   <div>
-    <div>1. Review context</div>
-    <div>Imagine yourself situated in the context of the particular school, classroom, and subject.</div>
-    <br />
-    <div>2. Anticipate</div>
+    <div>1. Anticipate</div>
     <div>Before starting the simulation, you will answer a few questions in anticipation of what may happen.</div>
     <br />
-    <div>3. Try it!</div>
+    <div>2. Review context</div>
+    <div>Imagine yourself situated in the context of the particular school, classroom, and subject.</div>
+    <br />
+    <div>3. Enact</div>
     <div>When you're ready you'll go through a set of scenarios that simulate interactions between you and a student in the class.</div>
     <br />
     <div>4. Reflect</div>
@@ -35,101 +35,143 @@ function slidesFor(cohortKey) {
   </div>
   });
 
+  //Context Anticipate
+  slides.push({ type: 'Context for Anticipate', text:
+`You are entering the “Anticipate” section of this practice space where you will read a series of vignettes from teachers’ classroom practice. Your job is to answer the following:
 
-  // Context
-  slides.push({ type: 'Context', text:
-`In this scenario, you are teaching AP Computer Science Principles in a suburban high school where the students are predominantly white.
 
-Before the semester, initial enrollments for your class showed that more boys than girls had signed up for your class. Upon seeing this, you decided to make a concerted effort to recruit more girls for your class. 
-`});
+Based off the teacher’s actions, does the teacher frame the student’s actions through an asset or deficit mindset? 
 
-  slides.push({ type: 'Context', text:
-`Your efforts succeeded in getting more girls to enroll, but you ended up having an imbalance of girls to boys in the class. Out of 15 total students in your class, 10 of them are girls. 
-`});
 
-  slides.push({ type: 'Context', text:
-`The semester has started and the deadline for students to make changes to their class schedule is a couple days away. Before the start of class one day, you overhear Rosa tell one of her classmates that she wants to switch out of your class. You are disappointed to hear this because Rosa is a strong student, excels at math, and is one of only two Latinas in your class.
-`});
-
-  slides.push({ type: 'Context', text:
-`At the end of class, you find Rosa before she leaves for her lunch break and ask her to stay after class to talk.
-`});
-
+Keep in mind that we are interested more in the impact of teachers’ actions, versus their perceived intent. `});
 
 
   // Anticipate
   slides.push({ type: 'Anticipate', text:
-`Before you begin interacting with Rosa, we have three questions about what you anticipate may happen during your interaction with Rosa.
-`});
+`Scenario 1 (anticiapte)
+It’s the first day of school.
+
+The teacher hands out a blank card.
+
+Teacher: “On the card, I want you to write down something that you’re really good at. This could be school related (like “math” or “writing”) or something outside school (like “dancing” or “videogames”). Each Friday, we’re going to have one person teach us something about their topic. I’ll go this Friday as an example.”
+
+Based off the teacher’s actions, does the teacher frame the student’s actions through an asset or deficit mindset? `, force: true, writeNoPrompt: true});
 
   slides.push({ type: 'Anticipate', text:
-`What are your thoughts about why Rosa wants to switch out of your class?
-`, force: true, open: true});
+`Scenario 2 (anticiapte)
+The entire class is engaged in a discussion about a complex physics problem.
+
+Teacher: “Okay, who would like to share next?”
+
+Student: “Oh, ehm, ain’t it the second one? Cause the ball will move more quicker since it has that swoop thing? Similar to skateboarding?”
+
+Teacher: “Could we have someone translate what she said into English?”
+
+Based off the teacher’s actions, does the teacher frame the student’s actions through an asset or deficit mindset?`, force: true, writeNoPrompt: true});
 
   slides.push({ type: 'Anticipate', text:
-`What do you hope to accomplish in your conversation with Rosa?
-`, force: true, open: true});
+`Scenario 3 (anticiapte)
+It’s the first day of school.
+
+A Latino student walks into a class where every student is Chinese.
+
+Teacher: “Let me see your program, just to make sure you’re in this class.”
+
+Student: “Yeah, I got this class.”
+
+Teacher: “You know, this is a difficult class -- are you sure you can handle it? We do a lot of homework.”
+
+Based off the teacher’s actions, does the teacher frame the student’s actions through an asset or deficit mindset? 
+`, force: true, writeNoPrompt: true});
 
   slides.push({ type: 'Anticipate', text:
-`What do you anticipate will actually happen during the one-on-one?
-`, force: true, open: true});
+`Scenario 4 (anticiapte)
+It’s the beginning of the school day in a 2nd grade classroom.
+
+Students start off the day by first singing a song together. After the song, the teacher and students sit in a circle.
+
+Teacher: “What are we going to be our best at today?”
+
+Student 1: “I’m gonna be good at my math.”
+
+Teacher: “I just know you can do that.”
+
+Student 2: “I’m gonna be good at lining up for recess.” 
+
+Teacher: “Yes you are!”
+
+Student 3: “I’m gonna be good at doin’ my own work and minding my own business.”
+
+Teacher: “Oh, you are? Well, that’s very good!”
+
+The students continue, one-by-one, stating their goal. At the end of the day, the teacher and students reflect on their successes and ways they could have been even better at some things.
+
+Based off the teacher’s actions, does the teacher frame the student’s actions through an asset or deficit mindset? `, force: true, writeNoPrompt: true});
+
+  // Context for Enact
+  slides.push({ type: 'Context for Enact', text:
+`This completes the Anticipate phase of the practice space.
+
+Now we will move into the Enact phase of the practice space. During the Enact phase, you will be shown a series of scenarios that are incomplete.
+
+ It is your job to respond as the teacher in each scenario as best as you can. 
+
+When you are ready, click “OK” to start.`});
 
 
-  // Try it!
+
+
+  // Enact
+  slides.push({ type: 'Enact', text:
+`Scenario 1 (enact)
+It’s near the beginning of the school year.
+
+You and the class are engaged in a whole class discussion.
+
+A student, Liam, has been answering frequently to the questions you’ve asked the class, but he doesn’t raise his hand.
+
+Teacher: “Okay, how does Jessica’s comment relate to the theme of courage?”
+
+Liam: [without raising his hand] “I think it’s because she said even though she was scared, she still pushed herself to sing in front of people -- that’s courage.”
+
+Teacher: 
+`, force: true, writeNoPrompt: true});
+
+  slides.push({ type: 'Enact', text:
+`Scenario 2 (enact)
+You are about to tutor a group of young people assigned to work with you for remedial help in math. It’s your first day on the job. 
+
+Students come in and sit down in their seats. There are about 10 students, 7 of which are male. Six students are Black, 3 Hispanic, and 1 White. 
+
+What is your opening statement for students in the class?
+
+Teacher:
+`, force: true, writeNoPrompt: true});
+
   slides.push({ type: 'Try it!', text:
-`When you're ready, you'll go through a set of scenes that simulate the conversation between you and Rosa.
+`Scenario 3 (enact)
+Today in English class students are working in groups of two on a project.
 
-Improvise how you would act as a teacher, even if you don't have all the right answers or know the perfect thing to say.
+You walk by a table where two students, Aaliyah and Kimberly, are working together.
 
-Click and speak aloud the words you'd say to the student.
+Kimberly: “Why don’t you do the drawing parts since you like art? I’ve got a good grade in this class, so I should do all the writing.”
 
-
-Ready to start?
-`});
-
-  slides.push({ type: 'Try it!', text:
-`Rosa: “Why did you want me to stay after class?”
-`, open: true, force: true});
-
-  slides.push({ type: 'Try it!', text:
-`Rosa: “Ok you got me - I want to switch into another class.”
-`, open: true, force: true});
-
-  slides.push({ type: 'Try it!', text:
-`Rosa: “Well, the only reason I took this class is because you really sold me on it, but I really don’t see myself working in tech.”
-`, open: true, force: true});
-
-  slides.push({ type: 'Try it!', text:
-`Rosa: “I mean, it’s nice that there are more girls than guys in this class, but that doesn’t change the fact that mostly nerdy white dudes and Asian dudes work in computer science.”
-`, open: true, force: true});
-
-  slides.push({ type: 'Try it!', text:
-`Rosa: “Sure, there may be women in tech, but they’re still mostly white women.”
-`, open: true, force: true});
-
-  slides.push({ type: 'Try it!', text:
-`Rosa: “Well… I kinda feel like people are always surprised that I’m good at coding. It’s like when Juanita and I did well on the first assignment, you made it feel like a big deal, but you didn’t really say anything to anyone else. Brown girls can code, too, you know.”
-`, open: true, force: true});
-
+Teacher: 
+`, force: true, writeNoPrompt: true});
 
   // Reflect
-  slides.push({ type: 'Reflect', text:
-`That's the end of the simulation.  Thanks!
 
-Let's shift to reflecting on what happened.
+  slides.push({ type: 'Context for Reflect', text:
+`This concludes the Enact phase of the practice space.
+
+Now we will enter the Reflect phase of the practice space. 
+
+In this phase, you will read over your responses from the Enact phase and reflect on whether or not your actions convey an asset or deficit mindset. Keep in mind that asset-framing includes (but is not limited to) appreciative inquiry. 
+
+Similar to the Anticipate phase, keep in mind we are focusing on the student impact of your actions, rather than your intentions. 
+
+Click “OK” when you are ready to start.
 `});
-
-  slides.push({ type: 'Reflect', text:
-`What are your initial thoughts and feelings about your one-on-one with Rosa?
-`, force: true, open: true});
-
-  slides.push({ type: 'Reflect', text:
-`How effective do you think you were in achieving your goals for your interaction with Rosa?
-`, force: true, open: true});
-
-  slides.push({ type: 'Reflect', text:
-`Would you do anything differently if a similar situation arose with another student? Please elaborate.
-`, force: true, open: true});
 
   return slides;
 }

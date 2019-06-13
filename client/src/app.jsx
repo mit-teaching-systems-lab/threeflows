@@ -61,7 +61,7 @@ export default createReactClass({
     '/login_from_email': 'emailLinkLoginPage',
 
     // CSS scenarios
-    '/teachermoments/culture-conflict': 'jeremyPlaytest',
+    '/teachermoments/culture-conflict': 'culturePlaytest',
     '/teachermoments/jeremy': 'jeremyPlaytest',
 
 
@@ -285,6 +285,10 @@ export default createReactClass({
 
   jeremyPlaytest(query = {}) {
     return <MessagePopup.JeremyExperiencePage query={query} />;
+  },
+
+  culturePlaytest(query = {}) {
+    return <MessagePopup.CultureConflictExperiencePage query={query} />;
   },
 
   TurnerPlaytest(query = {}) {

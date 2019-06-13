@@ -13,8 +13,9 @@ import IntroWithEmail from '../linear_session/intro_with_email.jsx';
 
 import QuestionInterpreter from '../renderers/question_interpreter.jsx';
 import type {QuestionT} from './pairs_scenario.jsx';
-import RosaScenario from './rosa_scenario.jsx';
+import CultureScenario from './culture_conflict_scenario.jsx';
 import ResponseSummary from '../renderers/response_summary.jsx';
+
 
 type ResponseT = {
   choice:string,
@@ -32,7 +33,7 @@ export default class extends React.Component {
   }};
 
   state: *;
-  static displayName = 'RosaExperiencePage';
+  static displayName = 'CultureConflictExperiencePage';
 
   static propTypes = {
     query: PropTypes.shape({
@@ -63,7 +64,7 @@ export default class extends React.Component {
   // Making questions from the cohort
   onStart = (email) => {
     const {cohortKey} = this.state;
-    const allQuestions = RosaScenario.questionsFor(cohortKey);
+    const allQuestions = CultureScenario.questionsFor(cohortKey);
 
     const startQuestionIndex = this.props.query.p || 0; // for testing or demoing
     const questions = allQuestions.slice(startQuestionIndex);
@@ -113,8 +114,7 @@ export default class extends React.Component {
       <IntroWithEmail defaultEmail={this.state.email} onDone={this.onStart}>
         <div>
           <p>Welcome!</p>
-          <p>This is an interactive case study simulating a conversation with a high school computer science student.</p>
-          <p>You'll review the context on the scenario, share what you anticipate will happen, and then try it out!  Afterward you'll reflect on your experience with the simulation.</p>
+          <p>This is a series of vignettes where you will be thinking about asset vs. deficit framing of students (the Cultural dimension of the Educator’s mindsets).</p>
           <p>Please use <a href="https://www.google.com/chrome/">Chrome</a> on a laptop or desktop computer.</p>
         </div>
       </IntroWithEmail>
@@ -131,10 +131,6 @@ export default class extends React.Component {
   };
 
   renderClosingEl = (questions:[QuestionT], responses:[ResponseT]) => {
-    return (
-      <ResponseSummary responses={responses}>
-        You've finished the simulation. Congrats! Below, you'll find your responses to the anticipate questions, the scenes with Rosa, and the reflection questions.
-      </ResponseSummary>
-    );
+    return (<ResponseSummary responses={responses} onLogMessage={this.onLogMessage} />);
   };
 }

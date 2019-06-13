@@ -24,7 +24,7 @@ function slidesFor(cohortKey) {
     <div>2. Review context</div>
     <div>Imagine yourself situated in the context of the particular school, classroom, and subject.</div>
     <br />
-    <div>3. Try it!</div>
+    <div>3. Enact</div>
     <div>When you're ready you'll go through a set of scenarios that simulate interactions between you and a student in the class.</div>
     <br />
     <div>4. Reflect</div>
