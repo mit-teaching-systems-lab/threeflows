@@ -60,6 +60,10 @@ export default createReactClass({
     '/login': 'loginPage',
     '/login_from_email': 'emailLinkLoginPage',
 
+    // CSS scenarios
+    '/teachermoments/culture-conflict': 'jeremyPlaytest',
+    '/teachermoments/jeremy': 'jeremyPlaytest',
+
 
     // Stable, field tested, publicly shared practice spaces
     '/teachermoments/danson': 'dansonPlaytest',
@@ -74,11 +78,14 @@ export default createReactClass({
     '/teachermoments/aptest-two-pt': 'apTestScenarioTwoPT',
     '/teachermoments/roster-one': 'rosterPart1',
     '/teachermoments/roster-two': 'rosterPart2',
+    '/teachermoments/roster-twov': 'rosterPart2v',
     '/teachermoments/smith': 'smithScenario',
     '/teachermoments/smithFacilitated': 'smithFacilitatedScenario',
     '/teachermoments/smithB': 'smithScenarioB',
     '/equity/climate': 'climatePage',
     '/equity/paper/:key': 'paperPrototypePage',
+
+
 
     // Practice spaces that are viewable from a
     // link (eg /demos), have been shared externally, or have been
@@ -231,6 +238,10 @@ export default createReactClass({
     return <MessagePopup.RosterPart2ExperiencePage query={query} />;
   },
 
+  rosterPart2V(query = {}) {
+    return <MessagePopup.RosterPart2VExperiencePage query={query} />;
+  },
+
   smithScenarioB(query = {}) {
     return <MessagePopup.SmithExperiencePageB query={{}}/>;
   },
@@ -272,6 +283,10 @@ export default createReactClass({
     return <MessagePopup.DansonExperiencePage query={query} />;
   },
 
+  jeremyPlaytest(query = {}) {
+    return <MessagePopup.JeremyExperiencePage query={query} />;
+  },
+
   TurnerPlaytest(query = {}) {
     return <MessagePopup.TurnerExperiencePage query={query} />;
   },
@@ -283,6 +298,7 @@ export default createReactClass({
   ecsScenario(query = {}) {
     return <MessagePopup.EcsExperiencePage query={query} />;
   },
+
 
   messagePopupMeredith(query = {}) {
     return <MessagePopup.PairsExperiencePage query={query} isForMeredith={true} />;

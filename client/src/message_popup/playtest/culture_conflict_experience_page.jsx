@@ -10,11 +10,11 @@ import hash from '../../helpers/hash.js';
 import LinearSession from '../linear_session/linear_session.jsx';
 import SessionFrame from '../linear_session/session_frame.jsx';
 import IntroWithEmail from '../linear_session/intro_with_email.jsx';
-import QuestionInterpreter from '../renderers/question_interpreter.jsx';
-import InstantResponseScenario from '../renderers/instant_response_scenario.jsx';
-import type {QuestionT} from './roster_part2_scenario.jsx';
-import rosterPart2 from './roster_part2_scenario.jsx';
 
+import QuestionInterpreter from '../renderers/question_interpreter.jsx';
+import type {QuestionT} from './pairs_scenario.jsx';
+import RosaScenario from './rosa_scenario.jsx';
+import ResponseSummary from '../renderers/response_summary.jsx';
 
 type ResponseT = {
   choice:string,
@@ -31,7 +31,8 @@ export default class extends React.Component {
     text?: string,
   }};
 
-  static displayName = 'RosterPart2ExperiencePage';
+  state: *;
+  static displayName = 'RosaExperiencePage';
 
   static propTypes = {
     query: PropTypes.shape({
@@ -55,8 +56,6 @@ export default class extends React.Component {
       email,
       cohortKey,
       questions: null,
-      labels: null,
-      confusion: null,
       sessionId: uuid.v4()
     };
   }
@@ -64,7 +63,7 @@ export default class extends React.Component {
   // Making questions from the cohort
   onStart = (email) => {
     const {cohortKey} = this.state;
-    const allQuestions = rosterPart2.questionsFor(cohortKey);
+    const allQuestions = RosaScenario.questionsFor(cohortKey);
 
     const startQuestionIndex = this.props.query.p || 0; // for testing or demoing
     const questions = allQuestions.slice(startQuestionIndex);
@@ -72,7 +71,7 @@ export default class extends React.Component {
     this.setState({
       email,
       questions,
-      questionsHash,
+      questionsHash
     });
   };
 
@@ -109,15 +108,14 @@ export default class extends React.Component {
     />;
   };
 
-  renderIntro() {
+  renderIntro = () => {
     return (
       <IntroWithEmail defaultEmail={this.state.email} onDone={this.onStart}>
         <div>
-          <p>Roster Justice -- Part 2</p>
           <p>Welcome!</p>
-          <p>This is part 2 of an interactive case study simulating an interaction between you as teacher and your principal, Mr. Holl.</p>
-          <p>If you have NOT completed part 1 yet, do NOT continue. You must finish part 1 before starting part 2. </p>
-          <p>Write your responses in the textboxes shown. </p>
+          <p>This is an interactive case study simulating a conversation with a high school computer science student.</p>
+          <p>You'll review the context on the scenario, share what you anticipate will happen, and then try it out!  Afterward you'll reflect on your experience with the simulation.</p>
+          <p>Please use <a href="https://www.google.com/chrome/">Chrome</a> on a laptop or desktop computer.</p>
         </div>
       </IntroWithEmail>
     );
@@ -125,56 +123,18 @@ export default class extends React.Component {
 
   renderQuestionEl = (question:QuestionT, onLog, onResponseSubmitted) => {
     const forceText = _.has(this.props.query, 'text');
-
-
-    if (question.stage === 'scenario') {
-      return (
-        <InstantResponseScenario 
-          onLogMessage={onLog}
-          onResponseSubmitted={this.onRecordingDone.bind(this, onResponseSubmitted)}
-          question={question}
-        />
-      );
-    }
-    else {
-      return <QuestionInterpreter
-        question={question}
-        onLog={onLog}
-        forceText={forceText}
-        onResponseSubmitted={onResponseSubmitted} />;
-    }
-
-
+    return <QuestionInterpreter
+      question={question}
+      onLog={onLog}
+      forceText={forceText}
+      onResponseSubmitted={onResponseSubmitted} />;
   };
 
   renderClosingEl = (questions:[QuestionT], responses:[ResponseT]) => {
     return (
-      <div>
-        <b style={styles.doneTitle}>Done</b>
-        <div style={styles.doneText}>
-          <p style={styles.paragraph}>Thank you for participating in our playtest!</p>
-          <p style={styles.paragraph}>This practice space is being made in collaboration with a Teacher Preparation program as part of the pre-service teacher’s curriculum on diversity, equity, and inclusion.</p>
-          <p style={styles.paragraph}>Your participation will help improve this practice space for future use. Thanks!</p>
-        </div>
-      </div>
-    );      
+      <ResponseSummary responses={responses}>
+        You've finished the simulation. Congrats! Below, you'll find your responses to the anticipate questions, the scenes with Rosa, and the reflection questions.
+      </ResponseSummary>
+    );
   };
 }
-
-const styles = {
-  doneTitle: {
-    display: 'block',
-    padding: '15px 20px 15px',
-    background: '#09407d',
-    color: 'white'
-  },
-  doneText: {
-    padding: 20,
-    paddingBottom: 0,
-    margin:0,
-  },
-  paragraph: {
-    marginTop: 20,
-    marginBottom: 20
-  }
-};

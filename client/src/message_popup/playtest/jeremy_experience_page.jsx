@@ -10,11 +10,10 @@ import hash from '../../helpers/hash.js';
 import LinearSession from '../linear_session/linear_session.jsx';
 import SessionFrame from '../linear_session/session_frame.jsx';
 import IntroWithEmail from '../linear_session/intro_with_email.jsx';
-import QuestionInterpreter from '../renderers/question_interpreter.jsx';
-import InstantResponseScenario from '../renderers/instant_response_scenario.jsx';
-import type {QuestionT} from './roster_part2_scenario.jsx';
-import rosterPart2 from './roster_part2_scenario.jsx';
 
+import QuestionInterpreter from '../renderers/question_interpreter.jsx';
+import type {QuestionT} from './pairs_scenario.jsx';
+import JeremyScenario from './jeremy_scenario.jsx';
 
 type ResponseT = {
   choice:string,
@@ -31,7 +30,8 @@ export default class extends React.Component {
     text?: string,
   }};
 
-  static displayName = 'RosterPart2ExperiencePage';
+  state: *;
+  static displayName = 'JeremyExperiencePage';
 
   static propTypes = {
     query: PropTypes.shape({
@@ -55,8 +55,6 @@ export default class extends React.Component {
       email,
       cohortKey,
       questions: null,
-      labels: null,
-      confusion: null,
       sessionId: uuid.v4()
     };
   }
@@ -64,7 +62,7 @@ export default class extends React.Component {
   // Making questions from the cohort
   onStart = (email) => {
     const {cohortKey} = this.state;
-    const allQuestions = rosterPart2.questionsFor(cohortKey);
+    const allQuestions = JeremyScenario.questionsFor(cohortKey);
 
     const startQuestionIndex = this.props.query.p || 0; // for testing or demoing
     const questions = allQuestions.slice(startQuestionIndex);
@@ -72,7 +70,7 @@ export default class extends React.Component {
     this.setState({
       email,
       questions,
-      questionsHash,
+      questionsHash
     });
   };
 
@@ -109,72 +107,87 @@ export default class extends React.Component {
     />;
   };
 
-  renderIntro() {
+  renderIntro = () => {
     return (
       <IntroWithEmail defaultEmail={this.state.email} onDone={this.onStart}>
         <div>
-          <p>Roster Justice -- Part 2</p>
           <p>Welcome!</p>
-          <p>This is part 2 of an interactive case study simulating an interaction between you as teacher and your principal, Mr. Holl.</p>
-          <p>If you have NOT completed part 1 yet, do NOT continue. You must finish part 1 before starting part 2. </p>
-          <p>Write your responses in the textboxes shown. </p>
+          <p>This is an interactive case study simulating a conversation with a high school computer science student.</p>
+          <p>You'll review the context on the scenario, share what you anticipate will happen, and then try it out!  Afterward you'll reflect on your experience with the simulation.</p>
+          <p>Please use <a href="https://www.google.com/chrome/">Chrome</a> on a laptop or desktop computer.</p>
         </div>
       </IntroWithEmail>
     );
   };
 
+
   renderQuestionEl = (question:QuestionT, onLog, onResponseSubmitted) => {
     const forceText = _.has(this.props.query, 'text');
-
-
-    if (question.stage === 'scenario') {
-      return (
-        <InstantResponseScenario 
-          onLogMessage={onLog}
-          onResponseSubmitted={this.onRecordingDone.bind(this, onResponseSubmitted)}
-          question={question}
-        />
-      );
-    }
-    else {
-      return <QuestionInterpreter
-        question={question}
-        onLog={onLog}
-        forceText={forceText}
-        onResponseSubmitted={onResponseSubmitted} />;
-    }
-
-
+    return <QuestionInterpreter
+      question={question}
+      onLog={onLog}
+      forceText={forceText}
+      onResponseSubmitted={onResponseSubmitted} />;
   };
 
   renderClosingEl = (questions:[QuestionT], responses:[ResponseT]) => {
     return (
-      <div>
-        <b style={styles.doneTitle}>Done</b>
-        <div style={styles.doneText}>
-          <p style={styles.paragraph}>Thank you for participating in our playtest!</p>
-          <p style={styles.paragraph}>This practice space is being made in collaboration with a Teacher Preparation program as part of the pre-service teacher’s curriculum on diversity, equity, and inclusion.</p>
-          <p style={styles.paragraph}>Your participation will help improve this practice space for future use. Thanks!</p>
+
+      <div className="done">
+        <b style={{
+          display: 'block',
+          padding: '15px 20px 15px',
+          background: '#09407d',
+          color: 'white'
+        }}>Done</b>
+        <div style={styles.doneTitle}>
+          <p> This concludes the practice space. Your responses have been recorded. Thank you for your participation. </p>
         </div>
-      </div>
-    );      
+      </div> 
+
+
+    );
   };
 }
 
 const styles = {
-  doneTitle: {
-    display: 'block',
-    padding: '15px 20px 15px',
-    background: '#09407d',
-    color: 'white'
+  done: {
+    padding: 20,
   },
-  doneText: {
+  container: {
+    fontSize: 20,
+    padding: 0,
+    margin:0,
+    paddingBottom: 45
+  },
+  button: {
+    marginTop: 20
+  },
+  doneTitle: {
     padding: 20,
     paddingBottom: 0,
     margin:0,
   },
+  instructions: {
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
   paragraph: {
     marginTop: 20,
     marginBottom: 20
+  },
+  summaryTitle: {
+    fontSize: 20,
+    padding: 20,
+    paddingBottom: 5,
+    margin: 0,
+    fontWeight: 'bold'
+  },
+  summaryQuestion: {
+    whiteSpace: 'pre-wrap',
+    fontSize: 16,
+    lineHeight: 1.2,
+    paddingTop: 10,
+    paddingBottom: 10
   }
 };

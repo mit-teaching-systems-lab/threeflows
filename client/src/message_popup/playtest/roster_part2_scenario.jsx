@@ -3,6 +3,8 @@
 /*
 This file defines the content for the counseling scenario around talking to Rosa
 */
+
+
 export type QuestionT = {
   type:string, // Used as a label
   text:string,
@@ -30,11 +32,11 @@ Ready? Let’s go!
 `
   });
 
-  slides.push({type: 'Try It', id: 'try_1', text: 
-  `Mr. Holl: “Hello, hello. Come on in. Sit down.
 
-I wanted to meet with you to check in on the changes to the scheduling, but I also heard that you wanted to talk to me. We don’t have a lot of time for our meeting, so let’s cut straight to the chase: Lay it all out for me.”`, force: true, writeNoPrompt: true
+  slides.push({type: 'Try It', id: 'try_2', text: 
+  `  `, force: true, writeNoPrompt: true
   });
+
 
   slides.push({type: 'Try It', id: 'try_2', text: 
   `  Mr. Holl: “Well, first I’d like to say thank you for bringing the issue to my attention, and I get your concern -- really, I do. But we don’t have the capacity to dig into this now since, as you know, school is starting in three weeks. 
@@ -93,7 +95,6 @@ Did any of Mr. Holl's suggestions or reasons stand out to you? Why?
 
   return slides;
 }
-
 
 export default {
   questionsFor(cohortKey) {
