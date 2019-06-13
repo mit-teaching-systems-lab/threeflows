@@ -375,6 +375,7 @@ Jeremy starts talking quickly, seemingly ignoring everything you just said.
 
 Jeremy: “Can I please not take the quiz today? I don’t get what we’re learning right now, and I am for sure definitely going to fail if I take the quiz today. My mom is literally going to kill me! KILL me. Like, actual DEATH.”
 
+
 Respond to Jeremy:
 `, force: true, writeNoPrompt: true});
 
