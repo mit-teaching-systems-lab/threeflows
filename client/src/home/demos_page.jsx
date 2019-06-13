@@ -50,6 +50,7 @@ export default class extends React.Component {
         <List>
           {this.renderScenarioItem(<a href="/teachermoments/original?fromdemos">Choose your skill</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/darius?fromdemos">Darius</a>)}
+          {this.renderScenarioItem(<a href="/teachermoments/jeremy?fromdemos">Jeremy</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/discipline?fromdemos">Middle school classroom management</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/mentoring?fromdemos">Mentoring session</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/alpha?fromdemos">Mini: Tired in class</a>)}

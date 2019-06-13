@@ -27,6 +27,11 @@ import apTestExperiencePageTwo from './playtest/aptest_experience_page_two.jsx';
 import apTestExperiencePageTwoPT from './playtest/aptest_experience_page_two_pt.jsx';
 import RosterPart1ExperiencePage from './playtest/roster_part1_experience_page.jsx';
 import RosterPart2ExperiencePage from './playtest/roster_part2_experience_page.jsx';
+import RosterPart2VExperiencePage from './playtest/roster_two_v_experience_page.jsx';
+import JeremyExperiencePage from './playtest/jeremy_experience_page.jsx';
+import CultureConflictExperiencePage from './playtest/culture_conflict_experience_page.jsx';
+
+
 
 
 import QuestionsPage from './author/questions_page.jsx';
@@ -69,6 +74,9 @@ export {
   apTestExperiencePageTwo,
   apTestExperiencePageTwoPT,
   RosterPart1ExperiencePage,
-  RosterPart2ExperiencePage
+  RosterPart2ExperiencePage,
+  RosterPart2VExperiencePage,
+  JeremyExperiencePage,
+  CultureConflictExperiencePage
 
 };
