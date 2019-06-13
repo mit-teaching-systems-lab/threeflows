@@ -112,8 +112,8 @@ export default class extends React.Component {
       <IntroWithEmail defaultEmail={this.state.email} onDone={this.onStart}>
         <div>
           <p>Welcome!</p>
-          <p>This is an interactive case study simulating a conversation with a high school computer science student.</p>
-          <p>You'll review the context on the scenario, share what you anticipate will happen, and then try it out!  Afterward you'll reflect on your experience with the simulation.</p>
+          <p>This is an interactive case study simulating a series of interactions between you and one of your students.</p>
+          <p>You’ll be given context of your class and of the student and then be asked to make decisions about how to support the student after each school day.</p>
           <p>Please use <a href="https://www.google.com/chrome/">Chrome</a> on a laptop or desktop computer.</p>
         </div>
       </IntroWithEmail>
