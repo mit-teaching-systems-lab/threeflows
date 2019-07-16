@@ -39,7 +39,7 @@ export default class extends React.Component {
           {this.renderScenarioItem(<a href="https://swipe-right-for-cs.herokuapp.com/play?fromdemos">Connecting student strengths to academics</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/jayden?fromdemos">Encouraging student growth</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/csfair?fromdemos">Computer science projects</a>)}
-          {this.renderScenarioItem(<a href="/teachermoments/dysfunc?fromdemos">Dysfunctional Helping</a>)}
+          {this.renderScenarioItem(<a href="/teachermoments/dysfunc?fromdemos">Classroom Support</a>)}
         </List>
         <List>
           <h3 style={styles.header}>Parent conversations</h3>
@@ -51,6 +51,7 @@ export default class extends React.Component {
           {this.renderScenarioItem(<a href="/teachermoments/original?fromdemos">Choose your skill</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/darius?fromdemos">Darius</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/jeremy?fromdemos">Jeremy</a>)}
+          {this.renderScenarioItem(<a href="/teachermoments/culture-conflict?fromdemos">Culture Conflict</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/discipline?fromdemos">Middle school classroom management</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/mentoring?fromdemos">Mentoring session</a>)}
           {this.renderScenarioItem(<a href="/teachermoments/alpha?fromdemos">Mini: Tired in class</a>)}

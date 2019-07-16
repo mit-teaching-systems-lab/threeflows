@@ -54,13 +54,13 @@ You teach multiple sections of ELA, but we will only focus on one student from y
   slides.push({ type: 'Context', text:
 `Your schedule looks like the following:
 
-  Period 1    ELA
-  Period 2    ELA
-  Period 3    Conference
-  LUNCH TIME
-  Period 4    ELA
-  Period 5    Conference
-  Period 6    ELA
+    Period 1    ELA
+    Period 2    ELA
+    Period 3    Conference
+        LUNCH TIME
+  ->Period 4    ELA
+    Period 5    Conference
+    Period 6    ELA
 
 Your period 4 class has 24 students and occurs right after lunch.
 `});
@@ -102,18 +102,24 @@ When you are ready to begin, click “OK” to start.
   // Enact
   slides.push({ type: 'Enact', text:
 `Monday Musings.
+Students write down what they notice about the mentor sentence.
+
 At the beginning of class, you explain to students the idea of ‘mentor sentences’ and explain the general idea for each day of the week.
 
 The first mentor sentence is written up on the board as well as a list of features students can notice (ex: parts of speech, punctuation, capitalization, etc.)`});
 
   slides.push({ type: 'Enact', text:
 `Monday Musings.
+Students write down what they notice about the mentor sentence.
+
 Teacher: “Okay, let’s dive in! Our first mentor sentence is from Freak the Mighty. It says ‘I never had a brain until Freak came along and let me borrow his for a while, and that's the truth, the whole truth.’
 
 So, in your journal I want you to answer our first question of the week: What do you notice about this week's mentor sentence? Push yourself to write at least three observations, and remember: we have our list of “things to notice” up on the board for you to use. Now, go ahead and silently write in your journal for 4 minutes.”`});
 
   slides.push({ type: 'Enact', text:
 `Monday Musings.
+Students write down what they notice about the mentor sentence.
+
 The majority of students are silently writing in their journal.
 
 Jeremy writes for a few seconds, places his pencil down, and looks around the room.
@@ -127,6 +133,8 @@ You have several students share what they wrote, and then move on to the next pa
 
   slides.push({ type: 'Enact', text:
 `Monday Musings.
+Students write down what they notice about the mentor sentence.
+
 At the end of the school day, you check the students’ journals. 21 students wrote at least 3 items. 
 
 The most popular observations were:
@@ -143,10 +151,10 @@ The remaining 3 students (including Jeremy) wrote either 1 or 2 items.
       <div>Monday Musings. </div>
       <div>
         <div>A snapshot of Jeremy’s journal is shown below:</div>
-        <div><a href="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/jeremy-scenario/PS1-Draft.png" target="_blank" rel="noopener noreferrer">Open in a new window</a></div>
+        <div><a href="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/jeremy-scenario/jj-monday-journal.PNG" target="_blank" rel="noopener noreferrer">Open in a new window</a></div>
       </div>
       <div>
-        <img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/jeremy-scenario/PS1-Draft.png" alt="student workd" style={{display: 'block', width: '90%', margin: 20}} /> 
+        <img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/jeremy-scenario/jj-monday-journal.PNG" alt="student workd" style={{display: 'block', width: '90%', margin: 20}} /> 
       </div> 
       <div>How do you want to respond to student work?</div>
       <div> </div>      
@@ -160,6 +168,8 @@ The remaining 3 students (including Jeremy) wrote either 1 or 2 items.
 
   slides.push({ type: 'Enact', text:
 `Teacher Tuesday.
+The teacher explicitly teaches the grammar focus, and students and teachers label the entire sentence.
+
 Today you will teach students explicitly about (1) using commas for phrases and (2) hyperboles.
 
 Teacher: “Okay, so today we’re going to learn about how to use commas for phrases and what a hyperbole is. Before we do that, though, we’re first going to label all parts of our mentor sentence.”`});
@@ -167,16 +177,20 @@ Teacher: “Okay, so today we’re going to learn about how to use commas for ph
   slides.push({ type: 'Enact', el:
     <div>
       <div>Teacher Tuesday.</div>
+      <div>The teacher explicitly teaches the grammar focus, and students and teachers label the entire sentence.</div>
+      <div>{"\n"}</div>
       <div>You ask students to help you figure out what each part of the sentence is. After about 5 minutes, you and the class have come up with the following:</div>
       <div>
-        <a href="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/jeremy-scenario/PS1-Draft-2.png" target="_blank" rel="noopener noreferrer">Open in a new window</a>
-        <img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/jeremy-scenario/PS1-Draft-2.png" alt="student workd" style={{display: 'block', width: '90%', margin: 20}} /> 
+        <a href="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/jeremy-scenario/jj-tuesday-boardwork.PNG" target="_blank" rel="noopener noreferrer">Open in a new window</a>
+        <img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/jeremy-scenario/jj-tuesday-boardwork.PNG" alt="student workd" style={{display: 'block', width: '90%', margin: 20}} /> 
       </div> 
       <div>During the activity, Jeremy is writing in his journal. Jeremy does not raise his hand or talk during this time. </div>
     </div> });
 
   slides.push({ type: 'Enact', text:
 `Teacher Tuesday.
+The teacher explicitly teaches the grammar focus, and students and teachers label the entire sentence.
+
 You then explain to students what clauses and hyperboles are and ask students to write the following in their notebook:
 
 Commas: Can use these to separate clauses (like a brief pause)
@@ -188,6 +202,8 @@ Jeremy writes for a few moments, and then whispers something to his shoulder par
 
   slides.push({ type: 'Enact', text:
 `Teacher Tuesday.
+The teacher explicitly teaches the grammar focus, and students and teachers label the entire sentence.
+
 It’s the end of the school day, and you sit down to review student journals.
 
 15 students have written down exactly what you had on the board with maybe one or two small errors.
@@ -198,12 +214,12 @@ It’s the end of the school day, and you sit down to review student journals.
   slides.push({ type: 'Enact', el:
     <div>
       <div>Teacher Tuesday.</div>
-      <div></div>
+      <div>The teacher explicitly teaches the grammar focus, and students and teachers label the entire sentence.<br></br></div>
+      <div>{"\n"}</div>
       <div>A snapshot of Jeremy’s journal is shown below:</div>
-      <div></div>
       <div>
-        <a href="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/jeremy-scenario/PS1-Draft-3.png" target="_blank" rel="noopener noreferrer">Open in a new window</a>
-        <img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/jeremy-scenario/PS1-Draft-3.png" alt="student workd" style={{display: 'block', width: '90%', margin: 20}} /> 
+        <a href="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/jeremy-scenario/jj-tuesday-journal.PNG" target="_blank" rel="noopener noreferrer">Open in a new window</a>
+        <img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/jeremy-scenario/jj-tuesday-journal.PNG" alt="student workd" style={{display: 'block', width: '90%', margin: 20}} /> 
       </div> 
       <div>How do you want to respond to student work?</div>
       <div> </div>      
@@ -218,46 +234,42 @@ It’s the end of the school day, and you sit down to review student journals.
 
   slides.push({ type: 'Enact', text:
 `Work It Wednesday.
+Students do some practice work with the grammar skill. Students try to make the sentence better by changing something.
+
 Today you will instruct students to make a slight improvement to the mentor sentence.
 
-Teacher: “Today is Work It Wednesday! We’re going to look at our mentor sentence and try to improve it in some way, be it by changing the parts of speech, punctuation, figurative language, the hyperbole, or something else. You’re job is to make our mentor sentence better, either by a little bit or something more dramatic. At the end of our Work It Wednesday, we’ll have a few classmates share what they came up with.”
+Jeremy is absent from class today. The school attendance system shows that Jeremy was “present and on time” for his first period class and was absent from his 3rd period class.
 
+However, sometimes teachers don’t enter their attendance into the system until the end of the school day, so these records could be inaccurate.
 `});
 
   slides.push({ type: 'Enact', text:
 `Work It Wednesday.
-Students are talking in pairs about what to change for the mentor sentence. As students have their “lightbulb moment”, they turn to their journals to write.
+Students do some practice work with the grammar skill. Students try to make the sentence better by changing something.
 
-Jeremy turns to his partner and asks “How’s your day goin’?” Jeremy and his partner talk about their day for a few minutes. 
+You instruct students to make improvements to the sentence and then have a few students share out their work. 
+
+Afterwards, you move on in your lesson.
 `});
 
   slides.push({ type: 'Enact', text:
 `Work It Wednesday.
-When students have 2 minutes left, you give them a time warning.
+Students do some practice work with the grammar skill. Students try to make the sentence better by changing something.
 
-Jeremy and his shoulder partner start writing during the 2 minute mark. 
+Now it’s the end of the school day, and you are reviewing student journals. 
 
-At the end of the time, you have 5 students share out their improvements. While one student was sharing, Jeremy was writing in his journal. Otherwise, Jeremy was looking at the speaker for each share out. 
+Reviewing student work, 17 students have unique sentences, and the remaining 6 have partial or incomplete sentences.
+
+When you check the school’s attendance system, you notice that Jeremy was tardy to 1st period by 15 minutes and then was absent for the rest of the school day. 
 `});
 
-  slides.push({ type: 'Enact', text:
-`Work It Wednesday.
-It’s the end of the school day, and you are reviewing student journals. 
-
-All students changed the mentor sentence in some way. 15 students (including Jeremy) have written down one of the 5 sentences shared during class. The rest of the students have unique sentences.
-`});
 
   slides.push({ type: 'Enact', el:
     <div>
       <div>Work It Wednesday.</div>
+      <div>Students do some practice work with the grammar skill. Students try to make the sentence better by changing something.</div>
       <div></div>
-      <div>A snapshot of Jeremy’s journal is shown below:</div>
-      <div></div>
-      <div>
-        <a href="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/jeremy-scenario/PS1-Draft-4.png" target="_blank" rel="noopener noreferrer">Open in a new window</a>
-        <img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/jeremy-scenario/PS1-Draft-4.png" alt="student workd" style={{display: 'block', width: '90%', margin: 20}} /> 
-      </div> 
-      <div>How do you want to respond to student work?</div>
+      <div>How do you want to respond Jeremy’s absence?</div>
       <div> </div>      
       <div> - Review the lesson in a small group</div>
       <div> - Review the lesson with the whole class </div>
@@ -270,39 +282,80 @@ All students changed the mentor sentence in some way. 15 students (including Jer
 
 
 
-  slides.push({ type: 'Enact', text: `Thinking Thursday.
+  slides.push({ type: 'Enact', text: 
+`Thinking Thursday.
+Students think of their own sentence that uses the grammar skills.
+
 Today you will instruct students to create a brand new sentence that mimics the structure of the mentor sentence (complete with use of clauses and hyperboles).
 
-Teacher: “Alrighty, the story so far: we read a mentor sentence, wrote what we noticed about it, labelled each word in the sentence, learned about using commas for clauses and hyperboles, and then made improvements to the mentor sentence.
+Jeremy is present and in class today.
+`});
 
-Now that we’ve had all this practice with our mentor sentence, today we will write our own, unique sentence using what we learned.”
-
-You then instruct students to write their own, unique sentence that uses:
-(1) Commas to separate clauses
-(2) Hyperbole`});
-
-        
+  slides.push({ type: 'Enact', el:
+    <div>
+      <div>Thinking Thursday.</div>
+      <div>Students think of their own sentence that uses the grammar skills.</div>
+      <div> </div>
+      <div>When Jeremy enters class, he hands you a copy of a note:</div>
+      <div></div>
+      <div>
+        <a href="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/jeremy-scenario/jj-thursday-momnote.PNG" target="_blank" rel="noopener noreferrer">Open in a new window</a>
+        <img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/jeremy-scenario/jj-thursday-momnote.PNG" alt="student workd" style={{display: 'block', width: '90%', margin: 20}} /> 
+      </div> 
+      <div>Jeremy: “My mom said to give you this note. Sorry I was out yesterday. I wasn’t feeling all that great and had to go home. What do you want me to do for my makeup work?”</div>
+      <div> </div>      
+      <div>Type a response as if you were responding to Jeremy:</div>
+    </div>
+    , force: true, writeNoPrompt: true});   
 
 
   slides.push({ type: 'Enact', text: 
     `Thinking Thursday.
+Students think of their own sentence that uses the grammar skills.
+
+Jeremy takes his seat, and you begin the lesson.
+
+Teacher: “Alrighty, the story so far: we read a mentor sentence, wrote what we noticed about it, labelled each word in the sentence, learned about using commas for clauses and hyperboles, and then made improvements to the mentor sentence.
+
+Now that we’ve had all this practice with our mentor sentence, today we will write our own, unique sentence using what we learned.”
+`});
+
+  slides.push({ type: 'Enact', text: 
+    `Thinking Thursday.
+Students think of their own sentence that uses the grammar skills.
+
+You then instruct students to write their own, unique sentence that uses:
+(1) Commas to separate clauses
+(2) Hyperbole
+
 The majority of students alternate between writing in their journal and sharing with their shoulder partner.
 
 Jeremy starts this time by turning to his shoulder partner and asking “How’s your day goin’?” They chat for a few moments before Jeremy turns to his other shoulder partner and asks the same question. They also chat for a few moments.
+
+`});
+
+  slides.push({ type: 'Enact', text: 
+    `Thinking Thursday.
+Students think of their own sentence that uses the grammar skills.
 
 Jeremy then writes a few words, erases something from his paper, and then writes a little more. Jeremy then turns to the person behind him and asks “How’s your day going?” They chat for about 2 minutes. Jeremy looks at his journal and writes something else down.
 `});
 
   slides.push({ type: 'Enact', text: 
     `Thinking Thursday.
+Students think of their own sentence that uses the grammar skills.
+
 Teacher: “That’s time! Please put your journal away. As a reminder, we’re going to have our quiz tomorrow morning to see what you know about clauses and hyperbole. For now, we’re going to move on to the next part of our lesson.”
 
 Jeremy quickly finishes writing something in his journal. He then puts the journal away and starts to wiggle in his seat. 
 
-That day during class, Jeremy asks to go to the bathroom. He uses 15 minutes to go the bathroom and return to class.`});
+That day during class, Jeremy asks to go to the bathroom. He uses 15 minutes to go the bathroom and return to class.
+`});
 
   slides.push({ type: 'Enact', text: 
     `Thinking Thursday.
+Students think of their own sentence that uses the grammar skills.
+
 It’s now the end of the school day, and you are reviewing student journals.
 
 15 students correctly used both clauses and hyperboles in their “new” mentor sentences.
@@ -311,17 +364,19 @@ It’s now the end of the school day, and you are reviewing student journals.
 
 1 student used neither of the skills correctly.
 
-1 student (Jeremy) did not complete a mentor sentence.`});
+1 student (Jeremy) did not complete a mentor sentence.
+`});
 
   slides.push({ type: 'Enact', el:
     <div>
       <div>Thinking Thursday.</div>
-      <div></div>
+      <div>Students think of their own sentence that uses the grammar skills.</div>
+      <div> </div>
       <div>A snapshot of Jeremy’s journal is shown below:</div>
-      <div></div>
+      <div> </div>
       <div>
-        <a href="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/jeremy-scenario/PS1-Draft-5.png" target="_blank" rel="noopener noreferrer">Open in a new window</a>
-        <img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/jeremy-scenario/PS1-Draft-5.png" alt="student workd" style={{display: 'block', width: '90%', margin: 20}} /> 
+        <a href="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/jeremy-scenario/jj-thursday-journal.PNG" target="_blank" rel="noopener noreferrer">Open in a new window</a>
+        <img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/jeremy-scenario/jj-thursday-journal.PNG" alt="student workd" style={{display: 'block', width: '90%', margin: 20}} /> 
       </div> 
       <div>How do you want to respond to student work?</div>
       <div> </div>      
@@ -338,11 +393,14 @@ It’s now the end of the school day, and you are reviewing student journals.
   slides.push({ type: 'Enact', el:
     <div>
       <div>Final Friday.</div>
+      <div>Students are assessed on components of the mentor sentence.</div>
+      <div> </div>
       <div>Today students are starting off the class day with a quiz on using clauses and hyperbole. </div>
+      <div> </div>
       <div>The quiz can be seen below:</div>
       <div>
-        <a href="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/jeremy-scenario/PS1-Draft-6.png" target="_blank" rel="noopener noreferrer">Open in a new window</a>
-        <img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/jeremy-scenario/PS1-Draft-6.png" alt="student workd" style={{display: 'block', width: '90%', margin: 20}} /> 
+        <a href="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/jeremy-scenario/jj-friday-quiz.PNG" target="_blank" rel="noopener noreferrer">Open in a new window</a>
+        <img src="https://s3-us-west-2.amazonaws.com/tsl-public/threeflows/jeremy-scenario/jj-friday-quiz.PNG" alt="student workd" style={{display: 'block', width: '90%', margin: 20}} /> 
       </div>
       <div>Do you think Jeremy is ready to take the quiz? Why or why not?</div>
     </div>
@@ -351,6 +409,8 @@ It’s now the end of the school day, and you are reviewing student journals.
 
   slides.push({ type: 'Enact', text:
 `Final Friday.
+Students are assessed on components of the mentor sentence.
+
 Students come in and take their seats. Jeremy hasn’t arrived to class yet.
 
 Teacher: “You guys have done great work all week long! Today we are going to take a short quiz to check your understanding of our mentor sentence. 
@@ -360,6 +420,8 @@ Please put all materials away except for a pencil. We will begin shortly.”
 
   slides.push({ type: 'Enact', text:
 `Final Friday.
+Students are assessed on components of the mentor sentence.
+
 Students are still taking their quiz when Jeremy walks into class 5 minutes late with no tardy note in hand.
 
 You walk over to Jeremy to talk to him. 
@@ -371,6 +433,8 @@ Respond to Jeremy:
 
   slides.push({ type: 'Enact', text:
 `Final Friday.
+Students are assessed on components of the mentor sentence.
+
 Jeremy starts talking quickly, seemingly ignoring everything you just said.
 
 Jeremy: “Can I please not take the quiz today? I don’t get what we’re learning right now, and I am for sure definitely going to fail if I take the quiz today. My mom is literally going to kill me! KILL me. Like, actual DEATH.”
@@ -406,10 +470,8 @@ Click “OK” when you are ready.
 `What role do you see yourself playing in Jeremy's academic achievement and success?`, force: true, writeNoPrompt: true});
 
   slides.push({ type: 'Reflect', text:
-`Brainstorm: What factors do you you consider might play into Jeremy's academic performance and achievement?`, force: true, writeNoPrompt: true});
+`Brainstorm: What factors do you consider might play into Jeremy's academic performance and achievement?`, force: true, writeNoPrompt: true});
 
-  slides.push({ type: 'Reflect', text:
-`Brainstorm: What factors do you you consider might play into Jeremy's academic performance and achievement?`, force: true, writeNoPrompt: true});
  
   slides.push({ type: 'Reflect', text:
 `It's common opinion that "effort and sacrifice guarantees students will have opportunities to succeed. " What is your opinion on this statement?`, force: true, writeNoPrompt: true});

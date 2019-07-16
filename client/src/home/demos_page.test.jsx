@@ -11,6 +11,6 @@ describe('<DemosPage />', () => {
   it('renders', () => {
     const wrapper = shallow(<DemosPage />);
     expect(wrapper.find(List).length).to.equal(3);
-    expect(wrapper.find(ListItem).length).to.equal(20);
+    expect(wrapper.find(ListItem).length).to.equal(21);
   });
 });
