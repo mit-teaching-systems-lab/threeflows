@@ -64,17 +64,17 @@ Please respond as quickly as possible (like you would do in a real conversation)
 This may feel uncomfortable at first, but it's better to feel uncomfortable here than with a real parent.`
     });
 
-    slides.push({type: 'Scenario', stage: 'scenario', youTubeId: 'DXdWPArayr8'});
+    slides.push({type: 'Scenario', stage: 'scenario', youTubeId: 'yOmlDJucPDw'});
 
-    slides.push({type: 'Scenario', stage: 'scenario', youTubeId: 'EPeEgD3EnAY'});
+    slides.push({type: 'Scenario', stage: 'scenario', youTubeId: 'hayN8WptJ_k'});
 
-    slides.push({type: 'Scenario', stage: 'scenario', youTubeId: 'Nk1a4MUn45I'});
+    slides.push({type: 'Scenario', stage: 'scenario', youTubeId: 'FdGHRZJCFdk'});
 
-    slides.push({type: 'Scenario', stage: 'scenario', youTubeId: 'ugUEfqG_AQc'});
+    slides.push({type: 'Scenario', stage: 'scenario', youTubeId: 'pXrfsOX4gAQ'});
 
-    slides.push({type: 'Scenario', stage: 'scenario', youTubeId: 'z2P6WEojD1s'});
+    slides.push({type: 'Scenario', stage: 'scenario', youTubeId: 'EQzh9xMOgCM'});
 
-    slides.push({type: 'Scenario', stage: 'scenario', youTubeId: 'jzEOiaIlxN4'});
+    slides.push({type: 'Scenario', stage: 'scenario', youTubeId: '7o9LI2AhJxU'});
 
     slides.push({type: 'Post-simulation Reflection', stage: 'info', text: 
       `We will have a debrief in the next class. Please respond to the following reflection questions as preparation for the debrief.`
