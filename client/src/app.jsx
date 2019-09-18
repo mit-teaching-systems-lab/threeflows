@@ -238,7 +238,7 @@ export default createReactClass({
     return <MessagePopup.RosterPart2ExperiencePage query={query} />;
   },
 
-  rosterPart2V(query = {}) {
+  rosterPart2v(query = {}) {
     return <MessagePopup.RosterPart2VExperiencePage query={query} />;
   },
 
