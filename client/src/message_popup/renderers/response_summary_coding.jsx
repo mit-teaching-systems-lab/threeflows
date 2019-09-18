@@ -5,6 +5,7 @@ import React from 'react';
 import VelocityTransitionGroup from "velocity-react/velocity-transition-group";
 import Divider from 'material-ui/Divider';
 import SelectField from 'material-ui/SelectField';
+import TextField from 'material-ui/TextField';
 import MenuItem from 'material-ui/MenuItem';
 
 import ReadMore from './read_more.jsx';
@@ -85,7 +86,27 @@ export default class extends React.Component {
     return retVal;
   }
 
+  handleTextSelectionChange(questionId, labelCategory, event) {   
+    var Label = {
+      questionId:questionId, 
+      category:labelCategory, 
+      label:event.target.value, 
+    };
 
+    var newStudentSourcedLabels = _.cloneDeep(this.state.studentSourcedLabels);
+    var labelIndex = this.getIndexOfQuestionId(questionId, labelCategory);
+
+    if (labelIndex > -1) {
+      //update      
+      newStudentSourcedLabels[labelIndex] = Label;
+    } else {
+      //add
+      newStudentSourcedLabels = this.state.studentSourcedLabels.concat([Label]);
+    }
+
+    this.setState({studentSourcedLabels: newStudentSourcedLabels});
+    this.onLogMessageWithQuestionCoding(questionId, 'student_coding', newStudentSourcedLabels);
+  }
 
   handleSelectionChange(questionId, labelCategory, event) {   
     var Label = {
@@ -166,6 +187,12 @@ export default class extends React.Component {
                       primaryText={x.text} 
                     />)}
                   </SelectField>
+                  <div style={styles.instructions}>If yes, reference the audio player above and indicate where you sounded confused (e.g., at 0:12-0:15 in the recording)</div>
+                  <TextField
+                    id={questionId + '_whereConfused'}
+                    onChange={this.handleTextSelectionChange.bind(this, questionId, "ConfusedDesc")}
+                    style={{paddingLeft: 20, width: '70%'}}>
+                  </TextField>
                 </div>
                 <Divider />
               </div>

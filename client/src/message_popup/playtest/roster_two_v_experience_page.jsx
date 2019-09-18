@@ -16,7 +16,6 @@ import InstantResponseScenario from '../renderers/instant_response_scenario.jsx'
 import MinimalTextResponse from '../renderers/minimal_text_response.jsx';
 import MixedQuestion from '../renderers/mixed_question.jsx';
 import OkResponse from '../responses/ok_response.jsx';
-import * as Routes from '../../routes.js';
 
 
 // The top-level page, manages logistics around email, questions,
@@ -101,11 +100,11 @@ export default class extends React.Component {
     return (
       <IntroWithEmail defaultEmail={this.state.email} onDone={this.onStart}>
         <div>
+          <p><b>Roster Justice -- Part 2</b></p>
           <p>Welcome!</p>
-          <p>You will go through a couple of activities that are designed to make you better prepared for a potentially difficult parent-teacher conference you might experience as a new teacher.</p>
-          <p>You need to use a computer/laptop that has a mic because you will need to do audio recordings.</p>
-          <p>This simulation is based on work that has been done by Professor Benjamin Dotger at Syracuse University as documented in his book: "I Had No Idea" Clinical Simulations for Teacher Development.</p>
-          <p>This activity would take about 30 minutes.</p>
+          <p>This is part 2 of an interactive case study simulating an interaction between you as teacher and your principal, Mr. Holl.</p>
+          <p>If you have NOT completed part 1 yet, do NOT continue. You must finish part 1 before starting part 2. </p>
+          <p>Write your responses in the textboxes shown. </p>
         </div>
       </IntroWithEmail>
     );
@@ -180,8 +179,9 @@ export default class extends React.Component {
           color: 'white'
         }}>Done</b>
         <div style={styles.doneTitle}>
-          <p style={styles.paragraph}>You have now completed the simulation and personal reflections</p>
-          <p style={styles.paragraph}><a href={Routes.Home}>Back to Home</a></p>
+          <p style={styles.paragraph}>Thank you for participating in our playtest!</p>
+          <p style={styles.paragraph}>This practice space is being made in collaboration with a Teacher Preparation program as part of the pre-service teacher’s curriculum on diversity, equity, and inclusion. </p>
+          <p style={styles.paragraph}>Your participation will help improve this practice space for future use. Thanks!</p>
         </div>
       </div> 
     );
