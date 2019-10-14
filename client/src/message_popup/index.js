@@ -13,6 +13,7 @@ import MTurkPage from './playtest/mturk_page.jsx';
 import InsubordinationExperiment from './playtest/insubordination_experiment.jsx';
 import PairsExperiencePage from './playtest/pairs_experience_page.jsx';
 import DariusExperiencePage from './playtest/darius_experience_page.jsx';
+import DariusExperiencePagePT from './playtest/darius_experience_page_pt.jsx';
 import CsFairExperiencePage from './playtest/cs_fair_experience_page.jsx';
 import BubbleSortExperiencePage from './playtest/bubble_sort_experience_page.jsx';
 import JaydenExperiencePage from './playtest/jayden_experience_page.jsx';
@@ -30,6 +31,7 @@ import RosterPart2ExperiencePage from './playtest/roster_part2_experience_page.j
 import RosterPart2VExperiencePage from './playtest/roster_two_v_experience_page.jsx';
 import JeremyExperiencePage from './playtest/jeremy_experience_page.jsx';
 import CultureConflictExperiencePage from './playtest/culture_conflict_experience_page.jsx';
+import CultureConflictExperiencePagePT from './playtest/culture_conflict_experience_page_pt.jsx';
 
 
 
@@ -60,6 +62,7 @@ export {
   InsubordinationExperiment,
   PairsExperiencePage,
   DariusExperiencePage,
+  DariusExperiencePagePT,
   CsFairExperiencePage,
   EcsExperiencePage,
   MTurkPage,
@@ -77,6 +80,7 @@ export {
   RosterPart2ExperiencePage,
   RosterPart2VExperiencePage,
   JeremyExperiencePage,
-  CultureConflictExperiencePage
+  CultureConflictExperiencePage,
+  CultureConflictExperiencePagePT
 
 };
