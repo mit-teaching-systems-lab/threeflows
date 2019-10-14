@@ -62,6 +62,7 @@ export default createReactClass({
 
     // CSS scenarios
     '/teachermoments/culture-conflict': 'culturePlaytest',
+    '/teachermoments/culture-conflict-pt': 'culturePlaytestPT',
     '/teachermoments/jeremy': 'jeremyPlaytest',
 
 
@@ -98,6 +99,7 @@ export default createReactClass({
     '/teachermoments/mindset': 'mindsetPlaytest',
     '/teachermoments/demo': 'messagePopupDemo',
     '/teachermoments/darius': 'messagePopupDarius',
+    '/teachermoments/darius-pt': 'messagePopupDariusPT',
 
 
     // ------ EXPERIMENTS AND PROTOTYPES ----- //
@@ -291,6 +293,10 @@ export default createReactClass({
     return <MessagePopup.CultureConflictExperiencePage query={query} />;
   },
 
+  culturePlaytestPT(query = {}) {
+    return <MessagePopup.CultureConflictExperiencePagePT query={query} />;
+  },
+
   TurnerPlaytest(query = {}) {
     return <MessagePopup.TurnerExperiencePage query={query} />;
   },
@@ -318,6 +324,10 @@ export default createReactClass({
 
   messagePopupDarius(query = {}) {
     return <MessagePopup.DariusExperiencePage query={{}}/>;
+  },
+
+  messagePopupDariusPT(query = {}) {
+    return <MessagePopup.DariusExperiencePagePT query={{}}/>;
   },
 
   equityFairPage(query = {}) {

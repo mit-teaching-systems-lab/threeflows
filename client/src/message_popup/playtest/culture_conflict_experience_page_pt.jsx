@@ -14,7 +14,7 @@ import IntroWithEmail from '../linear_session/intro_with_email.jsx';
 import QuestionInterpreter from '../renderers/question_interpreter.jsx';
 import type {QuestionT} from './culture_conflict_scenario_pt.jsx';
 import CultureScenario from './culture_conflict_scenario_pt.jsx';
-import ResponseSummary from '../renderers/response_summary.jsx';
+import ResponseSummary from '../renderers/response_summary_coding.jsx';
 
 
 type ResponseT = {
@@ -33,7 +33,7 @@ export default class extends React.Component {
   }};
 
   state: *;
-  static displayName = 'CultureConflictExperiencePagePT';
+  static displayName = 'CultureConflictExperiencePage';
 
   static propTypes = {
     query: PropTypes.shape({
@@ -108,6 +108,7 @@ export default class extends React.Component {
       onLogMessage={this.onLogMessage}
     />;
   };
+
 
   renderIntro = () => {
     return (
