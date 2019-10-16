@@ -36,7 +36,7 @@ function slidesFor(cohortKey) {
   });
 
   //Context Anticipate
-  slides.push({ type: 'Context for Anticipate', text:
+  slides.push({ type: 'Context for Anticipate',id: 'anticipate_1', text:
 `You are entering the “Anticipate” section of this practice space where you will read a series of vignettes from teachers’ classroom practice. Your job is to answer the following:
 
 
@@ -47,7 +47,7 @@ Keep in mind that we are interested more in the impact of teachers’ actions, v
 
 
   // Anticipate
-  slides.push({ type: 'Anticipate', text:
+  slides.push({ type: 'Anticipate', id: 'anticipate_2', text:
 `Scenario 1 (anticiapte)
 It’s the first day of school.
 
@@ -57,7 +57,7 @@ Teacher: “On the card, I want you to write down something that you’re really
 
 Based off the teacher’s actions, does the teacher frame the student’s actions through an asset or deficit mindset? `, force: true, open: true});
 
-  slides.push({ type: 'Anticipate', text:
+  slides.push({ type: 'Anticipate', id: 'anticipate_3',text:
 `Scenario 2 (anticiapte)
 The entire class is engaged in a discussion about a complex physics problem.
 
@@ -69,7 +69,7 @@ Teacher: “Could we have someone translate what she said into English?”
 
 Based off the teacher’s actions, does the teacher frame the student’s actions through an asset or deficit mindset?`, force: true, open: true});
 
-  slides.push({ type: 'Anticipate', text:
+  slides.push({ type: 'Anticipate', id: 'anticipate_4', text:
 `Scenario 3 (anticiapte)
 It’s the first day of school.
 
@@ -84,7 +84,7 @@ Teacher: “You know, this is a difficult class -- are you sure you can handle i
 Based off the teacher’s actions, does the teacher frame the student’s actions through an asset or deficit mindset? 
 `, force: true, open: true});
 
-  slides.push({ type: 'Anticipate', text:
+  slides.push({ type: 'Anticipate', id: 'anticipate_5', text:
 `Scenario 4 (anticiapte)
 It’s the beginning of the school day in a 2nd grade classroom.
 
@@ -109,7 +109,7 @@ The students continue, one-by-one, stating their goal. At the end of the day, th
 Based off the teacher’s actions, does the teacher frame the student’s actions through an asset or deficit mindset? `, force: true, open: true});
 
   // Context for Enact
-  slides.push({ type: 'Context for Enact', text:
+  slides.push({ type: 'Context for Enact', id: 'anticipate_6', text:
 `This completes the Anticipate phase of the practice space.
 
 Now we will move into the Enact phase of the practice space. During the Enact phase, you will be shown a series of scenarios that are incomplete.
@@ -122,7 +122,7 @@ When you are ready, click “OK” to start.`});
 
 
   // Enact
-  slides.push({ type: 'Enact', text:
+  slides.push({ type: 'Enact', id: 'enact_1', text:
 `Scenario 1 (enact)
 It’s near the beginning of the school year.
 
@@ -137,7 +137,7 @@ Liam: [without raising his hand] “I think it’s because she said even though 
 Teacher: 
 `, force: true, open: true});
 
-  slides.push({ type: 'Enact', text:
+  slides.push({ type: 'Enact', id: 'enact_2', text:
 `Scenario 2 (enact)
 You are about to tutor a group of young people assigned to work with you for remedial help in math. It’s your first day on the job. 
 
@@ -148,7 +148,7 @@ What is your opening statement for students in the class?
 Teacher:
 `, force: true, open: true});
 
-  slides.push({ type: 'Try it!', text:
+  slides.push({ type: 'Try it!', id: 'enact_3', text:
 `Scenario 3 (enact)
 Today in English class students are working in groups of two on a project.
 
@@ -161,7 +161,7 @@ Teacher:
 
   // Reflect
 
-  slides.push({ type: 'Context for Reflect', text:
+  slides.push({ type: 'Context for Reflect', id: 'enact_4', text:
 `This concludes the Enact phase of the practice space.
 
 Now we will enter the Reflect phase of the practice space. 
