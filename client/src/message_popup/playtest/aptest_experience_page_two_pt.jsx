@@ -114,10 +114,6 @@ export default class extends React.Component {
   renderIntro = () => {
     return (
       <IntroWithEmail defaultEmail={this.state.email} onDone={this.onStart}>
-
-
-
-
         <div>
           <p>Welcome!</p>
           <p>This is an interactive case study simulating an interaction between you as teacher and a student from your AP CS Principles class.</p>

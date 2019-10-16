@@ -108,19 +108,23 @@ export default class extends React.Component {
   // Show overview and context, ask for open response for scenario.
   renderQuestionEl = (question:QuestionT, onLog, onResponseSubmitted) => {
     const interactionEl = (question.ask)
-      ? <MinimalOpenResponse
-        forceResponse={question.force || false}
-        responsePrompt=""
-        recordText="Click then speak"
-        ignoreText="Move on"
-        onLogMessage={onLog}
-        onResponseSubmitted={onResponseSubmitted}
-      />
-      : <ForcedChoiceResponse
-        choices={['OK']}
-        onLogMessage={onLog}
-        onResponseSubmitted={onResponseSubmitted}
-      />;
+      ? <div>
+        <MinimalOpenResponse
+          forceResponse={question.force || false}
+          responsePrompt=""
+          recordText="Click then speak"
+          ignoreText="Move on"
+          onLogMessage={onLog}
+          onResponseSubmitted={onResponseSubmitted}
+        />
+      </div>
+      : <div>
+        <ForcedChoiceResponse
+          choices={['OK']}
+          onLogMessage={onLog}
+          onResponseSubmitted={onResponseSubmitted}
+        />
+      </div>;
 
     return (
       <div key={JSON.stringify(question)}>
@@ -138,8 +142,7 @@ export default class extends React.Component {
   };
 
   renderSummaryEl = (questions:[QuestionT], responses:[ResponseT]) => {
-    return (questions:[QuestionT], responses:[ResponseT]) => {
-      return (<ResponseSummary responses={responses} onLogMessage={this.onLogMessage} />);
-    };
+    return (<ResponseSummary responses={responses} onLogMessage={this.onLogMessage} />
+    );
   };
 }
