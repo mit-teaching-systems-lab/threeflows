@@ -45,7 +45,7 @@ Your email and any other personally identifiable information will be confidentia
 Your anonymized responses may be shared with other players as part of the game. 
 
 Study timeframe:
-This project will be completed by March 1, 2020.  After that date, participant data will be deleted. 
+This project will be completed by October 1, 2022.  After that date, participant data will be deleted. 
 
 Informed Consent: 
 I understand the procedures described above. My questions have been answered to my satisfaction, and I agree to participate in this study.
