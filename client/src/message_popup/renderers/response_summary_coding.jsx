@@ -207,6 +207,16 @@ export default class extends React.Component {
                   {responseText && <i style={styles.paragraph}>{responseText}</i>}
                   <div style={styles.container}>
                     <div style={styles.instructions}>[You chose to not respond]</div>
+                    <div style={styles.instructions}>Did you struggle with this response?</div>
+                    <SelectField
+                      maxHeight={250}
+                      floatingLabelText={ 'Struggle' }
+                      style={{paddingLeft: 20, width: '70%'}}
+                      value={this.getValueByQuestionId(questionId, "Struggle")}
+                      onChange={this.handleSelectionChange.bind(this, questionId, "Struggle")}
+                    >
+                      {mymenuItems.map(x => <MenuItem key={index + '_' + questionId + '_' + x.text} value={x.text} primaryText={x.text} />)}
+                    </SelectField>
                   </div>
                   <Divider />
                 </div>
