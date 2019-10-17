@@ -16,6 +16,44 @@ export type QuestionT = {
 function slidesFor(cohortKey) {
   const slides:[QuestionT] = [];
 
+  // Consent
+  slides.push({ type: 'Consent', text:
+`Optionally, we'd like to use your responses here for a joint research study between MIT and code.org.  We would like to compare the responses across participants.
+
+Your responses would be included in the research, along with data from your code.org profile.  All data you enter is stored securely and protected on a secure server on Google Drive, Amazon Web Services or Heroku.  You may print a copy of this form for your records. 
+
+You can continue playing the game either way.  Participation in the research study is voluntary.
+
+More details:
+You have been asked to participate in a research study conducted by the staff and researchers at the Teaching System Laboratory (TSL) at the Massachusetts Institute of Technology and code.org. 
+
+Purpose of study:
+The purpose of this study is to investigate how computer science teachers respond within learning experiences aimed at building skills in empathy, positioning students competently, and connecting student strengths and interests.  In particular, we aim to investigate teachers' responses within a simulated counseling scenario related to the AP CS Principles Exam. This will be conducted as a session within code.org workshops. Each workshop is run by a facilitator and contains roughly 10-20 teachers as participants.  The session will be blended, with some elements done synchronously and some done before or after the session asynchronously.  All participants will be over 18.
+
+Study results:
+The results of this study will be used for ongoing research conducted by TSL and code.org in preparing and supporting effective, well-prepared computer science teachers. Results of the study will be shared through conference papers, journal articles, websites, online blogs, tweets, and other materials. All information will be reported anonymously. 
+
+Data collection:
+Data collection will include online log file data including responses participants submit within learning experiences.  These may include things like: written or typed responses, clicks or taps within the learning experience, or audio or video recordings participants create.  Beyond sharing and social elements directly within the learning experience, the data will be used only for analysis or to share with other participants as they choose.  Data will be stored securely in Google Drive, Amazon Web Services and Heroku. 
+
+Participant information:
+Participating in this study is voluntary. 
+You will not be compensated for participating in the study.
+Your email and any other personally identifiable information will be confidential.
+Your anonymized responses may be shared with other players as part of the game. 
+
+Study timeframe:
+This project will be completed by September 1, 2020.  After that date, participant data will be deleted. 
+
+Informed Consent: 
+I understand the procedures described above. My questions have been answered to my satisfaction, and I agree to participate in this study.
+
+Contact information:
+Please contact Dr. Justin Reich (jreich@mit.edu) or Dr. Joshua Littenberg-Tobias, (jltobias@mit.edu) with any questions or concerns. If you feel you have been treated unfairly, or you have questions regarding your rights as a research subject, you may contact the Chairman of the Committee on the Use of Humans as Experimental Subjects, M.I.T., Room E25-143b, 77 Massachusetts Ave, Cambridge, MA 02139, phone 1-617-253-6787.
+`, force: true, choices: ['No Thanks', 'I Consent']});
+
+
+
   slides.push({ type: 'Overview', el:
   <div>
     <div>1. Anticipate</div>

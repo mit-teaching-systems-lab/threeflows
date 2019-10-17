@@ -139,7 +139,6 @@ export default class extends React.Component {
 
 
   render() {
-    console.log('test');
     const {children} = this.props;
     const audioSummaryItems = this.computeSummaryItems();
 
