@@ -157,47 +157,62 @@ export default class extends React.Component {
           <Divider />
           {audioSummaryItems.map((audioSummaryItem, index) => {
             const {audioUrl, questionId, responseText, questionText} = audioSummaryItem;
-            return (
-              <div key={index} style ={_.merge(styles.instructions, styles.summaryQuestion)}>
-                <ReadMore fulltext={questionText} />
-                {audioUrl && <audio controls={true} src={audioUrl} />}
-                {responseText && <i style={styles.paragraph}>{responseText}</i>}
-                <div style={styles.container}>
-                  <div style={styles.instructions}>Did you struggle with this response?</div>
-                  <SelectField
-                    maxHeight={250}
-                    floatingLabelText={ 'Struggle' }
-                    style={{paddingLeft: 20, width: '70%'}}
-                    value={this.getValueByQuestionId(questionId, "Struggle")}
-                    onChange={this.handleSelectionChange.bind(this, questionId, "Struggle")}
-                  >
-                    {mymenuItems.map(x => <MenuItem key={index + '_' + questionId + '_' + x.text} value={x.text} primaryText={x.text} />)}
-                  </SelectField>
-                  <div style={styles.instructions}>Did you sound confused?</div>
-                  <SelectField
-                    maxHeight={250}
-                    floatingLabelText={ 'Confusion' }
-                    style={{paddingLeft: 20, width: '70%'}}
-                    value={this.getValueByQuestionId(questionId, "Confused")}
-                    onChange={this.handleSelectionChange.bind(this, questionId, "Confused")}
-                  >
-                    {mymenuItems.map(x => <MenuItem 
-                      key={index + '_' + questionId + '_' + x.text} 
-                      value={x.text} 
-                      primaryText={x.text} 
-                    />)}
-                  </SelectField>
-                  <div style={styles.instructions}>If yes, reference the audio player above and indicate where you sounded confused (e.g., at 0:12-0:15 in the recording)</div>
-                  <TextField
-                    id={questionId + '_whereConfused'}
-                    onChange={this.handleTextSelectionChange.bind(this, questionId, "ConfusedDesc")}
-                    style={{paddingLeft: 20, width: '70%'}}>
-                  </TextField>
+            if (audioUrl) {
+              return (
+                <div key={index} style ={_.merge(styles.instructions, styles.summaryQuestion)}>
+                  <ReadMore fulltext={questionText} />
+                  {audioUrl && <audio controls={true} src={audioUrl} />}
+                  {responseText && <i style={styles.paragraph}>{responseText}</i>}
+                  <div style={styles.container}>
+                    <div style={styles.instructions}>Did you struggle with this response?</div>
+                    <SelectField
+                      maxHeight={250}
+                      floatingLabelText={ 'Struggle' }
+                      style={{paddingLeft: 20, width: '70%'}}
+                      value={this.getValueByQuestionId(questionId, "Struggle")}
+                      onChange={this.handleSelectionChange.bind(this, questionId, "Struggle")}
+                    >
+                      {mymenuItems.map(x => <MenuItem key={index + '_' + questionId + '_' + x.text} value={x.text} primaryText={x.text} />)}
+                    </SelectField>
+                    <div style={styles.instructions}>Did you sound confused?</div>
+                    <SelectField
+                      maxHeight={250}
+                      floatingLabelText={ 'Confusion' }
+                      style={{paddingLeft: 20, width: '70%'}}
+                      value={this.getValueByQuestionId(questionId, "Confused")}
+                      onChange={this.handleSelectionChange.bind(this, questionId, "Confused")}
+                    >
+                      {mymenuItems.map(x => <MenuItem 
+                        key={index + '_' + questionId + '_' + x.text} 
+                        value={x.text} 
+                        primaryText={x.text} 
+                      />)}
+                    </SelectField>
+                    <div style={styles.instructions}>If yes, reference the audio player above and indicate where you sounded confused (e.g., at 0:12-0:15 in the recording)</div>
+                    <TextField
+                      id={questionId + '_whereConfused'}
+                      onChange={this.handleTextSelectionChange.bind(this, questionId, "ConfusedDesc")}
+                      style={{paddingLeft: 20, width: '70%'}}>
+                    </TextField>
+                  </div>
+                  <Divider />
                 </div>
-                <Divider />
-              </div>
+              );
+            }
+            else {
+              return (
+                <div key={index} style ={_.merge(styles.instructions, styles.summaryQuestion)}>
+                  <ReadMore fulltext={questionText} />
+                  {audioUrl && <audio controls={true} src={audioUrl} />}
+                  {responseText && <i style={styles.paragraph}>{responseText}</i>}
+                  <div style={styles.container}>
+                    <div style={styles.instructions}>[You chose to not respond]</div>
+                  </div>
+                  <Divider />
+                </div>
+              );
+            }
 
-            );
           })}
           <div style={styles.container} />
         </VelocityTransitionGroup>
