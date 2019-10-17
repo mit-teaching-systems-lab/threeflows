@@ -13,8 +13,8 @@ import ReactQuestion from '../renderers/react_question.jsx';
 
 import ForcedChoiceResponse from '../responses/forced_choice_response.jsx';
 import MinimalOpenResponse from '../renderers/minimal_open_response.jsx';
-import type {QuestionT} from './darius_slides.jsx';
-import {DariusSlides} from './darius_slides.jsx';
+import type {QuestionT} from './darius_slides_pt.jsx';
+import {DariusSlides} from './darius_slides_pt.jsx';
 import ResponseSummary from '../renderers/response_summary_coding.jsx';
 
 
@@ -107,24 +107,38 @@ export default class extends React.Component {
 
   // Show overview and context, ask for open response for scenario.
   renderQuestionEl = (question:QuestionT, onLog, onResponseSubmitted) => {
-    const interactionEl = (question.ask)
-      ? <div>
-        <MinimalOpenResponse
-          forceResponse={question.force || false}
-          responsePrompt=""
-          recordText="Click then speak"
-          ignoreText="Move on"
-          onLogMessage={onLog}
-          onResponseSubmitted={onResponseSubmitted}
-        />
-      </div>
-      : <div>
-        <ForcedChoiceResponse
-          choices={['OK']}
-          onLogMessage={onLog}
-          onResponseSubmitted={onResponseSubmitted}
-        />
-      </div>;
+    var interactionEl = "";
+    const key = JSON.stringify(question);
+
+    if (question.choices) {
+      interactionEl = <ForcedChoiceResponse
+        key={key}
+        choices={question.choices}
+        onLogMessage={onLog}
+        onResponseSubmitted={onResponseSubmitted}
+      />;
+    }
+
+    else if (question.ask) {
+      interactionEl = <MinimalOpenResponse
+        forceResponse={question.force || false}
+        responsePrompt=""
+        recordText="Click then speak"
+        ignoreText="Move on"
+        onLogMessage={onLog}
+        onResponseSubmitted={onResponseSubmitted}
+      />;
+
+    }
+    else {
+      interactionEl = <ForcedChoiceResponse
+        choices={['OK']}
+        onLogMessage={onLog}
+        onResponseSubmitted={onResponseSubmitted}
+      />;
+
+    }
+
 
     return (
       <div key={JSON.stringify(question)}>
