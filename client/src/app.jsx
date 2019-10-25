@@ -65,6 +65,22 @@ export default createReactClass({
     '/teachermoments/culture-conflict-pt': 'culturePlaytestPT',
     '/teachermoments/jeremy': 'jeremyPlaytest',
 
+    // INSPIRE CS-AI Scenarios
+    '/teachermoments/inspire-cs-ai-01': 'inspireCSAI01Scenario',
+    '/teachermoments/inspire-cs-ai-02': 'inspireCSAI02Scenario',
+    '/teachermoments/inspire-cs-ai-03': 'inspireCSAI03Scenario',
+    '/teachermoments/inspire-cs-ai-04': 'inspireCSAI04Scenario',
+    '/teachermoments/inspire-cs-ai-05': 'inspireCSAI05Scenario',
+    '/teachermoments/inspire-cs-ai-06': 'inspireCSAI06Scenario',
+    '/teachermoments/inspire-cs-ai-07': 'inspireCSAI07Scenario',
+    '/teachermoments/inspire-cs-ai-08': 'inspireCSAI08Scenario',
+    '/teachermoments/inspire-cs-ai-09': 'inspireCSAI09Scenario',
+    '/teachermoments/inspire-cs-ai-10': 'inspireCSAI10Scenario',
+    '/teachermoments/inspire-cs-ai-11': 'inspireCSAI11Scenario',
+    '/teachermoments/inspire-cs-ai-12': 'inspireCSAI12Scenario',
+    '/teachermoments/inspire-cs-ai-13': 'inspireCSAI13Scenario',
+    '/teachermoments/inspire-cs-ai-14': 'inspireCSAI14Scenario',
+
 
     // Stable, field tested, publicly shared practice spaces
     '/teachermoments/danson': 'dansonPlaytest',
@@ -267,6 +283,51 @@ export default createReactClass({
         experimentFactory={MessagePopup.InsubordinationExperiment} />
     );
   },
+
+  // INSPIRE CS-AI
+  inspireCSAI01Scenario(query = {}) {
+    return <MessagePopup.inspireCSAI01ExperiencePage query={query} facilitated={true} />;
+  },
+  inspireCSAI02Scenario(query = {}) {
+    return <MessagePopup.inspireCSAI02ExperiencePage query={query} facilitated={true} />;
+  },
+  inspireCSAI03Scenario(query = {}) {
+    return <MessagePopup.inspireCSAI03ExperiencePage query={query} facilitated={true} />;
+  },
+  inspireCSAI04Scenario(query = {}) {
+    return <MessagePopup.inspireCSAI04ExperiencePage query={query} facilitated={true} />;
+  },
+  inspireCSAI05Scenario(query = {}) {
+    return <MessagePopup.inspireCSAI05ExperiencePage query={query} facilitated={true} />;
+  },
+  inspireCSAI06Scenario(query = {}) {
+    return <MessagePopup.inspireCSAI06ExperiencePage query={query} facilitated={true} />;
+  },
+  inspireCSAI07Scenario(query = {}) {
+    return <MessagePopup.inspireCSAI07ExperiencePage query={query} facilitated={true} />;
+  },
+  inspireCSAI08Scenario(query = {}) {
+    return <MessagePopup.inspireCSAI08ExperiencePage query={query} facilitated={true} />;
+  },
+  inspireCSAI09Scenario(query = {}) {
+    return <MessagePopup.inspireCSAI09ExperiencePage query={query} facilitated={true} />;
+  },
+  inspireCSAI10Scenario(query = {}) {
+    return <MessagePopup.inspireCSAI10ExperiencePage query={query} facilitated={true} />;
+  },
+  inspireCSAI11Scenario(query = {}) {
+    return <MessagePopup.inspireCSAI11ExperiencePage query={query} facilitated={true} />;
+  },
+  inspireCSAI12Scenario(query = {}) {
+    return <MessagePopup.inspireCSAI12ExperiencePage query={query} facilitated={true} />;
+  },
+  inspireCSAI13Scenario(query = {}) {
+    return <MessagePopup.inspireCSAI13ExperiencePage query={query} facilitated={true} />;
+  },
+  inspireCSAI14Scenario(query = {}) {
+    return <MessagePopup.inspireCSAI14ExperiencePage query={query} facilitated={true} />;
+  },
+
 
   // Home page for bias project, from website, reachout, etc.
   biasHome(query = {}) {

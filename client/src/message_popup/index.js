@@ -33,6 +33,20 @@ import JeremyExperiencePage from './playtest/jeremy_experience_page.jsx';
 import CultureConflictExperiencePage from './playtest/culture_conflict_experience_page.jsx';
 import CultureConflictExperiencePagePT from './playtest/culture_conflict_experience_page_pt.jsx';
 
+import inspireCSAI01ExperiencePage from './playtest/inspire_cs_ai_01_experience_page.jsx';
+import inspireCSAI02ExperiencePage from './playtest/inspire_cs_ai_02_experience_page.jsx';
+import inspireCSAI03ExperiencePage from './playtest/inspire_cs_ai_03_experience_page.jsx';
+import inspireCSAI04ExperiencePage from './playtest/inspire_cs_ai_04_experience_page.jsx';
+import inspireCSAI05ExperiencePage from './playtest/inspire_cs_ai_05_experience_page.jsx';
+import inspireCSAI06ExperiencePage from './playtest/inspire_cs_ai_06_experience_page.jsx';
+import inspireCSAI07ExperiencePage from './playtest/inspire_cs_ai_07_experience_page.jsx';
+import inspireCSAI08ExperiencePage from './playtest/inspire_cs_ai_08_experience_page.jsx';
+import inspireCSAI09ExperiencePage from './playtest/inspire_cs_ai_09_experience_page.jsx';
+import inspireCSAI10ExperiencePage from './playtest/inspire_cs_ai_10_experience_page.jsx';
+import inspireCSAI11ExperiencePage from './playtest/inspire_cs_ai_11_experience_page.jsx';
+import inspireCSAI12ExperiencePage from './playtest/inspire_cs_ai_12_experience_page.jsx';
+import inspireCSAI13ExperiencePage from './playtest/inspire_cs_ai_13_experience_page.jsx';
+import inspireCSAI14ExperiencePage from './playtest/inspire_cs_ai_14_experience_page.jsx';
 
 
 
@@ -71,6 +85,20 @@ export {
   NewQuestionPage,
   ReviewLoginPage,
   ReviewPage,
+  inspireCSAI01ExperiencePage,
+  inspireCSAI02ExperiencePage,
+  inspireCSAI03ExperiencePage,
+  inspireCSAI04ExperiencePage,
+  inspireCSAI05ExperiencePage,
+  inspireCSAI06ExperiencePage,
+  inspireCSAI07ExperiencePage,
+  inspireCSAI08ExperiencePage,
+  inspireCSAI09ExperiencePage,
+  inspireCSAI10ExperiencePage,
+  inspireCSAI11ExperiencePage,
+  inspireCSAI12ExperiencePage,
+  inspireCSAI13ExperiencePage,
+  inspireCSAI14ExperiencePage,
   DysfuncExperiencePage,
   apTestExperiencePage,
   apTestExperiencePagePT,
