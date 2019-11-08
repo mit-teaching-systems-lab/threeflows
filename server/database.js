@@ -95,6 +95,7 @@ function getEmail(pool, token) {
 //      I've confirmed emails that have false in any of audio/permission/consent do not show up
 // ***************
 // Add this back in
+//       AND LOWER(json->>'email') IN (SELECT email FROM consented_email WHERE audio='t' AND permission='t' AND consent='t')
 // ***************
 function getData(pool, location,request){
   const dataValues = [location];
@@ -103,7 +104,6 @@ function getData(pool, location,request){
     FROM evidence
     WHERE 1=1
       AND json->'GLOBAL'->>'location' = $1
-      AND LOWER(json->>'email') IN (SELECT email FROM consented_email WHERE audio='t' AND permission='t' AND consent='t')
     ORDER BY json->>'sessionId', id ASC;`;
 
   return pool.query(dataSQL,dataValues)
