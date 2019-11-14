@@ -14,6 +14,8 @@ import IntroWithEmail from '../linear_session/intro_with_email.jsx';
 import QuestionInterpreter from '../renderers/question_interpreter.jsx';
 import type {QuestionT} from './inspire_cs_ai_02_scenario.jsx';
 import InspireCSAI01Scenario from './inspire_cs_ai_02_scenario.jsx';
+import ResponseSummary from '../renderers/response_summary_coding.jsx';
+
 
 type ResponseT = {
   choice:string,
@@ -130,63 +132,8 @@ export default class extends React.Component {
   };
 
   renderClosingEl = (questions:[QuestionT], responses:[ResponseT]) => {
-    return (
-
-      <div className="done">
-        <b style={{
-          display: 'block',
-          padding: '15px 20px 15px',
-          background: '#09407d',
-          color: 'white'
-        }}>Done</b>
-        <div style={styles.doneTitle}>
-          <p> This concludes the practice space. Your responses have been recorded. Thank you for your participation. </p>
-        </div>
-      </div> 
-
-
+    return (<ResponseSummary responses={responses} onLogMessage={this.onLogMessage} />
     );
   };
 }
 
-const styles = {
-  done: {
-    padding: 20,
-  },
-  container: {
-    fontSize: 20,
-    padding: 0,
-    margin:0,
-    paddingBottom: 45
-  },
-  button: {
-    marginTop: 20
-  },
-  doneTitle: {
-    padding: 20,
-    paddingBottom: 0,
-    margin:0,
-  },
-  instructions: {
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
-  paragraph: {
-    marginTop: 20,
-    marginBottom: 20
-  },
-  summaryTitle: {
-    fontSize: 20,
-    padding: 20,
-    paddingBottom: 5,
-    margin: 0,
-    fontWeight: 'bold'
-  },
-  summaryQuestion: {
-    whiteSpace: 'pre-wrap',
-    fontSize: 16,
-    lineHeight: 1.2,
-    paddingTop: 10,
-    paddingBottom: 10
-  }
-};
