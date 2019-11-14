@@ -16,7 +16,43 @@ export type QuestionT = {
 function slidesFor(cohortKey) {
   const slides:[QuestionT] = [];
 
-  slides.push({ type: 'Overview', el:
+  // Consent
+  slides.push({ type: 'Consent', id: 'consent_1', text:
+`Optionally, we'd like to use your responses here for a  research study at MIT.  We would like to compare the responses across participants.
+
+Your responses would be included in the research, along with data from your response to a survey.  All data you enter is stored securely and protected on a secure server on Google Drive, Amazon Web Services or Heroku.  You may print a copy of this form for your records. 
+
+You can continue playing the game either way.  Participation in the research study is voluntary.
+
+More details:
+You have been asked to participate in a research study conducted by the staff and researchers at the Teaching System Laboratory (TSL) at the Massachusetts Institute of Technology. 
+
+Purpose of study:
+The purpose of this study is to investigate how emotional expression in responses to teacher momments relates to expression. For example, we will explore expressions that indicate confusion or struggle to better understand the interplay between emotion and cognition during learning.  All participants will be over 18.
+
+Study results:
+The results of this study will be used for ongoing research conducted by TSL in preparing and supporting effective, well-prepared teachers. Results of the study will be shared through conference papers, journal articles, websites, online blogs, tweets, and other materials. All information will be reported anonymously. 
+
+Data collection:
+Data collection will include online log file data including responses participants submit within learning experiences in the form of audio and test responses.  These may include things like: written or typed responses, clicks or taps within the learning experience, or audio or video recordings participants create.  Beyond sharing and social elements directly within the learning experience, the data will be used only for analysis or to share with other participants as they choose.  Data will be stored securely in Google Drive, Amazon Web Services and Heroku. 
+
+Participant information:
+Participating in this study is voluntary. 
+You will not be compensated for participating in the study.
+Your email and any other personally identifiable information will be confidential.
+Your anonymized responses may be shared with other players as part of the game. 
+
+Study timeframe:
+This project will be completed by December 31st, 2023.  After that date, participant data will be deleted. 
+
+Informed Consent: 
+I understand the procedures described above. My questions have been answered to my satisfaction, and I agree to participate in this study.
+
+Contact information:
+Please contact Dr. Justin Reich (jreich@mit.edu) or Garron Hillaire, (garron@mit.edu) with any questions or concerns. If you feel you have been treated unfairly, or you have questions regarding your rights as a research subject, you may contact the Chairman of the Committee on the Use of Humans as Experimental Subjects, M.I.T., Room E25-143b, 77 Massachusetts Ave, Cambridge, MA 02139, phone 1-617-253-6787.
+`, force: true, choices: ['No Thanks', 'I Consent']});
+
+  slides.push({ type: 'Overview', id: 'overview_1', el:
   <div>
     <div>1. Anticipate</div>
     <div>Before starting the simulation, you will answer a few questions in anticipation of what may happen.</div>
@@ -37,13 +73,13 @@ function slidesFor(cohortKey) {
 
 
   // Context
-  slides.push({ type: 'Context', text:`You are teaching an “Introduction to Computer Science” course in your high school classroom.
+  slides.push({ type: 'Context', id: 'context_1', text:`You are teaching an “Introduction to Computer Science” course in your high school classroom.
 
 You and your students have just started a new unit on variables.  On the first day you do an unplugged activity with the whole class and today, the second day of the unit, you will have student  work on a set of problems using pair programming.
 
 To do pair programming, students are using one computer between the two of them and they switch off as “driver” and “navigator” every three minutes.  You have set a timer for 3 minutes so the class will all switch at the same time.
 `});
-  slides.push({ type: 'Context', text:`You have intentionally grouped students in homogenous groups - typically, students who struggle are paired together, students who appear to have some background in computer science are also paired together, and you tried to keep the genders the same between the pairs. 
+  slides.push({ type: 'Context', id: 'context_2', text:`You have intentionally grouped students in homogenous groups - typically, students who struggle are paired together, students who appear to have some background in computer science are also paired together, and you tried to keep the genders the same between the pairs. 
 
 You have described good driver and navigator behavior to students and ask them to start working.
 
@@ -51,13 +87,13 @@ You are monitoring students working together in class.
 `});
 
   // Anticipate
-  slides.push({ type: 'Anticipate', text:`What does good pair programming look like in your classroom?  What does it sound like?`, force: true, writeNoPrompt: true});
-  slides.push({ type: 'Anticipate', text:`“Students should be able to pair program with any other student in the classroom” - do you agree or disagree with this statement?  Why?`, force: true, writeNoPrompt: true});
-  slides.push({ type: 'Anticipate', text:`Should students always be pair programming?  When, if ever do you want them to work independently?`, force: true, writeNoPrompt: true});
-  slides.push({ type: 'Anticipate', text:`Is it ever a good thing if students are frustrated or confused in class?  When is it good?  When is it bad?`, force: true, writeNoPrompt: true});
+  slides.push({ type: 'Anticipate', id: 'anticipate_1', text:`What does good pair programming look like in your classroom?  What does it sound like?`, force: true, open: true});
+  slides.push({ type: 'Anticipate', id: 'anticipate_2', text:`“Students should be able to pair program with any other student in the classroom” - do you agree or disagree with this statement?  Why?`, force: true, open: true});
+  slides.push({ type: 'Anticipate', id: 'anticipate_3', text:`Should students always be pair programming?  When, if ever do you want them to work independently?`, force: true, open: true});
+  slides.push({ type: 'Anticipate', id: 'anticipate_4', text:`Is it ever a good thing if students are frustrated or confused in class?  When is it good?  When is it bad?`, force: true, open: true});
 
   // Enact
-  slides.push({ type: 'Enact', text:`Frankie is navigator.  Darius is driver.
+  slides.push({ type: 'Enact', id: 'encact_1', text:`Frankie is navigator.  Darius is driver.
 
 Frankie:  Let’s read the directions together.  (Both read the directions silently)
 
@@ -72,24 +108,24 @@ Frankie:  But you need the semicolon.
 Darius: (looking for the semi colon key)
 
 Frankie: (reaches over and adds the semi colon in the right space)
-`, force: true, writeNoPrompt: true});
-  slides.push({ type: 'Enact', text:`(The timer goes off and you remind students to shift driver and navigator roles)
+`, force: true, open: true});
+  slides.push({ type: 'Enact', id: 'encact_2', text:`(The timer goes off and you remind students to shift driver and navigator roles)
 
 Frankie: Let me finish this part and then it can be your turn.
 
 Darius waits for Frankie to finish.
 
 Frankie:  There is one bug I want to fix first and then it is your turn.
-`, force: true, writeNoPrompt: true});
-  slides.push({ type: 'Enact', text:`(A while later you circle past Darius and Frankie again)
+`, force: true, open: true});
+  slides.push({ type: 'Enact', id: 'encact_3', text:`(A while later you circle past Darius and Frankie again)
 
 Darius  is navigator.  Frankie is driver.
 
 Frankie (talking to the pair across the table from him): Are you on problem 4?  How did you get it to work?
 
 A person from across the table comes around to look at the code.
-`, force: true, writeNoPrompt: true});
-  slides.push({ type: 'Enact', text:`Kylie is navigator.  Alexis is driver.
+`, force: true, open: true});
+  slides.push({ type: 'Enact', id: 'encact_4', text:`Kylie is navigator.  Alexis is driver.
 
 Alexis: Do you think we need two loops to be able to do this?
 
@@ -98,8 +134,8 @@ Kylie:  No, I think we can do it in one.
 Alexis:  How will we get both things to change though?
 
 Kylie: Good point… maybe we need two loops.  Or maybe we can do it with another variable.
-`, force: true, writeNoPrompt: true});
-  slides.push({ type: 'Enact', text:`A while later you circle past Kylie and Alexis later:  It is tough to know who is the driver or navigator.
+`, force: true, open: true});
+  slides.push({ type: 'Enact', id: 'encact_5', text:`A while later you circle past Kylie and Alexis later:  It is tough to know who is the driver or navigator.
 
 Kylie: Let’s try a for loop between lines 4 and 6.
 
@@ -112,14 +148,14 @@ Alexis: Yeah, it runs now, but it still isn’t doing what we want it to.  Look,
 Kylie: Hmm…
 
 Both students lean into the computer to re-examine the code.
-`, force: true, writeNoPrompt: true});
-  slides.push({ type: 'Enact', text:`Peter is navigator.  Ellie is driver.
+`, force: true, open: true});
+  slides.push({ type: 'Enact', id: 'encact_6', text:`Peter is navigator.  Ellie is driver.
 
 Peter is on his phone.  Ellie has the computer in front of her and is typing.
 
 Peter sees you looking at him and says, “I know how to do this, Ellie knows how to do it too but she is driver so she is just typing it out.”
-`, force: true, writeNoPrompt: true});
-  slides.push({ type: 'Enact', text:`(Later in the class, you circle past Ellie and Peter)
+`, force: true, open: true});
+  slides.push({ type: 'Enact', id: 'encact_7', text:`(Later in the class, you circle past Ellie and Peter)
 
 Ellie is navigator.  Peter is driver.
 
@@ -132,14 +168,14 @@ Peter: Huh, that didn’t work… I wonder why, I think need to fix this part…
 Ellie: If we use a function with a parameter we can use that parameter as our starting value in the loop.
 
 Peter: Yeah, I think you can also do it… wait… let me try one more thing first...
-`, force: true, writeNoPrompt: true});
-  slides.push({ type: 'Enact', text:`At the end of class, Peter comes up to you after everyone else has left:  “I really work better when I can work by myself.  It is hard for me to think when my partner is talking to me.  Can I work by myself next time?”`, force: true, writeNoPrompt: true});
+`, force: true, open: true});
+  slides.push({ type: 'Enact', id: 'encact_8', text:`At the end of class, Peter comes up to you after everyone else has left:  “I really work better when I can work by myself.  It is hard for me to think when my partner is talking to me.  Can I work by myself next time?”`, force: true, writeNoPrompt: true});
 
   // Reflect
  
-  slides.push({ type: 'Reflect', text:``, force: true, writeNoPrompt: true});
-  slides.push({ type: 'Reflect', text:``, force: true, writeNoPrompt: true});
-  slides.push({ type: 'Reflect', text:``, force: true, writeNoPrompt: true});
+  slides.push({ type: 'Reflect', id: 'reflect_1', text:``, force: true, open: true});
+  slides.push({ type: 'Reflect', id: 'reflect_2', text:``, force: true, open: true});
+  slides.push({ type: 'Reflect', id: 'reflect_3', text:``, force: true, open: true});
 
 
   return slides;
