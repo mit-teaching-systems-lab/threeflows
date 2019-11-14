@@ -98,9 +98,9 @@ Principal:  “ KNow, we are pleased you are here!  Also, please let me know how
 
   // Anticipate
   slides.push({ type: 'Anticipate', id: 'anticipate_1', text:`What is the teacher’s role in enhancing the performance of under-performing schools?`, force: true, open: true});
-  slides.push({ type: 'Anticipate', id: 'anticipate_1', text:`How do you develop relationships with colleague who hold opposing perspectives of education equity?`, force: true, open: true});
-  slides.push({ type: 'Anticipate', id: 'anticipate_1', text:`How do you address issues of perceptions of students based on their culture, social economic status, or demographics?`, force: true, open: true});
-  slides.push({ type: 'Anticipate', id: 'anticipate_1', text:`How do you respond to colleagues that blame students, parents, and neighborhoods for the lack of students achievement in school?,`, force: true, open: true});
+  slides.push({ type: 'Anticipate', id: 'anticipate_2', text:`How do you develop relationships with colleague who hold opposing perspectives of education equity?`, force: true, open: true});
+  slides.push({ type: 'Anticipate', id: 'anticipate_3', text:`How do you address issues of perceptions of students based on their culture, social economic status, or demographics?`, force: true, open: true});
+  slides.push({ type: 'Anticipate', id: 'anticipate_4', text:`How do you respond to colleagues that blame students, parents, and neighborhoods for the lack of students achievement in school?,`, force: true, open: true});
 
   // Enact
   slides.push({ type: 'Enact', id: 'enact_1', text:`You are sitting down with the department teachers for a meeting when they start complaining about the students and how their parents don’t care about their education.
