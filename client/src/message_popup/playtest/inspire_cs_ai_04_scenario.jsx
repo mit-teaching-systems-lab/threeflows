@@ -93,7 +93,6 @@ Do you foreshadow the parent  refusing to understand or accept your explanation 
 
 2. From your perspective how will you demonstrate to the parents the success of  the students to ensure that the parent is able does not leave the conference frustrated but other has bought into your way of introducing high school programming
 `, force: true, open: true});
-  slides.push({ type: 'Anticipate', id: 'anticipate_3', text:``, force: true, open: true});
 
   // Enact
   slides.push({ type: 'Enact', id: 'enact_1', text:`1. How to you assure your student from middle school A that they are learning new advance concepts even though they are using block programming.
