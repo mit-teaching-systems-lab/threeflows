@@ -579,9 +579,9 @@ css-in-js-utils@^2.0.0:
   dependencies:
     hyphenate-style-name "^1.0.2"
 
-csv-parse@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/csv-parse/-/csv-parse-2.1.0.tgz#75293aa334e7f8dd1ef956c5551adf0db6a79c81"
+csv-parse@^4.4.6:
+  version "4.4.6"
+  resolved "https://registry.yarnpkg.com/csv-parse/-/csv-parse-4.4.6.tgz#08804dbe86037c46810d49ced77fa0e121f83b4f"
 
 csv-stringify@~1.0.2:
   version "1.0.4"

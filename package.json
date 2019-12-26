@@ -45,7 +45,7 @@
   "devDependencies": {
     "babel-plugin-react-transform": "^2.0.2",
     "cross-env": "^5.0.5",
-    "csv-parse": "^2.1.0",
+    "csv-parse": "^4.4.6",
     "eslint": "^4.3.0",
     "eslint-plugin-node": "^5.1.1",
     "livereactload": "^2.2.3",
