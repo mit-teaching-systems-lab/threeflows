@@ -20,7 +20,7 @@
     "prep-consent": "node scripts/prepConsent.js tmp/consented-latest-raw.csv"
   },
   "dependencies": {
-    "aws-sdk": "^2.4.8",
+    "aws-sdk": "^2.814.0",
     "axios": "^0.18.0",
     "babel-plugin-transform-class-properties": "^6.11.5",
     "basic-auth": "^1.0.4",
