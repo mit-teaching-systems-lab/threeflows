@@ -31,7 +31,7 @@
     "express-rate-limit": "^2.9.0",
     "lodash": "^4.13.1",
     "material-ui": "^0.18.0",
-    "moment": "^2.18.1",
+    "moment": "^2.29.2",
     "mustache": "^2.3.0",
     "node-mocks-http": "^1.6.6",
     "pg": "^5.1.0",
